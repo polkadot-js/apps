@@ -3,43 +3,38 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Available, InputAddress, Table } from '@polkadot/react-components';
-import { useLoadingDelay } from '@polkadot/react-hooks';
+import { InputAddress, Table } from '@polkadot/react-components';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import { CollatorState, Delegation } from '../types';
 import DelegationDetails from './DelegationDetails';
-// import CollatorDetails, { CollatorInfo, CollatorState } from './CollatorDetails';
 
 interface Props {
   allCollators: CollatorState[]
+  roundDuration: BN
 }
 
-function UserDelegations ({ allCollators }: Props): React.ReactElement<Props> | null {
+function UserDelegations ({ allCollators, roundDuration }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const isLoading = useLoadingDelay();
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [delegations, setDelegations] = useState<Delegation[]>([]);
 
   const headerRef = useRef(
     [
       [t('collator address'), 'start'],
-      [t('delegation amount'), 'media--1100']
-    //   [t('total nominator stake'), 'media--1100'], //TODO add more, less delegation actions
-    //   [t('# of nominators'), 'media--1100'],
-    //   [t('own stake'), 'media--1100'],
-    //   [t('min contribution'), 'media--1100']
+      [t('delegation amount'), 'media--1100'],
+      [t('bond more'), 'media--1100'],
+      [t('bond less'), 'media--1100'],
+      [t('undelegate'), 'media--1100']
     ]
   );
 
   useEffect(() => {
-    console.log('useeffect');
     const _delegations: Delegation[] = [];
 
     allCollators.forEach((collator: CollatorState) => {
       collator.topDelegations.forEach((delegation) => {
-        console.log(delegation.owner.toString(), userAddress);
-
         if (delegation.owner.toString() === userAddress) {
           _delegations.push({ collatorAddress: collator.id, delegationAmount: delegation.amount });
         }
@@ -50,18 +45,9 @@ function UserDelegations ({ allCollators }: Props): React.ReactElement<Props> | 
 
   return (<>
     <InputAddress
-    // defaultValue={propSenderId}
       help={t<string>('The account you will send funds from.')}
-      // isDisabled={!!propSenderId}
       label={t<string>('delegate from account')}
-      // labelExtra={
-      //   <Available
-      //     label={t<string>('transferrable')}
-      //     params={propSenderId || senderId}
-      //   />
-      // }
       onChange={setUserAddress}
-      // type='account'
       type='allPlus'
     />
     {
@@ -74,6 +60,7 @@ function UserDelegations ({ allCollators }: Props): React.ReactElement<Props> | 
               <DelegationDetails
                 delegation={delegation}
                 key={delegation.collatorAddress}
+                roundDuration={roundDuration}
               />
             ))
           )

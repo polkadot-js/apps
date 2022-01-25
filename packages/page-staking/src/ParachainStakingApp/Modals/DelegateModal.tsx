@@ -2,18 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
-import { CollatorState, CollatorStateRaw } from '../types';
+import { CollatorStateRaw } from '../types';
 
 interface Props {
   className?: string;
@@ -28,34 +27,30 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [enoughContribution, setEnoughContribution] = useState(false);
-  const [isProtected, setIsProtected] = useState(true);
-  const [isAll, setIsAll] = useState(false);
-  const [[maxTransfer, noFees], setMaxTransfer] = useState<[BN | null, boolean]>([null, false]);
+  const [[maxTransfer], setMaxTransfer] = useState<[BN | null]>([null]);
   const [candidateDelegationCount, setCandidateDelegationCount] = useState<BN>(BN_ZERO);
   const [delegationCount, setDelegationCount] = useState<BN>(BN_ZERO);
-  const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
-  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
     const fromId = propSenderId || senderId as string;
-    const toId = collatorAddress || recipientId as string;
+    const toId = collatorAddress;
 
     // TODO: handle max amount correctly
-    if (balances && balances.accountId?.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
+    if (balances && balances.availableBalance && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
-          api.tx.balances
-            ?.transfer(toId, balances.availableBalance)
+          api.tx.parachainStaking
+            ?.delegate(collatorAddress, balances.availableBalance, candidateDelegationCount, delegationCount)
             .paymentInfo(fromId)
             .then(({ partialFee }): void => {
               const adjFee = partialFee.muln(110).div(BN_HUNDRED);
               const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(
-                [maxTransfer, false]
+                [maxTransfer]
               );
             })
             .catch(console.error);
@@ -64,9 +59,9 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
         }
       }, 0);
     } else {
-      setMaxTransfer([null, false]);
+      setMaxTransfer([null]);
     }
-  }, [api, balances, collatorAddress, propSenderId, recipientId, senderId]);
+  }, [api, balances, candidateDelegationCount, collatorAddress, delegationCount, propSenderId, senderId]);
 
   useEffect((): void => {
     if (amount?.lt(new BN(minContribution))) {
@@ -97,7 +92,7 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t<string>('Send funds')}
+      header={t<string>('Delegate')}
       onClose={onClose}
       size='large'
     >
@@ -119,10 +114,10 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
               type='allPlus'
             />
           </Modal.Columns>
-          <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
+          <Modal.Columns hint={t<string>('The collator will receive this amount as a delegation.')}>
             <InputAddress
               defaultValue={collatorAddress}
-              help={t<string>('Select a contact or paste the address you want to send funds to.')}
+              help={t<string>('Collator Address')}
               isDisabled={!!collatorAddress}
               label={t<string>('delegate to collator address')}
               type='account'
@@ -131,7 +126,7 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
               <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
             )}
           </Modal.Columns>
-          <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
+          <Modal.Columns hint={t<string>('Delegate this amount to the collator')}>
             {
               <InputBalance
                 autoFocus
@@ -139,6 +134,7 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
                 isError={!enoughContribution}
                 isZeroable
                 label={t<string>('amount')}
+                labelExtra={<>{t<string>('The minimum amount to delegate is ')}<FormatBalance value={minContribution} /></>}
                 maxValue={maxTransfer}
                 minValue={new BN(minContribution)}
                 onChange={setAmount}
@@ -153,11 +149,11 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!enoughContribution || !(collatorAddress || recipientId) || !amount || !!recipientPhish}
+          isDisabled={!enoughContribution || !(collatorAddress) || !amount || !!recipientPhish}
           label={t<string>('Delegate')}
           onStart={onClose}
           params={
-            [collatorAddress || recipientId, amount, candidateDelegationCount, delegationCount]// TOD: fetch last parameters
+            [collatorAddress, amount, candidateDelegationCount, delegationCount]
           }
           tx={
             api.tx.parachainStaking.delegate

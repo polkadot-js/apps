@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import { AddressSmall, Button, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN, BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
+import { BN, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
+import DelegateModal from '../Modals/DelegateModal';
 import { CollatorInfo, CollatorState } from '../types';
-import DelegateModal from './DelegateModal';
 
 export const GLMR = 1_000_000_000_000_000_000n;
 export const MIN_GLMR_NOMINATOR = 5n * GLMR; // TODO fetch from api
@@ -81,31 +81,6 @@ function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Pro
             onClick={toggleDelegate}
           />
         )}
-        {/* <TxButton
-          accountId={collatorDetails.id}
-          icon='paper-plane'
-          // isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
-          label={t<string>('Delegate')}
-          // onStart={onClose}
-          params={
-            // canToggleAll && isAll
-            //   ? isFunction(api.tx.balances.transferAll)
-            //     ? [propRecipientId || recipientId, false]
-            //     : [propRecipientId || recipientId, maxTransfer]
-            //   : [propRecipientId || recipientId, amount]
-            [collatorDetails.id,MIN_GLMR_NOMINATOR,0,0]// TOD: fetch last parameters
-          }
-          tx={
-            // canToggleAll && isAll && isFunction(api.tx.balances.transferAll)
-            //   ? api.tx.balances.transferAll
-            //   : isProtected
-            //     ? api.tx.balances.transferKeepAlive
-            //     : api.tx.balances.transfer
-
-            // isFunction(api.tx.parachainStaking.delegate)&&
-            api.tx.parachainStaking.delegate
-          }
-        /> */}
       </td>
     </tr>
   );

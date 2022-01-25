@@ -26,7 +26,8 @@ function CollatorList ({ allCollatorsSorted, collatorInfo }: Props): React.React
       [t('total nominator stake'), 'media--1100'],
       [t('# of nominators'), 'media--1100'],
       [t('own stake'), 'media--1100'],
-      [t('min contribution'), 'media--1100']
+      [t('min contribution'), 'media--1100'],
+      [t('action'), 'media--1100']
     ]
   );
 
