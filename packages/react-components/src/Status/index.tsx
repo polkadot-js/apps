@@ -179,7 +179,7 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
 }
 
 export default React.memo(styled(Status)`
-  bottom: 0;
+  /* bottom: 0; */
   display: inline-block;
   overflow: hidden;
   position: fixed;
