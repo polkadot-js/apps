@@ -250,7 +250,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'kilt',
       text: t('rpc.test.kilt.pere', 'KILT Peregrine', { ns: 'apps-config' }),
       providers: {
-        'KILT Protocol': 'wss://peregrine.kilt.io/'
+        'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws /'
       }
     },
     {
