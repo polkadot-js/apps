@@ -78,6 +78,7 @@ const chainKusama = '#000000';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const chainLitmus = '#6822fb';
 const chainMybank = '#282736';
 const chainOpal = '#3B9C9D';
 const chainPichiu = '#ed007e';
@@ -100,6 +101,7 @@ const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
+const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainWestend = '#da68a7';
@@ -285,6 +287,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
+  Litmus: chainLitmus,
   'Manta Parachain': chainManta,
   'Manta Parachain Development': chainManta,
   'Manta Parachain Local': chainManta,
@@ -337,6 +340,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Sherpax: chainSherpax,
   'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
+  'SORA Kusama': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,

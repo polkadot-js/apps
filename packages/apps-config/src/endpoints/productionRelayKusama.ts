@@ -71,7 +71,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost (Kusama)', { ns: 'apps-config' }),
         providers: {
-          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
+          'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
+          'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
         }
       },
@@ -176,7 +178,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/',
-          OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
+          OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
+          Dwellir: 'wss://kilt-rpc.dwellir.com'
         }
       },
       {
@@ -197,6 +200,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'litmus',
+        homepage: 'https://kusama-crowdloan.litentry.com',
+        paraId: 2106,
+        isUnreachable: false,
+        text: t('rpc.kusama.litmus', 'Litmus', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rpc.litmus-parachain.litentry.io'
         }
       },
       {
@@ -274,6 +287,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
         providers: {
           Unique: 'wss://quartz.unique.network',
+          OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
           'Unique Europe': 'wss://eu-ws-quartz.unique.network',
           'Unique US': 'wss://us-ws-quartz.unique.network'
         }
@@ -314,6 +328,15 @@ export function createKusama (t: TFunction): EndpointOption {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
           OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
+        }
+      },
+      {
+        info: 'sora_ksm',
+        homepage: 'https://sora.org/',
+        paraId: 2011,
+        text: t('rpc.kusama.sora_ksm', 'SORA Kusama Parachain', { ns: 'apps-config' }),
+        providers: {
+          Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
         }
       },
       {

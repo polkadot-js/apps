@@ -111,6 +111,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'dock-testnet',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6831
       text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://knox-1.dock.io'
@@ -201,6 +202,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'halongbay',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6871
       text: t('rpc.test.halongbay', 'Halongbay Testnet', { ns: 'apps-config' }),
       providers: {
         Halongbay: 'wss://halongbay.polkafoundry.com'
@@ -248,7 +250,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'kilt',
       text: t('rpc.test.kilt.pere', 'KILT Peregrine', { ns: 'apps-config' }),
       providers: {
-        'KILT Protocol': 'wss://peregrine.kilt.io/'
+        'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
       }
     },
     {
@@ -293,7 +295,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
+        'Moonbeam Network': 'wss://wss.api.moonbase.moonbeam.network',
         OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
         Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
       }

@@ -48,12 +48,13 @@ import externalDotScanner from './external/dotscanner.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
+import externalSingular from './external/singular.svg';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import externalSubsquare from './external/subsquare.svg';
 import nodeApron from './nodes/apron.png';
-import nodeAres from './nodes/ares.svg';
+import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
 import nodeAstar from './nodes/astar.png';
@@ -102,6 +103,7 @@ import nodeKusari from './nodes/kusari.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
+import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
@@ -238,6 +240,7 @@ export const chainLogos = Object.entries({
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
   Litentry: nodeLitentry,
+  Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
   'Manta Parachain': nodeManta,
@@ -290,6 +293,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SORA: nodeSora,
+  'SORA Kusama': nodeSora,
   Spanner: chainSpanner,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
@@ -396,8 +400,8 @@ export const nodeLogos = Object.entries({
   kusari: nodeKusari,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
-  Litentry: nodeLitentry,
-  'Litentry Collator': nodeLitentry,
+  // Litentry: nodeLitentry,
+  // 'Litentry Collator': nodeLitentry,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -577,6 +581,7 @@ export const namedLogos: Record<string, unknown> = {
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
+  litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
   mars: nodeAresMars,
@@ -639,7 +644,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
-  rococoLitentry: nodeLitentry,
+  rococoLitentry: nodeLitmus,
   rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
@@ -674,6 +679,7 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   sora: nodeSora,
   'sora-substrate': nodeSora,
+  sora_ksm: nodeSora,
   spanner: chainSpanner,
   stafi: nodeStafi,
   statemine: nodeStatemine,
@@ -721,6 +727,7 @@ export const externalLogos: Record<string, unknown> = {
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
+  singular: externalSingular,
   statescan: externalStatescan,
   subid: externalSubId,
   subscan: externalSubscan,
