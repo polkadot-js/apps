@@ -109,7 +109,7 @@ import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import moonriver from './nodes/moonriver.svg';
-import moonbase from './nodes/moonbase_alpha.svg';
+import moonbase from './nodes/moonbase_alpha.png';
 import nodeMoonrock from './nodes/moonrock.png';
 import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
