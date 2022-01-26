@@ -2567,7 +2567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@npm:^7.5.2-6":
+"@polkadot/api-augment@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/api-augment@npm:7.5.2-7"
   dependencies:
@@ -2582,7 +2582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-base@npm:^7.5.2-6":
+"@polkadot/api-base@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/api-base@npm:7.5.2-7"
   dependencies:
@@ -2595,7 +2595,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^7.5.2-6":
+"@polkadot/api-contract@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/api-contract@npm:7.5.2-7"
   dependencies:
@@ -2611,7 +2611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-derive@npm:^7.5.2-6":
+"@polkadot/api-derive@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/api-derive@npm:7.5.2-7"
   dependencies:
@@ -2629,7 +2629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^7.5.2-6":
+"@polkadot/api@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/api@npm:7.5.2-7"
   dependencies:
@@ -2723,7 +2723,7 @@ __metadata:
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@polkadot/api-contract": ^7.5.2-6
+    "@polkadot/api-contract": ^7.5.2-7
   languageName: unknown
   linkType: soft
 
@@ -2922,10 +2922,10 @@ __metadata:
     "@metaverse-network-sdk/type-definitions": ^0.0.1-6
     "@parallel-finance/type-definitions": 1.4.4
     "@phala/typedefs": 0.2.30
-    "@polkadot/api": ^7.5.2-6
-    "@polkadot/api-derive": ^7.5.2-6
+    "@polkadot/api": ^7.5.2-7
+    "@polkadot/api-derive": ^7.5.2-7
     "@polkadot/networks": ^8.3.3
-    "@polkadot/types": ^7.5.2-6
+    "@polkadot/types": ^7.5.2-7
     "@polkadot/util": ^8.3.3
     "@polkadot/x-fetch": ^8.3.3
     "@polymathnetwork/polymesh-types": 0.0.2
@@ -3231,7 +3231,7 @@ __metadata:
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@polkadot/api": ^7.5.2-6
+    "@polkadot/api": ^7.5.2-7
     "@polkadot/extension-compat-metamask": ^0.42.7
     "@polkadot/extension-dapp": ^0.42.7
     "@substrate/connect": 0.4.6
@@ -3366,7 +3366,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-augment@npm:^7.5.2-6":
+"@polkadot/rpc-augment@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/rpc-augment@npm:7.5.2-7"
   dependencies:
@@ -3379,7 +3379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:^7.5.2-6":
+"@polkadot/rpc-core@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/rpc-core@npm:7.5.2-7"
   dependencies:
@@ -3393,7 +3393,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:^7.5.2-6":
+"@polkadot/rpc-provider@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/rpc-provider@npm:7.5.2-7"
   dependencies:
@@ -3417,7 +3417,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
-    "@polkadot/types-support": ^7.5.2-6
+    "@polkadot/types-support": ^7.5.2-7
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^12.1.2
     testcontainers: ^8.2.0
@@ -3425,7 +3425,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@npm:^7.5.2-6":
+"@polkadot/types-augment@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types-augment@npm:7.5.2-7"
   dependencies:
@@ -3437,7 +3437,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:^7.5.2-6":
+"@polkadot/types-codec@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types-codec@npm:7.5.2-7"
   dependencies:
@@ -3447,7 +3447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:^7.5.2-6":
+"@polkadot/types-create@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types-create@npm:7.5.2-7"
   dependencies:
@@ -3458,7 +3458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:^7.5.2-6":
+"@polkadot/types-known@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types-known@npm:7.5.2-7"
   dependencies:
@@ -3472,7 +3472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-support@npm:^7.5.2-6":
+"@polkadot/types-support@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types-support@npm:7.5.2-7"
   dependencies:
@@ -3482,7 +3482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^7.5.2-6":
+"@polkadot/types@npm:^7.5.2-7":
   version: 7.5.2-7
   resolution: "@polkadot/types@npm:7.5.2-7"
   dependencies:
