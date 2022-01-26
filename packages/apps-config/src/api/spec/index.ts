@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -25,6 +25,7 @@ import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
+import competitorsClub from './competitors-club';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -69,9 +70,9 @@ import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
+import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
-import oakTestnet from './oak-testnet';
 import opal from './opal';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
@@ -152,6 +153,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   coinversation,
+  'competitors-club': competitorsClub,
   contextfree: automata,
   'crown-sterling': crownSterlingChain,
   crust,
@@ -207,12 +209,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
+  neumann,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
-  'oak-testnet': oakTestnet,
   opal: opal,
   opportunity,
   'origintrail-parachain': origintrail,
@@ -234,6 +236,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   shiden,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  sora_ksm: soraSubstrate,
   spanner,
   stafi,
   standard,

@@ -1,13 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { BN_BILLION, BN_ZERO, bnToBn, isUndefined } from '@polkadot/util';
+import { BN, BN_BILLION, BN_ZERO, bnToBn, isUndefined } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';

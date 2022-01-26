@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -11,18 +12,18 @@ import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { WsProvider } from '@polkadot/api';
-import { ApiPromise } from '@polkadot/api/promise';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import initMetaMask from '@polkadot/extension-compat-metamask';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
+import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { formatBalance, isTestChain, objectSpread, stringify } from '@polkadot/util';
+import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -126,7 +127,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise, isEthereum);
@@ -152,6 +153,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
+    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+      ? [endpoint.genesisHashRelay]
+      : [],
     isDevelopment,
     ss58Format,
     store,
@@ -187,10 +191,18 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
+  const apiEndpoint = useEndpoint(apiUrl);
+  const relayUrls = useMemo(
+    () => (apiEndpoint && apiEndpoint.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
+      ? apiEndpoint.valueRelay
+      : null,
+    [apiEndpoint]
+  );
+  const apiRelay = useApiUrl(relayUrls);
 
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
   // initial initialization
@@ -221,7 +233,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         .then(setExtensions)
         .catch(console.error);
 
-      loadOnReady(api, injectedPromise, store, types)
+      loadOnReady(api, apiEndpoint, injectedPromise, store, types)
         .then(setState)
         .catch((error): void => {
           console.error(error);
@@ -231,7 +243,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     });
 
     setIsApiInitialized(true);
-  }, [apiUrl, queuePayload, queueSetTxStatus, store]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;

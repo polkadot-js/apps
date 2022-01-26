@@ -1,7 +1,6 @@
-// Copyright 2017-2021 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
@@ -11,7 +10,7 @@ import styled, { ThemeContext } from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
-import { useApi, useBalancesAll, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
 
@@ -31,7 +30,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
+  const info = useDeriveAccountInfo(address);
   const balancesAll = useBalancesAll(address);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');

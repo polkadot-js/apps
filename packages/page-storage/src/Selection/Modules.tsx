@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -122,6 +122,15 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
   const [{ blockHash, textHash }, setBlockHash] = useState<BlockHash>({ blockHash: null, textHash: '' });
 
+  const startValue = useMemo(
+    () => (
+      api.query.timestamp?.now ||
+      api.query.system?.events ||
+      api.query.substrate.changesTrieConfig
+    ),
+    [api]
+  );
+
   const _onAdd = useCallback(
     (): void => {
       const [params, isAtEnabled] = extractParams(isIterable, values);
@@ -177,8 +186,8 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     <section className='storage--actionrow'>
       <div className='storage--actionrow-value'>
         <InputStorage
-          defaultValue={api.query.timestamp?.now || api.query.system.events}
-          help={meta?.docs.join(' ')}
+          defaultValue={startValue}
+          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />

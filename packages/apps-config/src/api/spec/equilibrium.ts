@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -149,11 +149,11 @@ const definitions: OverrideBundleDefinition = {
 
   types: [
     {
-      minmax: [0, 263],
+      minmax: [0, 264],
       types: equilibrium.types
     },
     {
-      minmax: [264, undefined],
+      minmax: [265, undefined],
       types: equilibriumNext.types
     }
   ]

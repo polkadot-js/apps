@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { MapMember } from '../types';
 
 import React, { useCallback, useMemo } from 'react';

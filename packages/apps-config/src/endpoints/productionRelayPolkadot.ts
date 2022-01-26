@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -22,9 +22,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
-      'Geometry Labs': 'wss://polkadot.geometry.io/websockets',
-      // Dwellir: 'wss://polkadot-rpc.dwellir.com',
+      // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+      Dwellir: 'wss://polkadot-rpc.dwellir.com',
       'light client': 'light://substrate-connect/polkadot'
       // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -38,8 +37,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rpc.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/statemint'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -161,6 +159,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'equilibrium',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         homepage: 'https://equilibrium.io/',
         paraId: 2011,
         text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
@@ -204,7 +203,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
         providers: {
           'Manta Kuhlii': 'wss://kuhlii.manta.systems',
-          'Manta Munkiana': 'wss://munkiana.manta.systems',
+          // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
           'Manta Pectinata': 'wss://pectinata.manta.systems'
         }
       },
@@ -234,8 +233,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          Parallel: 'wss://rpc.parallel.fi',
-          OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+          Parallel: 'wss://rpc.parallel.fi'
         }
       },
       {
@@ -246,6 +245,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.phala', 'Phala Network', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://api.phala.network/ws'
+        }
+      },
+      {
+        info: 'polkadex',
+        homepage: 'https://polkadex.trade/',
+        paraId: 2036,
+        text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
+        providers: {
+          'Polkadex Team': 'wss://mainnet.polkadex.trade/'
         }
       },
       {
@@ -261,6 +269,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'subgame',
         homepage: 'http://subgame.org/',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         paraId: 2017,
         text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
