@@ -138,7 +138,9 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
 }
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+  // Use slice to create new array, so that sorting triggers component render
   return validators
+    .slice(0)
     .sort((a, b) => sortFromMax
       ? a[sortBy] - b[sortBy]
       : b[sortBy] - a[sortBy]
