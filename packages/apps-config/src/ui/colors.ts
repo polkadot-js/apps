@@ -156,6 +156,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMathChain = '#000000';
 const nodeMoonbeam = '#53cbc9';
+const nodeMoonbase = '#F45B5B';
 const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
@@ -295,9 +296,9 @@ export const chainColors: Record<string, string> = Object.entries({
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
-  'Moonbase Alpha': nodeMoonbeam,
-  'Moonbase Development Testnet': nodeMoonbeam,
-  'Moonbase Stage': nodeMoonbeam,
+  'Moonbase Alpha': nodeMoonbase,
+  'Moonbase Development Testnet': nodeMoonbase,
+  'Moonbase Stage': nodeMoonbase,
   Moonbeam: nodeMoonbeam,
   Moonriver: nodeMoonriver,
   Moonrock: chainMoonrock,

@@ -107,6 +107,7 @@ import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
+import moonbase from './nodes/moonbase_alpha.png';
 import moonbeam from './nodes/moonbeam.png';
 import moonriver from './nodes/moonriver.svg';
 import nodeMoonrock from './nodes/moonrock.png';
@@ -251,9 +252,9 @@ export const chainLogos = Object.entries({
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
   'mathchain-galois': nodeMath,
-  'Moonbase Alpha': moonbeam,
-  'Moonbase Development Testnet': moonbeam,
-  'Moonbase Stage': moonbeam,
+  'Moonbase Alpha': moonbase,
+  'Moonbase Development Testnet': moonbase,
+  'Moonbase Stage': moonbase,
   Moonbeam: moonbeam,
   Moonriver: moonriver,
   Moonrock: nodeMoonrock,
@@ -586,7 +587,7 @@ export const namedLogos: Record<string, unknown> = {
   manta: nodeManta,
   mars: nodeAresMars,
   mathchain: nodeMath,
-  moonbaseAlpha: moonbeam,
+  moonbaseAlpha: moonbase,
   moonbeam: moonbeam,
   moonriver: moonriver,
   moonrock: nodeMoonrock,

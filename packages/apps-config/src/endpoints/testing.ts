@@ -295,7 +295,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.api.moonbase.moonbeam.network',
+        'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
         OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
         Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
       }
