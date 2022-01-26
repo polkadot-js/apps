@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
@@ -22,36 +22,71 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
+  const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
-  const { burn, spendPeriod, value } = useTreasury();
+  const spendable = useMemo(
+    () => value && value.sub(pendingBounties).sub(pendingProposals),
+    [value, pendingBounties, pendingProposals]
+  );
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('proposals')}>
+        <CardSummary
+          className='media--1500'
+          label={t<string>('open')}
+        >
           {formatNumber(proposalCount)}
+        </CardSummary>
+        <CardSummary
+          className='media--1400'
+          label={t<string>('approved')}
+        >
+          {formatNumber(approvalCount)}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {formatNumber(totalProposals || 0)}
         </CardSummary>
       </section>
-      <section className='media--1200'>
-        <CardSummary label={t<string>('approved')}>
-          {formatNumber(approvalCount)}
-        </CardSummary>
-      </section>
       <section>
-        {value && (
-          <CardSummary label={t<string>('available')}>
+        {value && spendable && (
+          <CardSummary label={t<string>('spendable / available')}>
+            <FormatBalance
+              value={spendable}
+              withSi
+            />
+            <>&nbsp;/&nbsp;</>
             <FormatBalance
               value={value}
               withSi
             />
           </CardSummary>
         )}
-        {burn && (
+        {!pendingProposals.isZero() && (
           <CardSummary
             className='media--1000'
+            label={t<string>('approved')}
+          >
+            <FormatBalance
+              value={pendingProposals}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {!pendingBounties.isZero() && (
+          <CardSummary
+            className='media--1300'
+            label={t<string>('bounties')}
+          >
+            <FormatBalance
+              value={pendingBounties}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {burn && (
+          <CardSummary
+            className='media--1200'
             label={t<string>('next burn')}
           >
             <FormatBalance
