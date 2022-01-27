@@ -56,6 +56,7 @@ import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
+import nodeAresOdyssey from './nodes/ares-gladios.svg';
 import nodeAstar from './nodes/astar.png';
 import nodeAutomata from './nodes/automata.png';
 import nodeBasilisk from './nodes/basilisk.png';
@@ -176,7 +177,6 @@ export const chainLogos = Object.entries({
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares Gladios': nodeAresGladios,
-  'Ares Odyssey': nodeAresGladios,
   'Ares PC1': nodeAres,
   Astar: chainAstar,
   Automata: nodeAutomata,
@@ -260,6 +260,7 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
+  'Odyssey': nodeAresOdyssey,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,

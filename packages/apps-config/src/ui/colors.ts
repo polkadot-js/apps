@@ -303,6 +303,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
+  Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
