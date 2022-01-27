@@ -67,6 +67,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
   const checkCalls = (address: string, txs: Call[]): boolean =>
     !txs.some((tx) => !filterProxies(allAccounts, tx, proxies).includes(address));
 
+  // inspect nested calls, e.g. batch, ensuring that the proxy address
+  // is applicable to the containing calls
   const checkNested = (address: string): boolean =>
     section === 'utility' && (
       (
