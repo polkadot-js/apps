@@ -72,11 +72,11 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
   const checkNested = (address: string): boolean =>
     section === 'utility' && (
       (
-        ['batch', 'batchAll'].includes('method') &&
+        ['batch', 'batchAll'].includes(method) &&
         checkCalls(address, tx.args[0] as Vec<Call>)
       ) ||
       (
-        ['asLimitedSub'].includes('method') &&
+        ['asLimitedSub'].includes(method) &&
         checkCalls(address, [tx.args[0] as Call])
       )
     );
