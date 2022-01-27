@@ -23,7 +23,6 @@ interface Props {
 
 function Events ({ className = '', emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const header = useMemo(() => [
     [label || t<string>('recent events'), 'start']
   ], [label, t]);

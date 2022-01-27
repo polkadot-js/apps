@@ -5,6 +5,7 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { ApiProps, ApiState } from './types';
 
 import { Detector } from '@substrate/connect';
@@ -14,6 +15,7 @@ import store from 'store';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
+import initMetaMask from '@polkadot/extension-compat-metamask';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -41,7 +43,9 @@ interface InjectedAccountExt {
     name: string;
     source: string;
     whenCreated: number;
+    genesisHash?: string | null;
   };
+  type: KeypairType
 }
 
 interface ChainData {
@@ -78,18 +82,18 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>, type: KeypairType): Promise<InjectedAccountExt[]> {
   try {
     await injectedPromise;
+    const accounts = (await web3Accounts({ accountType: [type] }));
 
-    const accounts = await web3Accounts();
-
-    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+    return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
       meta: objectSpread({}, meta, {
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-      })
+      }),
+      type: type || 'sr25519'
     }));
   } catch (error) {
     console.error('web3Accounts', error);
@@ -98,7 +102,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
-async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, isEthereum: boolean): Promise<ChainData> {
   const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
@@ -106,7 +110,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    getInjectedAccounts(injectedPromise)
+    getInjectedAccounts(injectedPromise, isEthereum ? 'ethereum' : 'sr25519')
   ]);
 
   return {
@@ -125,14 +129,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise, isEthereum);
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
-  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
@@ -224,7 +227,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));
     api.on('ready', (): void => {
-      const injectedPromise = web3Enable('polkadot-js/apps');
+      const injectedPromise = web3Enable('polkadot-js/apps', [initMetaMask]);
 
       injectedPromise
         .then(setExtensions)
