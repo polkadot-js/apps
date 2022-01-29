@@ -77,7 +77,7 @@ function useTreasuryImpl (): Result {
       setResult((prev) => ({
         ...prev,
         pendingBounties: bounties.reduce((total, { bounty: { status, value } }) =>
-          total.iadd(status.isProposed ? BN_ZERO : value), new BN(0)
+          total.iadd(status.isApproved ? value : BN_ZERO), new BN(0)
         )
       }));
   }, [bounties]);

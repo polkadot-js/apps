@@ -14,6 +14,7 @@
   "version": "0.103.2-8",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
+    "@polkadot/hw-ledger": "^8.3.3",
     "@polkadot/react-components": "^0.103.2-8"
   }
 }
