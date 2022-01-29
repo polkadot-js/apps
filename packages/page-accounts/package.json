@@ -17,6 +17,8 @@
     "@polkadot/hw-ledger": "^8.3.3",
     "@polkadot/phishing": "^0.8.95",
     "@polkadot/react-components": "^0.103.2-8",
+    "@polkadot/react-hooks": "^0.103.2-8",
+    "@polkadot/util": "^8.3.3",
     "@polkadot/vanitygen": "^0.48.14-1",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
