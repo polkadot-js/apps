@@ -2631,6 +2631,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.16.7
+    "@polkadot/hw-ledger": ^8.3.3
     "@polkadot/phishing": ^0.8.95
     "@polkadot/react-components": ^0.103.2-8
     "@polkadot/test-support": 0.103.2-8
@@ -3334,6 +3335,7 @@ __metadata:
   resolution: "@polkadot/react-signer@workspace:packages/react-signer"
   dependencies:
     "@babel/runtime": ^7.16.7
+    "@polkadot/hw-ledger": ^8.3.3
     "@polkadot/react-components": ^0.103.2-8
   languageName: unknown
   linkType: soft
