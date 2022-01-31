@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 0.104.1 Jan 31, 2022
+
+Contributed:
+
+- Fix validator sorting on targets page (Thanks to https://github.com/citizen4371)
+- Remove Subsocial OnFinality endpoint (Thanks to https://github.com/jamesbayly)
+- Reorder Parallel endpoints (Thanks to https://github.com/GopherJ)
+- Update KILT Peregrine endpoint (Thanks to https://github.com/wischli)
+- Update Moonbeam colors and logo (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Expand Treasury display with pending bounty values
+- Always check for nested calls in proxy detection
+- Always display Settings -> Developer on dev chains (even metadata v14)
+- Adjust display of crypto types (rename "external" to "extension")
+
+
 ## 0.103.1 Jan 24, 2022
 
 Contributed:
