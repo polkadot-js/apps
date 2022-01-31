@@ -54,6 +54,7 @@ import idavoll from './idavoll';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
+import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import khala from './khala';
@@ -186,6 +187,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
   'ipse-node': ipse,
+  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   khala,
