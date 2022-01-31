@@ -72,6 +72,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
+const chainKico = '#29B58D';
 const chainKilt = '#8c145a';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
@@ -270,6 +271,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Jupiter PC1': chainJupiter,
   Karura: chainKarura,
   Khala: chainKhala,
+  KICO: chainKico,
   KILT: chainKilt,
   'KILT Local': chainKilt,
   'KILT Peregrine': chainKilt,
@@ -410,6 +412,7 @@ export const nodeColors = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   IpseTestnet: nodeIpse,
+  KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
