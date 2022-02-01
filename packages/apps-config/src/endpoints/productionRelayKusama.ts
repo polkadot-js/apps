@@ -172,6 +172,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kico',
+        homepage: 'https://dico.io/',
+        paraId: 2107,
+        text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
+        providers: {
+          'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
+          OnFinality: 'wss://rpc.api.kico.dico.io'
+        }
+      },
+      {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
         paraId: 2086,

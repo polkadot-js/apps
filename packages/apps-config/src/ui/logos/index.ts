@@ -24,6 +24,7 @@ import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
+import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
@@ -226,6 +227,7 @@ export const chainLogos = Object.entries({
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
   Karura: chainKarura,
+  KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine': nodeKilt,
@@ -391,6 +393,7 @@ export const nodeLogos = Object.entries({
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
+  KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine': nodeKilt,
@@ -572,6 +575,7 @@ export const namedLogos: Record<string, unknown> = {
   jupiter: nodeJupiter,
   karura: chainKarura,
   khala: nodeKhala,
+  kico: chainKico,
   kilt: nodeKilt,
   kintsugi: chainKintsugi,
   klugdossier: nodeKlug,
