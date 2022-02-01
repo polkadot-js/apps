@@ -62,6 +62,7 @@ import vln from './vln';
 import zenlink from './zenlink';
 import zero from './zero';
 import matic from './matic';
+import dataavail from './dataavail.ts';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -133,7 +134,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   trustbase,
   uniarts,
   zenlink,
-  'node-template': matic
+  'node-template': matic,
+  'data-avail': dataavail
 };
 
 export default spec;
