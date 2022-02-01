@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
-import Tabs from '@polkadot/react-components/Tabs';
+import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
 
@@ -22,13 +22,11 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-const HIDDESN_NOBABE = ['forks'];
-
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
+  const { eventCount, events } = useContext(EventsContext);
 
   const itemsRef = useRef([
     {
@@ -51,15 +49,18 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     }
   ]);
 
+  const hidden = useMemo(
+    () => api.query.babe ? [] : ['forks'],
+    [api]
+  );
+
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        hidden={hidden}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
@@ -67,6 +68,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route>
           <Main
+            eventCount={eventCount}
             events={events}
             headers={lastHeaders}
           />

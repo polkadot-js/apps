@@ -1,14 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Ledger } from '@polkadot/ui-keyring';
+import type { Ledger } from '@polkadot/hw-ledger';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Dropdown, Input, MarkError, Modal } from '@polkadot/react-components';
 import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+import { arrayRange } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -22,8 +23,7 @@ interface Props {
   onClose: () => void;
 }
 
-// new Array(20).fill(0).map((_, index) => index)
-export const AVAIL_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+export const AVAIL_INDEXES = arrayRange(20);
 
 // query the ledger for the address, adding it to the keyring
 async function queryLedger (api: ApiPromise, getLedger: () => Ledger, name: string, accountOffset: number, addressOffset: number): Promise<void> {
@@ -69,7 +69,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
 
       queryLedger(api, getLedger, name, accIndex, addIndex)
         .then(() => onClose())
-        .catch((error): void => {
+        .catch((error: Error): void => {
           console.error(error);
 
           setIsBusy(false);
@@ -83,6 +83,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
     <Modal
       className={className}
       header={t<string>('Add account via Ledger')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -120,7 +121,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isBusy={isBusy}

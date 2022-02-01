@@ -1,18 +1,19 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-sudo#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-sudo",
   "private": true,
-  "version": "0.84.2-4",
-  "description": "A basic app that shows the ropes on customisation",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Keith Ingram <keith@parity.io>",
-  "maintainers": [
-    "Keith Ingram <keith@parity.io>",
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-sudo",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.84.2-4"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/react-components": "^0.104.2-1"
   }
 }

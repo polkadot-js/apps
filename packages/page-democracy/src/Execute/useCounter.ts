@@ -1,11 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-export default function useCounter (): number {
+function useCounterImpl (): number {
   const { api } = useApi();
   const queued = useCall<unknown[]>(api.derive.democracy.dispatchQueue);
 
   return queued?.length || 0;
 }
+
+export default createNamedHook('useCounter', useCounterImpl);

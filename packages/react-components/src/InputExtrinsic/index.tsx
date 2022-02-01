@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -22,11 +22,11 @@ interface Props {
   isError?: boolean;
   isPrivate?: boolean;
   label: React.ReactNode;
-  onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
+  onChange?: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', defaultValue, help, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -34,27 +34,23 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
 
   const _onKeyChange = useCallback(
     (newValue: SubmittableExtrinsicFunction<'promise'>): void => {
-      if (value.section === newValue.section && value.method === newValue.method) {
-        return;
+      if (value !== newValue) {
+        // set this via callback, since the we are setting a function (alternatively... we have issues)
+        setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
+        onChange && onChange(newValue);
       }
-
-      // set this via callback, since the we are setting a function (alternatively... we have issues)
-      setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
-      onChange(newValue);
     },
     [onChange, value]
   );
 
   const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
+    (newSection: string): void => {
+      if (newSection !== value.section) {
+        const optionsMethod = methodOptions(api, newSection);
+
+        setOptionsMethod(optionsMethod);
+        _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
       }
-
-      const optionsMethod = methodOptions(api, section);
-
-      setOptionsMethod(optionsMethod);
-      _onKeyChange(api.tx[section][optionsMethod[0].value]);
     },
     [_onKeyChange, api, value]
   );
@@ -68,14 +64,18 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
     >
       <SelectSection
         className='small'
-        onChange={_onSectionChange}
+        defaultValue={isDisabled ? value.section : undefined}
+        isDisabled={isDisabled}
+        onChange={isDisabled ? undefined : _onSectionChange}
         options={optionsSection}
         value={value}
       />
       <SelectMethod
         api={api}
         className='large'
-        onChange={_onKeyChange}
+        defaultValue={isDisabled ? value.method : undefined}
+        isDisabled={isDisabled}
+        onChange={isDisabled ? undefined : _onKeyChange}
         options={optionsMethod}
         value={value}
       />

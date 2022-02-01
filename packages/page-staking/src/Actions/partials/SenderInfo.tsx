@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -9,12 +9,16 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
-  controllerId: string;
-  stashId: string;
+  controllerId?: string | null;
+  stashId?: string | null;
 }
 
-function SenderInfo ({ className = '', controllerId, stashId }: Props): React.ReactElement<Props> {
+function SenderInfo ({ className = '', controllerId, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+
+  if (!stashId || !controllerId) {
+    return null;
+  }
 
   return (
     <Modal.Columns

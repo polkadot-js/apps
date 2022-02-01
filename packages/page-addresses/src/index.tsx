@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -24,12 +24,10 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
 
   return (
     <main>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route>
           <Contacts

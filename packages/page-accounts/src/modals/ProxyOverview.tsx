@@ -1,26 +1,27 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { BatchWarning, Button, Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useTxBatch } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-type PrevProxy = [AccountId, ProxyType];
+type PrevProxy = [AccountId, NodeRuntimeProxyType];
 
 interface Props {
   className?: string;
   onClose: () => void;
-  previousProxy?: [ProxyDefinition[], BN];
+  previousProxy?: [PalletProxyProxyDefinition[], BN];
   proxiedAccount: string;
 }
 
@@ -38,24 +39,14 @@ interface NewProxyProps extends ValueProps {
 }
 
 interface PrevProxyProps extends ValueProps {
-  onRemove: (accountId: AccountId, type: ProxyType, index: number) => void;
+  onRemove: (accountId: AccountId, type: NodeRuntimeProxyType, index: number) => void;
 }
 
-const EMPTY_EXISTING: [ProxyDefinition[], BN] = [[], BN_ZERO];
+const optTxBatch = { isBatchAll: true };
 
-function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'> | null {
-  if (batchPrevious.length + batchAdded.length === 1) {
-    return batchPrevious.length
-      ? batchPrevious[0]
-      : batchAdded[0];
-  }
+const EMPTY_EXISTING: [PalletProxyProxyDefinition[], BN] = [[], BN_ZERO];
 
-  return isFunction(api.tx.utility.batchAll)
-    ? api.tx.utility.batchAll([...batchPrevious, ...batchAdded])
-    : api.tx.utility.batch([...batchPrevious, ...batchAdded]);
-}
-
-function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createAddProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -63,7 +54,7 @@ function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, d
     : api.tx.proxy.addProxy(account, type, delay);
 }
 
-function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createRmProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -156,20 +147,39 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
   );
 }
 
+function getProxyTypeInstance (api: ApiPromise, index = 0): NodeRuntimeProxyType {
+  // This is not perfect, but should work for `{Kusama, Node, Polkadot}RuntimeProxyType`
+  const proxyNames = api.registry.lookup.names.filter((name) => name.endsWith('RuntimeProxyType'));
+
+  // fallback to previous version (may be Substrate default), when not found
+  return api.createType<NodeRuntimeProxyType>(proxyNames.length ? proxyNames[0] : 'ProxyType', index);
+}
+
+function getProxyOptions (api: ApiPromise): { text: string; value: number; }[] {
+  return getProxyTypeInstance(api).defKeys
+    .map((text, value) => ({ text, value }))
+    // Filter the empty entries added in v14
+    .filter(({ text }) => !text.startsWith('__Unused'));
+}
+
 function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_EXISTING, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [previous, setPrevious] = useState<PrevProxy[]>(
-    existing.map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType])
-  );
+  const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
+  const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
   const [added, setAdded] = useState<PrevProxy[]>([]);
+  const extrinsics = useTxBatch(txs, optTxBatch);
 
-  const typeOpts = useRef(
-    api.createType('ProxyType').defKeys.map((text, value) => ({ text, value }))
+  const reservedAmount = useMemo(
+    () => api.consts.proxy.proxyDepositFactor
+      .muln(batchPrevious.length + batchAdded.length)
+      .iadd(api.consts.proxy.proxyDepositBase),
+    [api, batchPrevious, batchAdded]
   );
+
+  const typeOpts = useRef(getProxyOptions(api));
 
   useEffect((): void => {
     setBatchAdded(
@@ -178,9 +188,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   }, [api, added]);
 
   useEffect((): void => {
-    (batchPrevious.length || batchAdded.length) &&
-      setExtrinsic(() => createExtrinsic(api, batchPrevious, batchAdded));
-  }, [api, batchPrevious, batchAdded]);
+    setTxs(() => [...batchPrevious, ...batchAdded]);
+  }, [batchPrevious, batchAdded]);
 
   const _addProxy = useCallback(
     () => setAdded((added) =>
@@ -190,7 +199,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           : previous.length
             ? previous[previous.length - 1][0]
             : api.createType('AccountId', proxiedAccount),
-        api.createType('ProxyType', 0)
+        getProxyTypeInstance(api)
       ]]
     ),
     [api, previous, proxiedAccount]
@@ -202,7 +211,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   );
 
   const _delPrev = useCallback(
-    (accountId: AccountId, type: ProxyType, index: number): void => {
+    (accountId: AccountId, type: NodeRuntimeProxyType, index: number): void => {
       setPrevious((previous) => previous.filter((_, i) => i !== index));
       setBatchPrevious((previous) => [...previous, createRmProxy(api, accountId, type)]);
     },
@@ -225,7 +234,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
       setAdded((added) => {
         const newState = [...added];
 
-        newState[index][1] = api.createType('ProxyType', newTypeNumber);
+        newState[index][1] = getProxyTypeInstance(api, newTypeNumber);
 
         return newState;
       }),
@@ -238,6 +247,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     <Modal
       className={className}
       header={t<string>('Proxy overview')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -249,7 +259,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
             value={proxiedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}>
+        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
           {previous.map((value, index) => (
             <PrevProxy
               index={index}
@@ -279,11 +289,18 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
             />
           </Button.Group>
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
+          <InputBalance
+            defaultValue={reservedAmount}
+            isDisabled
+            label={t<string>('reserved balance')}
+          />
+        </Modal.Columns>
         <Modal.Columns>
           <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {existing.length !== 0 && (
           <TxButton
             accountId={proxiedAccount}
@@ -295,7 +312,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
         )}
         <TxButton
           accountId={proxiedAccount}
-          extrinsic={extrinsic}
+          extrinsic={extrinsics}
           icon='sign-in-alt'
           isDisabled={isSameAdd || (!batchPrevious.length && !batchAdded.length)}
           onStart={onClose}

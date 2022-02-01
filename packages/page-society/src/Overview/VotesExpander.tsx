@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VoteType } from '../types';
@@ -19,12 +19,12 @@ function VotesExpander ({ label, votes }: Props): React.ReactElement<Props> | nu
 
   return (
     <Expander summary={`${label} (${votes.length})`}>
-      {votes.map(([who]): React.ReactNode =>
+      {votes.map(([who]): React.ReactNode => (
         <AddressMini
           key={who.toString()}
           value={who}
         />
-      )}
+      ))}
     </Expander>
   );
 }

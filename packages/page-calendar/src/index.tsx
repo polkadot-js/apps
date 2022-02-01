@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DateState } from './types';
@@ -110,18 +110,16 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   const _setAllEventsView = useCallback(
-    (v) => setAllEventsView(v),
+    (v: boolean) => setAllEventsView(v),
     []
   );
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <div className='calendarFlex'>
         <Month
           hasNextMonth={hasNextMonth}
@@ -191,6 +189,7 @@ export default React.memo(styled(CalendarApp)`
 
     h1 {
       align-items: center;
+      border-bottom: 0.25rem solid var(--bg-page);
       display: flex;
       justify-content: space-between;
       padding: 0.5rem 0.5rem 0 1rem;

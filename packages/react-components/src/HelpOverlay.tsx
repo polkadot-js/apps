@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -47,13 +47,14 @@ export default React.memo(styled(HelpOverlay)`
     color: var(--color-text);
     cursor: pointer;
     font-size: 2rem;
-    padding: 0.65rem 1.5rem 0 0;
+    padding: 0.35rem 1.5rem 0 0;
   }
 
   > .help-button {
     position: absolute;
     right: 0rem;
     top: 0rem;
+    z-index: 10;
   }
 
   .help-slideout {

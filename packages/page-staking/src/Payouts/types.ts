@@ -1,10 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { Balance, EraIndex } from '@polkadot/types/interfaces';
-
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 export interface PayoutEraValidator {
   era: EraIndex;
@@ -15,6 +14,7 @@ export interface PayoutValidator {
   available: BN;
   eras: PayoutEraValidator[];
   validatorId: string;
+  total: BN;
 }
 
 export interface PayoutStash {

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
@@ -36,6 +36,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
     <>
       <Modal
         header={`${t<string>('extend expiry')} - "${truncateTitle(description, 30)}"`}
+        onClose={toggleOpen}
         size='large'
       >
         <Modal.Content>
@@ -70,7 +71,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
             />
           </Modal.Columns>
         </Modal.Content>
-        <Modal.Actions onCancel={toggleOpen}>
+        <Modal.Actions>
           <TxButton
             accountId={curatorId}
             icon='check'

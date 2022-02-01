@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// Copyright 2017-2022 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { extensionLogos } from '@polkadot/apps-config';
+import { emptyLogos, extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -25,7 +25,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   const [isBusy, toggleBusy] = useToggle();
   const options = useMemo(
     () => (extensions || []).map(({ extension: { name, version } }, value) =>
-      iconOption(`${name} ${version}`, value, extensionLogos[name])),
+      iconOption(`${name} ${version}`, value, extensionLogos[name] || emptyLogos.empty)),
     [extensions]
   );
   const _updateMeta = useCallback(
@@ -57,7 +57,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       {extensions
         ? options.length !== 0 && (
           <>
-            <tr>
+            <tr className='noBorder'>
               <td>
                 <Dropdown
                   label={t<string>('upgradable extensions')}
@@ -68,7 +68,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
               </td>
             </tr>
 
-            <tr className='isOdd'>
+            <tr className='hasOddRowColoring'>
               <td>
                 <Button.Group>
                   <Button

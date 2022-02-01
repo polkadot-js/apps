@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -25,12 +25,10 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   return (
     <main className={`contracts--App ${className}`}>
       <HelpOverlay md={introMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Contracts />
     </main>
   );

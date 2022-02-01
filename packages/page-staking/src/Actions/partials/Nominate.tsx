@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SortedTargets } from '../../types';
@@ -32,13 +32,14 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => nominateIds.includes(acc)),
+      ...favorites.filter((a) => nominateIds.includes(a)),
       // make sure the nominee is not in our favorites already
-      ...(nominating || []).filter((acc) => !favorites.includes(acc))
+      ...(nominating || []).filter((a) => !favorites.includes(a))
     ];
 
-    return shortlist
-      .concat(...(nominateIds.filter((acc) => !shortlist.includes(acc))));
+    return shortlist.concat(
+      ...(nominateIds.filter((a) => !shortlist.includes(a)))
+    );
   });
 
   useEffect((): void => {
@@ -53,6 +54,10 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
     }
   }, [api, onChange, selected]);
 
+  const maxNominations = api.consts.staking.maxNominations
+    ? api.consts.staking.maxNominations.toNumber()
+    : MAX_NOMINATIONS;
+
   return (
     <div className={className}>
       {withSenders && (
@@ -61,18 +66,20 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
           stashId={stashId}
         />
       )}
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
-          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
-        </>
-      }>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
+            <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
+          </>
+        }
+      >
         <InputAddressMulti
           available={available}
           availableLabel={t<string>('candidate accounts')}
           defaultValue={nominating}
           help={t<string>('Filter available candidates based on name, address or short account index.')}
-          maxCount={MAX_NOMINATIONS}
+          maxCount={maxNominations}
           onChange={setSelected}
           valueLabel={t<string>('nominated accounts')}
         />

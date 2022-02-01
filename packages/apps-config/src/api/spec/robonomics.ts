@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -13,16 +13,24 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Record: 'Vec<u8>',
-        TechnicalParam: 'Vec<u8>',
-        TechnicalReport: 'Vec<u8>',
-        EconomicalParam: '{}',
-        ProofParam: 'MultiSignature',
-        LiabilityIndex: 'u64',
-        ValidationFunctionParams: {
-          max_code_size: 'u32',
-          relay_chain_height: 'u32',
-          code_upgrade_allowed: 'Option<u32>'
-        }
+        Technics: 'Vec<u8>',
+        Economics: '{}',
+        Report: {
+          index: 'LiabilityIndex',
+          sender: 'AccountId',
+          payload: 'Vec<u8>',
+          signature: 'MultiSignature'
+        },
+        ReportFor: 'Report',
+        Agreement: {
+          technics: 'Technics',
+          economics: 'Economics',
+          promisee: 'AccountId',
+          promisor: 'AccountId',
+          promisee_signature: 'MultiSignature',
+          promisor_signature: 'MultiSignature'
+        },
+        LiabilityIndex: 'u32'
       }
     }
   ]

@@ -1,14 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
-import { ContractPromise } from '@polkadot/api-contract';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -47,7 +47,6 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
     [t('contracts'), 'start'],
     [undefined, undefined, 3],
     [t('status'), 'start'],
-    [t('projection'), 'media--1100'],
     []
   ]);
 

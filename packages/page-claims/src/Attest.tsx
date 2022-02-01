@@ -1,16 +1,18 @@
-// Copyright 2017-2021 @polkadot/app-claims authors & contributors
+// Copyright 2017-2022 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TxCallback } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, Card, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { ClaimStyles } from './Claim';
 import Statement from './Statement';
@@ -30,7 +32,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
   const accounts = useAccounts();
   const { t } = useTranslation();
   const { api } = useApi();
-  const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
+  const [claimValue, setClaimValue] = useState<BN | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect((): void => {
@@ -43,24 +45,46 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
     api.query.claims
       .claims<Option<BalanceOf>>(ethereumAddress)
       .then((claim): void => {
-        setClaimValue(claim.unwrapOr(null));
+        setClaimValue(claim.unwrapOr(BN_ZERO));
         setIsBusy(false);
       })
-      .catch((): void => setIsBusy(false));
+      .catch((error): void => {
+        console.error(error);
+
+        setIsBusy(false);
+      });
   }, [api, ethereumAddress]);
 
-  if (isBusy) {
+  const statementSentence = useMemo(
+    () => getStatement(systemChain, statementKind)?.sentence,
+    [systemChain, statementKind]
+  );
+
+  if (isBusy || !claimValue) {
     return null;
   }
 
-  const hasClaim = claimValue && claimValue.gten(0);
-  const statementSentence = getStatement(systemChain, statementKind)?.sentence;
+  const noClaim = claimValue.isZero();
 
-  if (!hasClaim || !statementSentence) {
-    return null;
+  if (noClaim || !statementSentence) {
+    return (
+      <Card isError>
+        <div className={className}>
+          {noClaim && (
+            <p>{t<string>('There is no on-chain claimable balance associated with the Ethereum account {{ethereumAddress}}', {
+              replace: { ethereumAddress }
+            })}</p>
+          )}
+          {!statementSentence && (
+            <p>{t<string>('There is no on-chain attestation statement associated with the Ethereum account {{ethereumAddress}}', {
+              replace: { ethereumAddress }
+            })}</p>
+          )}
+        </div>
+      </Card>
+    );
   }
 
-  // Attesting is impossible if the account is not owned.
   if (!accounts.isAccount(accountId)) {
     return (
       <Card isError>
@@ -84,8 +108,12 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
           kind={statementKind}
           systemChain={systemChain}
         />
-        <h3><FormatBalance label={t<string>('Account balance:')}
-          value={claimValue} /></h3>
+        <h3>
+          <FormatBalance
+            label={t<string>('Account balance:')}
+            value={claimValue}
+          />
+        </h3>
         <Button.Group>
           <TxButton
             accountId={accountId}

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodeStored } from '../types';
@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import { Icon } from '@polkadot/react-components';
 import Row from '@polkadot/react-components/Row';
-import { useApi } from '@polkadot/react-hooks';
 
 import contracts from '../store';
 
@@ -25,7 +24,6 @@ const DEFAULT_HASH = '0x';
 const DEFAULT_NAME = '<unknown>';
 
 function CodeRow ({ buttons, children, className, code: { json }, isInline, withTags }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const [name, setName] = useState(json.name || DEFAULT_NAME);
   const [tags, setTags] = useState(json.tags || []);
   const [codeHash, setCodeHash] = useState(json.codeHash || DEFAULT_HASH);
@@ -41,20 +39,17 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       const trimmedName = name.trim();
 
       if (trimmedName && codeHash) {
-        contracts.saveCode(api.createType('Hash', codeHash), { name })
-          .catch((e): void => console.error(e));
+        contracts.saveCode(codeHash, { name });
       }
     },
-    [api, codeHash, name]
+    [codeHash, name]
   );
 
   const _onSaveTags = useCallback(
     (): void => {
-      codeHash && contracts
-        .saveCode(api.createType('Hash', codeHash), { tags })
-        .catch((e): void => console.error(e));
+      codeHash && contracts.saveCode(codeHash, { tags });
     },
-    [api, codeHash, tags]
+    [codeHash, tags]
   );
 
   return (

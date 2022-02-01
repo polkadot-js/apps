@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
@@ -9,8 +9,12 @@ import { Link } from 'react-router-dom';
 import { AddressMini, Digits } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
+// TODO update HeaderExtended in api-derive
+export interface HeaderExtendedWithMapping extends HeaderExtended {
+  authorFromMapping?: string;
+}
 interface Props {
-  value: HeaderExtended;
+  value: HeaderExtendedWithMapping;
 }
 
 function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
@@ -27,9 +31,11 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>
-        {value.author && (
-          <AddressMini value={value.author} />
-        )}
+        {value.authorFromMapping
+          ? <AddressMini value={value.authorFromMapping} />
+          : value.author && (
+            <AddressMini value={value.author} />
+          )}
       </td>
     </tr>
   );

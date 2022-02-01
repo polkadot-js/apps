@@ -1,14 +1,20 @@
 {
-  "name": "@polkadot/react-signer",
-  "version": "0.84.2-4",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-signer#readme",
   "license": "Apache-2.0",
+  "name": "@polkadot/react-signer",
+  "private": true,
+  "repository": {
+    "directory": "packages/react-signer",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.84.2-4"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/hw-ledger": "^8.3.3",
+    "@polkadot/react-components": "^0.104.2-1"
   }
 }

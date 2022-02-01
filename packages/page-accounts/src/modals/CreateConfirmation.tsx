@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
@@ -29,18 +29,22 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
 
   return (
     <Modal.Content>
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
-          <p>{t<string>('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
-        </>
-      }>
-        {address && name && <AddressRow
-          defaultName={name}
-          isInline
-          noDefaultNameOpacity
-          value={address}
-        />}
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
+            <p>{t<string>('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
+          </>
+        }
+      >
+        {address && name && (
+          <AddressRow
+            defaultName={name}
+            isInline
+            noDefaultNameOpacity
+            value={address}
+          />
+        )}
         {shortSeed && (
           <Static
             label={t<string>('partial seed')}

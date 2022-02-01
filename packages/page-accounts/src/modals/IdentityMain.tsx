@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Data, Option } from '@polkadot/types';
@@ -146,6 +146,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
     <Modal
       className={className}
       header={t<string>('Register identity')}
+      onClose={onClose}
     >
       <Modal.Content>
         <Input
@@ -239,7 +240,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           label={t<string>('total deposit')}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon={'trash-alt'}

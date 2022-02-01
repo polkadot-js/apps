@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -59,6 +59,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
         <Modal
           className={className}
           header={t<string>('Nominate validators')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -76,12 +77,14 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
                 value={ids?.controllerId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
-                <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
+                  <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
+                </>
+              }
+            >
               <Static
                 label={t<string>('selected validators')}
                 value={
@@ -96,7 +99,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={ids?.controllerId}
               label={t<string>('Nominate')}

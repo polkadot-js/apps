@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownProps } from 'semantic-ui-react';
@@ -36,7 +36,7 @@ interface Props<Option> {
   searchInput?: { autoFocus: boolean };
   tabIndex?: number;
   transform?: (value: any) => any;
-  value?: any;
+  value?: unknown;
   withEllipsis?: boolean;
   withLabel?: boolean;
 }
@@ -69,7 +69,7 @@ function BaseDropdown<Option> ({ allowAdd = false, children, className = '', def
   );
 
   useEffect((): void => {
-    _setStored(isUndefined(value) ? defaultValue : value);
+    _setStored((isUndefined(value) ? defaultValue : value) as string);
   }, [_setStored, defaultValue, value]);
 
   const _onAdd = useCallback(

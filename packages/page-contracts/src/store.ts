@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
@@ -9,32 +9,32 @@ import store from 'store';
 
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
+import { isString } from '@polkadot/util';
 
 const KEY_CODE = 'code:';
 
 class Store extends EventEmitter {
-  private allCode: Record<string, CodeStored> = {};
+  #allCode: Record<string, CodeStored> = {};
 
   public get hasCode (): boolean {
-    return Object.keys(this.allCode).length !== 0;
+    return Object.keys(this.#allCode).length !== 0;
   }
 
   public getAllCode (): CodeStored[] {
-    return Object.values(this.allCode);
+    return Object.values(this.#allCode);
   }
 
   public getCode (codeHash: string): CodeStored | undefined {
-    return this.allCode[codeHash];
+    return this.#allCode[codeHash];
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
-    const hex = (typeof codeHash === 'string' ? api.registry.createType('Hash', codeHash) : codeHash).toHex();
-    const existing = this.getCode(hex);
+  public saveCode (_codeHash: string | Hash, partial: Partial<CodeJson>): void {
+    const codeHash = (isString(_codeHash) ? api.registry.createType('Hash', _codeHash) : _codeHash).toHex();
+    const existing = this.getCode(codeHash);
     const json = {
       ...(existing ? existing.json : {}),
       ...partial,
-      codeHash: hex,
+      codeHash,
       genesisHash: api.genesisHash.toHex(),
       whenCreated: existing?.json.whenCreated || Date.now()
     };
@@ -48,21 +48,17 @@ class Store extends EventEmitter {
     this.removeCode(`${KEY_CODE}${codeHash}`, codeHash);
   }
 
-  public async loadAll (): Promise<void> {
+  public loadAll (onLoaded?: () => void): void {
     try {
-      await api.isReady;
-
       const genesisHash = api.genesisHash.toHex();
 
       store.each((json: CodeJson, key: string): void => {
-        if (json && json.genesisHash !== genesisHash) {
-          return;
-        }
-
-        if (key.startsWith(KEY_CODE)) {
+        if (json && json.genesisHash === genesisHash && key.startsWith(KEY_CODE)) {
           this.addCode(key, json);
         }
       });
+
+      onLoaded && onLoaded();
     } catch (error) {
       console.error('Unable to load code', error);
     }
@@ -70,7 +66,7 @@ class Store extends EventEmitter {
 
   private addCode (key: string, json: CodeJson): void {
     try {
-      this.allCode[json.codeHash] = {
+      this.#allCode[json.codeHash] = {
         contractAbi: json.abi
           ? new Abi(json.abi, api.registry.getChainProperties())
           : undefined,
@@ -86,7 +82,7 @@ class Store extends EventEmitter {
 
   private removeCode (key: string, codeHash: string): void {
     try {
-      delete this.allCode[codeHash];
+      delete this.#allCode[codeHash];
       store.remove(key);
       this.emit('removed-code');
     } catch (error) {

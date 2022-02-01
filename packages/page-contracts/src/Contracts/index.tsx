@@ -1,35 +1,35 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components';
-import { useContracts, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 
 import Codes from '../Codes';
 import CodeAdd from '../Codes/Add';
 import CodeUpload from '../Codes/Upload';
-import ContractAdd from '../Contracts/Add';
-import ContractsTable from '../Contracts/ContractsTable';
-import store from '../store';
 import { useTranslation } from '../translate';
+import { useCodes } from '../useCodes';
+import { useContracts } from '../useContracts';
+import ContractAdd from './Add';
+import ContractsTable from './ContractsTable';
 import Deploy from './Deploy';
 import Summary from './Summary';
 
 function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { allCodes, codeTrigger } = useCodes();
   const { allContracts } = useContracts();
-  const [codeHash, setCodeHash] = useState<string | undefined>();
-  const [constructorIndex, setConstructorIndex] = useState(0);
   const [isAddOpen, toggleAdd] = useToggle();
   const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
   const [isHashOpen, toggleHash] = useToggle();
   const [isUploadOpen, toggleUpload] = useToggle();
-  const [updated, setUpdated] = useState(() => Date.now());
-  const [allCodes, setAllCodes] = useState(() => store.getAllCode());
+  const [codeHash, setCodeHash] = useState<string | undefined>();
+  const [constructorIndex, setConstructorIndex] = useState(0);
 
   const _onShowDeploy = useCallback(
     (codeHash: string, constructorIndex: number): void => {
@@ -45,28 +45,9 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
     [setIsDeployOpen]
   );
 
-  useEffect(
-    (): void => {
-      const triggerUpdate = (): void => {
-        setUpdated(Date.now());
-        setAllCodes(store.getAllCode());
-      };
-
-      store.on('new-code', triggerUpdate);
-      store.on('removed-code', triggerUpdate);
-      store
-        .loadAll()
-        .then(() => setAllCodes(store.getAllCode()))
-        .catch((): void => {
-          // noop, handled internally
-        });
-    },
-    []
-  );
-
   return (
     <div className={className}>
-      <Summary trigger={updated} />
+      <Summary trigger={codeTrigger} />
       <Button.Group>
         <Button
           icon='plus'
@@ -86,11 +67,11 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       </Button.Group>
       <ContractsTable
         contracts={allContracts}
-        updated={updated}
+        updated={codeTrigger}
       />
       <Codes
         onShowDeploy={_onShowDeploy}
-        updated={updated}
+        updated={codeTrigger}
       />
       {codeHash && isDeployOpen && (
         <Deploy

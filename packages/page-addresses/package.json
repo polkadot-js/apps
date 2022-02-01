@@ -1,20 +1,24 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-addresses#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-addresses",
   "private": true,
-  "version": "0.84.2-4",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-addresses",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.84.2-4",
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/react-components": "^0.104.2-1",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.5",
-    "testcontainers": "^6.4.2"
+    "@testing-library/react": "^12.1.2",
+    "testcontainers": "^8.2.0"
   }
 }

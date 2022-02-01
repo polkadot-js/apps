@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -12,7 +12,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.contracts.call'
+        'tx.contracts.instantiateWithCode'
       ]
     },
     group: 'developer',

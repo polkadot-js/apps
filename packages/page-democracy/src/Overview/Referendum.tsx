@@ -1,17 +1,16 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useChangeCalc from '../useChangeCalc';
@@ -41,7 +40,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const bestNumber = useBestNumber();
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),

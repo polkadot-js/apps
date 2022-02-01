@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -15,6 +15,15 @@ const definitions: OverrideBundleDefinition = {
         Amount: 'i128',
         AmountOf: 'Amount',
         Address: 'AccountId',
+        OrmlAccountData: {
+          free: 'Balance',
+          frozen: 'Balance',
+          reserved: 'Balance'
+        },
+        Fee: {
+          numerator: 'u32',
+          denominator: 'u32'
+        },
         BalanceInfo: {
           amount: 'Balance',
           assetId: 'AssetId'
@@ -38,7 +47,11 @@ const definitions: OverrideBundleDefinition = {
         },
         LookupSource: 'AccountId',
         OrderedSet: 'Vec<AssetId>',
-        Price: 'Balance'
+        Price: 'Balance',
+        Chain: {
+          genesisHash: 'Vec<u8>',
+          lastBlockHash: 'Vec<u8>'
+        }
       }
     }
   ]

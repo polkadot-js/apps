@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-signing authors & contributors
+// Copyright 2017-2022 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
@@ -28,7 +28,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
   const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
-  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(settings.availableCryptos as any[]));
+  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(settings.availableCryptos as { text: string; value: string }[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
@@ -39,8 +39,10 @@ function Verify ({ className = '' }: Props): React.ReactElement {
       const verification = signatureVerify(data, signature, publicKey);
 
       if (verification.crypto !== 'none') {
-        isValid = verification.isValid;
         cryptoType = verification.crypto;
+        isValid = verification.isValid;
+      } else {
+        isValid = false;
       }
     }
 

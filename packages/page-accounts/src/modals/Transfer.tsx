@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -51,25 +51,25 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [propSenderId || senderId]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
     const fromId = propSenderId || senderId as string;
     const toId = propRecipientId || recipientId as string;
 
-    if (balances && balances.accountId.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
+    if (balances && balances.accountId?.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
-            .transfer(toId, balances.availableBalance)
+            ?.transfer(toId, balances.availableBalance)
             .paymentInfo(fromId)
             .then(({ partialFee }): void => {
               const adjFee = partialFee.muln(110).div(BN_HUNDRED);
               const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(
-                maxTransfer.gt(api.consts.balances.existentialDeposit)
+                maxTransfer.gt(api.consts.balances?.existentialDeposit)
                   ? [maxTransfer, false]
                   : [null, true]
               );
@@ -95,12 +95,13 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
       ? accountInfo.refcount.isZero()
       : accountInfo.consumers.isZero()
     : true;
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(propSenderId || senderId) && maxTransfer && noReference;
+  const canToggleAll = !isProtected && balances && balances.accountId?.eq(propSenderId || senderId) && maxTransfer && noReference;
 
   return (
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -140,12 +141,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
             )}
           </Modal.Columns>
-          <Modal.Columns hint={
-            <>
-              <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}</p>
-              <p>{t('With the keep-alive option set, the account is protected against removal due to low balances.')}</p>
-            </>
-          }>
+          <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
             {canToggleAll && isAll
               ? (
                 <InputBalance
@@ -165,10 +161,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
+                    maxValue={maxTransfer}
                     onChange={setAmount}
                   />
                   <InputBalance
-                    defaultValue={api.consts.balances.existentialDeposit}
+                    defaultValue={api.consts.balances?.existentialDeposit}
                     help={t<string>('The minimum amount that an account should have to be deemed active')}
                     isDisabled
                     label={t<string>('existential deposit')}
@@ -176,7 +173,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 </>
               )
             }
-            {isFunction(api.tx.balances.transferKeepAlive) && (
+          </Modal.Columns>
+          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+            {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'
                 label={
@@ -205,7 +204,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           </Modal.Columns>
         </div>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
@@ -214,10 +213,18 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           onStart={onClose}
           params={
             canToggleAll && isAll
-              ? [propRecipientId || recipientId, maxTransfer]
+              ? isFunction(api.tx.balances?.transferAll)
+                ? [propRecipientId || recipientId, false]
+                : [propRecipientId || recipientId, maxTransfer]
               : [propRecipientId || recipientId, amount]
           }
-          tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
+          tx={
+            canToggleAll && isAll && isFunction(api.tx.balances?.transferAll)
+              ? api.tx.balances?.transferAll
+              : isProtected
+                ? api.tx.balances?.transferKeepAlive
+                : api.tx.balances?.transfer
+          }
         />
       </Modal.Actions>
     </Modal>

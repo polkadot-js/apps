@@ -1,14 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -23,7 +23,8 @@ interface Props {
 function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers();
+  const { members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { closeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
@@ -36,9 +37,14 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
 
   const closeBountyProposal = useRef(closeBounty(index));
 
+  if (!councilMod) {
+    return null;
+  }
+
   return (
     <Modal
       header={`${t<string>('close bounty')} - "${truncateTitle(description, 30)}"`}
+      onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
@@ -53,7 +59,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={toggleOpen}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='ban'
@@ -61,7 +67,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
           label={t<string>('Close Bounty')}
           onStart={toggleOpen}
           params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
-          tx={api.tx.council.propose}
+          tx={api.tx[councilMod].propose}
         />
       </Modal.Actions>
     </Modal>

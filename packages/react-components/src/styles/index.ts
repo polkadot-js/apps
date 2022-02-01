@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
@@ -19,6 +19,7 @@ interface Props {
 const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
+const VERY_DARK = 16;
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
@@ -26,13 +27,40 @@ function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
 }
 
-function getContrast (uiHighlight: string | undefined): string {
+function countBrightness (uiHighlight: string | undefined): number {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
-  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+}
+
+function getContrast (uiHighlight: string | undefined): string {
+  const brightness = countBrightness(uiHighlight);
 
   return brightness > BRIGHTNESS
     ? 'rgba(45, 43, 41, 0.875)'
     : 'rgba(255, 253, 251, 0.875)';
+}
+
+function getMenuHoverContrast (uiHighlight: string | undefined): string {
+  const brightness = countBrightness(uiHighlight);
+
+  if (brightness < VERY_DARK) {
+    return 'rgba(255, 255, 255, 0.15)';
+  }
+
+  return brightness < BRIGHTNESS
+    ? 'rgba(0, 0, 0, 0.15)'
+    : 'rgba(255, 255, 255, 0.15)';
+}
+
+function hexToRGB (hex: string, alpha?: string) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return alpha
+    ? `rgba(${r}, ${g}, ${b}, ${alpha})`
+    : `rgb(${r}, ${g}, ${b})`;
 }
 
 export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
@@ -56,6 +84,27 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--bg-contrast {
     background: ${getContrast(uiHighlight)};
+  }
+
+  .ui--MenuItem.isActive .ui--Badge {
+    background: ${getHighlight(uiHighlight)};
+    color: ${getContrast(uiHighlight)} !important;
+  }
+
+  .ui--MenuItem {
+    & .ui--Badge {
+      color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
+    }
+
+    &:hover:not(.isActive) .ui--Badge {
+      background: ${countBrightness(uiHighlight) < BRIGHTNESS ? 'rgba(255, 255, 255, 0.8)' : '#4D4D4D'};
+      color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#fff' : '#424242'};
+    }
+  }
+
+  .ui--Tab .ui--Badge {
+    background: ${getHighlight(uiHighlight)};
+    color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
   }
 
   .highlight--bg-faint,
@@ -101,6 +150,32 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--gradient {
     background: ${`linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
+  }
+
+  .ui--MenuItem.topLevel:hover,
+  .ui--MenuItem.isActive.topLevel:hover {
+    color: ${getContrast(uiHighlight)};
+
+    a {
+      background-color: ${getMenuHoverContrast(uiHighlight)};
+    }
+  }
+
+  .menuItems li:hover .groupHdr {
+    background: ${getMenuHoverContrast(uiHighlight)};
+    color: ${getContrast(uiHighlight)};
+  }
+
+  .groupMenu {
+    background: ${getHighlight(uiHighlight)} !important;
+
+    &::before {
+      background: ${getMenuHoverContrast(uiHighlight)};
+      color:  ${getContrast(uiHighlight)};
+    }
+    li {
+      color:  ${getContrast(uiHighlight)};
+    }
   }
 
   .highlight--hover-bg:hover {
@@ -180,12 +255,63 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Popup .ui--Button.isOpen:not(.isDisabled):not(.isReadOnly) {
+    background: ${getHighlight(uiHighlight)} !important;
+    color: ${getContrast(uiHighlight)} !important;
+
+    .ui--Icon {
+      background: transparent !important;
+      color: ${getContrast(uiHighlight)} !important;
+    }
+  }
+
+
+  .ui--Menu {
+    .ui--Menu__Item:hover {
+       background: ${hexToRGB(getHighlight(uiHighlight), '.1')};
+    }
+
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background: ${getHighlight(uiHighlight)};
+
+      &::before {
+        border-color: ${getHighlight(uiHighlight)};
+      }
+    }
+  }
+
+  .ui--Sort {
+    .ui--Labelled.ui--Dropdown:hover {
+     .ui.selection.dropdown {
+        border-color: ${getHighlight(uiHighlight)};
+
+       .visible.menu {
+         border: 1px solid ${getHighlight(uiHighlight)};
+        }
+      }
+    }
+
+    button:hover {
+      border-color: ${getHighlight(uiHighlight)};
+    }
+
+    button:hover,
+    .ui--Labelled.ui--Dropdown:hover {
+      &::after {
+        background-color:  ${getHighlight(uiHighlight)};
+      }
+    }
+
+    .arrow.isActive {
+      color:  ${getHighlight(uiHighlight)};
+      opacity: 1;
+    }
+  }
+
   .theme--dark,
   .theme--light {
-    .ui--Tabs {
-      .ui--Tab.tabLinkActive {
-        border-bottom-color: ${getHighlight(uiHighlight)};
-      }
+    .ui--Tabs .tabLinkActive .tabLinkText::after{
+        background: ${getHighlight(uiHighlight)};
     }
 
     .ui.primary.button,
@@ -211,6 +337,25 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
         }
       }
     }
+  }
+
+  .ui--ExpandButton:hover {
+    border-color: ${getHighlight(uiHighlight)} !important;
+
+    .ui--Icon {
+      color: ${getHighlight(uiHighlight)} !important;
+    }
+  }
+
+  .ui--Tag.themeColor.lightTheme,
+  .ui--InputTags.lightTheme .ui.label {
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
+  }
+
+  .ui--Tag.themeColor.darkTheme,
+  .ui--InputTags.darkTheme .ui.label {
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
   }
 
   #root {

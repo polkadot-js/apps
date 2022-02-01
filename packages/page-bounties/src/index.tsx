@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -22,19 +22,17 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Bounties')
+      text: t<string>('Overview')
     }
   ]);
 
   return (
     <main className={`bounties--App ${className}`}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <Bounties/>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
+      <Bounties />
     </main>
   );
 }

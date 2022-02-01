@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import i18next from 'i18next';
@@ -8,6 +8,12 @@ import { initReactI18next } from 'react-i18next';
 import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
 
 import Backend from './Backend';
+
+interface Services {
+  languageDetector: {
+    detect: () => string;
+  };
+}
 
 const languageDetector = new LanguageDetector();
 
@@ -34,7 +40,9 @@ i18next
     },
     fallbackLng: false,
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
+      prefix: '{{',
+      suffix: '}}'
     },
     keySeparator: false,
     load: 'languageOnly',
@@ -73,7 +81,7 @@ i18next
     ],
     nsSeparator: false,
     react: {
-      wait: true
+      useSuspense: true
     },
     returnEmptyString: false,
     returnNull: false
@@ -85,8 +93,7 @@ i18next
 settings.on('change', (settings): void => {
   i18next.changeLanguage(
     settings.i18nLang === LANGUAGE_DEFAULT
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      ? i18next.services.languageDetector.detect()
+      ? (i18next.services as Services).languageDetector.detect()
       : settings.i18nLang
   ).catch(console.error);
 });

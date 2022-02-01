@@ -1,20 +1,21 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo, DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
+import type { DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
 import type { NominatorValue } from './types';
 
-import BN from 'bn.js';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
@@ -29,6 +30,7 @@ interface Props {
   isElected: boolean;
   isFavorite: boolean;
   isMain?: boolean;
+  isPara?: boolean;
   lastBlock?: string;
   nominatedBy?: NominatedByType[];
   points?: string;
@@ -54,7 +56,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState 
 
   if (exposure && exposure.total) {
     nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
-    stakeTotal = exposure.total.unwrap();
+    stakeTotal = exposure.total?.unwrap() || BN_ZERO;
     stakeOwn = exposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
   }
@@ -76,13 +78,13 @@ const transformSlashes = {
 
 function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   const params = useMemo(() => [address], [address]);
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
+  const accountInfo = useDeriveAccountInfo(address);
   const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
 
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
@@ -98,10 +100,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [api, accountInfo, address, filterName, withIdentity]
   );
 
-  const _onQueryStats = useCallback(
-    (): void => {
-      window.location.hash = `/staking/query/${address}`;
-    },
+  const statsLink = useMemo(
+    () => `#/staking/query/${address}`,
     [address]
   );
 
@@ -120,6 +120,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
+          isPara={isPara}
+          isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
           nominators={isMain ? nominators : nominatedBy}
           onlineCount={recentlyOnline?.blockCount}
           onlineMessage={recentlyOnline?.hasMessage}
@@ -164,11 +166,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       )}
       <td>
         {hasQueries && (
-          <Icon
-            className='highlight--color'
-            icon='chart-line'
-            onClick={_onQueryStats}
-          />
+          <a href={statsLink}>
+            <Icon
+              className='highlight--color'
+              icon='chart-line'
+            />
+          </a>
         )}
       </td>
       <td className='links media--1200'>

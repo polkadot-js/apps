@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -10,6 +10,7 @@ import BaseBytes from './BaseBytes';
 function Hash512 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   return (
     <BaseBytes
+      asHex
       className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}

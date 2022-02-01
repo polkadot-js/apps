@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SortedTargets } from '../../types';
@@ -29,6 +29,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
     <Modal
       className={className}
       header={t<string>('Nominate Validators')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -42,7 +43,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={nominateTx}

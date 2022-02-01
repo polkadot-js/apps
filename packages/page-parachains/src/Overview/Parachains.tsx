@@ -1,142 +1,110 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from '../types';
-import type { QueuedAction } from './types';
+import type { ParaId } from '@polkadot/types/interfaces';
+import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
 
-import BN from 'bn.js';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
+import useEvents from './useEvents';
+import useValidators from './useValidators';
 
 interface Props {
   actionsQueue: QueuedAction[];
   ids?: ParaId[];
+  leasePeriod?: LeasePeriod;
   scheduled?: ScheduledProposals[];
 }
 
-type EventMap = Record<string, [string, string, BN]>;
-
-interface LastEvents {
-  lastBacked: EventMap;
-  lastIncluded: EventMap;
+function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<string, boolean> {
+  return scheduled.reduce((all: Record<string, boolean>, { scheduledIds }: ScheduledProposals): Record<string, boolean> =>
+    scheduledIds.reduce((all: Record<string, boolean>, id) => ({
+      ...all,
+      [id.toString()]: true
+    }), all), {});
 }
 
-const optionsMulti = {
-  defaultValue: [null, null] as [AccountId[] | null, ParaValidatorIndex[][] | null]
-};
-
-function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
-  const { descriptor } = event.data[0] as CandidateReceipt;
-
-  if (descriptor) {
-    map[descriptor.paraId.toString()] = [
-      blockHash,
-      descriptor.relayParent.toHex(),
-      blockNumber
-    ];
-  }
+function extractActions (actionsQueue: QueuedAction[], knownIds: [ParaId, string][] = []): Record<string, QueuedAction | undefined> {
+  return knownIds.reduce((all: Record<string, QueuedAction | undefined>, [id, key]) => ({
+    ...all,
+    [key]: actionsQueue.find(({ paraIds }) => paraIds.some((p) => p.eq(id)))
+  }), {});
 }
 
-function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElement<Props> {
+function extractIds (hasLinksMap: Record<string, boolean>, ids: ParaId[]): [ParaId, string][] | undefined {
+  return ids
+    .map((id): [ParaId, string] => [id, id.toString()])
+    .sort(([aId, aIds], [bId, bIds]): number => {
+      const aKnown = hasLinksMap[aIds] || false;
+      const bKnown = hasLinksMap[bIds] || false;
+
+      return aKnown === bKnown
+        ? aId.cmp(bId)
+        : aKnown
+          ? -1
+          : 1;
+    });
+}
+
+function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const bestNumber = useBestNumber();
-  const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
-  const [{ lastBacked, lastIncluded }, setLastEvents] = useState<LastEvents>({ lastBacked: {}, lastIncluded: {} });
-  const [validators, validatorGroups] = useCallMulti<[AccountId[] | null, ParaValidatorIndex[][] | null]>([
-    api.query.session?.validators,
-    api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups
-  ], optionsMulti);
+  const { lastBacked, lastIncluded, lastTimeout } = useEvents();
+  const hasLinksMap = useIsParasLinked(ids);
+  const [validators, validatorMap] = useValidators(ids);
+
+  const headerRef = useRef([
+    [t('parachains'), 'start', 2],
+    ['', 'media--1400'],
+    [t('head'), 'start media--1500'],
+    [t('lifecycle'), 'start'],
+    [],
+    [t('included'), undefined, 2],
+    [t('backed'), 'no-pad-left media--800'],
+    [t('timeout'), 'no-pad-left media--900'],
+    [t('chain'), 'no-pad-left'],
+    [t('in/out'), 'media--1200', 2],
+    [t('leases'), 'media--1000']
+  ]);
 
   const scheduledIds = useMemo(
-    () => (scheduled || []).reduce((all: Record<string, boolean>, { scheduledIds }: ScheduledProposals): Record<string, boolean> => {
-      return scheduledIds.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: true }), all);
-    }, {}),
+    () => extractScheduledIds(scheduled),
     [scheduled]
   );
 
-  const validatorMap = useMemo(
-    () => validators && validatorGroups && ids && ids.length === validatorGroups.length
-      ? validatorGroups.map((ids) =>
-        ids
-          .map((id) => validators[id.toNumber()])
-          .filter((a) => a)
-      )
-      : [],
-    [ids, validators, validatorGroups]
+  const knownIds = useMemo(
+    () => ids && extractIds(hasLinksMap, ids),
+    [ids, hasLinksMap]
   );
 
-  useEffect((): void => {
-    lastBlock && setLastEvents((prev) => {
-      const backed: Record<string, [string, string, BN]> = {};
-      const included: Record<string, [string, string, BN]> = {};
-      const blockNumber = lastBlock.block.header.number.unwrap();
-      const blockHash = lastBlock.block.header.hash.toHex();
-      let wasIncluded = false;
-      let wasBacked = false;
-
-      lastBlock.events.forEach(({ event, phase }) => {
-        if (phase.isApplyExtrinsic) {
-          if (api.events.inclusion.CandidateBacked.is(event)) {
-            includeEntry(backed, event, blockHash, blockNumber);
-            wasBacked = true;
-          } else if (api.events.inclusion.CandidateIncluded.is(event)) {
-            includeEntry(included, event, blockHash, blockNumber);
-            wasIncluded = true;
-          }
-        }
-      });
-
-      return wasBacked || wasIncluded
-        ? {
-          lastBacked: wasBacked
-            ? { ...prev.lastBacked, ...backed }
-            : prev.lastBacked,
-          lastIncluded: wasIncluded
-            ? { ...prev.lastIncluded, ...included }
-            : prev.lastIncluded
-        }
-        : prev;
-    });
-  }, [api, lastBlock]);
-
-  const headerRef = useRef([
-    [t('parachains'), 'start', 3],
-    ['', 'media--1500'],
-    [t('head'), 'start'],
-    [t('lifecycle'), 'start media--1100'],
-    [],
-    [t('included'), undefined, 2],
-    [t('backed')],
-    [t('chain best'), 'media--900'],
-    [t('upgrade'), 'media--1300'],
-    [t('ump/dmp/hrmp'), 'media--1200']
-  ]);
+  const nextActions = useMemo(
+    () => extractActions(actionsQueue, knownIds),
+    [actionsQueue, knownIds]
+  );
 
   return (
     <Table
-      empty={ids && t<string>('There are no registered parachains')}
+      empty={knownIds && t<string>('There are no registered parachains')}
       header={headerRef.current}
     >
-      {ids?.map((id, index): React.ReactNode => (
+      {knownIds?.map(([id, key]): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
           id={id}
-          isScheduled={scheduledIds[id.toString()]}
-          key={id.toString()}
-          lastBacked={lastBacked[id.toString()]}
-          lastInclusion={lastIncluded[id.toString()]}
-          nextAction={actionsQueue.find(({ paraIds }) =>
-            paraIds.some((p) => p.eq(id))
-          )}
-          validators={validatorMap[index]}
+          isScheduled={scheduledIds[key]}
+          key={key}
+          lastBacked={lastBacked[key]}
+          lastInclusion={lastIncluded[key]}
+          lastTimeout={lastTimeout[key]}
+          leasePeriod={leasePeriod}
+          nextAction={nextActions[key]}
+          sessionValidators={validators}
+          validators={validatorMap[key]}
         />
       ))}
     </Table>

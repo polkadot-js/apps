@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import { Icon } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 
-import { bountyLabelColor, bountySvgColor } from '../theme';
+import { bountySvgColor } from '../theme';
 
 interface Props {
   className: '';
@@ -20,7 +21,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
     <div className={className}>
       {type === 'warning' && (
         <div className='info-icon'>
-          <Icon icon={'exclamation-triangle'}/>
+          <Icon icon={'exclamation-triangle'} />
         </div>
       )}
       <div className='description'>
@@ -48,7 +49,7 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
     font-weight: 400;
     font-size: 0.714rem;
     line-height: 0.864rem;
-    color: ${bountyLabelColor[theme.theme]};
+    color: var(--color-label);
     word-wrap: break-word;
   }
 `));

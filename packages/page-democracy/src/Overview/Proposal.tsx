@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposal } from '@polkadot/api-derive/types';
@@ -54,15 +54,15 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       </td>
       <td className='button'>
         <Button.Group>
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
+          )}
           <Seconding
             deposit={balance}
             depositors={seconds || []}
             image={image}
             proposalId={index}
           />
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
-          )}
         </Button.Group>
       </td>
       <td className='links media--1000'>

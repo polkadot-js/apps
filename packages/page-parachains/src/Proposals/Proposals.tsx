@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Proposals as UseProposals } from '../types';
@@ -25,10 +25,10 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('proposals'), 'start', 3],
     [],
+    [],
     [t('proposer'), 'address'],
     [t('balance'), 'media--1100'],
     [t('initial state'), 'start media--1400'],
-    [t('validators'), 'start'],
     []
   ]);
 

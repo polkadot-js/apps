@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ValidateInfo } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Dropdown, InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_HUNDRED as MAX_COMM, isFunction } from '@polkadot/util';
+import { BN, BN_HUNDRED as MAX_COMM, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -17,12 +16,13 @@ interface Props {
   controllerId: string;
   onChange: (info: ValidateInfo) => void;
   stashId: string;
+  withFocus?: boolean;
   withSenders?: boolean;
 }
 
 const COMM_MUL = new BN(1e7);
 
-function Validate ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
+function Validate ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [commission, setCommission] = useState<BN | number>(1);
@@ -73,6 +73,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
       )}
       <Modal.Columns hint={t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}>
         <InputNumber
+          autoFocus={withFocus}
           help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
           isZeroable
           label={t<string>('reward commission percentage')}

@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { BN } from '@polkadot/util';
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -138,7 +138,9 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
 }
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+  // Use slice to create new array, so that sorting triggers component render
   return validators
+    .slice(0)
     .sort((a, b) => sortFromMax
       ? a[sortBy] - b[sortBy]
       : b[sortBy] - a[sortBy]
@@ -162,10 +164,10 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function selectProfitable (list: ValidatorInfo[]): string[] {
+function selectProfitable (list: ValidatorInfo[], maxNominations: number): string[] {
   const result: string[] = [];
 
-  for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
+  for (let i = 0; i < list.length && result.length < maxNominations; i++) {
     const { isBlocking, isFavorite, key, stakedReturnCmp } = list[i];
 
     (!isBlocking && (isFavorite || (stakedReturnCmp > 0))) &&
@@ -175,7 +177,20 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+const DEFAULT_FLAGS = {
+  withElected: false,
+  withGroup: true,
+  withIdentity: false,
+  withPayout: false,
+  withoutComm: true,
+  withoutOver: true
+};
+
+const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
+
+const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
+
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -184,16 +199,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const nominatedBy = useNominations(true);
   const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
-  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
-  const [toggles, setToggle] = useSavedFlags('staking:targets', {
-    withElected: false,
-    withGroup: true,
-    withIdentity: false,
-    withPayout: false,
-    withoutComm: true,
-    withoutOver: true
-  });
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState(DEFAULT_NAME);
+  const [toggles, setToggle] = useSavedFlags('staking:targets', DEFAULT_FLAGS);
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>(DEFAULT_SORT);
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
 
   const labelsRef = useRef({
@@ -215,7 +223,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && nominatedBy && applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
+    () => allIdentity && validators && nominatedBy &&
+      applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
     [allIdentity, flags, medianComm, nominatedBy, validators]
   );
 
@@ -238,10 +247,10 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const _sort = useCallback(
-    (newSortBy: TargetSortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
-      sortBy: newSortBy,
-      sortFromMax: newSortBy === sortBy
-        ? !sortFromMax
+    (sortBy: TargetSortBy) => setSortBy((p) => ({
+      sortBy,
+      sortFromMax: sortBy === p.sortBy
+        ? !p.sortFromMax
         : true
     })),
     []
@@ -250,7 +259,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const _toggleSelected = useCallback(
     (address: string) => setSelected(
       selected.includes(address)
-        ? selected.filter((accountId) => address !== accountId)
+        ? selected.filter((a) => address !== a)
         : [...selected, address]
     ),
     [selected]
@@ -258,9 +267,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(filtered)
+      selectProfitable(
+        filtered,
+        api.consts.staking.maxNominations
+          ? api.consts.staking.maxNominations.toNumber()
+          : MAX_NOMINATIONS
+      )
     ),
-    [filtered]
+    [api, filtered]
   );
 
   const _setNameFilter = useCallback(
@@ -339,6 +353,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const displayList = isQueryFiltered
     ? validators
     : sorted;
+  const maxNominations = api.consts.staking.maxNominations
+    ? api.consts.staking.maxNominations.toNumber()
+    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>
@@ -346,6 +363,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         avgStaked={avgStaked}
         lowStaked={lowStaked}
         minNominated={minNominated}
+        minNominatorBond={minNominatorBond}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         stakedReturn={stakedReturn}
@@ -381,7 +399,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
-            canSelect={selected.length < MAX_NOMINATIONS}
+            canSelect={selected.length < maxNominations}
             filterName={nameFilter}
             info={info}
             isNominated={myNominees.includes(info.key)}

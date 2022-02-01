@@ -1,13 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
 
-import BN from 'bn.js';
 import React, { useRef } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { GenericVote } from '@polkadot/types';
+import { isBn } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Bare from './Bare';
@@ -39,7 +39,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
     { text: t<string>('Locked6x'), value: 6 }
   ]);
 
-  const defaultValue = value instanceof BN
+  const defaultValue = isBn(value)
     ? value.toNumber()
     : value instanceof GenericVote
       ? (value.isAye ? -1 : 0)

@@ -1,5 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent, render, within } from '@testing-library/react';
 import React, { Suspense } from 'react';
@@ -19,7 +21,7 @@ import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polka
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';
-import { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { mockBountyHooks } from '../hooks/defaults';
 import { clickButtonWithName } from '../utils/clickButtonWithName';
@@ -51,11 +53,11 @@ interface RenderedBountiesPage {
 }
 
 export class BountiesPage {
-  aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+  aBounty: ({ status, value }?: Partial<PalletBountiesBounty>) => PalletBountiesBounty;
   aBountyIndex: (index?: number) => BountyIndex;
   aBountyStatus: (status: string) => BountyStatus;
   bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
-  bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
+  bountyWith: ({ status, value }: { status?: string, value?: number }) => PalletBountiesBounty;
 
   findByRole?: FindOne;
   findByText?: FindOne;
@@ -68,7 +70,7 @@ export class BountiesPage {
     ({ aBounty: this.aBounty, aBountyIndex: this.aBountyIndex, aBountyStatus: this.aBountyStatus, bountyStatusWith: this.bountyStatusWith, bountyWith: this.bountyWith } = new BountyFactory(api));
   }
 
-  renderOne (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()): RenderedBountiesPage {
+  renderOne (bounty: PalletBountiesBounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()): RenderedBountiesPage {
     return this.renderMany({ bounties: [{ bounty, description, index, proposals }] });
   }
 
@@ -115,13 +117,13 @@ export class BountiesPage {
 
     return render(
       <>
-        <div id='tooltips'/>
+        <div id='tooltips' />
         <Suspense fallback='...'>
           <QueueProvider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Bounties/>
+                  <Bounties />
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>

@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -41,11 +41,15 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
 
 export default React.memo(styled(ParaLink)`
   vertical-align: middle;
+  white-space: nowrap;
 
   a.chainAlign {
     display: inline-block;
     height: 24px;
     line-height: 24px;
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
     vertical-align: middle;
   }
 `);

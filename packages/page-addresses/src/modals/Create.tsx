@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
@@ -114,7 +114,10 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   );
 
   return (
-    <Modal header={t<string>('Add an address')}>
+    <Modal
+      header={t<string>('Add an address')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -147,7 +150,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

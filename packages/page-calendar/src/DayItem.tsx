@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfoTyped } from './types';
@@ -25,9 +25,8 @@ const FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
   year: 'numeric'
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function assertUnreachable (x: never): never {
-  throw new Error('We cannot get here');
+function assertUnreachable (type: string): never {
+  throw new Error(`We should not get here, unhandled ${type}`);
 }
 
 function exportCalendar (date: Date, description: string): void {
@@ -60,7 +59,11 @@ function exportCalendar (date: Date, description: string): void {
   window.URL.revokeObjectURL(anchor.href);
 }
 
-function DayItem ({ className, item: { date, info, type }, showAllEvents }: Props): React.ReactElement<Props> {
+function createLink (to: string, desc: string): React.ReactNode {
+  return <div className='itemLink'><a href={`#/${to}`}>{desc}</a></div>;
+}
+
+function DayItem ({ className, item: { blockNumber, date, info, type }, showAllEvents }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [description, setDescription] = useState<string>('');
@@ -78,22 +81,26 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
           : formatNumber(info)
       );
       const typeLink = ['councilElection'].includes(type)
-        ? <div className='itemLink'><a href='#/council'>{t<string>('via Council')}</a></div>
+        ? createLink('council', t<string>('via Council'))
         : ['councilMotion'].includes(type)
-          ? <div className='itemLink'><a href='#/council/motions'>{t<string>('via Council/Motions')}</a></div>
+          ? createLink('council/motions', t<string>('via Council/Motions'))
           : ['democracyDispatch', 'scheduler'].includes(type)
-            ? <div className='itemLink'><a href='#/democracy/dispatch'>{t<string>('via Democracy/Dispatch')}</a></div>
+            ? createLink('democracy/dispatch', t<string>('via Democracy/Dispatch'))
             : ['democracyLaunch', 'referendumDispatch', 'referendumVote'].includes(type)
-              ? <div className='itemLink'><a href='#/democracy'>{t<string>('via Democracy')}</a></div>
+              ? createLink('/democracy', t<string>('via Democracy'))
               : ['societyChallenge', 'societyRotate'].includes(type)
-                ? <div className='itemLink'><a href='#/society'>{t<string>('via Society')}</a></div>
+                ? createLink('society', t<string>('via Society'))
                 : ['stakingEpoch', 'stakingEra'].includes(type)
-                  ? <div className='itemLink'><a href='#/staking'>{t<string>('via Staking')}</a></div>
+                  ? createLink('staking', t<string>('via Staking'))
                   : ['stakingSlash'].includes(type)
-                    ? <div className='itemLink'><a href='#/staking/slashes'>{t<string>('via Staking/Slashed')}</a></div>
+                    ? createLink('staking/slashes', t<string>('via Staking/Slashed'))
                     : ['treasurySpend'].includes(type)
-                      ? <div className='itemLink'><a href='#/treasury'>{t<string>('via Treasury')}</a></div>
-                      : undefined;
+                      ? createLink('treasury', t<string>('via Treasury'))
+                      : ['parachainLease'].includes(type)
+                        ? createLink('parachains', t<string>('via Parachains'))
+                        : ['parachainAuction'].includes(type)
+                          ? createLink('parachains/auction', t<string>('via Parachains/Auction'))
+                          : undefined;
       let s = '';
 
       switch (type) {
@@ -111,6 +118,14 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
 
         case 'democracyLaunch':
           s = t<string>('Start of the next referendum voting period');
+          break;
+
+        case 'parachainAuction':
+          s = t<string>('End of the current parachain auction {{id}}', { replace: { id } });
+          break;
+
+        case 'parachainLease':
+          s = t<string>('Start of the next parachain lease period {{id}}', { replace: { id } });
           break;
 
         case 'referendumDispatch':
@@ -168,6 +183,7 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
         <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
+      <div className='itemBlock'>#{formatNumber(blockNumber)}</div>
       {desc}
       {date && (
         <Button
@@ -190,6 +206,10 @@ export default React.memo(styled(DayItem)`
     margin-left: 0.5rem;
   }
 
+  > div.itemTime+div.itemBlock {
+    margin-left: 0.25rem;
+  }
+
   .exportCal {
     padding: 0;
     position: absolute;
@@ -205,6 +225,15 @@ export default React.memo(styled(DayItem)`
     right: 3.5rem;
   }
 
+  .itemBlock {
+    background: #aaa;
+    color: #eee;
+    font-size: 0.85rem;
+    align-self: center;
+    padding: 0.075rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
   .itemDate {
     padding: 0 0.375rem;
     border-radius: 0.25rem;
@@ -213,8 +242,8 @@ export default React.memo(styled(DayItem)`
 
   .itemTime {
     background: #999;
+    color: #eee;
     padding: 0 0.375rem;
     border-radius: 0.25rem;
-    color: #eee;
   }
 `);

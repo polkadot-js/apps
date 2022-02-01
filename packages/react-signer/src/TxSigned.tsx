@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Ledger } from '@polkadot/hw-ledger';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
-import type { Ledger } from '@polkadot/ui-keyring';
+import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -36,7 +37,14 @@ interface Props {
   requestAddress: string;
 }
 
+interface InnerTx {
+  innerHash: string | null;
+  innerTx: string | null;
+}
+
 const NOOP = () => undefined;
+
+const EMPTY_INNER: InnerTx = { innerHash: null, innerTx: null };
 
 let qrId = 0;
 
@@ -80,9 +88,9 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
     }));
   } catch (error) {
     console.error('signAndSend: error:', error);
-    queueSetTxStatus(currentItem.id, 'error', {}, error);
+    queueSetTxStatus(currentItem.id, 'error', {}, error as Error);
 
-    currentItem.txFailedCb && currentItem.txFailedCb(error);
+    currentItem.txFailedCb && currentItem.txFailedCb(error as Error);
   }
 }
 
@@ -95,9 +103,9 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
     return tx.toJSON();
   } catch (error) {
     console.error('signAsync: error:', error);
-    queueSetTxStatus(id, 'error', undefined, error);
+    queueSetTxStatus(id, 'error', undefined, error as Error);
 
-    txFailedCb(error);
+    txFailedCb(error as Error);
   }
 
   return null;
@@ -112,8 +120,10 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 
   if (multiRoot) {
     const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-    const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash);
-    const { weight } = await tx.paymentInfo(multiRoot);
+    const [info, { weight }] = await Promise.all([
+      api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
+      tx.paymentInfo(multiRoot)
+    ]);
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
     let timepoint: Timepoint | null = null;
@@ -175,15 +185,15 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(() => tryExtract(requestAddress));
   const [error, setError] = useState<Error | null>(null);
-  const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
+  const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>(() => ({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() }));
   const [isBusy, setBusy] = useState(false);
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>(() => ({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' }));
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
-  const [multiCall, setMultiCall] = useState<string | null>(null);
+  const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
@@ -193,34 +203,30 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   // when we are sending the hash only, get the wrapped call for display (proxies if required)
   useEffect((): void => {
-    setMultiCall(
-      currentItem.extrinsic && senderInfo.multiRoot
-        ? (
-          senderInfo.proxyRoot
-            ? api.tx.proxy.proxy(senderInfo.proxyRoot, null, currentItem.extrinsic)
-            : currentItem.extrinsic
-        ).method.toHex()
-        : null
+    const method = currentItem.extrinsic && (
+      senderInfo.proxyRoot
+        ? api.tx.proxy.proxy(senderInfo.proxyRoot, null, currentItem.extrinsic)
+        : currentItem.extrinsic
+    ).method;
+
+    setCallInfo(
+      method
+        ? {
+          innerHash: method.hash.toHex(),
+          innerTx: senderInfo.multiRoot
+            ? method.toHex()
+            : null
+        }
+        : EMPTY_INNER
     );
   }, [api, currentItem, senderInfo]);
 
   const _addQrSignature = useCallback(
     ({ signature }: { signature: string }) => qrResolve && qrResolve({
       id: ++qrId,
-      signature
+      signature: signature as HexString
     }),
     [qrResolve]
-  );
-
-  const _onCancel = useCallback(
-    (): void => {
-      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
-
-      queueSetTxStatus(id, 'cancelled');
-      signerCb(id, null);
-      txFailedCb(null);
-    },
-    [currentItem, queueSetTxStatus]
   );
 
   const _unlock = useCallback(
@@ -239,7 +245,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           } catch (error) {
             console.error(error);
 
-            passwordError = t<string>('Unable to connect the the Ledger. {{error}}', { replace: { error: (error as Error).message } });
+            passwordError = t<string>('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}', { replace: { error: (error as Error).message } });
           }
         }
       }
@@ -347,6 +353,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             : (
               <>
                 <Transaction
+                  accountId={senderInfo.signAddress}
                   currentItem={currentItem}
                   onError={toggleRenderError}
                 />
@@ -367,13 +374,24 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     signedTx={signedTx}
                   />
                 )}
-                {isSubmit && !senderInfo.isMultiCall && multiCall && (
-                  <Modal.Columns hint={t('The call data that can be supplied to a final call to multi approvals')}>
+                {isSubmit && !senderInfo.isMultiCall && innerTx && (
+                  <Modal.Columns hint={t('The full call data that can be supplied to a final call to multi approvals')}>
                     <Output
-                      isFull
+                      isDisabled
                       isTrimmed
                       label={t<string>('multisig call data')}
-                      value={multiCall}
+                      value={innerTx}
+                      withCopy
+                    />
+                  </Modal.Columns>
+                )}
+                {isSubmit && innerHash && (
+                  <Modal.Columns hint={t('The call hash as calculated for this transaction')}>
+                    <Output
+                      isDisabled
+                      isTrimmed
+                      label={t<string>('call hash')}
+                      value={innerHash}
                       withCopy
                     />
                   </Modal.Columns>
@@ -383,7 +401,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           }
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions onCancel={_onCancel}>
+      <Modal.Actions>
         <Button
           icon={
             flags.isQr

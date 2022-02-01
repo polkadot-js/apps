@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 
-import { AddressMini, Icon, Static } from '@polkadot/react-components';
+import { AddressMini } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -24,31 +24,29 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
   const { threshold, who } = meta;
 
   return (
-    <section>
+    <section className='ui--AddressMenu-multisig withDivider'>
       <div className='ui--AddressMenu-sectionHeader'>
-        <div>
-          <Icon icon='handshake' />
-          &nbsp;
-          {t<string>('multisig')}
+        {t<string>('multisig')}
+      </div>
+      <div className='ui--AddressMenu-multisigTable'>
+        <div className='tr'>
+          <div className='th'>{t<string>('threshold')}</div>
+          <div className='td'>
+            {threshold}/{(who as string[]).length}
+          </div>
+        </div>
+        <div className='tr'>
+          <div className='th signatories'>{t<string>('signatories')}</div>
+          <div className='td'>
+            {(who as string[])?.map((address) => (
+              <AddressMini
+                key={address}
+                value={address}
+              />
+            ))}
+          </div>
         </div>
       </div>
-      <Static
-        isFull
-        label={t<string>('threshold')}
-      >
-        {threshold}/{(who as string[]).length}
-      </Static>
-      <Static
-        isFull
-        label={t<string>('signatories')}
-      >
-        {(who as string[])?.map((address) => (
-          <AddressMini
-            key={address}
-            value={address}
-          />
-        ))}
-      </Static>
     </section>
   );
 }

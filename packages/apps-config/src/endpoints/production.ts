@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
 
@@ -14,140 +14,291 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createProduction (t: TFunction): LinkOption[] {
+// alphabetical based on chain name
+export function createProduction (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
-    // fixed, polkadot
     {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
+      info: 'aleph',
+      text: t('rpc.prod.aleph', 'Aleph Zero', { ns: 'apps-config' }),
       providers: {
-        Parity: 'wss://rpc.polkadot.io',
-        OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://polkadot.elara.patract.io'
+        'Aleph Zero Foundation': 'wss://ws.azero.dev'
       }
     },
     {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
+      info: 'automata',
+      text: t('rpc.prod.automata', 'Automata', { ns: 'apps-config' }),
       providers: {
-        Parity: 'wss://kusama-rpc.polkadot.io',
-        OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://kusama.elara.patract.io'
+        'Automata Network': 'wss://api.ata.network',
+        OnFinality: 'wss://automata.api.onfinality.io/public-ws'
       }
     },
-    // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
-      text: t('rpc.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+      text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
       providers: {
         Centrifuge: 'wss://fullnode.centrifuge.io'
       }
     },
     {
+      info: 'chainx',
+      text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://mainnet.chainx.org/ws'
+      }
+    },
+    {
+      // this is also a duplicate as a parachain under Polkadot and Testing net -
+      // it is either/or, not and
+      info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
+      text: t('rpc.prod.coinversation', 'Coinversation', { ns: 'apps-config' }),
+      providers: {
+        Coinversation: 'wss://rpc.coinversation.io/'
+      }
+    },
+    {
+      info: 'competitors-club',
+      text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
+      providers: {
+        'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
+      info: 'crown-sterling',
+      text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
+      providers: {
+        'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      }
+    },
+    {
+      info: 'crust',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
+      }
+    },
+    {
+      info: 'darwinia',
+      text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://rpc.darwinia.network'
+      }
+    },
+    {
       info: 'crab',
-      text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
-      info: 'chainx',
-      text: t('rpc.chainx', 'ChainX', { ns: 'apps-config' }),
+      info: 'dock-pos-mainnet',
+      text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://mainnet.chainx.org/ws',
-        'Patract Elara': 'wss://chainx.elara.patract.io'
-      }
-    },
-    {
-      info: 'darwinia',
-      text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
-      providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network',
-        'Patract Elara': 'wss://darwinia.elara.patract.io'
-      }
-    },
-    {
-      info: 'dock-mainnet',
-      text: t('rpc.dock-mainnet', 'Dock', { ns: 'apps-config' }),
-      providers: {
-        'Dock Association': 'wss://mainnet-node.dock.io',
-        'Patract Elara': 'wss://dock.elara.patract.io'
+        'Dock Association': 'wss://mainnet-node.dock.io'
       }
     },
     {
       dnslink: 'edgeware',
       info: 'edgeware',
-      text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
+      text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet4.edgewa.re',
-        'Patract Elara': 'wss://edgeware.elara.patract.io'
+        'Commonwealth Labs': 'wss://mainnet.edgewa.re',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
+      }
+    },
+    {
+      info: 'efinity',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
+      text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
+      providers: {
+        Efinity: 'wss://rpc.efinity.io'
       }
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+      text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://tge.equilibrium.io'
+        Equilibrium: 'wss://node.equilibrium.io'
+      }
+    },
+    {
+      info: 'genshiro',
+      text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
+      providers: {
+        Equilibrium: 'wss://node.genshiro.io'
       }
     },
     {
       info: 'hanonycash',
-      text: t('rpc.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
       }
     },
     {
       info: 'snakenet',
-      text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
+      text: t('rpc.prod.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
+        Archives: 'wss://archive.snakenet.hydradx.io'
+      }
+    },
+    {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io'
       }
     },
     {
       dnslink: 'kulupu',
       info: 'kulupu',
-      text: t('rpc.kulupu', 'Kulupu', { ns: 'apps-config' }),
+      text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
-        'Patract Elara': 'wss://kulupu.elara.patract.io'
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
+      }
+    },
+    {
+      info: 'kusari',
+      text: t('rpc.prod.kusari', 'Kusari', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.kusari.network'
+      }
+    },
+    {
+      info: 'mathchain',
+      text: t('rpc.prod.mathchain', 'MathChain', { ns: 'apps-config' }),
+      providers: {
+        MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      }
+    },
+    {
+      info: 'neatcoin',
+      text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      providers: {
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.prod.nftmart', 'NFTMart', { ns: 'apps-config' }),
+      providers: {
+        NFTMart: 'wss://mainnet.nftmart.io/rpc/ws'
       }
     },
     {
       info: 'nodle',
-      text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
+      text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://nodle.elara.patract.io'
+        OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
+        // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
       info: 'plasm',
-      text: t('rpc.plasm', 'Plasm', { ns: 'apps-config' }),
+      text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.plasmnet.io/',
-        'Patract Elara': 'wss://plasm.elara.patract.io'
+        'Stake Technologies': 'wss://rpc.plasmnet.io/'
+      }
+    },
+    {
+      info: 'polkadex',
+      text: t('rpc.prod.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      providers: {
+        'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      }
+    },
+    {
+      info: 'polymesh',
+      text: t('rpc.prod.polymesh', 'Polymesh Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://mainnet-rpc.polymesh.network'
+      }
+    },
+    {
+      info: 'riochain',
+      text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
+      info: 'robonomics',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
+      text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
+      providers: {
+        Airalab: 'wss://kusama.rpc.robonomics.network/'
+      }
+    },
+    {
+      info: 'sherpax',
+      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://mainnet.sherpax.io'
+      }
+    },
+    {
+      info: 'sora-substrate',
+      text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+        Soramitsu: 'wss://ws.alb.sora.org',
+        OnFinality: 'wss://sora.api.onfinality.io/public-ws'
+        // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
+      }
+    },
+    {
+      info: 'spanner',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://wss.spannerprotocol.com'
       }
     },
     {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
-      text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
+      text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),
       providers: {
-        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
-        'Patract Elara': 'wss://stafi.elara.patract.io'
+        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
       info: 'subsocial',
-      text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
+      text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network'
       }
+    },
+    {
+      info: 'uniarts',
+      text: t('rpc.prod.uniarts', 'UniArts', { ns: 'apps-config' }),
+      providers: {
+        UniArts: 'wss://mainnet.uniarts.vip:9443'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
+      }
     }
-  ]);
+  ], firstOnly, withSort);
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -33,7 +33,7 @@ export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
 export type TxCallback = (status: SubmittableResult) => void;
 
-export type TxFailedCallback = (status: SubmittableResult | null) => void;
+export type TxFailedCallback = (status: Error | SubmittableResult | null) => void;
 
 export interface QueueTx extends AccountInfo {
   error?: Error;
@@ -49,7 +49,7 @@ export interface QueueTx extends AccountInfo {
   txSuccessCb?: TxCallback;
   txStartCb?: () => void;
   txUpdateCb?: TxCallback;
-  values?: any[];
+  values?: unknown[];
   status: QueueTxStatus;
 }
 
@@ -71,7 +71,7 @@ export interface QueueTxExtrinsic extends AccountInfo {
 
 export interface QueueTxRpc extends AccountInfo {
   rpc: DefinitionRpcExt;
-  values: any[];
+  values: unknown[];
 }
 
 export interface PartialAccountInfo {
@@ -91,7 +91,7 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {
   rpc: DefinitionRpcExt;
-  values: any[];
+  values: unknown[];
 }
 
 export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => void;

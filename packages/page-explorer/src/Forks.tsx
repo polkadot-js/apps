@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps } from '@polkadot/react-api/types';
@@ -313,7 +313,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
       if (!headersRef.current.has(hash)) {
         // if this is the first, add to the root entry
         if (firstNumRef.current === bn) {
-          (childrenRef.current.get('root') as any[]).push(hash);
+          (childrenRef.current.get('root') as unknown[]).push(hash);
         }
 
         // add to the header map
@@ -323,7 +323,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
         // check to see if the children already has a entry
         if (childrenRef.current.has(parent)) {
           isFork = true;
-          (childrenRef.current.get(parent) as any[]).push(hash);
+          (childrenRef.current.get(parent) as unknown[]).push(hash);
         } else {
           childrenRef.current.set(parent, [hash]);
         }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TypeDef } from '@polkadot/types/types';
@@ -32,7 +32,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const rawType = registry.createType(type.type as 'u32').toRawType();
     const typeDef = getTypeDef(rawType);
-    const subTypes = typeDef.sub as TypeDef[];
+    const subTypes = (typeDef.sub as TypeDef[]).filter(({ name }) => !!name && !name.startsWith('__Unused'));
 
     setOptions({
       options: subTypes.map(({ name }): Option => ({

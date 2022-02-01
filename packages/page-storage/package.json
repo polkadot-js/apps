@@ -1,16 +1,20 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-storage#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-storage",
   "private": true,
-  "version": "0.84.2-4",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-storage",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.84.2-4",
-    "@polkadot/react-params": "^0.84.2-4"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/react-components": "^0.104.2-1",
+    "@polkadot/react-params": "^0.104.2-1"
   }
 }

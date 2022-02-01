@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -13,6 +13,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Votes from '../Overview/Votes';
+import BidType from './BidType';
 import CandidateVoting from './CandidateVoting';
 
 interface Props {
@@ -28,7 +29,7 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])
-        .filter(([, voteOpt]): boolean => voteOpt.isSome)
+        .filter(([, voteOpt]) => voteOpt.isSome)
         .map(([accountId, voteOpt]): VoteType => [accountId, voteOpt.unwrap()])
   });
 
@@ -37,9 +38,7 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number'>
-        {kind.type}
-      </td>
+      <BidType value={kind} />
       <td className='number'>
         <FormatBalance value={value} />
       </td>

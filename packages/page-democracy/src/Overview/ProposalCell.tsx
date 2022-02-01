@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -18,7 +18,7 @@ interface Props {
   proposal?: Proposal | null;
 }
 
-const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority'];
+const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority', 'fastTrack'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
 function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VoteSplit, VoteType } from '../types';
@@ -18,9 +18,9 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     votes && setVoteSplit({
-      allAye: votes.filter(([, vote]): boolean => vote.isApprove),
-      allNay: votes.filter(([, vote]): boolean => vote.isReject),
-      allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
+      allAye: votes.filter(([, vote]) => vote.isApprove),
+      allNay: votes.filter(([, vote]) => vote.isReject),
+      allSkeptic: votes.filter(([, vote]) => vote.isSkeptic)
     });
   }, [votes]);
 

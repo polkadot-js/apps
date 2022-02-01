@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -93,10 +93,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               const mod = dispatchError.asModule;
               const error = dispatchError.registry.findMetaError(mod);
 
-              message = `${error.section}.${error.name}`;
+              message = `${error.section}.${error.name}` as unknown as 'Other';
             } catch (error) {
               // swallow
             }
+          } else if (dispatchError.isToken) {
+            message = `${dispatchError.type}.${dispatchError.asToken.type}` as unknown as 'Other';
           }
 
           return {
@@ -273,15 +275,17 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <QueueProvider value={{
-      queueAction,
-      queueExtrinsic,
-      queuePayload,
-      queueRpc,
-      queueSetTxStatus,
-      stqueue,
-      txqueue
-    }}>
+    <QueueProvider
+      value={{
+        queueAction,
+        queueExtrinsic,
+        queuePayload,
+        queueRpc,
+        queueSetTxStatus,
+        stqueue,
+        txqueue
+      }}
+    >
       {children}
     </QueueProvider>
   );

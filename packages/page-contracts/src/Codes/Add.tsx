@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -29,12 +29,8 @@ function Add ({ onClose }: Props): React.ReactElement {
         return;
       }
 
-      store
-        .saveCode(codeHash, { abi, name, tags: [] })
-        .then(() => onClose())
-        .catch((error): void => {
-          console.error('Unable to save code', error);
-        });
+      store.saveCode(codeHash, { abi, name, tags: [] });
+      onClose();
     },
     [abi, codeHash, name, onClose]
   );
@@ -43,7 +39,10 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}>
+    <Modal
+      header={t('Add an existing code hash')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <Input
           autoFocus
@@ -72,7 +71,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           onRemove={onRemoveAbi}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

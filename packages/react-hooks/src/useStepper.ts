@@ -1,11 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+import { createNamedHook } from './createNamedHook';
 
 type Result = [number, () => void, () => void, (step: number) => void];
 
-export function useStepper (): Result {
+function useStepperImpl (): Result {
   const [step, setStep] = useState(1);
 
   const nextStep = useCallback(
@@ -18,5 +20,10 @@ export function useStepper (): Result {
     []
   );
 
-  return [step, nextStep, prevStep, setStep];
+  return useMemo(
+    () => [step, nextStep, prevStep, setStep],
+    [step, nextStep, prevStep, setStep]
+  );
 }
+
+export const useStepper = createNamedHook('useStepper', useStepperImpl);

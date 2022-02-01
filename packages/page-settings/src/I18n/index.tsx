@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// Copyright 2017-2022 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
@@ -40,12 +40,13 @@ async function retrieveJson (url: string): Promise<any> {
     return cache.get(url);
   }
 
-  const response = await fetch(`locales/${url}`);
-  const json = await response.json() as unknown;
+  const json = await fetch(`locales/${url}`)
+    .then((response) => response.json())
+    .catch((e) => console.error(e)) as unknown;
 
   cache.set(url, json);
 
-  return json;
+  return json || {};
 }
 
 async function retrieveEnglish (): Promise<StringsMod> {

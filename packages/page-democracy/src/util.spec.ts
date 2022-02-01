@@ -1,10 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import BN from 'bn.js';
 
 import { calcPassing } from '@polkadot/api-derive/democracy/util';
 import { TypeRegistry } from '@polkadot/types/create';
+import { BN } from '@polkadot/util';
 
 import { approxChanges } from './util';
 
@@ -17,24 +16,10 @@ const ACTUAL = {
 
 const registry = new TypeRegistry();
 
-function fmtBn (bn: BN): string {
-  return bn.toString().padStart(20).substr(0, 8);
-}
-
 describe('approxChanges', (): void => {
   it('approximates where the points are', (): void => {
     const threshold = registry.createType('VoteThreshold', 0);
-
-    console.time('approxChanges');
-
     const { changeAye, changeNay } = approxChanges(threshold, ACTUAL.sqrtElectorate, ACTUAL);
-
-    console.timeEnd('approxChanges');
-
-    console.error(
-      '\n', 'changeAye', fmtBn(changeAye), fmtBn(ACTUAL.votedAye.sub(changeAye)),
-      '\n', 'changeNay', fmtBn(changeNay), fmtBn(ACTUAL.votedNay.add(changeNay))
-    );
 
     expect(
       calcPassing(threshold, ACTUAL.sqrtElectorate, { ...ACTUAL, votedAye: ACTUAL.votedAye.sub(changeAye) })

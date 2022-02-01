@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -26,7 +26,7 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Democracy overview')
+      text: t<string>('Overview')
     },
     {
       count: dispatchCount,
@@ -38,12 +38,10 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   return (
     <main className='democracy--App'>
       <HelpOverlay md={basicMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/dispatch`}>
           <Execute />

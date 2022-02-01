@@ -1,15 +1,19 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-contracts#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-contracts",
   "private": true,
-  "version": "0.84.2-4",
-  "description": "Deployment and management of substrate contracts",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-contracts",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/api-contract": "^4.1.2-3"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/api-contract": "^7.6.1"
   }
 }

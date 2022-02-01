@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -63,9 +63,9 @@ export default React.memo(styled(Head)`
   th {
     font: var(--font-sans);
     font-weight: var(--font-weight-normal);
-    padding: 0.5rem 1rem 0.25rem;
+    padding: 0.375rem 1rem;
     text-align: right;
-    vertical-align: baseline;
+    vertical-align: middle;
     white-space: nowrap;
 
     h1, h2 {
@@ -73,6 +73,9 @@ export default React.memo(styled(Head)`
     }
 
     h1 {
+      display: table-cell;
+      vertical-align: middle;
+
       .ui--Icon {
         font-size: 1rem;
         margin-right: 0.5rem;
@@ -121,6 +124,11 @@ export default React.memo(styled(Head)`
     &.start {
       text-align: left;
     }
+
+    &.balances {
+      text-align: right;
+      padding-right: 2.25rem;
+    }
   }
 
   tr {
@@ -134,7 +142,8 @@ export default React.memo(styled(Head)`
     }
 
     &.filter {
-      .ui.input {
+      .ui.input,
+      .ui.selection.dropdown {
         background: transparent;
 
         &:first-child {

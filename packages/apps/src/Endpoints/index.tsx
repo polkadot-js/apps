@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Group } from './types';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
-/* eslint-disable-next-line node/no-deprecated-api */
-import punycode from 'punycode';
+import punycode from 'punycode/';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
@@ -29,42 +28,27 @@ interface UrlState {
   apiUrl: string;
   groupIndex: number;
   hasUrlChanged: boolean;
-  isWsUrlValid: boolean;
-}
-
-interface LcUrlState {
-  lcUrl: string;
-  hasLcUrlChanged: boolean;
-  isLcUrlValid: boolean;
+  isUrlValid: boolean;
 }
 
 const STORAGE_AFFINITIES = 'network:affinities';
 
-function isValidWsUrl (url: string): boolean {
+function isValidUrl (url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
     // check that it starts with a valid ws identifier
-    (url.startsWith('ws://') || url.startsWith('wss://'))
-  );
-}
-
-function isValidHttpUrl (url: string): boolean {
-  return (
-    // some random length... we probably want to parse via some lib
-    (url.length >= 7) &&
-    // check that it starts with a valid ws identifier
-    (url.startsWith('http://') || url.startsWith('https://'))
+    (url.startsWith('ws://') || url.startsWith('wss://') || url.startsWith('light://'))
   );
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
-      result.push({ header: e.text, isDevelopment: e.isDevelopment, networks: [] });
+      result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
     } else {
       const prev = result[result.length - 1];
-      const prov = { name: e.textBy, url: e.value as string };
+      const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
@@ -72,6 +56,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
+          isUnreachable: e.isUnreachable,
           name: e.text as string,
           providers: [prov]
         });
@@ -112,35 +97,13 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
     apiUrl,
     groupIndex,
     hasUrlChanged: settings.get().apiUrl !== apiUrl,
-    isWsUrlValid: isValidWsUrl(apiUrl)
-  };
-}
-
-function extractLcUrlState (lcUrl: string | null, groups: Group[]): LcUrlState {
-  let lcGroupIndex = groups.findIndex(({ networks }) =>
-    networks.some(({ providers }) =>
-      providers.some(({ url }) => url === lcUrl)
-    )
-  );
-
-  if (lcGroupIndex === -1) {
-    lcGroupIndex = groups.findIndex(({ isDevelopment }) => isDevelopment);
-  }
-
-  if (lcUrl === null) {
-    lcUrl = "https://polygon-da-light.matic.today/v1/json-rpc";
-  }
-
-  return {
-    lcUrl,
-    hasLcUrlChanged: window.localStorage.getItem('lcUrl') !== lcUrl,
-    isLcUrlValid: isValidHttpUrl(lcUrl)
+    isUrlValid: isValidUrl(apiUrl)
   };
 }
 
 function loadAffinities (groups: Group[]): Record<string, string> {
   return Object
-    .entries<string>(store.get(STORAGE_AFFINITIES) || {})
+    .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
     .filter(([network, apiUrl]) =>
       groups.some(({ networks }) =>
         networks.some(({ name, providers }) =>
@@ -154,13 +117,23 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+  if (!hasUrlChanged) {
+    return true;
+  } else if (apiUrl.startsWith('light://')) {
+    return false;
+  } else if (isUrlValid) {
+    return false;
+  }
+
+  return true;
+}
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
-  const [{ apiUrl, groupIndex, hasUrlChanged, isWsUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
-  const [{ lcUrl, hasLcUrlChanged, isLcUrlValid }, setLcUrl] = useState<LcUrlState>(() => extractLcUrlState(window.localStorage.getItem('lcUrl'), groups));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
   const [affinities, setAffinities] = useState(() => loadAffinities(groups));
 
@@ -201,30 +174,23 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _saveApiEndpoint = () => {
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
-      _onApply();
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+  const _removeApiEndpoint = useCallback(
+    (): void => {
+      if (!isSavedCustomEndpoint) return;
 
-  const _removeApiEndpoint = () => {
-    if (!isSavedCustomEndpoint) return;
+      const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 
-    const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
-
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setGroups(combineEndpoints(createWsEndpoints(t)));
-      setStoredCustomEndpoints(getCustomEndpoints());
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
+        setGroups(combineEndpoints(createWsEndpoints(t)));
+        setStoredCustomEndpoints(getCustomEndpoints());
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [apiUrl, isSavedCustomEndpoint, storedCustomEndpoints, t]
+  );
 
   const _setApiUrl = useCallback(
     (network: string, apiUrl: string): void => {
@@ -251,58 +217,43 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [groups]
   );
 
-  const _onChangeCustomLC = useCallback(
-    (lcUrl: string): void => {
-      if (!isAscii(lcUrl)) {
-        lcUrl = punycode.toASCII(lcUrl);
-      }
-      setLcUrl(extractLcUrlState(lcUrl, groups));
-
-    },
-    [groups]
-  );
-
   const _onApply = useCallback(
     (): void => {
       settings.set({ ...(settings.get()), apiUrl });
-
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
-
       onClose();
     },
     [apiUrl, onClose]
   );
 
-  const _onLcApply = useCallback(
+  const _saveApiEndpoint = useCallback(
     (): void => {
-      window.localStorage.setItem('lcUrl', lcUrl);
-
-      window.location.assign(`${window.location.origin}${window.location.pathname}?light=${encodeURIComponent(lcUrl)}${window.location.hash}`);
-      // window.location.reload();
-
-      onClose();
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
+        _onApply();
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
     },
-    [lcUrl, onClose]
+    [_onApply, apiUrl, storedCustomEndpoints]
+  );
+
+  const canSwitch = useMemo(
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
+    [hasUrlChanged, apiUrl, isUrlValid]
   );
 
   return (
     <Sidebar
       button={
-        <>
-          <Button
-            icon='sync'
-            isDisabled={!(hasUrlChanged && isWsUrlValid)}
-            label={t<string>('Switch')}
-            onClick={_onApply}
-          />
-          <Button
-            icon='sync'
-            isDisabled={!(hasLcUrlChanged && isLcUrlValid)}
-            label={t<string>('Switch LC')}
-            onClick={_onLcApply}
-          />
-        </>
+        <Button
+          icon='sync'
+          isDisabled={canSwitch}
+          label={t<string>('Switch')}
+          onClick={_onApply}
+        />
       }
       className={className}
       offset={offset}
@@ -324,39 +275,33 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'
-                isError={!isWsUrlValid}
+                isError={!isUrlValid}
                 isFull
                 label={t<string>('custom endpoint')}
                 onChange={_onChangeCustom}
                 value={apiUrl}
               />
               {isSavedCustomEndpoint
-                ? <Button
-                  className='customButton'
-                  icon='trash-alt'
-                  onClick={_removeApiEndpoint}
-                />
-                : <Button
-                  className='customButton'
-                  icon='save'
-                  isDisabled={!isWsUrlValid || isKnownUrl}
-                  onClick={_saveApiEndpoint}
-                />
+                ? (
+                  <Button
+                    className='customButton'
+                    icon='trash-alt'
+                    onClick={_removeApiEndpoint}
+                  />
+                )
+                : (
+                  <Button
+                    className='customButton'
+                    icon='save'
+                    isDisabled={!isUrlValid || isKnownUrl}
+                    onClick={_saveApiEndpoint}
+                  />
+                )
               }
             </div>
           )}
         </GroupDisplay>
       ))}
-      <div className='endpointCustomWrapper'>
-        <Input
-          className='endpointCustom'
-          isError={!isLcUrlValid}
-          isFull
-          label={t<string>('light client endpoint')}
-          onChange={_onChangeCustomLC}
-          value={lcUrl}
-        />
-      </div>
     </Sidebar>
   );
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-query authors & contributors
+// Copyright 2017-2022 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -19,7 +19,7 @@ interface Props {
 
 function BalanceFree ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [params]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [params]);
 
   return (
     <FormatBalance

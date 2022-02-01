@@ -1,157 +1,68 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Sidebar, Tags } from '@polkadot/react-components';
+import { LinkExternal, Sidebar } from '@polkadot/react-components';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo } from '@polkadot/react-hooks';
 
-import Transfer from '../modals/Transfer';
-import { useTranslation } from '../translate';
 import Balances from './Balances';
-import Flags from './Flags';
 import Identity from './Identity';
 import Multisig from './Multisig';
+import SidebarEditableSection from './SidebarEditableSection';
 
 interface Props {
   address: string;
   className?: string;
+  dataTestId?: string;
   onClose: () => void;
   onUpdateName: () => void;
 }
 
-function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
-  const [isTransferOpen, toggleIsTransferOpen] = useToggle();
+function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
+  const [inEditMode, setInEditMode] = useState<boolean>(false);
+  const { accountIndex, flags, identity, meta } = useAccountInfo(address);
 
-  const _onForgetAddress = useCallback(
-    (): void => {
-      onForgetAddress();
-      onUpdateName && onUpdateName();
-    },
-    [onForgetAddress, onUpdateName]
-  );
-
-  const _onUpdateName = useCallback(
-    (): void => {
-      onSaveName();
-      onUpdateName && onUpdateName();
-    },
-    [onSaveName, onUpdateName]
-  );
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
     <Sidebar
-      className={className}
+      className={`${className}${inEditMode ? ' inEditMode' : ''}`}
+      dataTestId={dataTestId}
       onClose={onClose}
       position='right'
+      sidebarRef={ref}
     >
-      <div className='ui--AddressMenu-header'>
-        <IdentityIcon
-          size={80}
-          value={address}
+      <div
+        className='ui--AddressMenu-header'
+        data-testid='sidebar-address-menu'
+      >
+        <SidebarEditableSection
+          accountIndex={accountIndex}
+          address={address}
+          isBeingEdited={setInEditMode}
+          onUpdateName={onUpdateName}
+          sidebarRef={ref}
         />
-        <div className='ui--AddressMenu-addr'>
-          {address}
-        </div>
-        {accountIndex && (
-          <div className='ui--AddressMenu-addr'>
-            {accountIndex}
-          </div>
-        )}
-        <AccountName
-          onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
-          override={
-            isEditingName
-              ? (
-                <Input
-                  autoFocus
-                  className='name--input'
-                  defaultValue={name}
-                  onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
-                  onChange={setName}
-                  withLabel={false}
-                />
-              )
-              : flags.isEditable
-                ? (name.toUpperCase() || t<string>('<unknown>'))
-                : undefined
-          }
-          value={address}
-          withSidebar={false}
-        >
-          {(!isEditingName && flags.isEditable) && (
-            <Icon
-              className='inline-icon'
-              icon='edit'
-            />
-          )}
-        </AccountName>
-        <div className='ui--AddressMenu-tags'>
-          <Tags
-            isEditable
-            isEditing={isEditingTags}
-            onChange={setTags}
-            onSave={onSaveTags}
-            onToggleIsEditing={toggleIsEditingTags}
-            size='tiny'
-            value={tags}
-          />
-        </div>
-        <Flags flags={flags} />
-        <div className='ui--AddressMenu-buttons'>
-          <Button.Group>
-            <Button
-              icon='paper-plane'
-              label={t<string>('Send')}
-              onClick={toggleIsTransferOpen}
-            />
-            {flags.isOwned && (
-              <Button
-                icon='check'
-                isBasic
-                label={t<string>('Owned')}
-              />
-            )}
-            {!flags.isOwned && !flags.isInContacts && (
-              <Button
-                icon='plus'
-                label={t<string>('Save')}
-                onClick={_onUpdateName}
-              />
-            )}
-            {!flags.isOwned && flags.isInContacts && (
-              <Button
-                icon='ban'
-                label={t<string>('Remove')}
-                onClick={_onForgetAddress}
-              />
-            )}
-          </Button.Group>
-          {isTransferOpen && (
-            <Transfer
-              key='modal-transfer'
-              onClose={toggleIsTransferOpen}
-              recipientId={address}
-            />
-          )}
-        </div>
       </div>
-      <Balances address={address} />
-      <Identity
-        address={address}
-        identity={identity}
-      />
-      <Multisig
-        isMultisig={flags.isMultisig}
-        meta={meta}
-      />
-      <section>
+      <div className='ui--ScrollSection'>
+        <Balances address={address} />
+        <Identity
+          address={address}
+          identity={identity}
+        />
+        <Multisig
+          isMultisig={flags.isMultisig}
+          meta={meta}
+        />
+      </div>
+      <section className='ui--LinkSection'>
         <LinkExternal
           data={address}
+          isLogo
+          isSidebar
           type='address'
         />
       </section>
@@ -160,6 +71,14 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
 }
 
 export default React.memo(styled(FullSidebar)`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-sidebar);
+  max-width: 30.42rem;
+  min-width: 30.42rem;
+  overflow-y: hidden;
+  padding: 0 0 3.286rem;
+
   input {
     width: auto !important;
   }
@@ -171,53 +90,109 @@ export default React.memo(styled(FullSidebar)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: -1rem -1rem 1rem -1rem;
-    padding: 1rem;
+    padding: 1.35rem 1rem 1rem 1rem;
   }
 
-  .ui--AddressMenu-addr {
-    font: var(--font-mono);
-    margin: 0.75rem 0;
-    text-align: center;
-    word-break: break-all;
-    width: 26ch;
-  }
+  .ui--AddressSection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
 
-  .ui--AddressMenu-addr+.ui--AddressMenu-addr {
-    margin-top: -0.25rem;
-  }
 
-  section {
-    &:not(:last-child) {
-      margin-bottom: 1.4rem;
-    }
+    width: 100%;
 
-    .ui--AddressMenu-sectionHeader {
-      display: inline-flex;
-      color: var(--color-text);
-      margin-bottom: 0.4rem;
-      width: 100%;
+    .ui--AddressSection__AddressColumn {
+      margin-left: 1rem;
 
-      & > :first-child {
-        flex: 1;
+      .ui--AccountName {
+        max-width: 21.5rem;
+        overflow: hidden;
       }
     }
   }
 
-  .ui--AddressMenu-identity {
-    .ui--AddressMenu-identityTable {
+  .ui--AddressMenu-addr,
+  .ui--AddressMenu-index {
+    font: var(--font-mono);
+    text-align: left;
+    font-size: 0.857rem;
+  }
+
+  .ui--AddressMenu-addr {
+    word-break: break-all;
+    width: 26ch;
+    margin: 0.571rem 0;
+    color: var(--color-label);
+  }
+
+  .ui--AddressMenu-index {
+    display: flex;
+    flex-direction: row;
+
+    label {
+      font-size: 0.857rem;
+      margin-right: 0.4rem;
+      text-transform: capitalize;
+    }
+  }
+
+  section {
+    position: relative;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    .ui--AddressMenu-sectionHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: capitalize;
+
+      margin-bottom: 0.57rem;
+      width: 100%;
+
+      color: var(--color-text);
+      font-size: 1.143rem;
+    }
+
+    &.withDivider {
+      padding-top: 1rem;
+
+      ::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: var(--border-table);
+      }
+    }
+  }
+
+  .ui--AddressMenu-identity,
+  .ui--AddressMenu-multisig {
+    .ui--AddressMenu-identityTable,
+    .ui--AddressMenu-multisigTable {
       font-size: 0.93rem;
-      margin-top: 0.3rem;
+      margin-top: 0.6rem;
 
       .tr {
+        padding: 0.25rem 0;
         display: inline-flex;
         align-items: center;
         width: 100%;
 
         .th {
+          text-transform: uppercase;
+          color: var(--color-label);
           font-weight: var(--font-weight-normal);
-          text-align: right;
-          flex-basis: 20%;
+          text-align: left;
+          flex-basis: 25%;
+          font-size: 0.714rem;
 
           &.top {
             align-self: flex-start;
@@ -231,10 +206,43 @@ export default React.memo(styled(FullSidebar)`
           text-overflow: ellipsis;
         }
       }
+
+      .ui--AddressMini, .subs-number {
+        margin-bottom: 0.4rem;
+        padding: 0;
+      }
+
+      .subs-number {
+        font-size: 1rem;
+        margin-bottom: 0.714rem;
+      }
     }
 
-    .parent, .subs {
+    .parent {
       padding: 0 !important;
+    }
+  }
+
+  && .column {
+    align-items: center;
+
+    .ui--FormatBalance:first-of-type {
+      margin-bottom: 0.4rem;
+    }
+
+    label:first-of-type {
+      margin-bottom: 0.4rem;
+      color: var(--color-text);
+    }
+
+    label {
+      color: var(--color-label);
+      text-transform: uppercase;
+      font-size: 0.714rem;
+    }
+
+    .ui--FormatBalance, label {
+      line-height: 1rem;
     }
   }
 
@@ -247,21 +255,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-tags,
   .ui--AddressMenu-flags {
     margin: 0.75rem 0 0;
-  }
-
-  .ui--AddressMenu-flags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-
-    > * {
-      margin-bottom: 0.4rem;
-
-      &:not(:first-child) {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-    }
+    width: 100%;
   }
 
   .ui--AddressMenu-identityIcon {
@@ -281,14 +275,10 @@ export default React.memo(styled(FullSidebar)`
     }
   }
 
-  .tags--toggle {
-    display: inline-block;
-  }
-
   .inline-icon {
     cursor: pointer;
     margin: 0 0 0 0.5rem;
-    color:  ${colorLink};
+    color: ${colorLink};
   }
 
   .name--input {
@@ -296,12 +286,34 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 !important;
 
       > input {
-        padding: 0 !important;
-        background: rgba(230, 230, 230, 0.8) !important;
-        border: 0 !important;
-        border-radius: 0 !important;
-        box-shadow: 0 3px 3px rgba(0,0,0,.2);
       }
+    }
+  }
+
+  &.inEditMode {
+    .ui--AddressMenu-flags {
+      opacity: 60%;
+    }
+  }
+
+  .ui--AddressMenu-multisig .th.signatories {
+    align-self: flex-start;
+  }
+
+  .ui--ScrollSection {
+    padding: 1rem;
+    overflow: auto;
+  }
+
+  .ui--LinkSection {
+    border-top: 1px solid var(--border-table);
+    padding: 0.5rem 0 0.571rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    span {
+      margin: 0 0.5rem;
     }
   }
 `);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -43,7 +43,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
   const { api } = useApi();
   const bondedId = useCall<string | null>(controllerId ? api.query.staking.bonded : null, [controllerId], transformBonded);
   const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], transformStash);
-  const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances.all : null, [controllerId]);
+  const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances?.all : null, [controllerId]);
   const [{ error, isFatal }, setError] = useState<ErrorState>({ error: null, isFatal: false });
 
   useEffect((): void => {
@@ -61,7 +61,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         newError = t('A controller account should not be set to manage multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
       } else if (allBalances?.freeBalance.isZero()) {
         isFatal = true;
-        newError = t('The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.');
+        newError = t('The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.');
       } else if (controllerId === accountId) {
         newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
       }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps, SubtractProps } from '../types';
@@ -14,7 +14,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
   class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
     private component: any = React.createRef();
 
-    public render (): React.ReactNode {
+    public override render (): React.ReactNode {
       return (
         <ApiConsumer>
           {(apiProps?: ApiProps): React.ReactNode => {

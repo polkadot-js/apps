@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -41,7 +41,14 @@ const definitions: OverrideBundleDefinition = {
           ConstData: 'Vec<u8>',
           VariableData: 'Vec<u8>'
         },
-        CollectionType: {
+        SponsorshipState: {
+          _enum: {
+            Disabled: null,
+            Unconfirmed: 'AccountId',
+            Confirmed: 'AccountId'
+          }
+        },
+        Collection: {
           Owner: 'AccountId',
           Mode: 'CollectionMode',
           Access: 'AccessMode',
@@ -52,8 +59,7 @@ const definitions: OverrideBundleDefinition = {
           MintMode: 'bool',
           OffchainSchema: 'Vec<u8>',
           SchemaVersion: 'SchemaVersion',
-          Sponsor: 'AccountId',
-          SponsorConfirmed: 'bool',
+          Sponsorship: 'SponsorshipState',
           Limits: 'CollectionLimits',
           VariableOnChainSchema: 'Vec<u8>',
           ConstOnChainSchema: 'Vec<u8>'
@@ -103,12 +109,14 @@ const definitions: OverrideBundleDefinition = {
         },
         CollectionLimits: {
           AccountTokenOwnershipLimit: 'u32',
-          SponsoredMintSize: 'u32',
+          SponsoredDataSize: 'u32',
+          SponsoredDataRateLimit: 'Option<BlockNumber>',
           TokenLimit: 'u32',
           SponsorTimeout: 'u32',
           OwnerCanTransfer: 'bool',
           OwnerCanDestroy: 'bool'
-        }
+        },
+        AccountInfo: 'AccountInfoWithDualRefCount'
       }
     }
   ]

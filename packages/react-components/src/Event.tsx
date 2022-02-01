@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DecodedEvent } from '@polkadot/api-contract/types';
@@ -10,7 +10,6 @@ import React, { useMemo } from 'react';
 
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { getContractAbi } from './util';
@@ -32,7 +31,7 @@ interface AbiEvent extends DecodedEvent {
 
 function EventDisplay ({ children, className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const params = value.typeDef.map(({ type }) => ({ type: getTypeDef(type) }));
+  const params = value.typeDef.map((type) => ({ type }));
   const values = value.data.map((value) => ({ isValid: true, value }));
 
   const abiEvent = useMemo(

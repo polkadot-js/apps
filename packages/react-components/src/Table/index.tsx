@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -18,9 +18,11 @@ interface TableProps {
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
   legend?: React.ReactNode;
+  noBodyTag?: boolean;
+  withCollapsibleRows: boolean;
 }
 
-function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
+function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode] {
   if (!Array.isArray(children)) {
     return [!children, children];
   }
@@ -31,13 +33,13 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend }: TableProps): React.ReactElement<TableProps> {
-  const [isEmpty, kids] = extractKids(children);
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+  const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -46,8 +48,9 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
         <Body
           empty={empty}
           emptySpinner={emptySpinner}
+          noBodyTag={noBodyTag}
         >
-          {kids}
+          {bodyChildren}
         </Body>
         <Foot
           footer={footer}
@@ -92,10 +95,236 @@ export default React.memo(styled(Table)`
         &.all {
           width: 100%;
 
+          &:not(.overflow) {
+            word-break: break-word;
+          }
+
           summary {
             white-space: normal;
           }
         }
+      }
+    }
+
+    &.withCollapsibleRows tbody tr {
+      background-color: unset;
+      &:nth-child(4n - 2),
+      &:nth-child(4n - 3) {
+        background-color: var(--bg-table);
+      }
+    }
+  }
+
+  tbody {
+    position: relative;
+
+    td {
+      border-bottom: 1px solid var(--border-table);
+      padding: 0.5rem 1rem;
+      text-align: left;
+      vertical-align: middle;
+
+      &:first-child {
+        border-left: 1px solid var(--border-table);
+      }
+
+      &:last-child {
+        border-right: 1px solid var(--border-table);
+      }
+
+      label {
+        display: block !important;
+        white-space: nowrap;
+      }
+
+      div.empty {
+        opacity: 0.6;
+        padding: 0.25rem;
+      }
+
+      .ui--Spinner {
+        margin: 0 auto;
+
+        .text {
+          margin-bottom: 0;
+        }
+      }
+
+      &.address {
+        min-width: 11rem;
+        overflow-x: hidden;
+      }
+
+      &.badge {
+        padding: 0.5rem;
+      }
+
+      &.button {
+        padding: 0.25rem 0.5rem;
+        text-align: right;
+        white-space: nowrap;
+
+        > * {
+          vertical-align: middle;
+        }
+
+        .ui--Toggle {
+          display: inline-block;
+          white-space: nowrap;
+
+          label {
+            display: inline-block !important;
+          }
+        }
+      }
+
+      &.combined {
+        border-top-width: 0;
+      }
+
+      &.expand {
+        &:not(.left) {
+          text-align: right;
+        }
+
+        .ui--Expander + .ui--Expander {
+          margin-top: 0.375rem;
+        }
+      }
+
+      &.hash {
+        font: var(--font-mono);
+      }
+
+      &.links {
+        padding: 0.5rem 0.75rem;
+        text-align: center;
+        width: 0;
+      }
+
+      &.no-pad-left {
+        padding-left: 0.125rem;
+      }
+
+      &.no-pad-right {
+        padding-right: 0.125rem;
+      }
+
+      &.no-pad-top {
+        padding-top: 0.125rem;
+      }
+
+      &.number {
+        text-align: right;
+      }
+
+      &.relative {
+        position: relative;
+      }
+
+      &.overflow {
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: none;
+      }
+
+      &.start {
+        text-align: left;
+      }
+
+      &.together {
+        white-space: nowrap;
+      }
+
+      &.top {
+        vertical-align: top;
+      }
+
+      &.middle {
+        text-align: center;
+      }
+
+      &.mini {
+        padding: 0 !important;
+        width: fit-content;
+        white-space: normal;
+
+        > div {
+          margin-right: 0.75rem;
+          max-width: 3.8rem;
+          min-width: 3.8rem;
+        }
+      }
+
+      &.upper {
+        text-transform: uppercase;
+      }
+
+      &.favorite .ui--Icon.isSelected {
+        color: darkorange;
+      }
+
+      .ui--Button-Group .ui--Button:not(.isToplevel) {
+        margin: 0;
+      }
+    }
+
+    tr {
+      &.hasOddRowColoring,
+      &:nth-child(odd) {
+        background: var(--bg-table);
+      }
+
+      &:first-child {
+        td {
+          border-top: 0.25rem solid var(--bg-page);
+        }
+
+        td:first-child {
+          border-top-left-radius: 0.25rem;
+        }
+
+        td:last-child {
+          border-top-right-radius: 0.25rem;
+        }
+      }
+
+      &:last-child {
+        td {
+          border-bottom: 1px solid var(--border-table);
+
+          &:first-child {
+            border-bottom-left-radius: 0.25rem;
+          }
+
+          :last-child {
+            border-bottom-right-radius: 0.25rem;
+          }
+        }
+      }
+
+      &.transparent {
+        background: transparent;
+      }
+
+      &.noBorder td {
+        border-bottom: 1px solid transparent;
+        padding-bottom: 0 !important;
+      }
+
+      .ui--Button-Group {
+        margin: 0;
+      }
+
+      .ui--Button:not(.isIcon):not(:hover) {
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      .ui.toggle.checkbox input:checked ~ .box:before,
+      .ui.toggle.checkbox input:checked ~ label:before {
+        background-color: #eee !important;
       }
     }
   }

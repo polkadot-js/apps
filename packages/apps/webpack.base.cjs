@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -105,7 +105,7 @@ function createWebpack (context, mode = 'production') {
       ]
     },
     node: {
-      __dirname: false,
+      __dirname: true,
       __filename: false
     },
     optimization: {
@@ -149,10 +149,13 @@ function createWebpack (context, mode = 'production') {
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser.js'
       }),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({
+        contextRegExp: /moment$/,
+        resourceRegExp: /^\.\/locale$/
+      }),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+          NODE_ENV: JSON.stringify(mode),
           VERSION: JSON.stringify(pkgJson.version),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
@@ -169,7 +172,11 @@ function createWebpack (context, mode = 'production') {
       },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
+        assert: require.resolve('assert/'),
         crypto: require.resolve('crypto-browserify'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
+        os: require.resolve('os-browserify/browser'),
         path: require.resolve('path-browserify'),
         stream: require.resolve('stream-browserify')
       }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from './types';
@@ -30,8 +30,8 @@ function Validator ({ className = '', validatorId }: Props): React.ReactElement<
 
 export default React.memo(styled(Validator)`
   .staking--Chart {
-    background: white;
-    border: 1px solid #eeecea;
+    background: var(--bg-table);
+    border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
   }

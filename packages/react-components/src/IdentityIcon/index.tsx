@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
@@ -25,8 +25,8 @@ interface Props {
   value?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export function getIdentityTheme (systemName: string): 'substrate' {
-  return ((settings.icon === 'default' && getSystemIcon(systemName)) || settings.icon) as 'substrate';
+export function getIdentityTheme (systemName: string, specName: string): 'substrate' {
+  return ((settings.icon === 'default' && getSystemIcon(systemName, specName)) || settings.icon) as 'substrate';
 }
 
 function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Array | null): value is AccountId | AccountIndex | Address {
@@ -34,10 +34,10 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { isEthereum, systemName } = useApi();
+  const { isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
-  const thisTheme = theme || getIdentityTheme(systemName);
+  const thisTheme = theme || getIdentityTheme(systemName, specName);
   const Custom = thisTheme === 'robohash'
     ? RoboHash
     : undefined;

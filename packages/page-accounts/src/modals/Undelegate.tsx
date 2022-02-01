@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -21,6 +21,7 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
     <Modal
       className='staking--Undelegate'
       header= {t<string>('Undelegate')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -32,7 +33,7 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountDelegating}
           icon='sign-in-alt'

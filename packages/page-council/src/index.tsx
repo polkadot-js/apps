@@ -1,8 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -25,23 +24,19 @@ interface Props {
   className?: string;
 }
 
-const transformPrime = {
-  transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
-};
-
 function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
+  const prime = useCall<AccountId | null>(api.derive.council.prime);
   const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
 
   const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Council overview')
+      text: t<string>('Overview')
     },
     {
       count: numMotions,
@@ -52,12 +47,10 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/motions`}>
           <Motions

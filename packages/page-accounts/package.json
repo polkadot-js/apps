@@ -1,22 +1,29 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-accounts#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-accounts",
   "private": true,
-  "version": "0.84.2-4",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-accounts",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.104.2-1",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/phishing": "^0.6.27",
-    "@polkadot/react-components": "^0.84.2-4",
-    "@polkadot/vanitygen": "^0.30.2-2",
-    "detect-browser": "^5.2.0",
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/hw-ledger": "^8.3.3",
+    "@polkadot/phishing": "^0.8.101",
+    "@polkadot/react-components": "^0.104.2-1",
+    "@polkadot/react-hooks": "^0.104.2-1",
+    "@polkadot/util": "^8.3.3",
+    "@polkadot/vanitygen": "^0.49.1",
+    "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.84.2-4"
+    "@polkadot/test-support": "0.104.2-1"
   }
 }

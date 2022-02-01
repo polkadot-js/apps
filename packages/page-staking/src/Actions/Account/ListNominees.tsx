@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { AddressMini, Expander, MarkWarning } from '@polkadot/react-components';
@@ -70,6 +70,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
   const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
   const eraExposure = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakers) && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+
   const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
     () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
     [eraExposure, nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting, stashId]
@@ -108,13 +109,13 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {renWaiting && (
         <Expander
-          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stop validating. Any nominations made before the next election will also appear here.')}
+          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stopped validating. Any nominations made before the next election will also appear here.')}
           renderChildren={renWaiting[1]}
           summary={t<string>('Waiting nominations ({{count}})', { replace: { count: renWaiting[0] } })}
         />
       )}
       {nomsActive && nomsInactive && (nomsActive.length === 0) && (nomsInactive.length !== 0) && (
-        <MarkWarning content={t<string>('Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.')} />
+        <MarkWarning content={t<string>('This could mean your nomination has not been applied to any validator in the active set by the election algorithm or it has been applied against a validator who is either oversubscribed or chilled.')} />
       )}
     </>
   );

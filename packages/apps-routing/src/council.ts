@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -11,12 +11,9 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'query.council.prime',
-        [
-          'query.electionsPhragmen.candidates',
-          'query.elections.candidates'
-        ]
-      ]
+        'query.council.prime'
+      ],
+      needsApiInstances: true
     },
     group: 'governance',
     icon: 'building',

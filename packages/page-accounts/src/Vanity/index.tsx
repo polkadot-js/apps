@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -46,7 +46,7 @@ const BOOL_OPTIONS = [
 
 function VanityApp ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isEthereum } = useApi();
+  const { api, isEthereum } = useApi();
   const results = useRef<GeneratorResult[]>([]);
   const runningRef = useRef(false);
   const mountedRef = useIsMountedRef();
@@ -116,14 +116,14 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           }
 
           results.current.push(
-            generator({ match, runs: 10, type, withCase, withHex: true })
+            generator({ match, runs: 10, ss58Format: api.registry.chainSS58 || 0, type, withCase, withHex: true })
           );
 
           _executeGeneration();
         }
       }, 0);
     },
-    [_checkMatches, match, mountedRef, runningRef, type, withCase]
+    [_checkMatches, api, match, mountedRef, runningRef, type, withCase]
   );
 
   const _onChangeMatch = useCallback(
@@ -188,7 +188,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Input
           autoFocus
           className='medium'
-          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
+          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. ')}
           isDisabled={isRunning}
           isError={!isMatchValid}
           label={t<string>('Search for')}

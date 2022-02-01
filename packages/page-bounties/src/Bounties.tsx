@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -29,7 +29,7 @@ function Bounties ({ className }: Props): React.ReactElement {
 
   return (
     <div className={className}>
-      <Summary activeBounties={bounties?.length}/>
+      <Summary activeBounties={bounties?.length} />
       <Button.Group>
         <BountyCreate />
       </Button.Group>
@@ -37,17 +37,17 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
+        withCollapsibleRows
       >
         {bounties && bestNumber &&
           bounties
             .sort((a, b) => b.index.cmp(a.index))
-            .map(({ bounty, description, index, proposals }, count) => (
+            .map(({ bounty, description, index, proposals }) => (
               <Bounty
                 bestNumber={bestNumber}
                 bounty={bounty}
                 description={description}
                 index={index}
-                isEven={!!(count % 2)}
                 key={index.toNumber()}
                 proposals={proposals}
               />

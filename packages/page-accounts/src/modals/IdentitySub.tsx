@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Data, Option, Vec } from '@polkadot/types';
-import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { Data, Option } from '@polkadot/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button, Columar, Input, InputAddress, Modal, Spinner, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useSubidentities } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -80,17 +80,13 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
 
 const IdentitySubMemo = React.memo(IdentitySub);
 
-const transformIds = {
-  transform: ([, ids]: ITuple<[Balance, Vec<AccountId>]>) => ids.map((a) => a.toString())
-};
-
 const transformInfo = { withParams: true };
 
 function IdentitySubModal ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const queryIds = useCall<string[]>(api.query.identity.subsOf, [address], transformIds);
+  const queryIds = useSubidentities(address);
   const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], transformInfo);
   const [infos, setInfos] = useState<[string, string][] | undefined>();
 
@@ -126,6 +122,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
     <Modal
       className={className}
       header={t<string>('Register sub-identities')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -164,7 +161,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           )
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {infos && (
           <TxButton
             accountId={address}

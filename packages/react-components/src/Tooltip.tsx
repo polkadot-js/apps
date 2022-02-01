@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ function rootElement () {
 
 interface Props {
   className?: string;
+  clickable?: boolean;
   dataFor?: string;
   effect?: 'solid' | 'float';
   offset?: {
@@ -27,7 +28,7 @@ interface Props {
   trigger: string;
 }
 
-function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className = '', clickable = false, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -47,6 +48,7 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
   return ReactDOM.createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
+      clickable={clickable}
       effect={effect}
       id={trigger}
       offset={offset}
@@ -65,11 +67,6 @@ export default React.memo(styled(Tooltip)`
 
   &.ui--Tooltip {
     z-index: 1002;
-  }
-
-  &.address div {
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   table {
@@ -96,6 +93,11 @@ export default React.memo(styled(Tooltip)`
 
   > div+div {
     margin-top: 0.5rem;
+  }
+
+  &.address div {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .faded {

@@ -1,16 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-
 import { TypeRegistry } from '@polkadot/types/create';
+import { BN } from '@polkadot/util';
 
 import { isClaimable } from './isClaimable';
 
 describe('Is claimable', () => {
   const registry = new TypeRegistry();
   const accountAddress = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
-  const beneficiaryId = registry.createType('AccountId', [registry, accountAddress]);
+  const beneficiaryId = registry.createType('AccountId', accountAddress);
 
   it('returns false, when payout due is greater than 0', () => {
     const accounts = [accountAddress];

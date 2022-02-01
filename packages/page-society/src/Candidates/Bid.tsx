@@ -1,53 +1,86 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bid } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid } from '@polkadot/types/lookup';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
+import BidType from './BidType';
 
 interface Props {
   index: number;
-  value: Bid;
+  value: PalletSocietyBid;
 }
 
 function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [isBidder, setIsBidder] = useState(false);
 
-  useEffect((): void => {
-    const address = who.toString();
+  const [voucher, tip] = useMemo(
+    () => kind.isVouch
+      ? kind.asVouch
+      : [null, null],
+    [kind]
+  );
 
-    setIsBidder(allAccounts.some((accountId) => accountId === address));
-  }, [allAccounts, who]);
+  const [isBidder, isVoucher] = useMemo(
+    (): [boolean, boolean] => {
+      const whoSS58 = who.toString();
+      const vouchSS58 = voucher && voucher.toString();
+
+      return [
+        allAccounts.some((accountId) => accountId === whoSS58),
+        vouchSS58
+          ? allAccounts.some((accountId) => accountId === vouchSS58)
+          : false
+      ];
+    },
+    [allAccounts, voucher, who]
+  );
 
   return (
     <tr>
-      <td className='all'>
+      <td className='address all'>
         <AddressSmall value={who} />
       </td>
-      <td className='number'>
-        {kind.type}
-      </td>
+      <BidType value={kind} />
       <td className='number'>
         <FormatBalance value={value} />
       </td>
+      <td className='number'>
+        {tip && (
+          <FormatBalance value={tip} />
+        )}
+      </td>
       <td className='button'>
-        <TxButton
-          accountId={who}
-          icon='times'
-          isDisabled={!isBidder}
-          label={t<string>('Unbid')}
-          params={[index]}
-          tx={api.tx.society.unbid}
-        />
+        {kind.isVouch
+          ? (
+            <TxButton
+              accountId={voucher}
+              icon='times'
+              isDisabled={!isVoucher}
+              label={t<string>('Unvouch')}
+              params={[index]}
+              tx={api.tx.society.unvouch}
+            />
+          )
+          : (
+            <TxButton
+              accountId={who}
+              icon='times'
+              isDisabled={!isBidder}
+              label={t<string>('Unbid')}
+              params={[index]}
+              tx={api.tx.society.unbid}
+            />
+          )
+        }
       </td>
     </tr>
   );

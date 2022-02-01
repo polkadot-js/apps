@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParitalQueryTypes, QueryTypes } from '../types';
@@ -46,12 +46,10 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route path={`${basePath}/constants`}><Consts onAdd={_onAdd} /></Route>
         <Route path={`${basePath}/raw`}><Raw onAdd={_onAdd} /></Route>
