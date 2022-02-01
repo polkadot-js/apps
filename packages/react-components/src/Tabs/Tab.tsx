@@ -73,8 +73,6 @@ export default React.memo(styled(Tab)`
       width: 100%;
       height: 2px;
       bottom: -2px;
-      left: 50%;
-      transform: translateX(-50%);
     }
 
   &.tabLinkActive {
