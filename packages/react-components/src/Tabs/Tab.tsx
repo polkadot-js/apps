@@ -70,7 +70,7 @@ export default React.memo(styled(Tab)`
     &.tabLinkActive .tabLinkText::after {
       content: '';
       position: absolute;
-      width: 3.14rem;
+      width: 100%;
       height: 2px;
       bottom: -2px;
       left: 50%;
