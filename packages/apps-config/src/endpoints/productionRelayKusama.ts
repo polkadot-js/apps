@@ -178,7 +178,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
           'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
-          OnFinality: 'wss://rpc.api.kico.dico.io',
+          OnFinality: 'wss://rpc.api.kico.dico.io'
         }
       },
       {
