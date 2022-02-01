@@ -256,7 +256,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   unorthodox: standard,
   'node-template': matic,
-  'data-avail': dataavail
+  'data-avail': dataavail,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

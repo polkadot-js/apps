@@ -14,8 +14,8 @@ module.exports = merge(
       hot: true,
       open: false,
       port: 3000,
-      static: path.resolve(__dirname, 'build'),
-      public: 'polygon-da-explorer.matic.today',
+      static: path.resolve(__dirname, 'build')
+      // public: 'polygon-da-explorer.matic.today',
     },
     plugins: [
       new HtmlWebpackPlugin({

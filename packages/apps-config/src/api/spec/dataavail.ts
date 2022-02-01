@@ -9,6 +9,8 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 const definitions: OverrideBundleDefinition = {
   types: [
     {
+      // on all versions
+      minmax: [0, undefined],
       types: {
         AppId: 'u32',
         DataLookup: {
@@ -37,16 +39,18 @@ const definitions: OverrideBundleDefinition = {
           types: {}
         }
       },
-      signedExtensions: {
-        CheckAppId: {
-          extrinsic: {
-            appId: 'u32'
-          },
-          payload: {}
-        },
-      }
     }
-  ]
+ ],
+ signedExtensions: {
+  CheckAppId: {
+    extrinsic: {
+      appId: 'u32'
+    },
+    payload: {}
+  },
+ }
 };
+
+console.log('Add DA definitions');
 
 export default definitions;

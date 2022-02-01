@@ -331,7 +331,7 @@ export const chainLogos = Object.entries({
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
   'zcloak poc1': nodeZCloak,
-   ['Polygon-DA-Testnet', nodePolygon]
+  'Polygon-DA-Testnet': nodePolygon
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
