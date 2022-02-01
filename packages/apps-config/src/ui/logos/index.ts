@@ -17,7 +17,6 @@ import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
-import chainDusty from './chains/dusty.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -205,7 +204,6 @@ export const chainLogos = Object.entries({
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
   'Dolphin Testnet': nodeDolphin,
-  Dusty: chainDusty,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -550,7 +548,6 @@ export const namedLogos: Record<string, unknown> = {
   'dock-pos-testnet': nodeDockTestnet,
   dolphin: nodeDolphin,
   dotmog: nodeDotMog,
-  dusty: chainDusty,
   eave: nodeEave,
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,

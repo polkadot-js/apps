@@ -132,14 +132,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'dusty',
-      text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
-      providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
-        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
-      }
-    },
-    {
       info: 'encointer',
       text: t('rpc.test.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
       providers: {
