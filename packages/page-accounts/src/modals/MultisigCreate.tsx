@@ -191,7 +191,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           />
           {!!uploadedSignatories.length && (
             <Labelled
-              label={t<string>('Detected signatories')}
+              label={t<string>('found signatories')}
               labelExtra={(
                 <IconLink
                   icon='sync'
