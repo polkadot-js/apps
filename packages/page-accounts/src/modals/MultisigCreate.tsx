@@ -6,18 +6,7 @@ import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
 
-import {
-  AddressMini,
-  Button,
-  IconLink,
-  Input,
-  InputAddressMulti,
-  InputFile,
-  InputNumber,
-  Labelled,
-  MarkError,
-  Modal,
-} from '@polkadot/react-components';
+import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';
@@ -57,7 +46,7 @@ function parseFile (file: Uint8Array): UploadedFileData {
     items = JSON.parse(u8aToString(file)) as string[];
     assert(Array.isArray(items) && !!items.length, 'JSON file should contain an array of signatories');
 
-    items = items.filter(item => validateAddress(item));
+    items = items.filter((item) => validateAddress(item));
     items = [...new Set(items)]; // remove duplicates
 
     assert(items.length <= MAX_SIGNATORIES, `Maximum you can have ${MAX_SIGNATORIES} signatories`);
@@ -69,7 +58,7 @@ function parseFile (file: Uint8Array): UploadedFileData {
   return {
     isUploadedFileValid: !uploadError,
     uploadedFileError: uploadError,
-    uploadedSignatories: items,
+    uploadedSignatories: items
   };
 }
 
@@ -98,9 +87,9 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const availableSignatories = useKnownAddresses();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isUploadedFileValid, uploadedFileError, uploadedSignatories }, setUploadedFile] = useState<UploadedFileData>({
-    uploadedFileError: '',
     isUploadedFileValid: true,
-    uploadedSignatories: [],
+    uploadedFileError: '',
+    uploadedSignatories: []
   });
   const [signatories, setSignatories] = useState<string[]>(['']);
   const [{ isThresholdValid, threshold }, setThreshold] = useState({ isThresholdValid: true, threshold: BN_TWO });
@@ -143,9 +132,9 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const resetFileUpload = useCallback(
     () => {
       setUploadedFile({
-        uploadedFileError,
         isUploadedFileValid,
-        uploadedSignatories: [],
+        uploadedFileError,
+        uploadedSignatories: []
       });
     },
     [uploadedFileError, isUploadedFileValid]
@@ -156,7 +145,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
       resetFileUpload();
       setSignatories(items);
     },
-    []
+    [resetFileUpload]
   );
 
   const isValid = isNameValid && isThresholdValid;
@@ -193,8 +182,8 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           <InputFile
             accept={acceptedFormats}
             className='full'
-            help={t<string>('Select a JSON key file with the list of signatories.')}
             clearContent={!uploadedSignatories.length && isUploadedFileValid}
+            help={t<string>('Select a JSON key file with the list of signatories.')}
             isError={!isUploadedFileValid}
             label={t<string>('upload signatories list')}
             onChange={_onChangeFile}
@@ -212,14 +201,14 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
               )}
             >
               <div className='ui--Static ui dropdown selection'>
-              {uploadedSignatories.map((address): React.ReactNode => (
-                <div key={address}>
-                  <AddressMini
-                    value={address}
-                    withSidebar={false}
-                  />
-                </div>
-              ))}
+                {uploadedSignatories.map((address): React.ReactNode => (
+                  <div key={address}>
+                    <AddressMini
+                      value={address}
+                      withSidebar={false}
+                    />
+                  </div>
+                ))}
               </div>
             </Labelled>
           )}
