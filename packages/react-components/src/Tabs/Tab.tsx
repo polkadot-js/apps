@@ -61,15 +61,16 @@ export default React.memo(styled(Tab)`
     &:hover {
       color: #8B8B8B;
 
-      .tabLinkText::after{
+      &::after{
         background-color: #8B8B8B;
       }
     }
 
-    &:hover .tabLinkText::after,
-    &.tabLinkActive .tabLinkText::after {
+    &:hover::after,
+    &.tabLinkActive::after {
       content: '';
       position: absolute;
+      left: 0;
       width: 100%;
       height: 2px;
       bottom: -2px;
