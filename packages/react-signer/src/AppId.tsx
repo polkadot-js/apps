@@ -6,7 +6,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 
-import { InputBalance, Modal } from '@polkadot/react-components';
+import { InputNumber, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -17,18 +17,17 @@ interface Props {
 
 function AppId({ className, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [app_id, setAppId] = useState<u32>(0);
 
   return (
     <Modal.Columns
       className={className}
       hint={t<string>('Application Id.')}
     >
-      <InputBalance
+      <InputNumber
           help={t<string>('Specify different Application Id for this Tx')}
           isZeroable
           label={t<string>('App Id')}
-          onChange={setAppId}
+          onChange={onChange}
        />
     </Modal.Columns>
   );
