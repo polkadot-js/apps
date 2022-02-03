@@ -5,8 +5,9 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
 
-import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal } from '@polkadot/react-components';
+import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';
@@ -92,6 +93,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
     uploadedSignatories: []
   });
   const [signatories, setSignatories] = useState<string[]>(['']);
+  const [showSignaturesUpload, setShowSignaturesUpload] = useState(false);
   const [{ isThresholdValid, threshold }, setThreshold] = useState({ isThresholdValid: true, threshold: BN_TWO });
 
   const _createMultisig = useCallback(
@@ -158,7 +160,15 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
       size='large'
     >
       <Modal.Content>
-        {!uploadedSignatories.length && (
+        <Modal.Columns>
+          <Toggle
+            className='signaturesFileToggle'
+            label={t<string>('Upload JSON file with signatories')}
+            onChange={setShowSignaturesUpload}
+            value={showSignaturesUpload}
+          />
+        </Modal.Columns>
+        {!showSignaturesUpload && (
           <Modal.Columns
             hint={
               <>
@@ -178,44 +188,46 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
             />
           </Modal.Columns>
         )}
-        <Modal.Columns hint={t<string>('Supply a JSON file with the list of signatories.')}>
-          <InputFile
-            accept={acceptedFormats}
-            className='full'
-            clearContent={!uploadedSignatories.length && isUploadedFileValid}
-            help={t<string>('Select a JSON key file with the list of signatories.')}
-            isError={!isUploadedFileValid}
-            label={t<string>('upload signatories list')}
-            onChange={_onChangeFile}
-            withLabel
-          />
-          {!!uploadedSignatories.length && (
-            <Labelled
-              label={t<string>('found signatories')}
-              labelExtra={(
-                <IconLink
-                  icon='sync'
-                  label={t<string>('Reset')}
-                  onClick={resetFileUpload}
-                />
-              )}
-            >
-              <div className='ui--Static ui dropdown selection'>
-                {uploadedSignatories.map((address): React.ReactNode => (
-                  <div key={address}>
-                    <AddressMini
-                      value={address}
-                      withSidebar={false}
-                    />
-                  </div>
-                ))}
-              </div>
-            </Labelled>
-          )}
-          {uploadedFileError && (
-            <MarkError content={uploadedFileError} />
-          )}
-        </Modal.Columns>
+        {showSignaturesUpload && (
+          <Modal.Columns hint={t<string>('Supply a JSON file with the list of signatories.')}>
+            <InputFile
+              accept={acceptedFormats}
+              className='full'
+              clearContent={!uploadedSignatories.length && isUploadedFileValid}
+              help={t<string>('Select a JSON key file with the list of signatories.')}
+              isError={!isUploadedFileValid}
+              label={t<string>('upload signatories list')}
+              onChange={_onChangeFile}
+              withLabel
+            />
+            {!!uploadedSignatories.length && (
+              <Labelled
+                label={t<string>('found signatories')}
+                labelExtra={(
+                  <IconLink
+                    icon='sync'
+                    label={t<string>('Reset')}
+                    onClick={resetFileUpload}
+                  />
+                )}
+              >
+                <div className='ui--Static ui dropdown selection'>
+                  {uploadedSignatories.map((address): React.ReactNode => (
+                    <div key={address}>
+                      <AddressMini
+                        value={address}
+                        withSidebar={false}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Labelled>
+            )}
+            {uploadedFileError && (
+              <MarkError content={uploadedFileError} />
+            )}
+          </Modal.Columns>
+        )}
         <Modal.Columns hint={t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
           <InputNumber
             help={t<string>('The threshold for this multisig')}
@@ -249,4 +261,9 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   );
 }
 
-export default React.memo(Multisig);
+export default React.memo(styled(Multisig)`
+  .signaturesFileToggle {
+    width: 100%;
+    text-align: right;
+  }
+`);
