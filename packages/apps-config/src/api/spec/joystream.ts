@@ -889,7 +889,8 @@ const definitions: OverrideBundleDefinition = {
         },
         CurrencyOf: 'u128',
         CurrencyAmount: 'u128',
-        AccountInfo: 'AccountInfoWithRefCount'
+        AccountInfo: 'AccountInfoWithRefCount',
+        ValidatorPrefs: 'ValidatorPrefsWithCommission'
       }
     }
   ]
