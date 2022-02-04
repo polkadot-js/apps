@@ -3,9 +3,9 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
@@ -37,7 +37,10 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
   const modLocation = useCollectiveInstance('council');
 
-  const threshold = Math.ceil((members.length || 0) * getProposalThreshold(api));
+  const threshold = useMemo(
+    () => calcThreshold(members || [], getProposalThreshold(api)),
+    [api, members]
+  );
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),

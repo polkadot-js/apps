@@ -5,7 +5,7 @@ import type { BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
@@ -31,7 +31,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
 
   useEffect((): void => {
     members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
+      calcThreshold(members, getTreasuryProposalThreshold(api))
     );
   }, [api, members]);
 

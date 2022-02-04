@@ -7,7 +7,7 @@ import type { Slash, SlashEra } from './types';
 
 import React, { useMemo, useState } from 'react';
 
-import { getSlashProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN, formatNumber } from '@polkadot/util';
@@ -110,6 +110,11 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     [allAccounts, members]
   );
 
+  const councilThreshold = useMemo(
+    () => calcThreshold(members || [], getSlashProposalThreshold(api)),
+    [api, members]
+  );
+
   if (!rows.length) {
     return (
       <Table
@@ -118,8 +123,6 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
       />
     );
   }
-
-  const councilThreshold = Math.ceil((members.length || 0) * getSlashProposalThreshold(api));
 
   return (
     <Era

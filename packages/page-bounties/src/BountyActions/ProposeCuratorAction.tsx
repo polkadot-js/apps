@@ -6,7 +6,7 @@ import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
@@ -39,7 +39,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
 
   useEffect((): void => {
     members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
+      calcThreshold(members, getTreasuryProposalThreshold(api))
     );
   }, [api, members]);
 
