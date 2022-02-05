@@ -31,6 +31,7 @@ import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
+import uniques from './uniques';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -51,6 +52,7 @@ export default function create (t: TFunction): Routes {
     parachains(t),
     gilt(t),
     assets(t),
+    uniques(t),
     society(t),
     calendar(t),
     contracts(t),
