@@ -3,38 +3,40 @@
 
 import type { UniqueInfo, UniqueInfoComplete } from '../types';
 
+import type { PalletAssetsAssetAccount , PalletUniquesInstanceDetails , PalletUniquesClassDetails} from '@polkadot/types/lookup';
+
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-
+import  { BN } from '@polkadot/util';
 import { Dropdown, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import Account from './Account';
-import useBalances from './useBalances';
+import Instance from './Instance';
+import useInstances from './useInstances';
 
 interface Props {
-  className?: string;
   infos?: UniqueInfo[];
 }
 
-function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> {
+function Instances ({ infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<UniqueInfoComplete | null>(null);
-  const balances = useBalances(info?.id);
+  // const instances = (info != undefined)? useInstances([info.id]): [];
+  const instances = useInstances(info?.id);
 
   const headerRef = useRef([
-    [t('accounts'), 'start'],
+    [t('instances'), 'start'],
     [t('frozen'), 'start'],
-    [t('sufficient'), 'start'],
+    [],
     [],
     []
   ]);
 
   const completeInfos = useMemo(
     () => infos
-      .filter((i): i is UniqueInfoComplete => !!(i.details && i.metadata) && !i.details.supply.isZero())
+      .filter((i): i is UniqueInfoComplete => !!(i.details && i.metadata) && !i.details.instances.isZero())
       .sort((a, b) => a.id.cmp(b.id)),
     [infos]
   );
@@ -55,15 +57,33 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
     );
   }, [completeInfos, infoIndex]);
 
+  // class PProps {
+  //   instance: PalletUniquesInstanceDetails;
+  //   instanceId: BN;
+  //   constructor(instanceId:BN, instance:PalletUniquesInstanceDetails) {
+  //     this.instance = instance;
+  //     this.instanceId = instanceId;
+  //    }
+  // }
+  
+  // let mymap:PProps[]  = [];
+  // if (instances === null) {
+  //   return (<div/>);
+  // }
+  // for (var index of instances) {
+  //   let instance: BN, instanceId:PalletUniquesInstanceDetails = index;
+  //   mymap.push(new PProps(instanceId, instance ));
+  // }
+
   return (
-    <div className={className}>
+    <div>
       <Table
-        empty={info && balances && t<string>('No accounts with instances found for the unique class')}
+        empty={info && instances && t<string>('No instances found for the unique class')}
         filter={uniqueOptions.length
           ? (
             <Dropdown
               isFull
-              label={t<string>('the unique to query for instances')}
+              label={t<string>('unique class to query for instances')}
               onChange={setInfoIndex}
               options={uniqueOptions}
               value={infoIndex}
@@ -73,12 +93,11 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
         }
         header={headerRef.current}
       >
-        {info && balances?.map(({ account, accountId }) => (
-          <Account
-            account={account}
-            accountId={accountId}
+        {info && instances?.map(( instance ) => (
+          <Instance
+            instance={instance}
             uniqueId={info.id}
-            key={accountId}
+            key={"7".toString()}
           />
         ))}
       </Table>
@@ -86,7 +105,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(styled(Balances)`
+export default React.memo(styled(Instances)`
   table {
     overflow: auto;
   }

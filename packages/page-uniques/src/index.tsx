@@ -12,7 +12,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-import Balances from './Balances';
+import Instances from './Instances';
 import Overview from './Overview';
 import { useTranslation } from './translate';
 import useUniqueIds from './useUniqueIds';
@@ -52,15 +52,15 @@ function UniqueApp ({ basePath, className }: Props): React.ReactElement<Props> {
       text: t<string>('Overview')
     },
     {
-      name: 'balances',
-      text: t<string>('Balances')
+      name: 'instances',
+      text: t<string>('Instances')
     }
   ]);
 
   const hidden = useMemo(
     () => (hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)))
       ? []
-      : ['balances'],
+      : ['instances'],
     [hasAccounts, infos]
   );
 
@@ -77,8 +77,8 @@ function UniqueApp ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Switch>
-        <Route path={`${basePath}/balances`}>
-          <Balances infos={infos} />
+        <Route path={`${basePath}/instances`}>
+          <Instances infos={infos} />
         </Route>
         <Route>
           <Overview
