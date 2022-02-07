@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.105.1 Feb 7, 2022
+
+Contributed:
+
+- Allow upload of signatories for multisig creation (Thanks to https://github.com/jsidorenko)
+- Remove Dusty network (Thanks to https://github.com/hoonsubin)
+
+Changes:
+
+- Align icon sizes on status overlay
+
+
 ## 0.104.1 Jan 31, 2022
 
 Contributed:
