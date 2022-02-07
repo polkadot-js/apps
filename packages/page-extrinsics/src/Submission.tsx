@@ -69,13 +69,13 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
       <Output
         isDisabled
         isTrimmed
-        label='encoded call data'
+        label={t<string>('encoded call data')}
         value={extrinsicHex}
         withCopy
       />
       <Output
         isDisabled
-        label='encoded call hash'
+        label={t<string>('encoded call hash')}
         value={extrinsicHash}
         withCopy
       />
