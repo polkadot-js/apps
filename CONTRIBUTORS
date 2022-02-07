@@ -206,6 +206,7 @@
        1	h4x3rotab                     	Update Phala's websocket endpoint (#4241)
        1	Hanonycash                    	Added hanonycash Network logos & endpoints (#3911)
        1	hapham                        	Add parachain Lavender by SingNetwork (#6067)
+       1	Harald Heckmann               	Enable Zeitgeist and Subsocial (#6936)
        1	Harjyot Singh                 	Update translation.json (#3570)
        1	Harry Liu                     	Update README.md (#1437)
        1	Ian He                        	add onfinality endpoint for polkadot and kusama (#4070)
