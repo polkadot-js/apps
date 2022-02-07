@@ -1,4 +1,4 @@
-    3365	Jaco                          	Disable unreachable endpoints (#6933)
+    3366	Jaco                          	Ensure InputAddress is de-deuped prior to display (#6934)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
