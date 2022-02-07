@@ -20,7 +20,7 @@ const definitions: OverrideBundleDefinition = {
           end: 'BlockNumber',
           estimates: 'Option<u64>',
           range_index: 'Option<u8>',
-          eth_address: 'Option<Bytes>',
+          bsc_address: 'Option<Bytes>',
           multiplier: 'MultiplierOption',
           reward: 'u128'
         },
@@ -37,7 +37,7 @@ const definitions: OverrideBundleDefinition = {
           block_number: 'BlockNumber',
           winners: 'Vec<AccountParticipateEstimates>',
           public: 'AccountId',
-          estimates_config: 'Bytes',
+          estimates_id: 'u64',
           symbol: 'Bytes',
           price: '(u64, FractionLength)'
         },
