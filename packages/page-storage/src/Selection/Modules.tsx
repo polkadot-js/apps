@@ -10,13 +10,13 @@ import type { ComponentProps as Props } from '../types';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { Button, Input, InputStorage } from '@polkadot/react-components';
+import { Button, Input, InputStorage, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
-import { isHex, isNull, isUndefined } from '@polkadot/util';
+import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -118,7 +118,7 @@ function extractParams (isIterable: boolean, values: RawParams): [RawParams, boo
 function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isHeadKey: true, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
   const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
   const [{ blockHash, textHash }, setBlockHash] = useState<BlockHash>({ blockHash: null, textHash: '' });
 
@@ -129,6 +129,32 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       api.query.substrate.changesTrieConfig
     ),
     [api]
+  );
+
+  const [isHeadKey, hexKey] = useMemo(
+    (): [boolean, string] => {
+      if (isValid) {
+        try {
+          const [params] = extractParams(isIterable, values);
+          const args = params.map(({ value }) => value);
+          const isHeadKey = args.length !== (
+            key.creator.meta.type.isPlain
+              ? 0
+              : key.creator.meta.type.asMap.hashers.length
+          );
+          const hexKey = isHeadKey && key.creator.iterKey
+            ? key.creator.iterKey(...args).toHex()
+            : u8aToHex(compactStripLength(key.creator(...args))[1]);
+
+          return [isHeadKey, hexKey];
+        } catch {
+          // ignore
+        }
+      }
+
+      return [false, '0x'];
+    },
+    [isIterable, isValid, key, values]
   );
 
   const _onAdd = useCallback(
@@ -204,6 +230,15 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           label={t<string>('blockhash to query at')}
           onChange={_onChangeAt}
           placeholder={t<string>('0x...')}
+        />
+        <Output
+          isDisabled
+          label={isHeadKey
+            ? t<string>('encoded head key')
+            : t<string>('encoded storage key')
+          }
+          value={hexKey}
+          withCopy
         />
       </div>
       <div className='storage--actionrow-buttons'>
