@@ -27,7 +27,7 @@ export function createKusama (t: TFunction): EndpointOption {
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
-    teleport: [1000],
+    teleport: [1000, 1001],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
@@ -39,6 +39,16 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
           OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+        },
+        teleport: [-1]
+      },
+      {
+        info: 'encointer',
+        homepage: 'https://encointer.org/',
+        paraId: 1001,
+        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://api.kusama.encointer.org'
         },
         teleport: [-1]
       },
@@ -117,15 +127,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-parachain-rpc.darwinia.network/'
-        }
-      },
-      {
-        info: 'encointer',
-        homepage: 'https://encointer.org/',
-        paraId: 1001,
-        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.kusama.encointer.org'
         }
       },
       {
