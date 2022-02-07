@@ -1,4 +1,4 @@
-    3363	Jaco                          	0.105.1 (#6931)
+    3364	Jaco                          	Render SpRuntimeDispatchError via DispatchError (#6932)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
