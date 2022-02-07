@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Ensure `InputAddress` is de-deuped prior to display (address/accounts)
+- Disable unreachable endpoints
+
+
 ## 0.105.1 Feb 7, 2022
 
 Contributed:
