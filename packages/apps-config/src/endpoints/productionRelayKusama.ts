@@ -360,7 +360,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'subsocial',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6550
         homepage: 'https://subsocial.network/',
         paraId: 2100,
         text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
@@ -379,7 +378,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'zeitgeist',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
         homepage: 'https://zeitgeist.pm',
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
