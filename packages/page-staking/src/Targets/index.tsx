@@ -3,6 +3,7 @@
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
@@ -241,6 +242,13 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     toggleLedger();
   }, [toggleLedger]);
 
+  const maxNominations = useMemo(
+    () => api.consts.staking.maxNominations
+      ? (api.consts.staking.maxNominations as u32).toNumber()
+      : MAX_NOMINATIONS,
+    [api]
+  );
+
   const myNominees = useMemo(
     () => extractNominees(ownNominators),
     [ownNominators]
@@ -267,14 +275,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(
-        filtered,
-        api.consts.staking.maxNominations
-          ? api.consts.staking.maxNominations.toNumber()
-          : MAX_NOMINATIONS
-      )
+      selectProfitable(filtered, maxNominations)
     ),
-    [api, filtered]
+    [filtered, maxNominations]
   );
 
   const _setNameFilter = useCallback(
@@ -353,9 +356,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const displayList = isQueryFiltered
     ? validators
     : sorted;
-  const maxNominations = api.consts.staking.maxNominations
-    ? api.consts.staking.maxNominations.toNumber()
-    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>
