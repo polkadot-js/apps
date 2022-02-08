@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Call } from '@polkadot/types/.interfaces';
 import type { Inspect } from '@polkadot/types/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -64,7 +65,7 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
       return [
         u8aToHex(u8a),
         extrinsic.registry.hash(u8a).toHex(),
-        formatInspect(extrinsic.method.inspect())
+        formatInspect((extrinsic.method as Call).inspect())
       ];
     },
     [extrinsic]
