@@ -59,7 +59,7 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
   (values.length === (type.isPlain ? 0 : type.asMap.hashers.length)));
 }
 
-function getInspect (creator: StorageEntry, args: unknown[]): Inspect[] | null {
+function formatInspect (creator: StorageEntry, args: unknown[]): Inspect[] | null {
   const { inner } = creator.inspect(...args);
 
   return inner.length
@@ -165,7 +165,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             : u8aToHex(compactStripLength(key.creator(...args))[1]);
           const inspect = isPartialKey
             ? null
-            : getInspect(key.creator, args);
+            : formatInspect(key.creator, args);
 
           return [isPartialKey, hexKey, inspect];
         } catch {
