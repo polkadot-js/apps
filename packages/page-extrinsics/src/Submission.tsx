@@ -53,7 +53,7 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
   );
 
   const [extrinsicHex, extrinsicHash, inspect] = useMemo(
-    (): [string, string, Inspect[] | null] => {
+    (): [string, string, Inspected[] | null] => {
       if (!extrinsic) {
         return ['0x', '0x', null];
       }
