@@ -167,8 +167,6 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             ? null
             : getInspect(key.creator, args);
 
-          console.log(inspect);
-
           return [isPartialKey, hexKey, inspect];
         } catch {
           // ignore
