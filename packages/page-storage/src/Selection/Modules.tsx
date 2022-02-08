@@ -4,13 +4,15 @@
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
+import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { Button, Input, InputStorage, Output } from '@polkadot/react-components';
+import { Button, Columar, Input, InputStorage, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
@@ -43,6 +45,11 @@ interface BlockHash {
   textHash: string;
 }
 
+interface Inspect {
+  name: string;
+  value: string;
+}
+
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value) =>
     isValid &&
@@ -50,6 +57,17 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
     !isUndefined(value.value) &&
     value.isValid,
   (values.length === (type.isPlain ? 0 : type.asMap.hashers.length)));
+}
+
+function getInspect (creator: StorageEntry, args: unknown[]): Inspect[] | null {
+  const { inner } = creator.inspect(...args);
+
+  return inner.length
+    ? inner.map(({ name, value }) => ({
+      name: name || '',
+      value: u8aToHex(value, undefined, false)
+    }))
+    : null;
 }
 
 function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
@@ -115,7 +133,7 @@ function extractParams (isIterable: boolean, values: RawParams): [RawParams, boo
   return [params, params.length === values.length];
 }
 
-function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isHeadKey: true, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
@@ -131,28 +149,31 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     [api]
   );
 
-  const [isHeadKey, hexKey] = useMemo(
-    (): [boolean, string] => {
+  const [isPartialKey, hexKey, inspect] = useMemo(
+    (): [boolean, string, Inspect[] | null] => {
       if (isValid) {
         try {
           const [params] = extractParams(isIterable, values);
           const args = params.map(({ value }) => value);
-          const isHeadKey = args.length !== (
+          const isPartialKey = args.length !== (
             key.creator.meta.type.isPlain
               ? 0
               : key.creator.meta.type.asMap.hashers.length
           );
-          const hexKey = isHeadKey && key.creator.iterKey
+          const hexKey = isPartialKey && key.creator.iterKey
             ? key.creator.iterKey(...args).toHex()
             : u8aToHex(compactStripLength(key.creator(...args))[1]);
+          const inspect = isPartialKey
+            ? null
+            : getInspect(key.creator, args);
 
-          return [isHeadKey, hexKey];
+          return [isPartialKey, hexKey, inspect];
         } catch {
           // ignore
         }
       }
 
-      return [false, '0x'];
+      return [false, '0x', null];
     },
     [isIterable, isValid, key, values]
   );
@@ -209,7 +230,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { creator: { meta, method, section } } = key;
 
   return (
-    <section className='storage--actionrow'>
+    <section className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
@@ -231,15 +252,42 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           onChange={_onChangeAt}
           placeholder={t<string>('0x...')}
         />
-        <Output
-          isDisabled
-          label={isHeadKey
-            ? t<string>('encoded head key')
-            : t<string>('encoded storage key')
-          }
-          value={hexKey}
-          withCopy
-        />
+        <Columar
+          className='keyColumar'
+          isPadded={false}
+        >
+          <Columar.Column>
+            <Output
+              isDisabled
+              label={isPartialKey
+                ? t<string>('encoded partial key')
+                : t<string>('encoded storage key')
+              }
+              value={hexKey}
+              withCopy
+            />
+          </Columar.Column>
+          <Columar.Column>
+            {inspect && (
+              <Output
+                isDisabled
+                label={t<string>('encoded key details')}
+                value={
+                  <table className='keyTable'>
+                    <tbody>
+                      {inspect.map(({ name, value }, i) => (
+                        <tr key={i}>
+                          <td>{name}</td>
+                          <td>{value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                }
+              />
+            )}
+          </Columar.Column>
+        </Columar>
       </div>
       <div className='storage--actionrow-buttons'>
         <Button
@@ -252,4 +300,25 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Modules);
+export default React.memo(styled(Modules)`
+  .keyColumar .ui--Column:last-child .ui--Labelled {
+    padding-left: 0.5rem;
+
+    label {
+      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
+    }
+  }
+
+  .keyTable {
+    tr {
+      td:first-child {
+        padding-right: 1em;
+        text-align: right;
+      }
+
+      td:last-child {
+        font: var(--font-mono);
+      }
+    }
+  }
+`);
