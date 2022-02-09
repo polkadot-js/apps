@@ -11,8 +11,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import DecodeInspect from '@polkadot/app-extrinsics/DecodedInspect';
-import { Button, Columar, Input, InputStorage, Output } from '@polkadot/react-components';
+import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';

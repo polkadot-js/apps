@@ -7,10 +7,9 @@ import type { Inspect } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Columar, Output } from '@polkadot/react-components';
+import { Columar, Inspect as DecodedInspect, Output } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import DecodedInspect from './DecodedInspect';
 import { useTranslation } from './translate';
 
 interface Props {

@@ -46,6 +46,7 @@ export { default as Icon } from './Icon';
 export { default as IconLink } from './IconLink';
 export { default as IdentityIcon } from './IdentityIcon';
 export { default as InfoForInput } from './InfoForInput';
+export { default as Inspect } from './Inspect';
 export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
 export { default as InputAddressMulti } from './InputAddressMulti';
