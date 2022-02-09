@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SupportedChains } from '@substrate/connect';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
@@ -8,7 +9,6 @@ import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
 import { ScProvider } from '@substrate/connect';
-import type { SupportedChains } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
