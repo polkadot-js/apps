@@ -2,37 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { Inspect } from '@polkadot/types/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useState } from 'react';
 
-import { Button, Columar, Extrinsic, InputAddress, MarkError, Output, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { u8aToHex } from '@polkadot/util';
 
+import Decoded from './Decoded';
 import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-}
-
-interface Inspected {
-  name: string;
-  value: string;
-}
-
-function formatInspect ({ inner, name = '', value }: Inspect, result: Inspected[] = []): Inspected[] {
-  if (value && value.length) {
-    result.push({ name, value: u8aToHex(value, undefined, false) });
-  }
-
-  for (let i = 0; i < inner.length; i++) {
-    formatInspect(inner[i], result);
-  }
-
-  return result;
 }
 
 function Selection ({ className }: Props): React.ReactElement<Props> {
@@ -50,24 +31,6 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
   const _onExtrinsicError = useCallback(
     (error?: Error | null) => setError(error ? error.message : null),
     []
-  );
-
-  const [extrinsicHex, extrinsicHash, inspect] = useMemo(
-    (): [string, string, Inspected[] | null] => {
-      if (!extrinsic) {
-        return ['0x', '0x', null];
-      }
-
-      const u8a = extrinsic.method.toU8a();
-
-      // don't use the built-in hash, we only want to convert once
-      return [
-        u8aToHex(u8a),
-        extrinsic.registry.hash(u8a).toHex(),
-        formatInspect(extrinsic.method.inspect())
-      ];
-    },
-    [extrinsic]
   );
 
   return (
@@ -89,46 +52,7 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
       />
-      <Columar
-        className='decodeColumar'
-        isPadded={false}
-      >
-        <Columar.Column>
-          <Output
-            isDisabled
-            isTrimmed
-            label={t<string>('encoded call data')}
-            value={extrinsicHex}
-            withCopy
-          />
-          <Output
-            isDisabled
-            label={t<string>('encoded call hash')}
-            value={extrinsicHash}
-            withCopy
-          />
-        </Columar.Column>
-        <Columar.Column>
-          {inspect && (
-            <Output
-              isDisabled
-              label={t<string>('encoded call details')}
-              value={
-                <table className='decodeTable'>
-                  <tbody>
-                    {inspect.map(({ name, value }, i) => (
-                      <tr key={i}>
-                        <td>{name}</td>
-                        <td>{value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              }
-            />
-          )}
-        </Columar.Column>
-      </Columar>
+      <Decoded extrinsic={extrinsic} />
       {error && !extrinsic && (
         <MarkError content={error} />
       )}
@@ -151,24 +75,4 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Selection)`
-  .decodeColumar .ui--Column:last-child .ui--Labelled {
-    padding-left: 0.5rem;
-
-    label {
-      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
-    }
-  }
-
-  .decodeTable {
-    tr {
-      td:first-child {
-        padding-right: 1em;
-        text-align: right;
-      }
-
-      td:last-child {
-        font: var(--font-mono);
-      }
-    }
-`);
+export default React.memo(Selection);

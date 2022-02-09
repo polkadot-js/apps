@@ -1,0 +1,124 @@
+// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Inspect } from '@polkadot/types/types';
+
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+
+import { Columar, Output } from '@polkadot/react-components';
+import { u8aToHex } from '@polkadot/util';
+
+import { useTranslation } from './translate';
+
+interface Props {
+  className?: string;
+  extrinsic?: SubmittableExtrinsic<'promise'> | null;
+}
+
+interface Inspected {
+  name: string;
+  value: string;
+}
+
+function formatInspect ({ inner, name = '', value }: Inspect, result: Inspected[] = []): Inspected[] {
+  if (value && value.length) {
+    result.push({ name, value: u8aToHex(value, undefined, false) });
+  }
+
+  for (let i = 0; i < inner.length; i++) {
+    formatInspect(inner[i], result);
+  }
+
+  return result;
+}
+
+function Decoded ({ className, extrinsic }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
+  const [extrinsicHex, extrinsicHash, inspect] = useMemo(
+    (): [string, string, Inspected[] | null] => {
+      if (!extrinsic) {
+        return ['0x', '0x', null];
+      }
+
+      const u8a = extrinsic.method.toU8a();
+
+      // don't use the built-in hash, we only want to convert once
+      return [
+        u8aToHex(u8a),
+        extrinsic.registry.hash(u8a).toHex(),
+        formatInspect(extrinsic.method.inspect())
+      ];
+    },
+    [extrinsic]
+  );
+
+  if (!inspect) {
+    return null;
+  }
+
+  return (
+    <Columar
+      className={className}
+      isPadded={false}
+    >
+      <Columar.Column>
+        <Output
+          isDisabled
+          isTrimmed
+          label={t<string>('encoded call data')}
+          value={extrinsicHex}
+          withCopy
+        />
+        <Output
+          isDisabled
+          label={t<string>('encoded call hash')}
+          value={extrinsicHash}
+          withCopy
+        />
+      </Columar.Column>
+      <Columar.Column>
+        <Output
+          isDisabled
+          label={t<string>('encoded call details')}
+          value={
+            <table>
+              <tbody>
+                {inspect.map(({ name, value }, i) => (
+                  <tr key={i}>
+                    <td>{name}</td>
+                    <td>{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          }
+        />
+      </Columar.Column>
+    </Columar>
+  );
+}
+
+export default React.memo(styled(Decoded)`
+  .ui--Column:last-child .ui--Labelled {
+    padding-left: 0.5rem;
+
+    label {
+      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
+    }
+  }
+
+  table {
+    tr {
+      td:first-child {
+        padding-right: 1em;
+        text-align: right;
+      }
+
+      td:last-child {
+        font: var(--font-mono);
+      }
+    }
+`);
