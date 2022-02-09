@@ -4,14 +4,14 @@
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
+import DecodeInspect from '@polkadot/app-extrinsics/DecodedInspect';
 import { Button, Columar, Input, InputStorage, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
@@ -45,11 +45,6 @@ interface BlockHash {
   textHash: string;
 }
 
-interface Inspect {
-  name: string;
-  value: string;
-}
-
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value) =>
     isValid &&
@@ -57,17 +52,6 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
     !isUndefined(value.value) &&
     value.isValid,
   (values.length === (type.isPlain ? 0 : type.asMap.hashers.length)));
-}
-
-function getInspect (creator: StorageEntry, args: unknown[]): Inspect[] | null {
-  const { inner } = creator.inspect(...args);
-
-  return inner.length
-    ? inner.map(({ name, value }) => ({
-      name: name || '',
-      value: u8aToHex(value, undefined, false)
-    }))
-    : null;
 }
 
 function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
@@ -150,7 +134,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   );
 
   const [isPartialKey, hexKey, inspect] = useMemo(
-    (): [boolean, string, Inspect[] | null] => {
+    (): [boolean, string, Inspect | null] => {
       if (isValid) {
         try {
           const [params] = extractParams(isIterable, values);
@@ -165,7 +149,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             : u8aToHex(compactStripLength(key.creator(...args))[1]);
           const inspect = isPartialKey
             ? null
-            : getInspect(key.creator, args);
+            : key.creator.inspect(...args);
 
           return [isPartialKey, hexKey, inspect];
         } catch {
@@ -268,24 +252,10 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             />
           </Columar.Column>
           <Columar.Column>
-            {inspect && (
-              <Output
-                isDisabled
-                label={t<string>('encoded key details')}
-                value={
-                  <table className='keyTable'>
-                    <tbody>
-                      {inspect.map(({ name, value }, i) => (
-                        <tr key={i}>
-                          <td>{name}</td>
-                          <td>{value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                }
-              />
-            )}
+            <DecodeInspect
+              inspect={inspect}
+              label={t<string>('encoded key details')}
+            />
           </Columar.Column>
         </Columar>
       </div>
@@ -301,24 +271,11 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Modules)`
-  .keyColumar .ui--Column:last-child .ui--Labelled {
+  .ui--Column:last-child .ui--Labelled {
     padding-left: 0.5rem;
 
     label {
       left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
-    }
-  }
-
-  .keyTable {
-    tr {
-      td:first-child {
-        padding-right: 1em;
-        text-align: right;
-      }
-
-      td:last-child {
-        font: var(--font-mono);
-      }
     }
   }
 `);
