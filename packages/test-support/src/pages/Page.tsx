@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen } from '@testing-library/react';
+import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -17,6 +17,7 @@ import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN } from '@polkadot/util';
 
 import { alice, bob, charlie, ferdie } from '../keyring';
 import { Table } from '../pagesElements';
@@ -78,6 +79,19 @@ jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
 
+jest.mock('@polkadot/app-accounts/Accounts/useMultisigApprovals', () => ({
+  __esModule: true,
+  default: () => mockApiHooks.multisigApprovals
+}));
+
+jest.mock('@polkadot/react-hooks/useDelegations', () => ({
+  useDelegations: () => mockApiHooks.delegations
+}));
+
+jest.mock('@polkadot/react-hooks/useProxies', () => ({
+  useProxies: () => mockApiHooks.proxies
+}));
+
 jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
@@ -90,7 +104,7 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
 }));
 
 export abstract class Page {
-  private renderResult?: RenderResult
+  private renderResult?: RenderResult;
   protected readonly defaultAddresses = [alice, bob, charlie, ferdie];
 
   protected constructor (private readonly overview: React.ReactElement, private readonly rowClassName: string) {
@@ -108,6 +122,21 @@ export abstract class Page {
     const noop = () => Promise.resolve(() => { /**/ });
     const mockApi: ApiProps = {
       api: {
+        consts: {
+          babe: {
+            expectedBlockTime: new BN(1)
+          },
+          democracy: {
+            enactmentPeriod: new BN(1)
+          },
+          proxy: {
+            proxyDepositBase: new BN(1),
+            proxyDepositFactor: new BN(1)
+          }
+        },
+        createType: () => ({
+          defKeys: []
+        }),
         derive: {
           accounts: {
             info: noop
@@ -134,10 +163,25 @@ export abstract class Page {
             identityOf: noop
           }
         },
-        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
-        tx: {
-          council: {
+        registry: {
+          chainDecimals: [12],
+          chainTokens: ['Unit'],
+          lookup: {
+            names: []
           }
+        },
+        tx: {
+          council: {},
+          democracy: {
+            delegate: noop
+          },
+          multisig: {
+            approveAsMulti: Object.assign(noop, { meta: { args: [] } })
+          },
+          proxy: {
+            removeProxies: noop
+          },
+          utility: noop
         }
       },
       systemName: 'substrate'
@@ -176,6 +220,13 @@ export abstract class Page {
 
   clearAccounts (): void {
     this.defaultAddresses.forEach((address) => keyring.forgetAccount(address));
+  }
+
+  getById (id: string | RegExp): HTMLElement | null {
+    this.assertRendered();
+    const getById = queryByAttribute.bind(null, 'id');
+
+    return getById(this.renderResult?.container ?? fail('Page render failed'), id);
   }
 
   protected assertRendered (): void {

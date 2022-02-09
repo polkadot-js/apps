@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -17,11 +17,11 @@ const definitions: OverrideBundleDefinition = {
             'Common',
             'Uncommon',
             'Rare',
-            'Mythical',
-            'Legendary'
+            'Epic',
+            'Legendary',
+            'Relic'
           ]
         },
-        Basic: 'u8',
         TokenId: 'U256',
         Stackable: {
           _enum: [
@@ -30,9 +30,10 @@ const definitions: OverrideBundleDefinition = {
             'Diamond'
           ]
         },
+        String: 'Vec<u8>',
         TokenType: {
           _enum: {
-            Basic: '(Basic, Rarity)'
+            Basic: '(Rarity, String, u32, String)'
           }
         },
         Status: {

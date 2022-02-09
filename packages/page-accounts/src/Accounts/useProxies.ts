@@ -1,21 +1,22 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 interface Proxy {
   address: string;
   delay: BN;
   isOwned: boolean;
-  type: ProxyType;
+  type: NodeRuntimeProxyType;
 }
 
 interface State {
@@ -30,7 +31,7 @@ const EMPTY_STATE: State = {
   proxies: []
 };
 
-function createProxy (allAccounts: string[], delegate: AccountId, type: ProxyType, delay = BN_ZERO): Proxy {
+function createProxy (allAccounts: string[], delegate: AccountId, type: NodeRuntimeProxyType, delay = BN_ZERO): Proxy {
   const address = delegate.toString();
 
   return {
@@ -41,7 +42,7 @@ function createProxy (allAccounts: string[], delegate: AccountId, type: ProxyTyp
   };
 }
 
-export default function useProxies (address?: string | null): State {
+function useProxiesImpl (address?: string | null): State {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
@@ -52,13 +53,13 @@ export default function useProxies (address?: string | null): State {
 
     address && api.query.proxy &&
       api.query.proxy
-        .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
+        .proxies<ITuple<[Vec<ITuple<[AccountId, NodeRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
           const proxies = api.tx.proxy.addProxy.meta.args.length === 3
-            ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
+            ? (_proxies as PalletProxyProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
               createProxy(allAccounts, delegate, proxyType, delay)
             )
-            : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]) =>
+            : (_proxies as [AccountId, NodeRuntimeProxyType][]).map(([delegate, proxyType]) =>
               createProxy(allAccounts, delegate, proxyType)
             );
           const owned = proxies.filter(({ isOwned }) => isOwned);
@@ -74,3 +75,5 @@ export default function useProxies (address?: string | null): State {
 
   return known;
 }
+
+export default createNamedHook('useProxies', useProxiesImpl);

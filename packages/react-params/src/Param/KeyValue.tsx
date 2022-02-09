@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -16,18 +16,17 @@ interface StateParam {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function createParam (hex: string | String, length = -1): StateParam {
+export function createParam (hex: string | String, ignoreLength = false): StateParam {
   let u8a;
+  let isValid = false;
 
   try {
     u8a = hexToU8a(hex.toString());
+
+    isValid = ignoreLength || u8a.length !== 0;
   } catch (error) {
     u8a = new Uint8Array([]);
   }
-
-  const isValid = length !== -1
-    ? u8a.length === length
-    : u8a.length !== 0;
 
   return {
     isValid,
@@ -37,8 +36,8 @@ export function createParam (hex: string | String, length = -1): StateParam {
 
 function KeyValue ({ className = '', isDisabled, label, onChange, onEnter, withLabel }: Props): React.ReactElement<Props> {
   const [, setIsValid] = useState(false);
-  const [key, setKey] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
-  const [value, setValue] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
+  const [key, setKey] = useState<StateParam>(() => ({ isValid: false, u8a: new Uint8Array([]) }));
+  const [value, setValue] = useState<StateParam>(() => ({ isValid: false, u8a: new Uint8Array([]) }));
 
   useEffect((): void => {
     const isValid = key.isValid && value.isValid;
@@ -58,7 +57,7 @@ function KeyValue ({ className = '', isDisabled, label, onChange, onEnter, withL
     []
   );
   const _onChangeValue = useCallback(
-    (value: string): void => setValue(createParam(value)),
+    (value: string): void => setValue(createParam(value, true)),
     []
   );
 

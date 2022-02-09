@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -8,8 +8,12 @@ interface SortOption {
   isUnreachable?: boolean;
 }
 
+function sortNoop (): number {
+  return 0;
+}
+
 function sortLinks (a: SortOption, b: SortOption): number {
-  return a.isUnreachable !== b.isUnreachable
+  return !!a.isUnreachable !== !!b.isUnreachable
     ? a.isUnreachable
       ? 1
       : -1
@@ -17,6 +21,8 @@ function sortLinks (a: SortOption, b: SortOption): number {
 }
 
 function expandLinked (input: LinkOption[]): LinkOption[] {
+  const valueRelay = input.map(({ value }) => value);
+
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
     result.push(entry);
 
@@ -25,6 +31,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
         expandLinked(entry.linked).map((child): LinkOption => {
           child.genesisHashRelay = entry.genesisHash;
           child.isChild = true;
+          child.valueRelay = valueRelay;
 
           return child;
         })
@@ -64,7 +71,8 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    (withSort ? linked.sort(sortLinks) : linked)
+    linked
+      .sort(withSort ? sortLinks : sortNoop)
       .filter(({ paraId }) => paraId)
       .forEach((o) =>
         options.push(...expandEndpoint(t, o, firstOnly, withSort))
@@ -78,7 +86,8 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
 }
 
 export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnly: boolean, withSort: boolean): LinkOption[] {
-  return (withSort ? input.sort(sortLinks) : input).reduce<LinkOption[]>((result, input) =>
-    result.concat(expandEndpoint(t, input, firstOnly, withSort)), []
-  );
+  return input
+    .sort(withSort ? sortLinks : sortNoop)
+    .reduce((all: LinkOption[], e) =>
+      all.concat(expandEndpoint(t, e, firstOnly, withSort)), []);
 }

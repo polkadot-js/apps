@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, BalanceOf, BidKind } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 
 import React, { useRef } from 'react';
@@ -20,11 +21,11 @@ interface Props {
 interface CandidateSuspend {
   accountId: AccountId;
   balance: BalanceOf;
-  bid: BidKind;
+  bid: PalletSocietyBidKind;
 }
 
 const optExtractCandidates = {
-  transform: (entries: [StorageKey<[AccountId]>, Option<ITuple<[BalanceOf, BidKind]>>][]): CandidateSuspend[] =>
+  transform: (entries: [StorageKey<[AccountId]>, Option<ITuple<[BalanceOf, PalletSocietyBidKind]>>][]): CandidateSuspend[] =>
     entries
       .filter(([{ args: [accountId] }, opt]) => opt.isSome && accountId)
       .map(([{ args: [accountId] }, opt]) => {

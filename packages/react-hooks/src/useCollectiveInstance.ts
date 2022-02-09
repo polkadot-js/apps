@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from './types';
@@ -8,7 +8,9 @@ import { useMemo } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-export function useCollectiveInstance (instanceType: CollectiveType, instanceIndex?: number): CollectiveType | null {
+import { createNamedHook } from './createNamedHook';
+
+function useCollectiveInstanceImpl (instanceType: CollectiveType, instanceIndex?: number): CollectiveType | null {
   const { api } = useApi();
 
   return useMemo(
@@ -26,3 +28,5 @@ export function useCollectiveInstance (instanceType: CollectiveType, instanceInd
     [api, instanceIndex, instanceType]
   );
 }
+
+export const useCollectiveInstance = createNamedHook('useCollectiveInstance', useCollectiveInstanceImpl);

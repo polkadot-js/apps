@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -12,9 +12,9 @@ export interface HeaderProps {
 export interface ItemProps {
   children?: React.ReactNode;
   className?: string;
-  onClick?: () => void | Promise<void> | null;
-  disabled?: boolean;
   icon?: IconName;
+  isDisabled?: boolean;
+  onClick?: () => void | Promise<void> | null;
 }
 
 export interface BaseProps {

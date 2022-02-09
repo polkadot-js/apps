@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -35,8 +35,8 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   );
 
   const _onDeployConstructor = useCallback(
-    (constructorIndex = 0): void => {
-      onShowDeploy && onShowDeploy(code.json.codeHash, constructorIndex);
+    (constructorIndex?: number): void => {
+      onShowDeploy && onShowDeploy(code.json.codeHash, constructorIndex || 0);
     },
     [code, onShowDeploy]
   );

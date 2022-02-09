@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
+import { createNamedHook } from './createNamedHook';
 import { useApiUrl } from './useApiUrl';
 import { useIsMountedRef } from './useIsMountedRef';
 import { useParaEndpoints } from './useParaEndpoints';
@@ -35,7 +36,7 @@ function arrayShuffle (result: string[]): string[] {
   return result;
 }
 
-export function useParaApi (paraId: BN | number): Result {
+function useParaApiImpl (paraId: BN | number): Result {
   const mountedRef = useIsMountedRef();
   const endpoints = useParaEndpoints(paraId);
   const [state, setState] = useState<Result>(() => ({
@@ -63,3 +64,5 @@ export function useParaApi (paraId: BN | number): Result {
 
   return state;
 }
+
+export const useParaApi = createNamedHook('useParaApi', useParaApiImpl);

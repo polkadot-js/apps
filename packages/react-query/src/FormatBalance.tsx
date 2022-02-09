@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-query authors & contributors
+// Copyright 2017-2022 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Compact } from '@polkadot/types';
 import type { Registry } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -95,7 +95,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
             ? splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'
-                ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
+                ? <>{t<string>('everything')}{labelPost || ''}</>
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
               : isString(labelPost)
                 ? `-${labelPost}`

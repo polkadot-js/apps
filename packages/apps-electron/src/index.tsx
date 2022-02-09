@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
@@ -24,6 +24,9 @@ if (!rootElement) {
 const store = new RemoteElectronStore(electronMainApi.accountStore);
 
 ReactDOM.render(
-  <Root store={store} />,
+  <Root
+    isElectron
+    store={store}
+  />,
   rootElement
 );

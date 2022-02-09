@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -37,7 +37,7 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
       labelExtra={labelExtra}
       withLabel={withLabel}
     >
-      <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? ' disabled' : ''}`}>
+      <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
         {isTrimmed && value && (value.length > 256)
           ? `${value.substr(0, 96)}…${value.substr(-96)}`
           : value
@@ -52,6 +52,12 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
 }
 
 export default React.memo(styled(Output)`
+  .ui.selection.dropdown.ui--output.isDisabled {
+    background: transparent;
+    border-style: dashed;
+    opacity: 1;
+  }
+
   pre {
     margin: 0;
     overflow: hidden;

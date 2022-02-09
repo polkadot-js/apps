@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber, Header, ParaId, RuntimeVersion } from '@polkadot/types/interfaces';
@@ -20,6 +20,8 @@ const transformHeader = {
 
 function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
   const { api } = useParaApi(id);
+
+  // We are not using the derive here, we keep this queries to the point to not overload
   const bestNumber = useCall<BlockNumber>(api?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const runtimeVersion = useCall<RuntimeVersion>(api?.rpc.state.subscribeRuntimeVersion);
 

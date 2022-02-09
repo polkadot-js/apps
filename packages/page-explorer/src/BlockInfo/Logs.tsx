@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DigestItem } from '@polkadot/types/interfaces';
@@ -86,11 +86,11 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
 
 function formatItem (item: DigestItem): React.ReactNode {
   if (item.value instanceof Struct) {
-    return formatStruct(item.value);
+    return formatStruct(item.value as Struct);
   } else if (item.value instanceof Tuple) {
     return formatTuple(item.value);
   } else if (item.value instanceof Vec) {
-    return formatVector(item.value);
+    return formatVector(item.value as Vec<Codec>);
   } else if (item.value instanceof Raw) {
     return formatU8a(item.value);
   }

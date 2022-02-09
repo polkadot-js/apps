@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/test-supports authors & contributors
+// Copyright 2017-2022 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
@@ -6,7 +6,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { JudgementTag } from './JudgementTag';
 
 export class Sidebar {
-  public sidebar: HTMLElement
+  public sidebar: HTMLElement;
 
   constructor (sidebar: HTMLElement) {
     this.sidebar = sidebar;

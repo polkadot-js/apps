@@ -1,9 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useEffect, useState } from 'react';
 
-export function useScroll (): number {
+import { createNamedHook } from './createNamedHook';
+
+function useScrollImpl (): number {
   const [scrollY, setScrollY] = useState(window.pageYOffset);
   const setYOffset = useCallback((): void => setScrollY(window.pageYOffset), []);
 
@@ -21,3 +23,5 @@ export function useScroll (): number {
 
   return scrollY;
 }
+
+export const useScroll = createNamedHook('useScroll', useScrollImpl);

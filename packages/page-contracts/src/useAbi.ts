@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useEffect, useState } from 'react';
 
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
+import { createNamedHook } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
 import store from './store';
@@ -46,7 +47,7 @@ const EMPTY: AbiState = {
   isAbiValid: false
 };
 
-export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: string | null = null, isRequired = false): UseAbi {
+function useAbiImpl (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: string | null = null, isRequired = false): UseAbi {
   const [state, setAbi] = useState<AbiState>(() => fromInitial(initialValue, isRequired));
 
   useEffect(
@@ -98,3 +99,5 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
     onRemoveAbi
   };
 }
+
+export default createNamedHook('useAbi', useAbiImpl);

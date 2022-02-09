@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { BN_ZERO } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -98,7 +99,7 @@ function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], era
   };
 }
 
-export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[]): State {
+function useOwnEraRewardsImpl (maxEras?: number, ownValidators?: StakerState[]): State {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
@@ -164,3 +165,5 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
 
   return state;
 }
+
+export const useOwnEraRewards = createNamedHook('useOwnEraRewards', useOwnEraRewardsImpl);

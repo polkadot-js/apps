@@ -43,6 +43,7 @@
   "default interface language": "default interface language",
   "default interface theme": "default interface theme",
   "do not include empty strings in the generated file": "do not include empty strings in the generated file",
+  "generate random color": "generate random color",
   "include all empty strings in the generated file": "include all empty strings in the generated file",
   "manage hardware connections": "manage hardware connections",
   "the language to display translations for": "the language to display translations for",

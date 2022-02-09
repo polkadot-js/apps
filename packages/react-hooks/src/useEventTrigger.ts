@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AugmentedEvent } from '@polkadot/api/types';
@@ -7,6 +7,7 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -25,7 +26,7 @@ const EMPTY_RESULT: Result = {
 
 const IDENTITY_FILTER = () => true;
 
-export function useEventTrigger (_checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
+function useEventTriggerImpl (_checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
   const { api } = useApi();
   const [state, setState] = useState(() => EMPTY_RESULT);
   const [checks] = useState(() => _checks);
@@ -51,3 +52,5 @@ export function useEventTrigger (_checks: EventCheck[], filter: (record: EventRe
 
   return state;
 }
+
+export const useEventTrigger = createNamedHook('useEventTrigger', useEventTriggerImpl);

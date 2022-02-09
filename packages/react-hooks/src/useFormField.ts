@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useMemo, useState } from 'react';
@@ -15,6 +15,7 @@ type ValidateFn<T> = (_: T) => boolean;
 
 const defaultValidate = (): boolean => true;
 
+// FIXME Since we use generics, this cannot be a createNamedHook as of yet
 export function useFormField<T> (defaultValue: T | null, validate: ValidateFn<T> = defaultValidate): FormField<T> {
   const [value, setValue] = useState<T | null>(defaultValue);
   const isValid = useMemo(

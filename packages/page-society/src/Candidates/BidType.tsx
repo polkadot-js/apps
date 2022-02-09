@@ -1,14 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BidKind } from '@polkadot/types/interfaces';
+import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 
 interface Props {
-  value?: BidKind;
+  value?: PalletSocietyBidKind;
 }
 
 function BidType ({ value }: Props): React.ReactElement<Props> {

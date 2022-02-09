@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-export default function useCounter (): number {
+function useCounterImpl (): number {
   const { hasAccounts } = useAccounts();
   const { api, isApiReady } = useApi();
   const mountedRef = useIsMountedRef();
@@ -22,3 +22,5 @@ export default function useCounter (): number {
 
   return counter;
 }
+
+export default createNamedHook('useCounter', useCounterImpl);
