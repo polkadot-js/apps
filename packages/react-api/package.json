@@ -11,10 +11,10 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.105.2-8",
+  "version": "0.105.2-9",
   "dependencies": {
     "@babel/runtime": "^7.17.0",
-    "@polkadot/api": "^7.7.2-6",
+    "@polkadot/api": "^7.7.2-9",
     "@polkadot/extension-compat-metamask": "^0.42.8-3",
     "@polkadot/extension-dapp": "^0.42.8-3",
     "@substrate/connect": "0.4.6",
