@@ -7,7 +7,7 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { Detector } from '@substrate/connect';
+import { ScProvider, SupportedChains } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
@@ -196,10 +196,7 @@ function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | n
     let provider;
 
     if (apiUrl.startsWith('light://')) {
-      const detect = new Detector('polkadot-js/apps');
-
-      provider = detect.provider(apiUrl.replace('light://substrate-connect/', ''));
-      provider.connect().catch(console.error);
+      provider = new ScProvider(apiUrl.replace('light://substrate-connect/', '') as SupportedChains);
     } else {
       provider = new WsProvider(apiUrl);
     }
