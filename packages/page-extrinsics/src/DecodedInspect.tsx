@@ -20,7 +20,6 @@ interface Inspected {
   value: string;
 }
 
-
 function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: Inspected[] = []): Inspected[] {
   if (outer.length) {
     const value = new Array<string>(outer.length);
