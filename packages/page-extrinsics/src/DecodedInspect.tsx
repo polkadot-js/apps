@@ -63,20 +63,13 @@ function DecodedInspect ({ className, inspect, label }: Props): React.ReactEleme
 }
 
 export default React.memo(styled(DecodedInspect)`
-  .ui--Labelled {
-    padding-left: 0.5rem;
-
-    label {
-      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
-    }
-  }
-
   table {
     tr {
       td:first-child {
         color: var(--color-label);
-        padding-right: 1em;
+        padding-right: 0.5em;
         text-align: right;
+        white-space: nowrap;
       }
 
       td:last-child {

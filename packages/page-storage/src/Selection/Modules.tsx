@@ -8,6 +8,7 @@ import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import DecodeInspect from '@polkadot/app-extrinsics/DecodedInspect';
@@ -269,4 +270,12 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Modules);
+export default React.memo(styled(Modules)`
+  .ui--Column:last-child .ui--Labelled {
+    padding-left: 0.5rem;
+
+    label {
+      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
+    }
+  }
+`);
