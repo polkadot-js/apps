@@ -69,17 +69,18 @@ function DecodedInspect ({ className, inspect, label }: Props): React.ReactEleme
 }
 
 export default React.memo(styled(DecodedInspect)`
-  table {
-    tr {
-      td:first-child {
-        color: var(--color-label);
-        padding-right: 0.5em;
-        text-align: right;
-        white-space: nowrap;
-      }
+  table tr td {
+    vertical-align: top;
 
-      td:last-child {
-        font: var(--font-mono);
-      }
+    &:first-child {
+      color: var(--color-label);
+      padding-right: 0.5em;
+      text-align: right;
+      white-space: nowrap;
     }
+
+    &:last-child {
+      font: var(--font-mono);
+    }
+  }
 `);
