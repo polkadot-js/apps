@@ -272,19 +272,18 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
               <Output
                 isDisabled
                 label={t<string>('encoded key details')}
-                value={
-                  <table className='keyTable'>
-                    <tbody>
-                      {inspect.map(({ name, value }, i) => (
-                        <tr key={i}>
-                          <td>{name}</td>
-                          <td>{value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                }
-              />
+              >
+                <table className='keyTable'>
+                  <tbody>
+                    {inspect.map(({ name, value }, i) => (
+                      <tr key={i}>
+                        <td>{name}</td>
+                        <td>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Output>
             )}
           </Columar.Column>
         </Columar>

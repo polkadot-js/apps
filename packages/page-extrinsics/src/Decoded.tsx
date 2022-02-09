@@ -34,24 +34,26 @@ function formatInspect ({ inner, name = '', value }: Inspect, result: Inspected[
   return result;
 }
 
+function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, string, Inspected[] | null] {
+  if (!extrinsic) {
+    return ['0x', '0x', null];
+  }
+
+  const u8a = extrinsic.method.toU8a();
+
+  // don't use the built-in hash, we only want to convert once
+  return [
+    u8aToHex(u8a),
+    extrinsic.registry.hash(u8a).toHex(),
+    formatInspect(extrinsic.method.inspect())
+  ];
+}
+
 function Decoded ({ className, extrinsic }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const [extrinsicHex, extrinsicHash, inspect] = useMemo(
-    (): [string, string, Inspected[] | null] => {
-      if (!extrinsic) {
-        return ['0x', '0x', null];
-      }
-
-      const u8a = extrinsic.method.toU8a();
-
-      // don't use the built-in hash, we only want to convert once
-      return [
-        u8aToHex(u8a),
-        extrinsic.registry.hash(u8a).toHex(),
-        formatInspect(extrinsic.method.inspect())
-      ];
-    },
+  const [hex, hash, inspect] = useMemo(
+    () => extract(extrinsic),
     [extrinsic]
   );
 
@@ -69,13 +71,13 @@ function Decoded ({ className, extrinsic }: Props): React.ReactElement<Props> | 
           isDisabled
           isTrimmed
           label={t<string>('encoded call data')}
-          value={extrinsicHex}
+          value={hex}
           withCopy
         />
         <Output
           isDisabled
           label={t<string>('encoded call hash')}
-          value={extrinsicHash}
+          value={hash}
           withCopy
         />
       </Columar.Column>
@@ -83,19 +85,18 @@ function Decoded ({ className, extrinsic }: Props): React.ReactElement<Props> | 
         <Output
           isDisabled
           label={t<string>('encoded call details')}
-          value={
-            <table>
-              <tbody>
-                {inspect.map(({ name, value }, i) => (
-                  <tr key={i}>
-                    <td>{name}</td>
-                    <td>{value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          }
-        />
+        >
+          <table>
+            <tbody>
+              {inspect.map(({ name, value }, i) => (
+                <tr key={i}>
+                  <td>{name}</td>
+                  <td>{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Output>
       </Columar.Column>
     </Columar>
   );
