@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.105.2-13",
+  "version": "0.105.2-14",
   "dependencies": {
     "@babel/runtime": "^7.17.0",
     "@polkadot/hw-ledger": "^8.3.4-10"
