@@ -20,6 +20,8 @@ interface Inspected {
   value: string;
 }
 
+// funky false positive
+/* eslint-disable-next-line no-multiple-empty-lines */
 function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: Inspected[] = []): Inspected[] {
   if (outer.length) {
     const value = new Array<string>(outer.length);
