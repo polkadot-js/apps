@@ -7,7 +7,8 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { ScProvider, SupportedChains } from '@substrate/connect';
+import { ScProvider } from '@substrate/connect';
+import type { SupportedChains } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
