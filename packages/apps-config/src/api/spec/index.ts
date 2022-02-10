@@ -246,6 +246,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
+  swapdex,
   ternoa,
   trustbase,
   uart,
