@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Call } from '@polkadot/types/interfaces';
+import type { DecodedExtrinsic } from './types';
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
@@ -17,6 +18,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  setLast: (value: DecodedExtrinsic | null) => void;
 }
 
 interface ExtrinsicInfo {
@@ -37,7 +39,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicHex: null
 };
 
-function Decoder ({ className }: Props): React.ReactElement<Props> {
+function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
@@ -68,11 +70,13 @@ function Decoder ({ className }: Props): React.ReactElement<Props> {
         }
 
         setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsic, extrinsicCall, extrinsicFn, extrinsicHex });
+        setLast({ call: extrinsicCall, fn: extrinsicFn });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
+        setLast(null);
       }
     },
-    [api]
+    [api, setLast]
   );
 
   return (
