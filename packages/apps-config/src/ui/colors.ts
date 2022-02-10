@@ -74,6 +74,9 @@ const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKico = '#29B58D';
 const chainKilt = '#8c145a';
+const chainKiltDev = '#f05a27';
+const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKilt} 100%)`;
+const chainKiltRilt = `linear-gradient(45deg, ${chainKilt} 0%, ${chainKiltDev} 100%)`;
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKusari = '#b8860b';
@@ -273,10 +276,12 @@ export const chainColors: Record<string, string> = Object.entries({
   Khala: chainKhala,
   KICO: chainKico,
   KILT: chainKilt,
-  'KILT Local': chainKilt,
-  'KILT Peregrine': chainKilt,
+  'KILT Local': chainKiltDev,
+  'KILT Peregrine': chainKiltPeregrine,
+  'KILT Peregrine Stagenet': chainKiltDev,
   'KILT Spiritnet': chainKilt,
-  'KILT Testnet': chainKilt,
+  'KILT Spiritnet Development': chainKiltDev,
+  'KILT Testnet': chainKiltDev,
   Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
@@ -335,6 +340,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
+  'RILT': chainKiltRilt,
   'Riochain Staging': chainRiochain,
   Robonomics: nodeRobonomics,
   Rococo: chainRocco,
