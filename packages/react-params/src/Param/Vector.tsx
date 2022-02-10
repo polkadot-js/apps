@@ -31,7 +31,9 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   // build up the list of parameters we are using
   useEffect((): void => {
     if (inputParams.length) {
-      const max = isDisabled ? (defaultValue.value as RawParam[] || []).length : count;
+      const max = isDisabled
+        ? (defaultValue.value as RawParam[] || []).length
+        : count;
       const params: ParamDef[] = [];
 
       for (let index = 0; index < max; index++) {
