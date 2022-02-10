@@ -225,9 +225,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'phala',
+      info: 'khala',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/6930
-      text: t('rpc.test.phala', 'Khala (Para3)', { ns: 'apps-config' }),
+      text: t('rpc.test.khala', 'Khala (Para 3)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
       }
@@ -350,6 +350,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.pangoro', 'Pangoro', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      }
+    },
+    {
+      info: 'phala',
+      isDisabled: false,
+      text: t('rpc.test.phala', 'Phala (PoC 5)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://poc5.phala.network/ws'
       }
     },
     {
