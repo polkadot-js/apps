@@ -26,13 +26,15 @@ function xcmAttempted ({ data: [outcome] }: Event): boolean {
   return !outcome || (outcome as XcmV2TraitsOutcome).isIncomplete;
 }
 
+const xcmPallet: Record<string, EventCheck> = {
+  Attempted: xcmAttempted
+};
+
 const CHECKS: Record<string, Record<string, EventCheck>> = {
   multisig: {
     MultisigExecuted: dispatchResultMulti
   },
-  polkadotXcm: {
-    Attempted: xcmAttempted
-  },
+  polkadotXcm: xcmPallet,
   proxy: {
     ProxyExecuted: dispatchResult
   },
@@ -43,7 +45,8 @@ const CHECKS: Record<string, Record<string, EventCheck>> = {
   utility: {
     BatchInterrupted: acceptAll,
     DispatchedAs: dispatchResult
-  }
+  },
+  xcmPallet
 };
 
 export function isIncompleteEvent ({ event }: EventRecord): boolean {
