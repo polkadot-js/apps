@@ -222,11 +222,11 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKilt',
-        isDisabled: true, // Rococo reset
-        paraId: 12623,
-        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        isDisabled: false,
+        paraId: 2015,
+        text: t('rpc.rococo.kilt', 'RILT', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+          'KILT Protocol': 'wss://rococo.kilt.io'
         }
       },
       {
