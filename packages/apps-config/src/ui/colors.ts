@@ -340,7 +340,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
-  'RILT': chainKiltRilt,
+  RILT: chainKiltRilt,
   'Riochain Staging': chainRiochain,
   Robonomics: nodeRobonomics,
   Rococo: chainRocco,
