@@ -287,6 +287,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'swapdex',
+      text: t('rpc.prod.swapdex', 'Swapdex', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.swapdex.network'
+      }
+    },
+    {
       info: 'uniarts',
       text: t('rpc.prod.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
