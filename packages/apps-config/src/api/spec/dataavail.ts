@@ -29,7 +29,7 @@ const definitions: OverrideBundleDefinition = {
           stateRoot: 'Hash',
           extrinsicsRoot: 'KateExtrinsicRoot',
           digest: 'Digest',
-          app_data_lookup: 'DataLookup'
+          appDataLookup: 'DataLookup'
         },
         Header: 'KateHeader',
         CheckAppId: {
