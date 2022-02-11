@@ -14,14 +14,14 @@ import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 
-function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
+function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {
     name: `${index}: ${name || type.type}`,
     type
   };
 }
 
-function generateParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
+export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
   if (prev.length === max) {
     return prev;
   }
@@ -29,13 +29,13 @@ function generateParams (inputParams: ParamDef[], prev: ParamDef[], max: number)
   const params: ParamDef[] = [];
 
   for (let index = 0; index < max; index++) {
-    params.push(generateParam(inputParams, index));
+    params.push(getParam(inputParams, index));
   }
 
   return params;
 }
 
-function getValues ({ value }: RawParam): RawParam[] {
+export function getValues ({ value }: RawParam): RawParam[] {
   return (value as RawParam[] || []).map((value: RawParam) =>
     isUndefined(value) || isUndefined(value.isValid)
       ? { isValid: !isUndefined(value), value }
@@ -48,13 +48,13 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   const inputParams = useParamDefs(registry, type);
   const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
   const [count, setCount] = useState(() => values.length);
-  const [params, setParams] = useState<ParamDef[]>(() => generateParams(inputParams, [], count));
+  const [params, setParams] = useState<ParamDef[]>(() => getParams(inputParams, [], count));
 
   // build up the list of parameters we are using
   useEffect((): void => {
     inputParams.length &&
       setParams((prev) =>
-        generateParams(inputParams, prev, isDisabled ? (defaultValue.value as RawParam[] || []).length : count)
+        getParams(inputParams, prev, isDisabled ? (defaultValue.value as RawParam[] || []).length : count)
       );
   }, [count, defaultValue, isDisabled, inputParams]);
 

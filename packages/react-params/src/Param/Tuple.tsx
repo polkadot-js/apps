@@ -12,7 +12,7 @@ import useParamDefs from './useParamDefs';
 
 function Tuple (props: Props): React.ReactElement<Props> {
   const params = useParamDefs(props.registry, props.type);
-  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, label, onChange, overrides, withLabel } = props;
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
@@ -27,6 +27,8 @@ function Tuple (props: Props): React.ReactElement<Props> {
   if (isDisabled) {
     return <Static {...props} />;
   }
+
+  console.log('Tuple', defaultValue);
 
   return (
     <div className='ui--Params-Tuple'>
