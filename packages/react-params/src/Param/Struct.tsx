@@ -14,8 +14,6 @@ import Static from './Static';
 import useParamDefs from './useParamDefs';
 
 function extractValues ({ isValid, value }: RawParam): RawParam[] | undefined {
-  console.log(value);
-
   return (isValid && isCodec(value) && value instanceof Struct)
     ? value.toArray().map((value) => ({ isValid: true, value }))
     : undefined;

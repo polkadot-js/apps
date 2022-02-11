@@ -47,8 +47,8 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   const { t } = useTranslation();
   const inputParams = useParamDefs(registry, type);
   const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
-  const [params, setParams] = useState<ParamDef[]>(() => generateParams(inputParams, [], values.length));
   const [count, setCount] = useState(() => values.length);
+  const [params, setParams] = useState<ParamDef[]>(() => generateParams(inputParams, [], count));
 
   // build up the list of parameters we are using
   useEffect((): void => {
