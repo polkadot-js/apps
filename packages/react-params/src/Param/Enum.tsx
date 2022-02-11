@@ -26,8 +26,14 @@ interface Options {
 function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
-  const [initialValue, setInitialValue] = useState<string | null>(null);
-  const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
+  const [initialValue] = useState<string | null>(() =>
+    defaultValue && defaultValue.value
+      ? defaultValue.value instanceof Enum
+        ? defaultValue.value.type
+        : Object.keys(defaultValue.value as Record<string, unknown>)[0]
+      : null
+  );
+  const [{ options, subTypes }, setOptions] = useState<Options>(() => ({ options: [], subTypes: [] }));
 
   useEffect((): void => {
     const rawType = registry.createType(type.type as 'u32').toRawType();
@@ -43,16 +49,6 @@ function EnumParam (props: Props): React.ReactElement<Props> {
     });
     setCurrent([{ name: subTypes[0].name, type: subTypes[0] }]);
   }, [registry, type]);
-
-  useEffect((): void => {
-    setInitialValue(
-      defaultValue && defaultValue.value
-        ? defaultValue.value instanceof Enum
-          ? defaultValue.value.type
-          : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-        : null
-    );
-  }, [defaultValue]);
 
   const _onChange = useCallback(
     (value: string): void => {
