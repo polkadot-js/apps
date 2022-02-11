@@ -90,7 +90,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'crab',
       text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network',
+        Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
       }
     },
     {
