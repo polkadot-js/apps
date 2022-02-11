@@ -21,12 +21,20 @@ function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   };
 }
 
+function getValues ({ value }: RawParam): RawParam[] {
+  return (value as RawParam[] || []).map((value: RawParam) =>
+    isUndefined(value) || isUndefined(value.isValid)
+      ? { isValid: !isUndefined(value), value }
+      : value
+  );
+}
+
 function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const inputParams = useParamDefs(registry, type);
   const [count, setCount] = useState(() => Array.isArray(defaultValue.value) ? defaultValue.value.length : 0);
   const [params, setParams] = useState<ParamDef[]>([]);
-  const [values, setValues] = useState<RawParam[]>([]);
+  const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
 
   // build up the list of parameters we are using
   useEffect((): void => {
@@ -53,11 +61,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         }
 
         while (values.length < count) {
-          const all = (defaultValue.value as RawParam[] || []);
-
-          const value = !isUndefined(all[values.length - 1])
-            ? all[values.length - 1].value
-            : getInitValue(registry, inputParams[0].type);
+          const value = getInitValue(registry, inputParams[0].type);
 
           values.push({ isValid: !isUndefined(value), value });
         }
@@ -65,18 +69,6 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         return values.slice(0, count);
       });
   }, [count, defaultValue, inputParams, isDisabled, registry]);
-
-  // when isDisabled, set the values based on the defaultValue input
-  useEffect((): void => {
-    isDisabled &&
-      setValues(
-        (defaultValue.value as RawParam[] || []).map((value: RawParam) =>
-          isUndefined(value) || isUndefined(value.isValid)
-            ? { isValid: !isUndefined(value), value }
-            : value
-        )
-      );
-  }, [defaultValue, isDisabled]);
 
   // when our values has changed, alert upstream
   useEffect((): void => {
@@ -94,6 +86,10 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
     (): void => setCount((count) => count - 1),
     []
   );
+
+  if (values.length === 114) {
+    console.log(values);
+  }
 
   return (
     <Base

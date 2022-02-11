@@ -3,14 +3,13 @@
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { RawParam } from '@polkadot/react-params/types';
-import type { Codec, IStruct, TypeDef } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/types';
-import { isCodec, isFunction, isUndefined } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import InputExtrinsic from './InputExtrinsic';
 import paramComponents from './Params';
@@ -65,72 +64,11 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): ParamDef
   }));
 }
 
-function getArgTuple (sub: TypeDef[], value: Codec[]): RawParam {
-  return {
-    isValid: true,
-    value: sub.map((s, i) =>
-      getArg(s, {
-        isValid: true,
-        value: value[i]
-      })
-    )
-  };
-}
-
-function getArgVec (sub: TypeDef, value: Codec[]): RawParam {
-  return {
-    isValid: true,
-    value: value.map((value) =>
-      getArg(sub, {
-        isValid: true,
-        value
-      })
-    )
-  };
-}
-
-function getArg ({ info, sub }: TypeDef, input: RawParam): RawParam {
-  const { value } = input;
-
-  if (isCodec(value)) {
-    if ([TypeDefInfo.Struct].includes(info)) {
-      if (isFunction((value as IStruct).toArray) && Array.isArray(sub)) {
-        return getArgTuple(sub, (value as IStruct).toArray());
-      }
-    } else if ([TypeDefInfo.Tuple].includes(info)) {
-      if (Array.isArray(value) && Array.isArray(sub)) {
-        return getArgTuple(sub, value);
-      }
-    } else if ([TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info)) {
-      if (Array.isArray(value) && !Array.isArray(sub) && !isUndefined(sub)) {
-        return getArgVec(sub, value);
-      }
-    }
-  }
-
-  return input;
-}
-
-function getCallState (fn: SubmittableExtrinsicFunction<'promise'>, defaultArgs: RawParam[] = []): CallState {
-  const params = getParams(fn);
-  let values = defaultArgs || [];
-
-  try {
-    if (isValuesValid(params, values)) {
-      for (let i = 0; i < params.length; i++) {
-        values[i] = getArg(params[i].type, values[i]);
-      }
-    }
-  } catch (error) {
-    console.error(error);
-
-    values = [];
-  }
-
+function getCallState (fn: SubmittableExtrinsicFunction<'promise'>, values: RawParam[] = []): CallState {
   return {
     extrinsic: {
       fn,
-      params
+      params: getParams(fn)
     },
     values
   };
