@@ -21,6 +21,8 @@
   "rpc.datahighway": "DataHighway",
   "rpc.datahighway.spreehafen": "Spreehafen",
   "rpc.dock-mainnet": "Dock",
+  "rpc.dock-pos-mainnet": "Dock PoS Mainnet",
+  "rpc.dock-pos-testnet": "Dock PoS Testnet",
   "rpc.dock-testnet": "Dock",
   "rpc.dotmog": "DOTMog",
   "rpc.dusty": "Dusty",
