@@ -26,13 +26,18 @@ interface Options {
 function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
-  const [initialValue] = useState<string | null>(() =>
-    defaultValue && defaultValue.value
+  const [{ initialEnum, initialValues }] = useState<{ initialEnum: string | null, initialValues: RawParam[] | undefined }>(() => ({
+    initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
         : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-      : null
-  );
+      : null,
+    initialValues: defaultValue && defaultValue.value
+      ? defaultValue.value instanceof Enum
+        ? [{ isValid: true, value: defaultValue.value.inner }]
+        : undefined
+      : undefined
+  }));
   const [{ options, subTypes }, setOptions] = useState<Options>(() => ({ options: [], subTypes: [] }));
 
   useEffect((): void => {
@@ -81,7 +86,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
     <Bare className={className}>
       <Dropdown
         className='full'
-        defaultValue={initialValue}
+        defaultValue={initialEnum}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
@@ -96,6 +101,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           overrides={overrides}
           params={current}
           registry={registry}
+          values={initialValues}
         />
       )}
     </Bare>
