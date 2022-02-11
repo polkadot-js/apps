@@ -21,6 +21,20 @@ function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   };
 }
 
+function generateParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
+  if (prev.length === max) {
+    return prev;
+  }
+
+  const params: ParamDef[] = [];
+
+  for (let index = 0; index < max; index++) {
+    params.push(generateParam(inputParams, index));
+  }
+
+  return params;
+}
+
 function getValues ({ value }: RawParam): RawParam[] {
   return (value as RawParam[] || []).map((value: RawParam) =>
     isUndefined(value) || isUndefined(value.isValid)
@@ -32,24 +46,16 @@ function getValues ({ value }: RawParam): RawParam[] {
 function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const inputParams = useParamDefs(registry, type);
-  const [count, setCount] = useState(() => Array.isArray(defaultValue.value) ? defaultValue.value.length : 0);
-  const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
+  const [params, setParams] = useState<ParamDef[]>(() => generateParams(inputParams, [], values.length));
+  const [count, setCount] = useState(() => values.length);
 
   // build up the list of parameters we are using
   useEffect((): void => {
-    if (inputParams.length) {
-      const max = isDisabled
-        ? (defaultValue.value as RawParam[] || []).length
-        : count;
-      const params: ParamDef[] = [];
-
-      for (let index = 0; index < max; index++) {
-        params.push(generateParam(inputParams, index));
-      }
-
-      setParams(params);
-    }
+    inputParams.length &&
+      setParams((prev) =>
+        generateParams(inputParams, prev, isDisabled ? (defaultValue.value as RawParam[] || []).length : count)
+      );
   }, [count, defaultValue, isDisabled, inputParams]);
 
   // when !isDisable, generating an input list based on count
@@ -73,7 +79,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   // when our values has changed, alert upstream
   useEffect((): void => {
     onChange && onChange({
-      isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+      isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, true),
       value: values.map(({ value }) => value)
     });
   }, [values, onChange]);
@@ -86,10 +92,6 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
     (): void => setCount((count) => count - 1),
     []
   );
-
-  if (values.length === 114) {
-    console.log(values);
-  }
 
   return (
     <Base
