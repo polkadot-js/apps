@@ -93,10 +93,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          'Calamari Falafel': 'wss://falafel.calamari.systems/',
-          'Calamari Fritti': 'wss://fritti.calamari.systems/',
-          'Calamari Pasta': 'wss://pasta.calamari.systems/',
-          'Calamari Smoothie': 'wss://smoothie.calamari.systems/',
+          'Manta Network': 'wss://ws.calamari.systems/',
           OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
