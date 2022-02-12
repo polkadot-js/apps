@@ -30,9 +30,8 @@ interface Initial {
 
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
   const rawType = registry.createType(type.type as 'u32').toRawType();
-  const typeDef = getTypeDef(rawType);
 
-  return typeDef.sub as TypeDef[];
+  return getTypeDef(rawType).sub as TypeDef[];
 }
 
 function getOptions (registry: Registry, type: TypeDef): Options {
