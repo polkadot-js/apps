@@ -14,14 +14,16 @@ import Base from './Base';
 import useParamDefs from './useParamDefs';
 import { getParams, getValues } from './Vector';
 
+function getInitialValues (defaultValue: RawParam): RawParam[] {
+  return defaultValue.value instanceof VecFixed
+    ? defaultValue.value.map((value) => ({ isValid: true, value: value as unknown }))
+    : getValues(defaultValue);
+}
+
 function VectorFixed ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
   const inputParams = useParamDefs(registry, type);
   const [params] = useState<ParamDef[]>(() => getParams(inputParams, [], (inputParams[0].length || 1)));
-  const [values, setValues] = useState<RawParam[]>(() =>
-    defaultValue.value instanceof VecFixed
-      ? defaultValue.value.map((value) => ({ isValid: true, value: value as unknown }))
-      : getValues(defaultValue)
-  );
+  const [values, setValues] = useState<RawParam[]>(() => getInitialValues(defaultValue));
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {

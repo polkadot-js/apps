@@ -23,6 +23,11 @@ interface Options {
   subTypes: TypeDef[];
 }
 
+interface Initial {
+  initialEnum: string | null;
+  initialValues: RawParam[] | undefined;
+}
+
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
   const rawType = registry.createType(type.type as 'u32').toRawType();
   const typeDef = getTypeDef(rawType);
@@ -30,27 +35,20 @@ function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
   return typeDef.sub as TypeDef[];
 }
 
-function EnumParam (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
-  const [{ options, subTypes }] = useState<Options>((): Options => {
-    const subTypes = getSubTypes(registry, type).filter(({ name }) => !!name && !name.startsWith('__Unused'));
+function getOptions (registry: Registry, type: TypeDef): Options {
+  const subTypes = getSubTypes(registry, type).filter(({ name }) => !!name && !name.startsWith('__Unused'));
 
-    return {
-      options: subTypes.map(({ name }): Option => ({
-        text: name,
-        value: name
-      })),
-      subTypes
-    };
-  });
-  const [current, setCurrent] = useState<ParamDef[] | null>((): ParamDef[] | null => {
-    const subs = getSubTypes(registry, type);
+  return {
+    options: subTypes.map(({ name }): Option => ({
+      text: name,
+      value: name
+    })),
+    subTypes
+  };
+}
 
-    return defaultValue.value instanceof Enum
-      ? [{ name: defaultValue.value.type, type: subs[defaultValue.value.index] }]
-      : [{ name: subTypes[0].name, type: subTypes[0] }];
-  });
-  const [{ initialEnum, initialValues }] = useState<{ initialEnum: string | null, initialValues: RawParam[] | undefined }>(() => ({
+function getInitial (defaultValue: RawParam): Initial {
+  return {
     initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
@@ -61,7 +59,22 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         ? [{ isValid: true, value: defaultValue.value.inner }]
         : undefined
       : undefined
-  }));
+  };
+}
+
+function getCurrent (registry: Registry, type: TypeDef, defaultValue: RawParam, subTypes: TypeDef[]): ParamDef[] | null {
+  const subs = getSubTypes(registry, type);
+
+  return defaultValue.value instanceof Enum
+    ? [{ name: defaultValue.value.type, type: subs[defaultValue.value.index] }]
+    : [{ name: subTypes[0].name, type: subTypes[0] }];
+}
+
+function EnumParam (props: Props): React.ReactElement<Props> {
+  const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
+  const [{ options, subTypes }] = useState<Options>(() => getOptions(registry, type));
+  const [current, setCurrent] = useState<ParamDef[] | null>(() => getCurrent(registry, type, defaultValue, subTypes));
+  const [{ initialEnum, initialValues }] = useState<Initial>(() => getInitial(defaultValue));
 
   const _onChange = useCallback(
     (value: string): void => {

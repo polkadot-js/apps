@@ -3,21 +3,30 @@
 
 import type { Props, RawParam } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
+import { Tuple } from '@polkadot/types';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
 import useParamDefs from './useParamDefs';
 
-function Tuple (props: Props): React.ReactElement<Props> {
+function getInitialValues ({ value }: RawParam): RawParam[] {
+  return value instanceof Tuple
+    ? value.map((value) => ({ isValid: true, value: value as unknown }))
+    : value as RawParam[];
+}
+
+function TupleDisplay (props: Props): React.ReactElement<Props> {
   const params = useParamDefs(props.registry, props.type);
   const { className = '', defaultValue, isDisabled, label, onChange, overrides, withLabel } = props;
+  const [values] = useState<RawParam[]>(() => getInitialValues(defaultValue));
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
-        isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+        isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, true),
         value: values.map(({ value }) => value)
       });
     },
@@ -27,8 +36,6 @@ function Tuple (props: Props): React.ReactElement<Props> {
   if (isDisabled) {
     return <Static {...props} />;
   }
-
-  console.log('Tuple', defaultValue);
 
   return (
     <div className='ui--Params-Tuple'>
@@ -42,9 +49,10 @@ function Tuple (props: Props): React.ReactElement<Props> {
         overrides={overrides}
         params={params}
         registry={props.registry}
+        values={values}
       />
     </div>
   );
 }
 
-export default React.memo(Tuple);
+export default React.memo(TupleDisplay);
