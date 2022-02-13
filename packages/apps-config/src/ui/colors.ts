@@ -15,6 +15,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chainAcala = '#645AFF';
+const chainAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -128,6 +129,7 @@ const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
+const nodeAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
@@ -216,6 +218,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc2': chainRoccoMandala,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
+  Ajuna: chainAjuna,
   Altair: chainAltair,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
@@ -396,6 +399,7 @@ export const chainColors: Record<string, string> = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
+  Ajuna: nodeAjuna,
   'Apron Node': nodeApron,
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomataContextFree,
