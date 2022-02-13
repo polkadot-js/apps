@@ -7,6 +7,7 @@ import type { BN } from '@polkadot/util';
 import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { arrayShuffle } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApiUrl } from './useApiUrl';
@@ -17,23 +18,6 @@ interface Result {
   api?: ApiPromise | null;
   endpoints: LinkOption[];
   urls: string[];
-}
-
-// use from @polkadot/util
-function arrayShuffle (result: string[]): string[] {
-  let currentIndex = result.length;
-
-  while (currentIndex !== 0) {
-    const randomIndex = Math.floor(Math.random() * currentIndex);
-
-    currentIndex--;
-
-    [result[currentIndex], result[randomIndex]] = [
-      result[randomIndex], result[currentIndex]
-    ];
-  }
-
-  return result;
 }
 
 function useParaApiImpl (paraId: BN | number): Result {
