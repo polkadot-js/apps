@@ -11,6 +11,8 @@ jobs:
         step: ['test:all']
     name: ${{ matrix.step }}
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.step }}

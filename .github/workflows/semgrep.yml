@@ -9,6 +9,8 @@ jobs:
   check:
     if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && (!github.event.pull_request || github.event.pull_request.head.repo.full_name == github.repository)"
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
     steps:
       - uses: actions/checkout@v2
       - uses: returntocorp/semgrep-action@v1

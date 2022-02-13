@@ -6,6 +6,8 @@ on:
 jobs:
   stale:
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
     steps:
       - uses: actions/stale@v3
         with:

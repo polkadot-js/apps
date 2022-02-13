@@ -8,6 +8,8 @@ jobs:
         step: ['lint', 'test', 'build:code', 'build:i18n', 'build:electron']
     name: ${{ matrix.step }}
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.step }}
