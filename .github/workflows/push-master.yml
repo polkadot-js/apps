@@ -13,22 +13,23 @@ jobs:
         step: ['build:release:www']
     name: ${{ matrix.step }}
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
+      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CRUST_SEEDS: ${{ secrets.CRUST_SEEDS }}
+      GH_PAGES_SRC: packages/apps/build
+      GH_PAT: ${{ secrets.GH_PAT }}
+      GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+      PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
         token: ${{ secrets.GH_PAT }}
     - name: ${{ matrix.step }}
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        CRUST_SEEDS: ${{ secrets.CRUST_SEEDS }}
-        GH_PAGES_SRC: packages/apps/build
-        GH_PAT: ${{ secrets.GH_PAT }}
-        GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-        PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
       run: |
         yarn install --immutable | grep -v 'YN0013'
         yarn ${{ matrix.step }}
@@ -38,11 +39,12 @@ jobs:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     name: docker
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_SCRIPTS: false
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
     steps:
     - uses: actions/checkout@v2
     - name: docker
-      env:
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       run: |
         ./docker/build.sh
 
@@ -53,6 +55,8 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      YARN_ENABLE_SCRIPTS: false
     name: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
