@@ -50,7 +50,10 @@ function useParaApiImpl (paraId: BN | number): Result {
     mountedRef.current && setState({
       api: null,
       endpoints,
-      urls: arrayShuffle(endpoints.map(({ value }) => value))
+      urls: arrayShuffle(
+        endpoints
+          .filter(({ isDisabled, isUnreachable }) => !isDisabled && !isUnreachable)
+          .map(({ value }) => value))
     });
   }, [endpoints, mountedRef]);
 
