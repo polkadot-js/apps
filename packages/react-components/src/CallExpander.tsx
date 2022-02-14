@@ -12,7 +12,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   labelHash?: React.ReactNode;
-  value: Call;
+  value?: Call | null;
   withHash?: boolean;
 }
 
