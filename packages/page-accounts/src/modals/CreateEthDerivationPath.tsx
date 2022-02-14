@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { DeriveValidationOutput } from '../types';

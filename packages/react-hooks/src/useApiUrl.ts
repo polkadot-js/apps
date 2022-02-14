@@ -1,22 +1,31 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { typesBundle, typesChain } from '@polkadot/apps-config';
-import { isString } from '@polkadot/util';
+import { arrayShuffle, isString } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
 function disconnect (api: ApiPromise | null): void {
   api && api.disconnect().catch(console.error);
 }
 
-export function useApiUrl (url?: string | string[]): ApiPromise | null {
+function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
   const apiRef = useRef<ApiPromise | null>(null);
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ApiPromise | null>(null);
+  const urls = useMemo(
+    () => url
+      ? isString(url)
+        ? [url]
+        : arrayShuffle(url.filter((u) => !u.startsWith('light://')))
+      : [],
+    [url]
+  );
 
   useEffect((): () => void => {
     return (): void => {
@@ -40,16 +49,18 @@ export function useApiUrl (url?: string | string[]): ApiPromise | null {
   useEffect((): void => {
     _setApi(null);
 
-    url && (isString(url) || url.length) &&
+    urls.length &&
       ApiPromise
         .create({
-          provider: new WsProvider(url),
+          provider: new WsProvider(urls),
           typesBundle,
           typesChain
         })
         .then(_setApi)
         .catch(console.error);
-  }, [_setApi, url]);
+  }, [_setApi, urls]);
 
   return state;
 }
+
+export const useApiUrl = createNamedHook('useApiUrl', useApiUrlImpl);

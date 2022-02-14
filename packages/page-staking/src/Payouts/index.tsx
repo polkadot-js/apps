@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -6,7 +6,6 @@ import type { DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PayoutStash, PayoutValidator } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +13,7 @@ import { ApiPromise } from '@polkadot/api';
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_THREE } from '@polkadot/util';
+import { BN, BN_THREE } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -228,14 +227,14 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     <div className={className}>
       <Button.Group>
         <ToggleGroup
-          onChange={setEraSelectionIndex}
-          options={eraSelection}
-          value={eraSelectionIndex}
-        />
-        <ToggleGroup
           onChange={setMyStashesIndex}
           options={valOptions}
           value={myStashesIndex}
+        />
+        <ToggleGroup
+          onChange={setEraSelectionIndex}
+          options={eraSelection}
+          value={eraSelectionIndex}
         />
         <PayButton
           isAll

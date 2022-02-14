@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
@@ -6,7 +6,7 @@ import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/typ
 export interface CallResult extends ContractCallOutcome {
   from: string;
   message: AbiMessage;
-  params: any[];
+  params: unknown[];
   when: Date;
 }
 

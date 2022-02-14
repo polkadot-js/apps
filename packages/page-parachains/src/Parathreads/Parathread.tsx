@@ -1,21 +1,20 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { AccountId, HeadData, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCallMulti } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Lifecycle from '../Overview/Lifecycle';
 // import ParachainInfo from '../Overview/ParachainInfo';
 import Periods from '../Overview/Periods';
 import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
+import useThreadInfo from './useThreadInfo';
 
 interface Props {
   id: ParaId;
@@ -24,41 +23,11 @@ interface Props {
   nextAction?: QueuedAction;
 }
 
-interface MultiState {
-  headHex: string | null;
-  lifecycle: ParaLifecycle | null;
-  manager: AccountId | null;
-}
-
-const optMulti = {
-  defaultValue: {
-    headHex: null,
-    lifecycle: null,
-    manager: null
-  },
-  transform: ([optHead, optGenesis, optLifecycle, optInfo]: [Option<HeadData>, Option<ParaGenesisArgs>, Option<ParaLifecycle>, Option<ParaInfo>]): MultiState => ({
-    headHex: optHead.isSome
-      ? sliceHex(optHead.unwrap())
-      : optGenesis.isSome
-        ? sliceHex(optGenesis.unwrap().genesisHead)
-        : null,
-    lifecycle: optLifecycle.unwrapOr(null),
-    manager: optInfo.isSome
-      ? optInfo.unwrap().manager
-      : null
-  })
-};
-
-function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactElement<Props> {
+function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isAccount } = useAccounts();
-  const { headHex, lifecycle, manager } = useCallMulti<MultiState>([
-    [api.query.paras.heads, id],
-    [api.query.paras.upcomingParasGenesis, id],
-    [api.query.paras.paraLifecycles, id],
-    [api.query.registrar.paras, id]
-  ], optMulti);
+  const { headHex, lifecycle, manager } = useThreadInfo(id);
 
   const periods = useMemo(
     () => leasePeriod?.currentPeriod && leases &&
@@ -72,7 +41,7 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
-      <td className='address media--1100'>{manager && <AddressSmall value={manager} />}</td>
+      <td className='address media--2000'>{manager && <AddressSmall value={manager} />}</td>
       <td className='start together hash media--1500'>{headHex}</td>
       <td className='start'>
         <Lifecycle
@@ -111,4 +80,4 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
   );
 }
 
-export default React.memo(Upcoming);
+export default React.memo(Parathread);

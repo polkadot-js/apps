@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import { useMemo } from 'react';
 
-import { useApi } from '@polkadot/react-hooks';
+import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
 import { getAllRpc } from './rpcs';
 
-export default function useRpcs (): Record<string, Record<string, DefinitionRpcExt>> {
+function useRpcsImpl (): Record<string, Record<string, DefinitionRpcExt>> {
   const { api } = useApi();
 
   return useMemo(
@@ -17,3 +17,5 @@ export default function useRpcs (): Record<string, Record<string, DefinitionRpcE
     [api]
   );
 }
+
+export default createNamedHook('useRpcs', useRpcsImpl);

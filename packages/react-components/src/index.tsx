@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export * from '@polkadot/react-qr';
@@ -46,6 +46,7 @@ export { default as Icon } from './Icon';
 export { default as IconLink } from './IconLink';
 export { default as IdentityIcon } from './IdentityIcon';
 export { default as InfoForInput } from './InfoForInput';
+export { default as Inspect } from './Inspect';
 export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
 export { default as InputAddressMulti } from './InputAddressMulti';

@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchError } from '@polkadot/types/interfaces';
 import type { Props as BaseProps } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { Input } from '@polkadot/react-components';
 
@@ -22,7 +23,10 @@ interface Props extends BaseProps {
 }
 
 function isDispatchError (value?: unknown): value is DispatchError {
-  return !!(value && ((value as DispatchError).isModule || (value as DispatchError).isToken));
+  return !!(value && (
+    (value as DispatchError).isModule ||
+    (value as DispatchError).isToken
+  ));
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -81,4 +85,8 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(ErrorDisplay);
+export default React.memo(styled(ErrorDisplay)`
+  // .ui--Labelled-content {
+  //   background: rgba(196, 0, 0, 0.1);
+  // }
+`);

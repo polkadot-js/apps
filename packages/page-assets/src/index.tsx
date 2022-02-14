@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { AssetId } from '@polkadot/types/interfaces';
+import '@polkadot/api-augment/substrate';
+
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
@@ -22,7 +23,7 @@ interface Props {
   className?: string;
 }
 
-function findOpenId (ids?: AssetId[]): BN {
+function findOpenId (ids?: BN[]): BN {
   if (!ids || !ids.length) {
     return BN_ONE;
   }

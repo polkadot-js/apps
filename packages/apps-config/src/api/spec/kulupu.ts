@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -42,6 +42,21 @@ const definitions: OverrideBundleDefinition = {
       minmax: [17, undefined],
       types: {
         CampaignIdentifier: '[u8; 4]'
+      }
+    },
+    {
+      // enable pallet-atomic-swap in runtime 24
+      minmax: [24, undefined],
+      types: {
+        HashedProof: '[u8; 32]',
+        PendingSwap: {
+          source: 'AccountId',
+          action: 'SwapAction',
+          endBlock: 'BlockNumber'
+        },
+        SwapAction: {
+          value: 'Balance'
+        }
       }
     }
   ]

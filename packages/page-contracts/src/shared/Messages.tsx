@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
@@ -8,7 +9,7 @@ import type { ContractInfo } from '@polkadot/types/interfaces';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Abi, ContractPromise } from '@polkadot/api-contract';
+import { Abi } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';

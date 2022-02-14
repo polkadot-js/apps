@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -34,27 +34,23 @@ function InputExtrinsic ({ className = '', defaultValue, help, isDisabled, label
 
   const _onKeyChange = useCallback(
     (newValue: SubmittableExtrinsicFunction<'promise'>): void => {
-      if (value.section === newValue.section && value.method === newValue.method) {
-        return;
+      if (value !== newValue) {
+        // set this via callback, since the we are setting a function (alternatively... we have issues)
+        setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
+        onChange && onChange(newValue);
       }
-
-      // set this via callback, since the we are setting a function (alternatively... we have issues)
-      setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
-      onChange && onChange(newValue);
     },
     [onChange, value]
   );
 
   const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
+    (newSection: string): void => {
+      if (newSection !== value.section) {
+        const optionsMethod = methodOptions(api, newSection);
+
+        setOptionsMethod(optionsMethod);
+        _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
       }
-
-      const optionsMethod = methodOptions(api, section);
-
-      setOptionsMethod(optionsMethod);
-      _onKeyChange(api.tx[section][optionsMethod[0].value]);
     },
     [_onKeyChange, api, value]
   );

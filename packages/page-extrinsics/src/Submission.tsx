@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { Button, Extrinsic, InputAddress, MarkError, Output, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { u8aToHex } from '@polkadot/util';
 
+import Decoded from './Decoded';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -33,20 +33,6 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
     []
   );
 
-  const [extrinsicHex, extrinsicHash] = useMemo(
-    (): [string, string] => {
-      if (!extrinsic) {
-        return ['0x', '0x'];
-      }
-
-      const u8a = extrinsic.method.toU8a();
-
-      // don't use the built-in hash, we only want to convert once
-      return [u8aToHex(u8a), extrinsic.registry.hash(u8a).toHex()];
-    },
-    [extrinsic]
-  );
-
   return (
     <div className={className}>
       <InputAddress
@@ -66,19 +52,7 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
       />
-      <Output
-        isDisabled
-        isTrimmed
-        label='encoded call data'
-        value={extrinsicHex}
-        withCopy
-      />
-      <Output
-        isDisabled
-        label='encoded call hash'
-        value={extrinsicHash}
-        withCopy
-      />
+      <Decoded extrinsic={extrinsic} />
       {error && !extrinsic && (
         <MarkError content={error} />
       )}

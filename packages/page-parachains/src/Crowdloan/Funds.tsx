@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useMemo, useRef } from 'react';
@@ -27,8 +27,14 @@ function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Ca
   let allIds: ParaId[] | null = null;
 
   if (value && currentPeriod) {
-    active = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lte(firstSlot));
-    ended = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gt(firstSlot));
+    active = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) =>
+      !(isCapped || isEnded || isWinner) &&
+      currentPeriod.lte(firstSlot)
+    );
+    ended = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) =>
+      (isCapped || isEnded || isWinner) ||
+      currentPeriod.gt(firstSlot)
+    );
     allIds = value.map(({ paraId }) => paraId);
   }
 
@@ -64,7 +70,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   const headerActiveRef = useRef([
     [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
-    [undefined, 'media--1400'],
+    [undefined, 'media--2000'],
     [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],
@@ -75,7 +81,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   const headedEndedRef = useRef([
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
-    [undefined, 'media--1400'],
+    [undefined, 'media--2000'],
     [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],

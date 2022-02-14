@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo } from './types';
@@ -31,8 +31,7 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withFocu
     try {
       onChange({
         sessionTx: isHex(keys)
-          // this is weird... :(
-          ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
+          ? api.tx.session.setKeys(keys, EMPTY_PROOF)
           : null
       });
     } catch {

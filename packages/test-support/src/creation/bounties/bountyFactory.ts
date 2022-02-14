@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
@@ -38,7 +38,7 @@ export class BountyFactory {
   };
 
   public bountyWith = ({ status = 'Proposed', value = 1 } = {}): PalletBountiesBounty =>
-    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) })
+    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) });
 
   public aBounty = ({ fee = balanceOf(10), status = this.aBountyStatus('Proposed'), value = balanceOf(500) }: Partial<PalletBountiesBounty> = {}): PalletBountiesBounty =>
     this.#registry.createType<PalletBountiesBounty>('Bounty', { fee, status, value });

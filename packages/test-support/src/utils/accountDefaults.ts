@@ -1,13 +1,12 @@
-// Copyright 2017-2021 @polkadot/test-supports authors & contributors
+// Copyright 2017-2022 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { UseAccountInfo } from '@polkadot/react-hooks/types';
 
-import BN from 'bn.js';
-
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+import { BN } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance';
 import { makeStakingLedger } from '../creation/stakingInfo/stakingLedger';

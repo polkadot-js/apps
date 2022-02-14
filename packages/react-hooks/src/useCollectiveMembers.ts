@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -6,6 +6,7 @@ import type { CollectiveType } from './types';
 
 import { useMemo } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
@@ -20,7 +21,7 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useCollectiveMembers (collective: CollectiveType): Result {
+function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, transformMembers);
@@ -33,3 +34,5 @@ export function useCollectiveMembers (collective: CollectiveType): Result {
     [allAccounts, retrieved]
   );
 }
+
+export const useCollectiveMembers = createNamedHook('useCollectiveMembers', useCollectiveMembersImpl);

@@ -1,20 +1,21 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 export interface AssetInfo {
-  details: AssetDetails | null;
-  id: AssetId;
+  details: PalletAssetsAssetDetails | null;
+  id: BN;
   isAdminMe: boolean;
   isIssuerMe: boolean;
   isFreezerMe: boolean;
   isOwnerMe: boolean;
   key: string;
-  metadata: AssetMetadata | null;
+  metadata: PalletAssetsAssetMetadata | null;
 }
 
 export interface AssetInfoComplete extends AssetInfo {
-  details: AssetDetails;
-  metadata: AssetMetadata;
+  details: PalletAssetsAssetDetails;
+  metadata: PalletAssetsAssetMetadata;
 }

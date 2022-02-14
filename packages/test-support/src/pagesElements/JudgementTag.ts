@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/test-supports authors & contributors
+// Copyright 2017-2022 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
 
 export class JudgementTag {
-  public judgementTag: HTMLElement
+  public judgementTag: HTMLElement;
 
   constructor (judgementTag: HTMLElement) {
     this.judgementTag = judgementTag;

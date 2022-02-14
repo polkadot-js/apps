@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -137,16 +137,6 @@ export default React.memo(styled(Expander)`
     }
   }
 
-  &.hasContent .ui--Expander-summary {
-    cursor: pointer;
-  }
-
-  &.isPadded {
-    .ui--Expander-summary {
-      margin-left: 2.25rem;
-    }
-  }
-
   &.withBreaks .ui--Expander-content {
     white-space: normal;
   }
@@ -188,5 +178,13 @@ export default React.memo(styled(Expander)`
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+
+  &.hasContent .ui--Expander-summary {
+    cursor: pointer;
+  }
+
+  &.isPadded .ui--Expander-summary {
+    margin-left: 2.25rem;
   }
 `);

@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
 import './initSettings';
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
+import '@polkadot/api-augment/substrate';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -19,6 +20,6 @@ if (!rootElement) {
 }
 
 ReactDOM.render(
-  <Root />,
+  <Root isElectron={false} />,
   rootElement
 );
