@@ -13,8 +13,8 @@
   "type": "module",
   "version": "0.105.2-24",
   "dependencies": {
-    "@babel/runtime": "^7.17.0",
-    "@polkadot/hw-ledger": "^8.3.4-10",
+    "@babel/runtime": "^7.17.2",
+    "@polkadot/hw-ledger": "^8.4.1",
     "@polkadot/react-components": "^0.105.2-24"
   }
 }
