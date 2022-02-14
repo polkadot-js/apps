@@ -14,7 +14,7 @@
   "version": "0.105.2-24",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@fortawesome/fontawesome-svg-core": "^1.3.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.17",
     "@polkadot/keyring": "^8.4.1",
