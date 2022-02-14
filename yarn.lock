@@ -2779,8 +2779,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-files@workspace:packages/page-files"
   dependencies:
-    "@babel/runtime": ^7.15.4
-    "@polkadot/react-components": ^0.96.2-5
+    "@babel/runtime": ^7.17.0
+    "@polkadot/react-components": ^0.105.2-24
   languageName: unknown
   linkType: soft
 

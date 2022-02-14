@@ -19,6 +19,7 @@
   "Aye": "",
   "Aye: {{count}}": "",
   "Backup": "",
+  "Berlin": "",
   "Blocks nominations": "",
   "Bond": "",
   "Bounty approval under voting": "",
@@ -115,6 +116,7 @@
   "Retrieving nominators": "",
   "Retrieving validators": "",
   "Save": "",
+  "Seattle": "",
   "Set on-chain identity": "",
   "Set on-chain sub-identities": "",
   "Settings": "",
@@ -358,5 +360,6 @@
   "{{balance}} voted": "",
   "{{count}} key/value pairs encoded for submission": "",
   "{{days}} days": "",
-  "{{percentage}}% turnout": ""
+  "{{percentage}}% turnout": "",
+  "⚡️ Thunder Gateway": ""
 }
