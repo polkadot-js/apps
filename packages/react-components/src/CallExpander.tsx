@@ -3,7 +3,7 @@
 
 import type { Call } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import CallDisplay from './Call';
 import Expander from './Expander';
@@ -16,8 +16,19 @@ interface Props {
   withHash?: boolean;
 }
 
-function CallExpander ({ children, className = '', labelHash, value, withHash }: Props): React.ReactElement<Props> {
-  const { meta, method, section } = value.registry.findMetaCall(value.callIndex);
+function CallExpander ({ children, className = '', labelHash, value, withHash }: Props): React.ReactElement<Props> | null {
+  const call = useMemo(
+    () => value && value.callIndex
+      ? value.registry.findMetaCall(value.callIndex)
+      : null,
+    [value]
+  );
+
+  if (!call) {
+    return null;
+  }
+
+  const { meta, method, section } = call;
 
   return (
     <div className={`ui--CallExpander ${className}`}>
