@@ -1,0 +1,34 @@
+queue_rules:
+  - name: default
+    conditions:
+      - check-success=build
+      - check-success=lint
+      - check-success=test
+      - label=automerge
+      - base=master
+      - "#changes-requested-reviews-by=0"
+      - "#approved-reviews-by>=1"
+
+pull_request_rules:
+  - name: auto merge
+    conditions:
+      - check-success=build
+      - check-success=lint
+      - check-success=test
+      - label=automerge
+      - base=master
+      - "#changes-requested-reviews-by=0"
+      - "#approved-reviews-by>=1"
+    actions:
+      queue:
+        name: default
+        method: squash
+
+  - name: auto approval
+    conditions:
+      - author~=^jacogr$
+      - label=automerge
+    actions:
+      review:
+        type: APPROVE
+        message: This auto-approval rule should be removed once more JS maintainers are active.
