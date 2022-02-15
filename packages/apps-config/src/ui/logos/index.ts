@@ -77,13 +77,6 @@ export const extensionLogos: Record<string, unknown> = {
 
 // external logos, i.e. for explorers
 export const externalLogos: Record<string, unknown> = {
-  // commonwealth: externalCommonwealth,
-  // dotreasury: externalDotreasury,
-  // dotscanner: externalDotScanner,
-  // polkascan: externalPolkascan,
-  // polkassembly: externalPolkassembly,
-  // polkastats: externalPolkastats,
-  // statescan: externalStatescan,
   // subid: externalSubId,
   // subscan: externalSubscan
 };
