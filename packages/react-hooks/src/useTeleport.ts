@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { isNumber } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
@@ -61,7 +62,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
     );
 }
 
-export function useTeleport (): Teleport {
+function useTeleportImpl (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
   const paraId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
   const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
@@ -115,3 +116,5 @@ export function useTeleport (): Teleport {
 
   return state;
 }
+
+export const useTeleport = createNamedHook('useTeleport', useTeleportImpl);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
@@ -7,7 +7,7 @@ import type { GiltInfo, QueueTotal } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
 interface State {
@@ -27,7 +27,7 @@ const optGiltInfo = {
   })
 };
 
-export default function useInfo (): State {
+function useInfoImpl (): State {
   const { api } = useApi();
   const info = useCallMulti<GiltInfo>([
     api.query.gilt.activeTotal,
@@ -47,3 +47,5 @@ export default function useInfo (): State {
     [info]
   );
 }
+
+export default createNamedHook('useInfo', useInfoImpl);

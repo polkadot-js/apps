@@ -1,14 +1,16 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
+
+import { createNamedHook } from './createNamedHook';
 
 export interface WindowSize {
   width: number;
   height: number;
 }
 
-export function useWindowSize (): WindowSize {
+function useWindowSizeImpl (): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>({
     height: 0,
     width: 0
@@ -30,3 +32,5 @@ export function useWindowSize (): WindowSize {
 
   return windowSize;
 }
+
+export const useWindowSize = createNamedHook('useWindowSize', useWindowSizeImpl);

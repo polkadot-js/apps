@@ -1,16 +1,18 @@
-// Copyright 2017-2021 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Call } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
 
-import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, Output, TxButton } from '@polkadot/react-components';
+import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { assert, isHex } from '@polkadot/util';
 
+import Decoded from './Decoded';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -18,27 +20,27 @@ interface Props {
 }
 
 interface ExtrinsicInfo {
+  decoded: SubmittableExtrinsic<'promise'> | null;
   extrinsic: SubmittableExtrinsic<'promise'> | null;
   extrinsicCall: Call | null;
   extrinsicError: string | null;
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
-  extrinsicHash: string | null;
   extrinsicHex: string | null;
 }
 
 const DEFAULT_INFO: ExtrinsicInfo = {
+  decoded: null,
   extrinsic: null,
   extrinsicCall: null,
   extrinsicError: null,
   extrinsicFn: null,
-  extrinsicHash: null,
   extrinsicHex: null
 };
 
 function Decoder ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ extrinsic, extrinsicCall, extrinsicError, extrinsicFn, extrinsicHash }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
+  const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const _setExtrinsicHex = useCallback(
@@ -47,21 +49,25 @@ function Decoder ({ className }: Props): React.ReactElement<Props> {
         assert(isHex(extrinsicHex), 'Expected a hex-encoded call');
 
         let extrinsicCall: Call;
+        let decoded: SubmittableExtrinsic<'promise'> | null = null;
 
         try {
           // cater for an extrinsic input...
-          extrinsicCall = api.createType('Call', api.tx(extrinsicHex).method);
+          decoded = api.tx(extrinsicHex);
+          extrinsicCall = api.createType('Call', decoded.method);
         } catch (e) {
           extrinsicCall = api.createType('Call', extrinsicHex);
         }
 
-        const extrinsicHash = extrinsicCall.hash.toHex();
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
         const extrinsicFn = api.tx[section][method];
-
         const extrinsic = extrinsicFn(...extrinsicCall.args);
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, extrinsic, extrinsicCall, extrinsicFn, extrinsicHash, extrinsicHex });
+        if (!decoded) {
+          decoded = extrinsic;
+        }
+
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsic, extrinsicCall, extrinsicFn, extrinsicHex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
       }
@@ -93,14 +99,10 @@ function Decoder ({ className }: Props): React.ReactElement<Props> {
           />
         </>
       )}
-      {extrinsicHash && (
-        <Output
-          isDisabled
-          label='encoded call hash'
-          value={extrinsicHash}
-          withCopy
-        />
-      )}
+      <Decoded
+        extrinsic={decoded}
+        withData={false}
+      />
       <InputAddress
         label={t<string>('using the selected account')}
         labelExtra={
@@ -131,4 +133,8 @@ function Decoder ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Decoder);
+export default React.memo(styled(Decoder)`
+  .ui--Extrinsic--toplevel {
+    margin-top: 0;
+  }
+`);

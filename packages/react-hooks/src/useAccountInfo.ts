@@ -1,7 +1,6 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
@@ -9,18 +8,22 @@ import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import { useCallback, useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction } from '@polkadot/util';
+import { isFunction, isHex } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { useDeriveAccountFlags } from './useDeriveAccountFlags';
+import { useDeriveAccountInfo } from './useDeriveAccountInfo';
 import { useToggle } from './useToggle';
 
 const IS_NONE = {
   isCouncil: false,
   isDevelopment: false,
   isEditable: false,
+  isEthereum: false,
   isExternal: false,
   isFavorite: false,
   isHardware: false,
@@ -36,12 +39,12 @@ const IS_NONE = {
   isValidator: false
 };
 
-export function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
+function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags, [value]);
+  const accountInfo = useDeriveAccountInfo(value);
+  const accountFlags = useDeriveAccountFlags(value);
   const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
   const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
@@ -125,6 +128,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
           ...flags,
           isDevelopment: accountOrAddress?.meta.isTesting || false,
           isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected)))) || false,
+          isEthereum: isHex(value, 160),
           isExternal: !!accountOrAddress?.meta.isExternal || false,
           isHardware: !!accountOrAddress?.meta.isHardware || false,
           isInContacts,
@@ -239,7 +243,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   );
 
   const setTags = useCallback(
-    (tags: string[]): void => setSortedTags(tags.sort()),
+    (tags: string[]) => setSortedTags(tags.sort()),
     []
   );
 
@@ -269,3 +273,5 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     toggleIsEditingTags
   };
 }
+
+export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

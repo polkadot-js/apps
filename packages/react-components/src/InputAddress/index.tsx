@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
@@ -116,6 +116,21 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
   store.set(STORAGE_KEY, options);
 }
 
+function dedupe (options: Option[]): Option[] {
+  return options.reduce<Option[]>((all, o, index) => {
+    const hasDupe = all.some(({ key }, eindex) =>
+      eindex !== index &&
+      key === o.key
+    );
+
+    if (!hasDupe) {
+      all.push(o);
+    }
+
+    return all;
+  }, []);
+}
+
 class InputAddress extends React.PureComponent<Props, State> {
   public override state: State = {};
 
@@ -161,7 +176,7 @@ class InputAddress extends React.PureComponent<Props, State> {
           : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
-      ? options.map((o): Option => createItem(o))
+      ? dedupe(options.map((o) => createItem(o)))
       : isDisabled && actualValue
         ? [createOption(actualValue)]
         : this.getFiltered();
@@ -228,7 +243,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return !optionsAll
       ? []
-      : optionsAll[type].filter(({ value }) => !filter || (!!value && filter.includes(value)));
+      : dedupe(optionsAll[type]).filter(({ value }) => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {

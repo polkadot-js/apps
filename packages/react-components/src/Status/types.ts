@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -12,7 +12,7 @@ export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'cha
 export interface ActionStatusBase {
   account?: AccountId | Address | string;
   message?: string;
-  status: 'error' | 'event' | 'queued' | 'received' | 'success';
+  status: 'error' | 'event' | 'eventWarn' | 'queued' | 'received' | 'success';
 }
 
 export interface ActionStatusPartial extends ActionStatusBase {

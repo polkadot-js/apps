@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -6,27 +6,21 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Bytes, Struct, U8aFixed, u64 } from '@polkadot/types';
+import type { Struct, u64 } from '@polkadot/types';
 import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
 
 import { combineLatest, map } from 'rxjs';
 
 import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
 import { memo } from '@polkadot/api-derive/util';
-import { Digest, Header } from '@polkadot/types/interfaces';
-
-type FarmerPublicKey = U8aFixed
+import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
 interface HeaderExtended extends Header {
-  readonly author: FarmerPublicKey | undefined;
+  readonly author: AccountId32 | undefined;
 }
 
 interface Solution extends Struct {
-  readonly publicKey: FarmerPublicKey;
-  readonly nonce: u64;
-  readonly encoding: Bytes;
-  readonly signature: Bytes;
-  readonly tag: U8aFixed;
+  readonly public_key: AccountId32;
 }
 
 interface SubPreDigest extends Struct {
@@ -37,16 +31,13 @@ interface SubPreDigest extends Struct {
 function extractAuthor (
   digest: Digest,
   api: ApiInterfaceRx
-): FarmerPublicKey | undefined {
+): AccountId32 | undefined {
   const preRuntimes = digest.logs.filter(
-    ({ isPreRuntime, type }) => isPreRuntime && type.toString() === 'SUB_'
+    (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
   );
-  const { solution }: SubPreDigest = api.registry.createType(
-    'SubPreDigest',
-    preRuntimes[0]
-  );
+  const { solution }: SubPreDigest = api.registry.createType('SubPreDigest', preRuntimes[0].asPreRuntime[1]);
 
-  return solution.publicKey;
+  return solution.public_key;
 }
 
 function createHeaderExtended (
@@ -57,7 +48,7 @@ function createHeaderExtended (
   const HeaderBase = registry.createClass('Header');
 
   class SubHeaderExtended extends HeaderBase implements HeaderExtended {
-    readonly #author?: FarmerPublicKey;
+    readonly #author?: AccountId32;
 
     constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
       super(registry, header);
@@ -65,7 +56,7 @@ function createHeaderExtended (
       this.createdAtHash = header?.createdAtHash;
     }
 
-    public get author (): FarmerPublicKey | undefined {
+    public get author (): AccountId32 | undefined {
       return this.#author;
     }
   }
@@ -119,13 +110,8 @@ const definitions: OverrideBundleDefinition = {
     {
       minmax: [0, undefined],
       types: {
-        FarmerPublicKey: '[u8; 32]',
         Solution: {
-          publicKey: 'FarmerPublicKey',
-          nonce: 'u64',
-          encoding: 'Vec<u8>',
-          signature: 'Vec<u8>',
-          tag: '[u8; 8]'
+          public_key: 'AccountId32'
         },
         SubPreDigest: {
           slot: 'u64',

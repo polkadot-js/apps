@@ -1,11 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 
-import BN from 'bn.js';
-
 import { TypeRegistry } from '@polkadot/types/create';
+import { BN } from '@polkadot/util';
 
 export function makeStakingLedger (active: BN | number | string): PalletStakingStakingLedger {
   const reg = new TypeRegistry();

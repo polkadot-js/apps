@@ -1,11 +1,12 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
-export function useIncrement (defaultValue = 1): [number, () => void, (value: number) => void] {
+function useIncrementImpl (defaultValue = 1): [number, () => void, (value: number) => void] {
   const mountedRef = useIsMountedRef();
   const [value, setValue] = useState(defaultValue);
 
@@ -18,3 +19,5 @@ export function useIncrement (defaultValue = 1): [number, () => void, (value: nu
 
   return [value, increment, setValue];
 }
+
+export const useIncrement = createNamedHook('useIncrement', useIncrementImpl);

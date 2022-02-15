@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
 
-import { useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useIsMountedRef } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 interface UseContracts {
@@ -12,9 +12,13 @@ interface UseContracts {
   isContract: (address: string) => boolean;
 }
 
-const DEFAULT_STATE: UseContracts = { allContracts: [], hasContracts: false, isContract: () => false };
+const DEFAULT_STATE: UseContracts = {
+  allContracts: [],
+  hasContracts: false,
+  isContract: () => false
+};
 
-export function useContracts (): UseContracts {
+function useContractsImpl (): UseContracts {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseContracts>(DEFAULT_STATE);
 
@@ -37,3 +41,5 @@ export function useContracts (): UseContracts {
 
   return state;
 }
+
+export const useContracts = createNamedHook('useContracts', useContractsImpl);

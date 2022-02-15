@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -8,12 +8,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
+import { useAccountId, useApi, useFormField, useNonEmptyString, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isNull, isWasm, stringify } from '@polkadot/util';
+import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
-import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
@@ -31,12 +30,14 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [step, nextStep, prevStep] = useStepper();
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const weight = useWeight();
+
+  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -87,10 +88,11 @@ function Upload ({ onClose }: Props): React.ReactElement {
     let error: string | null = null;
 
     try {
-      contract = code && contractAbi?.constructors[constructorIndex]?.method && endowment
+      contract = code && contractAbi?.constructors[constructorIndex]?.method && value
         ? code.tx[contractAbi.constructors[constructorIndex].method]({
           gasLimit: weight.weight,
-          value: endowment
+          storageDepositLimit: null,
+          value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
         }, ...params)
         : null;
     } catch (e) {
@@ -98,7 +100,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
     }
 
     setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
+  }, [code, contractAbi, constructorIndex, value, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -198,15 +200,19 @@ function Upload ({ onClose }: Props): React.ReactElement {
               params={contractAbi.constructors[constructorIndex].args}
               registry={contractAbi.registry}
             />
-            <InputBalance
-              help={t<string>('The allotted endowment for the deployed contract, i.e. the amount transferred to the contract upon instantiation.')}
-              isError={!isEndowmentValid}
-              label={t<string>('endowment')}
-              onChange={setEndowment}
-              value={endowment}
-            />
+            {contractAbi.constructors[constructorIndex].isPayable && (
+              <InputBalance
+                help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+                isError={!isValueValid}
+                isZeroable={hasStorageDeposit}
+                label={t<string>('value')}
+                onChange={setValue}
+                value={value}
+              />
+            )
+            }
             <InputMegaGas
-              help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+              help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail')}
               weight={weight}
             />
             {error && (

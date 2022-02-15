@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -52,7 +52,7 @@ const componentDef: TypeToComponent[] = [
   { c: Bytes, t: ['Bytes'] },
   { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
-  { c: DispatchError, t: ['DispatchError'] },
+  { c: DispatchError, t: ['DispatchError', 'SpRuntimeDispatchError'] },
   { c: DispatchResult, t: ['DispatchResult'] },
   { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
@@ -85,11 +85,11 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 
 const warnList: string[] = [];
 
-function fromDef ({ displayName, info, lookupName, sub, type, typeName }: TypeDef): string {
-  const nameOverride = displayName || typeName;
+function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
+  // const nameOverride = displayName || typeName;
 
-  if (nameOverride && SPECIAL_TYPES.includes(nameOverride)) {
-    return nameOverride;
+  if (displayName && SPECIAL_TYPES.includes(displayName)) {
+    return displayName;
   } else if (type.endsWith('RuntimeSessionKeys')) {
     return 'RuntimeSessionKeys';
   }
@@ -136,10 +136,12 @@ function fromDef ({ displayName, info, lookupName, sub, type, typeName }: TypeDe
 }
 
 export default function findComponent (registry: Registry, def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const findOne = (type: string): React.ComponentType<Props> | null =>
-    overrides[type] || components[type];
+  const findOne = (type?: string): React.ComponentType<Props> | null =>
+    type
+      ? overrides[type] || components[type]
+      : null;
   const type = fromDef(def);
-  let Component = findOne(type);
+  let Component = findOne(def.lookupName) || findOne(type);
 
   if (!Component) {
     let error: string | null = null;

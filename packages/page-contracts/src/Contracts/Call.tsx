@@ -1,19 +1,18 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { CallResult } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ContractPromise } from '@polkadot/api-contract';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ONE, BN_ZERO } from '@polkadot/util';
+import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import { useTranslation } from '../translate';
@@ -34,10 +33,11 @@ const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
-  const [value, isValueValid, setEndowment] = useFormField<BN>(BN_ZERO);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<unknown[]>([]);
@@ -45,6 +45,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
+  const hasStorageDeposit = api.tx.contracts.call.meta.args.length === 5;
 
   useEffect((): void => {
     setEstimatedWeight(null);
@@ -54,65 +55,53 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.tx[message.method]({
-          gasLimit: weight.weight,
-          value: message.isPayable
-            ? value
-            : 0
-        }, ...params);
+        return hasStorageDeposit
+          ? contract.tx[message.method]({ gasLimit: weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params)
+          : contract.tx[message.method]({ gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
       } catch (error) {
         return null;
       }
     });
-  }, [accountId, contract, message, value, weight, params]);
+  }, [accountId, contract, message, value, weight, params, hasStorageDeposit]);
 
   useEffect((): void => {
     if (!accountId || !message || !dbParams || !dbValue) return;
+    const query = hasStorageDeposit
+      ? contract.query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
+      : contract.query[message.method](accountId, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams);
 
-    contract
-      .query[message.method](accountId, {
-        gasLimit: -1,
-        value: message.isPayable
-          ? dbValue
-          : 0
-      }, ...dbParams)
+    query
       .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
           ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
-  }, [accountId, contract, message, dbParams, dbValue]);
+  }, [accountId, contract, message, dbParams, dbValue, hasStorageDeposit]);
 
   const _onSubmitRpc = useCallback(
     (): void => {
       if (!accountId || !message || !value || !weight) return;
+      const query = hasStorageDeposit
+        ? contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params)
+        : contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params);
 
-      contract
-        .query[message.method](accountId, {
-          gasLimit: weight.isEmpty
-            ? -1
-            : weight.weight,
-          value: message.isPayable
-            ? value
-            : 0
-        }, ...params)
-        .then((result): void => {
-          setOutcomes([{
-            ...result,
-            from: accountId,
-            message,
-            params,
-            when: new Date()
-          }, ...outcomes]);
-          onCallResult && onCallResult(messageIndex, result);
-        })
+      query.then((result): void => {
+        setOutcomes([{
+          ...result,
+          from: accountId,
+          message,
+          params,
+          when: new Date()
+        }, ...outcomes]);
+        onCallResult && onCallResult(messageIndex, result);
+      })
         .catch((error): void => {
           console.error(error);
           onCallResult && onCallResult(messageIndex);
         });
     },
-    [accountId, contract, message, messageIndex, onCallResult, outcomes, params, value, weight]
+    [accountId, contract.query, hasStorageDeposit, message, messageIndex, onCallResult, outcomes, params, value, weight]
   );
 
   const _onClearOutcome = useCallback(
@@ -180,7 +169,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
-            onChange={setEndowment}
+            onChange={setValue}
             value={value}
           />
         )}

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -8,14 +8,13 @@ import type { SlashingSpans, UnappliedSlash } from '@polkadot/types/interfaces';
 import type { SortedTargets } from '../../types';
 import type { Slash } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Checkbox, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { formatNumber, isFunction } from '@polkadot/util';
+import { BN, formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
@@ -23,6 +22,7 @@ import InjectKeys from './InjectKeys';
 import KickNominees from './KickNominees';
 import ListNominees from './ListNominees';
 import Nominate from './Nominate';
+import Rebond from './Rebond';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
@@ -34,8 +34,10 @@ interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
   className?: string;
   isDisabled?: boolean;
+  isSelectable: boolean;
   info: StakerState;
   next?: string[];
+  onSelect: (stashId: string, controllerId: string, isSelected: boolean) => void;
   stashId: string;
   targets: SortedTargets;
   validators?: string[];
@@ -68,7 +70,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, onSelect, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -76,12 +78,20 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isInjectOpen, toggleInject] = useToggle();
   const [isKickOpen, toggleKick] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
+  const [isRebondOpen, toggleRebond] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
   const [isSetControllerOpen, toggleSetController] = useToggle();
   const [isSetSessionOpen, toggleSetSession] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
+
+  const _onSelect = useCallback(
+    (isSelected: boolean) => controllerId && onSelect(stashId, controllerId, isSelected),
+    [controllerId, stashId, onSelect]
+  );
+
+  const [isSelected, , setSelected] = useToggle(false, _onSelect);
 
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
@@ -146,6 +156,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
             onClose={toggleNominate}
             stashId={stashId}
             targets={targets}
+          />
+        )}
+        {isRebondOpen && (
+          <Rebond
+            controllerId={controllerId}
+            onClose={toggleRebond}
+            stakingInfo={stakingAccount}
+            stashId={stashId}
           />
         )}
         {isSetControllerOpen && controllerId && (
@@ -296,6 +314,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     {t<string>('Unbond funds')}
                   </Menu.Item>
                   <Menu.Item
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    onClick={toggleRebond}
+                  >
+                    {t<string>('Rebond funds')}
+                  </Menu.Item>
+                  <Menu.Item
                     isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
                     onClick={withdrawFunds}
                   >
@@ -360,6 +384,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </>
         )}
       </td>
+      <td className='hidden'>
+        {isSelectable && controllerId && (
+          <Checkbox
+            onChange={setSelected}
+            value={isSelected}
+          />
+        )}
+      </td>
     </tr>
   );
 }
@@ -369,5 +401,9 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
+  }
+
+  .hidden {
+    display: none;
   }
 `);

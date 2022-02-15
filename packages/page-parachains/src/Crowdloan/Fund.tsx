@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -93,7 +93,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
             : t<string>('Ended')
         }
       </td>
-      <td className='address media--1400'><AddressMini value={depositor} /></td>
+      <td className='address media--2000'><AddressMini value={depositor} /></td>
       <td className='all number together media--1200'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />

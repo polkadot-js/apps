@@ -1,11 +1,12 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
-export function useLoadingDelay (delay = 100): boolean {
+function useLoadingDelayImpl (delay = 100): boolean {
   const mountedRef = useIsMountedRef();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,3 +20,5 @@ export function useLoadingDelay (delay = 100): boolean {
 
   return isLoading;
 }
+
+export const useLoadingDelay = createNamedHook('useLoadingDelay', useLoadingDelayImpl);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -62,7 +63,7 @@ function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { 
   };
 }
 
-export function useOwnStashInfos (): StakerState[] | undefined {
+function useOwnStashInfosImpl (): StakerState[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
@@ -109,3 +110,5 @@ export function useOwnStashInfos (): StakerState[] | undefined {
     [allAccounts, ownStashes, queried]
   );
 }
+
+export const useOwnStashInfos = createNamedHook('useOwnStashInfos', useOwnStashInfosImpl);

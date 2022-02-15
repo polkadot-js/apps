@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -7,10 +7,10 @@ import type { SessionRewards } from '../types';
 
 import { useEffect, useState } from 'react';
 
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO, isFunction } from '@polkadot/util';
 
-export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
+function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
@@ -40,3 +40,5 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
 
   return counts;
 }
+
+export default createNamedHook('useBlockCounts', useBlockCountsImpl);

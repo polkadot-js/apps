@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, FundInfo, HrmpChannel, HrmpChannelId, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
+import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
+import type { PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsHrmpHrmpChannel } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
-export type ChannelMap = Record<string, [HrmpChannelId, HrmpChannel][]>;
+export type ChannelMap = Record<string, [PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeParachainsHrmpHrmpChannel][]>;
 
 export interface AllChannels {
   dst: ChannelMap;
@@ -49,7 +50,7 @@ export interface Campaigns {
 }
 
 export interface Campaign extends WinnerData {
-  info: FundInfo;
+  info: PolkadotRuntimeCommonCrowdloanFundInfo;
   isCapped?: boolean;
   isEnded?: boolean;
   isWinner?: boolean;
@@ -71,7 +72,7 @@ export interface Proposals {
 export interface OwnedIdPartial {
   manager: string;
   paraId: ParaId;
-  paraInfo: ParaInfo;
+  paraInfo: PolkadotRuntimeCommonParasRegistrarParaInfo;
 }
 
 export interface OwnedId extends OwnedIdPartial {

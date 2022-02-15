@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import fs from 'fs';
@@ -39,6 +39,8 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
       it(`${name} @ ${ws}`, async (): Promise<void> => {
+        console.error(`>>> ${name} @ ${ws}`);
+
         const [,, hostWithPort] = ws.split('/');
         const [host] = hostWithPort.split(':');
 
@@ -56,13 +58,16 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
           api = new ApiPromise({
             provider,
             throwOnConnect: true,
-            throwOnUnknown: true,
+            throwOnUnknown: false,
             typesBundle,
             typesChain
           });
 
           setTimeout((): void => {
-            provider && provider.connect().catch(() => undefined);
+            provider &&
+              provider
+                .connect()
+                .catch(() => undefined);
           }, 1000);
 
           await Promise.race([
@@ -71,9 +76,11 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
               timerId = setTimeout((): void => {
                 timerId = null;
                 reject(new Error(`Timeout connecting to ${ws}`));
-              }, 60_000);
+              }, 30_000);
             }),
             api.isReadyOrError
+              .then((a) => a.rpc.chain.getBlock())
+              .then((b) => console.log(b.toHuman()))
           ]);
         } catch (error) {
           if (isError(error) && failures.some((f) => (error as Error).message.includes(f))) {
@@ -81,6 +88,8 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
 
             throw error;
           }
+
+          console.error(JSON.stringify(error));
         } finally {
           if (timerId) {
             clearTimeout(timerId);

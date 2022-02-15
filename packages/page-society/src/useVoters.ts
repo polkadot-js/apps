@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -7,7 +7,7 @@ import type { Voters } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 
 const EMPTY_VOTERS: Voters = {};
 
@@ -39,7 +39,7 @@ async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[])
   return { candidates, skeptics, voters };
 }
 
-export default function useVoters (): Voters {
+function useVotersImpl (): Voters {
   const { api } = useApi();
   const voteTrigger = useEventTrigger([api.events.society.Vote]);
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates);
@@ -52,3 +52,5 @@ export default function useVoters (): Voters {
 
   return state;
 }
+
+export default createNamedHook('useVoters', useVotersImpl);

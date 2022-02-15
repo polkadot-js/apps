@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveContributions, DeriveOwnContributions } from '@polkadot/api-derive/types';
@@ -6,7 +6,7 @@ import type { Balance, ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 interface Result extends DeriveContributions {
@@ -25,7 +25,7 @@ const NO_CONTRIB: Result = {
   myContributions: {}
 };
 
-export default function useContributions (paraId: ParaId): Result {
+function useContributionsImpl (paraId: ParaId): Result {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
   const [state, setState] = useState<Result>(() => NO_CONTRIB);
@@ -57,3 +57,5 @@ export default function useContributions (paraId: ParaId): Result {
 
   return state;
 }
+
+export default createNamedHook('useContributions', useContributionsImpl);

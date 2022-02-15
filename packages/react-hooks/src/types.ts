@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -87,6 +87,7 @@ export interface UseSudo {
 export interface AddressFlags extends DeriveAccountFlags {
   isDevelopment: boolean;
   isEditable: boolean;
+  isEthereum: boolean;
   isExternal: boolean;
   isFavorite: boolean;
   isHardware: boolean;

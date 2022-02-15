@@ -1,9 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types-codec';
+import type { BN } from '@polkadot/util';
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -138,7 +139,9 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
 }
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+  // Use slice to create new array, so that sorting triggers component render
   return validators
+    .slice(0)
     .sort((a, b) => sortFromMax
       ? a[sortBy] - b[sortBy]
       : b[sortBy] - a[sortBy]
@@ -239,6 +242,13 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     toggleLedger();
   }, [toggleLedger]);
 
+  const maxNominations = useMemo(
+    () => api.consts.staking.maxNominations
+      ? (api.consts.staking.maxNominations as u32).toNumber()
+      : MAX_NOMINATIONS,
+    [api]
+  );
+
   const myNominees = useMemo(
     () => extractNominees(ownNominators),
     [ownNominators]
@@ -265,14 +275,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(
-        filtered,
-        api.consts.staking.maxNominations
-          ? api.consts.staking.maxNominations.toNumber()
-          : MAX_NOMINATIONS
-      )
+      selectProfitable(filtered, maxNominations)
     ),
-    [api, filtered]
+    [filtered, maxNominations]
   );
 
   const _setNameFilter = useCallback(
@@ -351,9 +356,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const displayList = isQueryFiltered
     ? validators
     : sorted;
-  const maxNominations = api.consts.staking.maxNominations
-    ? api.consts.staking.maxNominations.toNumber()
-    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>

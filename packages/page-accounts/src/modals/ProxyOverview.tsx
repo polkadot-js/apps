@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -259,7 +259,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
             value={proxiedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}>
+        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
           {previous.map((value, index) => (
             <PrevProxy
               index={index}
@@ -289,7 +289,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
             />
           </Button.Group>
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The amount that is reserved for the proxy based on the base deposit and number of proxies')}>
+        <Modal.Columns hint={t<string>('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
           <InputBalance
             defaultValue={reservedAmount}
             isDisabled

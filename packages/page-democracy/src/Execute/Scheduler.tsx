@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, Scheduled } from '@polkadot/types/interfaces';
+import type { BlockNumber, Call, Scheduled } from '@polkadot/types/interfaces';
+import type { FrameSupportScheduleMaybeHashed, PalletSchedulerScheduledV3 } from '@polkadot/types/lookup';
 import type { ScheduledExt } from './types';
 
 import React, { useMemo, useRef } from 'react';
@@ -18,16 +19,26 @@ interface Props {
 }
 
 const transformEntries = {
-  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] => {
+  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduledV3>[]][]): ScheduledExt[] => {
     return entries
-      .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
-      .reduce((items: ScheduledExt[], [key, vecSchedOpt]): ScheduledExt[] => {
+      .filter(([, all]) => all.some((o) => o.isSome))
+      .reduce((items: ScheduledExt[], [key, all]): ScheduledExt[] => {
         const blockNumber = key.args[0];
 
-        return vecSchedOpt
-          .filter((schedOpt) => schedOpt.isSome)
-          .map((schedOpt) => schedOpt.unwrap())
-          .reduce((items: ScheduledExt[], { call, maybeId, maybePeriodic, priority }, index) => {
+        return all
+          .filter((o) => o.isSome)
+          .map((o) => o.unwrap())
+          .reduce((items: ScheduledExt[], { call: callOrEnum, maybeId, maybePeriodic, priority }, index) => {
+            let call: Call | null = null;
+
+            if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).inner) {
+              if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).isValue) {
+                call = (callOrEnum as unknown as FrameSupportScheduleMaybeHashed).asValue;
+              }
+            } else {
+              call = callOrEnum as Call;
+            }
+
             items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, priority });
 
             return items;
