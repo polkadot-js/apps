@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.106.1",
+  "version": "0.106.2-0",
   "dependencies": {
     "@testing-library/react": "^12.1.2",
     "testcontainers": "^8.2.0"
