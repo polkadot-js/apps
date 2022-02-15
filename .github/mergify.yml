@@ -1,7 +1,9 @@
 queue_rules:
   - name: default
     conditions:
-      - check-success=build
+      - check-success=build:code
+      - check-success=build:electron
+      - check-success=build:i18n
       - check-success=lint
       - check-success=test
       - label=automerge
@@ -12,7 +14,9 @@ queue_rules:
 pull_request_rules:
   - name: auto merge
     conditions:
-      - check-success=build
+      - check-success=build:code
+      - check-success=build:electron
+      - check-success=build:i18n
       - check-success=lint
       - check-success=test
       - label=automerge
