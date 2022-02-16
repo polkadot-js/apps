@@ -53,6 +53,7 @@ import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import externalSubsquare from './external/subsquare.svg';
+import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
@@ -175,6 +176,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  Ajuna: nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -339,6 +341,7 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
+  Ajuna: nodeAjuna,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Gladios': nodeAresGladios,
@@ -520,6 +523,7 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   acala: chainAcala,
+  ajuna: nodeAjuna,
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,

@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'ajuna',
+      text: t('rpc.test.ajuna', 'Ajuna Network', { ns: 'apps-config' }),
+      providers: {
+        'Ajuna Network': 'wss://rpc-test.ajuna.network'
+      }
+    },
+    {
       info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
