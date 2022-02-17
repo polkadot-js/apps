@@ -369,8 +369,8 @@ export default React.memo(styled(UploadModal)`
   }
 
   .progress {
-    marginLeft: 2rem;
-    marginTop: 2rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
     width: calc(100% - 2rem);
   }
 `);
