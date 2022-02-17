@@ -2776,6 +2776,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-files@workspace:packages/page-files":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-files@workspace:packages/page-files"
+  dependencies:
+    "@babel/runtime": ^7.17.0
+    "@polkadot/react-components": ^0.105.2-24
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-gilt@workspace:packages/page-gilt":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-gilt@workspace:packages/page-gilt"

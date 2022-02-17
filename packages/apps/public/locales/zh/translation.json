@@ -507,6 +507,7 @@
   "Show address on hardware device": "在硬件设备上显示地址",
   "Sign (no submission)": "签名（不提交）",
   "Sign and Submit": "签名并提交",
+  "Sign and Upload": "签名并上传",
   "Sign for multisig": "多重签名",
   "Sign message": "签名消息",
   "Sign via Qr": "通过 Qr 签名",
