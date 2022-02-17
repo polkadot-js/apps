@@ -276,10 +276,13 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
           <td
             className=''
             colSpan={2}
-          >{f.items && <Icon
-              className='highlight--color'
-              icon='folder'
-            />}
+          >
+            {f.items && (
+              <Icon
+                className='highlight--color'
+                icon='folder'
+              />
+            )}
             {shortStr(f.Name)}</td>
           <td
             className='end'
@@ -316,12 +319,14 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
             colSpan={1}
           >
             <div className='actions'>
-              {!f.items && <Badge
-                color='highlight'
-                hover={t<string>('Download')}
-                icon='download'
-                onClick={createOnDown(f)}
-              />}
+              {!f.items && (
+                <Badge
+                  color='highlight'
+                  hover={t<string>('Download')}
+                  icon='download'
+                  onClick={createOnDown(f)}
+                />
+              )}
               <MCopyButton value={createUrl(f)}>
                 <Badge
                   color='highlight'
