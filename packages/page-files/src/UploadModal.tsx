@@ -5,11 +5,11 @@ import type { Signer } from '@polkadot/api/types';
 
 import axios, { CancelTokenSource } from 'axios';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { createAuthIpfsEndpoints } from '@polkadot/apps-config';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Available, Button, Dropdown, InputAddress, Label, Modal, Password } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
@@ -18,6 +18,7 @@ import { useTranslation } from './translate';
 import { DirFile, FileInfo, SaveFile, UploadRes } from './types';
 
 export interface Props {
+  className?: string;
   file: FileInfo,
   onClose?: () => void,
   onSuccess?: (res: SaveFile) => void,
@@ -27,14 +28,7 @@ function ShowFile (p: { file: DirFile | File }) {
   const f = p.file as DirFile;
 
   return (
-    <div
-      style={{
-        backgroundColor: 'white',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.15)',
-        borderRadius: '4px',
-        padding: '5px 2rem'
-      }}
-    >
+    <div className='file'>
       <Label label={f.webkitRelativePath || p.file.name} />
       <span>{`${f.size} bytes`}</span>
     </div>
@@ -54,8 +48,7 @@ interface SignerState {
 
 const NOOP = (): void => undefined;
 
-function UploadModal (p: Props): React.ReactElement<Props> {
-  const { file, onClose = NOOP, onSuccess = NOOP } = p;
+function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const endpoints = useMemo(
     () => createAuthIpfsEndpoints(t)
@@ -71,7 +64,6 @@ function UploadModal (p: Props): React.ReactElement<Props> {
     }
   ], [t]);
   const [currentPinEndpoint, setCurrentPinEndpoint] = useState(pinEndpoints[0]);
-  const { hasAccounts } = useAccounts();
   const [currentPair, setCurrentPair] = useState(() => keyring.getPairs()[0] || null);
   const [account, setAccount] = useState('');
   const [{ isInjected }, setAccountState] = useState<AccountState>({
@@ -190,11 +182,11 @@ function UploadModal (p: Props): React.ReactElement<Props> {
       const base64Signature = Buffer.from(perSignData).toString('base64');
       const AuthBasic = `Basic ${base64Signature}`;
       const AuthBearer = `Bearer ${base64Signature}`;
-      // 2: up file
       const cancel = axios.CancelToken.source();
 
       setCancelUp(cancel);
       setUpState({ progress: 0, up: true });
+
       const form = new FormData();
 
       if (file.file) {
@@ -277,6 +269,7 @@ function UploadModal (p: Props): React.ReactElement<Props> {
 
   return (
     <Modal
+      className={className}
       header={t<string>('Upload File')}
       onClose={_onClose}
       open={true}
@@ -284,10 +277,8 @@ function UploadModal (p: Props): React.ReactElement<Props> {
     >
       <Modal.Content>
         <Modal.Columns>
-          <div style={{ maxHeight: 300, overflow: 'auto', paddingLeft: '2rem', width: '100%' }}>
-            {
-              file.file && <ShowFile file={file.file} />
-            }
+          <div className='files'>
+            {file.file && <ShowFile file={file.file} />}
             {file.files && file.files.map((f, i) =>
               <ShowFile
                 file={f}
@@ -316,19 +307,10 @@ function UploadModal (p: Props): React.ReactElement<Props> {
             value={currentPinEndpoint.value}
           />
         </Modal.Columns>
-        <Modal.Columns
-          hint={
-            !hasAccounts &&
-            <p
-              className='file-info'
-              style={{ padding: 0 }}
-            >{t<string>('Need to connect a plug-in wallet or import an account first')}
-            </p>
-          }
-        >
+        <Modal.Columns>
           <InputAddress
             defaultValue={account}
-            isDisabled={!hasAccounts || isBusy}
+            isDisabled={isBusy}
             label={t<string>('Please choose account')}
             labelExtra={
               <Available
@@ -350,29 +332,19 @@ function UploadModal (p: Props): React.ReactElement<Props> {
             />
           }
           <Progress
+            className='progress'
             progress={upState.progress}
-            style={{ marginLeft: '2rem', marginTop: '2rem', width: 'calc(100% - 2rem)' }}
           />
-          {
-            errorText &&
-            <div
-              style={{
-                color: 'orangered',
-                padding: '1rem',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-all'
-              }}
-            >
-              {errorText}
-            </div>
-          }
+          {errorText && (
+            <MarkError content={errorText} />
+          )}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <Button
           icon={'arrow-circle-up'}
           isBusy={isBusy}
-          isDisabled={!hasAccounts || fileSizeError}
+          isDisabled={fileSizeError}
           label={t<string>('Sign and Upload')}
           onClick={_onClickUp}
         />
@@ -381,4 +353,24 @@ function UploadModal (p: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(UploadModal);
+export default React.memo(styled(UploadModal)`
+  .files {
+    maxHeight: 300;
+    overflow: auto;
+    paddingLeft: 2rem;
+    width: 100%;
+
+    .file {
+      backgroundColor: white;
+      borderBottom: 1px solid rgba(0, 0, 0, 0.15);
+      borderRadius: 4px;
+      padding: 5px 2rem;
+    }
+  }
+
+  .progress {
+    marginLeft: 2rem;
+    marginTop: 2rem;
+    width: calc(100% - 2rem);
+  }
+`);

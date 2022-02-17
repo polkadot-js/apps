@@ -5,10 +5,10 @@ import type { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useRef } from 'react';
 
-import CrustFiles from '@polkadot/app-files/CrustFiles';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from '../README.md';
+import CrustFiles from './CrustFiles';
 import { useTranslation } from './translate';
 
 interface Props {

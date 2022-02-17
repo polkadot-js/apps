@@ -5,13 +5,13 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFiles } from '@polkadot/app-files/hooks';
-import UploadModal from '@polkadot/app-files/UploadModal';
 import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
 import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
 
+import { useFiles } from './hooks';
 import { useTranslation } from './translate';
 import { DirFile, FileInfo, SaveFile } from './types';
+import UploadModal from './UploadModal';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {
