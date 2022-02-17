@@ -91,7 +91,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://crab-rpc.darwinia.network',
-        Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
+        Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+        OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
       }
     },
     {
