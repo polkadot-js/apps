@@ -149,6 +149,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rocfinity',
+        isDisabled: false,
+        paraId: 2110,
+        text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.rococo.efinity.io'
+        }
+      },
+      {
         info: 'rococoEncointer',
         isDisabled: true, // Rococo reset
         paraId: 1862,
