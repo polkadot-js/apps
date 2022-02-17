@@ -380,7 +380,7 @@ export const nodeLogos = Object.entries({
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,
-  'Efinity': nodeEfinity,
+  Efinity: nodeEfinity,
   'Efinity Node': nodeEfinity,
   'Encointer collator': nodeEncointer,
   'Encointer Node noTEE': nodeEncointer,
