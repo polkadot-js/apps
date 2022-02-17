@@ -109,9 +109,8 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'crab',
         homepage: 'https://crab.network',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6794
         paraId: 2105,
-        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        text: t('rpc.kusama.crab', 'Darwinia Crab Parachain', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-parachain-rpc.darwinia.network/'
         }
