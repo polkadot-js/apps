@@ -355,22 +355,22 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
 export default React.memo(styled(UploadModal)`
   .files {
-    maxHeight: 300;
+    max-height: 300;
     overflow: auto;
-    paddingLeft: 2rem;
+    padding-left: 2rem;
     width: 100%;
 
     .file {
-      backgroundColor: white;
-      borderBottom: 1px solid rgba(0, 0, 0, 0.15);
-      borderRadius: 4px;
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
       padding: 5px 2rem;
     }
   }
 
   .progress {
-    marginLeft: 2rem;
-    marginTop: 2rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
     width: calc(100% - 2rem);
   }
 `);
