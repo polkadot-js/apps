@@ -5,13 +5,13 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFiles } from '@polkadot/app-files/hooks';
-import UploadModal from '@polkadot/app-files/UploadModal';
 import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
 import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
 
+import { useFiles } from './hooks';
 import { useTranslation } from './translate';
 import { DirFile, FileInfo, SaveFile } from './types';
+import UploadModal from './UploadModal';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {
@@ -276,10 +276,13 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
           <td
             className=''
             colSpan={2}
-          >{f.items && <Icon
-              className='highlight--color'
-              icon='folder'
-            />}
+          >
+            {f.items && (
+              <Icon
+                className='highlight--color'
+                icon='folder'
+              />
+            )}
             {shortStr(f.Name)}</td>
           <td
             className='end'
@@ -316,12 +319,14 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
             colSpan={1}
           >
             <div className='actions'>
-              {!f.items && <Badge
-                color='highlight'
-                hover={t<string>('Download')}
-                icon='download'
-                onClick={createOnDown(f)}
-              />}
+              {!f.items && (
+                <Badge
+                  color='highlight'
+                  hover={t<string>('Download')}
+                  icon='download'
+                  onClick={createOnDown(f)}
+                />
+              )}
               <MCopyButton value={createUrl(f)}>
                 <Badge
                   color='highlight'

@@ -60,8 +60,8 @@ export default function create (t: TFunction): Routes {
     rpc(t),
     signing(t),
     sudo(t),
-    js(t),
     files(t),
+    js(t),
     settings(t)
   ];
 }

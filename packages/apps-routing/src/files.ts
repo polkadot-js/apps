@@ -10,11 +10,12 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
+      needsAccounts: true,
       needsApi: []
     },
-    group: 'files',
+    group: 'developer',
     icon: 'file',
     name: 'files',
-    text: t('nav.files', 'Files', { ns: 'apps-routing' })
+    text: t('nav.files', 'Files (IPFS)', { ns: 'apps-routing' })
   };
 }
