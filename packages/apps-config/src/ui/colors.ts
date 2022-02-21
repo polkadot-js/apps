@@ -216,7 +216,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
-  Ajuna: chainAjuna,
+  'Ajuna Testnet': chainAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -399,7 +399,7 @@ export const chainColors: Record<string, string> = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
-  Ajuna: nodeAjuna,
+  'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomataContextFree,

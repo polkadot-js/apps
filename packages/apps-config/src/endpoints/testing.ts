@@ -19,7 +19,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
       info: 'ajuna',
-      text: t('rpc.test.ajuna', 'Ajuna Network', { ns: 'apps-config' }),
+      text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
       providers: {
         'Ajuna Network': 'wss://rpc-test.ajuna.network'
       }

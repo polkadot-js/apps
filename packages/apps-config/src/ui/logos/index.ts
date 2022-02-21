@@ -176,7 +176,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
-  Ajuna: nodeAjuna,
+  'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -341,7 +341,7 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
-  Ajuna: nodeAjuna,
+  'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Gladios': nodeAresGladios,
