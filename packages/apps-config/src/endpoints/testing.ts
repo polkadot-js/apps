@@ -209,9 +209,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'interbtc',
-      text: t('rpc.test.interbtc', 'Interlay', { ns: 'apps-config' }),
+      text: t('rpc.test.interbtc', 'Interlay Testnet', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api.interlay.io/parachain/'
+        Interlay: 'wss://api-testnet.interlay.io/parachain/'
       }
     },
     {

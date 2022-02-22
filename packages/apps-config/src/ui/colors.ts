@@ -57,6 +57,7 @@ const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainMangata = '#ddf1f3';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
@@ -302,6 +303,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
+  Mangata: chainMangata,
   'Manta Parachain': chainManta,
   'Manta Parachain Development': chainManta,
   'Manta Parachain Local': chainManta,

@@ -26,6 +26,7 @@ import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainMangata from './chains/mangata.png';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
@@ -248,6 +249,7 @@ export const chainLogos = Object.entries({
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
+  Mangata: chainMangata,
   'Manta Parachain': nodeManta,
   'Manta Parachain Development': nodeManta,
   'Manta Parachain Local': nodeManta,
@@ -596,6 +598,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
+  mangata: chainMangata,
   manta: nodeManta,
   mars: nodeAresMars,
   mathchain: nodeMath,
