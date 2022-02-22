@@ -97,6 +97,7 @@ import shiden from './shiden';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import spanner from './spanner';
+import mangata from './mangata';
 import stafi from './stafi';
 import standard from './standard';
 import subdao from './subdao';
@@ -204,6 +205,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'mashnet-node': kilt,
   mathchain,
   'mathchain-galois': galois,
+  mangata: mangata,
   moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,
