@@ -26,6 +26,7 @@ import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainMangata from './chains/mangata.png';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
@@ -38,7 +39,6 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
-import chainMangata from './chains/mangata.png';
 import chainStandard from './chains/standard.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
@@ -595,8 +595,8 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
-  manta: nodeManta,
   mangata: chainMangata,
+  manta: nodeManta,
   mars: nodeAresMars,
   mathchain: nodeMath,
   moonbaseAlpha: moonbase,

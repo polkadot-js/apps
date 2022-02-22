@@ -65,6 +65,7 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
@@ -97,7 +98,6 @@ import shiden from './shiden';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import spanner from './spanner';
-import mangata from './mangata';
 import stafi from './stafi';
 import standard from './standard';
 import subdao from './subdao';
@@ -201,11 +201,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  mangata: mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
   'mathchain-galois': galois,
-  mangata: mangata,
   moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,

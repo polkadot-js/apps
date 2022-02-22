@@ -235,7 +235,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2110,
         text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
         providers: {
-          'Mangata': 'wss://v4-prod-collator-01.mangatafinance.cloud'
+          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
         }
       },
       {
