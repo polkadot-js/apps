@@ -26,6 +26,7 @@ import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
@@ -261,6 +262,7 @@ export const chainLogos = Object.entries({
   Moonbeam: moonbeam,
   Moonriver: moonriver,
   Moonrock: nodeMoonrock,
+  'Moonsama Development': chainMoonsamaDevelopment,
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
   'Neumann Network': oak,
@@ -416,6 +418,7 @@ export const nodeLogos = Object.entries({
   MathChain: nodeMath,
   'mathChain-galois': nodeMath,
   Moonrock: nodeMoonrock,
+  'Moonsama Development': chainMoonsamaDevelopment,
   'mybank.network': mybank,
   'Neumann Network': oak,
   NFTMart: nodeNFTMart,
@@ -660,6 +663,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
+  rococoMoonsama: chainMoonsamaDevelopment,
   rococoOriginTrail: nodeOriginTrail,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,

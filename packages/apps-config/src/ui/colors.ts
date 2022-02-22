@@ -58,6 +58,7 @@ const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainMoonrock = '#3d1d5a';
+const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainPangolin = '#5744ff';
@@ -314,6 +315,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Moonbeam: nodeMoonbeam,
   Moonriver: nodeMoonriver,
   Moonrock: chainMoonrock,
+  'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
   'Neumann Network': chainNeumann,
@@ -435,6 +437,7 @@ export const nodeColors = Object.entries({
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
+  'Moonsama Development': chainMoonsama,
   'mybank.network node': nodeMybank,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,

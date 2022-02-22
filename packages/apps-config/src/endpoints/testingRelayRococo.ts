@@ -230,6 +230,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoMoonsama',
+        isDisabled: false,
+        paraId: 2055,
+        text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
+        providers: {
+          Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+        }
+      },
+      {
         info: 'rococoKilt',
         isDisabled: false,
         paraId: 2015,
