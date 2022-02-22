@@ -229,6 +229,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'mangata',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+        homepage: 'https://mangata.finance',
+        paraId: 2110,
+        text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+        providers: {
+          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
+        }
+      },
+      {
         info: 'mars',
         homepage: 'https://www.aresprotocol.io/mars',
         paraId: 2008,

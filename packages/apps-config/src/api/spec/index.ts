@@ -65,6 +65,7 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
@@ -200,6 +201,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  mangata: mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
