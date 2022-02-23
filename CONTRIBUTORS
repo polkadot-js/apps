@@ -199,6 +199,7 @@
        1	fixxxedpoint                  	Changed THRESHOLD in useBlockTime so chains that uses values smaller than 1s for the MinimumPeriod (pallet_timestamp) parameter are displayed correctly (#6045)
        1	Fr4ctalbit                    	Turn Submit proposal tab into a modal (#1698)
        1	Francesco Occhipinti          	[CI Skip] update the remote server location, closes #487 (#492)
+       1	Francisco Gamundi             	Updated Moonbeam Foundation's Moonriver endpoint (#7028)
        1	Fredrik Simonsson             	Polkadex testnet have been resurrected (#6783)
        1	Gabriel Facco de Arruda       	Add Polkadex parathread/parachain information (#6839)
        1	gabriel klawitter             	CI: add file for substrate-ui and substrate-ui-light domains (#767)
