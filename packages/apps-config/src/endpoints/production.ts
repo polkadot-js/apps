@@ -154,7 +154,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'integritee',
       text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
       providers: {
-        Integritee: 'wss://api.solo.integritee.io'
+        Integritee: 'wss://api.solo.integritee.io',
+        OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
       }
     },
     {
