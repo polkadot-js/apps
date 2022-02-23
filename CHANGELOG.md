@@ -1,5 +1,113 @@
 # CHANGELOG
 
+## 0.106.1 Feb 14, 2022
+
+Contributed:
+
+- Upgrade Substrate Connect (Thanks to https://github.com/wirednkod)
+- Fix contract w/ non-payabale constructor trapping (Thanks to https://github.com/statictype)
+- Update Manta logo (Thanks to https://github.com/dansofter)
+- Switch Manata/Calamari to LB endpoints (Thanks to https://github.com/grenade)
+- Add Dwellir RPC for Crab (Thanks to https://github.com/sxlwar)
+- Re-anable Kilt endpoint (Thanks to https://github.com/wischli)
+- Add Phala POC-5 (Thanks to https://github.com/jasl)
+- Add Subscan link for Altair (Thanks to https://github.com/mikiquantum)
+- Allo Encointer teleport on Westend (Thanks to https://github.com/brenzi)
+- Enable Kusama endpoints for Zeitgeist and Subsocial (Thanks to https://github.com/sea212)
+
+Changes:
+
+- Cater for scheduler v3 structure
+- Add inspection expansion for storage & extrinsics
+- Add warning status for partial tx execution events
+- Ensure `InputAddress` is de-deuped prior to display (address/accounts)
+- Don't connect to disabled/unreachebale endpoints in paras
+- Adjust percentage formatting consistency
+- Correctly render SpRuntimeDispatchError
+- Disable unreachable endpoints
+
+
+## 0.105.1 Feb 7, 2022
+
+Contributed:
+
+- Allow upload of signatories for multisig creation (Thanks to https://github.com/jsidorenko)
+- Remove Dusty network (Thanks to https://github.com/hoonsubin)
+
+Changes:
+
+- Align icon sizes on status overlay
+
+
+## 0.104.1 Jan 31, 2022
+
+Contributed:
+
+- Fix validator sorting on targets page (Thanks to https://github.com/citizen4371)
+- Remove Subsocial OnFinality endpoint (Thanks to https://github.com/jamesbayly)
+- Reorder Parallel endpoints (Thanks to https://github.com/GopherJ)
+- Update KILT Peregrine endpoint (Thanks to https://github.com/wischli)
+- Update Moonbeam colors and logo (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Expand Treasury display with pending bounty values
+- Always check for nested calls in proxy detection
+- Always display Settings -> Developer on dev chains (even metadata v14)
+- Adjust display of crypto types (rename "external" to "extension")
+
+
+## 0.103.1 Jan 24, 2022
+
+Contributed:
+
+- Update Equilibrium version (Thanks to https://github.com/mn13)
+- Update Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust proxy usage text (Thanks to https://github.com/gilescope)
+- Adjust extension plural descriptions (Thanks to https://github.com/xnorly)
+- Add Polkadex parachain information (Thanks to https://github.com/arrudagates)
+- Add Litentry parachain info (Thanks to https://github.com/chenzongxiong)
+- OnFinality endpoint for Nodle (Thanks to https://github.com/RossAtOnfinality)
+- Update Clover types (Thanks to https://github.com/pangwa)
+- Add Sora parachain info (Thanks to https://github.com/stefashkaa)
+- Dwellir endpoint for Kilt (Thanks to https://github.com/Maharacha)
+- Update Rococo genesis hash (Thanks to https://github.com/cmichi)
+
+Changes:
+
+- Make relay accounts visible on common-good & system parachains
+- Adjust parachain display, preparing for expandable rows
+- Adjust storage app, adjustment for start values
+- Adjust status overlays (expandable content)
+- Bump 3rd party dependencies (same version range)
+- Allow for teleport where destination has no balances pallet
+- Endpoint sorting adjustments
+- Mark unreachable endpoints as disabled
+
+
+## 0.102.1 Jan 17, 2022
+
+Contributed:
+
+- Reactivate Dwellir Kusama RPC (Thanks to https://github.com/Maharacha)
+- Update Robonomics color and logo (Thanks to https://github.com/vol4tim)
+- Update Moonbeam RPC (Thanks to https://github.com/joelamouche)
+- Update InterBTC with derive for balances (Thanks to https://github.com/gregdhill)
+- Add OnFinality endpoint for Quartz (Thanks to https://github.com/alanchang124)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Update SherpaX mainnet endpoint (Thanks to https://github.com/wbh1328551759)
+- Update Polkadot and Canvas logos (Thanks to https://github.com/cmichi)
+- Singular profiles for Kusama/Statemine/Acala/Bifrost (Thanks to https://github.com/abzen)
+- Update types for AresGladios (Thanks to https://github.com/jiyilanzhou)
+- Add hi_IN i18n (Thanks to https://github.com/itssravi)
+- Add ur_IN i18n (Thanks to https://github.com/itsonal)
+
+Changes:
+
+- Align build steps with the rest of the polkadot-js repos
+- Mark unreachable endpoints as disabled
+
+
 ## 0.101.1 Jan 10, 2022
 
 Contributed:

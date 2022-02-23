@@ -227,14 +227,14 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     <div className={className}>
       <Button.Group>
         <ToggleGroup
-          onChange={setEraSelectionIndex}
-          options={eraSelection}
-          value={eraSelectionIndex}
-        />
-        <ToggleGroup
           onChange={setMyStashesIndex}
           options={valOptions}
           value={myStashesIndex}
+        />
+        <ToggleGroup
+          onChange={setEraSelectionIndex}
+          options={eraSelection}
+          value={eraSelectionIndex}
         />
         <PayButton
           isAll

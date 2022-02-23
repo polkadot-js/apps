@@ -90,7 +90,9 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'crab',
       text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network',
+        Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+        OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
       }
     },
     {
@@ -196,7 +198,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'nodle',
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main3.nodleprotocol.io'
+        Nodle: 'wss://main3.nodleprotocol.io',
+        OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
         // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
@@ -240,7 +243,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'sherpax',
       text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://sherpax-mainnet.chainx.org'
+        ChainX: 'wss://mainnet.sherpax.io'
       }
     },
     {
@@ -282,8 +285,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'subsocial',
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network',
-        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
+        DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'swapdex',
+      text: t('rpc.prod.swapdex', 'Swapdex', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.swapdex.network'
       }
     },
     {

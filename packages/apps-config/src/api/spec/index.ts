@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import ajuna from './ajuna';
 import altair from './altair';
 import apron from './apron';
 import aresGladios from './ares-gladios';
@@ -35,7 +36,6 @@ import datahighwayParachain from './datahighway';
 import dockMainnet from './dock-mainnet';
 import dockTestnet from './dock-testnet';
 import dotmog from './dotmog';
-import dusty from './dusty';
 import eave from './eave';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
@@ -65,6 +65,7 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
@@ -104,6 +105,7 @@ import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
+import swapdex from './swapdex';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
@@ -132,6 +134,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
+  ajuna,
   altair,
   apron,
   'ares-gladios': aresGladios,
@@ -168,7 +171,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-pos-main-runtime': dockMainnet,
   'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
-  dusty4: dusty,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
@@ -200,6 +202,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  mangata: mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
@@ -237,6 +240,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   shiden,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  sora_ksm: soraSubstrate,
   spanner,
   stafi,
   standard,
@@ -247,6 +251,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
+  swapdex,
   ternoa,
   trustbase,
   uart,
