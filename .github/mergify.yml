@@ -27,12 +27,3 @@ pull_request_rules:
       queue:
         name: default
         method: squash
-
-  - name: auto approval
-    conditions:
-      - author~=^jacogr$
-      - label=automerge
-    actions:
-      review:
-        type: APPROVE
-        message: This auto-approval rule should be removed once more JS maintainers are active.
