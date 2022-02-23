@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'ajuna',
+      text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Ajuna Network': 'wss://rpc-test.ajuna.network'
+      }
+    },
+    {
       info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
@@ -202,9 +209,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'interbtc',
-      text: t('rpc.test.interbtc', 'Interlay', { ns: 'apps-config' }),
+      text: t('rpc.test.interbtc', 'Interlay Testnet', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api.interlay.io/parachain/'
+        Interlay: 'wss://api-testnet.interlay.io/parachain/'
       }
     },
     {
@@ -225,9 +232,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'phala',
+      info: 'khala',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/6930
-      text: t('rpc.test.phala', 'Khala (Para3)', { ns: 'apps-config' }),
+      text: t('rpc.test.khala', 'Khala (Para 3)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
       }
@@ -325,6 +332,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'opportunity',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6935
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
         'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
@@ -349,6 +357,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.pangoro', 'Pangoro', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      }
+    },
+    {
+      info: 'phala',
+      isDisabled: false,
+      text: t('rpc.test.phala', 'Phala (PoC 5)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://poc5.phala.network/ws'
       }
     },
     {

@@ -103,10 +103,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          'Calamari Falafel': 'wss://falafel.calamari.systems/',
-          'Calamari Fritti': 'wss://fritti.calamari.systems/',
-          'Calamari Pasta': 'wss://pasta.calamari.systems/',
-          'Calamari Smoothie': 'wss://smoothie.calamari.systems/',
+          'Manta Network': 'wss://ws.calamari.systems/',
           OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
@@ -122,9 +119,8 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'crab',
         homepage: 'https://crab.network',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6794
         paraId: 2105,
-        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        text: t('rpc.kusama.crab', 'Darwinia Crab Parachain', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-parachain-rpc.darwinia.network/'
         }
@@ -231,6 +227,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
         providers: {
           LoomNetwork: 'wss://kusama.dappchains.com'
+        }
+      },
+      {
+        info: 'mangata',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+        homepage: 'https://mangata.finance',
+        paraId: 2110,
+        text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+        providers: {
+          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
         }
       },
       {
@@ -361,7 +367,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'subsocial',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6550
         homepage: 'https://subsocial.network/',
         paraId: 2100,
         text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
@@ -380,7 +385,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'zeitgeist',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
         homepage: 'https://zeitgeist.pm',
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
