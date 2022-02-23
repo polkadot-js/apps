@@ -332,7 +332,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'opportunity',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6935
+      isDisabled: false,
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
         'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
