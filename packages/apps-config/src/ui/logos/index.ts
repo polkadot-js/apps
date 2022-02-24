@@ -19,6 +19,7 @@ import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
+import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
@@ -214,6 +215,7 @@ export const chainLogos = Object.entries({
   Galital: nodeGalital,
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
+  Geminis: chainGeminis,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
   HydraDX: chainSnakenet,
@@ -392,6 +394,7 @@ export const nodeLogos = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  Geminis: chainGeminis,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   'Idavoll Node': nodeIdavoll,
@@ -572,6 +575,7 @@ export const namedLogos: Record<string, unknown> = {
   galois: nodeMath,
   gamepower: nodeGamePower,
   geek: nodeGeek,
+  geminis: chainGeminis,
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,

@@ -168,6 +168,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'geminis',
+        isUnreachable: true,
+        homepage: 'https://geminis.network/',
+        paraId: 2038,
+        text: t('rpc.polkadot.geminis', 'Geminis', { ns: 'apps-config' }),
+        providers: {
+          Geminis: 'wss://rpc.geminis.network'
+        }
+      },
+      {
         info: 'hydra',
         homepage: 'https://hydradx.io/',
         paraId: 2034,
