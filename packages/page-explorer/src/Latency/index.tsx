@@ -22,6 +22,14 @@ interface ChartInfo {
 }
 
 const COLORS = ['#8c2200'];
+const LEGENDS: string[] = [];
+const OPTIONS = {
+  animation: {
+    duration: 0
+  },
+  aspectRatio: 3,
+  maintainAspectRatio: false
+};
 
 function getPoints (details: Detail[]): ChartInfo {
   const labels = new Array<string>(details.length);
@@ -62,7 +70,8 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
         <Chart.Line
           colors={COLORS}
           labels={labels}
-          legends={[]}
+          legends={LEGENDS}
+          options={OPTIONS}
           values={values}
         />
       </div>
