@@ -5,7 +5,7 @@ import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { GenericExtrinsic, u32 } from '@polkadot/types';
 import type { Block, Hash } from '@polkadot/types/interfaces';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -94,18 +94,23 @@ export default function useLatency (): Result {
   const { api } = useApi();
   const [details, setDetails] = useState<Detail[]>([]);
   const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks, []);
+  const populated = useRef(false);
 
   useEffect((): void => {
-    signedBlock && setDetails((prev) => extractNext(prev, signedBlock));
-  }, [signedBlock]);
-
-  useEffect((): void => {
-    if (details.length !== 1) {
+    if (!signedBlock) {
       return;
     }
 
+    setDetails((prev) => extractNext(prev, signedBlock));
+
+    if (populated.current) {
+      return;
+    }
+
+    populated.current = true;
+
     const blockNumbers: number[] = [];
-    let blockNumber = details[0].blockNumber - 1;
+    let blockNumber = signedBlock.block.header.number.toNumber() - 1;
 
     for (let i = 1; blockNumber > 0 && i <= MAX_ITEMS; i++) {
       blockNumbers.push(blockNumber);
@@ -127,7 +132,7 @@ export default function useLatency (): Result {
         )
       )
       .catch(console.error);
-  }, [api, details]);
+  }, [api, signedBlock]);
 
   return useMemo((): Result => {
     const delays = details
