@@ -293,6 +293,7 @@
        1	xsteadybcgo                   	feat: update statemine & westmint config (#5476)
        1	y                             	Add Phoenix parachain (#4939)
        1	YessineAmor                   	add ar translation for page-calendar (#3816)
+       1	Yiwei Li                      	Add OnFinality endpoint for Pontem Testnet (#7029)
        1	yooml                         	update parachain id (#5065)
        1	Yuri Gii                      	add Singular profile urls for Kusama and Statemine (#6702)
        1	Илья Петров                   	Add files via upload (#7001)
