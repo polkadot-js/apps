@@ -90,47 +90,59 @@ function extractPrev (prev: Detail[], { block, events }: SignedBlockExtended): D
   ];
 }
 
+async function getPrev ({ block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
+  const blockNumbers: number[] = [];
+  let blockNumber = header.number.toNumber() - 1;
+
+  for (let i = 1; blockNumber > 0 && i <= MAX_ITEMS; i++) {
+    blockNumbers.push(blockNumber);
+    blockNumber--;
+  }
+
+  if (!blockNumbers.length) {
+    return [];
+  }
+
+  const blocks = await Promise.all(
+    blockNumbers.map((n) => api.derive.chain.getBlockByNumber(n))
+  );
+
+  return blocks.filter((b): b is SignedBlockExtended => !!b);
+}
+
 export default function useLatency (): Result {
   const { api } = useApi();
   const [details, setDetails] = useState<Detail[]>([]);
   const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks, []);
-  const populated = useRef(false);
+  const hasHistoric = useRef(false);
 
   useEffect((): void => {
     if (!signedBlock) {
       return;
     }
 
-    setDetails((prev) => extractNext(prev, signedBlock));
+    setDetails((prev) =>
+      extractNext(prev, signedBlock)
+    );
 
-    if (populated.current) {
+    if (hasHistoric.current) {
       return;
     }
 
-    populated.current = true;
+    hasHistoric.current = true;
 
-    const blockNumbers: number[] = [];
-    let blockNumber = signedBlock.block.header.number.toNumber() - 1;
+    getPrev(signedBlock)
+      .then((blocks) => {
+        if (!blocks.length) {
+          return;
+        }
 
-    for (let i = 1; blockNumber > 0 && i <= MAX_ITEMS; i++) {
-      blockNumbers.push(blockNumber);
-      blockNumber--;
-    }
-
-    if (!blockNumbers.length) {
-      return;
-    }
-
-    Promise
-      .all(blockNumbers.map((n) => api.derive.chain.getBlockByNumber(n)))
-      .then((blocks) =>
         setDetails((prev) =>
           blocks
-            .filter((b): b is SignedBlockExtended => !!b)
             .reduce((p, b) => extractPrev(p, b), prev)
             .slice(-MAX_ITEMS)
-        )
-      )
+        );
+      })
       .catch(console.error);
   }, [api, signedBlock]);
 
