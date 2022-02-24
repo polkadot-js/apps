@@ -27,8 +27,8 @@ const OPTIONS = {
   animation: {
     duration: 0
   },
-  aspectRatio: 3,
-  maintainAspectRatio: false
+  aspectRatio: 4,
+  maintainAspectRatio: true
 };
 
 function getPoints (details: Detail[]): ChartInfo {
@@ -64,6 +64,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
         <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
         <CardSummary label={t<string>('avg')}>{(timeAvg / 1000).toFixed(3)}s</CardSummary>
         <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
+        <CardSummary label={t<string>('last')}>{values[values.length - 1][0].toFixed(3)}s</CardSummary>
       </SummaryBox>
       <div className='container'>
         <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: labels.length } })}</h1>

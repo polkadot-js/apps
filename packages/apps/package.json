@@ -13,12 +13,12 @@
   "type": "module",
   "version": "0.106.2-25",
   "dependencies": {
-    "@babel/core": "^7.17.4",
+    "@babel/core": "^7.17.5",
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.17.2",
     "@polkadot/apps-config": "^0.106.2-25",
     "@polkadot/apps-routing": "^0.106.2-25",
-    "@polkadot/dev": "^0.65.72",
+    "@polkadot/dev": "^0.65.73",
     "@polkadot/react-api": "^0.106.2-25",
     "@polkadot/react-components": "^0.106.2-25",
     "@polkadot/react-hooks": "^0.106.2-25",
@@ -50,7 +50,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.69.0",
+    "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
     "webpack-merge": "^5.8.0"
