@@ -33,11 +33,13 @@ function extractNext (prev: Detail[], { block, events }: SignedBlockExtended): D
   let delay = 0;
 
   if (prev.length) {
-    if (blockNumber <= prev[prev.length - 1].blockNumber) {
-      return prev;
-    }
+    const diff = blockNumber - prev[prev.length - 1].blockNumber;
 
-    delay = now - prev[prev.length - 1].now;
+    if (diff <= 0) {
+      return prev;
+    } else if (diff === 1) {
+      delay = now - prev[prev.length - 1].now;
+    }
   }
 
   return [
@@ -61,8 +63,12 @@ function extractPrev (prev: Detail[], { block, events }: SignedBlockExtended): D
   }
 
   const now = (setter.args[0] as u32).toNumber();
+  const blockNumber = block.header.number.toNumber();
+  const diff = prev[0].blockNumber - blockNumber;
 
-  prev[0].delay = prev[0].now - now;
+  if (diff === 1) {
+    prev[0].delay = prev[0].now - now;
+  }
 
   return [
     {
@@ -79,11 +85,10 @@ function extractPrev (prev: Detail[], { block, events }: SignedBlockExtended): D
 
 async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
   const blockNumbers: number[] = [];
-  let blockNumber = header.number.toNumber() - 1;
+  let blockNumber = header.number.toNumber();
 
   for (let i = 1; blockNumber > 0 && i <= INITIAL_ITEMS; i++) {
-    blockNumbers.push(blockNumber);
-    blockNumber--;
+    blockNumbers.push(--blockNumber);
   }
 
   if (!blockNumbers.length) {
@@ -132,6 +137,60 @@ export default function useLatency (): Result {
       })
       .catch(console.error);
   }, [api, signedBlock]);
+
+  useEffect((): void => {
+    if (details.length <= 2) {
+      return;
+    }
+
+    const last = details.find(({ blockNumber }, index) =>
+      index !== (details.length - 1) &&
+      (details[index + 1].blockNumber - blockNumber) > 1
+    );
+
+    if (!last) {
+      return;
+    }
+
+    const nextNumber = last.blockNumber + 1;
+
+    api.derive.chain
+      .getBlockByNumber(nextNumber)
+      .then((block) => {
+        if (!block) {
+          return;
+        }
+
+        setDetails((prev) => {
+          const [pre, post] = prev.reduce<[Detail[], Detail[]]>(([pre, post], b) => {
+            if (b.blockNumber <= last.blockNumber) {
+              pre.push(b);
+            } else if (b.blockNumber !== nextNumber) {
+              post.push(b);
+            }
+
+            return [pre, post];
+          }, [[], []]);
+
+          const result = [
+            ...extractNext(pre, block),
+            ...post
+          ];
+
+          for (let i = 0; i < details.length - 2; i++) {
+            const a = details[i];
+            const b = details[i + 1];
+
+            if ((b.blockNumber - a.blockNumber) === 1 && b.delay === 0) {
+              b.delay = b.now - a.now;
+            }
+          }
+
+          return result;
+        });
+      })
+      .catch(console.error);
+  }, [api, details]);
 
   return useMemo((): Result => {
     const filtered = details.filter(({ delay }) => delay);
