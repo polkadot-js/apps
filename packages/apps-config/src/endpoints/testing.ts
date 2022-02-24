@@ -401,7 +401,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'pontem',
       text: t('rpc.test.pontem', 'Pontem', { ns: 'apps-config' }),
       providers: {
-        Pontem: 'wss://testnet.pontem.network/ws'
+        Pontem: 'wss://testnet.pontem.network/ws',
+        OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
       }
     },
     {
