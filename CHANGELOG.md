@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust teleport to only cater for latest XCM
+
+
 ## 0.106.1 Feb 14, 2022
 
 Contributed:
