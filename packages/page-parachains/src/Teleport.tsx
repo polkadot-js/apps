@@ -77,14 +77,19 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const params = useMemo(
     () => [
       {
-        V1: {
-          interior: isParaTeleport
-            ? 'Here'
-            : { X1: { ParaChain: recipientParaId } },
-          parents: isParaTeleport
-            ? 1
-            : 0
-        }
+        V1: isParaTeleport
+          ? {
+            interior: 'Here',
+            parents: 1
+          }
+          : {
+            interior: {
+              X1: {
+                ParaChain: recipientParaId
+              }
+            },
+            parents: 0
+          }
       },
       {
         V1: {
