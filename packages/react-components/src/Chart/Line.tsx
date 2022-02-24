@@ -8,7 +8,7 @@ import ChartJs from 'chart.js';
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
 
-import { isBn } from '@polkadot/util';
+import { isBn, objectSpread } from '@polkadot/util';
 
 interface State {
   chartData: ChartJs.ChartData;
@@ -49,7 +49,7 @@ const chartOptions = {
   }
 };
 
-function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][]): State {
+function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][], options: ChartJs.ChartOptions = {}): State {
   const chartData = values.reduce((chartData, values, index): Config => {
     const color = colors[index] || alphaColor(COLORS[index]);
     const data = values.map((value): number => isBn(value) ? value.toNumber() : value);
@@ -68,14 +68,14 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
 
   return {
     chartData,
-    chartOptions
+    chartOptions: objectSpread({}, chartOptions, options)
   };
 }
 
-function LineChart ({ className, colors, labels, legends, values }: LineProps): React.ReactElement<LineProps> | null {
+function LineChart ({ className, colors, labels, legends, options, values }: LineProps): React.ReactElement<LineProps> | null {
   const { chartData, chartOptions } = useMemo(
-    () => calculateOptions(colors, legends, labels, values),
-    [colors, labels, legends, values]
+    () => calculateOptions(colors, legends, labels, values, options),
+    [colors, labels, legends, options, values]
   );
 
   return (
