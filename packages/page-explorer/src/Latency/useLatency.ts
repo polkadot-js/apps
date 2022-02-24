@@ -1,31 +1,18 @@
 // Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { GenericExtrinsic, u32 } from '@polkadot/types';
-import type { Block, Hash } from '@polkadot/types/interfaces';
+import type { Block } from '@polkadot/types/interfaces';
+import type { Detail, Result } from './types';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-interface Detail {
-  blockNumber: number;
-  countEvents: number;
-  countExtrinsics: number;
-  delay: number;
-  now: number;
-  parentHash: Hash;
-}
-
-interface Result {
-  avg: number;
-  details: Detail[];
-  max: number;
-  min: number;
-}
-
-const MAX_ITEMS = 24;
+const INITIAL_ITEMS = 50;
+const MAX_ITEMS = INITIAL_ITEMS;
 
 function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
   return extrinsics.find(({ method: { method, section } }) =>
@@ -46,7 +33,7 @@ function extractNext (prev: Detail[], { block, events }: SignedBlockExtended): D
   let delay = 0;
 
   if (prev.length) {
-    if (blockNumber <= prev[0].blockNumber) {
+    if (blockNumber <= prev[prev.length - 1].blockNumber) {
       return prev;
     }
 
@@ -90,11 +77,11 @@ function extractPrev (prev: Detail[], { block, events }: SignedBlockExtended): D
   ];
 }
 
-async function getPrev ({ block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
+async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
   const blockNumbers: number[] = [];
   let blockNumber = header.number.toNumber() - 1;
 
-  for (let i = 1; blockNumber > 0 && i <= MAX_ITEMS; i++) {
+  for (let i = 1; blockNumber > 0 && i <= INITIAL_ITEMS; i++) {
     blockNumbers.push(blockNumber);
     blockNumber--;
   }
@@ -131,7 +118,7 @@ export default function useLatency (): Result {
 
     hasHistoric.current = true;
 
-    getPrev(signedBlock)
+    getPrev(api, signedBlock)
       .then((blocks) => {
         if (!blocks.length) {
           return;
@@ -140,24 +127,23 @@ export default function useLatency (): Result {
         setDetails((prev) =>
           blocks
             .reduce((p, b) => extractPrev(p, b), prev)
-            .slice(-MAX_ITEMS)
+            .filter(({ delay }) => delay)
         );
       })
       .catch(console.error);
   }, [api, signedBlock]);
 
   return useMemo((): Result => {
-    const delays = details
-      .map(({ delay }) => delay)
-      .filter((d) => d);
+    const filtered = details.filter(({ delay }) => delay);
+    const delays = filtered.map(({ delay }) => delay);
 
-    return delays.length
+    return filtered.length
       ? {
-        avg: delays.reduce((avg, d) => avg + (d / delays.length), 0),
-        details,
-        max: Math.max(...delays),
-        min: Math.min(...delays)
+        details: filtered,
+        timeAvg: delays.reduce((avg, d) => avg + (d / delays.length), 0),
+        timeMax: Math.max(...delays),
+        timeMin: Math.min(...delays)
       }
-      : { avg: 0, details, max: 0, min: 0 };
+      : { details: [], timeAvg: 0, timeMax: 0, timeMin: 0 };
   }, [details]);
 }

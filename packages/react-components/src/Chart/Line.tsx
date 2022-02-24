@@ -37,6 +37,9 @@ const alphaColor = (hexColor: string): string =>
 
 const chartOptions = {
   // no need for the legend, expect the labels contain everything
+  animation: {
+    duration: 0
+  },
   legend: {
     display: false
   },
