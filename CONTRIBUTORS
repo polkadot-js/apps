@@ -1,4 +1,4 @@
-    3393	Jaco                          	Bump API (#7031)
+    3394	Jaco                          	Use latest XCM for teleport (#7033)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
@@ -191,6 +191,7 @@
        1	ddorgan                       	Fix container build (#1456)
        1	ddorgan                       	Initial commit of kubernetes deployment (#616)
        1	Dean                          	mybank.network (#5024)
+       1	dm4                           	Add Geminis parachain information (#7034)
        1	Dmytro Filippov               	Targets page: fix validators sorting (#6886)
        1	Eddie Machado                 	not truncating the address (#4311)
        1	Emilio Silva Schlenker        	[#943] Make hash/number query available globally to explorer (#1111)
