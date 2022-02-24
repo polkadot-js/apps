@@ -129,17 +129,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crustParachain',
-        homepage: 'https://crust.network',
-        paraId: 2008,
-        isUnreachable: false,
-        text: t('rpc.polkadot.crust', 'Crust', { ns: 'apps-config' }),
-        providers: {
-          Crust: 'wss://rpc.crust.network',
-          OnFinality: 'wss://crust.api.onfinality.io/public-ws'
-        }
-      },
-      {
         info: 'darwinia',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',

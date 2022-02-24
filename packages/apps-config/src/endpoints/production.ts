@@ -76,7 +76,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
-        'Crust Network': 'wss://rpc.crust.network'
+        'Crust Network': 'wss://rpc.crust.network',
+        OnFinality: 'wss://crust.api.onfinality.io/public-ws'
       }
     },
     {
