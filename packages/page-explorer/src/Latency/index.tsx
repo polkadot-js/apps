@@ -16,40 +16,86 @@ interface Props {
   className?: string;
 }
 
-interface ChartInfo {
+interface ChartContents {
   labels: string[];
   values: number[][];
 }
 
-const COLORS = ['#8c2200'];
-const LEGENDS: string[] = [];
+interface ChartInfo {
+  events: ChartContents;
+  extrinsics: ChartContents;
+  times: ChartContents;
+}
+
+const COLORS_TIMES = ['#8c2200', '#acacac'];
+// const COLORS_EVENTS = ['#008c22', '#acacac'];
+// const COLORS_TXS = ['#00228c', '#acacac'];
 const OPTIONS = {
   animation: {
     duration: 0
   },
-  aspectRatio: 4,
+  aspectRatio: 5,
   maintainAspectRatio: true
 };
 
-function getPoints (details: Detail[]): ChartInfo {
-  const labels = new Array<string>(details.length);
-  const times = new Array<number>(details.length);
+function getPoints (details: Detail[], timeAvg: number): ChartInfo {
+  const events: ChartContents = {
+    labels: [],
+    values: [[], []]
+  };
+  const extrinsics: ChartContents = {
+    labels: [],
+    values: [[], []]
+  };
+  const times: ChartContents = {
+    labels: [],
+    values: [[], []]
+  };
+
+  const eventAvg = details.reduce((a, { countEvents }) => a + countEvents, 0);
+  const txAvg = details.reduce((a, { countExtrinsics }) => a + countExtrinsics, 0);
 
   for (let i = 0; i < details.length; i++) {
-    labels[i] = formatNumber(details[i].blockNumber);
-    times[i] = details[i].delay / 1000;
+    events.labels.push(formatNumber(details[i].blockNumber));
+    events.values[0].push(details[i].countEvents);
+    events.values[1].push((eventAvg - details[i].countEvents) / (details.length - 1));
+
+    extrinsics.labels.push(formatNumber(details[i].blockNumber));
+    extrinsics.values[0].push(details[i].countExtrinsics);
+    extrinsics.values[1].push((txAvg - details[i].countExtrinsics) / (details.length - 1));
   }
 
-  return { labels, values: [times] };
+  const filtered = details.filter(({ delay }) => delay);
+  const avgBase = timeAvg * filtered.length;
+
+  for (let i = 0; i < filtered.length; i++) {
+    times.labels.push(formatNumber(filtered[i].blockNumber));
+    times.values[0].push(filtered[i].delay / 1000);
+    times.values[1].push((avgBase - filtered[i].delay) / (filtered.length - 1) / 1000);
+  }
+
+  return {
+    events,
+    extrinsics,
+    times
+  };
 }
 
 function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { details, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { labels, values } = useMemo(
-    () => getPoints(details),
-    [details]
+  const { /* events, extrinsics, */ times } = useMemo(
+    () => getPoints(details, timeAvg),
+    [details, timeAvg]
+  );
+
+  const { /* eventsLegend, extrinsicsLegend, */ timesLegend } = useMemo(
+    () => ({
+      eventsLegend: [t<string>('events'), t<string>('average')],
+      extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
+      timesLegend: [t<string>('blocktime'), t<string>('average')]
+    }), [t]
   );
 
   if (details.length <= 2) {
@@ -64,18 +110,38 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
         <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
         <CardSummary label={t<string>('avg')}>{(timeAvg / 1000).toFixed(3)}s</CardSummary>
         <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
-        <CardSummary label={t<string>('last')}>{values[values.length - 1][0].toFixed(3)}s</CardSummary>
+        <CardSummary label={t<string>('last')}>{times.values[times.values.length - 1][0].toFixed(3)}s</CardSummary>
       </SummaryBox>
       <div className='container'>
-        <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: labels.length } })}</h1>
+        <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}</h1>
         <Chart.Line
-          colors={COLORS}
-          labels={labels}
-          legends={LEGENDS}
+          colors={COLORS_TIMES}
+          labels={times.labels}
+          legends={timesLegend}
           options={OPTIONS}
-          values={values}
+          values={times.values}
         />
       </div>
+      {/* <div className='container hidden'>
+        <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
+        <Chart.Line
+          colors={COLORS_EVENTS}
+          labels={events.labels}
+          legends={eventsLegend}
+          options={OPTIONS}
+          values={events.values}
+        />
+      </div>
+      <div className='container hidden'>
+        <h1>{t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}</h1>
+        <Chart.Line
+          colors={COLORS_TXS}
+          labels={extrinsics.labels}
+          legends={extrinsicsLegend}
+          options={OPTIONS}
+          values={extrinsics.values}
+        />
+      </div> */}
     </div>
   );
 }
@@ -86,5 +152,9 @@ export default styled(Latency)`
     border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
+  }
+
+  .container+.container {
+    margin-top: 1rem;
   }
 `;
