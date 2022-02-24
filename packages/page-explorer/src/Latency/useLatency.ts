@@ -129,12 +129,13 @@ export default function useLatency (): Result {
   }, [api, details]);
 
   return useMemo((): Result => {
-    const filtered = details.filter(({ delay }) => delay);
-    const delays = filtered.map(({ delay }) => delay);
+    const delays = details
+      .map(({ delay }) => delay)
+      .filter((delay) => delay);
 
-    return filtered.length
+    return delays.length
       ? {
-        details: filtered,
+        details,
         timeAvg: delays.reduce((avg, d) => avg + (d / delays.length), 0),
         timeMax: Math.max(...delays),
         timeMin: Math.min(...delays)
