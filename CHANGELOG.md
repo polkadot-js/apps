@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust teleport to only cater for latest XCM
+- Add blocktime latency tab to Explorer
 
 
 ## 0.106.1 Feb 14, 2022

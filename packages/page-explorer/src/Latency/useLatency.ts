@@ -21,66 +21,42 @@ function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
   );
 }
 
-function extractNext (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
-  const setter = getSetter(block);
+function calcDelay (details: Detail[]): Detail[] {
+  for (let i = 0; i < details.length - 1; i++) {
+    const a = details[i];
+    const b = details[i + 1];
 
-  if (!setter) {
-    return prev;
-  }
-
-  const now = (setter.args[0] as u32).toNumber();
-  const blockNumber = block.header.number.toNumber();
-  let delay = 0;
-
-  if (prev.length) {
-    const diff = blockNumber - prev[prev.length - 1].blockNumber;
-
-    if (diff <= 0) {
-      return prev;
-    } else if (diff === 1) {
-      delay = now - prev[prev.length - 1].now;
+    if ((b.blockNumber - a.blockNumber) === 1 && b.delay === 0) {
+      b.delay = b.now - a.now;
     }
   }
 
-  return [
-    ...prev,
-    {
-      blockNumber,
-      countEvents: events.length,
-      countExtrinsics: block.extrinsics.length,
-      delay,
-      now,
-      parentHash: block.header.parentHash
-    }
-  ].slice(-MAX_ITEMS);
+  const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
+
+  return sorted.filter(({ blockNumber }, index) =>
+    index === 0 ||
+    blockNumber > sorted[index - 1].blockNumber
+  );
 }
 
-function extractPrev (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
+function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
   const setter = getSetter(block);
 
   if (!setter) {
     return prev;
   }
 
-  const now = (setter.args[0] as u32).toNumber();
-  const blockNumber = block.header.number.toNumber();
-  const diff = prev[0].blockNumber - blockNumber;
-
-  if (diff === 1) {
-    prev[0].delay = prev[0].now - now;
-  }
-
-  return [
+  return calcDelay([
+    ...prev,
     {
       blockNumber: block.header.number.toNumber(),
       countEvents: events.length,
       countExtrinsics: block.extrinsics.length,
       delay: 0,
-      now,
+      now: (setter.args[0] as u32).toNumber(),
       parentHash: block.header.parentHash
-    },
-    ...prev
-  ];
+    }
+  ]).slice(-MAX_ITEMS);
 }
 
 async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
@@ -113,9 +89,7 @@ export default function useLatency (): Result {
       return;
     }
 
-    setDetails((prev) =>
-      extractNext(prev, signedBlock)
-    );
+    setDetails((p) => addBlock(p, signedBlock));
 
     if (hasHistoric.current) {
       return;
@@ -125,15 +99,7 @@ export default function useLatency (): Result {
 
     getPrev(api, signedBlock)
       .then((blocks) => {
-        if (!blocks.length) {
-          return;
-        }
-
-        setDetails((prev) =>
-          blocks
-            .reduce((p, b) => extractPrev(p, b), prev)
-            .filter(({ delay }) => delay)
-        );
+        setDetails((p) => blocks.reduce((p, b) => addBlock(p, b), p));
       })
       .catch(console.error);
   }, [api, signedBlock]);
@@ -157,37 +123,7 @@ export default function useLatency (): Result {
     api.derive.chain
       .getBlockByNumber(nextNumber)
       .then((block) => {
-        if (!block) {
-          return;
-        }
-
-        setDetails((prev) => {
-          const [pre, post] = prev.reduce<[Detail[], Detail[]]>(([pre, post], b) => {
-            if (b.blockNumber <= last.blockNumber) {
-              pre.push(b);
-            } else if (b.blockNumber !== nextNumber) {
-              post.push(b);
-            }
-
-            return [pre, post];
-          }, [[], []]);
-
-          const result = [
-            ...extractNext(pre, block),
-            ...post
-          ];
-
-          for (let i = 0; i < details.length - 2; i++) {
-            const a = details[i];
-            const b = details[i + 1];
-
-            if ((b.blockNumber - a.blockNumber) === 1 && b.delay === 0) {
-              b.delay = b.now - a.now;
-            }
-          }
-
-          return result;
-        });
+        block && setDetails((p) => addBlock(p, block));
       })
       .catch(console.error);
   }, [api, details]);
