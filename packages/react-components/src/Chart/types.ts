@@ -3,6 +3,8 @@
 
 import type { BN } from '@polkadot/util';
 
+import ChartJs from 'chart.js';
+
 export interface DoughnutValue {
   colors: string[];
   label: string;
@@ -41,5 +43,6 @@ export interface LineProps {
   className?: string;
   labels: string[];
   legends: string[];
+  options?: ChartJs.ChartOptions;
   values: (number | BN)[][];
 }

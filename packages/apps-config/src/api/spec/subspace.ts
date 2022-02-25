@@ -83,14 +83,12 @@ function getHeader (
   instanceId: string,
   api: ApiInterfaceRx
 ): () => Observable<HeaderExtended> {
-  return memo(
-    instanceId,
-    (): Observable<HeaderExtended> =>
-      combineLatest([api.rpc.chain.getHeader()]).pipe(
-        map(([header]): HeaderExtended => {
-          return createHeaderExtended(header.registry, header, api);
-        })
-      )
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+    combineLatest([api.rpc.chain.getHeader(blockHash)]).pipe(
+      map(([header]): HeaderExtended => {
+        return createHeaderExtended(header.registry, header, api);
+      })
+    )
   );
 }
 

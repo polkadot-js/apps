@@ -149,6 +149,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rocfinity',
+        isDisabled: false,
+        paraId: 2110,
+        text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.rococo.efinity.io'
+        }
+      },
+      {
         info: 'rococoEncointer',
         isDisabled: true, // Rococo reset
         paraId: 1862,
@@ -218,6 +227,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.interbtc', 'Interlay PC1', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-rococo.interlay.io/parachain'
+        }
+      },
+      {
+        info: 'rococoMoonsama',
+        isDisabled: false,
+        paraId: 2055,
+        text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
+        providers: {
+          Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
         }
       },
       {

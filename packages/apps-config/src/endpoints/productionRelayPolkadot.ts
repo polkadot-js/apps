@@ -168,6 +168,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'geminis',
+        isUnreachable: true,
+        homepage: 'https://geminis.network/',
+        paraId: 2038,
+        text: t('rpc.polkadot.geminis', 'Geminis', { ns: 'apps-config' }),
+        providers: {
+          Geminis: 'wss://rpc.geminis.network'
+        }
+      },
+      {
         info: 'hydra',
         homepage: 'https://hydradx.io/',
         paraId: 2034,
@@ -198,13 +208,14 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'manta',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7018
         homepage: 'https://manta.network',
         paraId: 2015,
         text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
         providers: {
           // 'Manta Kuhlii': 'wss://kuhlii.manta.systems', // https://github.com/polkadot-js/apps/issues/6930
           // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
-          'Manta Pectinata': 'wss://pectinata.manta.systems'
+          // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
         }
       },
       {
