@@ -40,10 +40,12 @@ function calcDelay (details: Detail[]): Detail[] {
 
   const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
 
-  return sorted.filter(({ blockNumber }, index) =>
-    index === 0 ||
-    blockNumber > sorted[index - 1].blockNumber
-  );
+  return sorted
+    .filter(({ blockNumber }, index) =>
+      index === 0 ||
+      blockNumber > sorted[index - 1].blockNumber
+    )
+    .slice(-MAX_ITEMS);
 }
 
 function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
@@ -53,7 +55,7 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
     return prev;
   }
 
-  return calcDelay([
+  return [
     ...prev,
     {
       blockNumber: block.header.number.toNumber(),
@@ -63,7 +65,7 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
       now: (setter.args[0] as u32).toNumber(),
       parentHash: block.header.parentHash
     }
-  ]).slice(-MAX_ITEMS);
+  ];
 }
 
 async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
@@ -96,7 +98,7 @@ export default function useLatency (): Result {
       return;
     }
 
-    setDetails((p) => addBlock(p, signedBlock));
+    setDetails((p) => calcDelay(addBlock(p, signedBlock)));
 
     if (hasHistoric.current) {
       return;
@@ -106,7 +108,7 @@ export default function useLatency (): Result {
 
     getPrev(api, signedBlock)
       .then((blocks) => {
-        setDetails((p) => blocks.reduce((p, b) => addBlock(p, b), p));
+        setDetails((p) => calcDelay(blocks.reduce((p, b) => addBlock(p, b), p)));
       })
       .catch(console.error);
   }, [api, signedBlock]);
