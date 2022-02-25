@@ -1,5 +1,52 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust teleport to only cater for latest XCM
+- Add blocktime latency tab to Explorer
+
+
+## 0.106.1 Feb 14, 2022
+
+Contributed:
+
+- Upgrade Substrate Connect (Thanks to https://github.com/wirednkod)
+- Fix contract w/ non-payabale constructor trapping (Thanks to https://github.com/statictype)
+- Update Manta logo (Thanks to https://github.com/dansofter)
+- Switch Manata/Calamari to LB endpoints (Thanks to https://github.com/grenade)
+- Add Dwellir RPC for Crab (Thanks to https://github.com/sxlwar)
+- Re-anable Kilt endpoint (Thanks to https://github.com/wischli)
+- Add Phala POC-5 (Thanks to https://github.com/jasl)
+- Add Subscan link for Altair (Thanks to https://github.com/mikiquantum)
+- Allo Encointer teleport on Westend (Thanks to https://github.com/brenzi)
+- Enable Kusama endpoints for Zeitgeist and Subsocial (Thanks to https://github.com/sea212)
+
+Changes:
+
+- Cater for scheduler v3 structure
+- Add inspection expansion for storage & extrinsics
+- Add warning status for partial tx execution events
+- Ensure `InputAddress` is de-deuped prior to display (address/accounts)
+- Don't connect to disabled/unreachebale endpoints in paras
+- Adjust percentage formatting consistency
+- Correctly render SpRuntimeDispatchError
+- Disable unreachable endpoints
+
+
+## 0.105.1 Feb 7, 2022
+
+Contributed:
+
+- Allow upload of signatories for multisig creation (Thanks to https://github.com/jsidorenko)
+- Remove Dusty network (Thanks to https://github.com/hoonsubin)
+
+Changes:
+
+- Align icon sizes on status overlay
+
+
 ## 0.104.1 Jan 31, 2022
 
 Contributed:

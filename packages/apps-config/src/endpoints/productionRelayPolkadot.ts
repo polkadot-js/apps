@@ -51,7 +51,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
           'Acala Foundation 1': 'wss://acala-rpc-1.aca-api.network',
-          'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws',
+          // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
           'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://acala.polkawallet.io',
           OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
@@ -168,6 +168,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'geminis',
+        isUnreachable: true,
+        homepage: 'https://geminis.network/',
+        paraId: 2038,
+        text: t('rpc.polkadot.geminis', 'Geminis', { ns: 'apps-config' }),
+        providers: {
+          Geminis: 'wss://rpc.geminis.network'
+        }
+      },
+      {
         info: 'hydra',
         homepage: 'https://hydradx.io/',
         paraId: 2034,
@@ -198,13 +208,14 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'manta',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7018
         homepage: 'https://manta.network',
         paraId: 2015,
         text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
         providers: {
-          'Manta Kuhlii': 'wss://kuhlii.manta.systems',
+          // 'Manta Kuhlii': 'wss://kuhlii.manta.systems', // https://github.com/polkadot-js/apps/issues/6930
           // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
-          'Manta Pectinata': 'wss://pectinata.manta.systems'
+          // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
         }
       },
       {

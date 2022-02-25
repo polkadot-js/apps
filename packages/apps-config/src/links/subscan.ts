@@ -9,6 +9,7 @@ export default {
   chains: {
     Acala: 'acala',
     'Acala Mandala TC5': 'acala-testnet',
+    Altair: 'altair',
     'Ares Gladios': 'ares-testnet',
     Astar: 'astar',
     Bifrost: 'bifrost',

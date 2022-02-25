@@ -19,6 +19,7 @@ import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
+import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
@@ -26,6 +27,8 @@ import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainMangata from './chains/mangata.png';
+import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
@@ -53,6 +56,7 @@ import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import externalSubsquare from './external/subsquare.svg';
+import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
@@ -154,6 +158,7 @@ import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeSwapdex from './nodes/swapdex.svg';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
@@ -174,12 +179,12 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares Gladios': nodeAresGladios,
-  'Ares Odyssey': nodeAresGladios,
   'Ares PC1': nodeAres,
   Astar: chainAstar,
   Automata: nodeAutomata,
@@ -210,6 +215,7 @@ export const chainLogos = Object.entries({
   Galital: nodeGalital,
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
+  Geminis: chainGeminis,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
   HydraDX: chainSnakenet,
@@ -244,6 +250,7 @@ export const chainLogos = Object.entries({
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
+  Mangata: chainMangata,
   'Manta Parachain': nodeManta,
   'Manta Parachain Development': nodeManta,
   'Manta Parachain Local': nodeManta,
@@ -258,12 +265,14 @@ export const chainLogos = Object.entries({
   Moonbeam: moonbeam,
   Moonriver: moonriver,
   Moonrock: nodeMoonrock,
+  'Moonsama Development': chainMoonsamaDevelopment,
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
   'Neumann Network': oak,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
+  Odyssey: nodeAresGladios,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
@@ -309,6 +318,7 @@ export const chainLogos = Object.entries({
   Subsocial: nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
   subspace: nodeSubspace,
+  swapdex: nodeSwapdex,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -337,6 +347,7 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
+  'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Gladios': nodeAresGladios,
@@ -375,6 +386,7 @@ export const nodeLogos = Object.entries({
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,
+  Efinity: nodeEfinity,
   'Efinity Node': nodeEfinity,
   'Encointer collator': nodeEncointer,
   'Encointer Node noTEE': nodeEncointer,
@@ -382,6 +394,7 @@ export const nodeLogos = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  Geminis: chainGeminis,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   'Idavoll Node': nodeIdavoll,
@@ -410,6 +423,7 @@ export const nodeLogos = Object.entries({
   MathChain: nodeMath,
   'mathChain-galois': nodeMath,
   Moonrock: nodeMoonrock,
+  'Moonsama Development': chainMoonsamaDevelopment,
   'mybank.network': mybank,
   'Neumann Network': oak,
   NFTMart: nodeNFTMart,
@@ -473,6 +487,7 @@ export const nodeLogos = Object.entries({
   'substrate-contracts-node': nodeSubstrateContractsNode,
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
+  swapdex: nodeSwapdex,
   'Ternoa Node': nodeTernoa,
   'TrustBase Collator': nodeTrustBase,
   'TrustBase Node': nodeTrustBase,
@@ -517,6 +532,7 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   acala: chainAcala,
+  ajuna: nodeAjuna,
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
@@ -559,6 +575,7 @@ export const namedLogos: Record<string, unknown> = {
   galois: nodeMath,
   gamepower: nodeGamePower,
   geek: nodeGeek,
+  geminis: chainGeminis,
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
@@ -585,6 +602,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
+  mangata: chainMangata,
   manta: nodeManta,
   mars: nodeAresMars,
   mathchain: nodeMath,
@@ -620,6 +638,7 @@ export const namedLogos: Record<string, unknown> = {
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,
+  rocfinity: nodeEfinity,
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
@@ -651,6 +670,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
+  rococoMoonsama: chainMoonsamaDevelopment,
   rococoOriginTrail: nodeOriginTrail,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
@@ -697,6 +717,7 @@ export const namedLogos: Record<string, unknown> = {
   'subspace-farmnet': nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
+  swapdex: nodeSwapdex,
   'ternoa-testnet': nodeTernoa,
   trustbase: nodeTrustBase,
   uniarts: nodeUniarts,
