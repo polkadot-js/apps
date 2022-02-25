@@ -15,6 +15,7 @@ const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
 const EMPTY: Result = {
   details: [],
+  stdDev: 0,
   timeAvg: 0,
   timeMax: 0,
   timeMin: 0
