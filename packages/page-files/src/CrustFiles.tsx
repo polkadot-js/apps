@@ -206,8 +206,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   }, [wFiles]);
 
   return <main className={className}>
-    <header>
-    </header>
+    <header></header>
     <input
       onChange={_onInputFile}
       ref={inputRef}
@@ -220,14 +219,13 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       style={{ display: 'none' }}
       type={'file'}
     />
-    {
-      file && showUpMode &&
+    {file && showUpMode && (
       <UploadModal
         file={file}
         onClose={_onClose}
         onSuccess={_onSuccess}
       />
-    }
+    )}
     <div style={{ display: 'flex', paddingBottom: '1.5rem' }}>
       <div className='uploadBtn'>
         <Button
@@ -347,10 +345,11 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   </main>;
 }
 
-export default React.memo<Props>(styled(CrustFiles)`
+export default React.memo(styled(CrustFiles)`
   h1 {
     text-transform: unset !important;
   }
+
   .uploadBtn {
     position: relative;
     padding: 5px 0;
@@ -386,5 +385,4 @@ export default React.memo<Props>(styled(CrustFiles)`
       }
     }
   }
-
 `);
