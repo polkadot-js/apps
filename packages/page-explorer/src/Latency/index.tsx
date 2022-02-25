@@ -81,6 +81,10 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   };
 }
 
+function formatTime (time: number): string {
+  return `${(time / 1000).toFixed(3)}s`;
+}
+
 function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
@@ -108,19 +112,19 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
     <div className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('avg')}>{(timeAvg / 1000).toFixed(3)}s</CardSummary>
+          <CardSummary label={t<string>('avg')}>{formatTime(timeAvg)}</CardSummary>
           <CardSummary
             className='media--1000'
             label={t<string>('std dev')}
           >
-            {(stdDev / 1000).toFixed(3)}s
+            {formatTime(stdDev)}
           </CardSummary>
         </section>
         <section>
-          <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
-          <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
+          <CardSummary label={t<string>('min')}>{formatTime(timeMin)}</CardSummary>
+          <CardSummary label={t<string>('max')}>{formatTime(timeMax)}</CardSummary>
         </section>
-        <CardSummary label={t<string>('last')}>{times.values[0][times.values[0].length - 1].toFixed(3)}s</CardSummary>
+        <CardSummary label={t<string>('last')}>{formatTime(times.values[0][times.values[0].length - 1])}</CardSummary>
       </SummaryBox>
       <div className='container'>
         <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}</h1>
@@ -132,7 +136,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           values={times.values}
         />
       </div>
-      {/* <div className='container hidden'>
+      {/* <div className='container'>
         <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
         <Chart.Line
           colors={COLORS_EVENTS}
@@ -142,7 +146,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           values={events.values}
         />
       </div>
-      <div className='container hidden'>
+      <div className='container'>
         <h1>{t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}</h1>
         <Chart.Line
           colors={COLORS_TXS}
@@ -156,7 +160,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default styled(Latency)`
+export default React.memo(styled(Latency)`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -167,4 +171,4 @@ export default styled(Latency)`
   .container+.container {
     margin-top: 1rem;
   }
-`;
+`);
