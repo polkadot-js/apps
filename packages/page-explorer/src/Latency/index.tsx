@@ -22,6 +22,7 @@ interface ChartContents {
 }
 
 interface ChartInfo {
+  blockLast: number;
   events: ChartContents;
   extrinsics: ChartContents;
   times: ChartContents;
@@ -75,21 +76,22 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   }
 
   return {
+    blockLast: times.values[0][times.values[0].length - 1],
     events,
     extrinsics,
     times
   };
 }
 
-function formatTime (time: number): string {
-  return `${(time / 1000).toFixed(3)}s`;
+function formatTime (time: number, divisor = 1000): string {
+  return `${(time / divisor).toFixed(3)}s`;
 }
 
 function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { /* events, extrinsics, */ times } = useMemo(
+  const { blockLast, /* events, extrinsics, */ times } = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
@@ -124,7 +126,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           <CardSummary label={t<string>('min')}>{formatTime(timeMin)}</CardSummary>
           <CardSummary label={t<string>('max')}>{formatTime(timeMax)}</CardSummary>
         </section>
-        <CardSummary label={t<string>('last')}>{formatTime(times.values[0][times.values[0].length - 1])}</CardSummary>
+        <CardSummary label={t<string>('last')}>{formatTime(blockLast, 1)}</CardSummary>
       </SummaryBox>
       <div className='container'>
         <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}</h1>
