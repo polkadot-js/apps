@@ -120,7 +120,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
           <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
         </section>
-        <CardSummary label={t<string>('last')}>{times.values[times.values.length - 1][0].toFixed(3)}s</CardSummary>
+        <CardSummary label={t<string>('last')}>{times.values[0][times.values[0].length - 1].toFixed(3)}s</CardSummary>
       </SummaryBox>
       <div className='container'>
         <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}</h1>
