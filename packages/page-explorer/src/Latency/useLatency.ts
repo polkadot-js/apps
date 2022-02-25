@@ -68,14 +68,11 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
   ];
 }
 
-async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
-  const blockNumbers: number[] = [];
-  let blockNumber = header.number.toNumber();
+function addBlocks (prev: Detail[], blocks: SignedBlockExtended[]): Detail[] {
+  return blocks.reduce((p, b) => addBlock(p, b), prev);
+}
 
-  for (let i = 1; blockNumber > 0 && i <= INITIAL_ITEMS; i++) {
-    blockNumbers.push(--blockNumber);
-  }
-
+async function getBlocks (api: ApiPromise, blockNumbers: number[]): Promise<SignedBlockExtended[]> {
   if (!blockNumbers.length) {
     return [];
   }
@@ -85,6 +82,27 @@ async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExten
   );
 
   return blocks.filter((b): b is SignedBlockExtended => !!b);
+}
+
+async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
+  const blockNumbers: number[] = [];
+  let blockNumber = header.number.toNumber();
+
+  for (let i = 1; blockNumber > 0 && i <= INITIAL_ITEMS; i++) {
+    blockNumbers.push(--blockNumber);
+  }
+
+  return getBlocks(api, blockNumbers);
+}
+
+async function getNext (api: ApiPromise, { blockNumber: start }: Detail, { blockNumber: end }: Detail): Promise<SignedBlockExtended[]> {
+  const blockNumbers: number[] = [];
+
+  for (let n = start + 1; n < end; n++) {
+    blockNumbers.push(n);
+  }
+
+  return getBlocks(api, blockNumbers);
 }
 
 export default function useLatency (): Result {
@@ -98,7 +116,7 @@ export default function useLatency (): Result {
       return;
     }
 
-    setDetails((p) => calcDelay(addBlock(p, signedBlock)));
+    setDetails((prev) => calcDelay(addBlock(prev, signedBlock)));
 
     if (hasHistoric.current) {
       return;
@@ -107,9 +125,7 @@ export default function useLatency (): Result {
     hasHistoric.current = true;
 
     getPrev(api, signedBlock)
-      .then((blocks) => {
-        setDetails((p) => calcDelay(blocks.reduce((p, b) => addBlock(p, b), p)));
-      })
+      .then((all) => setDetails((prev) => calcDelay(addBlocks(prev, all))))
       .catch(console.error);
   }, [api, signedBlock]);
 
@@ -118,22 +134,17 @@ export default function useLatency (): Result {
       return;
     }
 
-    const last = details.find(({ blockNumber }, index) =>
+    const lastIndex = details.findIndex(({ blockNumber }, index) =>
       index !== (details.length - 1) &&
       (details[index + 1].blockNumber - blockNumber) > 1
     );
 
-    if (!last) {
+    if (lastIndex === -1) {
       return;
     }
 
-    const nextNumber = last.blockNumber + 1;
-
-    api.derive.chain
-      .getBlockByNumber(nextNumber)
-      .then((block) => {
-        block && setDetails((p) => addBlock(p, block));
-      })
+    getNext(api, details[lastIndex], details[lastIndex + 1])
+      .then((all) => setDetails((prev) => calcDelay(addBlocks(prev, all))))
       .catch(console.error);
   }, [api, details]);
 
