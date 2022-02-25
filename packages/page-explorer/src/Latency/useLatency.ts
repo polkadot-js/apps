@@ -29,11 +29,12 @@ function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
 }
 
 function calcDelay (details: Detail[]): Detail[] {
-  const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
-  const filtered = sorted.filter(({ blockNumber }, index) =>
-    index === 0 ||
-    blockNumber > sorted[index - 1].blockNumber
-  );
+  const filtered = details
+    .sort((a, b) => a.blockNumber - b.blockNumber)
+    .filter(({ blockNumber }, index) =>
+      index === 0 ||
+      blockNumber > details[index - 1].blockNumber
+    );
 
   for (let i = 0; i < filtered.length - 1; i++) {
     const a = filtered[i];
