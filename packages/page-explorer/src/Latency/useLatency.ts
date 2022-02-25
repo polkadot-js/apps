@@ -13,6 +13,12 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
+const EMPTY: Result = {
+  details: [],
+  timeAvg: 0,
+  timeMax: 0,
+  timeMin: 0
+};
 
 function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
   return extrinsics.find(({ method: { method, section } }) =>
@@ -133,13 +139,19 @@ export default function useLatency (): Result {
       .map(({ delay }) => delay)
       .filter((delay) => delay);
 
-    return delays.length
-      ? {
-        details,
-        timeAvg: delays.reduce((avg, d) => avg + (d / delays.length), 0),
-        timeMax: Math.max(...delays),
-        timeMin: Math.min(...delays)
-      }
-      : { details: [], timeAvg: 0, timeMax: 0, timeMin: 0 };
+    if (!delays.length) {
+      return EMPTY;
+    }
+
+    const timeAvg = delays.reduce((avg, d) => avg + d, 0) / delays.length;
+    const stdDev = Math.sqrt(delays.reduce((dev, d) => dev + Math.pow(timeAvg - d, 2), 0) / delays.length);
+
+    return {
+      details,
+      stdDev,
+      timeAvg,
+      timeMax: Math.max(...delays),
+      timeMin: Math.min(...delays)
+    };
   }, [details]);
 }

@@ -14,6 +14,7 @@ export interface Detail {
 
 export interface Result {
   details: Detail[];
+  stdDev: number;
   timeAvg: number;
   timeMax: number;
   timeMin: number;
