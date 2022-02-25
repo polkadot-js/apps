@@ -29,23 +29,22 @@ function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
 }
 
 function calcDelay (details: Detail[]): Detail[] {
-  for (let i = 0; i < details.length - 1; i++) {
-    const a = details[i];
-    const b = details[i + 1];
+  const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
+  const filtered = sorted.filter(({ blockNumber }, index) =>
+    index === 0 ||
+    blockNumber > sorted[index - 1].blockNumber
+  );
+
+  for (let i = 0; i < filtered.length - 1; i++) {
+    const a = filtered[i];
+    const b = filtered[i + 1];
 
     if ((b.blockNumber - a.blockNumber) === 1 && b.delay === 0) {
       b.delay = b.now - a.now;
     }
   }
 
-  const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
-
-  return sorted
-    .filter(({ blockNumber }, index) =>
-      index === 0 ||
-      blockNumber > sorted[index - 1].blockNumber
-    )
-    .slice(-MAX_ITEMS);
+  return filtered.slice(-MAX_ITEMS);
 }
 
 function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
