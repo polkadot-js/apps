@@ -83,7 +83,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
 
 function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { details, timeAvg, timeMax, timeMin } = useLatency();
+  const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
   const { /* events, extrinsics, */ times } = useMemo(
     () => getPoints(details, timeAvg),
@@ -107,9 +107,19 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
   return (
     <div className={className}>
       <SummaryBox>
-        <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
-        <CardSummary label={t<string>('avg')}>{(timeAvg / 1000).toFixed(3)}s</CardSummary>
-        <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
+        <section>
+          <CardSummary label={t<string>('avg')}>{(timeAvg / 1000).toFixed(3)}s</CardSummary>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('std dev')}
+          >
+            {(stdDev / 1000).toFixed(3)}s
+          </CardSummary>
+        </section>
+        <section>
+          <CardSummary label={t<string>('min')}>{(timeMin / 1000).toFixed(3)}s</CardSummary>
+          <CardSummary label={t<string>('max')}>{(timeMax / 1000).toFixed(3)}s</CardSummary>
+        </section>
         <CardSummary label={t<string>('last')}>{times.values[times.values.length - 1][0].toFixed(3)}s</CardSummary>
       </SummaryBox>
       <div className='container'>

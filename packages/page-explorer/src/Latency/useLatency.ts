@@ -13,6 +13,13 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
+const EMPTY: Result = {
+  details: [],
+  stdDev: 0,
+  timeAvg: 0,
+  timeMax: 0,
+  timeMin: 0
+};
 
 function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
   return extrinsics.find(({ method: { method, section } }) =>
@@ -33,10 +40,12 @@ function calcDelay (details: Detail[]): Detail[] {
 
   const sorted = details.sort((a, b) => a.blockNumber - b.blockNumber);
 
-  return sorted.filter(({ blockNumber }, index) =>
-    index === 0 ||
-    blockNumber > sorted[index - 1].blockNumber
-  );
+  return sorted
+    .filter(({ blockNumber }, index) =>
+      index === 0 ||
+      blockNumber > sorted[index - 1].blockNumber
+    )
+    .slice(-MAX_ITEMS);
 }
 
 function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Detail[] {
@@ -46,7 +55,7 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
     return prev;
   }
 
-  return calcDelay([
+  return [
     ...prev,
     {
       blockNumber: block.header.number.toNumber(),
@@ -56,7 +65,7 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
       now: (setter.args[0] as u32).toNumber(),
       parentHash: block.header.parentHash
     }
-  ]).slice(-MAX_ITEMS);
+  ];
 }
 
 async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExtended): Promise<SignedBlockExtended[]> {
@@ -89,7 +98,7 @@ export default function useLatency (): Result {
       return;
     }
 
-    setDetails((p) => addBlock(p, signedBlock));
+    setDetails((p) => calcDelay(addBlock(p, signedBlock)));
 
     if (hasHistoric.current) {
       return;
@@ -99,7 +108,7 @@ export default function useLatency (): Result {
 
     getPrev(api, signedBlock)
       .then((blocks) => {
-        setDetails((p) => blocks.reduce((p, b) => addBlock(p, b), p));
+        setDetails((p) => calcDelay(blocks.reduce((p, b) => addBlock(p, b), p)));
       })
       .catch(console.error);
   }, [api, signedBlock]);
@@ -133,13 +142,19 @@ export default function useLatency (): Result {
       .map(({ delay }) => delay)
       .filter((delay) => delay);
 
-    return delays.length
-      ? {
-        details,
-        timeAvg: delays.reduce((avg, d) => avg + (d / delays.length), 0),
-        timeMax: Math.max(...delays),
-        timeMin: Math.min(...delays)
-      }
-      : { details: [], timeAvg: 0, timeMax: 0, timeMin: 0 };
+    if (!delays.length) {
+      return EMPTY;
+    }
+
+    const timeAvg = delays.reduce((avg, d) => avg + d, 0) / delays.length;
+    const stdDev = Math.sqrt(delays.reduce((dev, d) => dev + Math.pow(timeAvg - d, 2), 0) / delays.length);
+
+    return {
+      details,
+      stdDev,
+      timeAvg,
+      timeMax: Math.max(...delays),
+      timeMin: Math.min(...delays)
+    };
   }, [details]);
 }
