@@ -128,8 +128,9 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
   const ss58Format = settings.prefix === -1
-    ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+    ? chainSS58
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
@@ -170,6 +171,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
+    chainSS58,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
