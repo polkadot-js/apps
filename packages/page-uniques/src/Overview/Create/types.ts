@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { bool, Bytes } from '@polkadot/types-codec';
    
 export interface InfoState {
   accountId: string;
   uniqueId: BN;
-  data: Bytes | null;
-  isFrozen: bool | null;
+  data: string;
+  isFrozen: boolean;
 }
 
 export interface TeamState {

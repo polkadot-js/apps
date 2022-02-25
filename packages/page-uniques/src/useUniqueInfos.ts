@@ -26,7 +26,7 @@ function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   return allAccounts.some((a) => a === address);
 }
 
-function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUniquesClassDetails>, metadata: PalletUniquesClassMetadata): UniqueInfo {
+function extractInfo (allAccounts: string[], classId: BN, optDetails: Option<PalletUniquesClassDetails>, metadata: PalletUniquesClassMetadata): UniqueInfo {
   const details = optDetails.unwrapOr(null);
 
   return {
@@ -40,29 +40,29 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
       : EMPTY_FLAGS
     ),
     details,
-    id,
-    key: id.toString(),
+    classId,
+    key: classId.toString(),
     metadata: metadata.isEmpty
       ? null
       : metadata
   };
 }
 
-function useUniqueInfosImpl (ids?: BN[]): UniqueInfo[] | undefined {
+function useUniqueInfosImpl (classIds?: BN[]): UniqueInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], PalletUniquesClassMetadata[]]>(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletUniquesClassDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
+  const metadata = useCall<[[BN[]], PalletUniquesClassMetadata[]]>(api.query.uniques.classMetadataOf.multi, [classIds], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletUniquesClassDetails>[]]>(api.query.uniques.class.multi, [classIds], QUERY_OPTS);
   const [state, setState] = useState<UniqueInfo[] | undefined>();
 
   useEffect((): void => {
     details && metadata && (details[0][0].length === metadata[0][0].length) &&
       setState(
-        details[0][0].map((id, index) =>
-          extractInfo(allAccounts, id, details[1][index], metadata[1][index])
+        details[0][0].map((classId, index) =>
+          extractInfo(allAccounts, classId, details[1][index], metadata[1][index])
         )
       );
-  }, [allAccounts, details, ids, metadata]);
+  }, [allAccounts, details, classIds, metadata]);
 
   return state;
 }

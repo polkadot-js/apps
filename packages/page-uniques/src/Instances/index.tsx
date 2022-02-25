@@ -3,11 +3,11 @@
 
 import type { UniqueInfo, UniqueInfoComplete } from '../types';
 
-import type { PalletAssetsAssetAccount , PalletUniquesInstanceDetails , PalletUniquesClassDetails} from '@polkadot/types/lookup';
+// import type { PalletAssetsAssetAccount , PalletUniquesInstanceDetails , PalletUniquesClassDetails} from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import  { BN } from '@polkadot/util';
+// import  { BN } from '@polkadot/util';
 import { Dropdown, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,7 +24,8 @@ function Instances ({ infos = [] }: Props): React.ReactElement<Props> {
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<UniqueInfoComplete | null>(null);
   // const instances = (info != undefined)? useInstances([info.id]): [];
-  const instances = useInstances(info?.id);
+  //const param : any | undefined = info?.classId;
+  const instances = useInstances(info?.classId);
 
   const headerRef = useRef([
     [t('instances'), 'start'],
@@ -37,13 +38,13 @@ function Instances ({ infos = [] }: Props): React.ReactElement<Props> {
   const completeInfos = useMemo(
     () => infos
       .filter((i): i is UniqueInfoComplete => !!(i.details && i.metadata) && !i.details.instances.isZero())
-      .sort((a, b) => a.id.cmp(b.id)),
+      .sort((a, b) => a.classId.cmp(b.classId)),
     [infos]
   );
 
   const uniqueOptions = useMemo(
-    () => completeInfos.map(({ id, metadata }, index) => ({
-      text: `${formatNumber(id)}`,
+    () => completeInfos.map(({ classId, metadata }, index) => ({
+      text: `${formatNumber(classId)}`,
       value: index
     })),
     [completeInfos]
@@ -96,7 +97,7 @@ function Instances ({ infos = [] }: Props): React.ReactElement<Props> {
         {info && instances?.map(( instance ) => (
           <Instance
             instance={instance}
-            uniqueId={info.id}
+            classId={info.classId}
             key={"7".toString()}
           />
         ))}

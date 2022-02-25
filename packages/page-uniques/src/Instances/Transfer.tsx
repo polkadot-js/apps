@@ -12,14 +12,14 @@ import { useTranslation } from '../translate';
 
 interface Props {
   accountId: string;
-  uniqueId: BN;
+  classId: BN;
 }
 
-function Transfer ({ accountId, uniqueId }: Props): React.ReactElement<Props> {
+function Transfer ({ accountId, classId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
-  const [amount, setAmount] = useState<BN | null>(null);
+  const [instanceId, setInstance] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(null);
 
   return (
@@ -31,7 +31,7 @@ function Transfer ({ accountId, uniqueId }: Props): React.ReactElement<Props> {
       />
       {isOpen && (
         <Modal
-          className={uniqueId}
+          className={classId.toString()}
           header={t<string>('transfer unique')}
           onClose={toggleOpen}
           size='large'
@@ -51,11 +51,11 @@ function Transfer ({ accountId, uniqueId }: Props): React.ReactElement<Props> {
                 type='allPlus'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount of instances to transfer to the account.')}>
+            <Modal.Columns hint={t<string>('The instance to transfer to the account.')}>
               <InputBalance
                 autoFocus
-                label={t<string>('instances to transfer')}
-                onChange={setAmount}
+                label={t<string>('instance to transfer')}
+                onChange={setInstance}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -63,10 +63,10 @@ function Transfer ({ accountId, uniqueId }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               icon='paper-plane'
-              isDisabled={!recipientId || !amount}
+              isDisabled={!recipientId || !instanceId}
               label={t<string>('Send')}
               onStart={toggleOpen}
-              params={[uniqueId, recipientId, amount]}
+              params={[classId, instanceId, recipientId]}
               tx={
                 api.tx.uniques.transfer}
             />

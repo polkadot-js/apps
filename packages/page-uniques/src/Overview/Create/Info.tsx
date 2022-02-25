@@ -3,7 +3,6 @@
 
 import type { BN } from '@polkadot/util';
 import type { InfoState } from './types';
-import type { bool, Bytes } from '@polkadot/types-codec';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -28,8 +27,8 @@ function Info ({ uniqueIds, defaultValue, onChange, openId }: Props): React.Reac
   const [initialId] = useState(() => openId);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [uniqueId, setUniqueId] = useState<BN | null>(null);
-  const [data, setData] = useState<Bytes | null>(null);
-  const [isFrozen, setIsFrozen] = useState<bool | null>(null);
+  const [data, setData] = useState<string>('');
+  const [isFrozen, setIsFrozen] = useState<boolean>(false);
 
   const isValidId = useMemo(
     () => !!uniqueId && uniqueId.gt(BN_ZERO) && !uniqueIds.some((a) => a.eq(uniqueId)),

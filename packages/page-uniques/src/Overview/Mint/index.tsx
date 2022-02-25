@@ -15,11 +15,11 @@ import Modal from './Mint';
 interface Props {
   className?: string;
   details: PalletUniquesClassDetails;
-  id: BN;
+  classId: BN;
   metadata: PalletUniquesClassMetadata;
 }
 
-function Mint ({ className, details, id, metadata }: Props): React.ReactElement<Props> {
+function Mint ({ className, details, classId, metadata }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
 
@@ -35,7 +35,7 @@ function Mint ({ className, details, id, metadata }: Props): React.ReactElement<
         <Modal
           className={className}
           details={details}
-          id={id}
+          classId={classId}
           metadata={metadata}
           onClose={toggleOpen}
         />

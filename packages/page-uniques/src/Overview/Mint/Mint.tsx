@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletUniquesClassDetails, PalletUniquesClassMetadata } from '@polkadot/types/lookup';
-import type { BN, BN_ZERO } from '@polkadot/util';
+import type { BN } from '@polkadot/util';
 import React, { useMemo, useState } from 'react';
 
 import { InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
@@ -13,20 +13,20 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   details: PalletUniquesClassDetails;
-  id: BN;
+  classId: BN;
   metadata: PalletUniquesClassMetadata;
   onClose: () => void;
 }
 
-function Mint ({ className, details: { issuer }, id, metadata, onClose }: Props): React.ReactElement<Props> {
+function Mint ({ className, details: { issuer }, classId, metadata, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState<BN | null>(null);
+  const [instanceId, setInstanceId] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(null);
 
-  const isAmountValid = useMemo(
-    () => amount && !amount.isNeg(),
-    [amount, 0]
+  const isInstanceIdValid = useMemo(
+    () => instanceId && !instanceId.isNeg(),
+    [instanceId, 0]
   );
 
   return (
@@ -47,10 +47,10 @@ function Mint ({ className, details: { issuer }, id, metadata, onClose }: Props)
         <Modal.Columns hint={t<string>('The instance number that is unique to this class.')}>
           <InputNumber
             autoFocus
-            isError={!isAmountValid}
+            isError={!isInstanceIdValid}
             isZeroable={false}
             label={t<string>('instance number')}
-            onChange={setAmount}
+            onChange={setInstanceId}
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The recipient account for this minting operation.')}>
@@ -65,10 +65,10 @@ function Mint ({ className, details: { issuer }, id, metadata, onClose }: Props)
         <TxButton
           accountId={issuer}
           icon='plus'
-          isDisabled={!recipientId || !isAmountValid}
+          isDisabled={!recipientId || !isInstanceIdValid}
           label={t<string>('Mint')}
           onStart={onClose}
-          params={[id, amount, recipientId]}
+          params={[classId, instanceId, recipientId]}
           tx={api.tx.uniques.mint}
         />
       </Modal.Actions>

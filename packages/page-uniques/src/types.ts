@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 export interface UniqueInfo {
   details: PalletUniquesClassDetails | null;
-  id: BN;
+  classId: BN;
   isAdminMe: boolean;
   isIssuerMe: boolean;
   isFreezerMe: boolean;
@@ -17,7 +17,7 @@ export interface UniqueInfo {
 
 export interface UniqueInstanceInfo {
   details: PalletUniquesInstanceDetails | null;
-  id: BN;
+  instanceId: BN;
   isOwnerMe: boolean;
   key: string;
   metadata: PalletUniquesInstanceMetadata | null;

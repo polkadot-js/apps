@@ -3,10 +3,9 @@
 
 import type { UniqueInfo } from '../types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Mint from './Mint';
@@ -16,15 +15,15 @@ interface Props {
   value: UniqueInfo;
 }
 
-function Unique ({ className, value: { details, id, isIssuerMe, metadata } }: Props): React.ReactElement<Props> {
-  const format = useMemo(
-    () => [0, '---'],
-    [metadata]
-  );
+function Unique ({ className, value: { details, classId, isIssuerMe, metadata } }: Props): React.ReactElement<Props> {
+  // const format = useMemo(
+  //   () => [0, '---'],
+  //   [metadata]
+  // );
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='number'><h1>{formatNumber(classId)}</h1></td>
       <td className='address media--700'>{details && <AddressSmall value={details.owner} />}</td>
       <td className='address media--1000'>{details && <AddressSmall value={details.admin} />}</td>
       <td className='address media--1300'>{details && <AddressSmall value={details.issuer} />}</td>
@@ -33,7 +32,7 @@ function Unique ({ className, value: { details, id, isIssuerMe, metadata } }: Pr
       <td className='button'>{details && metadata && isIssuerMe && (
         <Mint
           details={details}
-          id={id}
+          classId={classId}
           metadata={metadata}
         />
       )}</td>

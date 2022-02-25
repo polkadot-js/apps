@@ -8,6 +8,7 @@ import React, { useMemo, useState } from 'react';
 
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useStepper, useTxBatch } from '@polkadot/react-hooks';
+import { u8aWrapBytes } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import Info from './Info';
@@ -34,7 +35,7 @@ function Create ({ uniqueIds, onClose, openId }: Props): React.ReactElement<Prop
     () => unique
       ? [
         api.tx.uniques.create(unique.uniqueId, unique.accountId),
-        api.tx.uniques.setClassMetadata(unique.uniqueId, unique.data, unique.isFrozen)
+        api.tx.uniques.setClassMetadata(unique.uniqueId, u8aWrapBytes(unique.data), unique.isFrozen)
       ]
       : [null, null],
     [api, unique]

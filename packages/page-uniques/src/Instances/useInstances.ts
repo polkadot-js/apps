@@ -23,7 +23,7 @@ function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   return allAccounts.some((a) => a === address);
 }
 
-function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUniquesInstanceDetails>, metadata: PalletUniquesInstanceMetadata): UniqueInstanceInfo {
+function extractInfo (allAccounts: string[], instanceId: BN, optDetails: Option<PalletUniquesInstanceDetails>, metadata: PalletUniquesInstanceMetadata): UniqueInstanceInfo {
   console.log('extract called'); 
   const details = optDetails.unwrapOr(null);
   
@@ -35,34 +35,30 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
       : EMPTY_FLAGS
     ),
     details,
-    id,
-    key: id.toString(),
+    instanceId,
+    key: instanceId.toString(),
     metadata: metadata.isEmpty
       ? null
       : metadata
   };
 }
 
-function useInstancesImpl (ids?: BN[]): UniqueInstanceInfo[] | undefined {
+function useInstancesImpl (classId?: BN): UniqueInstanceInfo[] | undefined {
   // if (ids === undefined ) {
   //   return;
   // }
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  console.log('metadada start'); 
-  const metadata = useCall<[[BN[]], PalletUniquesInstanceMetadata[]]>(api.query.uniques.instanceMetadataOf.multi, ids?.map((id) => [id, null]), QUERY_OPTS);
-  console.log('metadada end beg'); 
-  const details = useCall<[[BN[]], Option<PalletUniquesInstanceDetails>[]]>(api.query.uniques.asset.multi, ids?.map((id) => [id, null]), QUERY_OPTS);
-  console.log('metadada fin fin'); 
+
+  const metadata = useCall<[[BN[]], PalletUniquesInstanceMetadata[]]>(api.query.uniques.instanceMetadataOf, [[classId], [null]], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletUniquesInstanceDetails>[]]>(api.query.uniques.asset, [[0], [null]], QUERY_OPTS);
+
   const [state, setState] = useState<UniqueInstanceInfo[] | undefined>();
 
   useEffect((): void => {
-    console.log('stt');  
-    if (details) {
-      console.log(details[0][0])
-    }
-    console.log(details);  
-    console.log(metadata);
+    console.log('got results:');
+    console.log(details?.toString());  
+    console.log(metadata?.toString());
     console.log('nddd');  
     details && metadata && (details[0][0].length === metadata[0][0].length) &&
     setState(
@@ -70,7 +66,7 @@ function useInstancesImpl (ids?: BN[]): UniqueInstanceInfo[] | undefined {
           extractInfo(allAccounts, id, details[1][index], metadata[1][index])
         )
       );
-  }, [allAccounts, details, ids, metadata]);
+  }, [allAccounts, details, [classId], metadata]);
 
   return state;
 }
