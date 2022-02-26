@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust teleport to only cater for latest XCM
+- Add blocktime latency tab to Explorer
+- Allow decoded extrinsics to populate submission
+
+
 ## 0.106.1 Feb 14, 2022
 
 Contributed:

@@ -73,10 +73,10 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'crust',
-      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
-        'Crust Network': 'wss://rpc.crust.network'
+        'Crust Network': 'wss://rpc.crust.network',
+        OnFinality: 'wss://crust.api.onfinality.io/public-ws'
       }
     },
     {
@@ -154,7 +154,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'integritee',
       text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
       providers: {
-        Integritee: 'wss://api.solo.integritee.io'
+        Integritee: 'wss://api.solo.integritee.io',
+        OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
       }
     },
     {
