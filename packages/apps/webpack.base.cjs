@@ -87,7 +87,9 @@ function createWebpack (context, mode = 'production') {
             {
               loader: require.resolve('file-loader'),
               options: {
+                contentHash: 'xxhash64',
                 esModule: false,
+                hash: 'xxhash64',
                 name: 'static/[name].[contenthash:8].[ext]'
               }
             }
