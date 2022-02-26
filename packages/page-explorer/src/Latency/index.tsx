@@ -29,8 +29,8 @@ interface ChartInfo {
 }
 
 const COLORS_TIMES = ['#8c2200', '#acacac'];
-// const COLORS_EVENTS = ['#008c22', '#acacac'];
-// const COLORS_TXS = ['#00228c', '#acacac'];
+const COLORS_EVENTS = ['#008c22', '#228c00', '#acacac'];
+const COLORS_TXS = ['#00228c', '#acacac'];
 const OPTIONS = {
   animation: {
     duration: 0
@@ -42,7 +42,7 @@ const OPTIONS = {
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const events: ChartContents = {
     labels: [],
-    values: [[], []]
+    values: [[], [], []]
   };
   const extrinsics: ChartContents = {
     labels: [],
@@ -53,17 +53,18 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
     values: [[], []]
   };
 
-  const eventAvg = details.reduce((a, { countEvents }) => a + countEvents, 0);
-  const txAvg = details.reduce((a, { countExtrinsics }) => a + countExtrinsics, 0);
+  const eventAvg = details.reduce((a, { events: { count } }) => a + count, 0);
+  const txAvg = details.reduce((a, { extrinsics: { count } }) => a + count, 0);
 
   for (let i = 0; i < details.length; i++) {
     events.labels.push(formatNumber(details[i].blockNumber));
-    events.values[0].push(details[i].countEvents);
-    events.values[1].push((eventAvg - details[i].countEvents) / (details.length - 1));
+    events.values[0].push(details[i].events.count);
+    events.values[1].push(details[i].events.system);
+    events.values[2].push((eventAvg - details[i].events.count) / (details.length - 1));
 
     extrinsics.labels.push(formatNumber(details[i].blockNumber));
-    extrinsics.values[0].push(details[i].countExtrinsics);
-    extrinsics.values[1].push((txAvg - details[i].countExtrinsics) / (details.length - 1));
+    extrinsics.values[0].push(details[i].extrinsics.count);
+    extrinsics.values[1].push((txAvg - details[i].extrinsics.count) / (details.length - 1));
   }
 
   const filtered = details.filter(({ delay }) => delay);
@@ -91,14 +92,14 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { blockLast, /* events, extrinsics, */ times } = useMemo(
+  const { blockLast, events, extrinsics, times } = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const { /* eventsLegend, extrinsicsLegend, */ timesLegend } = useMemo(
+  const { eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
     () => ({
-      eventsLegend: [t<string>('events'), t<string>('average')],
+      eventsLegend: [t<string>('events'), t<string>('system'), t<string>('average')],
       extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
       timesLegend: [t<string>('blocktime'), t<string>('average')]
     }), [t]
@@ -138,7 +139,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           values={times.values}
         />
       </div>
-      {/* <div className='container'>
+      <div className='container'>
         <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
         <Chart.Line
           colors={COLORS_EVENTS}
@@ -157,7 +158,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           options={OPTIONS}
           values={extrinsics.values}
         />
-      </div> */}
+      </div>
     </div>
   );
 }
