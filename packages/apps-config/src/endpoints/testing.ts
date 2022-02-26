@@ -104,8 +104,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/',
-        'DCloud Foundation': 'wss://api.decloudf.com/',
-        Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer'
+        'DCloud Foundation': 'wss://api.decloudf.com/'
+        // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
       }
     },
     {
@@ -296,8 +296,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
         'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-        Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+        // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
       }
     },
     {
