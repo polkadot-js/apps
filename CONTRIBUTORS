@@ -3,7 +3,7 @@
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
-      39	pan                           	update bifrost providers (#6815)
+      40	pan                           	update bifrost testnet (#7063)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
       25	Krzysztof Jelski              	Increase UI test timeouts and mark interBTC unreachable (#6247)
