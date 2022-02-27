@@ -69,9 +69,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'bifrost',
-      text: t('rpc.test.bifrost', 'Bifrost', { ns: 'apps-config' }),
+      text: t('rpc.test.bifrost', 'Bifrost Stage Network', { ns: 'apps-config' }),
       providers: {
-        Liebi: 'wss://asgard-rpc.liebi.com/ws'
+        Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
       }
     },
     {
