@@ -29,7 +29,7 @@ interface ChartInfo {
 }
 
 const COLORS_TIMES = ['#8c2200', '#acacac'];
-const COLORS_EVENTS = ['#008c22', '#228c00', '#acacac'];
+const COLORS_EVENTS = ['#008c22', '#acacac'];
 const COLORS_TXS = ['#00228c', '#acacac'];
 const OPTIONS = {
   animation: {
@@ -53,18 +53,17 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
     values: [[], []]
   };
 
-  const eventAvg = details.reduce((a, { events: { count } }) => a + count, 0);
-  const txAvg = details.reduce((a, { extrinsics: { count } }) => a + count, 0);
+  const eventAvg = details.reduce((a, { events }) => a + events, 0);
+  const txAvg = details.reduce((a, { extrinsics }) => a + extrinsics, 0);
 
   for (let i = 0; i < details.length; i++) {
     events.labels.push(formatNumber(details[i].blockNumber));
-    events.values[0].push(details[i].events.count);
-    events.values[1].push(details[i].events.system);
-    events.values[2].push((eventAvg - details[i].events.count) / (details.length - 1));
+    events.values[0].push(details[i].events);
+    events.values[1].push((eventAvg - details[i].events) / (details.length - 1));
 
     extrinsics.labels.push(formatNumber(details[i].blockNumber));
-    extrinsics.values[0].push(details[i].extrinsics.count);
-    extrinsics.values[1].push((txAvg - details[i].extrinsics.count) / (details.length - 1));
+    extrinsics.values[0].push(details[i].extrinsics);
+    extrinsics.values[1].push((txAvg - details[i].extrinsics) / (details.length - 1));
   }
 
   const filtered = details.filter(({ delay }) => delay);

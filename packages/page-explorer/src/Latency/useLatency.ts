@@ -60,13 +60,8 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
     {
       blockNumber: block.header.number.toNumber(),
       delay: 0,
-      events: {
-        count: events.length,
-        system: events.reduce((a, { phase }) => a + (phase.isApplyExtrinsic ? 0 : 1), 0)
-      },
-      extrinsics: {
-        count: block.extrinsics.length
-      },
+      events: events.length,
+      extrinsics: block.extrinsics.length,
       now: (setter.args[0] as u32).toNumber(),
       parentHash: block.header.parentHash
     }

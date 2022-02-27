@@ -6,13 +6,8 @@ import type { Hash } from '@polkadot/types/interfaces';
 export interface Detail {
   blockNumber: number;
   delay: number;
-  events: {
-    count: number;
-    system: number;
-  };
-  extrinsics: {
-    count: number;
-  };
+  events: number;
+  extrinsics: number;
   now: number;
   parentHash: Hash;
 }
