@@ -256,7 +256,8 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer'
+          Dwellir: 'wss://moonriver-rpc.dwellir.com'
+          // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
         }
       },
       {
