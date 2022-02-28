@@ -36,11 +36,13 @@ export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: numbe
 }
 
 export function getValues ({ value }: RawParam): RawParam[] {
-  return (value as RawParam[] || []).map((value: RawParam) =>
-    isUndefined(value) || isUndefined(value.isValid)
-      ? { isValid: !isUndefined(value), value }
-      : value
-  );
+  return Array.isArray(value)
+    ? value.map((value: RawParam) =>
+      isUndefined(value) || isUndefined(value.isValid)
+        ? { isValid: !isUndefined(value), value }
+        : value
+    )
+    : [];
 }
 
 function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
