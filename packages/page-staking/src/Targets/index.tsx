@@ -310,7 +310,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('single from operator')}
+          label={t<string>('one validator per operator')}
           onChange={setToggle.withGroup}
           value={toggles.withGroup}
         />
