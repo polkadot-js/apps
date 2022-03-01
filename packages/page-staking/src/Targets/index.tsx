@@ -345,7 +345,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         )}
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('only elected')}
+          label={t<string>('currently elected')}
           onChange={setToggle.withElected}
           value={toggles.withElected}
         />
