@@ -73,7 +73,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
               defaultValue={startBalance}
               help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
-              label={t<string>('additional bonded funds')}
+              label={t<string>('additional funds to bond')}
               labelExtra={
                 <BalanceFree
                   label={<span className='label'>{t<string>('balance')}</span>}
