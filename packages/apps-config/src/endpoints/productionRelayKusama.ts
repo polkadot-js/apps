@@ -122,7 +122,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2105,
         text: t('rpc.kusama.crab', 'Darwinia Crab Parachain', { ns: 'apps-config' }),
         providers: {
-          Crab: 'wss://crab-parachain-rpc.darwinia.network/'
+          Crab: 'wss://crab-parachain-rpc.darwinia.network/',
+          Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
         }
       },
       {
