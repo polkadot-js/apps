@@ -312,6 +312,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'neumann',
       text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
+        OAK: 'wss://rpc.testnet.oak.tech',
         OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
       }
     },
