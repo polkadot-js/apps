@@ -9,6 +9,11 @@ import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 const queryOptions = {
+  defaultValue: {
+    maxDelegators: 0,
+    maxDelegatorsPool: 0,
+    maxPools: 0
+  },
   transform: ([maxDelegators, maxDelegatorsPerPool, maxPools, minCreateBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN]): Params => ({
     maxDelegators: maxDelegators.unwrapOr(BN_ZERO).toNumber(),
     maxDelegatorsPool: maxDelegatorsPerPool.unwrapOr(BN_ZERO).toNumber(),

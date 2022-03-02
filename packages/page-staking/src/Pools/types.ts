@@ -7,6 +7,6 @@ export interface Params {
   maxDelegators: number;
   maxDelegatorsPool: number;
   maxPools: number;
-  minCreateBond: BN;
-  minNominatorBond: BN;
+  minCreateBond?: BN;
+  minNominatorBond?: BN;
 }
