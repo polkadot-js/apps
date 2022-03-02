@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, EraIndex, LeasePeriodOf, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 
 import { useEffect, useState } from 'react';
@@ -29,19 +29,20 @@ function newDate (blocks: BN, blockTime: number): DateExt {
   return { date, dateTime: date.getTime() };
 }
 
-function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?, BN?][]): [EntryType, EntryInfo[]][] {
-  return items.map(([type, duration, additional = BN_ZERO]): [EntryType, EntryInfo[]] => {
+function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?, BN?, BN?][]): [EntryType, EntryInfo[]][] {
+  return items.map(([type, duration, additional = BN_ZERO, offset = BN_ZERO]): [EntryType, EntryInfo[]] => {
     if (!duration) {
       return [type, []];
     }
 
-    const blocks = duration.sub(bestNumber.mod(duration));
+    const startNumber = bestNumber.sub(offset);
+    const blocks = duration.sub(startNumber.mod(duration));
 
     return [type, [{
       ...newDate(blocks, blockTime),
-      blockNumber: bestNumber.add(blocks),
+      blockNumber: startNumber.add(blocks),
       blocks,
-      info: bestNumber.div(duration).iadd(additional)
+      info: startNumber.div(duration).iadd(additional)
     }]];
   });
 }
@@ -251,7 +252,7 @@ function useScheduledImpl (): EntryInfo[] {
       addFiltered(state, createConstDurations(bestNumber, blockTime, [
         ['councilElection', (api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen)?.termDuration],
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
-        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE],
+        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE, api.consts.slots?.leaseOffset as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
         ['societyRotate', api.consts.society?.rotationPeriod],
         ['treasurySpend', api.consts.treasury?.spendPeriod]

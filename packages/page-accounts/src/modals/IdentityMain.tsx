@@ -262,8 +262,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   );
 }
 
-export default styled(IdentityMain)`
+export default React.memo(styled(IdentityMain)`
   .toggle-Wrap {
     position: relative;
   }
-`;
+`);

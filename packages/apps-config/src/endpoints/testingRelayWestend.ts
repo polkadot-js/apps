@@ -25,10 +25,11 @@ export function createWestend (t: TFunction): EndpointOption {
       Parity: 'wss://westend-rpc.polkadot.io',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
+      Dwellir: 'wss://westend-rpc.dwellir.com',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     },
-    teleport: [1000],
+    teleport: [1000, 1001],
     linked: [
       // (1) system parachains (none available yet)
       // ...
@@ -39,6 +40,15 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io'
+        },
+        teleport: [-1]
+      },
+      {
+        info: 'encointer',
+        paraId: 1001,
+        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://api.westend.encointer.org'
         },
         teleport: [-1]
       },
@@ -60,14 +70,6 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
-        }
-      },
-      {
-        info: 'encointer',
-        paraId: 1001,
-        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.westend.encointer.org'
         }
       },
       {

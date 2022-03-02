@@ -6,7 +6,7 @@ import type { BlockNumber, Call, SchedulePeriod, SchedulePriority } from '@polka
 
 export interface ScheduledExt {
   blockNumber: BlockNumber;
-  call: Call;
+  call: Call | null;
   key: string;
   maybeId: Option<Bytes>;
   maybePeriodic: Option<SchedulePeriod>;

@@ -4,12 +4,11 @@
 import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { formatBalance, isUndefined } from '@polkadot/util';
+import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 

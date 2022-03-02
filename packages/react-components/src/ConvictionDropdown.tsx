@@ -3,12 +3,11 @@
 
 import type { TFunction } from 'i18next';
 
-import BN from 'bn.js';
 import React, { useRef } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { useApi, useBlockTime } from '@polkadot/react-hooks';
-import { BN_THOUSAND } from '@polkadot/util';
+import { BN, BN_THOUSAND } from '@polkadot/util';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';

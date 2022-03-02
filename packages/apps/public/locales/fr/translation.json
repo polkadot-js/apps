@@ -1302,7 +1302,6 @@
   "rpc.datahighway.harbour": "Harbour",
   "rpc.dock-pos-mainnet": "Dock Mainnet",
   "rpc.dock-pos-testnet": "Dock Testnet",
-  "rpc.dusty": "Dusty",
   "rpc.edgeware": "Edgeware (Mainnet Edgeware, hébergé par Commonwealth Labs)",
   "rpc.equilibrium": "Equilibrium",
   "rpc.flamingfir": "Flaming Fir (Testnet Substrate, hébergé par Parity)",
