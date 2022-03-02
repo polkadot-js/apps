@@ -1,4 +1,4 @@
-    3416	Jaco                          	Bump TS (#7079)
+    3417	Jaco                          	Replace mergify with action (#7088)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
