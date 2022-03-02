@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 
 import Create from './Create';
-import List from './List';
+import Pools from './Pools';
 import Summary from './Summary';
 import useParams from './useParams';
 
@@ -14,7 +14,7 @@ interface Props {
   className?: string;
 }
 
-function Pools ({ className }: Props): React.ReactElement<Props> {
+function NominationPools ({ className }: Props): React.ReactElement<Props> {
   const params = useParams();
 
   return (
@@ -23,9 +23,9 @@ function Pools ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Create params={params} />
       </Button.Group>
-      <List />
+      <Pools />
     </div>
   );
 }
 
-export default React.memo(Pools);
+export default React.memo(NominationPools);
