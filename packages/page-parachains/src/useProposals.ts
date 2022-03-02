@@ -20,9 +20,10 @@ const optionsMulti = {
   defaultValue: [undefined, undefined] as MultiQuery
 };
 
-function extractProposalIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
-  return keys.map(({ args: [id] }) => id);
-}
+const proposalOpts = {
+  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
+    keys.map(({ args: [id] }) => id)
+};
 
 function extractScheduled (entries: [StorageKey<[SessionIndex]>, ParaId[]][]): Scheduled[] {
   return entries.map(([{ args: [sessionIndex] }, scheduledIds]) => ({
@@ -35,7 +36,7 @@ function useProposalsImpl (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
-  const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, { at: trigger.blockHash, transform: extractProposalIds });
+  const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, proposalOpts, trigger.blockHash);
   const scheduled = useMapEntries(api.query.proposeParachain?.scheduledProposals, { at: trigger.blockHash, transform: extractScheduled });
   const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.session.currentIndex,
