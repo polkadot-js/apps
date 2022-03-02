@@ -51,5 +51,7 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
 };
 
 export function getInflationParams (api: ApiPromise): InflationParams {
-  return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_PARAMS;
+  // below behaviour is different between our fork and upstream, that by default we are operating
+  // in uniform era payout model, rather than Polkadot-js's RewardCurve model
+  return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_UNIFORM_ERA_PAYOUT_PARAMS;
 }
