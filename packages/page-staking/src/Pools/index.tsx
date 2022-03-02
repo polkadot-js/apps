@@ -3,6 +3,10 @@
 
 import React from 'react';
 
+import { Button } from '@polkadot/react-components';
+
+import Create from './Create';
+import List from './List';
 import Summary from './Summary';
 
 interface Props {
@@ -13,6 +17,10 @@ function Pools ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary />
+      <Button.Group>
+        <Create />
+      </Button.Group>
+      <List />
     </div>
   );
 }
