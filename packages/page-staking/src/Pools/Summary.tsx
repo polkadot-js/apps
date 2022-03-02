@@ -20,7 +20,6 @@ const maxOptions = {
     maxPools.unwrapOr(BN_ONE).toNumber()
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Summary ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
