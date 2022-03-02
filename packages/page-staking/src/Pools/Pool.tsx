@@ -7,12 +7,16 @@ import React from 'react';
 
 import { AccountName } from '@polkadot/react-components';
 
+import usePoolInfo from './usePoolInfo';
+
 interface Props {
   className?: string;
   id: AccountId;
 }
 
 function Pool ({ className, id }: Props): React.ReactElement<Props> {
+  const info = usePoolInfo(id);
+
   return (
     <tr className={className}>
       <td><AccountName value={id} /></td>
