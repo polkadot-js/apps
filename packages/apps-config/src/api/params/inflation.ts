@@ -2,16 +2,28 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
+import {BN, BN_MILLION} from "@polkadot/util";
 
-import { DOCK_POS_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, NFTMART_GENESIS, POLKADOT_GENESIS } from '../constants';
+import {
+  ALEPHZERO_MAINNET_GENESIS, ALEPHZERO_TESTNET_GENESIS,
+  DOCK_POS_TESTNET_GENESIS,
+  KUSAMA_GENESIS,
+  NEATCOIN_GENESIS,
+  NFTMART_GENESIS,
+  POLKADOT_GENESIS
+} from '../constants';
 
-interface InflationParams {
+export interface InflationParams {
   auctionAdjust: number;
   auctionMax: number;
   falloff: number;
   maxInflation: number;
   minInflation: number;
   stakeTarget: number;
+}
+
+export interface UniformEraPayoutInflationParams extends InflationParams {
+  yearlyInflationInTokens: BN;
 }
 
 const DEFAULT_PARAMS: InflationParams = {
@@ -23,12 +35,19 @@ const DEFAULT_PARAMS: InflationParams = {
   stakeTarget: 0.5
 };
 
+const DEFAULT_UNIFORM_ERA_PAYOUT_PARAMS: UniformEraPayoutInflationParams = {
+  ...DEFAULT_PARAMS,
+  yearlyInflationInTokens: BN_MILLION.mul(new BN(30)),
+};
+
 const KNOWN_PARAMS: Record<string, InflationParams> = {
   [DOCK_POS_TESTNET_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
   [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: (0.3 / 60), auctionMax: 60, stakeTarget: 0.75 },
   [NEATCOIN_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
   [NFTMART_GENESIS]: { ...DEFAULT_PARAMS, falloff: 0.04, stakeTarget: 0.60 },
-  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 }
+  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
+  [ALEPHZERO_MAINNET_GENESIS]: DEFAULT_UNIFORM_ERA_PAYOUT_PARAMS,
+  [ALEPHZERO_TESTNET_GENESIS]: DEFAULT_UNIFORM_ERA_PAYOUT_PARAMS,
 };
 
 export function getInflationParams (api: ApiPromise): InflationParams {
