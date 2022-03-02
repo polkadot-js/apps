@@ -1,36 +1,22 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, u32 } from '@polkadot/types';
+import type { Params } from './types';
 
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  params: Params;
 }
 
-const maxOptions = {
-  transform: ([maxDelegators, naxDelegatorsPerPool, maxPools]: [Option<u32>, Option<u32>, Option<u32>]): [number, number, number] => [
-    maxDelegators.unwrapOr(BN_ZERO).toNumber(),
-    naxDelegatorsPerPool.unwrapOr(BN_ZERO).toNumber(),
-    maxPools.unwrapOr(BN_ZERO).toNumber()
-  ]
-};
-
-function Summary ({ className }: Props): React.ReactElement<Props> | null {
+function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPools } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const [maxDelegators, maxDelegatorsPool, maxPools] = useCallMulti<[number, number, number]>([
-    api.query.nominationPools.maxDelegators,
-    api.query.nominationPools.naxDelegatorsPerPool,
-    api.query.nominationPools.maxPools
-  ], maxOptions);
 
   return (
     <SummaryBox className={className}>

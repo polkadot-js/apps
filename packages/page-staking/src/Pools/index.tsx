@@ -8,17 +8,20 @@ import { Button } from '@polkadot/react-components';
 import Create from './Create';
 import List from './List';
 import Summary from './Summary';
+import useParams from './useParams';
 
 interface Props {
   className?: string;
 }
 
 function Pools ({ className }: Props): React.ReactElement<Props> {
+  const params = useParams();
+
   return (
     <div className={className}>
-      <Summary />
+      <Summary params={params} />
       <Button.Group>
-        <Create />
+        <Create params={params} />
       </Button.Group>
       <List />
     </div>

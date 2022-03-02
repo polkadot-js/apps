@@ -2,35 +2,33 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { Params } from './types';
 
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCallMulti, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  params: Params;
 }
 
-function Create ({ className }: Props): React.ReactElement<Props> | null {
+function Create ({ className, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
-  const [minCreate, minNominate] = useCallMulti<[BN, BN]>([
-    api.query.nominatorPools.minCreateBond,
-    api.query.staking.minNominatorBond
-  ]);
 
-  if (!minCreate || !minNominate) {
+  if (!minCreateBond || !minNominatorBond) {
     return null;
   }
 
-  const startValue = bnMax(minCreate, minNominate);
+  const startValue = bnMax(minCreateBond, minNominatorBond);
 
   return (
     <>
