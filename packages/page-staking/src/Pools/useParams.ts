@@ -5,7 +5,7 @@ import type { Option, u32 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 const queryOptions = {
@@ -23,7 +23,7 @@ const queryOptions = {
   })
 };
 
-export default function useParams (): Params {
+function useParamsImpl (): Params {
   const { api } = useApi();
 
   return useCallMulti<Params>([
@@ -34,3 +34,5 @@ export default function useParams (): Params {
     api.query.staking.minNominatorBond
   ], queryOptions);
 }
+
+export default createNamedHook('useParams', useParamsImpl);
