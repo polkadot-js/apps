@@ -23,23 +23,29 @@ interface ChartContents {
 
 interface ChartInfo {
   blockLast: number;
+  blocks: ChartContents;
   events: ChartContents;
   extrinsics: ChartContents;
   times: ChartContents;
 }
 
-const COLORS_TIMES = ['#8c2200', '#acacac'];
-const COLORS_EVENTS = ['#008c22', '#acacac'];
-const COLORS_TXS = ['#00228c', '#acacac'];
+const COLORS_TIMES = ['#8c8c00', '#acacac'];
+const COLORS_BLOCKS = ['#008c8c', '#acacac'];
+const COLORS_EVENTS = ['#00448c', '#8c0044', '#acacac'];
+const COLORS_TXS = ['#448c00', '#acacac'];
 const OPTIONS = {
   animation: {
     duration: 0
   },
-  aspectRatio: 5,
+  aspectRatio: 6,
   maintainAspectRatio: true
 };
 
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
+  const blocks: ChartContents = {
+    labels: [],
+    values: [[], []]
+  };
   const events: ChartContents = {
     labels: [],
     values: [[], [], []]
@@ -53,30 +59,39 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
     values: [[], []]
   };
 
-  const eventAvg = details.reduce((a, { events }) => a + events, 0);
-  const txAvg = details.reduce((a, { extrinsics }) => a + extrinsics, 0);
+  const eventTotal = details.reduce((a, { events: { count } }) => a + count, 0);
+  const txTotal = details.reduce((a, { extrinsics: { count } }) => a + count, 0);
+  const blockTotal = details.reduce((a, { block: { bytes } }) => a + bytes, 0);
 
   for (let i = 0; i < details.length; i++) {
-    events.labels.push(formatNumber(details[i].blockNumber));
-    events.values[0].push(details[i].events);
-    events.values[1].push((eventAvg - details[i].events) / (details.length - 1));
+    const blockNumber = formatNumber(details[i].block.number);
 
-    extrinsics.labels.push(formatNumber(details[i].blockNumber));
-    extrinsics.values[0].push(details[i].extrinsics);
-    extrinsics.values[1].push((txAvg - details[i].extrinsics) / (details.length - 1));
+    blocks.labels.push(blockNumber);
+    blocks.values[0].push(details[i].block.bytes);
+    blocks.values[1].push((blockTotal - details[i].block.bytes) / (details.length - 1));
+
+    events.labels.push(blockNumber);
+    events.values[0].push(details[i].events.count);
+    events.values[1].push(details[i].events.system);
+    events.values[2].push((eventTotal - details[i].events.count) / (details.length - 1));
+
+    extrinsics.labels.push(blockNumber);
+    extrinsics.values[0].push(details[i].extrinsics.count);
+    extrinsics.values[1].push((txTotal - details[i].extrinsics.count) / (details.length - 1));
   }
 
   const filtered = details.filter(({ delay }) => delay);
   const avgBase = timeAvg * filtered.length;
 
   for (let i = 0; i < filtered.length; i++) {
-    times.labels.push(formatNumber(filtered[i].blockNumber));
+    times.labels.push(formatNumber(filtered[i].block.number));
     times.values[0].push(filtered[i].delay / 1000);
     times.values[1].push((avgBase - filtered[i].delay) / (filtered.length - 1) / 1000);
   }
 
   return {
     blockLast: times.values[0][times.values[0].length - 1],
+    blocks,
     events,
     extrinsics,
     times
@@ -91,13 +106,14 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { blockLast, events, extrinsics, times } = useMemo(
+  const { blockLast, blocks, events, extrinsics, times } = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const { eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
+  const { blocksLegend, eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
     () => ({
+      blocksLegend: [t<string>('bytes'), t<string>('average')],
       eventsLegend: [t<string>('events'), t<string>('system'), t<string>('average')],
       extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
       timesLegend: [t<string>('blocktime'), t<string>('average')]
@@ -139,13 +155,13 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
         />
       </div>
       <div className='container'>
-        <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
+        <h1>{t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}</h1>
         <Chart.Line
-          colors={COLORS_EVENTS}
-          labels={events.labels}
-          legends={eventsLegend}
+          colors={COLORS_BLOCKS}
+          labels={blocks.labels}
+          legends={blocksLegend}
           options={OPTIONS}
-          values={events.values}
+          values={blocks.values}
         />
       </div>
       <div className='container'>
@@ -156,6 +172,16 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
           legends={extrinsicsLegend}
           options={OPTIONS}
           values={extrinsics.values}
+        />
+      </div>
+      <div className='container'>
+        <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
+        <Chart.Line
+          colors={COLORS_EVENTS}
+          labels={events.labels}
+          legends={eventsLegend}
+          options={OPTIONS}
+          values={events.values}
         />
       </div>
     </div>

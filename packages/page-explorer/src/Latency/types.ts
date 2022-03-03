@@ -4,10 +4,19 @@
 import type { Hash } from '@polkadot/types/interfaces';
 
 export interface Detail {
-  blockNumber: number;
+  block: {
+    bytes: number;
+    number: number;
+  };
   delay: number;
-  events: number;
-  extrinsics: number;
+  events: {
+    count: number;
+    system: number;
+  };
+  extrinsics: {
+    bytes: number;
+    count: number;
+  };
   now: number;
   parentHash: Hash;
 }
