@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Params } from './types';
+
 import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -11,14 +13,15 @@ import usePoolIds from './usePoolIds';
 
 interface Props {
   className?: string;
+  params: Params;
 }
 
-function Pools ({ className }: Props): React.ReactElement<Props> {
+function Pools ({ className, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const ids = usePoolIds();
 
   const header = useMemo(() => [
-    [t('pools'), 'start']
+    [t('pools'), 'start', 3]
   ], [t]);
 
   return (
@@ -32,6 +35,7 @@ function Pools ({ className }: Props): React.ReactElement<Props> {
         <Pool
           id={id}
           key={id.toString()}
+          params={params}
         />
       ))}
     </Table>
