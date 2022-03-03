@@ -69,9 +69,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'bifrost',
-      text: t('rpc.test.bifrost', 'Bifrost', { ns: 'apps-config' }),
+      text: t('rpc.test.bifrost', 'Bifrost Stage Network', { ns: 'apps-config' }),
       providers: {
-        Liebi: 'wss://asgard-rpc.liebi.com/ws'
+        Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
       }
     },
     {
@@ -312,6 +312,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'neumann',
       text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
+        OAK: 'wss://rpc.testnet.oak.tech',
         OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
       }
     },
@@ -450,6 +451,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'sora-substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'

@@ -52,7 +52,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
         {api.query.identity && (
           <Toggle
             className='staking--buttonToggle'
-            label={t<string>('only with an identity')}
+            label={t<string>('with an identity')}
             onChange={setWithIdentity}
             value={withIdentity}
           />
