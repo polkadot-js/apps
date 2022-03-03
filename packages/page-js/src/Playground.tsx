@@ -150,27 +150,31 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const _runJs = useCallback(
-    async (): Promise<void> => {
-      setIsRunning(true);
-      _clearConsole();
+    (): void => {
+      async function run () {
+        setIsRunning(true);
+        _clearConsole();
 
-      injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
+        injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
 
-      await injectedRef.current.api.isReady;
+        await injectedRef.current.api.isReady;
 
-      try {
-        // squash into a single line so exceptions (with line numbers) maps to the
-        // same line/origin as we have in the editor view
-        // TODO: Make the console.error here actually return the full stack
-        const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+        try {
+          // squash into a single line so exceptions (with line numbers) maps to the
+          // same line/origin as we have in the editor view
+          // TODO: Make the console.error here actually return the full stack
+          const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
-        // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
-        new Function('injected', exec).bind({}, injectedRef.current)();
-      } catch (error) {
-        injectedRef.current.console.error(error);
+          // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
+          new Function('injected', exec).bind({}, injectedRef.current)();
+        } catch (error) {
+          injectedRef.current.console.error(error);
+        }
+
+        setIsRunning(false);
       }
 
-      setIsRunning(false);
+      run().catch(console.error);
     },
     [_clearConsole, _hookConsole, apiProps, code]
   );

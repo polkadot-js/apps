@@ -5,9 +5,9 @@ import type { ValidateInfo } from './types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Dropdown, InputAddress, InputNumber, Modal } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BN, BN_HUNDRED as MAX_COMM, isFunction } from '@polkadot/util';
+import { Dropdown, InputAddress, InputNumber, MarkError, Modal } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN, BN_HUNDRED as MAX_COMM, BN_ONE, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -25,7 +25,8 @@ const COMM_MUL = new BN(1e7);
 function Validate ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [commission, setCommission] = useState<BN | number>(1);
+  const minComm = useCall<BN>(api.query.staking.minCommission);
+  const [commission, setCommission] = useState(BN_ONE);
   const [allowNoms, setAllowNoms] = useState(true);
 
   const blockedOptions = useRef([
@@ -49,11 +50,13 @@ function Validate ({ className = '', controllerId, onChange, stashId, withFocus,
   const _setCommission = useCallback(
     (value?: BN) => value && setCommission(
       value.isZero()
-        ? 1 // small non-zero set to avoid isEmpty
+        ? BN_ONE // small non-zero set to avoid isEmpty
         : value.mul(COMM_MUL)
     ),
     []
   );
+
+  const commErr = !!minComm && commission.lt(minComm);
 
   return (
     <div className={className}>
@@ -75,11 +78,15 @@ function Validate ({ className = '', controllerId, onChange, stashId, withFocus,
         <InputNumber
           autoFocus={withFocus}
           help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
+          isError={commErr}
           isZeroable
           label={t<string>('reward commission percentage')}
           maxValue={MAX_COMM}
           onChange={_setCommission}
         />
+        {commErr && (
+          <MarkError content={t<string>('The commission is below the on-chain minimum of {{p}}%', { replace: { p: (minComm.mul(MAX_COMM).div(COMM_MUL).toNumber() / 100).toFixed(2) } })} />
+        )}
       </Modal.Columns>
       {isFunction(api.tx.staking.kick) && (
         <Modal.Columns hint={t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}>

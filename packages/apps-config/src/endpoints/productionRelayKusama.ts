@@ -27,7 +27,7 @@ export function createKusama (t: TFunction): EndpointOption {
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
-    teleport: [1000],
+    teleport: [1000, 1001],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
@@ -39,6 +39,16 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
           OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+        },
+        teleport: [-1]
+      },
+      {
+        info: 'encointer',
+        homepage: 'https://encointer.org/',
+        paraId: 1001,
+        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://api.kusama.encointer.org'
         },
         teleport: [-1]
       },
@@ -116,15 +126,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'encointer',
-        homepage: 'https://encointer.org/',
-        paraId: 1001,
-        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.kusama.encointer.org'
-        }
-      },
-      {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
         isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
@@ -154,7 +155,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
           'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://karura.polkawallet.io',
-          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+          Dwellir: 'wss://karura-rpc.dwellir.com'
         }
       },
       {
@@ -255,7 +257,8 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer'
+          Dwellir: 'wss://moonriver-rpc.dwellir.com'
+          // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
         }
       },
       {
