@@ -151,7 +151,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rocfinity',
         isDisabled: false,
-        paraId: 2110,
+        paraId: 2051,
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.rococo.efinity.io'
