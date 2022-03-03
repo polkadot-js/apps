@@ -43,15 +43,6 @@ export function createWestend (t: TFunction): EndpointOption {
         },
         teleport: [-1]
       },
-      {
-        info: 'encointer',
-        paraId: 1001,
-        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.westend.encointer.org'
-        },
-        teleport: [-1]
-      },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
