@@ -16,7 +16,7 @@ export interface InflationParams {
   stakeTarget: number;
 }
 
-export interface UniformEraPayoutInflationParams extends InflationParams {
+interface UniformEraPayoutInflationParams extends InflationParams {
   yearlyInflationInTokens: BN;
 }
 
@@ -44,7 +44,7 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
   [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 }
 };
 
-export function getInflationParams (api: ApiPromise): InflationParams {
+export function getInflationParams (api: ApiPromise): InflationParams | UniformEraPayoutInflationParams {
   // below behaviour is different between our fork and upstream, that by default we are operating
   // in uniform era payout model, rather than Polkadot-js's RewardCurve model
   return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_UNIFORM_ERA_PAYOUT_PARAMS;
