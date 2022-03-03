@@ -29,7 +29,7 @@ export function createWestend (t: TFunction): EndpointOption {
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     },
-    teleport: [1000, 1001],
+    teleport: [1000],
     linked: [
       // (1) system parachains (none available yet)
       // ...
