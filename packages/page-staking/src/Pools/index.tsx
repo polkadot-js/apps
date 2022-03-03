@@ -23,7 +23,7 @@ function NominationPools ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Create params={params} />
       </Button.Group>
-      <Pools />
+      <Pools params={params} />
     </div>
   );
 }
