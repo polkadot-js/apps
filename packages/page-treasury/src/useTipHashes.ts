@@ -13,7 +13,11 @@ const options = {
 
 function useTipHashesImpl (): string[] | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.tips?.NewTip, api.events.tips?.TipClosed, api.events.tips?.TipRetracted]);
+  const trigger = useEventTrigger([
+    api.events.tips?.NewTip,
+    api.events.tips?.TipClosed,
+    api.events.tips?.TipRetracted
+  ]);
 
   return useMapKeys((api.query.tips || api.query.treasury)?.tips, options, trigger.blockHash);
 }
