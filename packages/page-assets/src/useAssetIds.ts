@@ -15,7 +15,10 @@ const options = {
 
 function useAssetIdsImpl (): AssetId[] | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.assets.Created, api.events.assets.Destroyed]);
+  const trigger = useEventTrigger([
+    api.events.assets.Created,
+    api.events.assets.Destroyed
+  ]);
 
   return useMapKeys(api.query.assets.asset, options, trigger.blockHash);
 }
