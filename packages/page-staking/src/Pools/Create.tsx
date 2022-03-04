@@ -14,10 +14,11 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isDisabled?: boolean;
   params: Params;
 }
 
-function Create ({ className, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> | null {
+function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -34,14 +35,11 @@ function Create ({ className, params: { minCreateBond, minNominatorBond } }: Pro
     [amount, minValue]
   );
 
-  if (!minValue) {
-    return null;
-  }
-
   return (
     <>
       <Button
         icon='plus'
+        isDisabled={isDisabled || !minValue}
         label={t<string>('Add pool')}
         onClick={toggleOpen}
       />

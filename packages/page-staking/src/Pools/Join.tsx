@@ -37,7 +37,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
     [amount, minAmount]
   );
 
-  if (!minAmount || isDisabled) {
+  if (isDisabled) {
     return null;
   }
 
@@ -45,6 +45,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
     <>
       <Button
         icon='plus'
+        isDisabled={isDisabled || !minAmount}
         label={t<string>('Join')}
         onClick={toggleOpen}
       />

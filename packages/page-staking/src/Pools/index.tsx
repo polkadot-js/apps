@@ -9,21 +9,29 @@ import Create from './Create';
 import Pools from './Pools';
 import Summary from './Summary';
 import useParams from './useParams';
+import usePoolIds from './usePoolIds';
 
 interface Props {
   className?: string;
 }
 
 function NominationPools ({ className }: Props): React.ReactElement<Props> {
+  const ids = usePoolIds();
   const params = useParams();
 
   return (
     <div className={className}>
       <Summary params={params} />
       <Button.Group>
-        <Create params={params} />
+        <Create
+          isDisabled={!ids || (!!params.maxPools && ids.length > params.maxPools)}
+          params={params}
+        />
       </Button.Group>
-      <Pools params={params} />
+      <Pools
+        ids={ids}
+        params={params}
+      />
     </div>
   );
 }
