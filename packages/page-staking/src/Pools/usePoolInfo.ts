@@ -2,12 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
+import type { PoolInfo } from './types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
-const options = {};
+const options = {
+  transform: ([bonded, reward]: [Record<string, Codec>, Record<string, Codec>]): PoolInfo => ({
+    bonded,
+    reward
+  })
+};
 
-function usePoolInfoImpl (id: AccountId) {
+function usePoolInfoImpl (id: AccountId): PoolInfo {
   const { api } = useApi();
 
   return useCallMulti([
