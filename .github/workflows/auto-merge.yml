@@ -5,7 +5,7 @@ on:
     types: [labeled]
 
 jobs:
-  auto-merge:
+  merge:
     runs-on: ubuntu-latest
     steps:
       - uses: jacogr/action-merge@master
