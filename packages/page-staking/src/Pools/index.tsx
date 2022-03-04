@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
@@ -19,12 +19,20 @@ function NominationPools ({ className }: Props): React.ReactElement<Props> {
   const ids = usePoolIds();
   const params = useParams();
 
+  const noCreate = useMemo(
+    () => !ids || (!!params.maxPools && (ids.length > params.maxPools)),
+    [ids, params]
+  );
+
   return (
     <div className={className}>
-      <Summary params={params} />
+      <Summary
+        params={params}
+        poolCount={ids?.length}
+      />
       <Button.Group>
         <Create
-          isDisabled={!ids || (!!params.maxPools && ids.length > params.maxPools)}
+          isDisabled={noCreate}
           params={params}
         />
       </Button.Group>

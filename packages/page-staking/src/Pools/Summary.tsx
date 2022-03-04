@@ -13,19 +13,20 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   params: Params;
+  poolCount?: number;
 }
 
-function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPools } }: Props): React.ReactElement<Props> | null {
+function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPools }, poolCount }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={className}>
+      {maxDelegators && (
+        <CardSummary label={t<string>('pools')}>
+          {poolCount && <>{formatNumber(poolCount)}&nbsp;&nbsp;</>}{formatNumber(maxPools)}
+        </CardSummary>
+      )}
       <section>
-        {maxDelegators && (
-          <CardSummary label={t<string>('max. pools')}>
-            {formatNumber(maxPools)}
-          </CardSummary>
-        )}
         {maxDelegatorsPool && (
           <CardSummary label={t<string>('max. delegators')}>
             {formatNumber(maxDelegators)}
