@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -24,11 +24,19 @@ function Create ({ className, params: { minCreateBond, minNominatorBond } }: Pro
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
 
-  if (!minCreateBond || !minNominatorBond) {
+  const minValue = useMemo(
+    () => minCreateBond && minNominatorBond && bnMax(minCreateBond, minNominatorBond),
+    [minCreateBond, minNominatorBond]
+  );
+
+  const isAmountError = useMemo(
+    () => !amount || !minValue || amount.lt(minValue),
+    [amount, minValue]
+  );
+
+  if (!minValue) {
     return null;
   }
-
-  const startValue = bnMax(minCreateBond, minNominatorBond);
 
   return (
     <>
@@ -40,7 +48,7 @@ function Create ({ className, params: { minCreateBond, minNominatorBond } }: Pro
       {isOpen && (
         <Modal
           className={className}
-          label={t<string>('Create nomination pool')}
+          header={t<string>('Create nomination pool')}
           onClose={toggleOpen}
           size='large'
         >
@@ -56,8 +64,8 @@ function Create ({ className, params: { minCreateBond, minNominatorBond } }: Pro
             <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
-                defaultValue={startValue}
-                isError={amount}
+                defaultValue={minValue}
+                isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}
               />
@@ -67,10 +75,10 @@ function Create ({ className, params: { minCreateBond, minNominatorBond } }: Pro
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!accountId}
+              isDisabled={!accountId || isAmountError}
               label={t<string>('Create')}
               onStart={toggleOpen}
-              params={[amount, 0, accountId, accountId, accountId]}
+              params={[amount, accountId, accountId, accountId]}
               tx={api.tx.nominationPools.create}
             />
           </Modal.Actions>

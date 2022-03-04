@@ -5,10 +5,11 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,14 +20,24 @@ interface Props {
   params: Params;
 }
 
-function Join ({ className, id, isDisabled, params: { minNominatorBond } }: Props): React.ReactElement<Props> | null {
+function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorBond } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
 
-  if (!minNominatorBond || isDisabled) {
+  const minAmount = useMemo(
+    () => minJoinBond && minNominatorBond && bnMax(minJoinBond, minNominatorBond),
+    [minJoinBond, minNominatorBond]
+  );
+
+  const isAmountError = useMemo(
+    () => !amount || !minAmount || amount.lt(minAmount),
+    [amount, minAmount]
+  );
+
+  if (!minAmount || isDisabled) {
     return null;
   }
 
@@ -40,7 +51,7 @@ function Join ({ className, id, isDisabled, params: { minNominatorBond } }: Prop
       {isOpen && (
         <Modal
           className={className}
-          label={t<string>('Join nomination pool')}
+          header={t<string>('Join nomination pool')}
           onClose={toggleOpen}
           size='large'
         >
@@ -56,8 +67,8 @@ function Join ({ className, id, isDisabled, params: { minNominatorBond } }: Prop
             <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
-                defaultValue={minNominatorBond}
-                isError={amount}
+                defaultValue={minAmount}
+                isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}
               />
@@ -67,7 +78,7 @@ function Join ({ className, id, isDisabled, params: { minNominatorBond } }: Prop
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!accountId}
+              isDisabled={!accountId || isAmountError}
               label={t<string>('Join')}
               onStart={toggleOpen}
               params={[amount, id]}

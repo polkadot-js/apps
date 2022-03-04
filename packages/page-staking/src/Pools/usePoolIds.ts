@@ -21,7 +21,7 @@ function usePoolIdsImpl (): AccountId[] | undefined {
   // the list cannot trigger for updates as items are added
   const trigger = useEventTrigger([]);
 
-  return useMapKeys(api.query.nominatorPools.bondedPools, options, trigger.blockHash);
+  return useMapKeys(api.query.nominationPools.bondedPools, options, trigger.blockHash);
 }
 
 export default createNamedHook('usePoolIds', usePoolIdsImpl);

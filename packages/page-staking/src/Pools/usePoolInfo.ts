@@ -11,8 +11,8 @@ function usePoolInfoImpl (id: AccountId) {
   const { api } = useApi();
 
   return useCallMulti([
-    [api.query.nominatorPools.bondedPools, id],
-    [api.query.nominatorPools.rewardPools, id]
+    [api.query.nominationPools.bondedPools, id],
+    [api.query.nominationPools.rewardPools, id]
   ], options);
 }
 

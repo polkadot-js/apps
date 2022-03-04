@@ -14,11 +14,12 @@ const queryOptions = {
     maxDelegatorsPool: 0,
     maxPools: 0
   },
-  transform: ([maxDelegators, maxDelegatorsPerPool, maxPools, minCreateBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN]): Params => ({
+  transform: ([maxDelegators, maxDelegatorsPerPool, maxPools, minCreateBond, minJoinBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN, BN]): Params => ({
     maxDelegators: maxDelegators.unwrapOr(BN_ZERO).toNumber(),
     maxDelegatorsPool: maxDelegatorsPerPool.unwrapOr(BN_ZERO).toNumber(),
     maxPools: maxPools.unwrapOr(BN_ZERO).toNumber(),
     minCreateBond,
+    minJoinBond,
     minNominatorBond
   })
 };
@@ -30,7 +31,8 @@ function useParamsImpl (): Params {
     api.query.nominationPools.maxDelegators,
     api.query.nominationPools.maxDelegatorsPerPool,
     api.query.nominationPools.maxPools,
-    api.query.nominatorPools.minCreateBond,
+    api.query.nominationPools.minCreateBond,
+    api.query.nominationPools.minJoinBond,
     api.query.staking.minNominatorBond
   ], queryOptions);
 }

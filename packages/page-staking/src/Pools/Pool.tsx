@@ -24,7 +24,7 @@ function Pool ({ className, id, params }: Props): React.ReactElement<Props> {
   return (
     <tr className={className}>
       <td><AccountName value={id} /></td>
-      <td>{stringify(info)}</td>
+      <td><pre>{stringify(info, 2)}</pre></td>
       <td className='button'>
         <Join
           id={id}
