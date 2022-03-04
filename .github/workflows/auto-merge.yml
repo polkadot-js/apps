@@ -1,4 +1,4 @@
-name: PR
+name: bot
 
 on:
   pull_request:
@@ -11,6 +11,6 @@ jobs:
       - uses: jacogr/action-merge@master
         with:
           checks: build:code,build:i18n,build:electron,lint,test
-          labels: automerge
+          labels: -auto
           strategy: squash
           token: ${{ secrets.GH_PAT_BOT }}

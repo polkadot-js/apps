@@ -1,4 +1,4 @@
-name: PR
+name: bot
 
 on:
   pull_request:
@@ -12,5 +12,5 @@ jobs:
       - uses: jacogr/action-approve@master
         with:
           authors: jacogr
-          labels: automerge
+          labels: -auto
           token: ${{ secrets.GH_PAT_BOT }}
