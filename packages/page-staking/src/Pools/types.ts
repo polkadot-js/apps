@@ -25,11 +25,11 @@ export interface PoolInfo {
       isOpen: boolean;
     }
     stateToggler: AccountId;
-  };
+  } | null;
   reward: {
     account: AccountId;
     balance: BN;
     points: BN;
     totalEarnings: BN;
-  };
+  } | null;
 }

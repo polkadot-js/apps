@@ -1,15 +1,17 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
 import type { PoolInfo } from './types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 const options = {
-  transform: ([bonded, reward]: [PoolInfo['bonded'], PoolInfo['reward']]): PoolInfo => ({
-    bonded,
-    reward
+  transform: ([bonded, reward]: [Option<PoolInfo['bonded'] & Codec>, Option<PoolInfo['reward'] & Codec>]): PoolInfo => ({
+    bonded: bonded.unwrapOr(null),
+    reward: reward.unwrapOr(null)
   })
 };
 

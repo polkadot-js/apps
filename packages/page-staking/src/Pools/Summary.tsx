@@ -23,7 +23,7 @@ function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPo
     <SummaryBox className={className}>
       {maxDelegators && (
         <CardSummary label={t<string>('pools')}>
-          {poolCount && <>{formatNumber(poolCount)}&nbsp;&nbsp;</>}{formatNumber(maxPools)}
+          {poolCount && <>{formatNumber(poolCount)}&nbsp;/&nbsp;</>}{formatNumber(maxPools)}
         </CardSummary>
       )}
       <section>

@@ -21,7 +21,9 @@ function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [t('pools'), 'start', 3]
+    [t('pools'), 'start'],
+    [t('points')],
+    [t('delegators')]
   ], [t]);
 
   return (
