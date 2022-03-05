@@ -30,17 +30,17 @@ function getSetter ({ extrinsics }: Block): GenericExtrinsic | undefined {
 
 function calcDelay (details: Detail[]): Detail[] {
   const filtered = details
-    .sort((a, b) => a.blockNumber - b.blockNumber)
-    .filter(({ blockNumber }, index) =>
+    .sort((a, b) => a.block.number - b.block.number)
+    .filter(({ block }, index) =>
       index === 0 ||
-      blockNumber > details[index - 1].blockNumber
+      block.number > details[index - 1].block.number
     );
 
   for (let i = 0; i < filtered.length - 1; i++) {
     const a = filtered[i];
     const b = filtered[i + 1];
 
-    if ((b.blockNumber - a.blockNumber) === 1 && b.delay === 0) {
+    if ((b.block.number - a.block.number) === 1 && b.delay === 0) {
       b.delay = b.now - a.now;
     }
   }
@@ -58,10 +58,19 @@ function addBlock (prev: Detail[], { block, events }: SignedBlockExtended): Deta
   return [
     ...prev,
     {
-      blockNumber: block.header.number.toNumber(),
-      countEvents: events.length,
-      countExtrinsics: block.extrinsics.length,
+      block: {
+        bytes: block.encodedLength,
+        number: block.header.number.toNumber()
+      },
       delay: 0,
+      events: {
+        count: events.length,
+        system: events.filter(({ phase }) => !phase.isApplyExtrinsic).length
+      },
+      extrinsics: {
+        bytes: block.extrinsics.reduce((a, x) => a + x.encodedLength, 0),
+        count: block.extrinsics.length
+      },
       now: (setter.args[0] as u32).toNumber(),
       parentHash: block.header.parentHash
     }
@@ -95,7 +104,7 @@ async function getPrev (api: ApiPromise, { block: { header } }: SignedBlockExten
   return getBlocks(api, blockNumbers);
 }
 
-async function getNext (api: ApiPromise, { blockNumber: start }: Detail, { blockNumber: end }: Detail): Promise<SignedBlockExtended[]> {
+async function getNext (api: ApiPromise, { block: { number: start } }: Detail, { block: { number: end } }: Detail): Promise<SignedBlockExtended[]> {
   const blockNumbers: number[] = [];
 
   for (let n = start + 1; n < end; n++) {
@@ -134,9 +143,9 @@ export default function useLatency (): Result {
       return;
     }
 
-    const lastIndex = details.findIndex(({ blockNumber }, index) =>
+    const lastIndex = details.findIndex(({ block }, index) =>
       index !== (details.length - 1) &&
-      (details[index + 1].blockNumber - blockNumber) > 1
+      (details[index + 1].block.number - block.number) > 1
     );
 
     if (lastIndex === -1) {

@@ -1,17 +1,16 @@
-name: PR
+name: bot
 
 on:
   pull_request:
     types: [labeled]
 
 jobs:
-  auto-merge:
+  merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: jacogr/action-merge@master
         with:
           checks: build:code,build:i18n,build:electron,lint,test
-          labels: automerge
+          labels: -auto
           strategy: squash
           token: ${{ secrets.GH_PAT_BOT }}
