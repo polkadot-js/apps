@@ -243,6 +243,7 @@
        1	mateuszaaa                    	add: Mangata network for kusama (#7015)
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
+       1	Mickaël Canu                  	fix error on validator word (#7110)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	mosonyi                       	[Integritee] Add OnFinality endpoint (#7027)
