@@ -74,7 +74,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
           Astar: 'wss://rpc.astar.network',
-          OnFinality: 'wss://astar.api.onfinality.io/public-ws'
+          OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+          Dwellir: 'wss://astar-rpc.dwellir.com'
         }
       },
       {
