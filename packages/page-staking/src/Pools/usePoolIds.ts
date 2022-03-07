@@ -16,10 +16,10 @@ const options = {
 
 function usePoolIdsImpl (): AccountId[] | undefined {
   const { api } = useApi();
-
-  // FIXME??? There are actually no events atm for Create/Destroy, so
-  // the list cannot trigger for updates as items are added
-  const trigger = useEventTrigger([]);
+  const trigger = useEventTrigger([
+    api.events.nominationPools.Created,
+    api.events.nominationPools.Destoryed
+  ]);
 
   return useMapKeys(api.query.nominationPools.bondedPools, options, trigger.blockHash);
 }
