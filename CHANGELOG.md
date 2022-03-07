@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Only disable fast-track on super majority (aligns with Substrate)
+
+
 ## 0.108.1 Mar 7, 2022
 
 Contributed:
