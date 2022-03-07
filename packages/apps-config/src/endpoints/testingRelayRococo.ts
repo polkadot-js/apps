@@ -266,6 +266,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoSpreehafen',
+        isDisabled: false,
+        paraId: 2026,
+        text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://spreehafen.datahighway.com'
+        }
+      },
+      {
         info: 'rococoSingLavender',
         isDisabled: true, // Rococo reset
         paraId: 2104,
