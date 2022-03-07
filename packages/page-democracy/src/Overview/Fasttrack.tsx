@@ -145,7 +145,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
             <TxButton
               accountId={accountId}
               extrinsic={extrinsic}
-              icon='fast-forward'
+              icon='forward-fast'
               isDisabled={!accountId}
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
@@ -154,7 +154,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
         </Modal>
       )}
       <Button
-        icon='fast-forward'
+        icon='forward-fast'
         isDisabled={!threshold.isSimpleMajority}
         label={t<string>('Fast track')}
         onClick={toggleFasttrack}
