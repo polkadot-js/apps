@@ -48,7 +48,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1001,
         text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
-          'Encointer Association': 'wss://api.kusama.encointer.org'
+          'Encointer Association': 'wss://kusama.api.encointer.org',
+          OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },
