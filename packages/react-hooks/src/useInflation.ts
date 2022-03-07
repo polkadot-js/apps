@@ -8,7 +8,8 @@ import type { Inflation } from './types';
 import { useEffect, useState } from 'react';
 
 import { getInflationParams } from '@polkadot/apps-config';
-import { BN_MILLION, BN_ZERO } from '@polkadot/util';
+import { BN_BILLION, BN_MILLION, BN_ZERO } from '@polkadot/util';
+import { BN_THOUSAND } from '@polkadot/util/bn/consts';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
@@ -16,26 +17,43 @@ import { useCall } from './useCall';
 
 const EMPTY: Inflation = { idealInterest: 0, idealStake: 0, inflation: 0, stakedFraction: 0, stakedReturn: 0 };
 
+function calcInflationUniformEraPayout (totalIssuance: BN, yearlyInflationInTokens: BN): number {
+  const totalIssuanceInTokens = totalIssuance.div(BN_BILLION).div(BN_THOUSAND);
+
+  return (totalIssuanceInTokens.isZero() ? 0.0 : yearlyInflationInTokens.toNumber() / totalIssuanceInTokens.toNumber());
+}
+
+function calcInflationRewardCurve (minInflation: number, stakedFraction: number, idealStake: number, idealInterest: number, falloff: number) {
+  return (minInflation + (
+    stakedFraction <= idealStake
+      ? (stakedFraction * (idealInterest - (minInflation / idealStake)))
+      : (((idealInterest * idealStake) - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
+  ));
+}
+
 function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, numAuctions: BN): Inflation {
-  const { auctionAdjust, auctionMax, falloff, maxInflation, minInflation, stakeTarget } = getInflationParams(api);
+  const inflationParams = getInflationParams(api);
+  const { auctionAdjust, auctionMax, falloff, maxInflation, minInflation, stakeTarget } = inflationParams;
   const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
     ? 0
     : totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
   const idealStake = stakeTarget - (Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust);
   const idealInterest = maxInflation / idealStake;
-  const inflation = 100 * (minInflation + (
-    stakedFraction <= idealStake
-      ? (stakedFraction * (idealInterest - (minInflation / idealStake)))
-      : (((idealInterest * idealStake) - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
-  ));
+  let inflationInPercentage = 0;
+
+  if ('yearlyInflationInTokens' in inflationParams) {
+    inflationInPercentage = 100 * calcInflationUniformEraPayout(totalIssuance, inflationParams.yearlyInflationInTokens);
+  } else {
+    inflationInPercentage = 100 * calcInflationRewardCurve(minInflation, stakedFraction, idealStake, idealInterest, falloff);
+  }
 
   return {
     idealInterest,
     idealStake,
-    inflation,
+    inflation: inflationInPercentage,
     stakedFraction,
     stakedReturn: stakedFraction
-      ? (inflation / stakedFraction)
+      ? (inflationInPercentage / stakedFraction)
       : 0
   };
 }
