@@ -131,8 +131,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const bonded = stakingInfo?.stakingLedger.active || (stakingInfo?.stakingLedger as unknown as any)?.activeRing;
+
       setBalance(address, {
-        bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        bonded: bonded?.unwrap() ?? BN_ZERO,
         locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable ?? BN_ZERO,
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),

@@ -14,7 +14,8 @@ const hasPublic = fs.existsSync(path.join(context, 'public'));
 module.exports = merge(
   baseConfig(context),
   {
-    devtool: process.env.BUILD_ANALYZE ? 'source-map' : false,
+    // devtool: process.env.BUILD_ANALYZE ? 'source-map' : false,
+    devtool: true,
     plugins: [
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
