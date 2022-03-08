@@ -149,6 +149,7 @@ import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
+import nodeMinix from './nodes/minix.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -253,6 +254,8 @@ export const chainLogos = Object.entries({
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
+  Minix: nodeMinix,
+  'Minix Testnet': nodeMinix,
   Mangata: chainMangata,
   'Manta Parachain': nodeManta,
   'Manta Parachain Development': nodeManta,
@@ -422,6 +425,7 @@ export const nodeLogos = Object.entries({
   'Laminar Node': nodeLaminar,
   // Litentry: nodeLitentry,
   // 'Litentry Collator': nodeLitentry,
+  minix: nodeMinix,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -608,6 +612,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
+  minix: nodeMinix,
   mangata: chainMangata,
   manta: nodeManta,
   mars: nodeAresMars,

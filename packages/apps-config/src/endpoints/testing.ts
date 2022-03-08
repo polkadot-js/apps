@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'minix',
+      text: t('rpc.test.minix', 'MiniX Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://minichain.coming.chat/ws'
+      }
+    },
+    {
       info: 'ajuna',
       text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
       providers: {
