@@ -112,6 +112,7 @@ import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
+import nodeMinix from './nodes/minix.png';
 import moonbase from './nodes/moonbase_alpha.png';
 import moonbeam from './nodes/moonbeam.png';
 import moonriver from './nodes/moonriver.svg';
@@ -149,7 +150,6 @@ import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
-import nodeMinix from './nodes/minix.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -254,8 +254,6 @@ export const chainLogos = Object.entries({
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
-  Minix: nodeMinix,
-  'Minix Testnet': nodeMinix,
   Mangata: chainMangata,
   'Manta Parachain': nodeManta,
   'Manta Parachain Development': nodeManta,
@@ -265,6 +263,8 @@ export const chainLogos = Object.entries({
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
   'mathchain-galois': nodeMath,
+  Minix: nodeMinix,
+  'Minix Testnet': nodeMinix,
   'Moonbase Alpha': moonbase,
   'Moonbase Development Testnet': moonbase,
   'Moonbase Stage': moonbase,
@@ -425,12 +425,12 @@ export const nodeLogos = Object.entries({
   'Laminar Node': nodeLaminar,
   // Litentry: nodeLitentry,
   // 'Litentry Collator': nodeLitentry,
-  minix: nodeMinix,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
   MathChain: nodeMath,
   'mathChain-galois': nodeMath,
+  minix: nodeMinix,
   Moonrock: nodeMoonrock,
   'Moonsama Development': chainMoonsamaDevelopment,
   'mybank.network': mybank,
@@ -612,11 +612,11 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
-  minix: nodeMinix,
   mangata: chainMangata,
   manta: nodeManta,
   mars: nodeAresMars,
   mathchain: nodeMath,
+  minix: nodeMinix,
   moonbaseAlpha: moonbase,
   moonbeam: moonbeam,
   moonriver: moonriver,
