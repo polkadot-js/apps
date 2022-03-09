@@ -39,7 +39,8 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://westmint-rpc.polkadot.io'
+          Parity: 'wss://westmint-rpc.polkadot.io',
+          Dwellir: 'wss://westmint-rpc.dwellir.com'
         },
         teleport: [-1]
       },

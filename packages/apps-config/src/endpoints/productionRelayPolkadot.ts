@@ -37,7 +37,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rpc.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
+          Dwellir: 'wss://statemint-rpc.dwellir.com'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")

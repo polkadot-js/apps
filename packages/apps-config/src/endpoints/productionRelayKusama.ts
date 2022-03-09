@@ -38,7 +38,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+          Dwellir: 'wss://statemine-rpc.dwellir.com'
         },
         teleport: [-1]
       },
