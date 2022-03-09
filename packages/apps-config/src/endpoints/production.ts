@@ -174,18 +174,18 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'minix',
-      text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
-      providers: {
-        ChainX: 'wss://minichain-mainnet.coming.chat/ws'
-      }
-    },
-    {
       info: 'mathchain',
       text: t('rpc.prod.mathchain', 'MathChain', { ns: 'apps-config' }),
       providers: {
         MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
         'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      }
+    },
+    {
+      info: 'minix',
+      text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://minichain-mainnet.coming.chat/ws'
       }
     },
     {
