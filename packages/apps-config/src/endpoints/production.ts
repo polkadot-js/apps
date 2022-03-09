@@ -182,6 +182,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'minix',
+      text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://minichain-mainnet.coming.chat/ws'
+      }
+    },
+    {
       info: 'neatcoin',
       text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
       providers: {

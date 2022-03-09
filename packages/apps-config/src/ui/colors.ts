@@ -56,6 +56,7 @@ const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
+const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#ddf1f3';
 const chainMoonrock = '#3d1d5a';
@@ -312,6 +313,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
+  Minix: chainMinix,
+  'Minix Testnet': chainMinix,
   'Moonbase Alpha': nodeMoonbase,
   'Moonbase Development Testnet': nodeMoonbase,
   'Moonbase Stage': nodeMoonbase,
