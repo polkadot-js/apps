@@ -54,7 +54,7 @@ export function useEventChanges <T extends Codec> (checks: EventCheck[], filter:
     startValue && setState((prev) => interleave(prev, { added: startValue }));
   }, [startValue]);
 
-  // add/remove and additional items detected (only when actual events occur)
+  // add/remove any additional items detected (only when actual events occur)
   useEffect((): void => {
     blockHash && setState((prev) => interleave(prev, filter(events)));
   }, [blockHash, events, filter]);
