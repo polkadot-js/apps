@@ -38,5 +38,6 @@ export type QueryTypes = StorageModuleQuery | StorageRawQuery | ConstQuery;
 export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery | PartialConstQuery;
 
 export interface ComponentProps {
+  className?: string;
   onAdd: (query: ParitalQueryTypes) => void;
 }

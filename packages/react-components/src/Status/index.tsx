@@ -25,6 +25,7 @@ function iconName (status: string): IconName {
       return 'ban';
 
     case 'event':
+    case 'eventWarn':
       return 'assistive-listening-systems';
 
     case 'received':
@@ -282,6 +283,10 @@ export default React.memo(styled(Status)`
 
     &.event > .wrapper > .container {
       background: teal;
+    }
+
+    &.eventWarn > .wraper > .container {
+      background: orange;
     }
 
     &.completed,

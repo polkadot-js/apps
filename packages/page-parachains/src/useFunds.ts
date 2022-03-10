@@ -147,16 +147,17 @@ const optLeaseMulti = {
   withParamsTransform: true
 };
 
-function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
-  return keys.map(({ args: [paraId] }) => paraId);
-}
+const fundOpts = {
+  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
+    keys.map(({ args: [paraId] }) => paraId)
+};
 
 function useFundsImpl (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger.blockHash, transform: extractFundIds });
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, fundOpts, trigger.blockHash);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
   const [result, setResult] = useState<Campaigns>(EMPTY);

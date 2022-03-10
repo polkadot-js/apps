@@ -3,6 +3,7 @@
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
@@ -241,6 +242,13 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     toggleLedger();
   }, [toggleLedger]);
 
+  const maxNominations = useMemo(
+    () => api.consts.staking.maxNominations
+      ? (api.consts.staking.maxNominations as u32).toNumber()
+      : MAX_NOMINATIONS,
+    [api]
+  );
+
   const myNominees = useMemo(
     () => extractNominees(ownNominators),
     [ownNominators]
@@ -267,14 +275,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(
-        filtered,
-        api.consts.staking.maxNominations
-          ? api.consts.staking.maxNominations.toNumber()
-          : MAX_NOMINATIONS
-      )
+      selectProfitable(filtered, maxNominations)
     ),
-    [api, filtered]
+    [filtered, maxNominations]
   );
 
   const _setNameFilter = useCallback(
@@ -307,7 +310,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('single from operator')}
+          label={t<string>('one validator per operator')}
           onChange={setToggle.withGroup}
           value={toggles.withGroup}
         />
@@ -315,8 +318,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           className='staking--buttonToggle'
           label={
             MAX_COMM_PERCENT > 0
-              ? t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })
-              : t<string>('no median+ comm')
+              ? t<string>('comm. < {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t<string>('comm. < median')
           }
           onChange={setToggle.withoutComm}
           value={toggles.withoutComm}
@@ -325,8 +328,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           className='staking--buttonToggle'
           label={
             MAX_CAP_PERCENT < 100
-              ? t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })
-              : t<string>('no at capacity')
+              ? t<string>('capacity < {{maxCap}}%', { replace: { maxCap: MAX_CAP_PERCENT } })
+              : t<string>('with capacity')
           }
           onChange={setToggle.withoutOver}
           value={toggles.withoutOver}
@@ -342,7 +345,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         )}
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('only elected')}
+          label={t<string>('currently elected')}
           onChange={setToggle.withElected}
           value={toggles.withElected}
         />
@@ -353,9 +356,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const displayList = isQueryFiltered
     ? validators
     : sorted;
-  const maxNominations = api.consts.staking.maxNominations
-    ? api.consts.staking.maxNominations.toNumber()
-    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>

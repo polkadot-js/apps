@@ -13,6 +13,7 @@ import { SubmittableResult } from '@polkadot/api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
+import { isIncompleteEvent } from './checks';
 import { STATUS_COMPLETE } from './constants';
 import { QueueProvider } from './Context';
 
@@ -36,7 +37,10 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
 
   const initial = status
     .reduce((result: StatusCount[], status): StatusCount[] => {
-      const prev = result.find(({ status: prev }) => prev.action === status.action && prev.status === status.status);
+      const prev = result.find(({ status: prev }) =>
+        prev.action === status.action &&
+        prev.status === status.status
+      );
 
       if (prev) {
         prev.count++;
@@ -82,8 +86,13 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
     ((result && result.events) || [])
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
-      .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-      .map(({ event: { data, method, section } }): ActionStatusPartial => {
+      .filter((record) =>
+        !!record.event &&
+        record.event.section !== 'democracy'
+      )
+      .map((record): ActionStatusPartial => {
+        const { event: { data, method, section } } = record;
+
         if (section === 'system' && method === 'ExtrinsicFailed') {
           const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
           let message = dispatchError.type;
@@ -132,6 +141,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               action: `${section}.${method}`,
               message: 'contract evicted',
               status: 'error'
+            };
+          } else if (isIncompleteEvent(record)) {
+            return {
+              action: `${section}.${method}`,
+              message: 'imcomplete execution',
+              status: 'eventWarn'
             };
           }
         }
@@ -198,7 +213,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
         ...(status.map((item): QueueStatus => {
           const id = ++nextId;
           const removeItem = (): void =>
-            setStQueue([...stRef.current.filter((item): boolean => item.id !== id)]);
+            setStQueue([...stRef.current.filter((item) => item.id !== id)]);
 
           setTimeout(removeItem, REMOVE_TIMEOUT);
 
@@ -265,7 +280,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
 
       if (STATUS_COMPLETE.includes(status)) {
         setTimeout((): void => {
-          const item = txRef.current.find((item): boolean => item.id === id);
+          const item = txRef.current.find((item) => item.id === id);
 
           item && item.removeItem();
         }, REMOVE_TIMEOUT);
