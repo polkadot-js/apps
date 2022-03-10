@@ -25,6 +25,7 @@ export { useDeriveAccountFlags } from './useDeriveAccountFlags';
 export { useDeriveAccountInfo } from './useDeriveAccountInfo';
 export { useElementPosition } from './useElementPosition';
 export { useEndpoint } from './useEndpoint';
+export { useEventChanges } from './useEventChanges';
 export { useEventTrigger } from './useEventTrigger';
 export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';
