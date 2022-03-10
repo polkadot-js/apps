@@ -5,7 +5,7 @@
   "homepage": "https://github.com/polkadot-js/apps#readme",
   "license": "Apache-2.0",
   "name": "polkadot-apps",
-  "packageManager": "yarn@3.0.1",
+  "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -61,7 +61,7 @@
     "@babel/runtime": "^7.17.2",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.1.23",
-    "@polkadot/dev": "^0.65.86",
+    "@polkadot/dev": "^0.65.87",
     "@types/chart.js": "^2.9.35",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^27.4.1",
