@@ -37,7 +37,6 @@ const definitions: OverrideBundleDefinition = {
             'Membership'
           ]
         },
-        MemoText: 'Text',
         BalanceKind: {
           _enum: [
             'Positive',
@@ -579,18 +578,19 @@ const definitions: OverrideBundleDefinition = {
         ConstitutionInfo: {
           text_hash: 'Hash'
         },
-        BountyId: 'u32',
-        EntryId: 'u32',
+        BountyId: 'u64',
+        EntryId: 'u64',
         BountyActor: {
           _enum: {
             Council: 'Null',
             Member: 'MemberId'
           }
         },
+        AssuranceContractType_Closed: 'BTreeSet<MemberId>',
         AssuranceContractType: {
           _enum: {
             Open: 'Null',
-            Closed: 'Vec<MemberId>'
+            Closed: 'AssuranceContractType_Closed'
           }
         },
         FundingType_Limited: {
@@ -632,7 +632,34 @@ const definitions: OverrideBundleDefinition = {
           staking_account_id: 'AccountId',
           submitted_at: 'u32',
           work_submitted: 'bool',
-          oracle_judgment_result: 'Option<OracleJudgment>'
+          oracle_judgment_result: 'Option<OracleWorkEntryJudgment>'
+        },
+        BountyMilestone_Created: {
+          created_at: 'u32',
+          has_contributions: 'bool'
+        },
+        BountyMilestone_BountyMaxFundingReached: {
+          max_funding_reached_at: 'u32'
+        },
+        BountyMilestone_WorkSubmitted: {
+          work_period_started_at: 'u32'
+        },
+        BountyMilestone_JudgmentSubmitted: {
+          successful_bounty: 'bool'
+        },
+        BountyMilestone: {
+          _enum: {
+            Created: 'BountyMilestone_Created',
+            BountyMaxFundingReached: 'BountyMilestone_BountyMaxFundingReached',
+            WorkSubmitted: 'BountyMilestone_WorkSubmitted',
+            JudgmentSubmitted: 'BountyMilestone_JudgmentSubmitted'
+          }
+        },
+        Bounty: {
+          creation_params: 'BountyCreationParameters',
+          total_funding: 'u128',
+          milestone: 'BountyMilestone',
+          active_work_entry_count: 'u32'
         },
         CuratorId: 'u64',
         CuratorGroupId: 'u64',
@@ -688,20 +715,12 @@ const definitions: OverrideBundleDefinition = {
           assets_to_remove: 'BTreeSet<DataObjectId>',
           collaborators: 'Option<BTreeSet<MemberId>>'
         },
-        ChannelOwnershipTransferRequestId: 'u64',
-        ChannelOwnershipTransferRequest: {
-          channel_id: 'ChannelId',
-          new_owner: 'ChannelOwner',
-          payment: 'u128',
-          new_reward_account: 'Option<GenericAccountId>'
-        },
         Video: {
           in_channel: 'ChannelId',
-          in_series: 'Option<SeriesId>',
           is_censored: 'bool',
           enable_comments: 'bool',
           video_post_id: 'Option<VideoPostId>',
-          nft_status: 'Option<OwnedNFT>'
+          nft_status: 'Option<OwnedNft>'
         },
         VideoId: 'u64',
         VideoCategoryId: 'u64',
@@ -715,7 +734,8 @@ const definitions: OverrideBundleDefinition = {
         VideoCreationParameters: {
           assets: 'Option<StorageAssets>',
           meta: 'Option<Bytes>',
-          enable_comments: 'bool'
+          enable_comments: 'bool',
+          auto_issue_nft: 'Option<NftIssuanceParameters>'
         },
         VideoUpdateParameters: {
           assets_to_upload: 'Option<StorageAssets>',
@@ -723,74 +743,8 @@ const definitions: OverrideBundleDefinition = {
           assets_to_remove: 'BTreeSet<DataObjectId>',
           enable_comments: 'Option<bool>'
         },
-        Person: {
-          controlled_by: 'PersonController'
-        },
-        PersonId: 'u64',
-        PersonController: {
-          _enum: {
-            Member: 'MemberId',
-            Curators: 'Null'
-          }
-        },
-        PersonActor: {
-          _enum: {
-            Member: 'MemberId',
-            Curator: 'CuratorId'
-          }
-        },
-        PersonCreationParameters: {
-          assets: 'StorageAssets',
-          meta: 'Bytes'
-        },
-        PersonUpdateParameters: {
-          assets: 'Option<StorageAssets>',
-          meta: 'Option<Bytes>'
-        },
-        Playlist: {
-          in_channel: 'ChannelId'
-        },
-        PlaylistId: 'u64',
-        PlaylistCreationParameters: {
-          meta: 'Bytes'
-        },
-        PlaylistUpdateParameters: {
-          new_meta: 'Bytes'
-        },
-        SeriesId: 'u64',
-        Series: {
-          in_channel: 'ChannelId',
-          seasons: 'Vec<Season>'
-        },
-        Season: {
-          episodes: 'Vec<VideoId>'
-        },
-        SeriesParameters: {
-          assets: 'Option<StorageAssets>',
-          seasons: 'Option<Vec<Option<SeasonParameters>>>',
-          meta: 'Option<Bytes>'
-        },
-        SeasonParameters: {
-          assets: 'Option<StorageAssets>',
-          episodes: 'Option<Vec<Option<EpisodeParemters>>>',
-          meta: 'Option<Bytes>'
-        },
-        EpisodeParemters: {
-          _enum: {
-            NewVideo: 'VideoCreationParameters',
-            ExistingVideo: 'VideoId'
-          }
-        },
         MaxNumber: 'u32',
         IsCensored: 'bool',
-        VideoMigrationConfig: {
-          current_id: 'VideoId',
-          final_id: 'VideoId'
-        },
-        ChannelMigrationConfig: {
-          current_id: 'ChannelId',
-          final_id: 'ChannelId'
-        },
         VideoPostId: 'u64',
         ReactionId: 'u64',
         VideoPostType: {
@@ -868,14 +822,14 @@ const definitions: OverrideBundleDefinition = {
             BuyNow: 'u128'
           }
         },
-        NFTOwner: {
+        NftOwner: {
           _enum: {
             ChannelOwner: 'Null',
             Member: 'MemberId'
           }
         },
-        OwnedNFT: {
-          owner: 'NFTOwner',
+        OwnedNft: {
+          owner: 'NftOwner',
           transactional_status: 'TransactionalStatus',
           creator_royalty: 'Option<Royalty>'
         },
@@ -889,6 +843,20 @@ const definitions: OverrideBundleDefinition = {
         },
         CurrencyOf: 'u128',
         CurrencyAmount: 'u128',
+        InitTransactionalStatus: {
+          _enum: {
+            Idle: 'Null',
+            InitiatedOfferToMember: '(MemberId,Option<u128>)',
+            Auction: 'AuctionParams'
+          }
+        },
+        NftIssuanceParameters: {
+          royalty: 'Option<Royalty>',
+          nft_metadata: 'Bytes',
+          non_channel_owner: 'Option<MemberId>',
+          init_transactional_status: 'InitTransactionalStatus'
+        },
+        NftMetadata: 'Vec<u8>',
         AccountInfo: 'AccountInfoWithRefCount',
         ValidatorPrefs: 'ValidatorPrefsWithCommission'
       }
