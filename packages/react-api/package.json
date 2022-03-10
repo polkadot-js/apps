@@ -19,6 +19,6 @@
     "@polkadot/extension-dapp": "^0.42.8-15",
     "@substrate/connect": "^0.5.0",
     "fflate": "^0.7.3",
-    "rxjs": "^7.5.4"
+    "rxjs": "^7.5.5"
   }
 }
