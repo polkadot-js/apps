@@ -67,7 +67,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
 
   return {
     commission: commission?.toHuman(),
-    isChilled: commission && minCommission && commission.lt(minCommission),
+    isChilled: commission && minCommission && commission.isZero() && commission.lt(minCommission),
     nominators,
     stakeOther,
     stakeOwn,
