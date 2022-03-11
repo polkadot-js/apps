@@ -11,6 +11,7 @@ import { useAccounts } from '@polkadot/react-hooks';
 import MaxBadge from '../../MaxBadge';
 
 interface Props {
+  isChilled?: boolean;
   isElected: boolean;
   isMain?: boolean;
   isPara?: boolean;
@@ -22,7 +23,7 @@ interface Props {
 
 const NO_NOMS: { nominatorId: string }[] = [];
 
-function Status ({ isElected, isMain, isPara, isRelay, nominators = NO_NOMS, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = NO_NOMS, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
   const blockCount = onlineCount && onlineCount.toNumber();
 
@@ -52,14 +53,21 @@ function Status ({ isElected, isMain, isPara, isRelay, nominators = NO_NOMS, onl
           )
           : <Badge color='transparent' />
       )}
-      {isElected
+      {isChilled
         ? (
           <Badge
-            color='blue'
-            icon='chevron-right'
+            color='red'
+            icon='cancel'
           />
         )
-        : <Badge color='transparent' />
+        : isElected
+          ? (
+            <Badge
+              color='blue'
+              icon='chevron-right'
+            />
+          )
+          : <Badge color='transparent' />
       }
       {isMain && (
         blockCount || onlineMessage
