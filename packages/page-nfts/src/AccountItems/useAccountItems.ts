@@ -29,20 +29,17 @@ function useAccountItemsImpl (): AccountItem[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  const acc = 'EGVQCe73TpFyAZx5uKfE1222XfkT3BSKozjgcqzLBnc5eYo';
-  // const acc = 'FAfYEeXt2eL85rtERa5AHyi7RDEwBpzvcjPPouQp3rhSDtj';
   const [state, setState] = useState<AccountItem[] | undefined>();
 
   useEffect((): void => {
     if (!allAccounts.length) return;
 
-    const accounts = [...allAccounts, acc];
-    const promises = accounts.map((account) => api.query.uniques.account.keys(account));
+    const promises = allAccounts.map((account) => api.query.uniques.account.keys(account));
 
     Promise.all(promises)
       .then((results) => mountedRef.current && setState(transformResults(results)))
       .catch(console.error);
-  }, [allAccounts, acc, api.query.uniques.account, mountedRef]);
+  }, [allAccounts, api.query.uniques.account, mountedRef]);
 
   return state;
 }
