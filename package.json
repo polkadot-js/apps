@@ -12,7 +12,7 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.108.2-8",
+  "version": "0.108.2-9",
   "workspaces": [
     "packages/*"
   ],
