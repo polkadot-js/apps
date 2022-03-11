@@ -70,7 +70,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   return (
     <div className={className}>
       <Table
-        empty={info && accountItems && t<string>('No accounts with items found for the collection')}
+        empty={!info && accountItems && t<string>('No accounts with items found for the collection')}
         filter={collectionOptions.length
           ? (
             <Dropdown
