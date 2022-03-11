@@ -24,6 +24,7 @@ import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
+import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
@@ -99,6 +100,7 @@ import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
+import nodeKabocha from './nodes/kabocha.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
@@ -234,6 +236,9 @@ export const chainLogos = Object.entries({
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup) 🍲 🥫': chainKabocha,
+  'Kabocha (kabsoup) 🍲 🥫 ': chainKabocha,
   Karura: chainKarura,
   KICO: chainKico,
   KILT: nodeKilt,
@@ -410,6 +415,9 @@ export const nodeLogos = Object.entries({
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
   IpseTestnet: nodeIpse,
+  Kabocha: nodeKabocha,
+  'Kabocha (kabsoup) 🍲 🥫 ': nodeKabocha,
+  'Kabocha (kabsoup) 🍲 🥫': nodeKabocha,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
   KICO: chainKico,
@@ -597,6 +605,9 @@ export const namedLogos: Record<string, unknown> = {
   interlay: chainInterlay,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
+  kabocha: nodeKabocha,
+  'Kabocha (kabsoup) 🍲 🥫 ': nodeKabocha,
+  'Kabocha (kabsoup) 🍲 🥫': nodeKabocha,
   karura: chainKarura,
   khala: nodeKhala,
   kico: chainKico,
@@ -671,6 +682,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoIdavoll: nodeIdavoll,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
+  rococoKabocha: chainKabocha,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
