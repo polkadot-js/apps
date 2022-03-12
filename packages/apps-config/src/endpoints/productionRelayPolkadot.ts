@@ -236,7 +236,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2026,
         text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
         providers: {
-          Nodle: 'wss://node-6907995778982338560.sz.onfinality.io/ws?apikey=b5324589-1447-4699-92a6-025bc2cc2ac1'
+          OnFinality: 'wss://node-6907995778982338560.sz.onfinality.io/ws?apikey=b5324589-1447-4699-92a6-025bc2cc2ac1'
         }
       },
       {
