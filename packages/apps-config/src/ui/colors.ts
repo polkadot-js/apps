@@ -51,7 +51,7 @@ const chainHydrate = '#000000';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
-const chainKabocha = 'url(https://c.tenor.com/DPGJgNDVErgAAAAM/torus-vortex-spiral.gif) repeat'
+const chainKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
@@ -283,9 +283,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
   Kabocha: chainKabocha,
-  'Kabocha (kabsoup) 🍲 🥫': chainKabocha,
-  'Kabocha (kabsoup) 🍲 🥫 ': chainKabocha,
-  'Kabocha (kabsoup) 🎃 🍲': chainKabocha,
+  'Kabocha (kabsoup)': chainKabocha,
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,

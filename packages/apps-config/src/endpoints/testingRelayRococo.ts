@@ -233,7 +233,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoKabocha',
         isDisabled: false, 
         paraId: 2068,
-        text: t('rpc.rococo.kabocha', 'Kabocha (kabsoup) 🎃 🍲', { ns: 'apps-config' }),
+        text: t('rpc.rococo.kabocha', 'Kabocha (kabsoup)', { ns: 'apps-config' }),
         providers: {
           JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
         }
