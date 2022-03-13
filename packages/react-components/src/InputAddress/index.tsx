@@ -235,7 +235,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string | null): boolean {
-    return this.getFiltered().some(({ value }) => test === value);
+    const address = test && test.toString();
+
+    return this.getFiltered().some(({ value }) => value === address);
   }
 
   private getFiltered (): Option[] {

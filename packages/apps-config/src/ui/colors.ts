@@ -56,6 +56,7 @@ const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
+const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#ddf1f3';
 const chainMoonrock = '#3d1d5a';
@@ -239,7 +240,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
-  Canvas: chainRococoCanvas,
+  'Canvas on Rococo': chainRococoCanvas,
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
@@ -254,7 +255,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
   'Darwinia PC2': chainRoccoDarwinia,
-  DataHighway: chainRoccoDataHighway,
+  'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'Dolphin Testnet': chainDolphin,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
@@ -268,7 +269,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
-  HydraDX: chainSnakenet,
+  HydraDX: chainHydrate,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
@@ -312,6 +313,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
+  Minix: chainMinix,
+  'Minix Testnet': chainMinix,
   'Moonbase Alpha': nodeMoonbase,
   'Moonbase Development Testnet': nodeMoonbase,
   'Moonbase Stage': nodeMoonbase,
@@ -419,6 +422,7 @@ export const nodeColors = Object.entries({
   Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
+  'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   Efinity: nodeEfinity,

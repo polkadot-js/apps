@@ -151,7 +151,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rocfinity',
         isDisabled: false,
-        paraId: 2110,
+        paraId: 2051,
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.rococo.efinity.io'
@@ -263,6 +263,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
+        }
+      },
+      {
+        info: 'rococoSpreehafen',
+        isDisabled: false,
+        paraId: 2026,
+        text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://spreehafen.datahighway.com'
         }
       },
       {

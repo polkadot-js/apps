@@ -292,6 +292,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'minix',
+      text: t('rpc.test.minix', 'MiniX Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://minichain.coming.chat/ws'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
@@ -312,6 +319,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'neumann',
       text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
+        OAK: 'wss://rpc.testnet.oak.tech',
         OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
       }
     },
@@ -450,6 +458,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'sora-substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
