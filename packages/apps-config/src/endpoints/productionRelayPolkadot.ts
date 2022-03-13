@@ -287,6 +287,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
+      },
+      {
+        info: 'unique',
+        homepage: 'https://unique.network/',
+        paraId: 2037,
+        text: t('ws.unique.network', 'Unique Network', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://ws.unique.network/'
+        }
       }
     ]
   };

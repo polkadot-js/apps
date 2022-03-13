@@ -257,5 +257,6 @@
   "rpc.westend.whala": "Whala",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet",
-  "westend.kylin-node.co.uk": "Pichiu"
+  "westend.kylin-node.co.uk": "Pichiu",
+  "ws.unique.network": "Unique Network"
 }
