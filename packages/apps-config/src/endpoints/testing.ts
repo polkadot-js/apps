@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'ajuna',
+      text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Ajuna Network': 'wss://rpc-test.ajuna.network'
+      }
+    },
+    {
       info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
@@ -62,9 +69,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'bifrost',
-      text: t('rpc.test.bifrost', 'Bifrost', { ns: 'apps-config' }),
+      text: t('rpc.test.bifrost', 'Bifrost Stage Network', { ns: 'apps-config' }),
       providers: {
-        Liebi: 'wss://asgard-rpc.liebi.com/ws'
+        Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
       }
     },
     {
@@ -97,8 +104,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/',
-        'DCloud Foundation': 'wss://api.decloudf.com/',
-        Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer'
+        'DCloud Foundation': 'wss://api.decloudf.com/'
+        // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
       }
     },
     {
@@ -129,14 +136,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
         DOTMog: 'wss://mogiway-01.dotmog.com'
-      }
-    },
-    {
-      info: 'dusty',
-      text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
-      providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
-        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
       }
     },
     {
@@ -202,6 +201,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'halongbay',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6871
       text: t('rpc.test.halongbay', 'Halongbay Testnet', { ns: 'apps-config' }),
       providers: {
         Halongbay: 'wss://halongbay.polkafoundry.com'
@@ -209,9 +209,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'interbtc',
-      text: t('rpc.test.interbtc', 'Interlay', { ns: 'apps-config' }),
+      text: t('rpc.test.interbtc', 'Interlay Testnet', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api.interlay.io/parachain/'
+        Interlay: 'wss://api-testnet.interlay.io/parachain/'
       }
     },
     {
@@ -232,8 +232,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'phala',
-      text: t('rpc.test.phala', 'Khala (Para3)', { ns: 'apps-config' }),
+      info: 'khala',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6930
+      text: t('rpc.test.khala', 'Khala (Para 3)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
       }
@@ -249,7 +250,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'kilt',
       text: t('rpc.test.kilt.pere', 'KILT Peregrine', { ns: 'apps-config' }),
       providers: {
-        'KILT Protocol': 'wss://peregrine.kilt.io/'
+        'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
       }
     },
     {
@@ -291,12 +292,19 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'minix',
+      text: t('rpc.test.minix', 'MiniX Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://minichain.coming.chat/ws'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.api.moonbase.moonbeam.network',
-        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-        Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
+        'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+        // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
       }
     },
     {
@@ -311,6 +319,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'neumann',
       text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
+        OAK: 'wss://rpc.testnet.oak.tech',
         OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
       }
     },
@@ -331,6 +340,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'opportunity',
+      isDisabled: false,
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
         'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
@@ -355,6 +365,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.pangoro', 'Pangoro', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      }
+    },
+    {
+      info: 'phala',
+      isDisabled: false,
+      text: t('rpc.test.phala', 'Phala (PoC 5)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://poc5.phala.network/ws'
       }
     },
     {
@@ -391,7 +409,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'pontem',
       text: t('rpc.test.pontem', 'Pontem', { ns: 'apps-config' }),
       providers: {
-        Pontem: 'wss://testnet.pontem.network/ws'
+        Pontem: 'wss://testnet.pontem.network/ws',
+        OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
       }
     },
     {
@@ -439,6 +458,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'sora-substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'

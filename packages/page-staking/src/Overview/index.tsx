@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../types';
 
 import React, { useEffect } from 'react';
@@ -13,6 +14,7 @@ interface Props {
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
+  minCommission?: BN;
   paraValidators?: Record<string, boolean>;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -20,7 +22,7 @@ interface Props {
   toggleLedger?: () => void;
 }
 
-function Overview ({ className = '', favorites, hasQueries, isIntentions, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasQueries, isIntentions, minCommission, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     toggleLedger && toggleLedger();
   }, [toggleLedger]);
@@ -31,6 +33,7 @@ function Overview ({ className = '', favorites, hasQueries, isIntentions, paraVa
         favorites={favorites}
         hasQueries={hasQueries}
         isIntentions={isIntentions}
+        minCommission={minCommission}
         paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}

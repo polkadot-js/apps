@@ -35,6 +35,10 @@ interface VoteType {
   hasVotedAye: boolean;
 }
 
+function percentage (val: BN, div: BN): string {
+  return Math.min(100, val.muln(10000).div(div).toNumber() / 100).toFixed(2);
+}
+
 function Referendum ({ className = '', value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -58,11 +62,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           {
             aye: votedTotal.isZero()
               ? ''
-              : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+              : `${percentage(aye, votedTotal)}%`,
             nay: votedTotal.isZero()
               ? ''
-              : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
-            turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+              : `${percentage(nay, votedTotal)}%`,
+            turnout: `${percentage(votedTotal, totalIssuance)}%`
           },
           {
             hasVoted: hasVotedAye || allNay.some(({ accountId }) => allAccounts.includes(accountId.toString())),

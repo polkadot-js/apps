@@ -10,28 +10,29 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
 
+function isValidAddress (value?: string | null): boolean {
+  if (value) {
+    try {
+      keyring.decodeAddress(value);
+
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return false;
+}
+
 function Account ({ className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(() => (value as string)?.toString());
 
   const _onChange = useCallback(
-    (value?: string | null): void => {
-      let isValid = false;
-
-      if (value) {
-        try {
-          keyring.decodeAddress(value);
-
-          isValid = true;
-        } catch (err) {
-          console.error(err);
-        }
-      }
-
+    (value?: string | null) =>
       onChange && onChange({
-        isValid,
+        isValid: isValidAddress(value),
         value
-      });
-    },
+      }),
     [onChange]
   );
 

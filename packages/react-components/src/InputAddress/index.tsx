@@ -116,6 +116,21 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
   store.set(STORAGE_KEY, options);
 }
 
+function dedupe (options: Option[]): Option[] {
+  return options.reduce<Option[]>((all, o, index) => {
+    const hasDupe = all.some(({ key }, eindex) =>
+      eindex !== index &&
+      key === o.key
+    );
+
+    if (!hasDupe) {
+      all.push(o);
+    }
+
+    return all;
+  }, []);
+}
+
 class InputAddress extends React.PureComponent<Props, State> {
   public override state: State = {};
 
@@ -161,7 +176,7 @@ class InputAddress extends React.PureComponent<Props, State> {
           : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
-      ? options.map((o): Option => createItem(o))
+      ? dedupe(options.map((o) => createItem(o)))
       : isDisabled && actualValue
         ? [createOption(actualValue)]
         : this.getFiltered();
@@ -220,7 +235,9 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string | null): boolean {
-    return this.getFiltered().some(({ value }) => test === value);
+    const address = test && test.toString();
+
+    return this.getFiltered().some(({ value }) => value === address);
   }
 
   private getFiltered (): Option[] {
@@ -228,7 +245,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return !optionsAll
       ? []
-      : optionsAll[type].filter(({ value }) => !filter || (!!value && filter.includes(value)));
+      : dedupe(optionsAll[type]).filter(({ value }) => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {

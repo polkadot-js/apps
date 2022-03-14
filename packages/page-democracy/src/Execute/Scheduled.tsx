@@ -22,7 +22,9 @@ function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, ma
 
   return (
     <tr className={className}>
-      <td className='all'><CallExpander value={call} /></td>
+      <td className='all'>
+        <CallExpander value={call} />
+      </td>
       <td className='start'>
         {name && (
           name.isAscii

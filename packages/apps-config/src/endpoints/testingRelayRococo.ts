@@ -149,6 +149,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rocfinity',
+        isDisabled: false,
+        paraId: 2051,
+        text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.rococo.efinity.io'
+        }
+      },
+      {
         info: 'rococoEncointer',
         isDisabled: true, // Rococo reset
         paraId: 1862,
@@ -221,12 +230,21 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoKilt',
-        isDisabled: true, // Rococo reset
-        paraId: 12623,
-        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        info: 'rococoMoonsama',
+        isDisabled: false,
+        paraId: 2055,
+        text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+          Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+        }
+      },
+      {
+        info: 'rococoKilt',
+        isDisabled: false,
+        paraId: 2015,
+        text: t('rpc.rococo.kilt', 'RILT', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://rococo.kilt.io'
         }
       },
       {
@@ -245,6 +263,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
+        }
+      },
+      {
+        info: 'rococoSpreehafen',
+        isDisabled: false,
+        paraId: 2026,
+        text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://spreehafen.datahighway.com'
         }
       },
       {

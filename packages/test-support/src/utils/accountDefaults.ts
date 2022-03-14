@@ -51,6 +51,7 @@ export const defaultBalanceAccount: DeriveBalancesAll = {
   freeBalance: balanceOf(0),
   lockedBalance: balanceOf(0),
   lockedBreakdown: [],
+  namedReserves: [],
   reservedBalance: balanceOf(0)
 } as any;
 
