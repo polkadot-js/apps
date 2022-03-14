@@ -1,4 +1,4 @@
-    3435	Jaco                          	Bump deps (API & util) (#7155)
+    3436	Jaco                          	Show settings for Ledger (disabled) on non-Chromium (#7156)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
