@@ -1,4 +1,4 @@
-    3434	Jaco                          	Improve isChilled check (#7143)
+    3435	Jaco                          	Bump deps (API & util) (#7155)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
