@@ -14,6 +14,6 @@
   "version": "0.108.2-13",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@polkadot/hw-ledger": "^8.4.1"
+    "@polkadot/hw-ledger": "^8.5.1"
   }
 }
