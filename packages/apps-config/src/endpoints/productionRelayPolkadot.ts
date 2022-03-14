@@ -93,7 +93,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'centrifuge',
         homepage: 'https://centrifuge.io',
         paraId: 2031,
-        isUnreachable: true,
         text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
@@ -234,11 +233,10 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'nodle',
         homepage: 'https://nodle.com',
-        isUnreachable: true,
         paraId: 2026,
         text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
         providers: {
-          Nodle: 'wss://rpc.nodle.com'
+          OnFinality: 'wss://node-6907995778982338560.sz.onfinality.io/ws?apikey=b5324589-1447-4699-92a6-025bc2cc2ac1'
         }
       },
       {
@@ -288,6 +286,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
+        info: 'unique',
+        homepage: 'https://unique.network/',
+        paraId: 2037,
+        text: t('ws.unique.network', 'Unique Network', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://ws.unique.network/'
         }
       }
     ]
