@@ -54,7 +54,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1003,
         text: t('rpc.rococo.encointer', 'Encointer Lietaer', { ns: 'apps-config' }),
         providers: {
-          'Encointer Association': 'wss://rococo.api.encointer.org',
+          'Encointer Association': 'wss://rococo.api.encointer.org'
         },
         teleport: [-1]
       },
