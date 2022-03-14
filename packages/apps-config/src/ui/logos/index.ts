@@ -43,6 +43,7 @@ import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
+import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -330,6 +331,7 @@ export const chainLogos = Object.entries({
   Trick: chainRococoTrick,
   trustbase: nodeTrustBase,
   'TrustBase PC1': nodeTrustBase,
+  turing: chainTuring,
   'uni arts staging network': nodeUniarts,
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
@@ -732,6 +734,7 @@ export const namedLogos: Record<string, unknown> = {
   swapdex: nodeSwapdex,
   'ternoa-testnet': nodeTernoa,
   trustbase: nodeTrustBase,
+  turing: chainTuring,
   uniarts: nodeUniarts,
   unique: nodeUnique,
   unitv: nodeUnitv,
