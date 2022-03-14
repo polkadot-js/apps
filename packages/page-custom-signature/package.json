@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.102.2-7",
+  "version": "0.108.2-16",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.102.2-7",
+    "@polkadot/react-components": "^0.108.2-16",
     "ethereumjs-util": "^7.1.3",
     "secp256k1": "^4.0.2"
   }
