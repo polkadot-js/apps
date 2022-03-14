@@ -32,6 +32,7 @@ export { useFormField } from './useFormField';
 export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
+export { useIpfsFetch } from './useIpfsFetch';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useJudgements } from './useJudgements';
 export { useLedger } from './useLedger';

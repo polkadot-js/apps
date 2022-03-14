@@ -2819,7 +2819,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.2
     "@polkadot/react-components": ^0.108.2-9
-    is-ipfs: 6.0.2
   languageName: unknown
   linkType: soft
 
@@ -3318,6 +3317,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.2
     "@polkadot/hw-ledger": ^8.4.1
+    is-ipfs: 6.0.2
   languageName: unknown
   linkType: soft
 
