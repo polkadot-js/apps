@@ -292,6 +292,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'minix',
+      text: t('rpc.test.minix', 'MiniX Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://minichain.coming.chat/ws'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {

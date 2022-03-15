@@ -48,6 +48,16 @@ export function createRococo (t: TFunction): EndpointOption {
         },
         teleport: [-1]
       },
+      {
+        info: 'encointer',
+        homepage: 'https://encointer.org/',
+        paraId: 1003,
+        text: t('rpc.rococo.encointer', 'Encointer Lietaer', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://rococo.api.encointer.org'
+        },
+        teleport: [-1]
+      },
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
@@ -263,6 +273,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
+        }
+      },
+      {
+        info: 'rococoSpreehafen',
+        isDisabled: false,
+        paraId: 2026,
+        text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://spreehafen.datahighway.com'
         }
       },
       {

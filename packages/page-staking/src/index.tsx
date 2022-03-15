@@ -4,6 +4,7 @@
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
@@ -31,9 +32,12 @@ import useSortedTargets from './useSortedTargets';
 const HIDDEN_ACC = ['actions', 'payout'];
 
 const optionsParaValidators = {
-  defaultValue: [false, {}] as [boolean, Record<string, boolean>],
-  transform: ([eraElectionStatus, validators, activeValidatorIndices]: [ElectionStatus | null, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, Record<string, boolean>] => [
+  defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
+  transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
     !!eraElectionStatus && eraElectionStatus.isOpen,
+    minValidatorBond && !minValidatorBond.isZero()
+      ? minValidatorBond
+      : undefined,
     validators && activeValidatorIndices
       ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
       : {}
@@ -48,8 +52,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const [isInElection, paraValidators] = useCallMulti<[boolean, Record<string, boolean>]>([
+  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
     api.query.staking.eraElectionStatus,
+    api.query.staking.minCommission,
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], optionsParaValidators);
@@ -187,6 +192,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
+        minCommission={minCommission}
         paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}

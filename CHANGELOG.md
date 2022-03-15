@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## 0.109.1 Mar 14, 2022
+
+Contributed:
+
+- Add DataHighway Spreehaven on Rococo (Thanks to https://github.com/ayushmishra2005)
+- Add MiniX (Thanks to https://github.com/hqwangningbo)
+- Enable HydraX parachain (Thanks to https://github.com/lumir-mrkva)
+- Enable Centrifuge parachain (Thanks to https://github.com/mikiquantum)
+- Enable Unique parachain (Thanks to https://github.com/gregzaitsev)
+- Dwellir RPCs for Statemint, Statemine, Westmint (Thanks to https://github.com/Maharacha)
+- Update Nodle RPCs (Thanks to https://github.com/ETeissonniere)
+
+Changes:
+
+- Only disable fast-track on super majority (aligns with Substrate)
+- Display active-chilled validators (only on min commission chains)
+- Show hint around non-available Ledger support on FF
+- Adjust parachain displays for non-active
+
+
+## 0.108.1 Mar 7, 2022
+
+Contributed:
+
+- Adjust filtering options for staking targets (Thanks to https://github.com/xnorly)
+- Language adjustments on additional funds bonded (Thanks to https://github.com/xnorly)
+- Add Dwellir endpoints for Acala and Karura (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoints for tar and Shiden (Thanks to https://github.com/Maharacha)
+- Add additional endpoints for Neumann (Thanks to https://github.com/irsal)
+- Updata Rocfinity paraId (Thanks to https://github.com/stanly-johnson)
+- Add Subsquare links for Kintsugi (Thanks to https://github.com/wliyongfeng)
+- Remove Encointer Westend support (Thanks to https://github.com/mosonyi)
+- Add Encointer OnFinality endpoint (Thanks to https://github.com/mosonyi)
+- Adjust Westend Canvas coloring options (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Support minimum on-chain comission requirements
+- Adjust block latency tab to contain event/extrinsic information
+- Fix `Vector` param handling
+- Adjust `useMap{Keys, Entries}` hook parameters
+- Remove all unreachable endpoints
+- Fix sub-identity editing display and updates
+- Adjust democracy fast-forward with FA 6 support
+
+
 ## 0.107.1 Feb 28, 2022
 
 Contributed:

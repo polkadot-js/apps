@@ -102,6 +102,7 @@
   "rpc.prod.kulupu": "Kulupu",
   "rpc.prod.kusari": "Kusari",
   "rpc.prod.mathchain": "MathChain",
+  "rpc.prod.minix": "MiniX",
   "rpc.prod.neatcoin": "Neatcoin",
   "rpc.prod.nftmart": "NFTMart",
   "rpc.prod.nodle-main": "Nodle",
@@ -159,6 +160,7 @@
   "rpc.rococo.prism": "Prism PC1",
   "rpc.rococo.robonomics": "Robonomics PC2",
   "rpc.rococo.singlavender": "Lavender by SingNetwork",
+  "rpc.rococo.spreehafen": "Spreehafen",
   "rpc.rococo.standard": "Standard",
   "rpc.rococo.statemint": "Statemint",
   "rpc.rococo.subdao": "SubDAO PC1",
@@ -204,6 +206,7 @@
   "rpc.test.kylin-node.co.uk": "Pichiu Testnet",
   "rpc.test.litentry": "Litentry Testnet",
   "rpc.test.mandala": "Mandala",
+  "rpc.test.minix": "Minix Testnet",
   "rpc.test.moonbeam": "Moonbase Alpha",
   "rpc.test.mybank": "mybank.network",
   "rpc.test.nftmart": "NFTMart",
@@ -239,6 +242,7 @@
   "rpc.test.zCloak": "zCloak-network",
   "rpc.test.zeitgeist": "Zeitgeist Battery Station",
   "rpc.test.zero": "Zero",
+  "rpc.turing.oak": "Turing Network",
   "rpc.westend": "Westend",
   "rpc.westend.basilisk": "Basilisk Egg",
   "rpc.westend.charcoal": "Charcoal",
@@ -254,5 +258,6 @@
   "rpc.westend.whala": "Whala",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet",
-  "westend.kylin-node.co.uk": "Pichiu"
+  "westend.kylin-node.co.uk": "Pichiu",
+  "ws.unique.network": "Unique Network"
 }
