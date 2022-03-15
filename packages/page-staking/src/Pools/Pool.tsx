@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber, stringify } from '@polkadot/util';
@@ -20,6 +20,14 @@ interface Props {
 
 function Pool ({ className, id, params }: Props): React.ReactElement<Props> | null {
   const info = usePoolInfo(id);
+  const metadata = useMemo(
+    () => info && info.metadata && info.metadata.length
+      ? info.metadata.isUtf8
+        ? info.metadata.toUtf8()
+        : info.metadata.toString()
+      : null,
+    [info]
+  );
 
   if (!info) {
     return null;
@@ -30,7 +38,7 @@ function Pool ({ className, id, params }: Props): React.ReactElement<Props> | nu
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='start'>{info.metadata?.length ? info.metadata?.toString() : null}</td>
+      <td className='start'>{metadata}</td>
       <td className='number'><FormatBalance value={info.bonded?.points} /></td>
       <td className='number'>{formatNumber(info.bonded?.delegatorCounter)}</td>
       <td className='button'>

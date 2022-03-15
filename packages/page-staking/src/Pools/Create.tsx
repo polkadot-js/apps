@@ -6,7 +6,7 @@ import type { Params } from './types';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ONE, bnMax } from '@polkadot/util';
 
@@ -25,6 +25,7 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
+  const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(
     () => minCreateBond && minNominatorBond && bnMax(minCreateBond, minNominatorBond),
@@ -39,6 +40,16 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
   const isAmountError = useMemo(
     () => !amount || !minValue || amount.lt(minValue),
     [amount, minValue]
+  );
+
+  const extrinsic = useMemo(
+    () => accountId && !isAmountError
+      ? api.tx.utility.batch([
+        api.tx.nominationPools.create(amount, accountId, accountId, accountId),
+        api.tx.nominationPools.setMetadata(nextPoolId, metadata)
+      ])
+      : null,
+    [api, accountId, amount, isAmountError, metadata, nextPoolId]
   );
 
   return (
@@ -74,6 +85,13 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
                 onChange={setAmount}
               />
             </Modal.Columns>
+            <Modal.Columns hint={t<string>('The metadata to set for this pool')}>
+              <Input
+                label={t<string>('metadata')}
+                maxLength={32}
+                onChange={setMetadata}
+              />
+            </Modal.Columns>
             <Modal.Columns hint={t<string>('The id that will be assigned to this nomination pool.')}>
               <InputNumber
                 defaultValue={nextPoolId}
@@ -85,12 +103,11 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
           <Modal.Actions>
             <TxButton
               accountId={accountId}
+              extrinsic={extrinsic}
               icon='plus'
               isDisabled={!accountId || isAmountError}
               label={t<string>('Create')}
               onStart={toggleOpen}
-              params={[amount, accountId, accountId, accountId]}
-              tx={api.tx.nominationPools.create}
             />
           </Modal.Actions>
         </Modal>
