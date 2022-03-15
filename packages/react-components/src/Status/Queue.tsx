@@ -29,7 +29,7 @@ interface StatusCount {
 let nextId = 0;
 
 const EVENT_MESSAGE = 'extrinsic event';
-const REMOVE_TIMEOUT = 7500;
+const REMOVE_TIMEOUT = 75000;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
 function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
@@ -115,6 +115,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             message,
             status: 'error'
           };
+        } else if (isIncompleteEvent(record)) {
+          return {
+            action: `${section}.${method}`,
+            message: 'imcomplete execution',
+            status: 'eventWarn'
+          };
         } else if (section === 'contracts') {
           if (method === 'ContractExecution' && data.length === 2) {
             // see if we have info for this contract
@@ -141,12 +147,6 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               action: `${section}.${method}`,
               message: 'contract evicted',
               status: 'error'
-            };
-          } else if (isIncompleteEvent(record)) {
-            return {
-              action: `${section}.${method}`,
-              message: 'imcomplete execution',
-              status: 'eventWarn'
             };
           }
         }
