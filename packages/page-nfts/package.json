@@ -1,11 +1,11 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-hooks#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-nfts#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/react-hooks",
+  "name": "@polkadot/app-nfts",
   "private": true,
   "repository": {
-    "directory": "packages/react-hooks",
+    "directory": "packages/page-nfts",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
@@ -14,7 +14,6 @@
   "version": "0.109.2-3",
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@polkadot/hw-ledger": "^8.5.1",
-    "is-ipfs": "6.0.2"
+    "@polkadot/react-components": "^0.109.2-3"
   }
 }
