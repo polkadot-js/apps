@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
@@ -15,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  id: AccountId;
+  id: BN;
   isDisabled?: boolean;
   params: Params;
 }

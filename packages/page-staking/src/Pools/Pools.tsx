@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
 import React, { useMemo } from 'react';
@@ -13,7 +13,7 @@ import Pool from './Pool';
 
 interface Props {
   className?: string;
-  ids?: AccountId[];
+  ids?: BN[];
   params: Params;
 }
 
@@ -21,7 +21,7 @@ function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [t('pools'), 'start'],
+    [t('pools'), 'start', 2],
     [t('points')],
     [t('delegators')]
   ], [t]);

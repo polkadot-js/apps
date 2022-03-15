@@ -1,27 +1,42 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageKey } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { Changes } from '@polkadot/react-hooks/useEventChanges';
+import type { StorageKey, u32 } from '@polkadot/types';
+import type { EventRecord } from '@polkadot/types/interfaces';
 
-import { createNamedHook, useApi, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
-import { u8aCmp } from '@polkadot/util';
+import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
-const options = {
-  transform: (keys: StorageKey<[AccountId]>[]): AccountId[] =>
+const keyOptions = {
+  transform: (keys: StorageKey<[u32]>[]): u32[] =>
     keys
-      .map(({ args: [accountId] }) => accountId)
-      .sort((a, b) => u8aCmp(a, b))
+      .map(({ args: [poolId] }) => poolId)
+      .sort((a, b) => a.cmp(b))
 };
 
-function usePoolIdsImpl (): AccountId[] | undefined {
-  const { api } = useApi();
-  const trigger = useEventTrigger([
-    api.events.nominationPools.Created,
-    api.events.nominationPools.Destoryed
-  ]);
+function filter (records: EventRecord[]): Changes<u32> {
+  const added: u32[] = [];
+  const removed: u32[] = [];
 
-  return useMapKeys(api.query.nominationPools.bondedPools, options, trigger.blockHash);
+  records.forEach(({ event: { data, method } }): void => {
+    if (method === 'Created') {
+      added.push(data[1] as u32);
+    } else {
+      removed.push(data[0] as u32);
+    }
+  });
+
+  return { added, removed };
+}
+
+function usePoolIdsImpl (): u32[] | undefined {
+  const { api } = useApi();
+  const startValue = useMapKeys(api.query.nominationPools.bondedPools, keyOptions);
+
+  return useEventChanges([
+    api.events.nominationPools.Created,
+    api.events.nominationPools.Destroyed
+  ], filter, startValue);
 }
 
 export default createNamedHook('usePoolIds', usePoolIdsImpl);

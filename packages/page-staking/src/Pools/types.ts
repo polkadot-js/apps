@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -16,20 +17,22 @@ export interface Params {
 // FIXME Once available, use types from lookup
 export interface PoolInfo {
   bonded: {
-    delegatorCounter: BN;
-    depositor: AccountId;
-    nominator: AccountId;
     points: BN;
-    root: AccountId;
     state: {
       isOpen: boolean;
     }
-    stateToggler: AccountId;
+    delegatorCounter: BN;
+    roles: {
+      depositor: AccountId;
+      root: AccountId;
+      nominator: AccountId;
+      stateToggler: AccountId;
+    };
   } | null;
   reward: {
-    account: AccountId;
     balance: BN;
-    points: BN;
     totalEarnings: BN;
+    points: BN;
   } | null;
+  metadata: Bytes;
 }

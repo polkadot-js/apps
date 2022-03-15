@@ -6,9 +6,9 @@ import type { Params } from './types';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
-import { bnMax } from '@polkadot/util';
+import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { BN_ONE, bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -21,6 +21,7 @@ interface Props {
 function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const lastPoolId = useCall<BN>(api.query.nominationPools.lastPoolId);
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
@@ -28,6 +29,11 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
   const minValue = useMemo(
     () => minCreateBond && minNominatorBond && bnMax(minCreateBond, minNominatorBond),
     [minCreateBond, minNominatorBond]
+  );
+
+  const nextPoolId = useMemo(
+    () => lastPoolId && lastPoolId.add(BN_ONE),
+    [lastPoolId]
   );
 
   const isAmountError = useMemo(
@@ -66,6 +72,13 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
                 isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The id that will be assigned to this nomination pool.')}>
+              <InputNumber
+                defaultValue={nextPoolId}
+                isDisabled
+                label={t<string>('pool id')}
               />
             </Modal.Columns>
           </Modal.Content>
