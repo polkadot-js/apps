@@ -127,6 +127,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'frost-testnet',
+      text: t('rpc.prod.frost-testnet', 'Frost Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Frost Testnet': 'wss://frost-rpc.icenetwork.io:9944'
+      }
+    },
+    {
       info: 'genshiro',
       text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
       providers: {
