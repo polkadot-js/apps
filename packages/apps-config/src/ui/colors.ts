@@ -125,6 +125,7 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainSwapdex = '#E94082';
 const chainTrustBase = '#ff43aa';
+const chainTuring = '#A8278C';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
@@ -385,6 +386,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
+  'Turing Network': chainTuring,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
