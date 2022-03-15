@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ItemInfo } from '@polkadot/app-nfts/AccountItems/types';
+import type { ItemInfo } from './types';
 
 import React from 'react';
 
