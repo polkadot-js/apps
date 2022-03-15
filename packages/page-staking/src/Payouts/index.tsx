@@ -9,9 +9,8 @@ import type { PayoutStash, PayoutValidator } from './types';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
-import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
+import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_THREE } from '@polkadot/util';
 
@@ -124,16 +123,12 @@ function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null |
   return {};
 }
 
-function getOptions (api: ApiPromise, eraLength: BN | undefined, historyDepth: BN | undefined, t: TFunction): EraSelection[] {
+function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN | undefined, t: TFunction): EraSelection[] {
   if (!eraLength || !historyDepth) {
     return [{ text: '', value: 0 }];
   }
 
-  const blocksPerDay = DAY_SECS.div(
-    api.consts.babe?.expectedBlockTime ||
-    api.consts.timestamp?.minimumPeriod.muln(2) ||
-    new BN(6000)
-  );
+  const blocksPerDay = DAY_SECS.div(blockTime);
   const maxBlocks = eraLength.mul(historyDepth);
   const eraSelection: EraSelection[] = [];
   const days = new BN(2);
@@ -169,10 +164,11 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
+  const blockTime = useBlockInterval();
 
   const eraSelection = useMemo(
-    () => getOptions(api, eraLength, historyDepth, t),
-    [api, eraLength, historyDepth, t]
+    () => getOptions(blockTime, eraLength, historyDepth, t),
+    [blockTime, eraLength, historyDepth, t]
   );
 
   const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators);

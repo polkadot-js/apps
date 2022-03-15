@@ -12,6 +12,7 @@ export { useAvailableSlashes } from './useAvailableSlashes';
 export { useBalancesAll } from './useBalancesAll';
 export { useBestHash } from './useBestHash';
 export { useBestNumber } from './useBestNumber';
+export { useBlockInterval } from './useBlockInterval';
 export { useBlockTime } from './useBlockTime';
 export { useBlocksPerDays } from './useBlocksPerDays';
 export { useCacheKey } from './useCacheKey';
