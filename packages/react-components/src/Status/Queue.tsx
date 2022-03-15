@@ -29,7 +29,7 @@ interface StatusCount {
 let nextId = 0;
 
 const EVENT_MESSAGE = 'extrinsic event';
-const REMOVE_TIMEOUT = 75000;
+const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
 function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
