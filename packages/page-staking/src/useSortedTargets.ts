@@ -4,10 +4,11 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, StorageKey, u32 } from '@polkadot/types';
+import type { Codec } from '@polkadot/types/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { AccountId32 } from '@polkadot/types/interfaces';
@@ -246,6 +247,27 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
+function getMinExposedThreshold (stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
+  const assignments: Map<AccountId32, BN> = new Map();
+  const b = (x: BN): string => api.createType('Balance', x).toHuman();
+
+  stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
+
+  stakers.map((x) => x[1].others).flat(1).forEach((x) => {
+    const nominator = (x as PalletStakingIndividualExposure).who;
+    const amount = (x as PalletStakingIndividualExposure).value;
+    const val = assignments.get(nominator);
+
+    assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
+  });
+
+  const nominatorStakes = Array.from(assignments.values());
+
+  nominatorStakes.sort((a, b) => a.cmp(b));
+
+  return b(nominatorStakes[0]);
+}
+
 const transformEra = {
   transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
     activeEra,
@@ -289,6 +311,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
+  const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, Codec][]>([]);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
@@ -306,34 +329,14 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     [baseInfo, inflation]
   );
 
-  const minExposedThreshold = useMemo(async () => {
-    const b = (x: BN): string => api.createType('Balance', x).toHuman();
+  const curEra = useCall<Option<u32>>(api.query.staking.currentEra);
 
-    const asyncFunc = async () => {
-      const assignments: Map<AccountId32, BN> = new Map();
-      const currentEra = (await api.query.staking.currentEra()).unwrap();
-      const stakers = await api.query.staking.erasStakers.entries(currentEra);
+  const getStakers = useMemo(() => async (currentEra: u32) => {
+    setStakers(await api.query.staking.erasStakers.entries(currentEra));
+  }, [api.query.staking.erasStakers]);
 
-      stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
-
-      stakers.map((x) => x[1].others).flat(1).forEach((x) => {
-        const nominator = (x as PalletStakingIndividualExposure).who;
-        const amount = (x as PalletStakingIndividualExposure).value;
-        const val = assignments.get(nominator);
-
-        assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
-      });
-
-      const nominatorStakes = Array.from(assignments.values());
-
-      nominatorStakes.sort((a, b) => a.cmp(b));
-      const minExposedThreshold = nominatorStakes[0];
-
-      return b(minExposedThreshold) || '';
-    };
-
-    return asyncFunc();
-  }, [api]);
+  curEra && getStakers(curEra?.unwrap());
+  const minExposedThreshold = getMinExposedThreshold(stakers);
 
   return {
     counterForNominators,

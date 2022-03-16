@@ -21,46 +21,17 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, minExposedThreshold, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
+        <CardSummary label={t<string>('nominators')}>
+          124,19 DOT
+        </CardSummary>
         <CardSummary label={t<string>('validators')}>
-          {stakingOverview
-            ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
-            : <Spinner noLabel />
-          }
-        </CardSummary>
-        <CardSummary
-          className='media--900'
-          label={t<string>('waiting')}
-        >
-          {waitingIds
-            ? formatNumber(waitingIds.length)
-            : <Spinner noLabel />
-          }
-        </CardSummary>
-        <CardSummary
-          className='media--1000'
-          label={
-            counterForNominators
-              ? t<string>('active / nominators')
-              : t<string>('nominators')
-          }
-        >
-          {nominators
-            ? (
-              <>
-                {formatNumber(nominators.length)}
-                {counterForNominators && (
-                  <>&nbsp;/&nbsp;{formatNumber(counterForNominators)}</>
-                )}
-              </>
-            )
-            : <Spinner noLabel />
-          }
+          {minExposedThreshold === '0' ? <Spinner noLabel /> : minExposedThreshold}
         </CardSummary>
       </section>
       <section>
