@@ -10,6 +10,8 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
+import { AccountId32 } from '@polkadot/types/interfaces';
+import { PalletStakingIndividualExposure } from '@polkadot/types/lookup';
 import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
@@ -304,6 +306,35 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     [baseInfo, inflation]
   );
 
+  const minExposedThreshold = useMemo(async () => {
+    const b = (x: BN): string => api.createType('Balance', x).toHuman();
+
+    const asyncFunc = async () => {
+      const assignments: Map<AccountId32, BN> = new Map();
+      const currentEra = (await api.query.staking.currentEra()).unwrap();
+      const stakers = await api.query.staking.erasStakers.entries(currentEra);
+
+      stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
+
+      stakers.map((x) => x[1].others).flat(1).forEach((x) => {
+        const nominator = (x as PalletStakingIndividualExposure).who;
+        const amount = (x as PalletStakingIndividualExposure).value;
+        const val = assignments.get(nominator);
+
+        assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
+      });
+
+      const nominatorStakes = Array.from(assignments.values());
+
+      nominatorStakes.sort((a, b) => a.cmp(b));
+      const minExposedThreshold = nominatorStakes[0];
+
+      return b(minExposedThreshold) || '';
+    };
+
+    return asyncFunc();
+  }, [api]);
+
   return {
     counterForNominators,
     counterForValidators,
@@ -314,7 +345,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     minNominated: BN_ZERO,
     minNominatorBond,
     minValidatorBond,
-    ...partial
+    ...partial,
+    minExposedThreshold
   };
 }
 

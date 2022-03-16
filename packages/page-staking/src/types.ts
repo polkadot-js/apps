@@ -90,4 +90,5 @@ export interface SortedTargets {
   validators?: ValidatorInfo[];
   validatorIds?: string[];
   waitingIds?: string[];
+  minExposedThreshold?: Promise<string>
 }
