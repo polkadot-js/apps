@@ -1,4 +1,4 @@
-name: Build and push aleph-wallet image
+name: Build, push and deploy aleph-wallet image
 
 on:
   push:
@@ -60,6 +60,39 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: ${{ env.RELEASE_IMAGE }}
+
+      - name: GIT | Checkout aleph-apps repo
+        uses: actions/checkout@master
+        with:
+          repository: Cardinal-Cryptography/aleph-apps
+          token: ${{ secrets.CI_GH_TOKEN }}
+          path: "aleph-apps"
+
+      - name: Init kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "3.8.6"
+
+      - name: Update aleph-wallet devnet kustomize file and trigger ArgoCD deploy
+        env:                                                                                                          
+          RELEASE_IMAGE: public.ecr.aws/p6e8q1z1/aleph-wallet:${{ steps.vars.outputs.sha_short }}
+          REGIONS_AWS: 'eu-central-1'
+        run: |
+            # Deploy new image version for aleph-wallet
+            cd aleph-apps/aleph-wallet/overlays/devnet/${i}
+            kustomize edit set image "aleph-wallet-image-placeholder=${{ env.RELEASE_IMAGE }}"
+
+      - name: GIT | Commit changes to aleph-apps repository.
+        uses: EndBug/add-and-commit@v5.1.0
+        with:
+          author_name: AlephZero Automation
+          author_email: alephzero@10clouds.com
+          message: "Updating aleph-wallet docker image tag to: ${{ steps.vars.outputs.sha_short }}"
+          add: "*.yaml"
+          cwd: "aleph-apps"
+          branch: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_GH_TOKEN }}
 
       - name: Send Slack Notification
         uses: rtCamp/action-slack-notify@v2
