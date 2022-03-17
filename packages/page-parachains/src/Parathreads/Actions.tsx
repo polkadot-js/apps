@@ -20,7 +20,7 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
-const transformId = {
+const OPT_NEXT = {
   transform: (nextId: ParaId) =>
     nextId.isZero()
       ? LOWEST_PUBLIC_ID
@@ -32,7 +32,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
   const [isReserveOpen, toggleReserveOpen] = useToggle();
-  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], transformId);
+  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], OPT_NEXT);
 
   return (
     <Button.Group className={className}>

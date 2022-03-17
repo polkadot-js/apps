@@ -7,7 +7,7 @@ import type { PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/type
 
 import { createNamedHook, useApi, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
 
-const options = {
+const OPT_ENTRIES = {
   transform: (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParachainsParasParaLifecycle>][]): ParaId[] =>
     entries
       .map(([{ args: [paraId] }, optValue]): ParaId | null => {
@@ -33,7 +33,7 @@ function useUpomingIdsImpl (): ParaId[] | undefined {
     api.events.registrar.Registered
   ]);
 
-  return useMapEntries(api.query.paras.paraLifecycles, options, trigger.blockHash);
+  return useMapEntries(api.query.paras.paraLifecycles, OPT_ENTRIES, trigger.blockHash);
 }
 
 export default createNamedHook('useUpomingIds', useUpomingIdsImpl);
