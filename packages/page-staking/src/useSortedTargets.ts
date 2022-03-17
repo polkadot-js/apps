@@ -247,7 +247,7 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-function getMinExposedThreshold (stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
+function getMinExposedThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
   const assignments: Map<AccountId32, BN> = new Map();
   const b = (x: BN): string => api.createType('Balance', x).toHuman();
 
@@ -336,7 +336,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   }, [api.query.staking.erasStakers]);
 
   curEra && getStakers(curEra?.unwrap());
-  const minExposedThreshold = getMinExposedThreshold(stakers);
+  const minExposedThreshold = getMinExposedThreshold(api, stakers);
 
   return {
     counterForNominators,
