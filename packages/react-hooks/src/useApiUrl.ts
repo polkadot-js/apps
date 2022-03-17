@@ -41,7 +41,7 @@ function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
     setState(null);
     providerRef.current = disconnect(providerRef.current);
 
-    if (urls.length) {
+    urls.length &&
       ApiPromise
         .create({
           provider: (providerRef.current = new WsProvider(urls)),
@@ -50,7 +50,6 @@ function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
         })
         .then((api) => mountedRef.current && setState(api))
         .catch(console.error);
-    }
   }, [mountedRef, providerRef, urls]);
 
   return state;
