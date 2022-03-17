@@ -1466,6 +1466,7 @@
   "https://example.com": "https://example.com",
   "id": "id",
   "ideal staked": "",
+  "min active stake": "",
   "identity": "identità",
   "imminent preimage (proposal already passed)": "proposta imminente (già approvate)",
   "immortal": "perpetua",
