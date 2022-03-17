@@ -8,7 +8,7 @@ import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { AccountId32 } from '@polkadot/types/interfaces';
@@ -247,9 +247,10 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-function getMinExposedThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
+const b = (x: BN, api: ApiPromise): string => api.createType('Balance', x).toHuman();
+
+function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
   const assignments: Map<AccountId32, BN> = new Map();
-  const b = (x: BN): string => api.createType('Balance', x).toHuman();
 
   stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
 
@@ -265,7 +266,7 @@ function getMinExposedThreshold (api: ApiPromise, stakers: [StorageKey<[u32, Acc
 
   nominatorStakes.sort((a, b) => a.cmp(b));
 
-  return b(nominatorStakes[0]);
+  return b(nominatorStakes[0], api);
 }
 
 const transformEra = {
@@ -312,6 +313,13 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
   const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, Codec][]>([]);
+  const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
+
+  useEffect(() => {
+    if (stakers[0] && stakers[0][1]) {
+      setStakersTotal(stakers[0][1].total.toBn() as BN);
+    }
+  }, [stakers]);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
@@ -336,7 +344,11 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   }, [api.query.staking.erasStakers]);
 
   curEra && getStakers(curEra?.unwrap());
-  const minExposedThreshold = getMinExposedThreshold(api, stakers);
+  const nominatorMinActiveThreshold = getMinActiveThreshold(api, stakers);
+  const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
+
+  console.log('nominatorMinActiveThreshold', nominatorMinActiveThreshold);
+  console.log('validatorMinActiveThreshold', validatorMinActiveThreshold);
 
   return {
     counterForNominators,
@@ -349,7 +361,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     minNominatorBond,
     minValidatorBond,
     ...partial,
-    minExposedThreshold
+    nominatorMinActiveThreshold,
+    validatorMinActiveThreshold
   };
 }
 

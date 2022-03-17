@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -21,20 +20,19 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, minExposedThreshold, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, targets: { inflation: { idealStake, inflation, stakedFraction }, nominatorMinActiveThreshold, validatorMinActiveThreshold } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
-        <CardSummary label={t<string>('nominators')}>
-          124,19 DOT
+        <CardSummary label={<>{t<string>('nominators')}<div>{t<string>('min active stake')}</div></>}>
+          {nominatorMinActiveThreshold === '0' ? <Spinner noLabel /> : nominatorMinActiveThreshold}
         </CardSummary>
-        <CardSummary label={t<string>('validators')}>
-          {minExposedThreshold === '0' ? <Spinner noLabel /> : minExposedThreshold}
+        <CardSummary label={<>{t<string>('validators')}<div>{t<string>('min active stake')}</div></>}>
+          {validatorMinActiveThreshold === '' ? <Spinner noLabel /> : validatorMinActiveThreshold}
         </CardSummary>
-      </section>
-      <section>
+      </section><section>
         {(idealStake > 0) && Number.isFinite(idealStake) && (
           <CardSummary
             className='media--1400'
@@ -59,8 +57,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { count
             <>{inflation.toFixed(1)}%</>
           </CardSummary>
         )}
-      </section>
-      <section>
+      </section><section>
         <SummarySession />
       </section>
     </SummaryBox>
