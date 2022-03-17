@@ -135,7 +135,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         // some chains don't have "active" in the Ledger
         bonded: stakingInfo?.stakingLedger.active?.unwrap() || BN_ZERO,
         locked: balancesAll.lockedBalance,
-        redeemable: stakingInfo?.redeemable ?? BN_ZERO,
+        redeemable: stakingInfo?.redeemable || BN_ZERO,
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
         transferrable: balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
