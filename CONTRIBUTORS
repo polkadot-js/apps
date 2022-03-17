@@ -1,4 +1,4 @@
-    3442	Jaco                          	Bump dev deps (#7173)
+    3443	Jaco                          	Align unique id trigger to assets (#7174)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
