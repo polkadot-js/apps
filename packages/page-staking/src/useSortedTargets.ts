@@ -347,9 +347,6 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const nominatorMinActiveThreshold = getMinActiveThreshold(api, stakers);
   const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
 
-  console.log('nominatorMinActiveThreshold', nominatorMinActiveThreshold);
-  console.log('validatorMinActiveThreshold', validatorMinActiveThreshold);
-
   return {
     counterForNominators,
     counterForValidators,
