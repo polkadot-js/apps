@@ -78,6 +78,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBasilisk',
+        paraId: 2090,
+        text: t('rpc.rococo.basilisk', 'Basilisk', { ns: 'apps-config' }),
+        providers: {
+          'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+        }
+      },
+      {
         info: 'rococoBifrost',
         isDisabled: true, // Rococo reset
         paraId: 1024,

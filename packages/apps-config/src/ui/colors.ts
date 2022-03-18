@@ -3,6 +3,7 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
+import nodeBasiliskRococo from './logos/nodes/basilisk-rococo-bg.png';
 import { sanitize } from './util';
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -24,6 +25,7 @@ const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
+const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
@@ -231,6 +233,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
+  'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
