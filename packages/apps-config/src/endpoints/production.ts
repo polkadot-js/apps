@@ -183,6 +183,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'minix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
       text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
       providers: {
         ChainX: 'wss://minichain-mainnet.coming.chat/ws'
