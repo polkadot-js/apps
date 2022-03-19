@@ -13,10 +13,10 @@
   "type": "module",
   "version": "0.109.2-18",
   "dependencies": {
-    "@babel/runtime": "^7.17.7",
-    "@polkadot/api": "^7.12.1",
-    "@polkadot/extension-compat-metamask": "^0.42.9",
-    "@polkadot/extension-dapp": "^0.42.9",
+    "@babel/runtime": "^7.17.8",
+    "@polkadot/api": "^7.13.1",
+    "@polkadot/extension-compat-metamask": "^0.42.10-1",
+    "@polkadot/extension-dapp": "^0.42.10-1",
     "@substrate/connect": "^0.5.0",
     "fflate": "^0.7.3",
     "rxjs": "^7.5.5"

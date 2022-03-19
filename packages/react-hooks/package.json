@@ -13,8 +13,8 @@
   "type": "module",
   "version": "0.109.2-18",
   "dependencies": {
-    "@babel/runtime": "^7.17.7",
-    "@polkadot/hw-ledger": "^8.5.1",
+    "@babel/runtime": "^7.17.8",
+    "@polkadot/hw-ledger": "^8.6.1",
     "is-ipfs": "6.0.2"
   }
 }
