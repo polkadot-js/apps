@@ -65,14 +65,14 @@ const definitions: OverrideBundleDefinition = {
           owner: 'AccountId',
           class_data: 'ClassData'
         },
-        "bridge::ChainId": "u8",
-        "ChainId": "u8",
-        "ResourceId": "[u8; 32]",
-        "DepositNonce": "u64",
-        "ProposalVotes": {
-          "votes_for": "Vec<AccountId>",
-          "votes_against": "Vec<AccountId>",
-          "status": "enum"
+        'bridge::ChainId': 'u8',
+        ChainId: 'u8',
+        ResourceId: '[u8; 32]',
+        DepositNonce: 'u64',
+        ProposalVotes: {
+          votes_for: 'Vec<AccountId>',
+          votes_against: 'Vec<AccountId>',
+          status: 'enum'
         }
       }
     }
