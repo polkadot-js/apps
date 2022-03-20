@@ -41,6 +41,10 @@ function createWebpack (context, mode = 'production') {
     module: {
       rules: [
         {
+          scheme: 'data',
+          type: 'asset/resource',
+        },
+        {
           include: /node_modules/,
           test: /\.css$/,
           use: [
@@ -69,29 +73,18 @@ function createWebpack (context, mode = 'production') {
         {
           exclude: [/semantic-ui-css/],
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          use: [
-            {
-              loader: require.resolve('url-loader'),
-              options: {
-                esModule: false,
-                limit: 10000,
-                name: 'static/[name].[contenthash:8].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[contenthash:8].[ext]'
+          }
         },
         {
           exclude: [/semantic-ui-css/],
           test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          use: [
-            {
-              loader: require.resolve('file-loader'),
-              options: {
-                esModule: false,
-                name: 'static/[name].[contenthash:8].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[contenthash:8].[ext]'
+          }
         },
         {
           include: [/semantic-ui-css/],
