@@ -43,6 +43,8 @@
   "Inject session keys (advanced)": "Inject session keys (advanced)",
   "Keys from rotateKeys": "Keys from rotateKeys",
   "Max, {{eras}} eras": "Max, {{eras}} eras",
+  "Minimum stake among the active nominators": "Minimum stake among the active nominators",
+  "Minimum (total) stake among the active validators.": "Minimum (total) stake among the active validators.",
   "Most profitable": "Most profitable",
   "Next session": "Next session",
   "No active validators found": "No active validators found",

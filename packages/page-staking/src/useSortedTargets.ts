@@ -5,14 +5,13 @@ import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { AccountId32 } from '@polkadot/types/interfaces';
-import { PalletStakingIndividualExposure } from '@polkadot/types/lookup';
+import { PalletStakingExposure, PalletStakingIndividualExposure } from '@polkadot/types/lookup';
 import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
 
 interface LastEra {
@@ -249,7 +248,7 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
 
 const b = (x: BN, api: ApiPromise): string => formatBalance(api.createType('Balance', x));
 
-function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
+function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, PalletStakingExposure][]) {
   const assignments: Map<string, BN> = new Map();
 
   stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
@@ -266,7 +265,7 @@ function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, Acco
 
   nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
 
-  return nominatorStakes[0] && b(nominatorStakes[0][1], api);
+  return nominatorStakes[0] ? b(nominatorStakes[0][1], api) : '';
 }
 
 const transformEra = {
@@ -312,12 +311,12 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
-  const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, Codec][]>([]);
+  const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
   const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
 
   useEffect(() => {
     if (stakers[0] && stakers[0][1]) {
-      setStakersTotal(stakers[0][1].total.toBn() as BN);
+      setStakersTotal(stakers[0][1].total.toBn());
     }
   }, [stakers]);
 

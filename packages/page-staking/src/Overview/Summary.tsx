@@ -26,10 +26,26 @@ function Summary ({ className = '', isVisible, targets: { inflation: { idealStak
   return (
     <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
-        <CardSummary label={<>{t<string>('nominators')}<div>{t<string>('min active stake')}</div></>}>
-          {!nominatorMinActiveThreshold ? <Spinner noLabel /> : nominatorMinActiveThreshold}
+        <CardSummary
+          help={t<string>('Minimum stake among the active nominators.')}
+          label={
+            <div className='label-floater'>
+              {t<string>('nominators')}
+              <div>{t<string>('min active stake')}</div>
+            </div>
+          }
+        >
+          {nominatorMinActiveThreshold === '' ? <Spinner noLabel /> : nominatorMinActiveThreshold}
         </CardSummary>
-        <CardSummary label={<>{t<string>('validators')}<div>{t<string>('min active stake')}</div></>}>
+        <CardSummary
+          help={t<string>('Minimum (total) stake among the active validators.')}
+          label={
+            <div className='label-floater'>
+              {t<string>('validators')}
+              <div>{t<string>('min active stake')}</div>
+            </div>
+          }
+        >
           {validatorMinActiveThreshold === '' ? <Spinner noLabel /> : validatorMinActiveThreshold}
         </CardSummary>
       </section><section>
@@ -65,6 +81,10 @@ function Summary ({ className = '', isVisible, targets: { inflation: { idealStak
 }
 
 export default React.memo(styled(Summary)`
+  .label-floater {
+    float: left;
+    margin-bottom: 0.75rem;
+  }
   .validator--Account-block-icon {
     display: inline-block;
     margin-right: 0.75rem;
