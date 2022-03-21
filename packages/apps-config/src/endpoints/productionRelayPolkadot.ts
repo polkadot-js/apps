@@ -194,7 +194,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2032,
         text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain',
+          OnFinality: 'wss://interlay.api.onfinality.io/public-ws',
         }
       },
       {
