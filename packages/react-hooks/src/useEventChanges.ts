@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { EventCheck } from './useEventTrigger';
 
 import { useEffect, useState } from 'react';
@@ -38,8 +38,8 @@ function interleave <T extends Codec> (existing: T[], { added = [], removed = []
     .entries(map)
     .sort((a, b) =>
       // for BN-like objects, we use the built-in compare for sorting
-      isFunction((a[1] as unknown as u32).cmp)
-        ? (a[1] as unknown as u32).cmp(b[1] as unknown as u32)
+      isFunction((a[1] as unknown as BN).cmp)
+        ? (a[1] as unknown as BN).cmp(b[1] as unknown as BN)
         : a[0].localeCompare(b[0])
     )
     .map(([, v]) => v);

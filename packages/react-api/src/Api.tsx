@@ -207,18 +207,18 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
 
   // initial initialization
   useEffect((): void => {
-    let provider;
-
-    if (apiUrl.startsWith('light://')) {
-      provider = new ScProvider(apiUrl.replace('light://substrate-connect/', '') as SupportedChains);
-    } else {
-      provider = new WsProvider(apiUrl);
-    }
-
-    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
+    api = new ApiPromise({
+      provider: apiUrl.startsWith('light://')
+        ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as SupportedChains)
+        : new WsProvider(apiUrl),
+      registry,
+      signer: new ApiSigner(registry, queuePayload, queueSetTxStatus),
+      types,
+      typesBundle,
+      typesChain
+    });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
