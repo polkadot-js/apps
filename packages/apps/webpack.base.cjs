@@ -36,7 +36,6 @@ function createWebpack (context, mode = 'production') {
         from: 'public',
         globOptions: {
           dot: true,
-          gitignore: true,
           ignore: ['**/index.html']
         }
       }]

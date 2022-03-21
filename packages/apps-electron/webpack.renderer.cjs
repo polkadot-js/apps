@@ -22,7 +22,6 @@ module.exports = merge(
           from: '../apps/public',
           globOptions: {
             dot: true,
-            gitignore: true,
             ignore: ['**/index.html']
           }
         }]
