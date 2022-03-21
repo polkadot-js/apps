@@ -27,7 +27,7 @@ function Summary ({ className = '', isVisible, targets: { inflation: { idealStak
     <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
         <CardSummary label={<>{t<string>('nominators')}<div>{t<string>('min active stake')}</div></>}>
-          {nominatorMinActiveThreshold === '0' ? <Spinner noLabel /> : nominatorMinActiveThreshold}
+          {!nominatorMinActiveThreshold ? <Spinner noLabel /> : nominatorMinActiveThreshold}
         </CardSummary>
         <CardSummary label={<>{t<string>('validators')}<div>{t<string>('min active stake')}</div></>}>
           {validatorMinActiveThreshold === '' ? <Spinner noLabel /> : validatorMinActiveThreshold}

@@ -250,23 +250,23 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
 const b = (x: BN, api: ApiPromise): string => formatBalance(api.createType('Balance', x));
 
 function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
-  const assignments: Map<AccountId32, BN> = new Map();
+  const assignments: Map<string, BN> = new Map();
 
   stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
 
   stakers.map((x) => x[1].others).flat(1).forEach((x) => {
-    const nominator = (x as PalletStakingIndividualExposure).who;
+    const nominator = (x as PalletStakingIndividualExposure).who.toString();
     const amount = (x as PalletStakingIndividualExposure).value;
     const val = assignments.get(nominator);
 
     assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
   });
 
-  const nominatorStakes = Array.from(assignments.values());
+  const nominatorStakes = Array.from(assignments);
 
-  nominatorStakes.sort((a, b) => a.cmp(b));
+  nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
 
-  return b(nominatorStakes[0], api);
+  return nominatorStakes[0] && b(nominatorStakes[0][1], api);
 }
 
 const transformEra = {
