@@ -13,7 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { AccountId32 } from '@polkadot/types/interfaces';
 import { PalletStakingIndividualExposure } from '@polkadot/types/lookup';
-import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -247,7 +247,7 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-const b = (x: BN, api: ApiPromise): string => api.createType('Balance', x).toHuman();
+const b = (x: BN, api: ApiPromise): string => formatBalance(api.createType('Balance', x));
 
 function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, Codec][]) {
   const assignments: Map<AccountId32, BN> = new Map();
