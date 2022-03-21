@@ -1,4 +1,4 @@
-    3449	Jaco                          	Adjust webpack loaders to new assets (#7192)
+    3450	Jaco                          	Update WebPack plugins (#7196)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
