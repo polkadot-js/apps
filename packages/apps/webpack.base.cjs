@@ -33,7 +33,7 @@ function createWebpack (context, mode = 'production') {
   const plugins = fs.existsSync(path.join(context, 'public'))
     ? new CopyWebpackPlugin({
       patterns: [{
-        from: 'public/**/*',
+        from: 'public',
         globOptions: {
           dot: true,
           gitignore: true,
