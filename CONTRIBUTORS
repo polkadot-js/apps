@@ -1,4 +1,4 @@
-    3452	Jaco                          	Use xxhash64 for file-loader (#7056)
+    3453	Jaco                          	Adjust allocations for ci:chain{Endpoints, Types} (#7205)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
