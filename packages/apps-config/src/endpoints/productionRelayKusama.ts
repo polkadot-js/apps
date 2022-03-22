@@ -38,7 +38,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+          Dwellir: 'wss://statemine-rpc.dwellir.com'
         },
         teleport: [-1]
       },
@@ -48,7 +49,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1001,
         text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
-          'Encointer Association': 'wss://api.kusama.encointer.org'
+          'Encointer Association': 'wss://kusama.api.encointer.org',
+          OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },
@@ -346,7 +348,8 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
           OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
+          Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+          Dwellir: 'wss://shiden-rpc.dwellir.com'
         }
       },
       {
@@ -374,6 +377,17 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
         providers: {
           Dappforce: 'wss://para.subsocial.network'
+        }
+      },
+      {
+        info: 'turing',
+        isUnreachable: true,
+        homepage: 'https://oak.tech',
+        paraId: 2114,
+        text: t('rpc.turing.oak', 'Turing Network', { ns: 'apps-config' }),
+        providers: {
+          OAK: 'wss://rpc.turing.oak.tech',
+          OnFinality: 'wss://turing.api.onfinality.io/public-ws'
         }
       },
       {

@@ -42,6 +42,8 @@
       "@polkadot/app-js/*": ["page-js/src/*"],
       "@polkadot/app-membership": ["page-membership/src"],
       "@polkadot/app-membership/*": ["page-membership/src/*"],
+      "@polkadot/app-nfts": ["page-nfts/src"],
+      "@polkadot/app-nfts/*": ["page-nfts/src/*"],
       "@polkadot/app-parachains": ["page-parachains/src"],
       "@polkadot/app-parachains/*": ["page-parachains/src/*"],
       "@polkadot/app-poll": ["page-poll/src"],

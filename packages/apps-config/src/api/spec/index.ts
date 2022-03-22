@@ -108,6 +108,7 @@ import substrateContractsNode from './substrateContractsNode';
 import swapdex from './swapdex';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
+import turing from './turing';
 import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
@@ -191,6 +192,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  kerria: parallel,
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
@@ -254,10 +256,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   swapdex,
   ternoa,
   trustbase,
+  turing,
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,
+  vanilla: parallel,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

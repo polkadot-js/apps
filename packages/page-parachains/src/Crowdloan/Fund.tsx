@@ -159,7 +159,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
             accountId={depositor}
             className='media--1400'
             icon='times'
-            isDisabled={!isDepositor}
+            isDisabled={!(isDepositor || hasEnded)}
             label={
               isEnded
                 ? t<string>('Close')

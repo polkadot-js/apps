@@ -37,7 +37,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rpc.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
+          Dwellir: 'wss://statemint-rpc.dwellir.com'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -74,7 +75,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
           Astar: 'wss://rpc.astar.network',
-          OnFinality: 'wss://astar.api.onfinality.io/public-ws'
+          OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+          Dwellir: 'wss://astar-rpc.dwellir.com'
         }
       },
       {
@@ -91,7 +93,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'centrifuge',
         homepage: 'https://centrifuge.io',
         paraId: 2031,
-        isUnreachable: true,
         text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
@@ -182,7 +183,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'hydra',
         homepage: 'https://hydradx.io/',
         paraId: 2034,
-        isUnreachable: true, // waiting for onboarding
         text: t('rpc.polkadot.hydra', 'HydraDX', { ns: 'apps-config' }),
         providers: {
           'Galactic Council': 'wss://rpc-01.hydradx.io'
@@ -194,7 +194,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2032,
         text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain',
+          OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
         }
       },
       {
@@ -233,11 +234,10 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'nodle',
         homepage: 'https://nodle.com',
-        isUnreachable: true,
         paraId: 2026,
         text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
         providers: {
-          Nodle: 'wss://rpc.nodle.com'
+          OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
         }
       },
       {
@@ -287,6 +287,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
+        info: 'unique',
+        homepage: 'https://unique.network/',
+        paraId: 2037,
+        text: t('ws.unique.network', 'Unique Network', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://ws.unique.network/'
         }
       }
     ]
