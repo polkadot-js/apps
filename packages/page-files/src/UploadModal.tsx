@@ -145,7 +145,10 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
   }, [currentPair, password]);
 
   const _onClose = useCallback(() => {
-    if (cancelUp) cancelUp.cancel();
+    if (cancelUp) {
+      cancelUp.cancel();
+    }
+
     onClose();
   }, [cancelUp, onClose]);
 
@@ -258,13 +261,17 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
   const _onChangeGateway = useCallback((value: string) => {
     const find = endpoints.find((item) => item.value === value);
 
-    if (find) setCurrentEndpoint(find);
+    if (find) {
+      setCurrentEndpoint(find);
+    }
   }, [endpoints, setCurrentEndpoint]);
 
   const _onChangePinner = useCallback((value: string) => {
     const find = pinEndpoints.find((item) => item.value === value);
 
-    if (find) setCurrentPinEndpoint(find);
+    if (find) {
+      setCurrentPinEndpoint(find);
+    }
   }, [pinEndpoints, setCurrentPinEndpoint]);
 
   return (

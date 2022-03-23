@@ -32,6 +32,7 @@ interface Props {
   isMain?: boolean;
   isPara?: boolean;
   lastBlock?: string;
+  minCommission?: BN;
   nominatedBy?: NominatedByType[];
   points?: string;
   recentlyOnline?: DeriveHeartbeatAuthor;
@@ -41,6 +42,7 @@ interface Props {
 }
 
 interface StakingState {
+  isChilled?: boolean;
   commission?: string;
   nominators: NominatorValue[];
   stakeTotal?: BN;
@@ -48,7 +50,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState {
+function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
   let nominators: NominatorValue[] = [];
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
@@ -65,6 +67,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState 
 
   return {
     commission: commission?.toHuman(),
+    isChilled: commission && minCommission && commission.isZero() && commission.lt(minCommission),
     nominators,
     stakeOther,
     stakeOwn,
@@ -84,15 +87,15 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
-  const { commission, nominators, stakeOther, stakeOwn } = useMemo(
+  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
-      ? expandInfo(validatorInfo)
+      ? expandInfo(validatorInfo, minCommission)
       : { nominators: [] },
-    [validatorInfo]
+    [minCommission, validatorInfo]
   );
 
   const isVisible = useMemo(
@@ -118,6 +121,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           toggleFavorite={toggleFavorite}
         />
         <Status
+          isChilled={isChilled}
           isElected={isElected}
           isMain={isMain}
           isPara={isPara}

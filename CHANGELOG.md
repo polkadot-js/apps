@@ -1,10 +1,48 @@
 # CHANGELOG
 
-## master
+## 0.110.1 Mar 21, 2022
+
+Contributed:
+
+- Add page for NFT support (Thanks to https://github.com/jsidorenko)
+- Allow cowdloan dissolve by anybody (Thanks to https://github.com/shawntabrizi)
+- Enable Encointer as Rococo transporter (Thanks to https://github.com/brenzi)
+- Add Turing network to Kusama (Thanks to https://github.com/irsal)
+- Update Kusari and Swapdex types (Thanks to https://github.com/masterdubs)
+- Update OnFinality endpoint for Nodle (Thanks to https://github.com/banananeko)
+- Add support for KodaDot from accounts (Thanks to https://github.com/preschian)
+- Correct link for Kintsugi for Subsquare (Thanks to https://github.com/wliyongfeng)
+- Add Basilik to Rococo (Thanks to https://github.com/lumir-mrkva)
+- Add types for Kerria, Vanilla testnet (Thanks to https://github.com/GopherJ)
+
+Changes:
+
+- Adjust display for successful transactions with warnings
+- Add `useBlockInterval` re-usable hook
+- Optimize asset list retrieval (using events)
+- Perform paraApi dosconnects directly on the provider
+- Adjust display of active totals from Ledger (optional field)
+- Disable unreachable endpoints
+
+
+## 0.109.1 Mar 14, 2022
+
+Contributed:
+
+- Add DataHighway Spreehaven on Rococo (Thanks to https://github.com/ayushmishra2005)
+- Add MiniX (Thanks to https://github.com/hqwangningbo)
+- Enable HydraX parachain (Thanks to https://github.com/lumir-mrkva)
+- Enable Centrifuge parachain (Thanks to https://github.com/mikiquantum)
+- Enable Unique parachain (Thanks to https://github.com/gregzaitsev)
+- Dwellir RPCs for Statemint, Statemine, Westmint (Thanks to https://github.com/Maharacha)
+- Update Nodle RPCs (Thanks to https://github.com/ETeissonniere)
 
 Changes:
 
 - Only disable fast-track on super majority (aligns with Substrate)
+- Display active-chilled validators (only on min commission chains)
+- Show hint around non-available Ledger support on FF
+- Adjust parachain displays for non-active
 
 
 ## 0.108.1 Mar 7, 2022

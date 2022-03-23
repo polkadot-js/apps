@@ -285,8 +285,8 @@ export default React.memo(styled(Status)`
       background: teal;
     }
 
-    &.eventWarn > .wraper > .container {
-      background: orange;
+    &.eventWarn > .wrapper > .container {
+      background: darkorange;
     }
 
     &.completed,
