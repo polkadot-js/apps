@@ -43,6 +43,7 @@ import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
+import chainTinker from './chains/tinker.png';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
@@ -232,6 +233,7 @@ export const chainLogos = Object.entries({
   InterBTC: nodeInterBTC,
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
+  'InvArch Tinkernet': chainTinker,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -412,6 +414,7 @@ export const nodeLogos = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
+  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
@@ -698,6 +701,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
   rococoTick: chainRococoTick,
+  rococoTinker: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,

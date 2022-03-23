@@ -124,6 +124,7 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainSwapdex = '#E94082';
+const chainTinker = "#161616";
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
 const chainUnitv = '#1452F0';
@@ -279,6 +280,7 @@ export const chainColors: Record<string, string> = Object.entries({
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
+  'InvArch Tinkernet': chainTinker,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -437,6 +439,7 @@ export const nodeColors = Object.entries({
   GEEK: nodeGeek,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
+  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,

@@ -483,6 +483,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoTinker',
+        isDisabled: false, // Rococo reset
+        paraId: 2011,
+        text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'ws://127.0.0.1:8844'
+        }
+      },
+      {
         info: 'rococoTrustBase',
         isDisabled: true, // Rococo reset
         paraId: 6633,
