@@ -12,14 +12,14 @@ function extractError (result: DispatchResult): string | null {
   if (!result) {
     return INCOMPLETE;
   } else if (result.isErr) {
-    return `incomplete: ${getDispatchError(result.asErr)}`;
+    return `error: ${getDispatchError(result.asErr)}`;
   }
 
   return null;
 }
 
 function batchInterrupted ({ data: [index, error] }: Event): string | null {
-  return `incomplete: ${index.toString()}: ${getDispatchError(error as DispatchError)}`;
+  return `error: ${index.toString()}: ${getDispatchError(error as DispatchError)}`;
 }
 
 function dispatchResult ({ data: [result] }: Event): string | null {
@@ -37,7 +37,7 @@ function xcmAttempted ({ data: [outcome] }: Event): string | null {
   } else if ((outcome as XcmV2TraitsOutcome).isIncomplete) {
     const [index, error] = (outcome as XcmV2TraitsOutcome).asIncomplete;
 
-    return `incomplete: ${index.toString()}: ${error.type}`;
+    return `error: ${index.toString()}: ${error.type}`;
   }
 
   return null;
