@@ -176,13 +176,13 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-              info: 'rococoTinker',
-              isDisabled: false, // Rococo reset
-              paraId: 2011,
-              text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
-              providers: {
-                OnFinality: 'wss://localhost:8844'
-              }
+        info: 'rococoTinker',
+        isDisabled: false, // Rococo reset
+        paraId: 2011,
+        text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'wss://localhost:8844'
+        }
       },
       {
         info: 'rococoGalital',
