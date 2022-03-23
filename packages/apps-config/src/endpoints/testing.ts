@@ -225,6 +225,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'joystream',
+      text: t('rpc.test.joystream', 'Joystream', { ns: 'apps-config' }),
+      providers: {
+        Jsgenesis: 'wss://rpc.joystream.org:9944'
+      }
+    },
+    {
       info: 'jupiter',
       text: t('rpc.test.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {

@@ -159,6 +159,7 @@ const nodeGeek = '#4f46e5';
 const nodeHeiko = '#42d5de';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
+const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -441,6 +442,7 @@ export const nodeColors = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   IpseTestnet: nodeIpse,
+  'Joystream Node': nodeJoystream,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
