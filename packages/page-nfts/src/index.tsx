@@ -26,8 +26,6 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const ids = useCollectionIds();
   const infos = useCollectionInfos(ids);
 
-  console.log(ids, infos);
-
   const tabsRef = useRef([
     {
       isRoot: true,
