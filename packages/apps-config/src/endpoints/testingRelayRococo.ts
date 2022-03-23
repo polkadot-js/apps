@@ -176,6 +176,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+              info: 'rococoTinker',
+              isDisabled: false, // Rococo reset
+              paraId: 2011,
+              text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
+              providers: {
+                OnFinality: 'wss://localhost:8844'
+              }
+      },
+      {
         info: 'rococoGalital',
         isDisabled: true, // Rococo reset
         paraId: 1230,
@@ -479,15 +488,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
         providers: {
           DappForce: 'wss://roc.subsocial.network'
-        }
-      },
-      {
-        info: 'rococoTinker',
-        isDisabled: false, // Rococo reset
-        paraId: 2011,
-        text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
-        providers: {
-          OnFinality: 'ws://127.0.0.1:8844'
         }
       },
       {
