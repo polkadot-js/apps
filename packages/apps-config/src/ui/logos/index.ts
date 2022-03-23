@@ -51,6 +51,7 @@ import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
 import externalDotScanner from './external/dotscanner.png';
+import externalKodaDot from './external/kodadot.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
@@ -238,6 +239,8 @@ export const chainLogos = Object.entries({
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
   Karura: chainKarura,
+  Kerria: chainParallel,
+  'Kerria Dev': chainParallel,
   KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
@@ -288,7 +291,9 @@ export const chainLogos = Object.entries({
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: chainParallel,
+  'Parallel Dev': chainParallel,
   'Parallel Heiko': chainParallel,
+  'Parallel Heiko Dev': chainParallel,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
@@ -416,6 +421,8 @@ export const nodeLogos = Object.entries({
   Interlay: chainInterlay,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
+  Kerria: nodeParallel,
+  'Kerria Dev': nodeParallel,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
   KICO: chainKico,
@@ -453,7 +460,9 @@ export const nodeLogos = Object.entries({
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: nodeParallel,
+  'Parallel Dev': nodeParallel,
   'Parallel Heiko': nodeParallel,
+  'Parallel Heiko Dev': nodeParallel,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -511,6 +520,8 @@ export const nodeLogos = Object.entries({
   'Unique Node': nodeUnique,
   'Unit Collator': nodeUnitv,
   'Unit Node': nodeUnitv,
+  Vanilla: nodeParallel,
+  'Vanilla Dev': nodeParallel,
   Vln: nodeVln,
   'VLN PC': nodeVln,
   'Web3Games Node': nodeWeb3games,
@@ -604,6 +615,7 @@ export const namedLogos: Record<string, unknown> = {
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
+  kerria: nodeParallel,
   khala: nodeKhala,
   kico: chainKico,
   kilt: nodeKilt,
@@ -661,6 +673,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAcala: chainAcala,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
+  rococoBasilisk: nodeBasilisk,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoCanvas: chainRococoCanvas,
@@ -743,6 +756,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   unitv: nodeUnitv,
   unorthodox: chainUnorthodox,
+  vanilla: nodeParallel,
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
@@ -766,6 +780,7 @@ export const externalLogos: Record<string, unknown> = {
   commonwealth: externalCommonwealth,
   dotreasury: externalDotreasury,
   dotscanner: externalDotScanner,
+  kodadot: externalKodaDot,
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,

@@ -30,7 +30,9 @@ function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], sta
 }
 
 export function proposalNameToDisplay (bountyProposal: DeriveCollectiveProposal, status: BountyStatus): string | undefined {
-  if (bountyProposal.proposal.method !== 'unassignCurator') { return bountyProposal.proposal.method; }
+  if (bountyProposal.proposal.method !== 'unassignCurator') {
+    return bountyProposal.proposal.method;
+  }
 
   return status.isCuratorProposed ? 'unassignCurator' : 'slashCurator';
 }

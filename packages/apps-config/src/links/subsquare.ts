@@ -11,7 +11,7 @@ export default {
     Bifrost: 'bifrost',
     Karura: 'karura',
     Khala: 'khala',
-    Kintsugi: 'kintsugi'
+    kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subsquare.io/${path}/${data.toString()}`,
