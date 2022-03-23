@@ -228,7 +228,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'joystream',
       text: t('rpc.test.joystream', 'Joystream', { ns: 'apps-config' }),
       providers: {
-        Jsgenesis: 'wss://52.91.200.121.nip.io/ws-rpc' // TODO: Update once testnet is launched!
+        Jsgenesis: 'wss://rpc.joystream.org:9944'
       }
     },
     {
