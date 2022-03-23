@@ -42,7 +42,9 @@ async function fetchIpfsData <T> (ipfsHashes: string[]): Promise<Map<string, T>>
 }
 
 function postProcessData <T> (ipfsData: Map<string, T>, options?: CallOptions<T>) {
-  if (!options?.transform) return ipfsData;
+  if (!options?.transform) {
+    return ipfsData;
+  }
 
   for (const [key, value] of ipfsData.entries()) {
     ipfsData.set(key, options?.transform(value));
@@ -57,7 +59,9 @@ export function useIpfsFetch <T> (hashes: string[] | undefined, options?: CallOp
   const [value, setValue] = useState<Map<string, T> | undefined>();
 
   const ipfsHashes = useMemo(() => {
-    if (!hashes) return undefined;
+    if (!hashes) {
+      return undefined;
+    }
 
     return hashes
       .map((hash) => isCid(hash) ? hash : '')
