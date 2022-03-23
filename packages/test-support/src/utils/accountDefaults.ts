@@ -114,25 +114,25 @@ class MockAccountHooks {
 
       Object
         .entries(props.meta || meta)
-        .forEach(function ([key, value]) {
+        .forEach(([key, value]) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (meta as any)[key] = value;
         });
       Object
         .entries(props.balance || balance)
-        .forEach(function ([key, value]) {
+        .forEach(([key, value]) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (balance as any)[key] = value;
         });
       Object
         .entries(props.staking || staking)
-        .forEach(function ([key, value]) {
+        .forEach(([key, value]) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (staking as any)[key] = value;
         });
       Object
         .entries(props.info || info)
-        .forEach(function ([key, value]) {
+        .forEach(([key, value]) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           (info as any)[key] = value;
         });
