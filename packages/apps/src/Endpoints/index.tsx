@@ -176,7 +176,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _removeApiEndpoint = useCallback(
     (): void => {
-      if (!isSavedCustomEndpoint) return;
+      if (!isSavedCustomEndpoint) {
+        return;
+      }
 
       const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 

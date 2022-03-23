@@ -19,6 +19,6 @@
   "devDependencies": {
     "@polkadot/types-support": "^7.13.1",
     "@testing-library/jest-dom": "^5.16.2",
-    "tsconfig-paths": "^3.14.0"
+    "tsconfig-paths": "^3.14.1"
   }
 }

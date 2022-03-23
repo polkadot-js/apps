@@ -16,7 +16,9 @@ const QUERY_OPTS = { withParams: true };
 
 const IPFS_FETCH_OPTIONS = {
   transform: (data: string | undefined): ItemSupportedIpfsData | null => {
-    if (!data) return null;
+    if (!data) {
+      return null;
+    }
 
     try {
       const result = JSON.parse(data) as {[key: string]: any};
@@ -81,7 +83,9 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     if (ipfsData && accountItems.length && metadata && metadata[0][0].length) {
       const [collectionId] = metadata[0][0][0];
 
-      if (!collectionId.eq(ids[0][0])) return;
+      if (!collectionId.eq(ids[0][0])) {
+        return;
+      }
 
       const itemsInfos = metadata[0][0].map((id, index) => extractInfo(id, metadata[1][index], accountItems));
 
