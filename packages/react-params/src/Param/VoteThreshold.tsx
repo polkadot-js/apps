@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { Props } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { bnToBn, isFunction } from '@polkadot/util';
@@ -35,9 +35,12 @@ function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabl
     [onChange]
   );
 
-  const defaultValue = isFunction((value as BN).toNumber)
-    ? (value as BN).toNumber()
-    : bnToBn(value as number).toNumber();
+  const defaultValue = useMemo(
+    () => isFunction((value as BN).toNumber)
+      ? (value as BN).toNumber()
+      : bnToBn(value as number).toNumber(),
+    [value]
+  );
 
   return (
     <Bare className={className}>
