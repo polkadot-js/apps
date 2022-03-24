@@ -187,6 +187,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'gamepower',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7223
       text: t('rpc.test.gamepower', 'GamePower', { ns: 'apps-config' }),
       providers: {
         GamePower: 'wss://gamepower.io'
