@@ -181,7 +181,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2011,
         text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://localhost:8844'
+          OnFinality: 'wss://node-6912868575456792576.sz.onfinality.io/ws?apikey=d1b21ceb-c069-446e-b6e4-756a5406341b'
         }
       },
       {
