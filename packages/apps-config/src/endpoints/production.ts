@@ -122,6 +122,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'
