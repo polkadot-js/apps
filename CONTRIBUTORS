@@ -1,4 +1,4 @@
-    3455	Jaco                          	Extract DispatchError on incomplete (#7213)
+    3456	Jaco                          	Disable unreachable endpoints (#7221)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
