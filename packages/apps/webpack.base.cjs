@@ -102,7 +102,13 @@ function createWebpack (context, mode = 'production') {
               loader: require.resolve('null-loader')
             }
           ]
-        }
+        },
+        {
+          test: /\.m?js/,
+          resolve: {
+            fullySpecified: false
+          }
+        },
       ]
     },
     node: {

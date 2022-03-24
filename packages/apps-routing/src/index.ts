@@ -21,6 +21,7 @@ import js from './js';
 import membership from './membership';
 import nfts from './nfts';
 import parachains from './parachains';
+import parachainStaking from './parachainStaking';
 import poll from './poll';
 import rpc from './rpc';
 import settings from './settings';
@@ -51,6 +52,7 @@ export default function create (t: TFunction): Routes {
     techcomm(t),
     membership(t),
     parachains(t),
+    parachainStaking(t),
     gilt(t),
     assets(t),
     nfts(t),
