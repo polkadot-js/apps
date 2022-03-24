@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { ParachainStakingRoundInfo } from '@polkadot/types/lookup'
+import type { ParachainStakingRoundInfo } from '@polkadot/types/lookup';
 
 import React from 'react';
 import styled from 'styled-components';

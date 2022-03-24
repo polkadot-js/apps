@@ -21,7 +21,7 @@ interface Props {
   roundDuration: BN
 }
 
-function BondLessModal ({ className = '', delegation, onClose, roundDuration, delegatorAddress }: Props): React.ReactElement<Props> {
+function BondLessModal ({ className = '', delegation, delegatorAddress, onClose, roundDuration }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
@@ -50,8 +50,8 @@ function BondLessModal ({ className = '', delegation, onClose, roundDuration, de
           >
             <InputAddress
               defaultValue={delegatorAddress}
-              isDisabled
               help={t<string>('The account that has an active delegation on the collator candidate.')}
+              isDisabled
               label={t<string>('delegator account')}
               type='account'
             />

@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { ParachainStakingRoundInfo } from '@polkadot/types/lookup'
+import type { ParachainStakingRoundInfo } from '@polkadot/types/lookup';
 
 import React from 'react';
 
 import { CardSummary } from '@polkadot/react-components';
-import { BN } from '@polkadot/util';
-
 
 interface Props {
   className?: string;

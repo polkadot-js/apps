@@ -6,28 +6,26 @@ import React from 'react';
 import { AddressSmall, Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { isFunction, formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
-import { CandidateState } from '../types';
 import DelegateModal from '../Modals/DelegateModal';
+import { CandidateState } from '../types';
 
 interface Props {
   className?: string;
   candidateState: CandidateState
 }
 
-function CandidateDetails ({ className = '', candidateState }: Props): React.ReactElement<Props> | null {
+function CandidateDetails ({ candidateState, className = '' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const {
-    bond,
+  const { bond,
     delegationCount,
     lowestTopDelegationAmount,
     topCapacity,
     totalBacking,
-    totalCounted
-  } = candidateState;
+    totalCounted } = candidateState;
 
   const minContribution = topCapacity.toHuman() === 'Full'
     ? lowestTopDelegationAmount

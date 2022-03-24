@@ -3,19 +3,10 @@
 
 import '@moonbeam-network/api-augment';
 
-
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
-import type { Perbill } from "@polkadot/types/interfaces/runtime";
-import type {
-  ParachainStakingCandidateMetadata,
-  ParachainStakingDelegations,
-  ParachainStakingSetOrderedSetBond,
-  ParachainStakingRoundInfo,
-  ParachainStakingInflationInflationInfo,
-  ParachainStakingParachainBondConfig
-} from '@polkadot/types/lookup'
-
+import type { Perbill } from '@polkadot/types/interfaces/runtime';
+import type { ParachainStakingCandidateMetadata, ParachainStakingDelegations, ParachainStakingInflationInflationInfo, ParachainStakingParachainBondConfig, ParachainStakingRoundInfo, ParachainStakingSetOrderedSetBond } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -63,7 +54,9 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
     let _activeDelegatorCount = 0;
     const sorted: CandidateState[] = [];
 
-    if (!allCandidatesTopDelegations || !allCandidatesBottomDelegations || !selectedCandidates) return;
+    if (!allCandidatesTopDelegations || !allCandidatesBottomDelegations || !selectedCandidates) {
+      return;
+    }
 
     // unwrap output
     allCandidates?.forEach(([storageKey, candidateInfoRaw], i) => {
@@ -71,18 +64,20 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
       const bottomDelegations = allCandidatesBottomDelegations[i][1].unwrap();
       const candidateInfo = candidateInfoRaw.unwrap();
       const candidateAddress = (storageKey.toHuman() as string[])[0];
+
       sorted.push({
-        id: candidateAddress,
         bottomDelegations: bottomDelegations.delegations,
+        id: candidateAddress,
         topDelegations: topDelegations.delegations,
         totalBacking: candidateInfo.bond.add(topDelegations.total).add(bottomDelegations.total),
-        ...candidateInfo,
+        ...candidateInfo
       } as CandidateState);
 
       // extract relevant nominator stats
       if (selectedCandidates.includes(candidateAddress)) {
-        _activeDelegatorCount += candidateInfo.delegationCount.toNumber(); 
+        _activeDelegatorCount += candidateInfo.delegationCount.toNumber();
       }
+
       _allDelegatorCount += candidateInfo.delegationCount.toNumber();
     });
     // sort by total staked

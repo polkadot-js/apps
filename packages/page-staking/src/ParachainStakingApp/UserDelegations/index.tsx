@@ -1,12 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type {
-  ParachainStakingDelegator,
-  ParachainStakingBond,
-  ParachainStakingRoundInfo
-} from '@polkadot/types/lookup'
 import type { Option } from '@polkadot/types';
+import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingDelegator, ParachainStakingRoundInfo } from '@polkadot/types/lookup';
 
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -25,16 +21,27 @@ function UserDelegations ({ roundInfo }: Props): React.ReactElement<Props> | nul
   const { t } = useTranslation();
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [delegations, setDelegations] = useState<ParachainStakingBond[]>([]);
-  const [requests, setRequests] = useState();
+  const [requests, setRequests] = useState<Record<string, ParachainStakingDelegationRequest>>();
 
   const delegatorStateOption = useCall<Option<ParachainStakingDelegator>>(api.query.parachainStaking.delegatorState, [userAddress]);
 
   useEffect(() => {
-    if (!delegatorStateOption) return;
+    if (!delegatorStateOption) {
+      return;
+    }
 
     const delegatorState = delegatorStateOption.unwrapOr({}) as ParachainStakingDelegator;
+
     setDelegations(delegatorState.delegations || []);
-    setRequests(delegatorState.requests?.requests.toJSON() as any);
+
+    const actionRequests: Record<string, ParachainStakingDelegationRequest> = {};
+
+    delegatorState.requests?.requests.forEach(
+      (v, k) => {
+        actionRequests[k.toHuman()] = v;
+      }
+    );
+    setRequests(actionRequests);
   }, [delegatorStateOption]);
 
   const headerRef = useRef(
@@ -65,8 +72,8 @@ function UserDelegations ({ roundInfo }: Props): React.ReactElement<Props> | nul
               <DelegationDetails
                 delegation={delegation}
                 key={delegation.owner.toString()}
-                roundInfo={roundInfo}
                 request={requests?.[delegation.owner.toString()]}
+                roundInfo={roundInfo}
                 userAddress={userAddress}
               />
             ))

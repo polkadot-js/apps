@@ -16,7 +16,7 @@ interface Props {
   candidateAddress: string
 }
 
-function CancelRequestModal ({ className = '', delegatorAddress, candidateAddress, onClose }: Props): React.ReactElement<Props> {
+function CancelRequestModal ({ candidateAddress, className = '', delegatorAddress, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -41,8 +41,8 @@ function CancelRequestModal ({ className = '', delegatorAddress, candidateAddres
           <Modal.Columns hint={t<string>('This is the address of the collator candidate with a pending execution.')}>
             <InputAddress
               defaultValue={candidateAddress}
-              isDisabled
               help={t<string>('Delegated collator candidate')}
+              isDisabled
               label={t<string>('collator candidate')}
               type='allPlus'
             />

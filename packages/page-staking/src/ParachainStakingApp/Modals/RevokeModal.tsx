@@ -20,7 +20,7 @@ interface Props {
   delegationAmount: string
 }
 
-function RevokeModal ({ className = '', candidateAddress, delegationAmount, onClose, roundDuration, delegatorAddress }: Props): React.ReactElement<Props> {
+function RevokeModal ({ candidateAddress, className = '', delegationAmount, delegatorAddress, onClose, roundDuration }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -42,8 +42,8 @@ function RevokeModal ({ className = '', candidateAddress, delegationAmount, onCl
             <InputAddress
               defaultValue={delegatorAddress}
               help={t<string>('The account that has an active delegation on the collator candidate.')}
-              label={t<string>('delegator account')}
               isDisabled
+              label={t<string>('delegator account')}
               labelExtra={
                 <FormatBalance
                   className={className}
@@ -60,8 +60,8 @@ function RevokeModal ({ className = '', candidateAddress, delegationAmount, onCl
             <InputAddress
               defaultValue={candidateAddress}
               help={t<string>('Delegated collator candidate')}
-              label={t<string>('collator candidate')}
               isDisabled
+              label={t<string>('collator candidate')}
               type='allPlus'
             />
           </Modal.Columns>

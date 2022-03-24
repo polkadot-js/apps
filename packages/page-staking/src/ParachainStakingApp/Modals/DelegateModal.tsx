@@ -1,12 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type {
-  ParachainStakingCandidateMetadata,
-  ParachainStakingDelegator
-} from '@polkadot/types/lookup'
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
+import type { ParachainStakingCandidateMetadata, ParachainStakingDelegator } from '@polkadot/types/lookup';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -26,7 +23,7 @@ interface Props {
   minContribution: string
 }
 
-function DelegateModal ({ className = '', delegatorAddress, candidateAddress, minContribution, onClose }: Props): React.ReactElement<Props> {
+function DelegateModal ({ candidateAddress, className = '', delegatorAddress, minContribution, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
@@ -56,6 +53,7 @@ function DelegateModal ({ className = '', delegatorAddress, candidateAddress, mi
           .paymentInfo(delegator)
           .then(({ partialFee }): void => {
             const adjFee = partialFee.muln(110).div(BN_HUNDRED);
+
             setMaxTransfer(
               BN.max(
                 balances.availableBalance.sub(adjFee),
@@ -83,7 +81,7 @@ function DelegateModal ({ className = '', delegatorAddress, candidateAddress, mi
   // candidateDelegationCount
   useEffect((): void => {
     api.query.parachainStaking.candidateInfo(candidate)
-      .then(candidateInfo => {
+      .then((candidateInfo) => {
         // Add 10 to cover for possible changes between time of query and actual submission of the extrinsic
         setCandidateDelegationCount(
           (candidateInfo as Option<ParachainStakingCandidateMetadata>).unwrap().delegationCount.add(new BN(10))
@@ -98,8 +96,8 @@ function DelegateModal ({ className = '', delegatorAddress, candidateAddress, mi
         // Add 10 to cover for possible changes between time of query and actual submission of the extrinsic
         setDelegationCount(
           delegatorState.isEmpty
-          ? 10
-          : (delegatorState as Option<ParachainStakingDelegator>).unwrap().delegations.length + 10
+            ? 10
+            : (delegatorState as Option<ParachainStakingDelegator>).unwrap().delegations.length + 10
         );
       }).catch(console.error);
   }, [api, delegator]);

@@ -1,10 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type {
-  ParachainStakingBond,
-  ParachainStakingRoundInfo
-} from '@polkadot/types/lookup'
+import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingRoundInfo } from '@polkadot/types/lookup';
 
 import React from 'react';
 
@@ -12,23 +9,22 @@ import { AddressSmall, Button } from '@polkadot/react-components';
 import { useTranslation } from '@polkadot/react-components/translate';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import BondLessModal from '../Modals/BondLessModal';
 import BondMoreModal from '../Modals/BondMoreModal';
-import RevokeModal from '../Modals/RevokeModal';
-import ExecuteRequestModal from '../Modals/ExecuteRequestModal';
 import CancelRequestModal from '../Modals/CancelRequestModal';
-import { ActionRequest } from '../types';
+import ExecuteRequestModal from '../Modals/ExecuteRequestModal';
+import RevokeModal from '../Modals/RevokeModal';
 
 interface Props {
   delegation: ParachainStakingBond
   roundInfo?: ParachainStakingRoundInfo;
-  request: undefined | ActionRequest
+  request?: ParachainStakingDelegationRequest
   userAddress: string | null
 }
 
-function DelegationDetails ({ delegation, roundInfo, request, userAddress }: Props): React.ReactElement<Props> | null {
+function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isRevokeOpen, toggleRevoke] = useToggle();
@@ -38,7 +34,7 @@ function DelegationDetails ({ delegation, roundInfo, request, userAddress }: Pro
   const [isCancelRequestOpen, toggleCancelRequest] = useToggle();
 
   const roundDuration = roundInfo?.length;
-  const requestExecutable = !!request && roundInfo?.current.gte(new BN(request.whenExecutable));
+  const requestExecutable = !!request && roundInfo?.current.gte(request.whenExecutable);
 
   return (
     <tr>
@@ -51,18 +47,18 @@ function DelegationDetails ({ delegation, roundInfo, request, userAddress }: Pro
       <td className='button media--1000'>
         {isBondMoreOpen && (
           <BondMoreModal
-            key='modal-transfer'
             candidateAddress={delegation.owner}
             delegatorAddress={userAddress}
+            key='modal-transfer'
             onClose={toggleBondMore}
           />
         )}
         {isFunction(api.tx.parachainStaking?.delegatorBondMore) && (
           <Button
             icon='plus'
+            isDisabled={!!request}
             label={t<string>('bond more')}
             onClick={toggleBondMore}
-            isDisabled={!!request}
           />
         )}
       </td>
@@ -70,100 +66,100 @@ function DelegationDetails ({ delegation, roundInfo, request, userAddress }: Pro
         {isBondLessOpen && (
           <BondLessModal
             delegation={delegation}
+            delegatorAddress={userAddress}
             key='modal-transfer'
             onClose={toggleBondLess}
             roundDuration={roundDuration}
-            delegatorAddress={userAddress}
           />
         )}
-        {request?.action === 'Decrease'
-          ?
+        {request?.action.toHuman() === 'Decrease'
+          ? (
             <Button
               icon={requestExecutable ? 'paper-plane' : 'hourglass'}
+              isDisabled={!requestExecutable}
               label={
                 t<string>(requestExecutable
                   ? 'execute bond less'
-                  : `round ${request?.whenExecutable}`
+                  : `round ${request?.whenExecutable.toHuman()}`
                 )
               }
               onClick={toggleExecuteRequest}
-              isDisabled={!requestExecutable}
             />
-          :
-            isFunction(api.tx.parachainStaking?.scheduleDelegatorBondLess) && (
-              <Button
-                icon='minus'
-                label={t<string>('schedule bond less')}
-                onClick={toggleBondLess}
-                isDisabled={!!request}
-              />
-            )
+          )
+          : isFunction(api.tx.parachainStaking?.scheduleDelegatorBondLess) && (
+            <Button
+              icon='minus'
+              isDisabled={!!request}
+              label={t<string>('schedule bond less')}
+              onClick={toggleBondLess}
+            />
+          )
         }
       </td>
       <td className='button media--1000'>
         {isRevokeOpen && (
           <RevokeModal
             candidateAddress={delegation.owner}
-            delegatorAddress={userAddress}
             delegationAmount={delegation.amount}
+            delegatorAddress={userAddress}
             key='modal-transfer'
             onClose={toggleRevoke}
             roundDuration={roundDuration}
           />
         )}
-        {request?.action === 'Revoke'
-          ?
+        {request?.action.toHuman() === 'Revoke'
+          ? (
             <Button
               icon={requestExecutable ? 'paper-plane' : 'hourglass'}
+              isDisabled={!requestExecutable}
               label={
                 t<string>(requestExecutable
                   ? 'execute revoke'
-                  : `round ${request?.whenExecutable}`
+                  : `round ${request?.whenExecutable.toHuman()}`
                 )
               }
               onClick={toggleExecuteRequest}
-              isDisabled={!requestExecutable}
             />
-          :
-            (isFunction(api.tx.parachainStaking?.scheduleRevokeDelegation)) && (
+          )
+          : (isFunction(api.tx.parachainStaking?.scheduleRevokeDelegation)) && (
             <Button
               icon='times'
+              isDisabled={!!request}
               label={t<string>('schedule revoke')}
               onClick={toggleRevoke}
-              isDisabled={!!request}
             />
-        )}
+          )}
       </td>
       <td className='button media--1000'>
-        {!!request 
+        {request
           ? <>
-              {isCancelRequestOpen && (
-                <CancelRequestModal
-                  delegatorAddress={userAddress}
-                  candidateAddress={delegation.owner}
-                  key='modal-transfer'
-                  onClose={toggleCancelRequest}
-                />
-              )}
-              {isFunction(api.tx.parachainStaking?.cancelDelegationRequest) && (
-                <Button
-                  icon='ban'
-                  label={t<string>('cancel request')}
-                  onClick={toggleCancelRequest}
-                />
-              )}
-            </>
-          :
-
+            {isCancelRequestOpen && (
+              <CancelRequestModal
+                candidateAddress={delegation.owner}
+                delegatorAddress={userAddress}
+                key='modal-transfer'
+                onClose={toggleCancelRequest}
+              />
+            )}
+            {isFunction(api.tx.parachainStaking?.cancelDelegationRequest) && (
+              <Button
+                icon='ban'
+                label={t<string>('cancel request')}
+                onClick={toggleCancelRequest}
+              />
+            )}
+          </>
+          : (
             <Button
-              label={t<string>('no request scheduled')}
               isDisabled
+              label={t<string>('no request scheduled')}
             />
+          )
         }
         {isExecuteRequestOpen && (
           <ExecuteRequestModal
-            delegatorAddress={userAddress}
             candidateAddress={delegation.owner}
+            delegatorAddress={userAddress}
             key='modal-transfer'
             onClose={toggleExecuteRequest}
           />

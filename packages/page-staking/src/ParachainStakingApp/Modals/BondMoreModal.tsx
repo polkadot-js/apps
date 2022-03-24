@@ -20,7 +20,7 @@ interface Props {
   candidateAddress?: string;
 }
 
-function BondMoreModal ({ className = '', delegatorAddress, candidateAddress, onClose, }: Props): React.ReactElement<Props> {
+function BondMoreModal ({ candidateAddress, className = '', delegatorAddress, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [selectedDelegator, setSelectedDelegator] = useState<string | null>(null);
@@ -46,6 +46,7 @@ function BondMoreModal ({ className = '', delegatorAddress, candidateAddress, on
           .paymentInfo(delegator)
           .then(({ partialFee }): void => {
             const adjFee = partialFee.muln(110).div(BN_HUNDRED);
+
             setMaxTransfer(
               BN.max(
                 balances.availableBalance.sub(adjFee),
