@@ -37,7 +37,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
       providers: {
-        Centrifuge: 'wss://fullnode.centrifuge.io'
+        Centrifuge: 'wss://fullnode.centrifuge.io',
+        Dwellir: 'wss://centrifuge-rpc.dwellir.com'
       }
     },
     {

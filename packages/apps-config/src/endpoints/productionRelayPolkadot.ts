@@ -237,7 +237,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2026,
         text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
+          OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
+          Dwellir: 'wss://eden-rpc.dwellir.com'
         }
       },
       {
