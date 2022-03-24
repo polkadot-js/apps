@@ -100,6 +100,7 @@ import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
+import nodeJoystream from './nodes/joystream.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.png';
@@ -418,6 +419,7 @@ export const nodeLogos = Object.entries({
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
   IpseTestnet: nodeIpse,
+  'Joystream Node': nodeJoystream,
   Kerria: nodeParallel,
   'Kerria Dev': nodeParallel,
   Khala: nodeKhala,
@@ -610,6 +612,7 @@ export const namedLogos: Record<string, unknown> = {
   interbtc: nodeInterBTC,
   interlay: chainInterlay,
   ipse: nodeIpse,
+  joystream: nodeJoystream,
   jupiter: nodeJupiter,
   karura: chainKarura,
   kerria: nodeParallel,

@@ -32,7 +32,9 @@ function useAccountItemsImpl (): AccountItem[] | undefined {
   const [state, setState] = useState<AccountItem[] | undefined>();
 
   useEffect((): void => {
-    if (!allAccounts.length) return;
+    if (!allAccounts.length) {
+      return;
+    }
 
     const promises = allAccounts.map((account) => api.query.uniques.account.keys(account));
 

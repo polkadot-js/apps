@@ -65,7 +65,10 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   }, [accountId, contract, message, value, weight, params, hasStorageDeposit]);
 
   useEffect((): void => {
-    if (!accountId || !message || !dbParams || !dbValue) return;
+    if (!accountId || !message || !dbParams || !dbValue) {
+      return;
+    }
+
     const query = hasStorageDeposit
       ? contract.query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
       : contract.query[message.method](accountId, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams);
@@ -81,7 +84,10 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !message || !value || !weight) return;
+      if (!accountId || !message || !value || !weight) {
+        return;
+      }
+
       const query = hasStorageDeposit
         ? contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params)
         : contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params);

@@ -13,7 +13,7 @@ import { SubmittableResult } from '@polkadot/api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
-import { isIncompleteEvent } from './checks';
+import { getDispatchError, getIncompleteMessage } from './checks';
 import { STATUS_COMPLETE } from './constants';
 import { QueueProvider } from './Context';
 
@@ -95,30 +95,20 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
 
         if (section === 'system' && method === 'ExtrinsicFailed') {
           const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
-          let message = dispatchError.type;
-
-          if (dispatchError.isModule) {
-            try {
-              const mod = dispatchError.asModule;
-              const error = dispatchError.registry.findMetaError(mod);
-
-              message = `${error.section}.${error.name}` as unknown as 'Other';
-            } catch (error) {
-              // swallow
-            }
-          } else if (dispatchError.isToken) {
-            message = `${dispatchError.type}.${dispatchError.asToken.type}` as unknown as 'Other';
-          }
 
           return {
             action: `${section}.${method}`,
-            message,
+            message: getDispatchError(dispatchError),
             status: 'error'
           };
-        } else if (isIncompleteEvent(record)) {
+        }
+
+        const incomplete = getIncompleteMessage(record);
+
+        if (incomplete) {
           return {
             action: `${section}.${method}`,
-            message: 'imcomplete execution',
+            message: incomplete,
             status: 'eventWarn'
           };
         } else if (section === 'contracts') {

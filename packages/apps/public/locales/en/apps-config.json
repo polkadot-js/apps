@@ -200,6 +200,7 @@
   "rpc.test.halongbay": "Halongbay Testnet",
   "rpc.test.interbtc": "Interlay Testnet",
   "rpc.test.ipse": "IPSE",
+  "rpc.test.joystream": "Joystream",
   "rpc.test.jupiter": "Jupiter",
   "rpc.test.khala": "Khala (Para 3)",
   "rpc.test.kilt.mash": "KILT Mashnet",

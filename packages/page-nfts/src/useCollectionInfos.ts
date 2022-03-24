@@ -26,7 +26,9 @@ const QUERY_OPTS = { withParams: true };
 
 const IPFS_FETCH_OPTIONS = {
   transform: (data: string | undefined): CollectionSupportedIpfsData | null => {
-    if (!data) return null;
+    if (!data) {
+      return null;
+    }
 
     try {
       const result = JSON.parse(data) as {[key: string]: any};
@@ -88,13 +90,12 @@ function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const details = useCall<[[BN[]], Option<PalletUniquesClassDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
-  const ipfsHashes = useMemo((): string[] | undefined => {
-    if (metadata && metadata[1].length) {
-      return metadata[1].map((metadataItem) => metadataItem.toHuman()?.data?.toString() || '');
-    }
-
-    return undefined;
-  }, [metadata]);
+  const ipfsHashes = useMemo(
+    () => metadata && metadata[1].length
+      ? metadata[1].map((m) => m.toHuman()?.data?.toString() || '')
+      : [],
+    [metadata]
+  );
 
   const ipfsData = useIpfsFetch<CollectionSupportedIpfsData | null>(ipfsHashes, IPFS_FETCH_OPTIONS);
 
