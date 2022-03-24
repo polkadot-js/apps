@@ -267,7 +267,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2036,
         text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
         providers: {
-          'Polkadex Team': 'wss://mainnet.polkadex.trade/'
+          'Polkadex Team': 'wss://mainnet.polkadex.trade/',
+          OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
         }
       },
       {
