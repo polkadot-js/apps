@@ -181,7 +181,6 @@ export function createKusama (t: TFunction): EndpointOption {
           OnFinality: 'wss://rpc.api.kico.dico.io'
         }
       },
-
       {
         info: 'listen',
         homepage: 'https://listen.io/',
