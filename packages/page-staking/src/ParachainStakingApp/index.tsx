@@ -30,12 +30,12 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
   const roundInfo = useCall<ParachainStakingRoundInfo>(api.query.parachainStaking.round);
   const totalSelected = useCall<u32>(api.query.parachainStaking.totalSelected)?.toNumber();
   const totalSelectedStaked = useCall<BN>(api.query.parachainStaking.staked, [roundInfo?.current]);
-  const inflation = (useCall<ParachainStakingInflationInflationInfo>(api.query.parachainStaking.inflationConfig));
+  const inflation = useCall<ParachainStakingInflationInflationInfo>(api.query.parachainStaking.inflationConfig);
   const inflationPrct = inflation?.annual.ideal.toHuman();
   const parachainBondInfo = useCall<ParachainStakingParachainBondConfig>(api.query.parachainStaking.parachainBondInfo);
   const parachainBondInfoPrct = parachainBondInfo?.percent.toHuman();
   const bestNumberFinalized = useBestNumber();
-  const collatorCommission = (useCall<Perbill>(api.query.parachainStaking.collatorCommission));
+  const collatorCommission = useCall<Perbill>(api.query.parachainStaking.collatorCommission);
   // Fetch all collator states using entries
   const allCandidates = useCall<[StorageKey, Option<ParachainStakingCandidateMetadata>][]>((api.query.parachainStaking.candidateInfo).entries, []);
   const allCandidatesTopDelegations = useCall<[StorageKey, Option<ParachainStakingDelegations>][]>((api.query.parachainStaking.topDelegations).entries, []);
@@ -52,33 +52,31 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
   useEffect(() => {
     let _allDelegatorCount = 0;
     let _activeDelegatorCount = 0;
-    const sorted: CandidateState[] = [];
 
-    if (!allCandidatesTopDelegations || !allCandidatesBottomDelegations || !selectedCandidates) {
+    if (!allCandidates || !allCandidatesTopDelegations || !allCandidatesBottomDelegations || !selectedCandidates) {
       return;
     }
 
     // unwrap output
-    allCandidates?.forEach(([storageKey, candidateInfoRaw], i) => {
+    const sorted = allCandidates.map(([storageKey, candidateInfoRaw], i) => {
       const topDelegations = allCandidatesTopDelegations[i][1].unwrap();
       const bottomDelegations = allCandidatesBottomDelegations[i][1].unwrap();
       const candidateInfo = candidateInfoRaw.unwrap();
       const candidateAddress = (storageKey.toHuman() as string[])[0];
 
-      sorted.push({
+      // extract relevant nominator stats
+      if (selectedCandidates.includes(candidateAddress)) {
+        _activeDelegatorCount += candidateInfo.delegationCount.toNumber();
+      }
+      _allDelegatorCount += candidateInfo.delegationCount.toNumber();
+
+      return {
         bottomDelegations: bottomDelegations.delegations,
         id: candidateAddress,
         topDelegations: topDelegations.delegations,
         totalBacking: candidateInfo.bond.add(topDelegations.total).add(bottomDelegations.total),
         ...candidateInfo
-      } as CandidateState);
-
-      // extract relevant nominator stats
-      if (selectedCandidates.includes(candidateAddress)) {
-        _activeDelegatorCount += candidateInfo.delegationCount.toNumber();
-      }
-
-      _allDelegatorCount += candidateInfo.delegationCount.toNumber();
+      } as CandidateState;
     });
     // sort by total staked
     sorted.sort((a, b) => {
