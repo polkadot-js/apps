@@ -181,6 +181,19 @@ export function createKusama (t: TFunction): EndpointOption {
           OnFinality: 'wss://rpc.api.kico.dico.io'
         }
       },
+
+      {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'LISTEN FOUNDATION 1': 'wss://rpc.mainnet.listen.io',
+          'LISTEN FOUNDATION 2': 'wss://wss.mainnet.listen.io',
+          OnFinality: 'wss://listen.api.onfinality.io/public-ws'
+        }
+      },
+
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',

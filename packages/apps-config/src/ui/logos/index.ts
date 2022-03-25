@@ -26,6 +26,7 @@ import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
+import chainListen from './chains/listen.png'
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainMangata from './chains/mangata.png';
@@ -241,6 +242,7 @@ export const chainLogos = Object.entries({
   Kerria: chainParallel,
   'Kerria Dev': chainParallel,
   KICO: chainKico,
+  'Listen Network': chainListen,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine': nodeKilt,
@@ -425,6 +427,7 @@ export const nodeLogos = Object.entries({
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
   KICO: chainKico,
+  'Listen Network': chainListen,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine': nodeKilt,
@@ -618,6 +621,7 @@ export const namedLogos: Record<string, unknown> = {
   kerria: nodeParallel,
   khala: nodeKhala,
   kico: chainKico,
+  'Listen Network': chainListen,
   kilt: nodeKilt,
   kintsugi: chainKintsugi,
   klugdossier: nodeKlug,

@@ -133,6 +133,7 @@ const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42
 const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
+const chainListen = '#FFAD0A';
 // based on node name
 // alphabetical
 const nodeAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
@@ -289,6 +290,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,
+  'Listen Network': chainListen,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
   'KILT Peregrine': chainKiltPeregrine,
@@ -444,6 +446,7 @@ export const nodeColors = Object.entries({
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   KICO: chainKico,
+  'Listen Network': chainListen,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
