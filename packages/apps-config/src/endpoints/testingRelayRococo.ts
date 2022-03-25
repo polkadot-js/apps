@@ -177,7 +177,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTinker',
-        isDisabled: false, // Rococo reset
+        isDisabled: false,
         paraId: 2011,
         text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
         providers: {
