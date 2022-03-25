@@ -176,6 +176,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoTinker',
+        isDisabled: false,
+        paraId: 2011,
+        text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
+        }
+      },
+      {
         info: 'rococoGalital',
         isDisabled: true, // Rococo reset
         paraId: 1230,
