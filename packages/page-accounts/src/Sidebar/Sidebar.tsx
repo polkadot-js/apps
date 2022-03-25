@@ -110,6 +110,15 @@ export default React.memo(styled(FullSidebar)`
         overflow: hidden;
       }
     }
+
+    .ui--AddressSection__CopyColumn {
+      margin-left: 1rem;
+
+      .ui--AccountName {
+        max-width: 10rem;
+        overflow: hidden;
+      }
+    }
   }
 
   .ui--AddressMenu-addr,
@@ -125,6 +134,21 @@ export default React.memo(styled(FullSidebar)`
     margin: 0.571rem 0;
     color: var(--color-label);
   }
+
+  .ui--AddressMenu-copyaddr,
+  .ui--AddressMenu-index {
+    font: var(--font-mono);
+    text-align: left;
+    font-size: 0.857rem;
+  }
+
+  .ui--AddressMenu-copyaaddr {
+    word-break: break-all;
+    width: 10ch;
+    margin: 0.371rem 0;
+    color: var(--color-label);
+  }
+
 
   .ui--AddressMenu-index {
     display: flex;
