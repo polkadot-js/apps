@@ -213,6 +213,17 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'LISTEN FOUNDATION 1': 'wss://rpc.mainnet.listen.io',
+          'LISTEN FOUNDATION 2': 'wss://wss.mainnet.listen.io',
+          OnFinality: 'wss://listen.api.onfinality.io/public-ws'
+        }
+      },
+      {
         info: 'litmus',
         homepage: 'https://kusama-crowdloan.litentry.com',
         paraId: 2106,
