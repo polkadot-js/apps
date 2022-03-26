@@ -87,6 +87,7 @@ const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
+const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
 const chainMybank = '#282736';
@@ -310,6 +311,7 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
+  'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
   Mangata: chainMangata,
@@ -452,6 +454,7 @@ export const nodeColors = Object.entries({
   'Kpron Collator': nodeKpron,
   kusari: nodeKusari,
   'Kylin Parachain Collator': nodeKylin,
+  'Listen Network': chainListen,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
