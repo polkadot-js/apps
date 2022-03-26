@@ -168,7 +168,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rocfinity',
-        isDisabled: false,
         paraId: 2051,
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
         providers: {
@@ -177,7 +176,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTinker',
-        isDisabled: false,
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7236
         paraId: 2011,
         text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
         providers: {
@@ -249,7 +248,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoMoonsama',
-        isDisabled: false,
         paraId: 2055,
         text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
         providers: {
@@ -258,7 +256,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKilt',
-        isDisabled: false,
         paraId: 2015,
         text: t('rpc.rococo.kilt', 'RILT', { ns: 'apps-config' }),
         providers: {
@@ -285,7 +282,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoSpreehafen',
-        isDisabled: false,
         paraId: 2116,
         text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
         providers: {
