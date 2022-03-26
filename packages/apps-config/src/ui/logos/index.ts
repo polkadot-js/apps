@@ -28,7 +28,7 @@ import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
-import chainListen from './chains/listen.png'
+import chainListen from './chains/listen.png';
 import chainMangata from './chains/mangata.png';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
