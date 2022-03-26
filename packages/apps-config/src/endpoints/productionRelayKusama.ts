@@ -182,17 +182,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'listen',
-        homepage: 'https://listen.io/',
-        paraId: 2118,
-        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
-        providers: {
-          'LISTEN FOUNDATION 1': 'wss://rpc.mainnet.listen.io',
-          'LISTEN FOUNDATION 2': 'wss://wss.mainnet.listen.io',
-          OnFinality: 'wss://listen.api.onfinality.io/public-ws'
-        }
-      },
-      {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
         paraId: 2086,
@@ -221,6 +210,17 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'LISTEN FOUNDATION 1': 'wss://rpc.mainnet.listen.io',
+          'LISTEN FOUNDATION 2': 'wss://wss.mainnet.listen.io',
+          OnFinality: 'wss://listen.api.onfinality.io/public-ws'
         }
       },
       {
