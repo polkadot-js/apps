@@ -32,6 +32,7 @@
   "rpc.kusama.kilt": "KILT Spiritnet",
   "rpc.kusama.kintsugi": "Kintsugi BTC",
   "rpc.kusama.kpron": "Kpron",
+  "rpc.kusama.listen": "Listen Network",
   "rpc.kusama.litmus": "Litmus",
   "rpc.kusama.loomnetwork": "Loom Network",
   "rpc.kusama.mars": "Mars",
