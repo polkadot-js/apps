@@ -633,7 +633,7 @@ export const namedLogos: Record<string, unknown> = {
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
-  'Listen Network': chainListen,
+  listen: chainListen,
   litentry: nodeLitentry,
   litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,

@@ -219,8 +219,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
         providers: {
           'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
-          'Listen Foundation 2': 'wss://wss.mainnet.listen.io',
-          OnFinality: 'wss://listen.api.onfinality.io/public-ws'
+          'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
         }
       },
       {
