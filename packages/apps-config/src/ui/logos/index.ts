@@ -167,6 +167,7 @@ import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeSwapdex from './nodes/swapdex.svg';
 import nodeTernoa from './nodes/ternoa.svg';
+import nodeTotem from './chains/totem.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
@@ -240,6 +241,7 @@ export const chainLogos = Object.entries({
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
+  Kapex: nodeTotem,
   Karura: chainKarura,
   Kerria: chainParallel,
   'Kerria Dev': chainParallel,
@@ -258,6 +260,7 @@ export const chainLogos = Object.entries({
   'Kusama CC3': chainKusama,
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
+  Lego: nodeTotem,
   'Listen Network': chainListen,
   Litentry: nodeLitentry,
   Litmus: nodeLitmus,
@@ -350,6 +353,7 @@ export const chainLogos = Object.entries({
   Unorthodox: chainUnorthodox,
   Vln: nodeVln,
   'VLN PC': nodeVln,
+  Wapex: nodeTotem,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
   Westlake: nodeWestlake,
@@ -518,6 +522,7 @@ export const nodeLogos = Object.entries({
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
   'Ternoa Node': nodeTernoa,
+  'Totem Parachain Collator': nodeTotem, 
   'TrustBase Collator': nodeTrustBase,
   'TrustBase Node': nodeTrustBase,
   'uni arts node': nodeUniarts,
@@ -620,6 +625,7 @@ export const namedLogos: Record<string, unknown> = {
   ipse: nodeIpse,
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
+  kapex: nodeTotem,
   karura: chainKarura,
   kerria: nodeParallel,
   khala: nodeKhala,
@@ -632,6 +638,7 @@ export const namedLogos: Record<string, unknown> = {
   kusama: chainKusama,
   kusari: nodeKusari,
   kylin: nodeKylin,
+  lego: nodeTotem,
   laminar: nodeLaminar,
   listen: chainListen,
   litentry: nodeLitentry,
@@ -757,6 +764,7 @@ export const namedLogos: Record<string, unknown> = {
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
   'ternoa-testnet': nodeTernoa,
+  'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
   turing: chainTuring,
   uniarts: nodeUniarts,
@@ -765,6 +773,7 @@ export const namedLogos: Record<string, unknown> = {
   unorthodox: chainUnorthodox,
   vanilla: nodeParallel,
   vln: nodeVln,
+  wapex: nodeTotem,
   web3games: nodeWeb3games,
   westend: nodeWestend,
   westendPichiu: nodePichiu,

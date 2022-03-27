@@ -115,6 +115,7 @@ const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
+const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 5%, rgba(234,55,203,1) 85%)';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -289,6 +290,7 @@ export const chainColors: Record<string, string> = Object.entries({
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
+  Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,
@@ -311,6 +313,7 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
+  Lego: chainTotem,
   'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
@@ -400,6 +403,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   'VLN PC': chainVln,
+  Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
