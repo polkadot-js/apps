@@ -37,7 +37,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
       providers: {
-        Centrifuge: 'wss://fullnode.centrifuge.io'
+        Centrifuge: 'wss://fullnode.centrifuge.io',
+        Dwellir: 'wss://centrifuge-rpc.dwellir.com'
       }
     },
     {
@@ -121,6 +122,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'

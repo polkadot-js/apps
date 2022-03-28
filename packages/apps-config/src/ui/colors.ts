@@ -87,6 +87,7 @@ const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
+const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
 const chainMybank = '#282736';
@@ -114,6 +115,7 @@ const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
+const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -160,6 +162,7 @@ const nodeGeek = '#4f46e5';
 const nodeHeiko = '#42d5de';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
+const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -287,6 +290,7 @@ export const chainColors: Record<string, string> = Object.entries({
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
+  Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,
@@ -309,6 +313,8 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
+  Lego: chainTotem,
+  'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
   Mangata: chainMangata,
@@ -397,6 +403,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   'VLN PC': chainVln,
+  Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
@@ -444,12 +451,14 @@ export const nodeColors = Object.entries({
   'Integritee Node': nodeIntegritee,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
+  'Joystream Node': nodeJoystream,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
   kusari: nodeKusari,
   'Kylin Parachain Collator': nodeKylin,
+  'Listen Network': chainListen,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
