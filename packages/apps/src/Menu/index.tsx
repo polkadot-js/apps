@@ -28,16 +28,16 @@ interface Props {
 function createExternals (t: TFunction): ItemRoute[] {
   return [
     {
-      href: 'https://github.com/polkadot-js/apps',
+      href: 'https://github.com/aleph-zero-foundation',
       icon: 'code-branch',
       name: 'github',
       text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })
     },
     {
-      href: 'https://wiki.polkadot.network',
+      href: 'https://alephzero.org/',
       icon: 'book',
       name: 'wiki',
-      text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })
+      text: t<string>('nav.wiki', 'Homepage', { ns: 'apps-routing' })
     }
   ];
 }
