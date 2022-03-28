@@ -23,6 +23,7 @@ import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
+import Pools from './Pools';
 import Query from './Query';
 import Slashes from './Slashes';
 import Targets from './Targets';
@@ -67,6 +68,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     [api, hasAccounts]
   );
 
+  const hasStashes = useMemo(
+    () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
+    [hasAccounts, ownStashes]
+  );
+
   const ownValidators = useMemo(
     () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
     [ownStashes]
@@ -87,10 +93,14 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'actions',
       text: t<string>('Account actions')
     },
-    isFunction(api.query.staking.activeEra) && hasAccounts && ownStashes && (ownStashes.length !== 0) && {
+    hasStashes && isFunction(api.query.staking.activeEra) && {
       name: 'payout',
       text: t<string>('Payouts')
     },
+    // hasStashes && isFunction(api.query.nominationPools?.minCreateBond) && {
+    //   name: 'pools',
+    //   text: t<string>('Pools')
+    // },
     {
       alias: 'returns',
       name: 'targets',
@@ -110,7 +120,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, hasAccounts, ownStashes, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -138,6 +148,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             isInElection={isInElection}
             ownValidators={ownValidators}
           />
+        </Route>
+        <Route path={`${basePath}/pools`}>
+          <Pools />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
