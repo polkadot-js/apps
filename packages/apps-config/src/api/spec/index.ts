@@ -206,7 +206,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
-  mangata: mangata,
+  mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,

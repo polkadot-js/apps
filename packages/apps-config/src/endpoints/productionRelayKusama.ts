@@ -244,7 +244,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mangata',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
         homepage: 'https://mangata.finance',
         paraId: 2110,
         text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
