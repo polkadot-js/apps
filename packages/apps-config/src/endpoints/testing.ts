@@ -187,6 +187,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'gamepower',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7223
       text: t('rpc.test.gamepower', 'GamePower', { ns: 'apps-config' }),
       providers: {
         GamePower: 'wss://gamepower.io'
@@ -288,6 +289,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       providers: {
         Acala: 'wss://mandala.polkawallet.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
+      }
+    },
+    {
+      info: 'mangata',
+      text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+      providers: {
+        Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
       }
     },
     {

@@ -87,6 +87,7 @@ const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
+const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
 const chainMybank = '#282736';
@@ -114,6 +115,7 @@ const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
+const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -126,6 +128,7 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainSwapdex = '#E94082';
+const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
 const chainUnitv = '#1452F0';
@@ -283,9 +286,11 @@ export const chainColors: Record<string, string> = Object.entries({
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
+  'InvArch Tinkernet': chainTinker,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
+  Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,
@@ -308,6 +313,8 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
+  Lego: chainTotem,
+  'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
   Mangata: chainMangata,
@@ -396,6 +403,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   'VLN PC': chainVln,
+  Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
@@ -441,6 +449,7 @@ export const nodeColors = Object.entries({
   GEEK: nodeGeek,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
+  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   KICO: chainKico,
@@ -449,6 +458,7 @@ export const nodeColors = Object.entries({
   'Kpron Collator': nodeKpron,
   kusari: nodeKusari,
   'Kylin Parachain Collator': nodeKylin,
+  'Listen Network': chainListen,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
