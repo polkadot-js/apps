@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.110.1 Mar 21, 2022
+
+Contributed:
+
+- Add page for NFT support (Thanks to https://github.com/jsidorenko)
+- Allow cowdloan dissolve by anybody (Thanks to https://github.com/shawntabrizi)
+- Enable Encointer as Rococo transporter (Thanks to https://github.com/brenzi)
+- Add Turing network to Kusama (Thanks to https://github.com/irsal)
+- Update Kusari and Swapdex types (Thanks to https://github.com/masterdubs)
+- Update OnFinality endpoint for Nodle (Thanks to https://github.com/banananeko)
+- Add support for KodaDot from accounts (Thanks to https://github.com/preschian)
+- Correct link for Kintsugi for Subsquare (Thanks to https://github.com/wliyongfeng)
+- Add Basilik to Rococo (Thanks to https://github.com/lumir-mrkva)
+- Add types for Kerria, Vanilla testnet (Thanks to https://github.com/GopherJ)
+
+Changes:
+
+- Adjust display for successful transactions with warnings
+- Add `useBlockInterval` re-usable hook
+- Optimize asset list retrieval (using events)
+- Perform paraApi dosconnects directly on the provider
+- Adjust display of active totals from Ledger (optional field)
+- Disable unreachable endpoints
+
+
 ## 0.109.1 Mar 14, 2022
 
 Contributed:

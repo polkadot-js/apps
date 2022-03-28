@@ -12,7 +12,7 @@ import { BN_EIGHT, BN_FIVE, BN_FOUR, BN_NINE, BN_ONE, BN_SEVEN, BN_SIX, BN_TEN, 
 
 const INC = [BN_ONE, BN_TWO, BN_THREE, BN_FOUR, BN_FIVE, BN_SIX, BN_SEVEN, BN_EIGHT, BN_NINE, BN_TEN];
 
-const callOpts = {
+const OPT_NEXT = {
   withParams: true
 };
 
@@ -20,7 +20,7 @@ function useActionsQueueImpl (): QueuedAction[] {
   const { api } = useApi();
   const currentIndex = useCall<SessionIndex>(api.query.session.currentIndex);
   const queryIndexes = useMemo(() => currentIndex && INC.map((i) => currentIndex.add(i)), [currentIndex]);
-  const nextActions = useCall<[[BN[]], ParaId[][]]>(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], callOpts);
+  const nextActions = useCall<[[BN[]], ParaId[][]]>(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], OPT_NEXT);
 
   return useMemo(
     (): QueuedAction[] =>

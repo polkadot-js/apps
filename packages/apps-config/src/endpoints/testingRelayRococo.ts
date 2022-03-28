@@ -78,6 +78,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBasilisk',
+        paraId: 2090,
+        text: t('rpc.rococo.basilisk', 'Basilisk', { ns: 'apps-config' }),
+        providers: {
+          'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+        }
+      },
+      {
         info: 'rococoBifrost',
         isDisabled: true, // Rococo reset
         paraId: 1024,
@@ -160,7 +168,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rocfinity',
-        isDisabled: false,
         paraId: 2051,
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
         providers: {
@@ -168,12 +175,12 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoEncointer',
-        isDisabled: true, // Rococo reset
-        paraId: 1862,
-        text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
+        info: 'rococoTinker',
+        isDisabled: false,
+        paraId: 2014,
+        text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
         providers: {
-          Encointer: 'wss://rococo.encointer.org'
+          OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
         }
       },
       {
@@ -241,7 +248,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoMoonsama',
-        isDisabled: false,
         paraId: 2055,
         text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
         providers: {
@@ -250,7 +256,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKilt',
-        isDisabled: false,
         paraId: 2015,
         text: t('rpc.rococo.kilt', 'RILT', { ns: 'apps-config' }),
         providers: {
@@ -277,8 +282,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoSpreehafen',
-        isDisabled: false,
-        paraId: 2026,
+        paraId: 2116,
         text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
         providers: {
           DataHighway: 'wss://spreehafen.datahighway.com'
