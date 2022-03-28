@@ -80,15 +80,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'kapex',
-        homepage: 'https://totemaccounting.com/',
-        paraId: 2007,
-        text: t('rpc.polkadot.kapex', 'Kapex', { ns: 'apps-config' }),
-        providers: {
-          Totem: 'wss://k-ui.kapex.network',
-        }
-      },
-      {
         info: 'bifrost',
         homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
         paraId: 2001,
@@ -205,6 +196,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           'Kintsugi Labs': 'wss://api.interlay.io/parachain',
           OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'kapex',
+        homepage: 'https://totemaccounting.com/',
+        paraId: 2007,
+        text: t('rpc.polkadot.kapex', 'Kapex', { ns: 'apps-config' }),
+        providers: {
+          Totem: 'wss://k-ui.kapex.network',
         }
       },
       {
