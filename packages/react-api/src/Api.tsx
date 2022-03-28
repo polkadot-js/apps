@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SupportedChains } from '@substrate/connect';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
@@ -189,7 +188,7 @@ async function createApi (apiUrl: string, signer: ApiSigner): Promise<Record<str
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
   const provider = isLight
-    ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as SupportedChains)
+    ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as 'polkadot')
     : new WsProvider(apiUrl);
 
   api = new ApiPromise({
