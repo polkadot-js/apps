@@ -292,6 +292,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'mangata',
+      text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+      providers: {
+        Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
+      }
+    },
+    {
       info: 'manta',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
       text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
