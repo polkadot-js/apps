@@ -8,7 +8,6 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { ScProvider } from '@substrate/connect';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
@@ -20,6 +19,7 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ScProvider } from '@polkadot/rpc-provider/substrate-connect';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
@@ -202,9 +202,9 @@ async function createApi (apiUrl: string, signer: ApiSigner): Promise<Record<str
   });
 
   // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
-  // if (isLight) {
-  //   await provider.connect();
-  // }
+  if (isLight) {
+    await provider.connect();
+  }
 
   return types;
 }
