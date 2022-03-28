@@ -176,8 +176,8 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTinker',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7236
-        paraId: 2011,
+        isDisabled: false,
+        paraId: 2014,
         text: t('rpc.rococo.tinker', 'InvArch Tinkernet', { ns: 'apps-config' }),
         providers: {
           OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
