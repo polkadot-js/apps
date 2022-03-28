@@ -19,6 +19,7 @@ import basicMd from './md/basic.md';
 import Summary from './Overview/Summary';
 import Actions from './Actions';
 import ActionsBanner from './ActionsBanner';
+import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
@@ -129,6 +130,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         targets={targets}
       />
       <Switch>
+        <Route path={`${basePath}/bags`}>
+          <Bags ownStashes={ownStashes} />
+        </Route>
         <Route path={`${basePath}/payout`}>
           <Payouts
             isInElection={isInElection}
