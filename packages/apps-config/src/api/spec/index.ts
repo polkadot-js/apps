@@ -54,6 +54,7 @@ import idavoll from './idavoll';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
+import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import khala from './khala';
@@ -108,6 +109,7 @@ import substrateContractsNode from './substrateContractsNode';
 import swapdex from './swapdex';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
+import turing from './turing';
 import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
@@ -189,8 +191,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
   'ipse-node': ipse,
+  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  kerria: parallel,
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
@@ -202,7 +206,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
-  mangata: mangata,
+  mangata,
+  'mangata-parachain': mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
@@ -254,10 +259,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   swapdex,
   ternoa,
   trustbase,
+  turing,
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,
+  vanilla: parallel,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

@@ -194,7 +194,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2032,
         text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain',
+          OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'kapex',
+        homepage: 'https://totemaccounting.com/',
+        paraId: 2007,
+        text: t('rpc.polkadot.kapex', 'Kapex', { ns: 'apps-config' }),
+        providers: {
+          Totem: 'wss://k-ui.kapex.network'
         }
       },
       {
@@ -236,7 +246,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2026,
         text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://node-6907995778982338560.sz.onfinality.io/ws?apikey=b5324589-1447-4699-92a6-025bc2cc2ac1'
+          OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
+          Dwellir: 'wss://eden-rpc.dwellir.com'
         }
       },
       {
@@ -265,7 +276,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2036,
         text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
         providers: {
-          'Polkadex Team': 'wss://mainnet.polkadex.trade/'
+          'Polkadex Team': 'wss://mainnet.polkadex.trade/',
+          OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
         }
       },
       {
