@@ -244,11 +244,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mangata',
+        isUnreachable: true,
         homepage: 'https://mangata.finance',
         paraId: 2110,
         text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
         providers: {
-          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
         }
       },
       {
