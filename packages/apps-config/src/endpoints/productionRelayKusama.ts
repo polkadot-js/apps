@@ -177,7 +177,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2107,
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
-          'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
+          'DICO Foundation': 'wss://rpc.kico.dico.io',
           OnFinality: 'wss://rpc.api.kico.dico.io'
         }
       },
@@ -210,6 +210,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
+          'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
         }
       },
       {
