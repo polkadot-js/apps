@@ -199,6 +199,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kapex',
+        homepage: 'https://totemaccounting.com/',
+        paraId: 2007,
+        text: t('rpc.polkadot.kapex', 'Kapex', { ns: 'apps-config' }),
+        providers: {
+          Totem: 'wss://k-ui.kapex.network'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,

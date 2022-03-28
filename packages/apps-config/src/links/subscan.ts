@@ -24,6 +24,7 @@ export default {
     Equilibrium: 'equilibrium',
     'KILT Peregrine': 'kilt-testnet',
     'KILT Spiritnet': 'spiritnet',
+    Kapex: 'kapex',
     Karura: 'karura',
     Khala: 'khala',
     Kulupu: 'kulupu',
