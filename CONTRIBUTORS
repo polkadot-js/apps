@@ -1,4 +1,4 @@
-    3466	Jaco                          	Bump deps (#7249)
+    3467	Jaco                          	Explicit connect for light providers (#7230)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
@@ -191,6 +191,7 @@
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
        1	Carl                          	Update Subscan link config (#6194)
        1	CherryLiang                   	show play/stop button (#1804)
+       1	Chris D'Costa                 	Add Totem, logos, endpoints, and colours (#7247)
        1	Chris Ganga                   	use selected theme in the validator stats page (#5391)
        1	composerpeter                 	Added Composable Finance (#6685)
        1	crownsterlingllc              	Add Production Crown Sterling blockchain (#6097)
