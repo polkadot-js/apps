@@ -177,7 +177,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2107,
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
-          'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
+          'DICO Foundation': 'wss://rpc.kico.dico.io',
           OnFinality: 'wss://rpc.api.kico.dico.io'
         }
       },
@@ -213,6 +213,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
+          'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
+        }
+      },
+      {
         info: 'litmus',
         homepage: 'https://kusama-crowdloan.litentry.com',
         paraId: 2106,
@@ -234,12 +244,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mangata',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+        isUnreachable: true,
         homepage: 'https://mangata.finance',
         paraId: 2110,
         text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
         providers: {
-          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
         }
       },
       {
