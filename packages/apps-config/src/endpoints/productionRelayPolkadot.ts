@@ -204,7 +204,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.polkadot.kapex', 'Kapex', { ns: 'apps-config' }),
         providers: {
-          Totem: 'wss://k-ui.kapex.network',
+          Totem: 'wss://k-ui.kapex.network'
         }
       },
       {

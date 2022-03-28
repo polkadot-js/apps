@@ -45,6 +45,7 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainTinker from './chains/tinker.png';
+import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
@@ -167,7 +168,6 @@ import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeSwapdex from './nodes/swapdex.svg';
 import nodeTernoa from './nodes/ternoa.svg';
-import nodeTotem from './chains/totem.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
@@ -522,7 +522,7 @@ export const nodeLogos = Object.entries({
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
   'Ternoa Node': nodeTernoa,
-  'Totem Parachain Collator': nodeTotem, 
+  'Totem Parachain Collator': nodeTotem,
   'TrustBase Collator': nodeTrustBase,
   'TrustBase Node': nodeTrustBase,
   'uni arts node': nodeUniarts,
@@ -638,8 +638,8 @@ export const namedLogos: Record<string, unknown> = {
   kusama: chainKusama,
   kusari: nodeKusari,
   kylin: nodeKylin,
-  lego: nodeTotem,
   laminar: nodeLaminar,
+  lego: nodeTotem,
   listen: chainListen,
   litentry: nodeLitentry,
   litmus: nodeLitmus,
