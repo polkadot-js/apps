@@ -1,6 +1,7 @@
 name: Build, push and deploy aleph-wallet image
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - alephzero
@@ -79,7 +80,7 @@ jobs:
           REGIONS_AWS: 'eu-central-1'
         run: |
             # Deploy new image version for aleph-wallet
-            cd aleph-apps/aleph-wallet/overlays/devnet/${i}
+            cd aleph-apps/aleph-wallet/overlays/devnet/${{ env.REGIONS_AWS }}
             kustomize edit set image "aleph-wallet-image-placeholder=${{ env.RELEASE_IMAGE }}"
 
       - name: GIT | Commit changes to aleph-apps repository.
