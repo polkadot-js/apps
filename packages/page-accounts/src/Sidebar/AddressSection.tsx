@@ -71,7 +71,7 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
               <Button.Group>
                 <Button
                   icon={isCopyShown ? 'check' : 'copy'}
-                  label={t<string>('Copy')}
+                  label={wasCopied ? t<string>('Copy') : t<string>('Copy')}
                   onClick={toggle}
                   onMouseLeave={isCopyShown ? toggle : donothing }
                 />
