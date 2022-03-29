@@ -9,6 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Spinner } from '@polkadot/react-components';
 import { useIncrement } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Stash from './Stash';
@@ -45,7 +46,7 @@ export default function Bag ({ id, info, stashNodes }: Props): React.ReactElemen
 
   return (
     <tr>
-      <td className='number'>{formatNumber(id)}</td>
+      <td className='number'><FormatBalance value={id} /></td>
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
