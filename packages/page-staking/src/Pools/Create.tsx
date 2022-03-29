@@ -28,8 +28,9 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
   const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(
-    () => minCreateBond && minNominatorBond && bnMax(minCreateBond, minNominatorBond),
-    [minCreateBond, minNominatorBond]
+    () => minCreateBond && minNominatorBond &&
+      bnMax(minCreateBond, minNominatorBond, api.consts.balances.existentialDeposit),
+    [api, minCreateBond, minNominatorBond]
   );
 
   const nextPoolId = useMemo(
@@ -85,9 +86,9 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
                 onChange={setAmount}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The metadata to set for this pool')}>
+            <Modal.Columns hint={t<string>('The metadata description to set for this pool')}>
               <Input
-                label={t<string>('metadata')}
+                label={t<string>('description')}
                 maxLength={32}
                 onChange={setMetadata}
               />
