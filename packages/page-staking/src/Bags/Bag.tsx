@@ -25,7 +25,7 @@ const NO_NODES: StashNode[] = [];
 
 export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.ReactElement<Props> {
   const [isLoading, setLoading] = useState(true);
-  const [trigger, updateTrigger] = useIncrement(1);
+  const [trigger, doRefresh] = useIncrement(1);
   const { isCompleted, list } = useBagEntries(stashNodes.length ? info.head.unwrapOr(null) : null, trigger);
   const bonded = useBonded(isCompleted && list);
 
@@ -47,10 +47,11 @@ export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.
       <td className='address'>
         {stashNodes?.map(({ stashId }) => (
           <Stash
+            doRefresh={doRefresh}
+            isLoading={isLoading}
             key={stashId}
             list={bonded}
             stashId={stashId}
-            updateTrigger={updateTrigger}
           />
         ))}
       </td>

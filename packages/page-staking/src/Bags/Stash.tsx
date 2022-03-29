@@ -14,6 +14,7 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   doRefresh: () => void;
+  isLoading: boolean;
   list?: ListNode[];
   stashId: string;
 }
@@ -25,7 +26,7 @@ function findEntry (stashId: string, list: ListNode[] = []): [ListNode | null, b
   return [entry, !!other, entry && other ? entry.index - other.index : 0];
 }
 
-function Stash ({ className, doRefresh, list, stashId }: Props): React.ReactElement<Props> {
+function Stash ({ className, doRefresh, isLoading, list, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [stashInfo, canJump, jumpCount] = useMemo(
@@ -42,7 +43,7 @@ function Stash ({ className, doRefresh, list, stashId }: Props): React.ReactElem
       <TxButton
         accountId={stashInfo?.stashId}
         icon='caret-up'
-        isDisabled={!canJump}
+        isDisabled={!canJump || isLoading}
         label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
         onSuccess={doRefresh}
         params={[stashInfo?.jump]}
