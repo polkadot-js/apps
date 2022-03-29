@@ -5,9 +5,10 @@ import type { u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { StashNode } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Spinner } from '@polkadot/react-components';
+import { useIncrement } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Stash from './Stash';
@@ -20,22 +21,27 @@ interface Props {
   stashNodes?: StashNode[];
 }
 
-const NO_NODES: StashNode[] = [];
-
-export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.ReactElement<Props> {
+export default function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
   const [isLoading, setLoading] = useState(true);
-  const { isCompleted, list } = useBagEntries(stashNodes.length ? info.head.unwrapOr(null) : null);
-  const bonded = useBonded(isCompleted && list);
+  const [trigger, doRefresh] = useIncrement(1);
+  const headId = useMemo(
+    () => stashNodes && stashNodes.length
+      ? info.head.unwrapOr(null)
+      : null,
+    [info, stashNodes]
+  );
+  const list = useBagEntries(headId, trigger);
+  const bonded = useBonded(list);
 
   useEffect((): void => {
     setLoading(
-      stashNodes.length
-        ? isCompleted
+      stashNodes && stashNodes.length
+        ? list
           ? !bonded
           : true
         : false
     );
-  }, [bonded, isCompleted, list, stashNodes]);
+  }, [bonded, list, stashNodes]);
 
   return (
     <tr>
@@ -45,6 +51,8 @@ export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.
       <td className='address'>
         {stashNodes?.map(({ stashId }) => (
           <Stash
+            doRefresh={doRefresh}
+            isLoading={isLoading}
             key={stashId}
             list={bonded}
             stashId={stashId}

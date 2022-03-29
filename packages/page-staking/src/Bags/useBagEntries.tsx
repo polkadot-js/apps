@@ -15,19 +15,20 @@ interface Result {
 }
 
 const EMPTY: [AccountId32 | null, Result] = [null, { isCompleted: false, list: [] }];
+const EMPTY_LIST: AccountId32[] = [];
 
-function useBagEntriesImpl (headId: AccountId32 | null): Result {
+function useBagEntriesImpl (headId: AccountId32 | null, trigger: number): AccountId32[] {
   const { api } = useApi();
-  const [[currId, result], setCurrent] = useState<[AccountId32 | null, Result]>(EMPTY);
+  const [[currId, { isCompleted, list }], setCurrent] = useState<[AccountId32 | null, Result]>(EMPTY);
   const node = useCall<Option<PalletBagsListListNode>>(!!currId && api.query.bagsList.listNodes, [currId]);
 
   useEffect(
     () => setCurrent(
-      headId
+      headId && trigger
         ? [headId, { isCompleted: false, list: [headId] }]
         : [null, { isCompleted: true, list: [] }]
     ),
-    [headId]
+    [headId, trigger]
   );
 
   useEffect((): void => {
@@ -44,7 +45,9 @@ function useBagEntriesImpl (headId: AccountId32 | null): Result {
     }
   }, [node]);
 
-  return result;
+  return isCompleted
+    ? list
+    : EMPTY_LIST;
 }
 
 export default createNamedHook('useBagEntries', useBagEntriesImpl);
