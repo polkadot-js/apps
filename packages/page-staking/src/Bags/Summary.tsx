@@ -23,7 +23,7 @@ export default function Summary ({ className = '', ids }: Props): React.ReactEle
       <CardSummary label={t<string>('total bags')}>
         {ids
           ? formatNumber(ids.length)
-          : <Spinner />
+          : <Spinner noLabel />
         }
       </CardSummary>
     </SummaryBox>
