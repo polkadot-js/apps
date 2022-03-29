@@ -1,4 +1,4 @@
-    3474	Jaco                          	Add trigger for bags refresh (#7263)
+    3475	Jaco                          	Small updates to pool creation logic (#7264)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
