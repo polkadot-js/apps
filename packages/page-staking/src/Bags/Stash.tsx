@@ -4,6 +4,7 @@
 import type { ListNode } from './types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { AddressMini, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -11,37 +12,53 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  className?: string;
   list?: ListNode[];
   stashId: string;
 }
 
-function findEntry (stashId: string, list: ListNode[] = []): ListNode | null {
-  return list.find((o) => o.stashId === stashId) || null;
+function findEntry (stashId: string, list: ListNode[] = []): [ListNode | null, boolean, number] {
+  const entry = list.find((o) => o.stashId === stashId) || null;
+  const other = (entry && entry.jump && list.find((o) => o.stashId === entry.jump)) || null;
+
+  return [entry, !!other, entry && other ? entry.index - other.index : 0];
 }
 
-export default function Stash ({ list, stashId }: Props): React.ReactElement<Props> {
+function Stash ({ className, list, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const stashInfo = useMemo(
+  const [stashInfo, canJump, jumpCount] = useMemo(
     () => findEntry(stashId, list),
     [list, stashId]
   );
 
+  // FIXME The button should disappear when we have moved to the correct position
+
   return (
-    <div>
+    <div className={className}>
       <AddressMini
         value={stashId}
         withBonded
       />
-      {stashInfo && stashInfo.jump && (
-        <TxButton
-          accountId={stashInfo?.stashId}
-          icon='caret-up'
-          label={t<string>('Jump')}
-          params={[stashInfo?.jump]}
-          tx={api.tx.bagsList.putInFrontOf}
-        />
-      )}
+      <TxButton
+        accountId={stashInfo?.stashId}
+        icon='caret-up'
+        isDisabled={!canJump}
+        label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
+        params={[stashInfo?.jump]}
+        tx={api.tx.bagsList.putInFrontOf}
+      />
     </div>
   );
 }
+
+export default styled(Stash)`
+  .ui--AddressMini {
+    vertical-align: middle;
+  }
+
+  .ui--Button.isDisabled {
+    cursor: default;
+    opacity: 0;
+  }
+`;
