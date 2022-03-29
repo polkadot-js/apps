@@ -13,13 +13,14 @@ import { useTranslation } from '../translate';
 interface Props {
   list?: ListNode[];
   stashId: string;
+  updateTrigger: () => void;
 }
 
 function findEntry (stashId: string, list: ListNode[] = []): ListNode | null {
   return list.find((o) => o.stashId === stashId) || null;
 }
 
-export default function Stash ({ list, stashId }: Props): React.ReactElement<Props> {
+export default function Stash ({ list, stashId, updateTrigger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const stashInfo = useMemo(
@@ -38,6 +39,7 @@ export default function Stash ({ list, stashId }: Props): React.ReactElement<Pro
           accountId={stashInfo?.stashId}
           icon='caret-up'
           label={t<string>('Jump')}
+          onSuccess={updateTrigger}
           params={[stashInfo?.jump]}
           tx={api.tx.bagsList.putInFrontOf}
         />

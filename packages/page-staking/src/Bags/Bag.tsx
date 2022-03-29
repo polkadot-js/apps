@@ -8,6 +8,7 @@ import type { StashNode } from './types';
 import React, { useEffect, useState } from 'react';
 
 import { AddressMini, Spinner } from '@polkadot/react-components';
+import { useIncrement } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Stash from './Stash';
@@ -24,7 +25,8 @@ const NO_NODES: StashNode[] = [];
 
 export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.ReactElement<Props> {
   const [isLoading, setLoading] = useState(true);
-  const { isCompleted, list } = useBagEntries(stashNodes.length ? info.head.unwrapOr(null) : null);
+  const [trigger, updateTrigger] = useIncrement(1);
+  const { isCompleted, list } = useBagEntries(stashNodes.length ? info.head.unwrapOr(null) : null, trigger);
   const bonded = useBonded(isCompleted && list);
 
   useEffect((): void => {
@@ -48,6 +50,7 @@ export default function Bag ({ id, info, stashNodes = NO_NODES }: Props): React.
             key={stashId}
             list={bonded}
             stashId={stashId}
+            updateTrigger={updateTrigger}
           />
         ))}
       </td>
