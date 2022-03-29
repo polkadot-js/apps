@@ -28,8 +28,6 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
 
   // Declare a new state variable, which we'll call "count"
   const [countCopied, setCountCopied] = useState(0);
-
-
   
   return (
 
