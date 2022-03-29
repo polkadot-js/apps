@@ -34,7 +34,8 @@ export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> 
     [t('bags')],
     [t('head'), 'address'],
     [t('tail'), 'address'],
-    [t('mine'), 'address']
+    [t('mine'), 'address'],
+    []
   ]);
 
   const sorted = useMemo(

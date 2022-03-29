@@ -12,8 +12,8 @@ const multiOptions = {
   transform: ([[ids], opts]: [[u64[]], Option<PalletBagsListListBag>[]]): Result[] =>
     ids
       .map((id, index): [u64, Option<PalletBagsListListBag>] => [id, opts[index]])
-      .filter(([, opt]) => opt.isSome)
-      .map(([id, opt]): Result => [id.toString(), id, opt.unwrap()]),
+      .filter(([, o]) => o.isSome)
+      .map(([id, o]): Result => [id.toString(), id, o.unwrap()]),
   withParamsTransform: true
 };
 
