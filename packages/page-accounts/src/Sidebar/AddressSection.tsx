@@ -30,9 +30,6 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
   const [countCopied, setCountCopied] = useState(0);
   
   return (
-
-
-    
     <div className='ui--AddressSection'>
       <IdentityIcon
         size={80}
