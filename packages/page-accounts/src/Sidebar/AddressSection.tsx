@@ -1,16 +1,14 @@
 // Copyright 2017-2022 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useState } from 'react';
+import React from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { Button } from '@polkadot/react-components';
-
-import { AccountName, IdentityIcon, Input } from '@polkadot/react-components';
+import { AccountName, Button, IdentityIcon, Input } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 
 import { useTranslation } from '../translate';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-
 
 interface Props {
   value: string,
@@ -21,14 +19,11 @@ interface Props {
   accountIndex: string | undefined,
 }
 
-
-
 function AddressSection ({ accountIndex, defaultValue, editingName, flags, onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isCopyShown, toggle] = useToggle();
+  const [wasCopied, donothing] = useToggle(false);
 
-  // Declare a new state variable, which we'll call "count"
-  const [countCopied, setCountCopied] = useState(0);
-  
   return (
     <div className='ui--AddressSection'>
       <IdentityIcon
@@ -55,11 +50,11 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
           value={value}
           withSidebar={false}
         />
-       
+
         <div className='ui--AddressMenu-addr'>
           {value}
         </div>
-        
+
         {accountIndex && (
           <div className='ui--AddressMenu-index'>
             <label>{t<string>('index')}:</label> {accountIndex}
@@ -68,18 +63,18 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
       </div>
 
       <div className='ui--AddressSection__CopyColumn'>
-        <div className='ui--AddressMenu-copyaddr'>         
-          <CopyToClipboard text={value}
-          onCopy={() => setCountCopied(countCopied + 1)}
+        <div className='ui--AddressMenu-copyaddr'>
+          <CopyToClipboard
+            text={value}
           >
-            <span >
-              <Button.Group> 
-                <Button  
-                    icon={countCopied ? 'check' : 'copy'}   
-                    label={t<string>('Copy')} 
-                    onClick={() => setCountCopied(countCopied + 1) }
-                    onMouseLeave={() => setCountCopied(0) } 
-                  /> 
+            <span>
+              <Button.Group>
+                <Button
+                  icon={isCopyShown ? 'check' : 'copy'}
+                  label={t<string>('Copy')}
+                  onClick={toggle}
+                  onMouseLeave={isCopyShown ? toggle : donothing }
+                />
               </Button.Group>
             </span>
           </CopyToClipboard>
