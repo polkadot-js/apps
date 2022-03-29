@@ -9,7 +9,7 @@ import { AccountName, IdentityIcon, Input } from '@polkadot/react-components';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 
 import { useTranslation } from '../translate';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 interface Props {
