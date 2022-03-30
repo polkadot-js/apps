@@ -97,18 +97,18 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'payout',
       text: t<string>('Payouts')
     },
-    // hasStashes && isFunction(api.query.nominationPools?.minCreateBond) && {
-    //   name: 'pools',
-    //   text: t<string>('Pools')
-    // },
-    // hasStashes && isFunction(api.query.bagsList?.counterForListNodes) && {
-    //   name: 'bags',
-    //   text: t<string>('Bags')
-    // },
+    hasStashes && isFunction(api.query.nominationPools?.minCreateBond) && {
+      name: 'pools',
+      text: t<string>('Pools')
+    },
     {
       alias: 'returns',
       name: 'targets',
       text: t<string>('Targets')
+    },
+    hasStashes && isFunction(api.query.bagsList?.counterForListNodes) && {
+      name: 'bags',
+      text: t<string>('Bags')
     },
     {
       name: 'waiting',
