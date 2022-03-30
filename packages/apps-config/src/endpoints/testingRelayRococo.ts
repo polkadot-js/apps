@@ -531,6 +531,16 @@ export function createRococo (t: TFunction): EndpointOption {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
+      
+      { 
+        info: 'rococoDali',
+        paraId: 2087,
+        text: t('rpc.rococo.dali', 'Dali', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composablefinance.ninja'
+        }
+      }
+
     ]
   };
 }
