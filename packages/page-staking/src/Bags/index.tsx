@@ -52,7 +52,6 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     { text: t('My bags'), value: 'mine' },
     { text: t('All bags'), value: 'all' }
   ]);
-
   const filtered = useMemo(
     () => list && nodes && sortNodes(list, nodes, !filterIndex),
     [filterIndex, list, nodes]

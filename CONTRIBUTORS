@@ -1,4 +1,4 @@
-    3479	Jaco                          	Rebag on upper limit breached (#7269)
+    3481	Jaco                          	Filter for own/all bags (#7271)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
