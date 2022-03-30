@@ -16,12 +16,19 @@ const multiOptions = {
     const sorted = ids
       .map((id, index): [BN, Option<PalletBagsListListBag>] => [id, opts[index]])
       .filter(([, o]) => o.isSome)
-      .map(([upper, o]): BagInfo => ({ info: o.unwrap(), key: upper.toString(), lower: BN_ZERO, upper }))
-      .sort((a, b) => b.upper.cmp(a.upper));
+      .sort(([a], [b]) => b.cmp(a))
+      .map(([upper, o], index): BagInfo => ({
+        index,
+        info: o.unwrap(),
+        key: upper.toString(),
+        lower: BN_ZERO,
+        upper
+      }));
 
     return sorted.map((entry, index) =>
       (index === (sorted.length - 1))
         ? entry
+        // We could probably use a .add(BN_ONE) here
         : { ...entry, lower: sorted[index + 1].upper }
     );
   },

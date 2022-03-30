@@ -17,6 +17,7 @@ import useBagEntries from './useBagEntries';
 import useBonded from './useBonded';
 
 interface Props {
+  index: number;
   info: PalletBagsListListBag;
   lower: BN;
   stashNodes?: StashNode[];
@@ -44,7 +45,9 @@ function Bag ({ info, lower, stashNodes, upper }: Props): React.ReactElement<Pro
 
   return (
     <tr>
+      <td className='number' />
       <td className='number'><FormatBalance value={upper} /></td>
+      <td className='number'><FormatBalance value={lower} /></td>
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
