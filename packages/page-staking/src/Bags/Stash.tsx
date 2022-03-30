@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { ListNode } from './types';
 
 import React, { useMemo } from 'react';
@@ -16,21 +17,36 @@ interface Props {
   isLoading: boolean;
   list?: ListNode[];
   stashId: string;
+  upper: BN;
 }
 
-function findEntry (stashId: string, list: ListNode[] = []): [ListNode | null, boolean, number] {
-  const entry = list.find((o) => o.stashId === stashId) || null;
-  const other = (entry && entry.jump && list.find((o) => o.stashId === entry.jump)) || null;
-
-  return [entry, !!other, entry && other ? entry.index - other.index : 0];
+interface Entry {
+  canJump: boolean;
+  canRebag: boolean;
+  jumpCount: number;
+  stashInfo: ListNode | null;
 }
 
-function Stash ({ className, isLoading, list, stashId }: Props): React.ReactElement<Props> {
+function findEntry (upper: BN, stashId: string, list: ListNode[] = []): Entry {
+  const stashInfo = list.find((o) => o.stashId === stashId) || null;
+  const other = (stashInfo && stashInfo.jump && list.find((o) => o.stashId === stashInfo.jump)) || null;
+
+  return {
+    canJump: !!other,
+    canRebag: !!stashInfo && stashInfo.bonded.gt(upper),
+    jumpCount: stashInfo && other
+      ? (stashInfo.index - other.index)
+      : 0,
+    stashInfo
+  };
+}
+
+function Stash ({ className, isLoading, list, stashId, upper }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [stashInfo, canJump, jumpCount] = useMemo(
-    () => findEntry(stashId, list),
-    [list, stashId]
+  const { canJump, canRebag, jumpCount, stashInfo } = useMemo(
+    () => findEntry(upper, stashId, list),
+    [list, stashId, upper]
   );
 
   return (
@@ -39,14 +55,31 @@ function Stash ({ className, isLoading, list, stashId }: Props): React.ReactElem
         value={stashId}
         withBonded
       />
-      <TxButton
-        accountId={stashInfo?.stashId}
-        icon='caret-up'
-        isDisabled={!canJump || isLoading}
-        label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
-        params={[stashInfo?.jump]}
-        tx={api.tx.bagsList.putInFrontOf}
-      />
+      {stashInfo && (
+        canRebag
+          ? (
+            <TxButton
+              accountId={stashInfo.stashId}
+              icon='refresh'
+              isDisabled={isLoading}
+              label={t<string>('Rebag')}
+              params={[stashInfo.stashId]}
+              tx={api.tx.bagsList.rebag}
+            />
+          )
+          : canJump
+            ? (
+              <TxButton
+                accountId={stashInfo.stashId}
+                icon='caret-up'
+                isDisabled={isLoading}
+                label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
+                params={[stashInfo.jump]}
+                tx={api.tx.bagsList.putInFrontOf}
+              />
+            )
+            : null
+      )}
     </div>
   );
 }
@@ -54,10 +87,5 @@ function Stash ({ className, isLoading, list, stashId }: Props): React.ReactElem
 export default React.memo(styled(Stash)`
   .ui--AddressMini {
     vertical-align: middle;
-  }
-
-  .ui--Button.isDisabled {
-    cursor: default;
-    opacity: 0;
   }
 `);

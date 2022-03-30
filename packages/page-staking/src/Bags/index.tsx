@@ -63,10 +63,10 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
       >
         {sorted && sorted.map(({ id, info, key }) => (
           <Bag
-            id={id}
             info={info}
             key={key}
             stashNodes={nodes[key]}
+            upper={id}
           />
         ))}
       </Table>

@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u64 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { StashNode } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -17,12 +17,12 @@ import useBagEntries from './useBagEntries';
 import useBonded from './useBonded';
 
 interface Props {
-  id: u64;
   info: PalletBagsListListBag;
   stashNodes?: StashNode[];
+  upper: BN;
 }
 
-function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
+function Bag ({ info, stashNodes, upper }: Props): React.ReactElement<Props> {
   const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
   const [isLoading, setLoading] = useState(true);
   const [isCompleted, list] = useBagEntries(headId, trigger);
@@ -43,7 +43,7 @@ function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
 
   return (
     <tr>
-      <td className='number'><FormatBalance value={id} /></td>
+      <td className='number'><FormatBalance value={upper} /></td>
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
@@ -53,6 +53,7 @@ function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
             key={stashId}
             list={bonded}
             stashId={stashId}
+            upper={upper}
           />
         ))}
       </td>
