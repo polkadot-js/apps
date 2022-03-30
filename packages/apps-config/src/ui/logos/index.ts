@@ -18,6 +18,7 @@ import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
+import chainRococoDali from './chains/dali.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGeminis from './chains/geminis.png';
@@ -88,6 +89,7 @@ import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
 import nodeDockTestnet from './nodes/dock-testnet.png';
+import nodeDaliTestnet from './nodes/dali.png';
 import nodeDolphin from './nodes/dolphin.svg';
 import nodeDotMog from './nodes/dotmog.svg';
 import nodeEave from './nodes/eave.svg';
@@ -219,6 +221,8 @@ export const chainLogos = Object.entries({
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'Dolphin Testnet': nodeDolphin,
+  DaliTestnet: nodeDaliTestnet,
+  'DaliTestnet based on Rococo' : chainRococoDali,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -696,6 +700,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoDali: chainRococoDali,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
   rococoGalital: nodeGalital,
