@@ -3,20 +3,18 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletBagsListListNode } from '@polkadot/types/lookup';
-import type { StashNode } from './types';
+import type { BagMap } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-type Result = Record<string, StashNode[]>;
-
 const multiOptions = {
-  transform: (opts: Option<PalletBagsListListNode>[]): Result =>
+  transform: (opts: Option<PalletBagsListListNode>[]): BagMap =>
     opts
       .filter((o) => o.isSome)
       .map((o): PalletBagsListListNode => o.unwrap())
-      .reduce((all: Result, node): Result => {
+      .reduce((all: BagMap, node): BagMap => {
         const id = node.bagUpper.toString();
 
         if (!all[id]) {
@@ -29,11 +27,11 @@ const multiOptions = {
       }, {})
 };
 
-function merge (prev: Result, curr: Result): Result {
+function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
   return Object
     .entries(curr)
-    .reduce((all: Result, [id, nodes]): Result => {
-      all[id] = prev[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
+    .reduce((all: BagMap, [id, nodes]): BagMap => {
+      all[id] = prev && prev[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
         ? prev[id]
         : nodes;
 
@@ -41,10 +39,10 @@ function merge (prev: Result, curr: Result): Result {
     }, {});
 }
 
-function useBagsNodesImpl (stashIds: string[]): Result {
+function useBagsNodesImpl (stashIds: string[]): BagMap | undefined {
   const { api } = useApi();
-  const [result, setResult] = useState<Result>({});
-  const query = useCall(stashIds && stashIds.length !== 0 && api.query.bagsList.listNodes.multi, [stashIds], multiOptions);
+  const [result, setResult] = useState<BagMap | undefined>();
+  const query = useCall(api.query.bagsList.listNodes.multi, [stashIds], multiOptions);
 
   useEffect((): void => {
     query && setResult((prev) => merge(prev, query));
