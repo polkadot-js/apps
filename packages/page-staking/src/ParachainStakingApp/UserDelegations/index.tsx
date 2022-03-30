@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingDelegator, ParachainStakingRoundInfo } from '@polkadot/types/lookup';
+import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingDelegator, ParachainStakingRoundInfo } from '../types';
 
 import React, { useEffect, useRef, useState } from 'react';
 

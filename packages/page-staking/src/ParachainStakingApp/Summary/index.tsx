@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { ParachainStakingRoundInfo } from '@polkadot/types/lookup';
+import type { ParachainStakingRoundInfo } from '../types';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
@@ -17,7 +16,7 @@ import SummaryRound from './SummaryRound';
 
 interface Props {
   className?: string;
-  roundInfo: ParachainStakingRoundInfo;
+  roundInfo?: ParachainStakingRoundInfo;
   stakingInfo: StakingInfo;
   bestNumberFinalized: BlockNumber|undefined
 }
@@ -38,7 +37,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
           className='media--900'
           label={t<string>('waiting')}
         >
-          {totalCollatorCount
+          {totalCollatorCount && totalSelected
             ? totalCollatorCount - totalSelected > 0 ? formatNumber(totalCollatorCount - totalSelected) : 0
             : <Spinner noLabel />
           }
@@ -124,17 +123,4 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
   );
 }
 
-export default React.memo(styled(Summary)`
-  .validator--Account-block-icon {
-    display: inline-block;
-    margin-right: 0.75rem;
-    margin-top: -0.25rem;
-    vertical-align: middle;
-  }
-
-  .validator--Summary-authors {
-    .validator--Account-block-icon+.validator--Account-block-icon {
-      margin-left: -1.5rem;
-    }
-  }
-`);
+export default React.memo(Summary);

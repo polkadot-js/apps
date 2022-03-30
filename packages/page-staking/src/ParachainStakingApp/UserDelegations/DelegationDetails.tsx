@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingRoundInfo } from '@polkadot/types/lookup';
+import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingRoundInfo } from '../types';
 
 import React from 'react';
 
@@ -47,7 +47,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
       <td className='button media--1000'>
         {isBondMoreOpen && (
           <BondMoreModal
-            candidateAddress={delegation.owner}
+            candidateAddress={delegation.owner.toString()}
             delegatorAddress={userAddress}
             key='modal-transfer'
             onClose={toggleBondMore}
@@ -99,7 +99,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
       <td className='button media--1000'>
         {isRevokeOpen && (
           <RevokeModal
-            candidateAddress={delegation.owner}
+            candidateAddress={delegation.owner.toString()}
             delegationAmount={delegation.amount}
             delegatorAddress={userAddress}
             key='modal-transfer'
@@ -135,7 +135,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
           ? <>
             {isCancelRequestOpen && (
               <CancelRequestModal
-                candidateAddress={delegation.owner}
+                candidateAddress={delegation.owner.toString()}
                 delegatorAddress={userAddress}
                 key='modal-transfer'
                 onClose={toggleCancelRequest}
@@ -158,7 +158,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
         }
         {isExecuteRequestOpen && (
           <ExecuteRequestModal
-            candidateAddress={delegation.owner}
+            candidateAddress={delegation.owner.toString()}
             delegatorAddress={userAddress}
             key='modal-transfer'
             onClose={toggleExecuteRequest}

@@ -1,28 +1,32 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u32 } from '@polkadot/types-codec';
+
 import React from 'react';
-import styled from 'styled-components';
 
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
   onClose: () => void;
-  delegatorAddress: string;
+  delegatorAddress: string | null;
   candidateAddress: string;
-  roundDuration: BN
-  delegationAmount: string
+  roundDuration?: BN;
+  delegationAmount: BN;
 }
 
 function RevokeModal ({ candidateAddress, className = '', delegationAmount, delegatorAddress, onClose, roundDuration }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+
+  const revokeDelegationDelay = api.consts.parachainStaking.revokeDelegationDelay as u32;
+  const delayInBlocks = revokeDelegationDelay.mul(roundDuration || BN_ZERO);
 
   return (
     <Modal
@@ -35,8 +39,8 @@ function RevokeModal ({ candidateAddress, className = '', delegationAmount, dele
         <div className={className}>
           <Modal.Columns
             hint={<>
-              {t<string>(`The revoke will be scheduled for ${api.consts.parachainStaking.delegationBondLessDelay.toNumber()} rounds (${api.consts.parachainStaking.revokeDelegationDelay.mul(roundDuration).toNumber()} blocks) : `)}
-              <BlockToTime value={api.consts.parachainStaking.revokeDelegationDelay.mul(roundDuration)} />
+              {t<string>(`The revoke will be scheduled for ${revokeDelegationDelay.toNumber()} rounds (${delayInBlocks.toNumber()} blocks) : `)}
+              <BlockToTime value={delayInBlocks} />
             </>}
           >
             <InputAddress
@@ -85,26 +89,4 @@ function RevokeModal ({ candidateAddress, className = '', delegationAmount, dele
   );
 }
 
-export default React.memo(styled(RevokeModal)`
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-
-  .typeToggle {
-    text-align: right;
-  }
-
-  .typeToggle+.typeToggle {
-    margin-top: 0.375rem;
-  }
-`);
+export default React.memo(RevokeModal);

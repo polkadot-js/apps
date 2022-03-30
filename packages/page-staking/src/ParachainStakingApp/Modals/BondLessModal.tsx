@@ -1,10 +1,10 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParachainStakingBond } from '@polkadot/types/lookup';
+import type { u32, u128 } from '@polkadot/types-codec';
+import type { ParachainStakingBond } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -16,9 +16,9 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   onClose: () => void;
-  delegatorAddress: string;
-  delegation: ParachainStakingBond
-  roundDuration: BN
+  delegatorAddress: string | null;
+  delegation: ParachainStakingBond;
+  roundDuration?: BN;
 }
 
 function BondLessModal ({ className = '', delegation, delegatorAddress, onClose, roundDuration }: Props): React.ReactElement<Props> {
@@ -29,9 +29,12 @@ function BondLessModal ({ className = '', delegation, delegatorAddress, onClose,
 
   useEffect((): void => {
     if (api?.consts) {
-      setMaxTransfer(delegation.amount.sub(api.consts.parachainStaking.minDelegation));
+      setMaxTransfer(delegation.amount.sub(api.consts.parachainStaking.minDelegation as u128));
     }
   }, [api, delegation]);
+
+  const delegationBondLessDelay = api.consts.parachainStaking.delegationBondLessDelay as u32;
+  const delayInBlocks = delegationBondLessDelay.mul(roundDuration || BN_ZERO);
 
   return (
     <Modal
@@ -44,8 +47,8 @@ function BondLessModal ({ className = '', delegation, delegatorAddress, onClose,
         <div className={className}>
           <Modal.Columns
             hint={<>
-              {t<string>(`The unbonding will be scheduled for ${api.consts.parachainStaking.delegationBondLessDelay.toNumber()} rounds (${api.consts.parachainStaking.candidateBondLessDelay.mul(roundDuration).toNumber()} blocks) : `)}
-              <BlockToTime value={api.consts.parachainStaking.candidateBondLessDelay.mul(roundDuration)} />
+              {t<string>(`The unbonding will be scheduled for ${delegationBondLessDelay.toNumber()} rounds (${delayInBlocks.toNumber()} blocks) : `)}
+              <BlockToTime value={delayInBlocks} />
             </>}
           >
             <InputAddress
@@ -107,26 +110,4 @@ function BondLessModal ({ className = '', delegation, delegatorAddress, onClose,
   );
 }
 
-export default React.memo(styled(BondLessModal)`
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-
-  .typeToggle {
-    text-align: right;
-  }
-
-  .typeToggle+.typeToggle {
-    margin-top: 0.375rem;
-  }
-`);
+export default React.memo(BondLessModal);

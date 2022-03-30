@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -12,7 +11,7 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   onClose: () => void;
-  delegatorAddress: string;
+  delegatorAddress: string | null;
   candidateAddress: string
 }
 
@@ -68,26 +67,4 @@ function ExecuteActionModal ({ candidateAddress, className = '', delegatorAddres
   );
 }
 
-export default React.memo(styled(ExecuteActionModal)`
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-
-  .typeToggle {
-    text-align: right;
-  }
-
-  .typeToggle+.typeToggle {
-    margin-top: 0.375rem;
-  }
-`);
+export default React.memo(ExecuteActionModal);

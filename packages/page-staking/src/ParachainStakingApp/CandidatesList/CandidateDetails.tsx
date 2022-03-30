@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types-codec';
+
 import React from 'react';
 
 import { AddressSmall, Button } from '@polkadot/react-components';
@@ -20,17 +22,19 @@ interface Props {
 function CandidateDetails ({ candidateState, className = '' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { bond,
+  const {
+    bond,
     delegationCount,
     lowestTopDelegationAmount,
     topCapacity,
     totalBacking,
-    totalCounted } = candidateState;
+    totalCounted
+  } = candidateState;
+  const [isDelegateOpen, toggleDelegate] = useToggle();
 
   const minContribution = topCapacity.toHuman() === 'Full'
     ? lowestTopDelegationAmount
-    : api.consts.parachainStaking.minDelegation;
-  const [isDelegateOpen, toggleDelegate] = useToggle();
+    : api.consts.parachainStaking.minDelegation as u128;
 
   return (
     <tr className={className}>

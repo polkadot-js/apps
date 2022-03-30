@@ -2354,13 +2354,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@moonbeam-network/api-augment@npm:^0.0.1-beta.4":
-  version: 0.0.1-beta.4
-  resolution: "@moonbeam-network/api-augment@npm:0.0.1-beta.4"
-  checksum: 569cc25a3a6e316cb95f56b0d1ffd45038dde042295b27998dfe81930a78f5f755c2e2a2d949b61828f812251e297daa7251f3836b251386d08c99d23fd5a76c
-  languageName: node
-  linkType: hard
-
 "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents.3":
   version: 2.1.8-no-fsevents.3
   resolution: "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents.3"
@@ -2908,7 +2901,6 @@ __metadata:
   resolution: "@polkadot/app-staking@workspace:packages/page-staking"
   dependencies:
     "@babel/runtime": ^7.17.8
-    "@moonbeam-network/api-augment": ^0.0.1-beta.4
     "@polkadot/app-explorer": ^0.110.2-34
     "@polkadot/react-components": ^0.110.2-34
     "@polkadot/react-query": ^0.110.2-34

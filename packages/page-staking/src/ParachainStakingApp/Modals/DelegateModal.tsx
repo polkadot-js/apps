@@ -3,10 +3,9 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { ParachainStakingCandidateMetadata, ParachainStakingDelegator } from '@polkadot/types/lookup';
+import type { ParachainStakingCandidateMetadata, ParachainStakingDelegator } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -20,7 +19,7 @@ interface Props {
   onClose: () => void;
   delegatorAddress?: string;
   candidateAddress?: string;
-  minContribution: string
+  minContribution: BN;
 }
 
 function DelegateModal ({ candidateAddress, className = '', delegatorAddress, minContribution, onClose }: Props): React.ReactElement<Props> {
@@ -39,6 +38,7 @@ function DelegateModal ({ candidateAddress, className = '', delegatorAddress, mi
 
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [delegator]);
 
+  // Calculate max amount taking into account tx fee and balance
   useEffect((): void => {
     if (
       balances &&
@@ -71,7 +71,7 @@ function DelegateModal ({ candidateAddress, className = '', delegatorAddress, mi
   }, [api, balances, candidateDelegationCount, delegator, candidate, delegationCount]);
 
   useEffect((): void => {
-    if (amount?.lt(new BN(minContribution))) {
+    if (amount?.lt(minContribution)) {
       setEnoughContribution(false);
     } else {
       setEnoughContribution(true);
@@ -151,12 +151,12 @@ function DelegateModal ({ candidateAddress, className = '', delegatorAddress, mi
                   <>{t<string>('The minimum amount to delegate is ')}<FormatBalance value={minContribution} /></>
                 }
                 maxValue={maxTransfer}
-                minValue={new BN(minContribution)}
+                minValue={minContribution}
                 onChange={setAmount}
               />
             }
           </Modal.Columns>
-          {amount?.lt(new BN(minContribution)) && <MarkError content={'Amount below minimum delegation'} />}
+          {amount?.lt(minContribution) && <MarkError content={'Amount below minimum delegation'} />}
         </div>
       </Modal.Content>
       <Modal.Actions>
@@ -189,26 +189,4 @@ function DelegateModal ({ candidateAddress, className = '', delegatorAddress, mi
   );
 }
 
-export default React.memo(styled(DelegateModal)`
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-
-  .typeToggle {
-    text-align: right;
-  }
-
-  .typeToggle+.typeToggle {
-    margin-top: 0.375rem;
-  }
-`);
+export default React.memo(DelegateModal);

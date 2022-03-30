@@ -4,7 +4,6 @@
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -16,7 +15,7 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   onClose: () => void;
-  delegatorAddress?: string;
+  delegatorAddress: string | null;
   candidateAddress?: string;
 }
 
@@ -33,6 +32,7 @@ function BondMoreModal ({ candidateAddress, className = '', delegatorAddress, on
 
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [delegator]);
 
+  // Calculate max amount taking into account tx fee and balance
   useEffect((): void => {
     if (
       balances &&
@@ -138,26 +138,4 @@ function BondMoreModal ({ candidateAddress, className = '', delegatorAddress, on
   );
 }
 
-export default React.memo(styled(BondMoreModal)`
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-
-  .typeToggle {
-    text-align: right;
-  }
-
-  .typeToggle+.typeToggle {
-    margin-top: 0.375rem;
-  }
-`);
+export default React.memo(BondMoreModal);
