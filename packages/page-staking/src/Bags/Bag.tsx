@@ -22,7 +22,7 @@ interface Props {
   stashNodes?: StashNode[];
 }
 
-export default function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
+function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
   const [isLoading, setLoading] = useState(true);
   const [trigger, doRefresh] = useIncrement(1);
   const headId = useMemo(
@@ -71,3 +71,5 @@ export default function Bag ({ id, info, stashNodes }: Props): React.ReactElemen
     </tr>
   );
 }
+
+export default React.memo(Bag);

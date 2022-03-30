@@ -53,7 +53,7 @@ function Stash ({ className, doRefresh, isLoading, list, stashId }: Props): Reac
   );
 }
 
-export default styled(Stash)`
+export default React.memo(styled(Stash)`
   .ui--AddressMini {
     vertical-align: middle;
   }
@@ -62,4 +62,4 @@ export default styled(Stash)`
     cursor: default;
     opacity: 0;
   }
-`;
+`);
