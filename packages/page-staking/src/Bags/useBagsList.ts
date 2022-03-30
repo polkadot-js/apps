@@ -8,19 +8,29 @@ import type { BN } from '@polkadot/util';
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Result {
-  id: BN;
   info: PalletBagsListListBag;
   key: string;
+  lower: BN;
+  upper: BN;
 }
 
 const multiOptions = {
-  transform: ([[ids], opts]: [[BN[]], Option<PalletBagsListListBag>[]]): Result[] =>
-    ids
+  transform: ([[ids], opts]: [[BN[]], Option<PalletBagsListListBag>[]]): Result[] => {
+    const sorted = ids
       .map((id, index): [BN, Option<PalletBagsListListBag>] => [id, opts[index]])
       .filter(([, o]) => o.isSome)
-      .map(([id, o]): Result => ({ id, info: o.unwrap(), key: id.toString() })),
+      .map(([upper, o]): Result => ({ info: o.unwrap(), key: upper.toString(), lower: BN_ZERO, upper }))
+      .sort((a, b) => b.upper.cmp(a.upper));
+
+    return sorted.map((entry, index) =>
+      (index === (sorted.length - 1))
+        ? entry
+        : { ...entry, lower: sorted[index + 1].upper }
+    );
+  },
   withParamsTransform: true
 };
 
