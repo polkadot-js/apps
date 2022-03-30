@@ -75,7 +75,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         ? u8aToString(value)
         : isHex(value)
           ? value
-          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+          : u8aToHex(value as Uint8Array)
       : undefined
   );
   const [{ isAddress, isValid, lastValue }, setValidity] = useState<Validity>(() => ({

@@ -38,8 +38,8 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
       withLabel={withLabel}
     >
       <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
-        {isTrimmed && value && (value.length > 256)
-          ? `${value.substr(0, 96)}…${value.substr(-96)}`
+        {isTrimmed && value && (value.length > 512)
+          ? `${value.substr(0, 256)}…${value.substr(-256)}`
           : value
         }
         {children}
