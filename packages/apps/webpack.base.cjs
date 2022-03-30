@@ -102,7 +102,7 @@ function createWebpack (context, mode = 'production') {
               loader: require.resolve('null-loader')
             }
           ]
-        },
+        }
       ]
     },
     node: {
