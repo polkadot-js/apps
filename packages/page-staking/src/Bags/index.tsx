@@ -43,11 +43,11 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
       ? [...list].sort((a, b) =>
         nodes[a.key]
           ? nodes[b.key]
-            ? b.id.cmp(a.id)
+            ? 0
             : -1
           : nodes[b.key]
             ? 1
-            : b.id.cmp(a.id)
+            : 0
       )
       : null,
     [list, nodes]
@@ -61,12 +61,13 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {sorted && sorted.map(({ id, info, key }) => (
+        {sorted && sorted.map(({ info, key, lower, upper }) => (
           <Bag
             info={info}
             key={key}
+            lower={lower}
             stashNodes={nodes[key]}
-            upper={id}
+            upper={upper}
           />
         ))}
       </Table>

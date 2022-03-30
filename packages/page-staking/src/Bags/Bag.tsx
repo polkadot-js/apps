@@ -18,11 +18,12 @@ import useBonded from './useBonded';
 
 interface Props {
   info: PalletBagsListListBag;
+  lower: BN;
   stashNodes?: StashNode[];
   upper: BN;
 }
 
-function Bag ({ info, stashNodes, upper }: Props): React.ReactElement<Props> {
+function Bag ({ info, lower, stashNodes, upper }: Props): React.ReactElement<Props> {
   const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
   const [isLoading, setLoading] = useState(true);
   const [isCompleted, list] = useBagEntries(headId, trigger);
@@ -52,6 +53,7 @@ function Bag ({ info, stashNodes, upper }: Props): React.ReactElement<Props> {
             isLoading={isLoading}
             key={stashId}
             list={bonded}
+            lower={lower}
             stashId={stashId}
             upper={upper}
           />
