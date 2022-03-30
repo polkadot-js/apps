@@ -25,7 +25,7 @@ interface Props {
 function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
   const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
   const [isLoading, setLoading] = useState(true);
-  const list = useBagEntries(headId, trigger);
+  const [isCompleted, list] = useBagEntries(headId, trigger);
   const bonded = useBonded(list);
 
   useEffect((): void => {
@@ -36,12 +36,10 @@ function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     setLoading(
       stashNodes && stashNodes.length
-        ? list
-          ? !bonded
-          : true
+        ? !isCompleted || !bonded
         : false
     );
-  }, [bonded, list, stashNodes]);
+  }, [bonded, isCompleted, stashNodes]);
 
   return (
     <tr>
