@@ -27,15 +27,16 @@ function sortNodes (list: BagInfo[], nodes: BagMap, onlyMine: boolean): [BagInfo
 
 function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [filterIndex, setFilterIndex] = useState(0);
-  const ids = useBagsIds();
-  const list = useBagsList(ids);
   const stashIds = useMemo(
     () => ownStashes
       ? ownStashes.map(({ stashId }) => stashId)
       : [],
     [ownStashes]
   );
+  const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
+  const ids = useBagsIds();
+  const list = useBagsList(ids);
+
   const nodes = useBagsNodes(stashIds);
 
   const headerRef = useRef([
