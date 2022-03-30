@@ -22,14 +22,12 @@ interface Props {
 function CandidateDetails ({ candidateState, className = '' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const {
-    bond,
+  const { bond,
     delegationCount,
     lowestTopDelegationAmount,
     topCapacity,
     totalBacking,
-    totalCounted
-  } = candidateState;
+    totalCounted } = candidateState;
   const [isDelegateOpen, toggleDelegate] = useToggle();
 
   const minContribution = topCapacity.toHuman() === 'Full'

@@ -103,12 +103,6 @@ function createWebpack (context, mode = 'production') {
             }
           ]
         },
-        {
-          test: /\.m?js/,
-          resolve: {
-            fullySpecified: false
-          }
-        },
       ]
     },
     node: {
