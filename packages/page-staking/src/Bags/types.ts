@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletBagsListListNode } from '@polkadot/types/lookup';
+import type { PalletBagsListListBag, PalletBagsListListNode } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface StashNode {
@@ -15,3 +15,12 @@ export interface ListNode {
   jump: string | null;
   stashId: string;
 }
+
+export interface BagInfo {
+  info: PalletBagsListListBag;
+  key: string;
+  lower: BN;
+  upper: BN;
+}
+
+export type BagMap = Record<string, StashNode[]>;

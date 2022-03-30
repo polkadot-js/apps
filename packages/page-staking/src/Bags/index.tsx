@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { BagInfo, BagMap, StashNode } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Bag from './Bag';
@@ -18,16 +19,24 @@ interface Props {
   ownStashes?: StakerState[];
 }
 
+function sortNodes (list: BagInfo[], nodes: BagMap, onlyMine: boolean): [BagInfo, StashNode[] | undefined][] {
+  return list
+    .map((b): [BagInfo, StashNode[] | undefined] => [b, nodes[b.key]])
+    .filter(([, n]) => !onlyMine || !!n);
+}
+
 function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const ids = useBagsIds();
-  const list = useBagsList(ids);
   const stashIds = useMemo(
     () => ownStashes
       ? ownStashes.map(({ stashId }) => stashId)
       : [],
     [ownStashes]
   );
+  const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
+  const ids = useBagsIds();
+  const list = useBagsList(ids);
+
   const nodes = useBagsNodes(stashIds);
 
   const headerRef = useRef([
@@ -38,35 +47,37 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     []
   ]);
 
-  const sorted = useMemo(
-    () => list && nodes
-      ? [...list].sort((a, b) =>
-        nodes[a.key]
-          ? nodes[b.key]
-            ? 0
-            : -1
-          : nodes[b.key]
-            ? 1
-            : 0
-      )
-      : null,
-    [list, nodes]
+  const filterOptions = useRef([
+    { text: t('My bags'), value: 'mine' },
+    { text: t('All bags'), value: 'all' }
+  ]);
+
+  const filtered = useMemo(
+    () => list && nodes && sortNodes(list, nodes, !filterIndex),
+    [filterIndex, list, nodes]
   );
 
   return (
     <>
       <Summary ids={ids} />
+      <Button.Group>
+        <ToggleGroup
+          onChange={setFilterIndex}
+          options={filterOptions.current}
+          value={filterIndex}
+        />
+      </Button.Group>
       <Table
-        empty={nodes && list && list.length === 0 && t<string>('No available bags')}
+        empty={filtered && t<string>('No available bags')}
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {sorted && sorted.map(({ info, key, lower, upper }) => (
+        {filtered?.map(([{ info, key, lower, upper }, nodes]) => (
           <Bag
             info={info}
             key={key}
             lower={lower}
-            stashNodes={nodes[key]}
+            stashNodes={nodes}
             upper={upper}
           />
         ))}
