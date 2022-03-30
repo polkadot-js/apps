@@ -15,7 +15,7 @@ interface Props {
   ids?: u64[];
 }
 
-export default function Summary ({ className = '', ids }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -29,3 +29,5 @@ export default function Summary ({ className = '', ids }: Props): React.ReactEle
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

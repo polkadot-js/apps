@@ -18,7 +18,7 @@ interface Props {
   ownStashes?: StakerState[];
 }
 
-export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
+function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const ids = useBagsIds();
   const list = useBagsList(ids);
@@ -39,7 +39,7 @@ export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> 
   ]);
 
   const sorted = useMemo(
-    () => list
+    () => list && nodes
       ? [...list].sort((a, b) =>
         nodes[a[0]]
           ? nodes[b[0]]
@@ -57,7 +57,7 @@ export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> 
     <>
       <Summary ids={ids} />
       <Table
-        empty={list && list.length === 0 && t<string>('No available bags')}
+        empty={nodes && list && list.length === 0 && t<string>('No available bags')}
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
@@ -73,3 +73,5 @@ export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> 
     </>
   );
 }
+
+export default React.memo(Bags);

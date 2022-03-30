@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u64 } from '@polkadot/types';
+import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { StashNode } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AddressMini, Spinner } from '@polkadot/react-components';
-import { useIncrement } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,27 +22,24 @@ interface Props {
   stashNodes?: StashNode[];
 }
 
-export default function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
+function Bag ({ id, info, stashNodes }: Props): React.ReactElement<Props> {
+  const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
   const [isLoading, setLoading] = useState(true);
-  const [trigger, doRefresh] = useIncrement(1);
-  const headId = useMemo(
-    () => stashNodes && stashNodes.length
-      ? info.head.unwrapOr(null)
-      : null,
-    [info, stashNodes]
-  );
-  const list = useBagEntries(headId, trigger);
+  const [isCompleted, list] = useBagEntries(headId, trigger);
   const bonded = useBonded(list);
+
+  useEffect((): void => {
+    info && stashNodes &&
+      setHeadId(([, trigger]) => [info.head.unwrapOr(null), ++trigger]);
+  }, [info, stashNodes]);
 
   useEffect((): void => {
     setLoading(
       stashNodes && stashNodes.length
-        ? list
-          ? !bonded
-          : true
+        ? !isCompleted || !bonded
         : false
     );
-  }, [bonded, list, stashNodes]);
+  }, [bonded, isCompleted, stashNodes]);
 
   return (
     <tr>
@@ -52,7 +49,6 @@ export default function Bag ({ id, info, stashNodes }: Props): React.ReactElemen
       <td className='address'>
         {stashNodes?.map(({ stashId }) => (
           <Stash
-            doRefresh={doRefresh}
             isLoading={isLoading}
             key={stashId}
             list={bonded}
@@ -71,3 +67,5 @@ export default function Bag ({ id, info, stashNodes }: Props): React.ReactElemen
     </tr>
   );
 }
+
+export default React.memo(Bag);
