@@ -36,15 +36,16 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
   const ids = useBagsIds();
   const list = useBagsList(ids);
-
   const nodes = useBagsNodes(stashIds);
 
   const headerRef = useRef([
     [t('bags')],
-    [t('head'), 'address'],
-    [t('tail'), 'address'],
-    [t('mine'), 'address'],
-    []
+    [t('max'), 'number'],
+    [t('min'), 'number'],
+    [t('first'), 'address'],
+    [t('last'), 'address'],
+    [t('stashes'), 'address'],
+    [t('count'), 'number']
   ]);
 
   const filterOptions = useRef([
@@ -59,7 +60,10 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <Summary ids={ids} />
+      <Summary
+        ids={ids}
+        nodes={nodes}
+      />
       <Button.Group>
         <ToggleGroup
           onChange={setFilterIndex}
@@ -72,8 +76,9 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {filtered?.map(([{ info, key, lower, upper }, nodes]) => (
+        {filtered?.map(([{ index, info, key, lower, upper }, nodes]) => (
           <Bag
+            index={index}
             info={info}
             key={key}
             lower={lower}

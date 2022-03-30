@@ -17,6 +17,7 @@ export interface ListNode {
 }
 
 export interface BagInfo {
+  index: number;
   info: PalletBagsListListBag;
   key: string;
   lower: BN;
