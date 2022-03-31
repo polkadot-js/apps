@@ -139,6 +139,14 @@ export function createRococo (t: TFunction): EndpointOption {
           ChainX: 'wss://sherpax.chainx.org'
         }
       },
+      { 
+        info: 'rococoDali',
+        paraId: 2087,
+        text: t('rpc.rococo.dali', 'Dali', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composablefinance.ninja'
+        }
+      },
       {
         info: 'rococoDarwinia',
         isDisabled: true, // Rococo reset
@@ -530,16 +538,7 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
-      },
-      { 
-        info: 'rococoDali',
-        paraId: 2087,
-        text: t('rpc.rococo.dali', 'Dali', { ns: 'apps-config' }),
-        providers: {
-          Composable: 'wss://rpc.composablefinance.ninja'
-        }
       }
-
     ]
   };
 }
