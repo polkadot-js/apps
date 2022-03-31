@@ -222,7 +222,7 @@ export const chainLogos = Object.entries({
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'Dolphin Testnet': nodeDolphin,
   DaliTestnet: nodeDaliTestnet,
-  'DaliTestnet based on Rococo' : chainRococoDali,
+  'Dali Testnet (Rococo Relay)' : chainRococoDali,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
