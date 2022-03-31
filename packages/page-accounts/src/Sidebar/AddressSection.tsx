@@ -21,8 +21,8 @@ interface Props {
 
 function AddressSection ({ accountIndex, defaultValue, editingName, flags, onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isCopyShown, toggle] = useToggle();
-  const [wasCopied, donothing] = useToggle(false);
+  const [isCopyShown, toggleIsCopyShown] = useToggle();
+  const [, donothing] = useToggle(false);
 
   return (
     <div className='ui--AddressSection'>
@@ -71,9 +71,9 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
               <Button.Group>
                 <Button
                   icon={isCopyShown ? 'check' : 'copy'}
-                  label={wasCopied ? t<string>('Copy') : t<string>('Copy')}
-                  onClick={toggle}
-                  onMouseLeave={isCopyShown ? toggle : donothing }
+                  label={isCopyShown ? t<string>('Copied') : t<string>('Copy')}
+                  onClick={isCopyShown ? donothing : toggleIsCopyShown }
+                  onMouseLeave={isCopyShown ? toggleIsCopyShown : donothing }
                 />
               </Button.Group>
             </span>

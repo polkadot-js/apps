@@ -130,7 +130,7 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-addr {
     word-break: break-all;
-    width: 26ch;
+    width: 24ch;
     margin: 0.571rem 0;
     color: var(--color-label);
   }
@@ -144,7 +144,7 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-copyaaddr {
     word-break: break-all;
-    width: 10ch;
+    width: 12ch;
     margin: 0.371rem 0;
     color: var(--color-label);
   }
