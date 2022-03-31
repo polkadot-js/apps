@@ -139,7 +139,7 @@ export function createRococo (t: TFunction): EndpointOption {
           ChainX: 'wss://sherpax.chainx.org'
         }
       },
-      { 
+      {
         info: 'rococoDali',
         paraId: 2087,
         text: t('rpc.rococo.dali', 'Dali', { ns: 'apps-config' }),
