@@ -520,7 +520,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "Положительное число большее или равно {{nextFreeId}}",
   "Potential dispatch of referendum {{id}} (if passed)": "",
   "Pre-sale ethereum address": "Адрес Ethereum, используемый на предпродаже",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "Префикс обозначает, что в этой сети используется формат ss58 для адресов. Это число между 0 и 255, оно описивает точный формат байтов адреса",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "Префикс обозначает, что в этой сети используется формат ss58 для адресов. Это число между 0 и 255, оно описивает точный формат байтов адреса",
   "Preimage": "Прообраз",
   "Preparing QR for signing": "",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "Предьявите QR код с подписью. После сканирования транзакция будет запущена для исполнения в сети",
