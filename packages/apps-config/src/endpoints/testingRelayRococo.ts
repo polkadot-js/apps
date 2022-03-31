@@ -531,7 +531,6 @@ export function createRococo (t: TFunction): EndpointOption {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
-      
       { 
         info: 'rococoDali',
         paraId: 2087,
