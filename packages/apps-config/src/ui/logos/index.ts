@@ -265,6 +265,7 @@ export const chainLogos = Object.entries({
   Lego: nodeTotem,
   'Listen Network': chainListen,
   Litentry: nodeLitentry,
+  'Litentry-rococo': nodeLitentry,
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
