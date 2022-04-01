@@ -70,6 +70,12 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
           value={filterIndex}
         />
       </Button.Group>
+      {(
+        <article className='warning centered'>
+          <p>{t('The All bags list is composed of bags that each describe a range of active bonded funds of the nominators. In each bag is a list of nodes that correspond to a nominator and their staked funds.')}</p>
+          <p>{t('Within the context of a single bag, nodes are not sorted by their stake, but instead placed in insertion order. In other words, the mostly recently inserted node will be the last node in the bag, regardless of stake. Events like staking rewards or slashes do not automatically put you in a different bag. the bags-list pallet comes with an important permissionless extrinsic: rebag. This allows anyone to specify another account that is in the wrong bag, and place it in the correct one.')}</p>
+        </article>
+      )}
       <Table
         empty={filtered && t<string>('No available bags')}
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
