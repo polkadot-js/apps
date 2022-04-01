@@ -389,6 +389,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'tanganika',
+        homepage: 'https://www.datahighway.com/',
+        paraId: 2116,
+        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://tanganika.datahighway.com'
+        }
+      },
+      {
         info: 'turing',
         isUnreachable: true,
         homepage: 'https://oak.tech',
