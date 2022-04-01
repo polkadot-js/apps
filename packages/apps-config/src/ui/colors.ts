@@ -60,7 +60,7 @@ const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
-const chainMangata = '#ddf1f3';
+const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
@@ -317,7 +317,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
-  Mangata: chainMangata,
+  'Mangata Kusama Mainnet': chainMangata,
+  'Mangata Public Testnet': chainMangata,
   'Manta Parachain': chainManta,
   'Manta Parachain Development': chainManta,
   'Manta Parachain Local': chainManta,
