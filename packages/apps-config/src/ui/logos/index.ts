@@ -18,6 +18,7 @@ import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
+import chainKusamaDataHighway from './chains/datahighway.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGeminis from './chains/geminis.png';
@@ -218,6 +219,7 @@ export const chainLogos = Object.entries({
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dolphin Testnet': nodeDolphin,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
@@ -408,6 +410,7 @@ export const nodeLogos = Object.entries({
   'DataHighway Node': nodeDataHighway,
   'DataHighway Parachain Collator': nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dock Full Node': nodeDockMainnet,
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
@@ -764,6 +767,7 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
+  tanganika: chainKusamaDataHighway,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
