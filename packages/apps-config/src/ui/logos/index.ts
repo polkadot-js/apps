@@ -17,7 +17,7 @@ import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
-import chainDorafactory from './chains/dorafactory.svg';
+import chainDorafactory from './chains/dorafactory.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
@@ -220,7 +220,7 @@ export const chainLogos = Object.entries({
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'Dolphin Testnet': nodeDolphin,
-  'Dorafactory Network': chainDorafactory,
+  'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -411,7 +411,7 @@ export const nodeLogos = Object.entries({
   'DataHighway Parachain Collator': nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'Dock Full Node': nodeDockMainnet,
-  'Dorafactory Network': chainDorafactory,
+  'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,

@@ -132,9 +132,9 @@ export function createKusama (t: TFunction): EndpointOption {
         isUnreachable: true,
         homepage: 'https://dorafactory.org/kusama/',
         paraId: 2115,
-        text: t('rpc.dorafactory.io', 'Dorafactory Network', { ns: 'apps-config' }),
+        text: t('rpc.dorafactory.org', 'Dora Factory', { ns: 'apps-config' }),
         providers: {
-          DORA: 'wss://rpc.dorafactory.io'
+          DORA: 'wss://rpc.dorafactory.org'
         }
       },
       {
