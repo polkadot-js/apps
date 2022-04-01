@@ -389,6 +389,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'tanganika',
+        homepage: 'https://www.datahighway.com/',
+        paraId: 2116,
+        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://tanganika.datahighway.com'
+        }
+      },
+      {
         info: 'turing',
         isUnreachable: true,
         homepage: 'https://oak.tech',
@@ -406,15 +415,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.standard', 'Unorthodox', { ns: 'apps-config' }),
         providers: {
           'Standard Protocol': 'wss://rpc.kusama.standard.tech'
-        }
-      },
-      {
-        info: 'tanganika',
-        homepage: 'https://www.datahighway.com/',
-        paraId: 2116,
-        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
-        providers: {
-          DataHighway: 'wss://tanganika.datahighway.com'
         }
       },
       {
