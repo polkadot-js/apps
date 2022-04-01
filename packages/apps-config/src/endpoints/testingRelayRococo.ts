@@ -308,11 +308,11 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoLitentry',
-        isDisabled: true, // Rococo reset
-        paraId: 1984,
-        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
+        isDisabled: false,
+        paraId: 2002,
+        text: t('rpc.rococo.litentry', 'Litentry', { ns: 'apps-config' }),
         providers: {
-          Litentry: 'wss://rococov1.litentry.io'
+          Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
         }
       },
       {
