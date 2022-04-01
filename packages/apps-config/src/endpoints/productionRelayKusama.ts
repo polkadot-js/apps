@@ -409,21 +409,21 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'zeitgeist',
-        homepage: 'https://zeitgeist.pm',
-        paraId: 2101,
-        text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
-        providers: {
-          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
-        }
-      },
-      {
         info: 'tanganika',
         homepage: 'https://www.datahighway.com/',
         paraId: 2116,
         text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
         providers: {
           DataHighway: 'wss://tanganika.datahighway.com'
+        }
+      },
+      {
+        info: 'zeitgeist',
+        homepage: 'https://zeitgeist.pm',
+        paraId: 2101,
+        text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
+        providers: {
+          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
         }
       }
     ]
