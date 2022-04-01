@@ -175,6 +175,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIntegritee',
+        isDisabled: false,
+        paraId: 3002,
+        text: t('rpc.rococo.integritee', 'Integritee Network', { ns: 'apps-config' }),
+        providers: {
+          Integritee: 'wss://rococo.api.integritee.network'
+        }
+      },
+      {
         info: 'rococoTinker',
         isDisabled: false,
         paraId: 2014,
