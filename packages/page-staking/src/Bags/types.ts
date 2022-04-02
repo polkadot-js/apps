@@ -17,11 +17,11 @@ export interface ListNode {
 }
 
 export interface BagInfo {
+  bagLower: BN;
+  bagUpper: BN;
   index: number;
   info: PalletBagsListListBag;
   key: string;
-  lower: BN;
-  upper: BN;
 }
 
 export type BagMap = Record<string, StashNode[]>;
