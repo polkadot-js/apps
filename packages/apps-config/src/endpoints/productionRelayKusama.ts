@@ -128,6 +128,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'dorafactory',
+        isUnreachable: true,
+        homepage: 'https://dorafactory.org/kusama/',
+        paraId: 2115,
+        text: t('rpc.dorafactory.org', 'Dora Factory', { ns: 'apps-config' }),
+        providers: {
+          DORA: 'wss://rpc.dorafactory.org'
+        }
+      },
+      {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
         isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
