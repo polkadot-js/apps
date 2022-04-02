@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-const multiOptions = {
+const MULTI_OPTS = {
   transform: ([[ids], opts]: [[BN[]], Option<PalletBagsListListBag>[]]): BagInfo[] => {
     const sorted = ids
       .map((id, index): [BN, Option<PalletBagsListListBag>] => [id, opts[index]])
@@ -48,7 +48,7 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
 function useBagsListImpl (ids?: BN[]): BagInfo[] | undefined {
   const { api } = useApi();
   const [result, setResult] = useState<BagInfo[] | undefined>();
-  const query = useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], multiOptions);
+  const query = useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], MULTI_OPTS);
 
   useEffect((): void => {
     query && setResult((prev) => merge(prev, query));

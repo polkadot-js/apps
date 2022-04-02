@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-const multiOptions = {
+const MULTI_OPTS = {
   transform: (opts: Option<PalletBagsListListNode>[]): BagMap =>
     opts
       .filter((o) => o.isSome)
@@ -42,7 +42,7 @@ function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
 function useBagsNodesImpl (stashIds: string[]): BagMap | undefined {
   const { api } = useApi();
   const [result, setResult] = useState<BagMap | undefined>();
-  const query = useCall(api.query.bagsList.listNodes.multi, [stashIds], multiOptions);
+  const query = useCall(api.query.bagsList.listNodes.multi, [stashIds], MULTI_OPTS);
 
   useEffect((): void => {
     query && setResult((prev) => merge(prev, query));
