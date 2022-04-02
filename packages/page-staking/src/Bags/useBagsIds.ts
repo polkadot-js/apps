@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
-const keyOptions = {
+const KEY_OPTS = {
   transform: (keys: StorageKey<[u64]>[]): BN[] =>
     keys.map(({ args: [id] }) => id)
 };
@@ -14,7 +14,7 @@ const keyOptions = {
 function useBagsIdsImpl (): BN[] | undefined {
   const { api } = useApi();
 
-  return useMapKeys(api.query.bagsList.listBags, keyOptions);
+  return useMapKeys(api.query.bagsList.listBags, KEY_OPTS);
 }
 
 export default createNamedHook('useBagsIds', useBagsIdsImpl);

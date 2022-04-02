@@ -7,7 +7,7 @@ import type { ListNode } from './types';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-const deriveOpts = {
+const DERIVE_OPTS = {
   transform: (all: DeriveStakingAccount[]): ListNode[] => {
     const infos = all.map(({ stakingLedger, stashId }, index): ListNode => ({
       bonded: stakingLedger.active.unwrap(),
@@ -34,7 +34,7 @@ const deriveOpts = {
 function useBondedImpl (ids?: false | AccountId32[]): ListNode[] | undefined {
   const { api } = useApi();
 
-  return useCall(ids && ids.length !== 0 && api.derive.staking.accounts, [ids], deriveOpts);
+  return useCall(ids && ids.length !== 0 && api.derive.staking.accounts, [ids], DERIVE_OPTS);
 }
 
 export default createNamedHook('useBonded', useBondedImpl);
