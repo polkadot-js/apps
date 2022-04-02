@@ -187,7 +187,6 @@ const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
 const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
-const nodePhala = '#112312';
 const nodePichiu = '#ed007e';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
