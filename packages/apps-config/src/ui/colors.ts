@@ -70,7 +70,7 @@ const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
-const chainPhala = '#a7e300';
+const chainPhala = '#c6fa4c';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkadex = '#7C30DD';
@@ -187,6 +187,7 @@ const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
 const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
+const nodePhala = '#112312';
 const nodePichiu = '#ed007e';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
@@ -354,9 +355,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
-  'Phala PC1': chainPhala,
-  'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
+  'Phala': chainPhala,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
