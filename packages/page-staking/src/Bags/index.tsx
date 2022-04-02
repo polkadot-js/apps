@@ -36,7 +36,7 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
   const ids = useBagsIds();
   const list = useBagsList(ids);
-  const nodes = useBagsNodes(stashIds);
+  const stashNodes = useBagsNodes(stashIds);
 
   const headerRef = useRef([
     [t('bags')],
@@ -45,28 +45,32 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [t('first'), 'address'],
     [t('last'), 'address'],
     [t('stashes'), 'address'],
-    [t('count'), 'number']
+    [t('nodes'), 'number'],
+    [undefined, 'mini']
   ]);
 
-  const filterOptions = useRef([
-    { text: t('My bags'), value: 'mine' },
-    { text: t('All bags'), value: 'all' }
-  ]);
+  const filterOptions = useMemo(
+    () => [
+      { isDisabled: !stashIds.length, text: t('My bags'), value: 'mine' },
+      { text: t('All bags'), value: 'all' }
+    ],
+    [stashIds, t]
+  );
   const filtered = useMemo(
-    () => list && nodes && sortNodes(list, nodes, !filterIndex),
-    [filterIndex, list, nodes]
+    () => list && stashNodes && sortNodes(list, stashNodes, !filterIndex),
+    [filterIndex, list, stashNodes]
   );
 
   return (
     <>
       <Summary
         ids={ids}
-        nodes={nodes}
+        stashNodes={stashNodes}
       />
       <Button.Group>
         <ToggleGroup
           onChange={setFilterIndex}
-          options={filterOptions.current}
+          options={filterOptions}
           value={filterIndex}
         />
       </Button.Group>
@@ -79,14 +83,14 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {filtered?.map(([{ index, info, key, lower, upper }, nodes]) => (
+        {filtered?.map(([{ bagLower, bagUpper, index, info, key }, stashNodes]) => (
           <Bag
+            bagLower={bagLower}
+            bagUpper={bagUpper}
             index={index}
             info={info}
             key={key}
-            lower={lower}
-            stashNodes={nodes}
-            upper={upper}
+            stashNodes={stashNodes}
           />
         ))}
       </Table>

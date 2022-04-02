@@ -13,12 +13,12 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  bagLower: BN;
+  bagUpper: BN;
   className?: string;
   isLoading: boolean;
   list?: ListNode[];
-  lower: BN;
   stashId: string;
-  upper: BN;
 }
 
 interface Entry {
@@ -28,7 +28,7 @@ interface Entry {
   stashInfo: ListNode | null;
 }
 
-function findEntry (upper: BN, lower: BN, stashId: string, list: ListNode[] = []): Entry {
+function findEntry (upper: BN, bagLower: BN, stashId: string, list: ListNode[] = []): Entry {
   const stashInfo = list.find((o) => o.stashId === stashId) || null;
   const other = (stashInfo && stashInfo.jump && list.find((o) => o.stashId === stashInfo.jump)) || null;
 
@@ -36,7 +36,7 @@ function findEntry (upper: BN, lower: BN, stashId: string, list: ListNode[] = []
     canJump: !!other,
     canRebag: !!stashInfo && (
       stashInfo.bonded.gt(upper) ||
-      stashInfo.bonded.lt(lower)
+      stashInfo.bonded.lt(bagLower)
     ),
     jumpCount: stashInfo && other
       ? (stashInfo.index - other.index)
@@ -45,12 +45,12 @@ function findEntry (upper: BN, lower: BN, stashId: string, list: ListNode[] = []
   };
 }
 
-function Stash ({ className, isLoading, list, lower, stashId, upper }: Props): React.ReactElement<Props> {
+function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { canJump, canRebag, jumpCount, stashInfo } = useMemo(
-    () => findEntry(upper, lower, stashId, list),
-    [list, lower, stashId, upper]
+    () => findEntry(bagUpper, bagLower, stashId, list),
+    [bagLower, bagUpper, list, stashId]
   );
 
   return (

@@ -12,33 +12,34 @@ import { AddressMini, Spinner } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import Rebag from './Rebag';
 import Stash from './Stash';
 import useBagEntries from './useBagEntries';
 import useBonded from './useBonded';
 
 interface Props {
+  bagLower: BN;
+  bagUpper: BN;
   index: number;
   info: PalletBagsListListBag;
-  lower: BN;
   stashNodes?: StashNode[];
-  upper: BN;
 }
 
-function getRebags (bonded: ListNode[], stashNodes: StashNode[], lower: BN, upper: BN): string[] {
+function getRebags (bonded: ListNode[], stashNodes: StashNode[], bagUpper: BN, bagLower: BN): string[] {
   return bonded
     .filter(({ bonded, stashId }) =>
       (
-        bonded.gt(upper) ||
-        bonded.lt(lower)
+        bonded.gt(bagUpper) ||
+        bonded.lt(bagLower)
       ) &&
       stashNodes.every((n) => n.stashId !== stashId)
     )
     .map(({ stashId }) => stashId);
 }
 
-function Bag ({ info, lower, stashNodes, upper }: Props): React.ReactElement<Props> {
+function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactElement<Props> {
   const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
-  const [, setRebags] = useState<string[]>([]);
+  const [rebags, setRebags] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [isCompleted, list] = useBagEntries(headId, trigger);
   const bonded = useBonded(list);
@@ -56,32 +57,28 @@ function Bag ({ info, lower, stashNodes, upper }: Props): React.ReactElement<Pro
     );
   }, [bonded, isCompleted, stashNodes]);
 
-  // TODO: Currently not used, but calculated. This is the list of stashes that
-  // should be rebagged (need to provide a rebag modal to move all these at once)
   useEffect((): void => {
-    // NOTE: There may be some issues if these are indeed rebagged - we need
-    // the StashNode to see if this item is indeed still within this list
     !isLoading && bonded && stashNodes && setRebags(
-      getRebags(bonded, stashNodes, lower, upper)
+      getRebags(bonded, stashNodes, bagUpper, bagLower)
     );
-  }, [bonded, isLoading, lower, stashNodes, upper]);
+  }, [bagLower, bagUpper, bonded, isLoading, stashNodes]);
 
   return (
     <tr>
       <td className='number' />
-      <td className='number'><FormatBalance value={upper} /></td>
-      <td className='number'><FormatBalance value={lower} /></td>
+      <td className='number'><FormatBalance value={bagUpper} /></td>
+      <td className='number'><FormatBalance value={bagLower} /></td>
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
         {stashNodes?.map(({ stashId }) => (
           <Stash
+            bagLower={bagLower}
+            bagUpper={bagUpper}
             isLoading={isLoading}
             key={stashId}
             list={bonded}
-            lower={lower}
             stashId={stashId}
-            upper={upper}
           />
         ))}
       </td>
@@ -92,6 +89,13 @@ function Bag ({ info, lower, stashNodes, upper }: Props): React.ReactElement<Pro
             ? formatNumber(list.length)
             : null
         }
+      </td>
+      <td className='button'>
+        <Rebag
+          bagLower={bagLower}
+          bagUpper={bagUpper}
+          stashIds={rebags}
+        />
       </td>
     </tr>
   );
