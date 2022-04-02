@@ -70,7 +70,7 @@ const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
-const chainPhala = '#a7e300';
+const chainPhala = '#c6fa4c';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkadex = '#7C30DD';
@@ -354,8 +354,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
-  'Phala PC1': chainPhala,
-  'Phala PoC 4': chainPhala,
+  Phala: chainPhala,
   PHOENIX: chainPhoenix,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
