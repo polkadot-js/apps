@@ -315,6 +315,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'westlake',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7293
       text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
         DataHighway: 'wss://westlake.datahighway.com'
