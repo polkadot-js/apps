@@ -263,7 +263,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'phala',
         homepage: 'https://phala.network',
-        isUnreachable: true,
         paraId: 2035,
         text: t('rpc.polkadot.phala', 'Phala Network', { ns: 'apps-config' }),
         providers: {

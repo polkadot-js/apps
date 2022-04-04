@@ -128,6 +128,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'dorafactory',
+        isUnreachable: true,
+        homepage: 'https://dorafactory.org/kusama/',
+        paraId: 2115,
+        text: t('rpc.dorafactory.org', 'Dora Factory', { ns: 'apps-config' }),
+        providers: {
+          DORA: 'wss://rpc.dorafactory.org'
+        }
+      },
+      {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
         isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
@@ -178,7 +188,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
           'DICO Foundation': 'wss://rpc.kico.dico.io',
-          OnFinality: 'wss://rpc.api.kico.dico.io'
+          'DICO Foundation 2': 'wss://rpc.api.kico.dico.io'
         }
       },
       {
@@ -244,11 +254,12 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mangata',
-        isUnreachable: true,
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
         homepage: 'https://mangata.finance',
         paraId: 2110,
-        text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+        text: t('rpc.kusama.mangata', 'Mangata', { ns: 'apps-config' }),
         providers: {
+          Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
         }
       },
       {
@@ -386,6 +397,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
         providers: {
           Dappforce: 'wss://para.subsocial.network'
+        }
+      },
+      {
+        info: 'tanganika',
+        homepage: 'https://www.datahighway.com/',
+        paraId: 2116,
+        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://tanganika.datahighway.com'
         }
       },
       {

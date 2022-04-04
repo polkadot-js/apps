@@ -293,7 +293,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'mangata',
-      text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+      text: t('rpc.test.mangata', 'Mangata', { ns: 'apps-config' }),
       providers: {
         Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
       }

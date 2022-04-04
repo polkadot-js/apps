@@ -18,6 +18,7 @@ import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
+import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGeminis from './chains/geminis.png';
@@ -29,7 +30,7 @@ import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainListen from './chains/listen.png';
-import chainMangata from './chains/mangata.png';
+import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
@@ -44,6 +45,7 @@ import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
+import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
@@ -218,7 +220,9 @@ export const chainLogos = Object.entries({
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dolphin Testnet': nodeDolphin,
+  'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -245,6 +249,7 @@ export const chainLogos = Object.entries({
   Karura: chainKarura,
   Kerria: chainParallel,
   'Kerria Dev': chainParallel,
+  Khala: nodeKhala,
   KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
@@ -263,10 +268,12 @@ export const chainLogos = Object.entries({
   Lego: nodeTotem,
   'Listen Network': chainListen,
   Litentry: nodeLitentry,
+  'Litentry-rococo': nodeLitentry,
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
-  Mangata: chainMangata,
+  'Mangata Kusama Mainnet': chainMangata,
+  'Mangata Public Testnet': chainMangata,
   'Manta Parachain': nodeManta,
   'Manta Parachain Development': nodeManta,
   'Manta Parachain Local': nodeManta,
@@ -301,7 +308,7 @@ export const chainLogos = Object.entries({
   'Parallel Heiko': chainParallel,
   'Parallel Heiko Dev': chainParallel,
   'Parami PC2': nodeParami,
-  'Phala PC1': nodePhala,
+  Phala: nodePhala,
   'PHOENIX PC1': nodePhoenix,
   'Pichiu Mainnet': nodePichiu,
   'Pichiu Testnet': nodePichiu,
@@ -407,7 +414,9 @@ export const nodeLogos = Object.entries({
   'DataHighway Node': nodeDataHighway,
   'DataHighway Parachain Collator': nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dock Full Node': nodeDockMainnet,
+  'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,
@@ -431,8 +440,6 @@ export const nodeLogos = Object.entries({
   'Joystream Node': nodeJoystream,
   Kerria: nodeParallel,
   'Kerria Dev': nodeParallel,
-  Khala: nodeKhala,
-  'Khala Node': nodeKhala,
   KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
@@ -445,8 +452,7 @@ export const nodeLogos = Object.entries({
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
   'Listen Network': chainListen,
-  // Litentry: nodeLitentry,
-  // 'Litentry Collator': nodeLitentry,
+  'Litentry node': nodeLitentry,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -475,6 +481,8 @@ export const nodeLogos = Object.entries({
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
+  Phala: nodePhala,
+  phala: nodePhala,
   'Phala Collator': nodePhala,
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
@@ -600,6 +608,7 @@ export const namedLogos: Record<string, unknown> = {
   'dock-pos-mainnet': nodeDockMainnet,
   'dock-pos-testnet': nodeDockTestnet,
   dolphin: nodeDolphin,
+  dorafactory: chainDorafactory,
   dotmog: nodeDotMog,
   eave: nodeEave,
   edgeware: nodeEdgeware,
@@ -708,7 +717,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
-  rococoLitentry: nodeLitmus,
+  rococoLitentry: nodeLitentry,
   rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
@@ -763,6 +772,7 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
+  tanganika: chainKusamaDataHighway,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,

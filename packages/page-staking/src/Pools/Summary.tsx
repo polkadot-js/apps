@@ -6,7 +6,7 @@ import type { Params } from './types';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -23,7 +23,7 @@ function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPo
     <SummaryBox className={className}>
       {maxDelegators && (
         <CardSummary label={t<string>('pools')}>
-          {poolCount && <>{formatNumber(poolCount)}&nbsp;/&nbsp;</>}{formatNumber(maxPools)}
+          {isNumber(poolCount) && <>{formatNumber(poolCount)}&nbsp;/&nbsp;</>}{formatNumber(maxPools)}
         </CardSummary>
       )}
       <section>

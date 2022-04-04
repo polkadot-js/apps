@@ -40,6 +40,7 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDolphin = '#000000';
+const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
@@ -60,7 +61,7 @@ const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
-const chainMangata = '#ddf1f3';
+const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
@@ -69,7 +70,7 @@ const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
-const chainPhala = '#a7e300';
+const chainPhala = '#c6fa4c';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkadex = '#7C30DD';
@@ -85,6 +86,7 @@ const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKi
 const chainKiltRilt = `linear-gradient(45deg, ${chainKilt} 0%, ${chainKiltDev} 100%)`;
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
+const chainKusamaDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
@@ -264,7 +266,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia Crab Redirect': chainCrab,
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dolphin Testnet': chainDolphin,
+  'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
@@ -316,8 +320,10 @@ export const chainColors: Record<string, string> = Object.entries({
   Lego: chainTotem,
   'Listen Network': chainListen,
   Litentry: chainLitentry,
+  'Litentry-rococo': chainLitentry,
   Litmus: chainLitmus,
-  Mangata: chainMangata,
+  'Mangata Kusama Mainnet': chainMangata,
+  'Mangata Public Testnet': chainMangata,
   'Manta Parachain': chainManta,
   'Manta Parachain Development': chainManta,
   'Manta Parachain Local': chainManta,
@@ -348,8 +354,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
-  'Phala PC1': chainPhala,
-  'Phala PoC 4': chainPhala,
+  Phala: chainPhala,
   PHOENIX: chainPhoenix,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
@@ -437,6 +442,8 @@ export const nodeColors = Object.entries({
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
+  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   Efinity: nodeEfinity,
@@ -459,7 +466,7 @@ export const nodeColors = Object.entries({
   kusari: nodeKusari,
   'Kylin Parachain Collator': nodeKylin,
   'Listen Network': chainListen,
-  'Litentry Collator': nodeLitentry,
+  'Litentry node': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,

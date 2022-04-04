@@ -175,6 +175,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIntegritee',
+        isDisabled: false,
+        paraId: 3002,
+        text: t('rpc.rococo.integritee', 'Integritee Network', { ns: 'apps-config' }),
+        providers: {
+          Integritee: 'wss://rococo.api.integritee.network'
+        }
+      },
+      {
         info: 'rococoTinker',
         isDisabled: false,
         paraId: 2014,
@@ -247,6 +256,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoLitentry',
+        isDisabled: false,
+        paraId: 2002,
+        text: t('rpc.rococo.litentry', 'Litentry', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
+        }
+      },
+      {
         info: 'rococoMoonsama',
         paraId: 2055,
         text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
@@ -295,15 +313,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
         providers: {
           SingNetwork: 'wss://rpc-lavender.singnetwork.io'
-        }
-      },
-      {
-        info: 'rococoLitentry',
-        isDisabled: true, // Rococo reset
-        paraId: 1984,
-        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
-        providers: {
-          Litentry: 'wss://rococov1.litentry.io'
         }
       },
       {

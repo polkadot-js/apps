@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
+import type { BagInfo, BagMap, StashNode } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Bag from './Bag';
@@ -18,57 +19,83 @@ interface Props {
   ownStashes?: StakerState[];
 }
 
-export default function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
+function sortNodes (list: BagInfo[], nodes: BagMap, onlyMine: boolean): [BagInfo, StashNode[] | undefined][] {
+  return list
+    .map((b): [BagInfo, StashNode[] | undefined] => [b, nodes[b.key]])
+    .filter(([, n]) => !onlyMine || !!n);
+}
+
+function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const ids = useBagsIds();
-  const list = useBagsList(ids);
   const stashIds = useMemo(
     () => ownStashes
       ? ownStashes.map(({ stashId }) => stashId)
       : [],
     [ownStashes]
   );
-  const nodes = useBagsNodes(stashIds);
+  const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
+  const ids = useBagsIds();
+  const list = useBagsList(ids);
+  const stashNodes = useBagsNodes(stashIds);
 
   const headerRef = useRef([
     [t('bags')],
-    [t('head'), 'address'],
-    [t('tail'), 'address'],
-    [t('mine'), 'address']
+    [t('max'), 'number'],
+    [t('min'), 'number'],
+    [t('first'), 'address'],
+    [t('last'), 'address'],
+    [t('stashes'), 'address'],
+    [t('nodes'), 'number'],
+    [undefined, 'mini']
   ]);
 
-  const sorted = useMemo(
-    () => list
-      ? [...list].sort((a, b) =>
-        nodes[a[0]]
-          ? nodes[b[0]]
-            ? b[1].cmp(a[1])
-            : -1
-          : nodes[b[0]]
-            ? 1
-            : b[1].cmp(a[1])
-      )
-      : null,
-    [list, nodes]
+  const filterOptions = useMemo(
+    () => [
+      { isDisabled: !stashIds.length, text: t('My bags'), value: 'mine' },
+      { text: t('All bags'), value: 'all' }
+    ],
+    [stashIds, t]
+  );
+  const filtered = useMemo(
+    () => list && stashNodes && sortNodes(list, stashNodes, !filterIndex),
+    [filterIndex, list, stashNodes]
   );
 
   return (
     <>
-      <Summary ids={ids} />
+      <Summary
+        ids={ids}
+        stashNodes={stashNodes}
+      />
+      <Button.Group>
+        <ToggleGroup
+          onChange={setFilterIndex}
+          options={filterOptions}
+          value={filterIndex}
+        />
+      </Button.Group>
+      <article className='warning centered'>
+        <p>{t('The All bags list is composed of bags that each describe a range of active bonded funds of the nominators. In each bag is a list of nodes that correspond to a nominator and their staked funds.')}</p>
+        <p>{t('Within the context of a single bag, nodes are not sorted by their stake, but instead placed in insertion order. In other words, the most recently inserted node will be the last node in the bag, regardless of stake. Events like staking rewards or slashes do not automatically put you in a different bag. The bags-list pallet comes with an important permissionless extrinsic: rebag. This allows anyone to specify another account that is in the wrong bag, and place it in the correct one.')}</p>
+      </article>
       <Table
-        empty={list && list.length === 0 && t<string>('No available bags')}
+        empty={filtered && t<string>('No available bags')}
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {sorted && sorted.map(([key, id, info]) => (
+        {filtered?.map(([{ bagLower, bagUpper, index, info, key }, stashNodes]) => (
           <Bag
-            id={id}
+            bagLower={bagLower}
+            bagUpper={bagUpper}
+            index={index}
             info={info}
             key={key}
-            stashNodes={nodes[key]}
+            stashNodes={stashNodes}
           />
         ))}
       </Table>
     </>
   );
 }
+
+export default React.memo(Bags);

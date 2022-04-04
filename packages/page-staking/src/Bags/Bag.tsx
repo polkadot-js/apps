@@ -1,40 +1,104 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u64 } from '@polkadot/types';
+import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
-import type { StashNode } from './types';
+import type { BN } from '@polkadot/util';
+import type { ListNode, StashNode } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, Spinner } from '@polkadot/react-components';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-// import useBagEntries from './useBagEntries';
+import Rebag from './Rebag';
+import Stash from './Stash';
+import useBagEntries from './useBagEntries';
+import useBonded from './useBonded';
 
 interface Props {
-  id: u64;
+  bagLower: BN;
+  bagUpper: BN;
+  index: number;
   info: PalletBagsListListBag;
   stashNodes?: StashNode[];
 }
 
-export default function Bag ({ id, info, stashNodes = [] }: Props): React.ReactElement<Props> {
-  // const entries = useBagEntries(stashNodes.length ? info.head.unwrapOr(null) : null);
+function getRebags (bonded: ListNode[], stashNodes: StashNode[], bagUpper: BN, bagLower: BN): string[] {
+  return bonded
+    .filter(({ bonded, stashId }) =>
+      (
+        bonded.gt(bagUpper) ||
+        bonded.lt(bagLower)
+      ) &&
+      stashNodes.every((n) => n.stashId !== stashId)
+    )
+    .map(({ stashId }) => stashId);
+}
+
+function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactElement<Props> {
+  const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
+  const [rebags, setRebags] = useState<string[]>([]);
+  const [isLoading, setLoading] = useState(true);
+  const [isCompleted, list] = useBagEntries(headId, trigger);
+  const bonded = useBonded(list);
+
+  useEffect((): void => {
+    info && stashNodes &&
+      setHeadId(([, trigger]) => [info.head.unwrapOr(null), ++trigger]);
+  }, [info, stashNodes]);
+
+  useEffect((): void => {
+    setLoading(
+      stashNodes && stashNodes.length
+        ? !isCompleted || !bonded
+        : false
+    );
+  }, [bonded, isCompleted, stashNodes]);
+
+  useEffect((): void => {
+    !isLoading && bonded && stashNodes && setRebags(
+      getRebags(bonded, stashNodes, bagUpper, bagLower)
+    );
+  }, [bagLower, bagUpper, bonded, isLoading, stashNodes]);
 
   return (
     <tr>
-      <td className='number'>{formatNumber(id)}</td>
+      <td className='number' />
+      <td className='number'><FormatBalance value={bagUpper} /></td>
+      <td className='number'><FormatBalance value={bagLower} /></td>
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
         {stashNodes?.map(({ stashId }) => (
-          <AddressMini
+          <Stash
+            bagLower={bagLower}
+            bagUpper={bagUpper}
+            isLoading={isLoading}
             key={stashId}
-            value={stashId}
-            withBonded
+            list={bonded}
+            stashId={stashId}
           />
         ))}
+      </td>
+      <td className='number'>
+        {isLoading
+          ? <Spinner noLabel />
+          : list.length
+            ? formatNumber(list.length)
+            : null
+        }
+      </td>
+      <td className='button'>
+        <Rebag
+          bagLower={bagLower}
+          bagUpper={bagUpper}
+          stashIds={rebags}
+        />
       </td>
     </tr>
   );
 }
+
+export default React.memo(Bag);
