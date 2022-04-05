@@ -272,7 +272,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'polkadex',
         homepage: 'https://polkadex.trade/',
-        paraId: 2036,
+        paraId: 2040,
         text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
         providers: {
           'Polkadex Team': 'wss://mainnet.polkadex.trade/',
