@@ -100,6 +100,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'creditcoin',
+      text: t('rpc.test.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
+      }
+    },
+    {
       info: 'Crust Maxwell',
       text: t('rpc.test.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
