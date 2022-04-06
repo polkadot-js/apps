@@ -599,7 +599,6 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   coinversation: chainCoinversation,
-  creditcoin: chainCreditcoin,
   'competitors-club': chainCompetitorsClub,
   composableFinance: chainComposableFinance,
   crab: nodeCrab,
