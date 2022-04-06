@@ -33,6 +33,7 @@ const chainCompetitorsClub = '#213830';
 const chainComposable = '#FF8500';
 const chainComposableFinance = '#861660';
 const chainCrab = '#7C30DD';
+const chainCreditcoin = '#FF2C00';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -258,6 +259,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Competitors Club': chainCompetitorsClub,
   Composable: chainComposable,
   'Composable Finance': chainComposableFinance,
+  Creditcoin: chainCreditcoin,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
