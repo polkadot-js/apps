@@ -1,4 +1,4 @@
-    3492	Jaco                          	Adjust options for useTxBatch (#7311)
+    3494	Jaco                          	Fix ipsUpload script (#7314)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
