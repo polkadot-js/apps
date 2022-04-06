@@ -66,6 +66,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'creditcoin',
+      text: t('rpc.prod.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
+      }
+    },
+    {
       info: 'crown-sterling',
       text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
       providers: {
