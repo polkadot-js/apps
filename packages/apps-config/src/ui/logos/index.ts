@@ -603,6 +603,7 @@ export const namedLogos: Record<string, unknown> = {
   'competitors-club': chainCompetitorsClub,
   composableFinance: chainComposableFinance,
   crab: nodeCrab,
+  creditcoin: chainCreditcoin,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
