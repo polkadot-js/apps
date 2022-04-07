@@ -104,6 +104,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoCatalyst',
+        paraId: 2031,
+        text: t('rpc.rococo.catalyst', 'Catalyst', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+        }
+      },
+      {
         info: 'rococoClover',
         isDisabled: true, // Rococo reset
         paraId: 229,
