@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { BagMap, StashNode } from './types';
+import type { BagMap } from './types';
 
 import React, { useMemo, useState } from 'react';
 
@@ -16,7 +16,6 @@ interface Props {
   bagLower: BN;
   bagUpper: BN;
   stashIds: string[];
-  stashNodes?: StashNode[];
 }
 
 function getAvailableIds (map: BagMap, bagUpper: BN): string[] {

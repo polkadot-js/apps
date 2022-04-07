@@ -92,7 +92,6 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
           bagLower={bagLower}
           bagUpper={bagUpper}
           stashIds={rebags}
-          stashNodes={stashNodes}
         />
       </td>
     </tr>
