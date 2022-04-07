@@ -258,7 +258,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoLitentry',
         isDisabled: false,
-        paraId: 2002,
+        paraId: 2106,
         text: t('rpc.rococo.litentry', 'Litentry', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
