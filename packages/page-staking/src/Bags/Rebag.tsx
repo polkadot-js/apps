@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { BagMap, StashNode } from './types';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputAddressMulti, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -15,6 +16,13 @@ interface Props {
   bagLower: BN;
   bagUpper: BN;
   stashIds: string[];
+  stashNodes?: StashNode[];
+}
+
+function getAvailableIds (map: BagMap, bagUpper: BN): string[] {
+  return Object
+    .values(map[bagUpper.toString()] || {})
+    .map(({ stashId }) => stashId);
 }
 
 function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null {
@@ -23,15 +31,20 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVisible, toggleVisible] = useToggle();
   const map = useBagsNodes(stashIds);
+  const availableIds = useMemo(
+    () => map
+      ? getAvailableIds(map, bagUpper)
+      : [],
+    [bagUpper, map]
+  );
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const changes = useMemo(
-    () => map && Object
-      .values(map[bagUpper.toString()] || {})
-      .map(({ stashId }) => api.tx.bagsList.rebag(stashId)),
-    [api, bagUpper, map]
+    () => selectedIds.map((stashId) => api.tx.bagsList.rebag(stashId)),
+    [api, selectedIds]
   );
   const tx = useTxBatch(changes);
 
-  if (!changes || !changes.length) {
+  if (!availableIds.length) {
     return null;
   }
 
@@ -39,7 +52,7 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
     <>
       <Button
         icon='refresh'
-        label={t<string>('Rebag {{count}}', { replace: { count: changes.length } })}
+        label={t<string>('Rebag {{count}}', { replace: { count: availableIds.length } })}
         onClick={toggleVisible}
       />
       {isVisible && (
@@ -57,13 +70,23 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
                 type='account'
               />
             </Modal.Columns>
+            <Modal.Columns hint={t<string>('The accounts that will be rebagged as a result of this operation.')}>
+              <InputAddressMulti
+                available={availableIds}
+                availableLabel={t<string>('unselected')}
+                defaultValue={availableIds}
+                maxCount={Number.MAX_SAFE_INTEGER}
+                onChange={setSelectedIds}
+                valueLabel={t<string>('to rebag')}
+              />
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions>
             <TxButton
               accountId={accountId}
               extrinsic={tx}
               icon='refresh'
-              isDisabled={!tx}
+              isDisabled={!tx || !selectedIds.length}
               label={t<string>('Rebag')}
               onStart={toggleVisible}
             />
