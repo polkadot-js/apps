@@ -58,7 +58,7 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
     !isLoading && bonded && setRebags(
       getRebags(bonded, bagUpper, bagLower)
     );
-  }, [bagLower, bagUpper, bonded, isLoading, stashNodes]);
+  }, [bagLower, bagUpper, bonded, isLoading]);
 
   return (
     <tr>
