@@ -434,7 +434,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
         providers: {
-          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
+          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+          Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
         }
       }
     ]
