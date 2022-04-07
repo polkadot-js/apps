@@ -276,7 +276,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoPangolin',
         isDisabled: false,
         paraId: 2105,
-        text: t('rpc.rococo.pangolin', 'Pangolin', { ns: 'apps-config' }),
+        text: t('rpc.rococo.pangolin', 'Pangolin Parachain', { ns: 'apps-config' }),
         providers: {
           'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
         }
