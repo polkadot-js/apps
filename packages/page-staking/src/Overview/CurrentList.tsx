@@ -1,9 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useContext, useMemo, useRef, useState } from 'react';
@@ -22,6 +23,7 @@ interface Props {
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
+  minCommission?: BN;
   paraValidators?: Record<string, boolean>;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
@@ -71,7 +73,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 
 const DEFAULT_PARAS = {};
 
-function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ favorites, hasQueries, isIntentions, minCommission, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -147,7 +149,10 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
       }
       header={headerRef.current}
       legend={
-        <Legend isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices} />
+        <Legend
+          isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
+          minCommission={minCommission}
+        />
       }
     >
       {!isLoading && (
@@ -166,6 +171,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
           isPara={isIntentions ? false : paraValidators[address]}
           key={address}
           lastBlock={byAuthor[address]}
+          minCommission={minCommission}
           nominatedBy={nominatedBy?.[address]}
           points={eraPoints[address]}
           recentlyOnline={recentlyOnline?.[address]}

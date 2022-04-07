@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -27,7 +27,7 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
 
   const headerRef = useRef([
     [t('parathreads'), 'start', 2],
-    ['', 'media--1100'],
+    ['', 'media--2000'],
     [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
     [],

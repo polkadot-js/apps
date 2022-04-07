@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -38,5 +38,6 @@ export type QueryTypes = StorageModuleQuery | StorageRawQuery | ConstQuery;
 export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery | PartialConstQuery;
 
 export interface ComponentProps {
+  className?: string;
   onAdd: (query: ParitalQueryTypes) => void;
 }

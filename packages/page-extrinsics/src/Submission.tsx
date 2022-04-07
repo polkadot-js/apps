@@ -1,50 +1,61 @@
-// Copyright 2017-2021 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { RawParam } from '@polkadot/react-params/types';
+import type { DecodedExtrinsic } from './types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { Button, Extrinsic, InputAddress, MarkError, Output, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { u8aToHex } from '@polkadot/util';
 
+import Decoded from './Decoded';
 import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  defaultValue: DecodedExtrinsic | null;
 }
 
-function Selection ({ className }: Props): React.ReactElement<Props> {
+interface DefaultExtrinsic {
+  defaultArgs?: RawParam[];
+  defaultFn: SubmittableExtrinsicFunction<'promise'>;
+}
+
+function extractDefaults (value: DecodedExtrinsic | null, defaultFn: SubmittableExtrinsicFunction<'promise'>): DefaultExtrinsic {
+  if (!value) {
+    return { defaultFn };
+  }
+
+  return {
+    defaultArgs: value.call.args.map((value) => ({
+      isValid: true,
+      value
+    })),
+    defaultFn: value.fn
+  };
+}
+
+function Selection ({ className, defaultValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ defaultArgs, defaultFn }] = useState<DefaultExtrinsic>(() => extractDefaults(defaultValue, apiDefaultTxSudo));
 
   const _onExtrinsicChange = useCallback(
-    (method?: SubmittableExtrinsic<'promise'>) => setExtrinsic(() => method || null),
+    (method?: SubmittableExtrinsic<'promise'>) =>
+      setExtrinsic(() => method || null),
     []
   );
 
   const _onExtrinsicError = useCallback(
-    (error?: Error | null) => setError(error ? error.message : null),
+    (error?: Error | null) =>
+      setError(error ? error.message : null),
     []
-  );
-
-  const [extrinsicHex, extrinsicHash] = useMemo(
-    (): [string, string] => {
-      if (!extrinsic) {
-        return ['0x', '0x'];
-      }
-
-      const u8a = extrinsic.method.toU8a();
-
-      // don't use the built-in hash, we only want to convert once
-      return [u8aToHex(u8a), extrinsic.registry.hash(u8a).toHex()];
-    },
-    [extrinsic]
   );
 
   return (
@@ -61,24 +72,13 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
         type='account'
       />
       <Extrinsic
-        defaultValue={apiDefaultTxSudo}
+        defaultArgs={defaultArgs}
+        defaultValue={defaultFn}
         label={t<string>('submit the following extrinsic')}
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
       />
-      <Output
-        isDisabled
-        isTrimmed
-        label='encoded call data'
-        value={extrinsicHex}
-        withCopy
-      />
-      <Output
-        isDisabled
-        label='encoded call hash'
-        value={extrinsicHash}
-        withCopy
-      />
+      <Decoded extrinsic={extrinsic} />
       {error && !extrinsic && (
         <MarkError content={error} />
       )}

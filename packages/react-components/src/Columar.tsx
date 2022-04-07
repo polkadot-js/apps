@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -8,6 +8,7 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   is60?: boolean;
+  isPadded?: boolean;
 }
 
 interface ColumnProps {
@@ -27,9 +28,9 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60 }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, isPadded = true }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columnar ${is60 ? 'is60' : 'is50'} ${className}`}>
+    <div className={`ui--Columnar ${is60 ? 'is60' : 'is50'} ${isPadded ? 'isPadded' : ''} ${className}`}>
       {children}
     </div>
   );
@@ -63,6 +64,10 @@ const ColumarStyled = React.memo(styled(Columar)`
       }
     }
   }
+
+  &.isPadded .ui--Column {
+    padding: 0 0.75rem;
+  }
 `) as unknown as ColumarType;
 
 ColumarStyled.Column = React.memo(styled(Column)`
@@ -70,7 +75,6 @@ ColumarStyled.Column = React.memo(styled(Column)`
   max-width: 100%;
   flex: 1 1;
   margin: 0;
-  padding: 0 0.75rem;
 
   &:first-child {
     padding-left: 0;

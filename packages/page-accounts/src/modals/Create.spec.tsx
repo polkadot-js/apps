@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
@@ -7,6 +7,7 @@ import i18next from '@polkadot/react-components/i18n';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils/renderedScreenUtils';
 import { keyring } from '@polkadot/ui-keyring';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { AccountsPage } from '../../test/pages/accountsPage';
 
@@ -19,6 +20,7 @@ describe('Create an account modal', () => {
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
+    await cryptoWaitReady();
     await i18next.changeLanguage('en');
 
     if (keyring.getAccounts().length === 0) {

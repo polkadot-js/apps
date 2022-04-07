@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import fs from 'fs';
@@ -23,7 +23,7 @@ interface DnsResponse {
 const TICK = '`';
 
 export function checkEndpoints (issueFile: string, failures: string[]): void {
-  createWsEndpoints((k: string, v?: string) => v || k)
+  createWsEndpoints()
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&

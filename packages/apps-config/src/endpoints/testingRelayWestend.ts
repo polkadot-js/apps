@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
@@ -23,9 +23,9 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      'Patract Elara': 'wss://pub.elara.patract.io/westend',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
+      Dwellir: 'wss://westend-rpc.dwellir.com',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     },
@@ -40,7 +40,7 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io',
-          'Patract Elara': 'wss://pub.elara.patract.io/westmint'
+          Dwellir: 'wss://westmint-rpc.dwellir.com'
         },
         teleport: [-1]
       },
@@ -65,14 +65,6 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'encointer',
-        paraId: 1001,
-        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.westend.encointer.org'
-        }
-      },
-      {
         info: 'integritee',
         paraId: 2081,
         text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
@@ -81,10 +73,10 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'interBTC',
+        info: 'interlay',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
         paraId: 2094,
-        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        text: t('rpc.westend.interbtc', 'Interlay', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-westend.interlay.io/parachain'
         }

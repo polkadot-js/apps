@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ItemProps } from './types';
@@ -10,7 +10,9 @@ import Icon from '../Icon';
 
 function Item ({ children, className = '', icon, isDisabled, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(
-    () => !isDisabled && onClick && onClick(),
+    (): void => {
+      !isDisabled && onClick && onClick();
+    },
     [isDisabled, onClick]
   );
 

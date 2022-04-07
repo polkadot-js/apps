@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetInfo, AssetInfoComplete } from '../types';
@@ -80,11 +80,11 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
         }
         header={headerRef.current}
       >
-        {info && balances?.map(({ accountId, balance }) => (
+        {info && balances?.map(({ account, accountId }) => (
           <Account
+            account={account}
             accountId={accountId}
             assetId={info.id}
-            balance={balance}
             key={accountId}
             minBalance={info.details.minBalance}
             siFormat={siFormat}

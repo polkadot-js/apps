@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const path = require('path');
@@ -24,6 +24,9 @@ module.exports = merge(
       })
     ],
     watchOptions: {
+      // 5.66.0 work-around (was reduced to 20, then started failing)
+      // https://github.com/webpack/webpack/commit/96da7660021e8aa31e163bacd3515960eb253422#diff-13cf5374edb5eced5f3770d5f346c59252f87a90de91bc57306077693c8b95e2R52
+      aggregateTimeout: 600,
       ignored: ['.yarn', 'build', 'node_modules']
     }
   }

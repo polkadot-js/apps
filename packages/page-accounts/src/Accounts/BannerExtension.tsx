@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { detect } from 'detect-browser';
@@ -40,7 +40,13 @@ function BannerExtension (): React.ReactElement | null {
 
       return (
         <Banner type='warning'>
-          <p>{t<string>('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to. This update includes chain metadata and chain properties.', { replace: { upgradableCount } })}</p>
+          <p>
+            {upgradableCount === 1
+              ? t<string>('You have 1 extension that needs to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.')
+              : t<string>('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.', { replace: { upgradableCount } })
+            }
+            {t<string>(' This update includes chain metadata and chain properties.')}
+          </p>
           <p><Trans key='extensionUpgrade'>Visit your <a href='#/settings/metadata'>settings page</a> to apply the updates to the injected extensions.</Trans></p>
         </Banner>
       );

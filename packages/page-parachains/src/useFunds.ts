@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -7,11 +7,10 @@ import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/loo
 import type { ITuple } from '@polkadot/types/types';
 import type { Campaign, Campaigns } from './types';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
-import { BN_ZERO, u8aConcat } from '@polkadot/util';
+import { BN, BN_ZERO, u8aConcat } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 import { CROWD_PREFIX } from './constants';
@@ -112,7 +111,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
   };
 }
 
-const optFundMulti = {
+const OPT_FUND = {
   transform: ([[paraIds], optFunds]: [[ParaId[]], Option<PolkadotRuntimeCommonCrowdloanFundInfo>[]]): Campaign[] =>
     paraIds
       .map((paraId, i): [ParaId, PolkadotRuntimeCommonCrowdloanFundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
@@ -136,7 +135,7 @@ const optFundMulti = {
   withParamsTransform: true
 };
 
-const optLeaseMulti = {
+const OPT_LEASE = {
   transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaId[] =>
     paraIds.filter((paraId, i) =>
       leases[i]
@@ -148,18 +147,19 @@ const optLeaseMulti = {
   withParamsTransform: true
 };
 
-function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
-  return keys.map(({ args: [paraId] }) => paraId);
-}
+const fundOpts = {
+  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
+    keys.map(({ args: [paraId] }) => paraId)
+};
 
 function useFundsImpl (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger.blockHash, transform: extractFundIds });
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
-  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, fundOpts, trigger.blockHash);
+  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUND);
+  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // here we manually add the actual ending status and calculate the totals
