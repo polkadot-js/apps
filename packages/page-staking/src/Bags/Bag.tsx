@@ -88,11 +88,13 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
         }
       </td>
       <td className='button'>
-        <Rebag
-          bagLower={bagLower}
-          bagUpper={bagUpper}
-          stashIds={rebags}
-        />
+        {!isLoading && (
+          <Rebag
+            bagLower={bagLower}
+            bagUpper={bagUpper}
+            stashIds={rebags}
+          />
+        )}
       </td>
     </tr>
   );
