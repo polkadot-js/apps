@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
@@ -270,6 +270,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
         providers: {
           Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+        }
+      },
+      {
+        info: 'rococoPangolin',
+        isDisabled: false,
+        paraId: 2105,
+        text: t('rpc.rococo.pangolin', 'Pangolin', { ns: 'apps-config' }),
+        providers: {
+          'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
         }
       },
       {

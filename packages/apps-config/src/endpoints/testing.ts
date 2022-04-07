@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -97,6 +97,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.coinversation', 'Coinversation', { ns: 'apps-config' }),
       providers: {
         Coinversation: 'wss://rpc.coinversation.io/'
+      }
+    },
+    {
+      info: 'creditcoin',
+      text: t('rpc.test.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
       }
     },
     {

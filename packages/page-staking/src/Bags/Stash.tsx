@@ -23,7 +23,6 @@ interface Props {
 
 interface Entry {
   canJump: boolean;
-  canRebag: boolean;
   jumpCount: number;
   stashInfo: ListNode | null;
 }
@@ -34,10 +33,6 @@ function findEntry (upper: BN, bagLower: BN, stashId: string, list: ListNode[] =
 
   return {
     canJump: !!other,
-    canRebag: !!stashInfo && (
-      stashInfo.bonded.gt(upper) ||
-      stashInfo.bonded.lt(bagLower)
-    ),
     jumpCount: stashInfo && other
       ? (stashInfo.index - other.index)
       : 0,
@@ -48,7 +43,7 @@ function findEntry (upper: BN, bagLower: BN, stashId: string, list: ListNode[] =
 function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { canJump, canRebag, jumpCount, stashInfo } = useMemo(
+  const { canJump, jumpCount, stashInfo } = useMemo(
     () => findEntry(bagUpper, bagLower, stashId, list),
     [bagLower, bagUpper, list, stashId]
   );
@@ -60,29 +55,18 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
         withBonded
       />
       {stashInfo && (
-        canRebag
+        canJump
           ? (
             <TxButton
               accountId={stashInfo.stashId}
-              icon='refresh'
+              icon='caret-up'
               isDisabled={isLoading}
-              label={t<string>('Rebag')}
-              params={[stashInfo.stashId]}
-              tx={api.tx.bagsList.rebag}
+              label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
+              params={[stashInfo.jump]}
+              tx={api.tx.bagsList.putInFrontOf}
             />
           )
-          : canJump
-            ? (
-              <TxButton
-                accountId={stashInfo.stashId}
-                icon='caret-up'
-                isDisabled={isLoading}
-                label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
-                params={[stashInfo.jump]}
-                tx={api.tx.bagsList.putInFrontOf}
-              />
-            )
-            : null
+          : null
       )}
     </div>
   );

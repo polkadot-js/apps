@@ -11,7 +11,7 @@ interface Endpoint {
   value: string;
 }
 
-const allEndpoints = createWsEndpoints((k: string, v?: string, options?: { replace: Record<string, string> }) => (options && options.replace && options.replace.host) || v || k, false, false);
+const allEndpoints = createWsEndpoints(undefined, false, false);
 
 describe('WS urls are all valid', (): void => {
   allEndpoints

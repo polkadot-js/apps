@@ -33,6 +33,8 @@ const chainCompetitorsClub = '#213830';
 const chainComposable = '#FF8500';
 const chainComposableFinance = '#861660';
 const chainCrab = '#7C30DD';
+const chainCreditcoin = '#2D353F';
+const chainCreditcoinTestnet = '#00DF83';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -251,12 +253,15 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
   'Canvas on Rococo': chainRococoCanvas,
+  Centrifuge: nodeCentrifuge,
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
   Composable: chainComposable,
   'Composable Finance': chainComposableFinance,
+  Creditcoin: chainCreditcoin,
+  'Creditcoin Testnet': chainCreditcoinTestnet,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
@@ -350,6 +355,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
+  'Pangolin Parachain': chainPangolin,
   Pangoro: chainPangoro,
   Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
@@ -436,6 +442,7 @@ export const nodeColors = Object.entries({
   'Bifrost Node': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
+  centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   Coinversation: nodeCoinversation,
@@ -479,6 +486,7 @@ export const nodeColors = Object.entries({
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Pangolin Parachain': nodePangolin,
   Pangoro: nodePangoro,
   Parallel: nodeParallel,
   'Parallel Heiko': nodeHeiko,

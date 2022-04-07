@@ -15,17 +15,17 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   ids?: BN[];
-  stashNodes?: BagMap;
+  mapOwn?: BagMap;
 }
 
-function Summary ({ className = '', ids, stashNodes }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', ids, mapOwn }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const total = useCall<BN>(api.query.bagsList.counterForListNodes);
 
   const myCount = useMemo(
-    () => stashNodes && Object.values(stashNodes).reduce((count, n) => count + n.length, 0),
-    [stashNodes]
+    () => mapOwn && Object.values(mapOwn).reduce((count, n) => count + n.length, 0),
+    [mapOwn]
   );
 
   return (
@@ -38,7 +38,7 @@ function Summary ({ className = '', ids, stashNodes }: Props): React.ReactElemen
       </CardSummary>
       <section>
         <CardSummary label={t<string>('total nodes')}>
-          {stashNodes
+          {mapOwn
             ? formatNumber(total)
             : <Spinner noLabel />
           }

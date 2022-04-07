@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -63,6 +63,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
       providers: {
         'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
+      info: 'creditcoin',
+      text: t('rpc.prod.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
       }
     },
     {
