@@ -25,14 +25,11 @@ interface Props {
   stashNodes?: StashNode[];
 }
 
-function getRebags (bonded: ListNode[], stashNodes: StashNode[], bagUpper: BN, bagLower: BN): string[] {
+function getRebags (bonded: ListNode[], bagUpper: BN, bagLower: BN): string[] {
   return bonded
-    .filter(({ bonded, stashId }) =>
-      (
-        bonded.gt(bagUpper) ||
-        bonded.lt(bagLower)
-      ) &&
-      stashNodes.every((n) => n.stashId !== stashId)
+    .filter(({ bonded }) =>
+      bonded.gt(bagUpper) ||
+      bonded.lt(bagLower)
     )
     .map(({ stashId }) => stashId);
 }
@@ -58,8 +55,8 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
   }, [bonded, isCompleted, stashNodes]);
 
   useEffect((): void => {
-    !isLoading && bonded && stashNodes && setRebags(
-      getRebags(bonded, stashNodes, bagUpper, bagLower)
+    !isLoading && bonded && setRebags(
+      getRebags(bonded, bagUpper, bagLower)
     );
   }, [bagLower, bagUpper, bonded, isLoading, stashNodes]);
 
