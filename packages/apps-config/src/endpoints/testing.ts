@@ -16,7 +16,7 @@ import { expandEndpoints } from './util';
 
 export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
-    // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
+    // alphabetical based on chain name, e.g. Arcadia, Beresheet, ...
     {
       info: 'ajuna',
       text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
@@ -29,13 +29,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
         'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
-      }
-    },
-    {
-      info: 'centrifuge',
-      text: t('rpc.test.amber', 'Amber', { ns: 'apps-config' }),
-      providers: {
-        Centrifuge: 'wss://fullnode.amber.centrifuge.io'
       }
     },
     {

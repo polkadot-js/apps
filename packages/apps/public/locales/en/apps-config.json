@@ -183,7 +183,6 @@
   "rpc.spanner": "Spanner",
   "rpc.test.ajuna": "Ajuna Testnet",
   "rpc.test.aleph": "Aleph Zero Testnet",
-  "rpc.test.amber": "Amber",
   "rpc.test.ares.network": "Ares Gladios",
   "rpc.test.automata-contextfree": "Automata ContextFree",
   "rpc.test.beresheet": "Beresheet",
