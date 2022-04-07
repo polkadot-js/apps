@@ -93,8 +93,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'creditcoin',
-      text: t('rpc.test.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      info: 'creditcoin-testnet',
+      text: t('rpc.test.creditcoin', 'Creditcoin Testnet', { ns: 'apps-config' }),
       providers: {
         'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
       }
