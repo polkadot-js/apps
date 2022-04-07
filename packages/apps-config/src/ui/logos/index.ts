@@ -746,6 +746,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoVln: nodeVln,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
+  rococoPangolin: nodePangolin,
   sakura: nodeSakura,
   shadow: nodeShadow,
   shell: nodeShell,

@@ -539,6 +539,15 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
+      },
+      {
+        info: 'rococoPangolin',
+        isDisabled: false,
+        paraId: 2105,
+        text: t('rpc.rococo.pangolin', 'Pangolin', { ns: 'apps-config' }),
+        providers: {
+          'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
+        }
       }
     ]
   };

@@ -179,6 +179,7 @@
   "rpc.rococo.vln": "Valibre Network PC",
   "rpc.rococo.zeitgeist": "Zeitgeist PC",
   "rpc.rococo.zenlink": "Zenlink PC1",
+  "rpc.rococo.pangolin": "Pangolin",
   "rpc.spanner": "Spanner",
   "rpc.test.ajuna": "Ajuna Testnet",
   "rpc.test.aleph": "Aleph Zero Testnet",
