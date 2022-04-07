@@ -273,6 +273,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPangolin',
+        isDisabled: false,
+        paraId: 2105,
+        text: t('rpc.rococo.pangolin', 'Pangolin', { ns: 'apps-config' }),
+        providers: {
+          'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
+        }
+      },
+      {
         info: 'rococoKilt',
         paraId: 2015,
         text: t('rpc.rococo.kilt', 'RILT', { ns: 'apps-config' }),
@@ -538,15 +547,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
-        }
-      },
-      {
-        info: 'rococoPangolin',
-        isDisabled: false,
-        paraId: 2105,
-        text: t('rpc.rococo.pangolin', 'Pangolin', { ns: 'apps-config' }),
-        providers: {
-          'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
         }
       }
     ]
