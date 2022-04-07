@@ -410,7 +410,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'turing',
-        isUnreachable: true,
         homepage: 'https://oak.tech',
         paraId: 2114,
         text: t('rpc.turing.oak', 'Turing Network', { ns: 'apps-config' }),
