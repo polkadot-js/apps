@@ -22,7 +22,7 @@ interface Props {
   bagUpper: BN;
   index: number;
   info: PalletBagsListListBag;
-  stashNodes?: StashNode[];
+  nodesOwn?: StashNode[];
 }
 
 function getRebags (bonded: ListNode[], bagUpper: BN, bagLower: BN): string[] {
@@ -34,7 +34,7 @@ function getRebags (bonded: ListNode[], bagUpper: BN, bagLower: BN): string[] {
     .map(({ stashId }) => stashId);
 }
 
-function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactElement<Props> {
+function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement<Props> {
   const [[headId, trigger], setHeadId] = useState<[AccountId32 | null, number]>([null, 0]);
   const [rebags, setRebags] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(true);
@@ -42,23 +42,23 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
   const bonded = useBonded(list);
 
   useEffect((): void => {
-    info && stashNodes &&
+    info && nodesOwn &&
       setHeadId(([, trigger]) => [info.head.unwrapOr(null), ++trigger]);
-  }, [info, stashNodes]);
+  }, [info, nodesOwn]);
 
   useEffect((): void => {
     setLoading(
-      stashNodes && stashNodes.length
+      nodesOwn && nodesOwn.length
         ? !isCompleted || !bonded
         : false
     );
-  }, [bonded, isCompleted, stashNodes]);
+  }, [bonded, isCompleted, nodesOwn]);
 
   useEffect((): void => {
     !isLoading && bonded && setRebags(
       getRebags(bonded, bagUpper, bagLower)
     );
-  }, [bagLower, bagUpper, bonded, isLoading, stashNodes]);
+  }, [bagLower, bagUpper, bonded, isLoading]);
 
   return (
     <tr>
@@ -68,7 +68,7 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
       <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
       <td className='address'>
-        {stashNodes?.map(({ stashId }) => (
+        {nodesOwn?.map(({ stashId }) => (
           <Stash
             bagLower={bagLower}
             bagUpper={bagUpper}
@@ -88,11 +88,13 @@ function Bag ({ bagLower, bagUpper, info, stashNodes }: Props): React.ReactEleme
         }
       </td>
       <td className='button'>
-        <Rebag
-          bagLower={bagLower}
-          bagUpper={bagUpper}
-          stashIds={rebags}
-        />
+        {!isLoading && (
+          <Rebag
+            bagLower={bagLower}
+            bagUpper={bagUpper}
+            stashIds={rebags}
+          />
+        )}
       </td>
     </tr>
   );

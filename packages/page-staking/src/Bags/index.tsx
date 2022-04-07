@@ -36,7 +36,7 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
   const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
   const ids = useBagsIds();
   const list = useBagsList(ids);
-  const stashNodes = useBagsNodes(stashIds);
+  const mapOwn = useBagsNodes(stashIds);
 
   const headerRef = useRef([
     [t('bags')],
@@ -57,15 +57,15 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [stashIds, t]
   );
   const filtered = useMemo(
-    () => list && stashNodes && sortNodes(list, stashNodes, !filterIndex),
-    [filterIndex, list, stashNodes]
+    () => list && mapOwn && sortNodes(list, mapOwn, !filterIndex),
+    [filterIndex, list, mapOwn]
   );
 
   return (
     <>
       <Summary
         ids={ids}
-        stashNodes={stashNodes}
+        mapOwn={mapOwn}
       />
       <Button.Group>
         <ToggleGroup
@@ -83,14 +83,14 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
         header={headerRef.current}
       >
-        {filtered?.map(([{ bagLower, bagUpper, index, info, key }, stashNodes]) => (
+        {filtered?.map(([{ bagLower, bagUpper, index, info, key }, nodesOwn]) => (
           <Bag
             bagLower={bagLower}
             bagUpper={bagUpper}
             index={index}
             info={info}
             key={key}
-            stashNodes={stashNodes}
+            nodesOwn={nodesOwn}
           />
         ))}
       </Table>
