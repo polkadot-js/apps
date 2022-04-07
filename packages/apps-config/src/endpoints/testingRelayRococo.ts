@@ -104,6 +104,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoCatalyst',
+        paraId: 2031,
+        text: t('rpc.rococo.catalyst', 'Catalyst', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+        }
+      },
+      {
         info: 'rococoClover',
         isDisabled: true, // Rococo reset
         paraId: 229,
@@ -258,7 +266,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoLitentry',
         isDisabled: false,
-        paraId: 2002,
+        paraId: 2106,
         text: t('rpc.rococo.litentry', 'Litentry', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
@@ -270,6 +278,15 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.moonsama', 'Moonsama', { ns: 'apps-config' }),
         providers: {
           Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+        }
+      },
+      {
+        info: 'rococoPangolin',
+        isDisabled: false,
+        paraId: 2105,
+        text: t('rpc.rococo.pangolin', 'Pangolin Parachain', { ns: 'apps-config' }),
+        providers: {
+          'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
         }
       },
       {

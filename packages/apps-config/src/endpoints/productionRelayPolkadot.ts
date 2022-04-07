@@ -161,12 +161,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'equilibrium',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         homepage: 'https://equilibrium.io/',
         paraId: 2011,
         text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://node.equilibrium.io'
+          Equilibrium: 'wss://node.pol.equilibrium.io/'
         }
       },
       {
