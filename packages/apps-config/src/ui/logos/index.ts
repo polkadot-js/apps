@@ -228,6 +228,7 @@ export const chainLogos = Object.entries({
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
+  'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
   Galital: nodeGalital,
   'GamePower Network': nodeGamePower,

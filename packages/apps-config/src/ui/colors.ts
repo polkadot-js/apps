@@ -277,6 +277,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
+  'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
   'Fantour Development': chainFantour,
   Galital: chainGalital,
