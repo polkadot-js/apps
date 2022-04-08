@@ -109,6 +109,7 @@ import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJoystream from './nodes/joystream.svg';
 import nodeJupiter from './nodes/jupiter.svg';
+import nodeKabocha from './nodes/kabocha.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
@@ -445,6 +446,7 @@ export const nodeLogos = Object.entries({
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
+  Kabocha: nodeKabocha,
   Kerria: nodeParallel,
   'Kerria Dev': nodeParallel,
   KICO: chainKico,
@@ -644,6 +646,7 @@ export const namedLogos: Record<string, unknown> = {
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
   kapex: nodeTotem,
+  kabocha: nodeKabocha,
   karura: chainKarura,
   kerria: nodeParallel,
   khala: nodeKhala,

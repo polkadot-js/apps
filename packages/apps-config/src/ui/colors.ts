@@ -56,6 +56,7 @@ const chainHydrate = '#000000';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
+const chainKabocha = '#c2276a';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
