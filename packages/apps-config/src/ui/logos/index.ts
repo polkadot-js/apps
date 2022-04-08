@@ -16,6 +16,8 @@ import chainAstar from './chains/astar.png';
 import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
+import chainCreditcoin from './chains/creditcoin.png';
+import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
 import chainDorafactory from './chains/dorafactory.png';
@@ -208,11 +210,14 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Local': nodeCalamari,
   'Calamari Parachain Testnet': nodeCalamari,
   'Canvas on Rococo': chainRococoCanvas,
+  'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
+  Creditcoin: chainCreditcoin,
+  'Creditcoin Testnet': chainCreditcoinTest,
   'Crown Sterling': chainCrownSterling,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
@@ -226,6 +231,7 @@ export const chainLogos = Object.entries({
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
+  'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
   Galital: nodeGalital,
   'GamePower Network': nodeGamePower,
@@ -600,6 +606,8 @@ export const namedLogos: Record<string, unknown> = {
   'competitors-club': chainCompetitorsClub,
   composableFinance: chainComposableFinance,
   crab: nodeCrab,
+  creditcoin: chainCreditcoin,
+  'creditcoin-testnet': chainCreditcoinTest,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
@@ -701,6 +709,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoCanvas: chainRococoCanvas,
+  rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,
@@ -725,6 +734,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
   rococoOriginTrail: nodeOriginTrail,
+  rococoPangolin: nodePangolin,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,

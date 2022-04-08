@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
@@ -95,7 +95,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2031,
         text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
+          OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
         }
       },
       {
@@ -161,12 +162,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'equilibrium',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         homepage: 'https://equilibrium.io/',
         paraId: 2011,
         text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://node.equilibrium.io'
+          Equilibrium: 'wss://node.pol.equilibrium.io/'
         }
       },
       {

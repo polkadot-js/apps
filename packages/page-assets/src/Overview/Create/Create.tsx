@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BatchOptions } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { InfoState, TeamState } from './types';
 
@@ -20,9 +21,7 @@ interface Props {
   openId: BN;
 }
 
-const BATCH_OPTIONS = {
-  isBatchAll: true
-};
+const BATCH_OPTS: BatchOptions = { type: 'all' };
 
 function Create ({ assetIds, className, onClose, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -57,7 +56,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
     [createTx, metadataTx, team, teamTx]
   );
 
-  const extrinsic = useTxBatch(txs, BATCH_OPTIONS);
+  const extrinsic = useTxBatch(txs, BATCH_OPTS);
 
   return (
     <Modal

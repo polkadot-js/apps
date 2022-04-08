@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
@@ -411,7 +411,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'turing',
-        isUnreachable: true,
         homepage: 'https://oak.tech',
         paraId: 2114,
         text: t('rpc.turing.oak', 'Turing Network', { ns: 'apps-config' }),
@@ -435,7 +434,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
         providers: {
-          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
+          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+          Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
         }
       }
     ]

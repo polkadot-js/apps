@@ -184,25 +184,30 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-async function createApi (apiUrl: string, signer: ApiSigner): Promise<Record<string, Record<string, string>>> {
+async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
-  const provider = isLight
-    ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as 'polkadot')
-    : new WsProvider(apiUrl);
 
-  api = new ApiPromise({
-    provider,
-    registry,
-    signer,
-    types,
-    typesBundle,
-    typesChain
-  });
+  try {
+    const provider = isLight
+      ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as 'polkadot')
+      : new WsProvider(apiUrl);
 
-  // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
-  if (isLight) {
-    await provider.connect();
+    api = new ApiPromise({
+      provider,
+      registry,
+      signer,
+      types,
+      typesBundle,
+      typesChain
+    });
+
+    // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
+    if (isLight) {
+      await provider.connect();
+    }
+  } catch (error) {
+    onError(error);
   }
 
   return types;
@@ -239,7 +244,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
 
   // initial initialization
   useEffect((): void => {
-    createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus))
+    createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
       .then((types): void => {
         api.on('connected', () => setIsApiConnected(true));
         api.on('disconnected', () => setIsApiConnected(false));

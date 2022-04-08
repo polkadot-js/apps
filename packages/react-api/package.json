@@ -11,13 +11,13 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.111.2-2",
+  "version": "0.111.2-22",
   "dependencies": {
     "@babel/runtime": "^7.17.8",
-    "@polkadot/api": "^7.15.2-0",
+    "@polkadot/api": "^7.15.2-2",
     "@polkadot/extension-compat-metamask": "^0.42.11-0",
     "@polkadot/extension-dapp": "^0.42.11-0",
-    "@polkadot/rpc-provider": "^7.15.2-0",
+    "@polkadot/rpc-provider": "^7.15.2-2",
     "fflate": "^0.7.3",
     "rxjs": "^7.5.5"
   }
