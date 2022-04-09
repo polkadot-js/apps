@@ -1,15 +1,20 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Option, StorageKey, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { BagInfo } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
+
+const KEY_OPTS = {
+  transform: (keys: StorageKey<[u64]>[]): BN[] =>
+    keys.map(({ args: [id] }) => id)
+};
 
 const MULTI_OPTS = {
   transform: ([[ids], opts]: [[BN[]], Option<PalletBagsListListBag>[]]): BagInfo[] => {
@@ -45,9 +50,10 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
     );
 }
 
-function useBagsListImpl (ids?: BN[]): BagInfo[] | undefined {
+function useBagsListImpl (): BagInfo[] | undefined {
   const { api } = useApi();
   const [result, setResult] = useState<BagInfo[] | undefined>();
+  const ids = useMapKeys(api.query.bagsList.listBags, KEY_OPTS);
   const query = useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], MULTI_OPTS);
 
   useEffect((): void => {
