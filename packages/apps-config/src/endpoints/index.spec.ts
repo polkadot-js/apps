@@ -7,10 +7,11 @@ import { createWsEndpoints } from '.';
 
 interface Endpoint {
   name: string;
+  provider: string;
   value: string;
 }
 
-const allEndpoints = createWsEndpoints((k: string, v?: string) => v || k, false, false);
+const allEndpoints = createWsEndpoints(undefined, false, false);
 
 describe('WS urls are all valid', (): void => {
   allEndpoints
@@ -19,13 +20,14 @@ describe('WS urls are all valid', (): void => {
       isString(value) &&
       !value.includes('127.0.0.1')
     )
-    .map(({ text, value }): Endpoint => ({
+    .map(({ text, textBy, value }): Endpoint => ({
       name: text as string,
+      provider: textBy,
       value
     }))
-    .forEach(({ name, value }) =>
-      it(`${name} @ ${value}`, (): void => {
-        assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name} @ ${value} should start with wss:// or light://`);
+    .forEach(({ name, provider, value }) =>
+      it(`${name}:: ${provider}`, (): void => {
+        assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light://`);
       })
     );
 });
@@ -39,11 +41,11 @@ describe('urls are sorted', (): void => {
     return !hasDevelopment;
   });
 
-  filtered.forEach(({ isHeader, text }, index): void => {
+  filtered.forEach(({ isHeader, text, textBy }, index): void => {
     if (isHeader) {
       lastHeader = text as string;
     } else {
-      it(`${lastHeader}:: ${text as string}`, (): void => {
+      it(`${lastHeader}:: ${text as string}:: ${textBy}`, (): void => {
         assert((
           filtered[index - 1].isHeader ||
           filtered[index - 1].linked ||
@@ -88,4 +90,29 @@ describe('urls are not duplicated', (): void => {
         .filter(([, paths]) => paths.length !== 1)
     ).toEqual([]);
   });
+});
+
+describe('endpopints do not contain emojis or all uppercase', (): void => {
+  const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
+
+  console.error(allEndpoints);
+
+  allEndpoints
+    .filter(({ value }) =>
+      value &&
+      isString(value) &&
+      !value.includes('127.0.0.1')
+    )
+    .map(({ text, textBy, value }): Endpoint => ({
+      name: text as string,
+      provider: textBy,
+      value: value
+    }))
+    .forEach(({ name, provider }) =>
+      it(`${name}:: ${provider}`, (): void => {
+        assert(!emoji.test(name), `${name} should not contain any emojis`);
+        assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);
+        assert(!provider.includes(' ') || (provider.toLocaleUpperCase() !== provider), `${name}:: ${provider} should not be all uppercase`);
+      })
+    );
 });

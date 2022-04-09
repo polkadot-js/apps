@@ -6,6 +6,7 @@ import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
@@ -88,7 +89,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   }, [paraInfo, sessionValidators]);
 
   return (
-    <tr className={className}>
+    <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
       <td className='number media--1400'>
@@ -165,4 +166,10 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   );
 }
 
-export default React.memo(Parachain);
+export default React.memo(styled(Parachain)`
+  &.isDisabled {
+    td {
+      opacity: 0.5
+    }
+  }
+`);

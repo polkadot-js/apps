@@ -15,9 +15,11 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import files from './files';
 import gilt from './gilt';
 import js from './js';
 import membership from './membership';
+import nfts from './nfts';
 // import parachains from './parachains';
 import poll from './poll';
 import rpc from './rpc';
@@ -51,6 +53,7 @@ export default function create (t: TFunction): Routes {
     // parachains(t),
     gilt(t),
     assets(t),
+    nfts(t),
     // society(t),
     calendar(t),
     // contracts(t),
@@ -59,6 +62,7 @@ export default function create (t: TFunction): Routes {
     rpc(t),
     signing(t),
     sudo(t),
+    files(t),
     js(t),
     settings(t)
   ];

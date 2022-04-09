@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -16,7 +16,7 @@ import { expandEndpoints } from './util';
 
 export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
-    // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
+    // alphabetical based on chain name, e.g. Arcadia, Beresheet, ...
     {
       info: 'Indian Teal',
       text: t('rpc.test.cord', 'Indian Teal', { ns: 'apps-config' }),

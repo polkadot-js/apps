@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
@@ -25,10 +25,11 @@ export function createWestend (t: TFunction): EndpointOption {
       Parity: 'wss://westend-rpc.polkadot.io',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
+      Dwellir: 'wss://westend-rpc.dwellir.com',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     },
-    teleport: [1000, 1001],
+    teleport: [1000],
     linked: [
       // (1) system parachains (none available yet)
       // ...
@@ -38,16 +39,8 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://westmint-rpc.polkadot.io'
-        },
-        teleport: [-1]
-      },
-      {
-        info: 'encointer',
-        paraId: 1001,
-        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
-        providers: {
-          'Encointer Association': 'wss://api.westend.encointer.org'
+          Parity: 'wss://westmint-rpc.polkadot.io',
+          Dwellir: 'wss://westmint-rpc.dwellir.com'
         },
         teleport: [-1]
       },

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
@@ -27,7 +27,7 @@ export function createKusama (t: TFunction): EndpointOption {
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
-    teleport: [1000],
+    teleport: [1000, 1001],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
@@ -38,7 +38,19 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+          Dwellir: 'wss://statemine-rpc.dwellir.com'
+        },
+        teleport: [-1]
+      },
+      {
+        info: 'encointer',
+        homepage: 'https://encointer.org/',
+        paraId: 1001,
+        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://kusama.api.encointer.org',
+          OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },
@@ -109,20 +121,20 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'crab',
         homepage: 'https://crab.network',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6794
         paraId: 2105,
-        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        text: t('rpc.kusama.crab', 'Darwinia Crab Parachain', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-parachain-rpc.darwinia.network/'
         }
       },
       {
-        info: 'encointer',
-        homepage: 'https://encointer.org/',
-        paraId: 1001,
-        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        info: 'dorafactory',
+        isUnreachable: true,
+        homepage: 'https://dorafactory.org/kusama/',
+        paraId: 2115,
+        text: t('rpc.dorafactory.org', 'Dora Factory', { ns: 'apps-config' }),
         providers: {
-          'Encointer Association': 'wss://api.kusama.encointer.org'
+          DORA: 'wss://rpc.dorafactory.org'
         }
       },
       {
@@ -155,7 +167,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
           'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://karura.polkawallet.io',
-          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+          Dwellir: 'wss://karura-rpc.dwellir.com'
         }
       },
       {
@@ -174,8 +187,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2107,
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
-          'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
-          OnFinality: 'wss://rpc.api.kico.dico.io'
+          'DICO Foundation': 'wss://rpc.kico.dico.io',
+          'DICO Foundation 2': 'wss://rpc.api.kico.dico.io'
         }
       },
       {
@@ -210,6 +223,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
+          'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
+        }
+      },
+      {
         info: 'litmus',
         homepage: 'https://kusama-crowdloan.litentry.com',
         paraId: 2106,
@@ -230,6 +253,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'mangata',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
+        homepage: 'https://mangata.finance',
+        paraId: 2110,
+        text: t('rpc.kusama.mangata', 'Mangata', { ns: 'apps-config' }),
+        providers: {
+          Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
+        }
+      },
+      {
         info: 'mars',
         homepage: 'https://www.aresprotocol.io/mars',
         paraId: 2008,
@@ -244,9 +277,10 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          'Moonbeam Foundation': 'wss://wss.moonriver.moonbeam.network',
+          'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer'
+          Dwellir: 'wss://moonriver-rpc.dwellir.com'
+          // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
         }
       },
       {
@@ -334,7 +368,8 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
           OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
+          Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+          Dwellir: 'wss://shiden-rpc.dwellir.com'
         }
       },
       {
@@ -365,6 +400,25 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'tanganika',
+        homepage: 'https://www.datahighway.com/',
+        paraId: 2116,
+        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://tanganika.datahighway.com'
+        }
+      },
+      {
+        info: 'turing',
+        homepage: 'https://oak.tech',
+        paraId: 2114,
+        text: t('rpc.turing.oak', 'Turing Network', { ns: 'apps-config' }),
+        providers: {
+          OAK: 'wss://rpc.turing.oak.tech',
+          OnFinality: 'wss://turing.api.onfinality.io/public-ws'
+        }
+      },
+      {
         info: 'unorthodox',
         homepage: 'https://standard.tech/',
         paraId: 2094,
@@ -379,7 +433,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
         providers: {
-          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
+          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+          Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
         }
       }
     ]

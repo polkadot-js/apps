@@ -111,7 +111,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
   };
 }
 
-const optFundMulti = {
+const OPT_FUND = {
   transform: ([[paraIds], optFunds]: [[ParaId[]], Option<PolkadotRuntimeCommonCrowdloanFundInfo>[]]): Campaign[] =>
     paraIds
       .map((paraId, i): [ParaId, PolkadotRuntimeCommonCrowdloanFundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
@@ -135,7 +135,7 @@ const optFundMulti = {
   withParamsTransform: true
 };
 
-const optLeaseMulti = {
+const OPT_LEASE = {
   transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaId[] =>
     paraIds.filter((paraId, i) =>
       leases[i]
@@ -147,18 +147,19 @@ const optLeaseMulti = {
   withParamsTransform: true
 };
 
-function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
-  return keys.map(({ args: [paraId] }) => paraId);
-}
+const fundOpts = {
+  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
+    keys.map(({ args: [paraId] }) => paraId)
+};
 
 function useFundsImpl (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger.blockHash, transform: extractFundIds });
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
-  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, fundOpts, trigger.blockHash);
+  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUND);
+  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // here we manually add the actual ending status and calculate the totals

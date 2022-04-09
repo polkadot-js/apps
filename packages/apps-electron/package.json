@@ -10,25 +10,25 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.106.2-0",
+  "version": "0.111.2-23",
   "dependencies": {
-    "@babel/core": "^7.17.2",
+    "@babel/core": "^7.17.8",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.65.56",
-    "@polkadot/react-components": "^0.106.2-0",
+    "@polkadot/dev": "^0.65.108",
+    "@polkadot/react-components": "^0.111.2-23",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^17.0.14",
     "@types/tmp": "^0.2.3",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.2.4",
     "copy-webpack-plugin": "^10.2.4",
-    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-plugin": "^5.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "thread-loader": "^3.0.4",
     "tmp": "^0.2.1",
-    "webpack": "^5.68.0"
+    "webpack": "^5.70.0"
   }
 }
