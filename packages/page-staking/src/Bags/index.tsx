@@ -11,7 +11,6 @@ import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Bag from './Bag';
 import Summary from './Summary';
-import useBagsIds from './useBagsIds';
 import useBagsList from './useBagsList';
 import useBagsNodes from './useBagsNodes';
 
@@ -34,8 +33,7 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [ownStashes]
   );
   const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
-  const ids = useBagsIds();
-  const list = useBagsList(ids);
+  const bags = useBagsList();
   const mapOwn = useBagsNodes(stashIds);
 
   const headerRef = useRef([
@@ -57,14 +55,14 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [stashIds, t]
   );
   const filtered = useMemo(
-    () => list && mapOwn && sortNodes(list, mapOwn, !filterIndex),
-    [filterIndex, list, mapOwn]
+    () => bags && mapOwn && sortNodes(bags, mapOwn, !filterIndex),
+    [bags, filterIndex, mapOwn]
   );
 
   return (
     <>
       <Summary
-        ids={ids}
+        bags={bags}
         mapOwn={mapOwn}
       />
       <Button.Group>
