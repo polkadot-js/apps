@@ -15,7 +15,7 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-import files from './files';
+// import files from './files';
 import gilt from './gilt';
 import js from './js';
 import membership from './membership';
