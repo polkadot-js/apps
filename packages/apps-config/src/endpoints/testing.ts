@@ -430,6 +430,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'prism',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7340
       text: t('rpc.test.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
         Prism: 'wss://testnet.psm.link'
