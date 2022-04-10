@@ -190,6 +190,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Actions
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
         isInElection={isInElection}
+        minCommission={minCommission}
         ownStashes={ownStashes}
         targets={targets}
       />
