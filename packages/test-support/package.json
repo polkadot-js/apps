@@ -13,12 +13,12 @@
   "type": "module",
   "version": "0.111.2-28",
   "dependencies": {
-    "@testing-library/react": "^12.1.4",
-    "testcontainers": "^8.6.0"
+    "@testing-library/react": "^13.0.0",
+    "testcontainers": "^8.6.1"
   },
   "devDependencies": {
-    "@polkadot/types-support": "^7.15.2-14",
-    "@testing-library/jest-dom": "^5.16.3",
+    "@polkadot/types-support": "^8.0.1",
+    "@testing-library/jest-dom": "^5.16.4",
     "tsconfig-paths": "^3.14.1"
   }
 }

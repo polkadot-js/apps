@@ -13,9 +13,9 @@
   "type": "module",
   "version": "0.111.2-28",
   "dependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.9",
     "@babel/polyfill": "^7.12.1",
-    "@babel/runtime": "^7.17.8",
+    "@babel/runtime": "^7.17.9",
     "@polkadot/apps-config": "^0.111.2-28",
     "@polkadot/apps-routing": "^0.111.2-28",
     "@polkadot/dev": "^0.66.1",
@@ -48,9 +48,9 @@
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "webpack": "^5.70.0",
+    "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
+    "webpack-dev-server": "^4.8.1",
     "webpack-merge": "^5.8.0"
   }
 }
