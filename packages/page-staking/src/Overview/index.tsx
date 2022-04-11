@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets } from '../types';
 
@@ -18,6 +19,7 @@ interface Props {
   hasQueries: boolean;
   minCommission?: BN;
   nominatedBy?: NominatedByMap;
+  ownStashes?: StakerState[];
   paraValidators?: Record<string, boolean>;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -26,7 +28,7 @@ interface Props {
   toggleNominatedBy: () => void;
 }
 
-function Overview ({ className = '', favorites, hasQueries, minCommission, nominatedBy, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [intentIndex, _setIntentIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(1);
@@ -55,6 +57,11 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
     [t]
   );
 
+  const ownStashIds = useMemo(
+    () => ownStashes && ownStashes.map(({ stashId }) => stashId),
+    [ownStashes]
+  );
+
   useEffect((): void => {
     toggleLedger && toggleLedger();
   }, [toggleLedger]);
@@ -78,6 +85,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         favorites={favorites}
         hasQueries={hasQueries}
         minCommission={minCommission}
+        ownStashIds={ownStashIds}
         paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
@@ -89,6 +97,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         hasQueries={hasQueries}
         isIntentions
         nominatedBy={nominatedBy}
+        ownStashIds={ownStashIds}
         paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
