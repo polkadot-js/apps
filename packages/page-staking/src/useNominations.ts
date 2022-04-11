@@ -3,16 +3,14 @@
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { Nominations } from '@polkadot/types/interfaces';
-import type { NominatedBy } from './types';
+import type { NominatedByMap } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-type Result = Record<string, NominatedBy[]>;
-
-function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Result {
-  return nominations.reduce((mapped: Result, [key, optNoms]) => {
+function extractNominators (nominations: [StorageKey, Option<Nominations>][]): NominatedByMap {
+  return nominations.reduce((mapped: NominatedByMap, [key, optNoms]) => {
     if (optNoms.isSome && key.args.length) {
       const nominatorId = key.args[0].toString();
       const { submittedIn, targets } = optNoms.unwrap();
@@ -33,7 +31,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function useNominationsImpl (isActive = true): Result | undefined {
+function useNominationsImpl (isActive = true): NominatedByMap | undefined {
   const { api } = useApi();
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isActive && api.query.staking.nominators.entries);
 

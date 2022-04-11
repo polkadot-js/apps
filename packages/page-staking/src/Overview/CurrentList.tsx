@@ -5,7 +5,7 @@ import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-deri
 import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { SortedTargets, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useContext, useMemo, useRef, useState } from 'react';
 
@@ -16,14 +16,16 @@ import { BlockAuthorsContext } from '@polkadot/react-query';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
-import useNominations from '../useNominations';
 import Address from './Address';
 
 interface Props {
+  className?: string;
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
+  isIntentionsTrigger?: boolean;
   minCommission?: BN;
+  nominatedBy?: NominatedByMap;
   paraValidators?: Record<string, boolean>;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
@@ -73,12 +75,11 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 
 const DEFAULT_PARAS = {};
 
-function CurrentList ({ favorites, hasQueries, isIntentions, minCommission, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ className, favorites, hasQueries, isIntentions, minCommission, nominatedBy, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
-  const nominatedBy = useNominations(isIntentions);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [toggles, setToggle] = useSavedFlags('staking:overview', { withIdentity: false });
 
@@ -122,6 +123,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, minCommission, para
 
   return (
     <Table
+      className={className}
       empty={
         !isLoading && (
           isIntentions
