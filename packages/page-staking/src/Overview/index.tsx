@@ -6,7 +6,7 @@ import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
 
@@ -41,21 +41,15 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
     [toggleNominatedBy]
   );
 
-  const filterOptions = useMemo(
-    () => [
-      { text: t('My validators'), value: 'mine' },
-      { text: t('All validators'), value: 'all' }
-    ],
-    [t]
-  );
+  const filterOptions = useRef([
+    { text: t('Own validators'), value: 'mine' },
+    { text: t('All validators'), value: 'all' }
+  ]);
 
-  const intentOptions = useMemo(
-    () => [
-      { text: t('Active'), value: 'active' },
-      { text: t('Waiting'), value: 'waiting' }
-    ],
-    [t]
-  );
+  const intentOptions = useRef([
+    { text: t('Active'), value: 'active' },
+    { text: t('Waiting'), value: 'waiting' }
+  ]);
 
   const ownStashIds = useMemo(
     () => ownStashes && ownStashes.map(({ stashId }) => stashId),
@@ -73,12 +67,12 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
       <Button.Group>
         <ToggleGroup
           onChange={setTypeIndex}
-          options={filterOptions}
+          options={filterOptions.current}
           value={typeIndex}
         />
         <ToggleGroup
           onChange={setIntentIndex}
-          options={intentOptions}
+          options={intentOptions.current}
           value={intentIndex}
         />
       </Button.Group>
@@ -94,19 +88,21 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         targets={targets}
         toggleFavorite={toggleFavorite}
       />
-      <CurrentList
-        className={intentIndex === 1 ? '' : 'staking--hidden'}
-        favorites={favorites}
-        hasQueries={hasQueries}
-        isIntentions
-        isOwn={isOwn}
-        nominatedBy={nominatedBy}
-        ownStashIds={ownStashIds}
-        paraValidators={paraValidators}
-        stakingOverview={stakingOverview}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      />
+      {intentIndex === 1 && (
+        <CurrentList
+          className={intentIndex === 1 ? '' : 'staking--hidden'}
+          favorites={favorites}
+          hasQueries={hasQueries}
+          isIntentions
+          isOwn={isOwn}
+          nominatedBy={nominatedBy}
+          ownStashIds={ownStashIds}
+          paraValidators={paraValidators}
+          stakingOverview={stakingOverview}
+          targets={targets}
+          toggleFavorite={toggleFavorite}
+        />
+      )}
     </div>
   );
 }
