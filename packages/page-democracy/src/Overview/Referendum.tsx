@@ -7,7 +7,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
+import { Badge, Button, CardSummary, Icon, LinkExternal } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
@@ -50,6 +50,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+  const totalCalculated = votedAye.add(votedNay);
 
   const [percentages, { hasVoted, hasVotedAye }] = useMemo(
     (): [Percentages | null, VoteType] => {
@@ -95,7 +96,12 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         proposal={image?.proposal}
       />
       <td className='number together media--1200'>
-        <BlockToTime value={remainBlock} />
+        <Badge help={t<string>('remaining')} />
+
+        <BlockToTime
+          value={remainBlock}
+
+        />
         {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together media--1400'>
@@ -106,9 +112,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-            {percentages.aye && (
-              <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
-            )}
+
           </>
         )}
       </td>
@@ -143,6 +147,18 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
+      <td className='expand'>
+        <CardSummary
+          hover={t<string>('Aye')}
+          progress={{
+            hideValue: true,
+            total: totalCalculated,
+            value: votedAye
+          }}
+        ></CardSummary>
+
+      </td>
+
       <td className='button'>
         <Button.Group>
           {!image?.proposal && (

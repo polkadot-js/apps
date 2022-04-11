@@ -4,9 +4,9 @@
 import type { DeriveReferendumVote } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 
-import { Expander } from '@polkadot/react-components';
+import { Expander, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_TEN, formatNumber } from '@polkadot/util';
 
@@ -28,6 +28,11 @@ const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 function ReferendumVotes ({ change, className, count, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
+  const headerVotesRef = useRef([
+    [t('votes'), 'start', 2]
+
+  ]);
+
   const sorted = useMemo(
     () => votes.sort((a, b) => {
       const ta = a.balance.muln(LOCKS[a.vote.conviction.toNumber()]).div(BN_TEN);
@@ -38,7 +43,15 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
     [votes]
   );
 
+  const listA: DeriveReferendumVote[] = [];
+  const listB: DeriveReferendumVote[] = [];
+
+  sorted.forEach((vote, i) => {
+    i % 2 ? listA.push(vote) : listB.push(vote);
+  });
+
   return (
+
     <Expander
       className={className}
       help={change.gtn(0) && (
@@ -61,12 +74,23 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
         </>
       }
     >
-      {sorted.map((vote) =>
-        <ReferendumVote
-          key={vote.accountId.toString()}
-          vote={vote}
-        />
-      )}
+      <div style={{ display: 'block', height: '200px', overflow: 'scroll' }}>
+        <Table
+          empty={votes && t<string>('No voters')}
+          header={headerVotesRef.current}
+        >
+          <tr className='expand'>
+            <td>
+              {sorted.map((vote) =>
+                <ReferendumVote
+                  key={vote.accountId.toString()}
+                  vote={vote}
+                />
+              )}
+            </td>
+          </tr>
+        </Table>
+      </div>
     </Expander>
   );
 }

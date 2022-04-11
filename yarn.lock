@@ -15843,6 +15843,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2
+    react-table-scrollbar: ^0.1.11
     source-map-explorer: ^2.5.2
     styled-components: ^5.3.5
     webpack: ^5.70.0
@@ -16659,6 +16660,17 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 7daae084bf64531eb619cc5f4cc40ce5ae0a541b64f71d74ec71a38cbf6130ebdbb7cf38f157303fad5846deec259401f96c4d6c7386466dcc989719e01f9aaa
+  languageName: node
+  linkType: hard
+
+"react-table-scrollbar@npm:^0.1.11":
+  version: 0.1.11
+  resolution: "react-table-scrollbar@npm:0.1.11"
+  peerDependencies:
+    prop-types: ^15.7.2
+    react: ^16.13.1
+    react-dom: ^16.13.1
+  checksum: 14e428e1a1a138ad4ead23da0c787ef55c25d418c29e6e8d2021dd435c50a4f6fcd4b41e9658044f3cfe1fbd49b45cbb94396a01bf71e517da84bc10cf2d181b
   languageName: node
   linkType: hard
 
