@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## 0.112.1 Apr 11, 2022
+
+Contributed:
+
+- Update Centrifuge parachain information (Thanks to https://github.com/mikiquantum)
+- Update Centrifuge endpoints (Thanks to https://github.com/mikiquantum)
+- Update Polkadex information (Thanks to https://github.com/Gauthamastro)
+- Add information for Creditcoin (Thanks to https://github.com/MrAusnadian)
+- Add Pangolin Rococo parachain (Thanks to https://github.com/JayJay1024)
+- Add Dwellir RPC for Zeitgeist (Thanks to https://github.com/Ank4n)
+- Change Equilibrium Polkadot providers (Thanks to https://github.com/VladSemenik)
+- Enable Turning endpoints (Thanks to https://github.com/irsal)
+- Update Automata type definitions (Thanks to https://github.com/RyuH1)
+- Update Litentry Rococo paraId (Thanks to https://github.com/Kailai-Wang)
+- Add RadiumBlock as a Kusama provider (Thanks to https://github.com/radiumb)
+- Fix Subsocial author extraction on genesis (Thanks to https://github.com/1devNdogs)
+- Add Nodle on Rococo (Thanks to https://github.com/ETeissonniere)
+
+Changes:
+
+- Pass through min commission (remove extra queries)
+- Adjust light-client connection (don't break UI on failures)
+- Consolidate rebag buttons into single
+- Adjust `useTxBatch` hook parameters
+- Remove `i18next` dependency from `@polkadot/apps-config`
+- Disable all unreachable endpoints
+- Output commonjs files under the `cjs/**` root
+
+
 ## 0.111.1 Apr 4, 2022
 
 Contributed:
