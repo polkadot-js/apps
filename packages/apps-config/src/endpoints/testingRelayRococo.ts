@@ -281,6 +281,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoNodle',
+        paraId: 2026,
+        text: t('rpc.rococo.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'wss://node-6913072722034561024.lh.onfinality.io/ws?apikey=84d77e2e-3793-4785-8908-5096cffea77a'
+        }
+      },
+      {
         info: 'rococoPangolin',
         isDisabled: false,
         paraId: 2105,
