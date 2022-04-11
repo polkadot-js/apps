@@ -45,13 +45,13 @@ describe('Sidebar', () => {
         await sideBar.changeAccountName(newName);
       });
 
-      it.skip('within keyring', () => {
+      it('within keyring', () => {
         const changedAccount = keyring.getAccount(alice);
 
         expect(changedAccount?.meta?.name).toEqual(newName);
       });
 
-      it('within sidebar', async () => {
+      it.skip('within sidebar', async () => {
         await sideBar.assertAccountName(newName);
       });
 
