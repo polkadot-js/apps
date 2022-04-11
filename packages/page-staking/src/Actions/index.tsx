@@ -23,6 +23,7 @@ import NewValidator from './NewValidator';
 interface Props {
   className?: string;
   isInElection?: boolean;
+  minCommission?: BN;
   ownStashes?: StakerState[];
   next?: string[];
   validators?: string[];
@@ -111,7 +112,7 @@ function formatTotal (typeIndex: number, state: State): React.ReactNode {
   return value && <FormatBalance value={value} />;
 }
 
-function Actions ({ className = '', isInElection, ownStashes, targets }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, minCommission, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const [typeIndex, setTypeIndex] = useState(0);
@@ -181,6 +182,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
         />
         <NewValidator
           isInElection={isInElection}
+          minCommission={minCommission}
           targets={targets}
         />
         <NewStash />
@@ -198,6 +200,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
             isDisabled={isInElection}
             isSelectable={isSelectable}
             key={info.stashId}
+            minCommission={minCommission}
             onSelect={onSelectStash}
             targets={targets}
           />

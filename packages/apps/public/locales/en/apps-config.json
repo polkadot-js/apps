@@ -158,6 +158,7 @@
   "rpc.rococo.mathchain": "MathChain PC1",
   "rpc.rococo.moonrock": "Moonrock",
   "rpc.rococo.moonsama": "Moonsama",
+  "rpc.rococo.nodle": "Nodle",
   "rpc.rococo.origintrail": "OriginTrail Parachain",
   "rpc.rococo.pangolin": "Pangolin",
   "rpc.rococo.parami": "Parami PC2",
