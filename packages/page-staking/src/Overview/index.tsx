@@ -43,7 +43,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
 
   const filterOptions = useMemo(
     () => [
-      { isDisabled: true, text: t('My validators'), value: 'mine' },
+      { text: t('My validators'), value: 'mine' },
       { text: t('All validators'), value: 'all' }
     ],
     [t]
@@ -66,6 +66,8 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
     toggleLedger && toggleLedger();
   }, [toggleLedger]);
 
+  const isOwn = typeIndex === 0;
+
   return (
     <div className={`staking--Overview ${className}`}>
       <Button.Group>
@@ -84,6 +86,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         className={intentIndex === 0 ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
+        isOwn={isOwn}
         minCommission={minCommission}
         ownStashIds={ownStashIds}
         paraValidators={paraValidators}
@@ -96,6 +99,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         favorites={favorites}
         hasQueries={hasQueries}
         isIntentions
+        isOwn={isOwn}
         nominatedBy={nominatedBy}
         ownStashIds={ownStashIds}
         paraValidators={paraValidators}

@@ -24,6 +24,7 @@ interface Props {
   hasQueries: boolean;
   isIntentions?: boolean;
   isIntentionsTrigger?: boolean;
+  isOwn: boolean;
   minCommission?: BN;
   nominatedBy?: NominatedByMap;
   ownStashIds?: string[];
@@ -43,9 +44,14 @@ interface Filtered {
 
 const EmptyAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor: {}, eraPoints: {}, lastBlockAuthors: [], lastHeaders: [] });
 
-function filterAccounts (accounts: string[] = [], ownStashIds: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
+function filterAccounts (isOwn: boolean, accounts: string[] = [], ownStashIds: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
   return accounts
-    .filter((accountId) => !without.includes(accountId))
+    .filter((accountId) =>
+      !without.includes(accountId) && (
+        !isOwn ||
+        ownStashIds.includes(accountId)
+      )
+    )
     .map((accountId): AccountExtend => [
       accountId,
       elected.includes(accountId),
@@ -67,21 +73,21 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((a) => a.toString());
 }
 
-function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
+function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
   const allElected = accountsToString(stakingOverview.nextElected);
   const validatorIds = accountsToString(stakingOverview.validators);
 
   return {
-    validators: filterAccounts(validatorIds, ownStashIds, allElected, favorites, []),
-    waiting: filterAccounts(allElected, ownStashIds, allElected, favorites, validatorIds).concat(
-      filterAccounts(next, ownStashIds, [], favorites, allElected)
+    validators: filterAccounts(isOwn, validatorIds, ownStashIds, allElected, favorites, []),
+    waiting: filterAccounts(isOwn, allElected, ownStashIds, allElected, favorites, validatorIds).concat(
+      filterAccounts(isOwn, next, ownStashIds, [], favorites, allElected)
     )
   };
 }
 
 const DEFAULT_PARAS = {};
 
-function CurrentList ({ className, favorites, hasQueries, isIntentions, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -93,8 +99,8 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, minCommi
   const isLoading = useLoadingDelay();
 
   const { validators, waiting } = useMemo(
-    () => stakingOverview ? getFiltered(stakingOverview, favorites, targets.waitingIds, ownStashIds) : {},
-    [favorites, ownStashIds, stakingOverview, targets]
+    () => stakingOverview ? getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds) : {},
+    [favorites, isOwn, ownStashIds, stakingOverview, targets]
   );
 
   const infoMap = useMemo(
