@@ -43,15 +43,7 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
     [votes]
   );
 
-  const listA: DeriveReferendumVote[] = [];
-  const listB: DeriveReferendumVote[] = [];
-
-  sorted.forEach((vote, i) => {
-    i % 2 ? listA.push(vote) : listB.push(vote);
-  });
-
   return (
-
     <Expander
       className={className}
       help={change.gtn(0) && (

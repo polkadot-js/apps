@@ -114,6 +114,5 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "react-table-scrollbar": "^0.1.11"
   }
 }
