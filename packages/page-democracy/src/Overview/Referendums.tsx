@@ -43,7 +43,6 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
         />
       ))}
     </Table>
-
   );
 }
 
