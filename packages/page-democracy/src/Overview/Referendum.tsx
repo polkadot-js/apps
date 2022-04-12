@@ -155,7 +155,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             total: totalCalculated,
             value: votedAye
           }}
-        ></CardSummary>
+        />
 
       </td>
 
