@@ -21,7 +21,6 @@ function voteLabel ({ conviction }: Vote, isDelegating: boolean): string {
 
 function ReferendumVote ({ vote: { accountId, balance, isDelegating, vote } }: Props): React.ReactElement<Props> {
   return (
-
     <AddressMini
       balance={balance}
       labelBalance={voteLabel(vote, isDelegating)}
