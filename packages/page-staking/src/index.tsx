@@ -183,7 +183,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         </Route>
       </Switch>
       <Actions
-        className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+        className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
         minCommission={minCommission}
         ownStashes={ownStashes}
@@ -193,7 +193,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <ActionsBanner />
       )}
       <Overview
-        className={basePath === pathname ? '' : 'staking--hidden'}
+        className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
         minCommission={minCommission}
@@ -210,10 +210,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
 }
 
 export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
-  .staking--hidden {
-    display: none;
-  }
-
   .staking--Chart {
     margin-top: 1.5rem;
 
