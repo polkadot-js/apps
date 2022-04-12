@@ -10,7 +10,7 @@ import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
 import React, { useContext, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useLoadingDelay, useSavedFlags } from '@polkadot/react-hooks';
+import { useApi, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import Filtering from '../Filtering';
@@ -29,6 +29,7 @@ interface Props {
   nominatedBy?: NominatedByMap;
   ownStashIds?: string[];
   paraValidators?: Record<string, boolean>;
+  recentlyOnline?: DeriveHeartbeats;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -73,7 +74,11 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((a) => a.toString());
 }
 
-function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
+function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | undefined, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
+  if (!stakingOverview) {
+    return {};
+  }
+
   const allElected = accountsToString(stakingOverview.nextElected);
   const validatorIds = accountsToString(stakingOverview.validators);
 
@@ -87,24 +92,31 @@ function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview, fa
 
 const DEFAULT_PARAS = {};
 
-function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
-  const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [toggles, setToggle] = useSavedFlags('staking:overview', { withIdentity: false });
 
   // we have a very large list, so we use a loading delay
   const isLoading = useLoadingDelay();
 
   const { validators, waiting } = useMemo(
-    () => stakingOverview ? getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds) : {},
+    () => getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds),
     [favorites, isOwn, ownStashIds, stakingOverview, targets]
   );
 
+  const list = useMemo(
+    () => isLoading
+      ? undefined
+      : isIntentions
+        ? nominatedBy && waiting
+        : validators,
+    [isIntentions, isLoading, nominatedBy, validators, waiting]
+  );
+
   const infoMap = useMemo(
-    () => targets.validators?.reduce<Record<string, ValidatorInfo>>((result, info) => {
+    () => targets.validators && targets.validators.reduce<Record<string, ValidatorInfo>>((result, info) => {
       result[info.key] = info;
 
       return result;
@@ -137,11 +149,9 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
     <Table
       className={className}
       empty={
-        !isLoading && (
-          isIntentions
-            ? waiting && nominatedBy && t<string>('No waiting validators found')
-            : recentlyOnline && validators && infoMap && t<string>('No active validators found')
-        )
+        isIntentions
+          ? list && t<string>('No waiting validators found')
+          : list && recentlyOnline && infoMap && t<string>('No active validators found')
       }
       emptySpinner={
         <>
@@ -151,14 +161,13 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
             ? !nominatedBy && <div>{t<string>('Retrieving nominators')}</div>
             : !recentlyOnline && <div>{t<string>('Retrieving online status')}</div>
           }
+          {!list && <div>{t<string>('Preparing validator list')}</div>}
         </>
       }
       filter={
         <Filtering
           nameFilter={nameFilter}
           setNameFilter={setNameFilter}
-          setWithIdentity={setToggle.withIdentity}
-          withIdentity={toggles.withIdentity}
         />
       }
       header={headerRef.current}
@@ -169,12 +178,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
     >
-      {!isLoading && (
-        (isIntentions
-          ? nominatedBy && waiting
-          : validators
-        ) || []
-      ).map(([address, isElected, isFavorite]): React.ReactNode => (
+      {list && list.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}
@@ -191,7 +195,6 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
           recentlyOnline={recentlyOnline?.[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={infoMap?.[address]}
-          withIdentity={toggles.withIdentity}
         />
       ))}
     </Table>

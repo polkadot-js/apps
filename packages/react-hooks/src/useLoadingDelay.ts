@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
-function useLoadingDelayImpl (delay = 100): boolean {
+function useLoadingDelayImpl (delay = 0): boolean {
   const mountedRef = useIsMountedRef();
   const [isLoading, setIsLoading] = useState(true);
 

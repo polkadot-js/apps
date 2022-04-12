@@ -38,7 +38,7 @@ interface Props {
   recentlyOnline?: DeriveHeartbeatAuthor;
   toggleFavorite: (accountId: string) => void;
   validatorInfo?: ValidatorInfo;
-  withIdentity: boolean;
+  withIdentity?: boolean;
 }
 
 interface StakingState {
