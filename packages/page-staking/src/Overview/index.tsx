@@ -77,7 +77,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         />
       </Button.Group>
       <CurrentList
-        className={intentIndex === 0 ? '' : 'staking--hidden'}
+        className={intentIndex === 0 ? '' : '--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
         isOwn={isOwn}
@@ -90,7 +90,7 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
       />
       {intentIndex === 1 && (
         <CurrentList
-          className={intentIndex === 1 ? '' : 'staking--hidden'}
+          className={intentIndex === 1 ? '' : '--hidden'}
           favorites={favorites}
           hasQueries={hasQueries}
           isIntentions
