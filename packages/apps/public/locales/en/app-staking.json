@@ -95,6 +95,8 @@
   "Payouts": "Payouts",
   "Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.": "Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.",
   "Pools": "Pools",
+  "Preparing target display": "Preparing target display",
+  "Preparing validator list": "Preparing validator list",
   "Produced blocks": "Produced blocks",
   "Rebag": "Rebag",
   "Rebag dislocated entries": "Rebag dislocated entries",
