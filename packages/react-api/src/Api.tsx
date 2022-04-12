@@ -18,7 +18,7 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { ScProvider } from '@polkadot/rpc-provider/substrate-connect';
+import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
@@ -183,6 +183,21 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   };
 }
 
+function getWellKnownChain (chain = 'polkadot') {
+  switch (chain) {
+    case 'kusama':
+      return WellKnownChain.ksmcc3;
+    case 'polkadot':
+      return WellKnownChain.polkadot;
+    case 'rococo':
+      return WellKnownChain.rococo_v2_1;
+    case 'westend':
+      return WellKnownChain.westend2;
+    default:
+      throw new Error(`Unable to construct light chain ${chain}`);
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/require-await
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
@@ -190,7 +205,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
 
   try {
     const provider = isLight
-      ? new ScProvider(apiUrl.replace('light://substrate-connect/', '') as 'polkadot')
+      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
       : new WsProvider(apiUrl);
 
     api = new ApiPromise({
