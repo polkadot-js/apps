@@ -187,14 +187,15 @@ function getWellKnownChain (chain = 'polkadot') {
   switch (chain) {
     case 'kusama':
       return WellKnownChain.ksmcc3;
-  case 'polkadot':
-    return WellKnownChain.polkadot;
-  case 'rococo':
-    return WellKnownChain.rococo_v2_1;
-  case 'westend':
-    return WellKnownChain.westend2;
-  default:
-    throw new Error(`Unable to construct light chain ${chain}`);
+    case 'polkadot':
+      return WellKnownChain.polkadot;
+    case 'rococo':
+      return WellKnownChain.rococo_v2_1;
+    case 'westend':
+      return WellKnownChain.westend2;
+    default:
+      throw new Error(`Unable to construct light chain ${chain}`);
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
