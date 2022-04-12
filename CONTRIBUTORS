@@ -273,6 +273,7 @@
        1	Preschian Febryantara         	add KodaDot logo (#7151)
        1	RadiumBlock                   	add RadiumBlock endpoint service for Kusama (#7308)
        1	Radka Gettová                 	Make Block Hash "Hover to Copy"-able (#458)
+       1	Ramsey R                      	Kabocha parachain candidate for Kusama chain. (#7333)
        1	Raoul Millais                 	Upgrade @substrate/connect@0.3.16 (#5855)
        1	Raphael Flechtner             	chore: use new kilt logo (#5649)
        1	Ravi Kumar                    	Add hi_IN translation (#5420)
