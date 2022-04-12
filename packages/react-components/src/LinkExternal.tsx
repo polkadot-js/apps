@@ -52,7 +52,7 @@ function genLinks (systemChain: string, { data, hash, isLogo, isSidebar, type }:
                 src={logo}
               />
             )
-            : name
+            : 'Show in '+name
           }
         </a>
       );

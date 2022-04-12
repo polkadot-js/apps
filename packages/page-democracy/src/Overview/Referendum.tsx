@@ -97,7 +97,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
       />
       <td className='number together media--1200'>
         <Badge help={t<string>('remaining')} />
-        <BlockToTime value={remainBlock} />
+
+        <BlockToTime
+          value={remainBlock}
+
+        />
         {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together media--1400'>
@@ -108,7 +112,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-
+           
           </>
         )}
       </td>
@@ -144,14 +148,17 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         />
       </td>
       <td className='expand'>
-        <CardSummary
-          hover={t<string>('Aye')}
-          progress={{
-            hideValue: true,
-            total: totalCalculated,
-            value: votedAye
-          }}
-        />
+        <div className="progress-container">
+          <div className="progress-centered-element">
+            <CardSummary
+              progress={{
+              hideValue: true,
+              total: totalCalculated,
+              value: votedAye
+            }}
+            />
+          </div>
+        </div>
       </td>
 
       <td className='button'>
@@ -190,4 +197,24 @@ export default React.memo(styled(Referendum)`
       text-align: center;
     }
   }
+
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} 
+
+.progress-container {
+  position: relative;
+ 
+}
+
+.progress-centered-element {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 `);
