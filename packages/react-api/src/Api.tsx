@@ -184,19 +184,17 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
 }
 
 function getWellKnownChain (chain = 'polkadot') {
-  if (chain === 'kusama') {
-    return WellKnownChain.ksmcc3;
-  }
-
-  if (chain === 'westend') {
-    return WellKnownChain.westend2;
-  }
-
-  if (chain === 'rococo') {
+  switch (chain) {
+    case 'kusama':
+      return WellKnownChain.ksmcc3;
+  case 'polkadot':
+    return WellKnownChain.polkadot;
+  case 'rococo':
     return WellKnownChain.rococo_v2_1;
-  }
-
-  return WellKnownChain.polkadot;
+  case 'westend':
+    return WellKnownChain.westend2;
+  default:
+    throw new Error(`Unable to construct light chain ${chain}`);
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
