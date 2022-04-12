@@ -391,13 +391,14 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           <>
             {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
             {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
+            {!displayList && <div>{t('Preparing target display')}</div>}
           </>
         }
         filter={filter}
         header={header}
         legend={<Legend />}
       >
-        {displayList?.map((info): React.ReactNode =>
+        {displayList && displayList.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={selected.length < maxNominations}
