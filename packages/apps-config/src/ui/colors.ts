@@ -169,6 +169,7 @@ const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
+const nodeKabocha = '#f53485';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
@@ -470,6 +471,7 @@ export const nodeColors = Object.entries({
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
+  Kabocha: nodeKabocha,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,

@@ -158,6 +158,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kabocha',
+        homepage: 'https://kabocha.network',
+        paraId: 2113,
+        text: t('rpc.kusama.kabocha', 'Kabocha', { ns: 'apps-config' }),
+        providers: {
+          JelliedOwl: 'wss://kabocha.jelliedowl.com'
+        }
+      },
+      {
         info: 'karura',
         homepage: 'https://acala.network/karura/join-karura',
         paraId: 2000,
