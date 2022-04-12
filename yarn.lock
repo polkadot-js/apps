@@ -3274,6 +3274,7 @@ __metadata:
     "@polkadot/extension-compat-metamask": ^0.43.1
     "@polkadot/extension-dapp": ^0.43.1
     "@polkadot/rpc-provider": ^8.0.1
+    "@substrate/connect": ^0.7.2
     fflate: ^0.7.3
     rxjs: ^7.5.5
   languageName: unknown
@@ -4006,7 +4007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.2":
+"@substrate/connect@npm:0.7.2, @substrate/connect@npm:^0.7.2":
   version: 0.7.2
   resolution: "@substrate/connect@npm:0.7.2"
   dependencies:
