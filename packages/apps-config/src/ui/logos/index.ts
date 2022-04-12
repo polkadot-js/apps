@@ -109,6 +109,7 @@ import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJoystream from './nodes/joystream.svg';
 import nodeJupiter from './nodes/jupiter.svg';
+import nodeKabocha from './nodes/kabocha.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
@@ -423,6 +424,7 @@ export const nodeLogos = Object.entries({
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dock Full Node': nodeDockMainnet,
+  'Dock Node': nodeDockMainnet,
   'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
@@ -445,6 +447,7 @@ export const nodeLogos = Object.entries({
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
+  Kabocha: nodeKabocha,
   Kerria: nodeParallel,
   'Kerria Dev': nodeParallel,
   KICO: chainKico,
@@ -643,6 +646,7 @@ export const namedLogos: Record<string, unknown> = {
   ipse: nodeIpse,
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
+  kabocha: nodeKabocha,
   kapex: nodeTotem,
   karura: chainKarura,
   kerria: nodeParallel,
@@ -733,6 +737,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
+  rococoNodle: nodeNodle,
   rococoOriginTrail: nodeOriginTrail,
   rococoPangolin: nodePangolin,
   rococoParami: nodeParami,

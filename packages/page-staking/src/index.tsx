@@ -28,6 +28,7 @@ import Query from './Query';
 import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
+import useNominations from './useNominations';
 import useSortedTargets from './useSortedTargets';
 
 const HIDDEN_ACC = ['actions', 'payout'];
@@ -52,6 +53,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { pathname } = useLocation();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
+  const [loadNominations, setLoadNominations] = useState(false);
+  const nominatedBy = useNominations(loadNominations);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
   const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
     api.query.staking.eraElectionStatus,
@@ -83,6 +86,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     []
   );
 
+  const toggleNominatedBy = useCallback(
+    () => setLoadNominations(true),
+    []
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -109,10 +117,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     hasStashes && isFunction(api.query.bagsList?.counterForListNodes) && {
       name: 'bags',
       text: t<string>('Bags')
-    },
-    {
-      name: 'waiting',
-      text: t<string>('Waiting')
     },
     {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
@@ -168,27 +172,18 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={`${basePath}/targets`}>
           <Targets
             isInElection={isInElection}
+            nominatedBy={nominatedBy}
             ownStashes={ownStashes}
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
             toggleLedger={toggleLedger}
-          />
-        </Route>
-        <Route path={`${basePath}/waiting`}>
-          <Overview
-            favorites={favorites}
-            hasQueries={hasQueries}
-            isIntentions
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-            toggleLedger={toggleLedger}
+            toggleNominatedBy={toggleNominatedBy}
           />
         </Route>
       </Switch>
       <Actions
-        className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+        className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
         minCommission={minCommission}
         ownStashes={ownStashes}
@@ -198,24 +193,23 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <ActionsBanner />
       )}
       <Overview
-        className={basePath === pathname ? '' : 'staking--hidden'}
+        className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
         minCommission={minCommission}
+        nominatedBy={nominatedBy}
+        ownStashes={ownStashes}
         paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
+        toggleNominatedBy={toggleNominatedBy}
       />
     </main>
   );
 }
 
 export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
-  .staking--hidden {
-    display: none;
-  }
-
   .staking--Chart {
     margin-top: 1.5rem;
 

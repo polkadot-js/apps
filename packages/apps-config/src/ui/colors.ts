@@ -68,6 +68,7 @@ const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
+const chainNodle = '#1ab394';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
@@ -168,6 +169,7 @@ const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
+const nodeKabocha = '#f53485';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
@@ -351,6 +353,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
+  'Nodle Parachain': chainNodle,
+  'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': nodeOriginTrail,
@@ -467,6 +471,7 @@ export const nodeColors = Object.entries({
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
+  Kabocha: nodeKabocha,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,

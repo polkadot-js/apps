@@ -17,6 +17,8 @@ export interface NominatedBy {
   submittedIn: EraIndex;
 }
 
+export type NominatedByMap = Record<string, NominatedBy[]>;
+
 export interface Slash {
   accountId: AccountId;
   amount: Balance;
