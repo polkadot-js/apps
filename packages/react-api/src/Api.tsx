@@ -203,7 +203,9 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const provider = isLight ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', ''))) : new WsProvider(apiUrl);
+    const provider = isLight
+      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+      : new WsProvider(apiUrl);
 
     api = new ApiPromise({
       provider,
