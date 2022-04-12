@@ -386,7 +386,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </>
         )}
       </td>
-      <td className='hidden'>
+      <td className='--hidden'>
         {isSelectable && controllerId && (
           <Checkbox
             onChange={setSelected}
@@ -403,9 +403,5 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
-  }
-
-  .hidden {
-    display: none;
   }
 `);

@@ -94,21 +94,6 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         targets={targets}
         toggleFavorite={toggleFavorite}
       />
-      {/* {intentIndex === 1 && (
-        <CurrentList
-          className={intentIndex === 1 ? '' : 'staking--hidden'}
-          favorites={favorites}
-          hasQueries={hasQueries}
-          isIntentions
-          isOwn={isOwn}
-          nominatedBy={nominatedBy}
-          ownStashIds={ownStashIds}
-          paraValidators={paraValidators}
-          stakingOverview={stakingOverview}
-          targets={targets}
-          toggleFavorite={toggleFavorite}
-        />
-      )} */}
     </div>
   );
 }

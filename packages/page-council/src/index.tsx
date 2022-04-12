@@ -7,7 +7,6 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -60,15 +59,11 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
         </Route>
       </Switch>
       <Overview
-        className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
+        className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : '--hidden'}
         prime={prime}
       />
     </main>
   );
 }
 
-export default React.memo(styled(CouncilApp)`
-  .council--hidden {
-    display: none;
-  }
-`);
+export default React.memo(CouncilApp);

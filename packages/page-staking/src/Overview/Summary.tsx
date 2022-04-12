@@ -25,7 +25,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { count
   const { t } = useTranslation();
 
   return (
-    <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
+    <SummaryBox className={`${className} ${isVisible ? '' : ' --hidden'}`}>
       <section>
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
