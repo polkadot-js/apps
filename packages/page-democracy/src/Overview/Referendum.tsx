@@ -156,7 +156,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             value: votedAye
           }}
         />
-
       </td>
 
       <td className='button'>
