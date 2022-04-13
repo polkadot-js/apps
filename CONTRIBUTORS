@@ -1,4 +1,4 @@
-    3509	Jaco                          	Remove unreachable endpoints (#7365)
+    3510	Jaco                          	Hide democracy via api construction capabilities (#7369)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
