@@ -96,8 +96,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         proposal={image?.proposal}
       />
       <td className='number together media--1200'>
-        <Badge help={t<string>('remaining')} />
-
         <BlockToTime
           value={remainBlock}
 
@@ -112,7 +110,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-           
+
           </>
         )}
       </td>
@@ -147,18 +145,16 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
-      <td className='expand'>
-        <div className="progress-container">
-          <div className="progress-centered-element">
-            <CardSummary
-              progress={{
-              hideValue: true,
-              total: totalCalculated,
-              value: votedAye
-            }}
-            />
-          </div>
-        </div>
+      <td className='class mini media--1000'>
+
+        <CardSummary
+          progress={{
+            hideValue: true,
+            total: totalCalculated,
+            value: votedAye
+          }}
+        />
+
       </td>
 
       <td className='button'>
@@ -206,6 +202,7 @@ export default React.memo(styled(Referendum)`
 
 .progress-container {
   position: relative;
+  width: 250;
  
 }
 
@@ -214,6 +211,8 @@ export default React.memo(styled(Referendum)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  width: 250;
+
 }
 
 

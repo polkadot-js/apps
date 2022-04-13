@@ -4,7 +4,8 @@
 import type { DeriveReferendumVote } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { Expander, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
@@ -27,12 +28,6 @@ const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 function ReferendumVotes ({ change, className, count, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-
-  const headerVotesRef = useRef([
-    [t('votes'), 'start', 2]
-
-  ]);
-
   const sorted = useMemo(
     () => votes.sort((a, b) => {
       const ta = a.balance.muln(LOCKS[a.vote.conviction.toNumber()]).div(BN_TEN);
@@ -66,10 +61,10 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
         </>
       }
     >
-      <div style={{ display: 'block', height: '200px', overflow: 'scroll' }}>
+      <div className='votersTable'>
         <Table
           empty={votes && t<string>('No voters')}
-          header={headerVotesRef.current}
+
         >
           <tr className='expand'>
             <td>
@@ -87,4 +82,12 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
   );
 }
 
-export default React.memo(ReferendumVotes);
+export default React.memo(styled(ReferendumVotes)`
+div.votersTable {
+  
+  overflow-y: scroll;
+  display: block;
+  height: 200px;
+  overflow-x: hidden;
+}
+`);
