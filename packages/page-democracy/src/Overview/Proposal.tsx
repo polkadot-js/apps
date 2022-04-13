@@ -6,7 +6,7 @@ import type { DeriveProposal } from '@polkadot/api-derive/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -40,15 +40,25 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       <td className='expand'>
         {seconding.length !== 0 && (
           <Expander summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}>
-            {seconding.map((address, count): React.ReactNode => (
-              <AddressMini
-                className='identityIcon'
-                key={`${count}:${address.toHex()}`}
-                value={address}
-                withBalance={false}
-                withShrink
-              />
-            ))}
+            <div className='endorsementsTable'>
+              <Table
+                empty={seconding && t<string>('No endorsements')}
+              >
+                <tr className='expand'>
+                  <td>
+                    {seconding.map((address, count): React.ReactNode => (
+                      <AddressMini
+                        className='identityIcon'
+                        key={`${count}:${address.toHex()}`}
+                        value={address}
+                        withBalance={false}
+                        withShrink
+                      />
+                    ))}
+                  </td>
+                </tr>
+              </Table>
+            </div>
           </Expander>
         )}
       </td>
@@ -86,4 +96,16 @@ export default React.memo(styled(Proposal)`
       margin-bottom: 4px;
     }
   }
+  
+  div.endorsementsTable {
+    
+    overflow-y: scroll;
+    display: block;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-x: hidden;
+  }
+  
+
+
 `);

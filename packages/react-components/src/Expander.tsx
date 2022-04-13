@@ -85,6 +85,8 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
     [children, renderChildren]
   );
 
+  console.log('summaryHead', summaryHead);
+
   return (
     <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
       <div

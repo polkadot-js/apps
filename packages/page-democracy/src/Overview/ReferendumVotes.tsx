@@ -87,7 +87,8 @@ div.votersTable {
   
   overflow-y: scroll;
   display: block;
-  height: 200px;
+  min-height: 50px;
+  max-height: 200px;
   overflow-x: hidden;
 }
 `);

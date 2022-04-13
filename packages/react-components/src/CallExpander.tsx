@@ -30,6 +30,8 @@ function CallExpander ({ children, className = '', labelHash, value, withHash }:
 
   const { meta, method, section } = call;
 
+  console.log('meta', meta, 'method', method, 'section', section);
+
   return (
     <div className={`ui--CallExpander ${className}`}>
       <Expander
