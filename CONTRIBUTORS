@@ -1,4 +1,4 @@
-    3511	Jaco                          	Allow Vote.conviction entry in extrinsics (#7370)
+    3512	Jaco                          	Adjust error tracking for useCall/useCallMulti (#7368)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
