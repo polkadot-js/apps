@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets } from '../types';
@@ -9,6 +9,7 @@ import type { NominatedByMap, SortedTargets } from '../types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import CurrentList from './CurrentList';
@@ -30,8 +31,10 @@ interface Props {
 
 function Overview ({ className = '', favorites, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [intentIndex, _setIntentIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(1);
+  const recentlyOnline = useCall<DeriveHeartbeats>(api.derive.imOnline?.receivedHeartbeats);
 
   const setIntentIndex = useCallback(
     (index: number): void => {
@@ -77,32 +80,20 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
         />
       </Button.Group>
       <CurrentList
-        className={intentIndex === 0 ? '' : '--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
+        isIntentions={intentIndex === 1}
         isOwn={isOwn}
-        minCommission={minCommission}
+        key={intentIndex}
+        minCommission={intentIndex === 0 ? minCommission : undefined}
+        nominatedBy={intentIndex === 1 ? nominatedBy : undefined}
         ownStashIds={ownStashIds}
         paraValidators={paraValidators}
+        recentlyOnline={intentIndex === 0 ? recentlyOnline : undefined}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
       />
-      {intentIndex === 1 && (
-        <CurrentList
-          className={intentIndex === 1 ? '' : '--hidden'}
-          favorites={favorites}
-          hasQueries={hasQueries}
-          isIntentions
-          isOwn={isOwn}
-          nominatedBy={nominatedBy}
-          ownStashIds={ownStashIds}
-          paraValidators={paraValidators}
-          stakingOverview={stakingOverview}
-          targets={targets}
-          toggleFavorite={toggleFavorite}
-        />
-      )}
     </div>
   );
 }

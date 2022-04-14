@@ -22,7 +22,8 @@ export function createRococo (t: TFunction): EndpointOption {
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
-      Parity: 'wss://rococo-rpc.polkadot.io'
+      Parity: 'wss://rococo-rpc.polkadot.io',
+      'light client': 'light://substrate-connect/rococo'
       // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
       // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // After reset, syncs to old chain
       // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
