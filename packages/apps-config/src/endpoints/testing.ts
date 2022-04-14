@@ -512,7 +512,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'soonsocial',
       text: t('rpc.test.subsocial', 'Soonsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://test.subsocial.network'
+        DappForce: 'wss://testnet.subsocial.network'
       }
     },
     {
