@@ -15,17 +15,16 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  isVisible: boolean;
   nominators?: string[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <SummaryBox className={`${className} ${isVisible ? '' : ' --hidden'}`}>
+    <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
