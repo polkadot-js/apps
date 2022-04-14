@@ -104,7 +104,4 @@ export default React.memo(styled(Proposal)`
     max-height: 200px;
     overflow-x: hidden;
   }
-  
-
-
 `);
