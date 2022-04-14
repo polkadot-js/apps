@@ -7,7 +7,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, CardSummary, Icon, LinkExternal } from '@polkadot/react-components';
+import { Badge, Button, Icon, LinkExternal, Progress } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
@@ -142,15 +142,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
-      <td className='class mini media--1000'>
-        <CardSummary
-          progress={{
-            hideValue: true,
-            total: totalCalculated,
-            value: votedAye
-          }}
+      <td className='mini media--1000'>
+        <Progress
+          total={totalCalculated}
+          value={votedAye}
         />
-
       </td>
       <td className='button'>
         <Button.Group>
@@ -188,27 +184,4 @@ export default React.memo(styled(Referendum)`
       text-align: center;
     }
   }
-
-  * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.progress-container {
-  position: relative;
-  width: 250;
-
-}
-
-.progress-centered-element {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 250;
-
-}
-
-
 `);
