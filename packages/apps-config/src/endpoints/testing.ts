@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -16,7 +16,7 @@ import { expandEndpoints } from './util';
 
 export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
-    // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
+    // alphabetical based on chain name, e.g. Arcadia, Beresheet, ...
     {
       info: 'ajuna',
       text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
@@ -29,13 +29,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
         'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
-      }
-    },
-    {
-      info: 'centrifuge',
-      text: t('rpc.test.amber', 'Amber', { ns: 'apps-config' }),
-      providers: {
-        Centrifuge: 'wss://fullnode.amber.centrifuge.io'
       }
     },
     {
@@ -97,6 +90,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.coinversation', 'Coinversation', { ns: 'apps-config' }),
       providers: {
         Coinversation: 'wss://rpc.coinversation.io/'
+      }
+    },
+    {
+      info: 'creditcoin-testnet',
+      text: t('rpc.test.creditcoin', 'Creditcoin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
       }
     },
     {
@@ -187,6 +187,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'gamepower',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7223
       text: t('rpc.test.gamepower', 'GamePower', { ns: 'apps-config' }),
       providers: {
         GamePower: 'wss://gamepower.io'
@@ -222,6 +223,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
         'IPSE China': 'wss://testnet-china.ipse.io',
         'IPSE USA': 'wss://testnet-usa.ipse.io',
         'IPSE Europe': 'wss://testnet-europe.ipse.io'
+      }
+    },
+    {
+      info: 'joystream',
+      text: t('rpc.test.joystream', 'Joystream', { ns: 'apps-config' }),
+      providers: {
+        Jsgenesis: 'wss://rpc.joystream.org:9944'
       }
     },
     {
@@ -281,6 +289,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       providers: {
         Acala: 'wss://mandala.polkawallet.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
+      }
+    },
+    {
+      info: 'mangata',
+      text: t('rpc.test.mangata', 'Mangata', { ns: 'apps-config' }),
+      providers: {
+        Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
       }
     },
     {
@@ -415,6 +430,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'prism',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7340
       text: t('rpc.test.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
         Prism: 'wss://testnet.psm.link'

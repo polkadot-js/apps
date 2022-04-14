@@ -36,6 +36,7 @@ interface Props {
   isDisabled?: boolean;
   isSelectable: boolean;
   info: StakerState;
+  minCommission?: BN;
   next?: string[];
   onSelect: (stashId: string, controllerId: string, isSelected: boolean) => void;
   stashId: string;
@@ -70,7 +71,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, onSelect, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, minCommission, onSelect, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -199,6 +200,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isValidateOpen && controllerId && (
           <Validate
             controllerId={controllerId}
+            minCommission={minCommission}
             onClose={toggleValidate}
             stashId={stashId}
           />

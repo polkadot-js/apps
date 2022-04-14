@@ -30,7 +30,7 @@ function mapValidators (startWith: Record<string, [GroupIndex, ValidatorInfo[]]>
       ...all,
       [id.toString()]: [
         assignment.groupIdx,
-        groups[assignment.groupIdx.toNumber()]
+        (groups[assignment.groupIdx.toNumber()] || [])
           .map((index) => [index, indices[index.toNumber()]])
           .filter(([, a]) => a)
           .map(([indexActive, indexValidator]) => ({

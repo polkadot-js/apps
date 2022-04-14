@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
@@ -24,6 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
       Dwellir: 'wss://kusama-rpc.dwellir.com',
+      RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -128,6 +129,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'dorafactory',
+        isUnreachable: true,
+        homepage: 'https://dorafactory.org/kusama/',
+        paraId: 2115,
+        text: t('rpc.dorafactory.org', 'Dora Factory', { ns: 'apps-config' }),
+        providers: {
+          DORA: 'wss://rpc.dorafactory.org'
+        }
+      },
+      {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
         isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
@@ -177,8 +188,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2107,
         text: t('rpc.kusama.kico', 'KICO', { ns: 'apps-config' }),
         providers: {
-          'DICO FOUNDATION': 'wss://rpc.kico.dico.io',
-          OnFinality: 'wss://rpc.api.kico.dico.io'
+          'DICO Foundation': 'wss://rpc.kico.dico.io',
+          'DICO Foundation 2': 'wss://rpc.api.kico.dico.io'
         }
       },
       {
@@ -213,6 +224,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'listen',
+        homepage: 'https://listen.io/',
+        paraId: 2118,
+        text: t('rpc.kusama.listen', 'Listen Network', { ns: 'apps-config' }),
+        providers: {
+          'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
+          'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
+        }
+      },
+      {
         info: 'litmus',
         homepage: 'https://kusama-crowdloan.litentry.com',
         paraId: 2106,
@@ -234,12 +255,12 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mangata',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
         homepage: 'https://mangata.finance',
         paraId: 2110,
-        text: t('rpc.mangata', 'Mangata', { ns: 'apps-config' }),
+        text: t('rpc.kusama.mangata', 'Mangata', { ns: 'apps-config' }),
         providers: {
-          Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
+          Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
         }
       },
       {
@@ -380,8 +401,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'tanganika',
+        homepage: 'https://www.datahighway.com/',
+        paraId: 2116,
+        text: t('rpc.kusama.tanganika', 'Tanganika', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://tanganika.datahighway.com'
+        }
+      },
+      {
         info: 'turing',
-        isUnreachable: true,
         homepage: 'https://oak.tech',
         paraId: 2114,
         text: t('rpc.turing.oak', 'Turing Network', { ns: 'apps-config' }),
@@ -405,7 +434,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2101,
         text: t('rpc.kusama.zeitgeist', 'Zeitgeist', { ns: 'apps-config' }),
         providers: {
-          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm'
+          ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+          Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
         }
       }
     ]

@@ -159,3 +159,10 @@ export interface Judgement {
 }
 
 export type UseJudgements = Judgement[]
+
+export type BatchType = 'all' | 'default';
+
+export interface BatchOptions {
+  max?: number;
+  type?: BatchType;
+}

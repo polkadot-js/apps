@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -35,9 +35,10 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
-      text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+      text: t('rpc.prod.centrifuge', 'Centrifuge Standalone [Archived]', { ns: 'apps-config' }),
       providers: {
-        Centrifuge: 'wss://fullnode.centrifuge.io'
+        Centrifuge: 'wss://fullnode.centrifuge.io',
+        Dwellir: 'wss://centrifuge-rpc.dwellir.com'
       }
     },
     {
@@ -62,6 +63,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
       providers: {
         'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
+      info: 'creditcoin',
+      text: t('rpc.prod.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
       }
     },
     {
@@ -121,6 +129,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'
@@ -183,6 +192,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'minix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
       text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
       providers: {
         ChainX: 'wss://minichain-mainnet.coming.chat/ws'
@@ -312,6 +322,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'westlake',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7293
       text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
         DataHighway: 'wss://westlake.datahighway.com'

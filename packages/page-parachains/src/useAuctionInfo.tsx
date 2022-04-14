@@ -8,7 +8,7 @@ import type { AuctionInfo } from './types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
-const optionsMulti = {
+const OPT_MULTI = {
   transform: ([numAuctions, optInfo]: [AuctionIndex, Option<ITuple<[LeasePeriodOf, BlockNumber]>>]): AuctionInfo => {
     const [leasePeriod, endBlock] = optInfo.unwrapOr([null, null]);
 
@@ -26,7 +26,7 @@ function useAuctionInfoImpl (): AuctionInfo | undefined {
   return useCallMulti<AuctionInfo>([
     api.query.auctions?.auctionCounter,
     api.query.auctions?.auctionInfo
-  ], optionsMulti);
+  ], OPT_MULTI);
 }
 
 export default createNamedHook('useAuctionInfo', useAuctionInfoImpl);
