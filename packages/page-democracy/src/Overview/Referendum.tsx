@@ -143,7 +143,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         />
       </td>
       <td className='class mini media--1000'>
-
         <CardSummary
           progress={{
             hideValue: true,
@@ -153,7 +152,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         />
 
       </td>
-
       <td className='button'>
         <Button.Group>
           {!image?.proposal && (
@@ -195,12 +193,12 @@ export default React.memo(styled(Referendum)`
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-} 
+}
 
 .progress-container {
   position: relative;
   width: 250;
- 
+
 }
 
 .progress-centered-element {
