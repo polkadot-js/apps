@@ -343,7 +343,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   }, [api.query.staking.erasStakers]);
 
   curEra && getStakers(curEra?.unwrap());
-  const nominatorMinActiveThreshold = getMinActiveThreshold(api, stakers);
+  const nominatorMinActiveThreshold = useMemo(() => getMinActiveThreshold(api, stakers), [api, stakers]);
   const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
 
   return {
