@@ -96,10 +96,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         proposal={image?.proposal}
       />
       <td className='number together media--1200'>
-        <BlockToTime
-          value={remainBlock}
-
-        />
+        <BlockToTime value={remainBlock} />
         {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together media--1400'>
