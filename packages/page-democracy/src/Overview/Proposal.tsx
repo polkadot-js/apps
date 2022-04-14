@@ -98,7 +98,6 @@ export default React.memo(styled(Proposal)`
   }
   
   div.endorsementsTable {
-    
     overflow-y: scroll;
     display: block;
     min-height: 50px;
