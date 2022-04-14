@@ -2972,7 +2972,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
     "@sora-substrate/type-definitions": 1.8.6
-    "@subsocial/types": 0.6.5
+    "@subsocial/types": 0.6.8
     "@unique-nft/types": 0.3.1
     "@zeitgeistpm/type-defs": 0.4.5
     "@zeroio/type-definitions": 0.0.14
@@ -3965,27 +3965,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:0.6.5":
-  version: 0.6.5
-  resolution: "@subsocial/types@npm:0.6.5"
+"@subsocial/definitions@npm:0.6.8":
+  version: 0.6.8
+  resolution: "@subsocial/definitions@npm:0.6.8"
   dependencies:
-    "@polkadot/types": 6.9.2
-    "@polkadot/types-known": 6.9.2
-    "@polkadot/types-support": 6.9.2
-    "@subsocial/utils": ^0.6.5
-    cids: ^0.7.1
-  checksum: 4a02a6a19c449bab19b6ecbac89359562e1461c76020d5f4b53a1dc9471f361f0f2f364ab48c3c852a1b8db3cd82cdbc0b6bbf08cbe268038907cbc7ca2697f3
+    "@polkadot/api": latest
+    lodash.camelcase: ^4.3.0
+  checksum: 03d8bea55f19d0fe2f8d8ee8f51a4506e6b550dd33ae5e3734b32906df48405bfac05ea2095d8b41ad3f2caeeb67e87614d67f89ab71ca090f7d579b05e104e0
   languageName: node
   linkType: hard
 
-"@subsocial/utils@npm:^0.6.5":
-  version: 0.6.5
-  resolution: "@subsocial/utils@npm:0.6.5"
+"@subsocial/types@npm:0.6.8":
+  version: 0.6.8
+  resolution: "@subsocial/types@npm:0.6.8"
   dependencies:
-    "@polkadot/util-crypto": 7.8.2
+    "@polkadot/types": latest
+    "@polkadot/types-known": latest
+    "@polkadot/types-support": latest
+    "@subsocial/definitions": 0.6.8
+    "@subsocial/utils": 0.6.8
+    cids: ^0.7.1
+  checksum: ef7a6dd218e70c3df6fa4b6d157aefece5ea11427f7bd0753a9cdf8fececade57cee3ff7c7c8ae53514c0b953e69204d4e057abefd9157d1c998415b9b0ab9ba
+  languageName: node
+  linkType: hard
+
+"@subsocial/utils@npm:0.6.8":
+  version: 0.6.8
+  resolution: "@subsocial/utils@npm:0.6.8"
+  dependencies:
+    "@polkadot/util-crypto": ^8.4.1
     "@sindresorhus/slugify": ^1.1.0
+    bignumber.js: ^9.0.1
     bn.js: ^5.1.1
     chalk: ^3.0.0
+    dayjs: ^1.10.7
     lodash.isempty: ^4.4.0
     lodash.memoize: ^4.1.2
     lodash.truncate: ^4.4.2
@@ -3995,7 +4008,7 @@ __metadata:
     remark-gfm: ^1.0.0
     remark-html: ^13.0.1
     strip-markdown: ^4.0.0
-  checksum: e303c6c8d5fa8ece95779800cf469084e5654c771119f049c1041a91e6a575420b885120e4e0bfea691d14919ce3dbb8e53ac612f26910cc9bc876f4ee149161
+  checksum: 5a80dbcf193a5be774227f4d7eee724202d52f85b25a0ca92f93a081b35f26b2b198ac3c98d8151a19d192c89b96141d265d58223da6e70d679bdaf34b32e6ab
   languageName: node
   linkType: hard
 
@@ -6309,6 +6322,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bignumber.js@npm:^9.0.1":
+  version: 9.0.2
+  resolution: "bignumber.js@npm:9.0.2"
+  checksum: 8637b71d0a99104b20413c47578953970006fec6b4df796b9dcfd9835ea9c402ea0e727eba9a5ca9f9a393c1d88b6168c5bbe0887598b708d4f8b4870ad62e1f
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.1.0
   resolution: "binary-extensions@npm:2.1.0"
@@ -8030,6 +8050,13 @@ __metadata:
   version: 2.21.3
   resolution: "date-fns@npm:2.21.3"
   checksum: 00dc783af23ab1ca686ea9a21acd9572733ca9544c40a26e3061fc190bb0663c638c88f35d7719553279ad08c787eae816eaa0043d141563efc8394235f6c857
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.10.7":
+  version: 1.11.0
+  resolution: "dayjs@npm:1.11.0"
+  checksum: 2d36f6d71345114cdcd89147adf9e05b4f8fe81684e08c8bf1f86b140aa0b86ecc3cae661a9348d96feb7fbefd03e1bc3697303688e95209670abcb36b4ece15
   languageName: node
   linkType: hard
 

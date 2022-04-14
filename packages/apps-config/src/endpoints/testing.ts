@@ -509,6 +509,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'soonsocial',
+      text: t('rpc.test.subsocial', 'Soonsocial', { ns: 'apps-config' }),
+      providers: {
+        DappForce: 'wss://test.subsocial.network'
+      }
+    },
+    {
       info: 'ternoa-testnet',
       text: t('rpc.test.ternoa-testnet', 'Ternoa Testnet', { ns: 'apps-config' }),
       providers: {

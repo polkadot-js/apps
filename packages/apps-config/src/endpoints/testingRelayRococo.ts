@@ -514,11 +514,10 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoSubsocial',
-        isDisabled: true, // Rococo reset
-        paraId: 28,
-        text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
+        paraId: 2100,
+        text: t('rpc.rococo.subsocial', 'SoonsocialX', { ns: 'apps-config' }),
         providers: {
-          DappForce: 'wss://roc.subsocial.network'
+          DappForce: 'wss://rco-para.subsocial.network'
         }
       },
       {
