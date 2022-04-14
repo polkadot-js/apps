@@ -96,7 +96,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   return (
     <Button
       className={className}
-      icon={icon || 'check-to-slot'}
+      icon={icon || 'check'}
       isBasic={isBasic}
       isBusy={isBusy}
       isDisabled={isSending || isDisabled || (!isUnsigned && !accountId) || (
