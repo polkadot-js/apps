@@ -39,7 +39,6 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
           help={t<string>('launch period')}
           key={proposal.index.toString()}
           value={proposal}
-
         />
       ))}
     </Table>
