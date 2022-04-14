@@ -2679,7 +2679,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.9
     "@polkadot/hw-ledger": ^9.0.1
-    "@polkadot/phishing": ^0.11.29
+    "@polkadot/phishing": ^0.11.31
     "@polkadot/react-components": ^0.112.2-13
     "@polkadot/react-hooks": ^0.112.2-13
     "@polkadot/test-support": 0.112.2-13
@@ -2989,7 +2989,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.66.2
+    "@polkadot/dev": ^0.66.3
     "@polkadot/react-components": ^0.112.2-13
     "@types/react-dom": ^17.0.14
     "@types/tmp": ^0.2.3
@@ -3023,7 +3023,7 @@ __metadata:
     "@babel/runtime": ^7.17.9
     "@polkadot/apps-config": ^0.112.2-13
     "@polkadot/apps-routing": ^0.112.2-13
-    "@polkadot/dev": ^0.66.2
+    "@polkadot/dev": ^0.66.3
     "@polkadot/react-api": ^0.112.2-13
     "@polkadot/react-components": ^0.112.2-13
     "@polkadot/react-hooks": ^0.112.2-13
@@ -3058,9 +3058,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.66.2":
-  version: 0.66.2
-  resolution: "@polkadot/dev@npm:0.66.2"
+"@polkadot/dev@npm:^0.66.3":
+  version: 0.66.3
+  resolution: "@polkadot/dev@npm:0.66.3"
   dependencies:
     "@babel/cli": ^7.17.6
     "@babel/core": ^7.17.9
@@ -3146,7 +3146,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: f398c8359b86cddda66046f7720d35c3d21a83607f834ec861fee08c81652932723a7723ef68ab0511f760104abe3e2c7527fd48fb61c4456cf29d9123c37fef
+  checksum: d9c9ec78d0e5b2f8002991aa0b0bee3a109e7f0f72640869ffa2f422fbbccbd8ff9763b05567cab446c07fb1c5f34b66d30ba7b596ef77172e54520f0b5af90b
   languageName: node
   linkType: hard
 
@@ -15706,7 +15706,7 @@ __metadata:
     "@babel/runtime": ^7.17.9
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.23
-    "@polkadot/dev": ^0.66.2
+    "@polkadot/dev": ^0.66.3
     "@types/chart.js": ^2.9.35
     "@types/file-saver": ^2.0.5
     "@types/jest": ^27.4.1
