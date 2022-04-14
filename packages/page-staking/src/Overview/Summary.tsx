@@ -24,7 +24,7 @@ function Summary ({ className = '', isVisible, targets: { inflation: { idealStak
   const { t } = useTranslation();
 
   return (
-    <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
+    <SummaryBox className={`${className} ${isVisible ? '' : ' --hidden'}`}>
       <section>
         <CardSummary
           help={t<string>('Minimum stake among the active nominators.')}
