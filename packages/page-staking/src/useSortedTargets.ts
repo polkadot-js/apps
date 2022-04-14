@@ -248,26 +248,6 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
 
 const b = (x: BN, api: ApiPromise): string => formatBalance(api.createType('Balance', x));
 
-function getMinActiveThreshold (api: ApiPromise, stakers: [StorageKey<[u32, AccountId32]>, PalletStakingExposure][]) {
-  const assignments: Map<string, BN> = new Map();
-
-  stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn()));
-
-  stakers.map((x) => x[1].others).flat(1).forEach((x) => {
-    const nominator = (x as PalletStakingIndividualExposure).who.toString();
-    const amount = (x as PalletStakingIndividualExposure).value;
-    const val = assignments.get(nominator);
-
-    assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
-  });
-
-  const nominatorStakes = Array.from(assignments);
-
-  nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
-
-  return nominatorStakes[0] ? b(nominatorStakes[0][1], api) : '';
-}
-
 const transformEra = {
   transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
     activeEra,
@@ -313,12 +293,35 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
   const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
   const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
+  const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string>('');
+  const [calcStakers, setCalcStakers] = useState<boolean>(false);
 
   useEffect(() => {
     if (stakers[0] && stakers[0][1]) {
       setStakersTotal(stakers[0][1].total.toBn());
     }
   }, [stakers]);
+
+  useEffect(() => {
+    if (stakers.length && !calcStakers) {
+      const assignments: Map<string, BN> = new Map();
+
+      stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn())).map((x) => x[1].others).flat(1).forEach((x) => {
+        const nominator = (x as PalletStakingIndividualExposure).who.toString();
+        const amount = (x as PalletStakingIndividualExposure).value;
+        const val = assignments.get(nominator);
+
+        assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
+      });
+
+      const nominatorStakes = Array.from(assignments);
+
+      nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
+
+      setNominatorMinActiveThreshold(nominatorStakes[0] ? b(nominatorStakes[0][1], api) : '');
+      setCalcStakers(true);
+    }
+  }, [api, calcStakers, stakers]);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
@@ -343,7 +346,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   }, [api.query.staking.erasStakers]);
 
   curEra && getStakers(curEra?.unwrap());
-  const nominatorMinActiveThreshold = useMemo(() => getMinActiveThreshold(api, stakers), [api, stakers]);
+
   const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
 
   return {
