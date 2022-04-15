@@ -107,7 +107,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-
           </>
         )}
       </td>
@@ -142,7 +141,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
-      <td className='mini media--1000'>
+      <td className='mini media--1000 middle'>
         <Progress
           total={totalCalculated}
           value={votedAye}

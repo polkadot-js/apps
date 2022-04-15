@@ -62,10 +62,7 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
       }
     >
       <div className='votersTable'>
-        <Table
-          empty={votes && t<string>('No voters')}
-
-        >
+        <Table empty={votes && t<string>('No voters')}>
           <tr className='expand'>
             <td>
               {sorted.map((vote) =>
@@ -83,12 +80,11 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
 }
 
 export default React.memo(styled(ReferendumVotes)`
-div.votersTable {
-  
-  overflow-y: scroll;
-  display: block;
-  min-height: 50px;
-  max-height: 200px;
-  overflow-x: hidden;
-}
+  div.votersTable {
+    overflow-y: scroll;
+    display: block;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-x: hidden;
+  }
 `);
