@@ -16,9 +16,7 @@ import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFav
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
-import Summary from './Validators/Summary';
 import Actions from './Actions';
-import ActionsBanner from './ActionsBanner';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
 import Payouts from './Payouts';
@@ -142,11 +140,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         }
         items={items}
       />
-      <Summary
-        className={basePath === pathname ? '' : '--hidden'}
-        stakingOverview={stakingOverview}
-        targets={targets}
-      />
       <Switch>
         <Route path={`${basePath}/bags`}>
           <Bags ownStashes={ownStashes} />
@@ -189,12 +182,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
-      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
-        <ActionsBanner />
-      )}
       <Validators
         className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
+        hasAccounts={hasAccounts}
         hasQueries={hasQueries}
         minCommission={minCommission}
         nominatedBy={nominatedBy}

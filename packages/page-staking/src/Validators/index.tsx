@@ -12,11 +12,14 @@ import { Button, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
   favorites: string[];
+  hasAccounts: boolean;
   hasQueries: boolean;
   minCommission?: BN;
   nominatedBy?: NominatedByMap;
@@ -29,7 +32,7 @@ interface Props {
   toggleNominatedBy: () => void;
 }
 
-function Overview ({ className = '', favorites, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasAccounts, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [intentIndex, _setIntentIndex] = useState(0);
@@ -67,6 +70,13 @@ function Overview ({ className = '', favorites, hasQueries, minCommission, nomin
 
   return (
     <div className={`staking--Overview ${className}`}>
+      <Summary
+        stakingOverview={stakingOverview}
+        targets={targets}
+      />
+      {hasAccounts && (ownStashes?.length === 0) && (
+        <ActionsBanner />
+      )}
       <Button.Group>
         <ToggleGroup
           onChange={setTypeIndex}
