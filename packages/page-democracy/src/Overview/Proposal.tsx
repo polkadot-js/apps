@@ -39,7 +39,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       </td>
       <td className='expand'>
         {seconding.length !== 0 && (
-          <ExpanderConstained
+          <ExpanderScroll
             empty={seconding && t<string>('No endorsements')}
             summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}
           >
