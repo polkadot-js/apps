@@ -1,4 +1,4 @@
-    3514	Jaco                          	Bump dev deps (#7375)
+    3515	Jaco                          	Rename staking validators page to Validators (#7378)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
