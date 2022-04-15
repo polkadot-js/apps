@@ -27,10 +27,26 @@ interface Props {
   totalStaked?: BN;
 }
 
+interface ProgressInfo {
+  hideValue: true;
+  total: BN;
+  value: BN;
+}
+
 const OPT_REWARD = {
   transform: (optBalance: Option<Balance>) =>
     optBalance.unwrapOrDefault()
 };
+
+function getProgressInfo (value?: BN, total?: BN): ProgressInfo | undefined {
+  return value && total && !total.isZero()
+    ? {
+      hideValue: true,
+      total,
+      value
+    }
+    : undefined;
+}
 
 function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -38,24 +54,12 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
 
   const progressStake = useMemo(
-    () => totalIssuance && totalStaked && totalStaked.gtn(0)
-      ? {
-        hideValue: true,
-        total: totalIssuance,
-        value: totalStaked
-      }
-      : undefined,
+    () => getProgressInfo(totalStaked, totalIssuance),
     [totalIssuance, totalStaked]
   );
 
   const progressAvg = useMemo(
-    () => avgStaked && lowStaked && avgStaked.gtn(0)
-      ? {
-        hideValue: true,
-        total: avgStaked,
-        value: lowStaked
-      }
-      : undefined,
+    () => getProgressInfo(lowStaked, avgStaked),
     [avgStaked, lowStaked]
   );
 
