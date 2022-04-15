@@ -66,7 +66,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
   return (
     <SummaryBox>
       <section className='media--800'>
-        {totalIssuance && totalStaked?.gt(BN_ZERO) && (
+        {progressStake && (
           <CardSummary
             label={t<string>('total staked')}
             progress={progressStake}
@@ -86,7 +86,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         )}
       </section>
       <section className='media--1000'>
-        {avgStaked?.gtn(0) && lowStaked?.gtn(0) && (
+        {progressAvg && (
           <CardSummary
             label={`${t<string>('lowest / avg staked')}`}
             progress={progressAvg}
@@ -131,7 +131,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         )}
       </section>
       <section>
-        {lastReward?.gtn(0) && (
+        {lastReward?.gt(BN_ZERO) && (
           <CardSummary label={t<string>('last reward')}>
             <FormatBalance
               value={lastReward}
