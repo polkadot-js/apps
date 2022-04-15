@@ -16,12 +16,9 @@ import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFav
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
-import Summary from './Overview/Summary';
 import Actions from './Actions';
-import ActionsBanner from './ActionsBanner';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
-import Overview from './Overview';
 import Payouts from './Payouts';
 import Pools from './Pools';
 import Query from './Query';
@@ -30,10 +27,11 @@ import Targets from './Targets';
 import { useTranslation } from './translate';
 import useNominations from './useNominations';
 import useSortedTargets from './useSortedTargets';
+import Validators from './Validators';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
-const optionsParaValidators = {
+const OPT_MULTI = {
   defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
   transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
     !!eraElectionStatus && eraElectionStatus.isOpen,
@@ -61,7 +59,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     api.query.staking.minCommission,
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
-  ], optionsParaValidators);
+  ], OPT_MULTI);
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
@@ -142,11 +140,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         }
         items={items}
       />
-      <Summary
-        isVisible={pathname === basePath}
-        stakingOverview={stakingOverview}
-        targets={targets}
-      />
       <Switch>
         <Route path={`${basePath}/bags`}>
           <Bags ownStashes={ownStashes} />
@@ -189,12 +182,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
-      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
-        <ActionsBanner />
-      )}
-      <Overview
+      <Validators
         className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
+        hasAccounts={hasAccounts}
         hasQueries={hasQueries}
         minCommission={minCommission}
         nominatedBy={nominatedBy}
