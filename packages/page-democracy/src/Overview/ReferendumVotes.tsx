@@ -4,7 +4,7 @@
 import type { DeriveReferendumVote } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
@@ -27,6 +27,7 @@ const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 function ReferendumVotes ({ change, className, count, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+
   const sorted = useMemo(
     () => votes.sort((a, b) => {
       const ta = a.balance.muln(LOCKS[a.vote.conviction.toNumber()]).div(BN_TEN);
@@ -35,6 +36,16 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
       return tb.cmp(ta);
     }),
     [votes]
+  );
+
+  const renderVotes = useCallback(
+    () => sorted.map((vote) => (
+      <ReferendumVote
+        key={vote.accountId.toString()}
+        vote={vote}
+      />
+    )),
+    [sorted]
   );
 
   return (
@@ -51,6 +62,7 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
         </>
       )}
       helpIcon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
+      renderChildren={renderVotes}
       summary={
         <>
           {isAye
@@ -60,14 +72,7 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
           <div><FormatBalance value={total} /></div>
         </>
       }
-    >
-      {sorted.map((vote) =>
-        <ReferendumVote
-          key={vote.accountId.toString()}
-          vote={vote}
-        />
-      )}
-    </ExpanderScroll>
+    />
   );
 }
 

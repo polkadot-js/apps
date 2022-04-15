@@ -3,8 +3,7 @@
 
 import type { DeriveProposal } from '@polkadot/api-derive/types';
 
-import React from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, Button, ExpanderScroll, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
@@ -22,7 +21,23 @@ interface Props {
 
 function Proposal ({ className = '', value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const seconding = seconds.filter((_address, index) => index !== 0);
+
+  const seconding = useMemo(
+    () => seconds.filter((_address, index) => index !== 0),
+    [seconds]
+  );
+
+  const renderSeconds = useCallback(
+    () => seconding.map((address, count): React.ReactNode => (
+      <AddressMini
+        key={`${count}:${address.toHex()}`}
+        value={address}
+        withBalance={false}
+        withShrink
+      />
+    )),
+    [seconding]
+  );
 
   return (
     <tr className={className}>
@@ -41,18 +56,9 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
         {seconding.length !== 0 && (
           <ExpanderScroll
             empty={seconding && t<string>('No endorsements')}
+            renderChildren={renderSeconds}
             summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}
-          >
-            {seconding.map((address, count): React.ReactNode => (
-              <AddressMini
-                className='identityIcon'
-                key={`${count}:${address.toHex()}`}
-                value={address}
-                withBalance={false}
-                withShrink
-              />
-            ))}
-          </ExpanderScroll>
+          />
         )}
       </td>
       <td className='button'>
@@ -79,14 +85,4 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
   );
 }
 
-export default React.memo(styled(Proposal)`
-  .identityIcon {
-    &:first-child {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 4px;
-    }
-  }
-`);
+export default React.memo(Proposal);
