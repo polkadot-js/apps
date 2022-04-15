@@ -141,7 +141,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
-      <td className='mini media--1000 middle'>
+      <td className='media--1000 middle chart'>
         <Progress
           total={totalCalculated}
           value={votedAye}
@@ -176,11 +176,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 }
 
 export default React.memo(styled(Referendum)`
-  .democracy--Referendum-results {
-    margin-bottom: 1em;
+  td.chart {
+    padding: 0.5rem 0;
 
-    &.chart {
-      text-align: center;
+    .ui--Progress {
+      display: inline-block;
     }
   }
 `);
