@@ -17,17 +17,15 @@ interface Props extends ExpanderProps {
 // however at this point we convert as-is, but it should probably get a re-look
 function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
   const innerRender = useCallback(
-    (): React.ReactNode => (
+    (): React.ReactNode => (renderChildren || children) && (
       <div className='tableContainer'>
         <Table
           empty={empty}
           isInline
         >
-          {(renderChildren || children) && (
-            <tr className='expand'>
-              <td>{renderChildren ? renderChildren() : children}</td>
-            </tr>
-          )}
+          <tr className='expand'>
+            <td>{renderChildren ? renderChildren() : children}</td>
+          </tr>
         </Table>
       </div>
     ),
