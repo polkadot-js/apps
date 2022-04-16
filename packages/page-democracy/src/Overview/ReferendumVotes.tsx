@@ -62,7 +62,7 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
         </>
       )}
       helpIcon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
-      renderChildren={renderVotes}
+      renderChildren={votes.length ? renderVotes : undefined}
       summary={
         <>
           {isAye

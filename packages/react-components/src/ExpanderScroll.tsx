@@ -3,7 +3,7 @@
 
 import type { Props as ExpanderProps } from './Expander';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import Expander from './Expander';
@@ -16,6 +16,11 @@ interface Props extends ExpanderProps {
 // TODO Not 100% convinced we need a table here since we only have a single row,
 // however at this point we convert as-is, but it should probably get a re-look
 function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
+  const hasContent = useMemo(
+    () => !!(renderChildren || children),
+    [children, renderChildren]
+  );
+
   const innerRender = useCallback(
     (): React.ReactNode => (renderChildren || children) && (
       <div className='tableContainer'>
@@ -37,7 +42,7 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
       className={className}
       help={help}
       helpIcon={helpIcon}
-      renderChildren={innerRender}
+      renderChildren={hasContent ? innerRender : undefined}
       summary={summary}
     />
   );
