@@ -3,10 +3,9 @@
 
 import type { DeriveProposal } from '@polkadot/api-derive/types';
 
-import React from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, Button, Expander, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressMini, Button, ExpanderScroll, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,7 +21,23 @@ interface Props {
 
 function Proposal ({ className = '', value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const seconding = seconds.filter((_address, index) => index !== 0);
+
+  const seconding = useMemo(
+    () => seconds.filter((_address, index) => index !== 0),
+    [seconds]
+  );
+
+  const renderSeconds = useCallback(
+    () => seconding.map((address, count): React.ReactNode => (
+      <AddressMini
+        key={`${count}:${address.toHex()}`}
+        value={address}
+        withBalance={false}
+        withShrink
+      />
+    )),
+    [seconding]
+  );
 
   return (
     <tr className={className}>
@@ -39,27 +54,11 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       </td>
       <td className='expand'>
         {seconding.length !== 0 && (
-          <Expander summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}>
-            <div className='endorsementsTable'>
-              <Table
-                empty={seconding && t<string>('No endorsements')}
-              >
-                <tr className='expand'>
-                  <td>
-                    {seconding.map((address, count): React.ReactNode => (
-                      <AddressMini
-                        className='identityIcon'
-                        key={`${count}:${address.toHex()}`}
-                        value={address}
-                        withBalance={false}
-                        withShrink
-                      />
-                    ))}
-                  </td>
-                </tr>
-              </Table>
-            </div>
-          </Expander>
+          <ExpanderScroll
+            empty={seconding && t<string>('No endorsements')}
+            renderChildren={renderSeconds}
+            summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}
+          />
         )}
       </td>
       <td className='button'>
@@ -86,22 +85,4 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
   );
 }
 
-export default React.memo(styled(Proposal)`
-  .identityIcon {
-    &:first-child {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 4px;
-    }
-  }
-  
-  div.endorsementsTable {
-    overflow-y: scroll;
-    display: block;
-    min-height: 50px;
-    max-height: 200px;
-    overflow-x: hidden;
-  }
-`);
+export default React.memo(Proposal);

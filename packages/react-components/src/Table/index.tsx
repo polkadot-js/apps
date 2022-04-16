@@ -17,6 +17,7 @@ interface TableProps {
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
+  isInline?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
   withCollapsibleRows: boolean;
@@ -33,13 +34,13 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -62,7 +63,6 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 }
 
 export default React.memo(styled(Table)`
-  margin-bottom: 1.5rem;
   max-width: 100%;
   width: 100%;
 
@@ -76,6 +76,10 @@ export default React.memo(styled(Table)`
 
     &.isFixed {
       table-layout: fixed;
+    }
+
+    &:not(.isInline) {
+      margin-bottom: 1.5rem;
     }
 
     tr {

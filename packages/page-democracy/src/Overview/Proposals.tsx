@@ -36,7 +36,6 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
     >
       {proposals?.map((proposal): React.ReactNode => (
         <ProposalDisplay
-          help={t<string>('launch period')}
           key={proposal.index.toString()}
           value={proposal}
         />
