@@ -131,7 +131,6 @@ const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
-const chainSubsocial = '#b9018c';
 const chainSwapdex = '#E94082';
 const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
@@ -203,6 +202,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
+const nodeSubsocialX = '#69058C';
 const nodeSubspace = '#562b8e';
 const nodeSwapdex = '#E94082';
 const nodeTernoa = '#d622ff';
@@ -406,7 +406,6 @@ export const chainColors: Record<string, string> = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
-  'Subsocial PC1': chainSubsocial,
   Subspace: nodeSubspace,
   swapdex: chainSwapdex,
   Tick: chainRoccoTick,
@@ -518,6 +517,7 @@ export const nodeColors = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
+  'Subsocial Collator': nodeSubsocialX,
   'subsocial node': nodeSubsocial,
   Subspace: nodeSubspace,
   'subzero node': nodeZero,

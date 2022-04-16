@@ -162,12 +162,15 @@ import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
+import nodeSoonsocial from './nodes/soonsocial.png';
+import nodeSoonsocialX from './nodes/soonsocialX.png';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
+import nodeSubsocialX from './nodes/subsocialX.svg';
 import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
@@ -337,6 +340,8 @@ export const chainLogos = Object.entries({
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
+  soonsocial: nodeSoonsocial,
+  soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
   'SORA Kusama': nodeSora,
   Spanner: chainSpanner,
@@ -350,8 +355,8 @@ export const chainLogos = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
-  Subsocial: nodeSubsocial,
-  'Subsocial PC': nodeSubsocial,
+  subsocial: nodeSubsocial,
+  subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
   swapdex: nodeSwapdex,
   Tick: chainRococoTick,
@@ -531,9 +536,6 @@ export const nodeLogos = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
-  'Subsocial Node': nodeSubsocial,
-  'Subsocial PC': nodeSubsocial,
-  'subsocial-node': nodeSubsocial,
   subspace: nodeSubspace,
   'substrate-contracts-node': nodeSubstrateContractsNode,
   'substrate-node': nodeSubstrate,
@@ -751,7 +753,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoStandard: chainStandard,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
-  rococoSubsocial: nodeSubsocial,
+  rococoSubsocial: nodeSoonsocialX,
   rococoTick: chainRococoTick,
   rococoTinker: chainTinker,
   rococoTrack: chainRococoTrack,
@@ -769,6 +771,7 @@ export const namedLogos: Record<string, unknown> = {
   shiden: chainShiden,
   singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
+  soonsocial: nodeSoonsocial,
   sora: nodeSora,
   'sora-substrate': nodeSora,
   sora_ksm: nodeSora,
@@ -783,6 +786,7 @@ export const namedLogos: Record<string, unknown> = {
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   subsocial: nodeSubsocial,
+  subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
   'subspace-farmnet': nodeSubspace,
   substrate: nodeSubstrate,

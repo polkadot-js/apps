@@ -164,7 +164,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
-  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
