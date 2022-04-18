@@ -8,7 +8,6 @@ import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,21 +18,16 @@ interface Props {
   params: Params;
 }
 
-function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorBond } }: Props): React.ReactElement<Props> | null {
+function Join ({ className, id, isDisabled, params: { minMemberBond } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
 
-  const minAmount = useMemo(
-    () => minJoinBond && minNominatorBond && bnMax(minJoinBond, minNominatorBond),
-    [minJoinBond, minNominatorBond]
-  );
-
   const isAmountError = useMemo(
-    () => !amount || !minAmount || amount.lt(minAmount),
-    [amount, minAmount]
+    () => !amount || !minMemberBond || amount.lt(minMemberBond),
+    [amount, minMemberBond]
   );
 
   if (isDisabled) {
@@ -44,7 +38,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
     <>
       <Button
         icon='plus'
-        isDisabled={!minAmount}
+        isDisabled={!minMemberBond}
         label={t<string>('Join')}
         onClick={toggleOpen}
       />
@@ -67,7 +61,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
             <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
-                defaultValue={minAmount}
+                defaultValue={minMemberBond}
                 isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}

@@ -18,6 +18,9 @@ interface Props {
   params: Params;
 }
 
+const MAX_META_LEN = 32;
+const MIN_META_LEN = 3;
+
 function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -43,8 +46,13 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
     [amount, minValue]
   );
 
+  const isMetaError = useMemo(
+    () => !metadata || metadata.length < MIN_META_LEN || metadata.length > MAX_META_LEN,
+    [metadata]
+  );
+
   const extrinsic = useMemo(
-    () => accountId && !isAmountError
+    () => amount && accountId && !isAmountError && nextPoolId
       ? api.tx.utility.batch([
         api.tx.nominationPools.create(amount, accountId, accountId, accountId),
         api.tx.nominationPools.setMetadata(nextPoolId, metadata)
@@ -88,8 +96,9 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The metadata description to set for this pool')}>
               <Input
+                isError={isMetaError}
                 label={t<string>('description')}
-                maxLength={32}
+                maxLength={MAX_META_LEN}
                 onChange={setMetadata}
               />
             </Modal.Columns>
@@ -106,7 +115,7 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
               accountId={accountId}
               extrinsic={extrinsic}
               icon='plus'
-              isDisabled={!accountId || isAmountError}
+              isDisabled={!accountId || isAmountError || isMetaError}
               label={t<string>('Create')}
               onStart={toggleOpen}
             />

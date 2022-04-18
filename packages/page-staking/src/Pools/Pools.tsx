@@ -10,6 +10,7 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Pool from './Pool';
+import useMembers from './useMembers';
 
 interface Props {
   className?: string;
@@ -19,11 +20,12 @@ interface Props {
 
 function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const membersMap = useMembers();
 
   const header = useMemo(() => [
     [t('pools'), 'start', 2],
     [t('points')],
-    [t('delegators')]
+    [t('members')]
   ], [t]);
 
   return (
@@ -37,6 +39,7 @@ function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
         <Pool
           id={id}
           key={id.toString()}
+          members={membersMap && membersMap[id.toString()]}
           params={params}
         />
       ))}

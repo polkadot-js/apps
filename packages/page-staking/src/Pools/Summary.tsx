@@ -16,25 +16,25 @@ interface Props {
   poolCount?: number;
 }
 
-function Summary ({ className, params: { maxDelegators, maxDelegatorsPool, maxPools }, poolCount }: Props): React.ReactElement<Props> | null {
+function Summary ({ className, params: { maxMembers, maxMembersPerPool, maxPools }, poolCount }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={className}>
-      {maxDelegators && (
+      {maxMembers && (
         <CardSummary label={t<string>('pools')}>
           {isNumber(poolCount) && <>{formatNumber(poolCount)}&nbsp;/&nbsp;</>}{formatNumber(maxPools)}
         </CardSummary>
       )}
       <section>
-        {maxDelegatorsPool && (
-          <CardSummary label={t<string>('max. delegators')}>
-            {formatNumber(maxDelegators)}
+        {maxMembers && (
+          <CardSummary label={t<string>('max. members')}>
+            {formatNumber(maxMembers)}
           </CardSummary>
         )}
-        {maxPools && (
-          <CardSummary label={t<string>('max. delegators / pool')}>
-            {formatNumber(maxDelegatorsPool)}
+        {maxMembersPerPool && (
+          <CardSummary label={t<string>('max. members / pool')}>
+            {formatNumber(maxMembersPerPool)}
           </CardSummary>
         )}
       </section>

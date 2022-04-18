@@ -2,49 +2,62 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Params } from './types';
+import type { MembersMapEntry, Params } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 
+import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber, stringify } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import Join from './Join';
 import usePoolInfo from './usePoolInfo';
 
 interface Props {
   className?: string;
   id: BN;
+  members?: MembersMapEntry[];
   params: Params;
 }
 
-function Pool ({ className, id, params }: Props): React.ReactElement<Props> | null {
+function Pool ({ className, id, members, params }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const info = usePoolInfo(id);
-  const metadata = useMemo(
-    () => info && info.metadata && info.metadata.length
-      ? info.metadata.isUtf8
-        ? info.metadata.toUtf8()
-        : info.metadata.toString()
-      : null,
-    [info]
+  const renderMembers = useCallback(
+    () => members && members.map(({ accountId }, count) => (
+      <AddressMini
+        key={`${count}:${accountId.toHex()}`}
+        value={accountId}
+        withBalance={false}
+        withShrink
+      />
+    )),
+    [members]
   );
 
   if (!info) {
     return null;
   }
 
-  console.log(stringify(info, 2));
-
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='start'>{metadata}</td>
-      <td className='number'><FormatBalance value={info.bonded?.points} /></td>
-      <td className='number'>{formatNumber(info.bonded?.delegatorCounter)}</td>
+      <td className='start'>{info.metadata}</td>
+      <td className='number'><FormatBalance value={info.bonded && info.bonded.points} /></td>
+      <td className='number'>
+        {members && members.length !== 0 && (
+          <ExpanderScroll
+            empty={members && t<string>('No members')}
+            renderChildren={renderMembers}
+            summary={t<string>('Members ({{count}})', { replace: { count: members.length } })}
+          />
+        )}
+      </td>
       <td className='button'>
         <Join
           id={id}
-          isDisabled={!info.bonded?.state.isOpen}
+          isDisabled={!info.bonded || !info.bonded.state.isOpen || !info.bonded.delegatorCounter.ltn(params.maxMembersPerPool)}
           params={params}
         />
       </td>
