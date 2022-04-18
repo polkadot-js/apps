@@ -1,4 +1,4 @@
-    3517	Jaco                          	Add ExpanderScroll to council (#7385)
+    3518	Jaco                          	Display council voters via ExpanderScroll (#7386)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
