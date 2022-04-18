@@ -11,6 +11,7 @@ import Table from './Table';
 
 interface Props extends ExpanderProps {
   empty?: string;
+  renderChildren?: () => React.ReactNode[];
 }
 
 // TODO Not 100% convinced we need a table here since we only have a single row,
@@ -28,9 +29,18 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
           empty={empty}
           isInline
         >
-          <tr className='expand'>
-            <td>{renderChildren ? renderChildren() : children}</td>
-          </tr>
+          {
+            renderChildren
+              ? renderChildren().map((row, key) => (
+                <tr
+                  className='expand'
+                  key={key}
+                >
+                  <td>{row}</td>
+                </tr>
+              ))
+              : <tr className='expand'><td>{children}</td></tr>
+          }
         </Table>
       </div>
     ),
