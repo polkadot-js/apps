@@ -62,8 +62,10 @@ export default React.memo(styled(ExpanderScroll)`
   .tableContainer {
     overflow-y: scroll;
     display: block;
+    margin: 0 0 0 auto;
     min-height: 50px;
     max-height: 200px;
+    max-width: 30rem;
     overflow-x: hidden;
   }
 `);

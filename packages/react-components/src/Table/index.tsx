@@ -93,6 +93,7 @@ export default React.memo(styled(Table)`
 
         td {
           border-top-width: 1px;
+          padding: 0.25rem 0.75rem;
         }
       }
     }
