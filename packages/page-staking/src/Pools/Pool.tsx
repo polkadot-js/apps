@@ -17,7 +17,7 @@ import usePoolInfo from './usePoolInfo';
 interface Props {
   className?: string;
   id: BN;
-  members?: MembersMapEntry[];
+  members: MembersMapEntry[];
   params: Params;
 }
 
@@ -25,7 +25,7 @@ function Pool ({ className, id, members, params }: Props): React.ReactElement<Pr
   const { t } = useTranslation();
   const info = usePoolInfo(id);
   const renderMembers = useCallback(
-    () => members && members.map(({ accountId }, count) => (
+    () => members.map(({ accountId }, count) => (
       <AddressMini
         key={`${count}:${accountId.toHex()}`}
         value={accountId}
@@ -48,7 +48,7 @@ function Pool ({ className, id, members, params }: Props): React.ReactElement<Pr
       <td className='number'>
         {members && members.length !== 0 && (
           <ExpanderScroll
-            empty={members && t<string>('No members')}
+            empty={t<string>('No members')}
             renderChildren={renderMembers}
             summary={t<string>('Members ({{count}})', { replace: { count: members.length } })}
           />
