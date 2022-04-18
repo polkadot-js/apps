@@ -82,6 +82,21 @@ export default React.memo(styled(Table)`
       margin-bottom: 1.5rem;
     }
 
+    &.isInline {
+      &.highlight--bg-faint,
+      &.highlight--bg-faint::before {
+        background: transparent;
+      }
+
+      tbody tr {
+        background: transparent;
+
+        td {
+          border-top-width: 1px;
+        }
+      }
+    }
+
     tr {
       max-width: 100%;
       width: 100%;
