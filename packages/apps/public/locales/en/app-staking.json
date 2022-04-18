@@ -144,6 +144,7 @@
   "The accounts that will be rebagged as a result of this operation.": "The accounts that will be rebagged as a result of this operation.",
   "The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.": "The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.",
   "The amount placed at-stake should allow some free funds for future transactions.": "The amount placed at-stake should allow some free funds for future transactions.",
+  "The amount placed at-stake should not be your full available amount to allow for transaction fees.": "The amount placed at-stake should not be your full available amount to allow for transaction fees.",
   "The amount placed at-stake should not be your full available available amount to allow for transaction fees.": "The amount placed at-stake should not be your full available available amount to allow for transaction fees.",
   "The amount the is to be rebonded from the value currently unlocking, i.e. previously unbonded": "The amount the is to be rebonded from the value currently unlocking, i.e. previously unbonded",
   "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate": "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate",
