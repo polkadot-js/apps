@@ -75,7 +75,7 @@
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.25",
     "@types/styled-theming": "^2.2.5",
-    "concurrently": "^7.0.0",
+    "concurrently": "^7.1.0",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
     "electron": "^12.2.3",
