@@ -223,7 +223,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
           'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
+          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws',
+          Dwellir: 'wss://kintsugi-rpc.dwellir.com'
         }
       },
       {
