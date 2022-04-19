@@ -2695,7 +2695,7 @@ __metadata:
     "@polkadot/react-components": ^0.112.2-24
     "@testing-library/react": ^12.1.5
     file-saver: ^2.0.5
-    testcontainers: ^8.6.0
+    testcontainers: ^8.7.1
   languageName: unknown
   linkType: soft
 
@@ -3459,7 +3459,7 @@ __metadata:
     "@polkadot/types-support": ^8.1.1
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^12.1.5
-    testcontainers: ^8.6.0
+    testcontainers: ^8.7.1
     tsconfig-paths: ^3.14.1
   languageName: unknown
   linkType: soft
@@ -4124,12 +4124,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/archiver@npm:^5.1.1":
-  version: 5.3.0
-  resolution: "@types/archiver@npm:5.3.0"
+"@types/archiver@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "@types/archiver@npm:5.3.1"
   dependencies:
     "@types/glob": "*"
-  checksum: 00b8b1d4aeac8b3ac5c72b09d4c01334851a02b4bc27610cca20a8c2385af06f92d0e3d17d3e95a3c50e8c8d789a947e072ab50beef872a1b64d91895750d0cf
+  checksum: 1c6babc7f50acf5bf7fa3d5fa76bb68702e4463e6a412d259cdddff611dbbb9832ea4b2f41d675fd95ac1aa8b087daa882423073e41db9e296f14d41f2ea88e6
   languageName: node
   linkType: hard
 
@@ -4286,13 +4286,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dockerode@npm:^3.2.7":
-  version: 3.3.3
-  resolution: "@types/dockerode@npm:3.3.3"
+"@types/dockerode@npm:^3.3.8":
+  version: 3.3.8
+  resolution: "@types/dockerode@npm:3.3.8"
   dependencies:
     "@types/docker-modem": "*"
     "@types/node": "*"
-  checksum: 19032875eb43fb8bf454cd764f8abb645cb4eceaf8db66dcd66681c315ca910d73421178998c78e67e2c0942467081d3e866a4bda5a8d4e08feccdaa1c99ea48
+  checksum: 3eebbe2c3e5c067c06ece6f67b8ff8beb8598b8f68ed34509cc6d0f4447705229b7cc20e95b6f64e42e26bc183da8ba186955d289f27d4fc3439f0c44fada93b
   languageName: node
   linkType: hard
 
@@ -18769,13 +18769,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^8.6.0":
-  version: 8.6.0
-  resolution: "testcontainers@npm:8.6.0"
+"testcontainers@npm:^8.7.1":
+  version: 8.7.1
+  resolution: "testcontainers@npm:8.7.1"
   dependencies:
     "@balena/dockerignore": ^1.0.2
-    "@types/archiver": ^5.1.1
-    "@types/dockerode": ^3.2.7
+    "@types/archiver": ^5.3.1
+    "@types/dockerode": ^3.3.8
     archiver: ^5.3.0
     byline: ^5.0.0
     debug: ^4.3.4
@@ -18785,7 +18785,7 @@ resolve@^2.0.0-next.3:
     properties-reader: ^2.2.0
     ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: a097fb61c7350d4e9489075d31cc9c68c436182b8d0c6ea4afd793dd7d52174ac8c654f69f7168caf5c761722e695dfd1025c88b29b95b4bc4976870063b6a9c
+  checksum: cfdd667b82cc2190e81d1369c902bd61f462f6b4f8c03bec8aac96ccffead7226296db27ffeec25151cf8b280714e8965c6f35f71a4c8a7c8f2580d992c94662
   languageName: node
   linkType: hard
 
