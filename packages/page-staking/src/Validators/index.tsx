@@ -14,7 +14,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
-import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -70,10 +69,6 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
 
   return (
     <div className={`staking--Overview ${className}`}>
-      <Summary
-        stakingOverview={stakingOverview}
-        targets={targets}
-      />
       {hasAccounts && (ownStashes?.length === 0) && (
         <ActionsBanner />
       )}
