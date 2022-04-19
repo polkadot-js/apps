@@ -78,6 +78,7 @@ export interface SortedTargets {
   counterForValidators?: BN;
   electedIds?: string[];
   inflation: Inflation;
+  lastEra?: BN;
   lowStaked?: BN;
   medianComm: number;
   maxNominatorsCount?: BN;

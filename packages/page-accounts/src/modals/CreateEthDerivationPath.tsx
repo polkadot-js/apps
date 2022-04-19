@@ -115,7 +115,6 @@ function CreateEthDerivationPath ({ className,
         : (
           <MarkWarning content={t<string>('The derivation path is only relevant when deriving keys from a mnemonic.')} />
         )}
-
       {deriveValidation?.error && (
         <MarkError content={errorIndex.current[deriveValidation.error] || deriveValidation.error} />
       )}

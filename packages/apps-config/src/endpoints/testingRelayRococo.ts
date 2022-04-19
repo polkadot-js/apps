@@ -325,6 +325,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoSubsocial',
+        paraId: 2100,
+        text: t('rpc.rococo.subsocial', 'SoonsocialX', { ns: 'apps-config' }),
+        providers: {
+          DappForce: 'wss://rco-para.subsocial.network'
+        }
+      },
+      {
         info: 'rococoSpreehafen',
         paraId: 2116,
         text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
@@ -510,15 +518,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
           SubDAONetwork: 'wss://parachain.subdao.network'
-        }
-      },
-      {
-        info: 'rococoSubsocial',
-        isDisabled: true, // Rococo reset
-        paraId: 28,
-        text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
-        providers: {
-          DappForce: 'wss://roc.subsocial.network'
         }
       },
       {

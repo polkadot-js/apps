@@ -14,17 +14,16 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  isVisible: boolean;
   nominators?: string[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, targets: { inflation: { idealStake, inflation, stakedFraction }, nominatorMinActiveThreshold, validatorMinActiveThreshold } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', targets: { inflation: { idealStake, inflation, stakedFraction }, nominatorMinActiveThreshold, validatorMinActiveThreshold } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <SummaryBox className={`${className} ${isVisible ? '' : ' --hidden'}`}>
+    <SummaryBox className={className}>
       <section>
         <CardSummary
           help={t<string>('Minimum stake among the active nominators.')}

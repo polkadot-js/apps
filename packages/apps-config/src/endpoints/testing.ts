@@ -473,6 +473,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'soonsocial',
+      text: t('rpc.test.subsocial', 'Soonsocial', { ns: 'apps-config' }),
+      providers: {
+        DappForce: 'wss://testnet.subsocial.network'
+      }
+    },
+    {
       info: 'sora-substrate',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
