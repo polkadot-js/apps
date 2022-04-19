@@ -11,7 +11,8 @@ import styled from 'styled-components';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
-import { isFunction, stringToU8a } from '@polkadot/util';
+import { formatNumber, isCodec, isFunction, stringToU8a, u8aEq, u8aToBn } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import Badge from './Badge';
 import { getAddressName } from './util';
@@ -29,9 +30,38 @@ interface Props {
   withSidebar?: boolean;
 }
 
-const KNOWN: [AccountId, string][] = [
-  [registry.createType('AccountId', stringToU8a('modlpy/socie'.padEnd(32, '\0'))), 'Society'],
-  [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
+type AddrMatcher = (addr: unknown) => string | null;
+
+function createFullMatcher (partial: string, name: string): AddrMatcher {
+  const test = registry.createType('AccountId', stringToU8a(`modlpy/${partial}`.padEnd(32, '\0')));
+
+  return (addr: unknown) =>
+    test.eq(addr)
+      ? name
+      : null;
+}
+
+function createU32Matcher (partial: string, name: string): AddrMatcher {
+  const test = stringToU8a(`modlpy/${partial}`);
+
+  return (addr: unknown): string | null => {
+    const u8a = isCodec(addr)
+      ? addr.toU8a()
+      : decodeAddress(addr as string);
+
+    if (u8a.length > test.length && u8aEq(test, u8a.subarray(0, test.length))) {
+      return `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, test.length + 4)))}`;
+    }
+
+    return null;
+  };
+}
+
+const MATCHERS: AddrMatcher[] = [
+  createFullMatcher('socie', 'Society'),
+  createFullMatcher('trsry', 'Treasury'),
+  createU32Matcher('cfund', 'Crowdloan'),
+  createU32Matcher('npols', 'Pool')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
@@ -44,10 +74,14 @@ export function getParentAccount (value: string): string | undefined {
 }
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
-  const known = KNOWN.find(([known]) => known.eq(_address));
+  let known: string | null = null;
+
+  for (let i = 0; known === null && i < MATCHERS.length; i++) {
+    known = MATCHERS[i](_address);
+  }
 
   if (known) {
-    return [known[1], false, false, true];
+    return [known, false, false, true];
   }
 
   const accountId = _address.toString();
