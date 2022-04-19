@@ -109,7 +109,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
           'Manta Network': 'wss://ws.calamari.systems/',
-          OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
+          OnFinality: 'wss://calamari.api.onfinality.io/public-ws',
+          Dwellir: 'wss://calamari-rpc.dwellir.com'
         }
       },
       {
