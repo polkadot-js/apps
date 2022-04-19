@@ -9,4 +9,4 @@
 // therefore here we explicitly import from the definitions (as re-exported)
 import { types } from '@subsocial/definitions/interfaces/subsocial/definitions'; // KEEP, see above
 
-export default types;
+export default { types };
