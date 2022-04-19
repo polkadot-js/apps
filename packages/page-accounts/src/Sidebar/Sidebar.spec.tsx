@@ -40,8 +40,14 @@ describe('Sidebar', () => {
 
     describe('changes name', () => {
       beforeEach(async () => {
+        // Cannot get this to work on React 18 ... the first one fails :(
+        // However... with a delay, it seems to get through the queue
         accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         sideBar = await accountsPage.openSidebarForRow(0);
+
         await sideBar.changeAccountName(newName);
       });
 
