@@ -191,7 +191,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://khala-api.phala.network/ws',
-          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
+          OnFinality: 'wss://khala.api.onfinality.io/public-ws',
+          Dwellir: 'wss://khala-rpc.dwellir.com'
         }
       },
       {
