@@ -14,8 +14,6 @@ interface Props extends ExpanderProps {
   renderChildren?: () => React.ReactNode[];
 }
 
-// TODO Not 100% convinced we need a table here since we only have a single row,
-// however at this point we convert as-is, but it should probably get a re-look
 function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
   const hasContent = useMemo(
     () => !!(renderChildren || children),
@@ -62,8 +60,10 @@ export default React.memo(styled(ExpanderScroll)`
   .tableContainer {
     overflow-y: scroll;
     display: block;
+    margin: 0 0 0 auto;
     min-height: 50px;
     max-height: 200px;
+    max-width: 30rem;
     overflow-x: hidden;
   }
 `);

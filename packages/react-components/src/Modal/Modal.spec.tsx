@@ -100,11 +100,14 @@ describe('Modal Component', () => {
 });
 
 async function expectModalToBeClosed () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByRole('button', { name: 'Open Test Modal' });
+
   expect(screen.queryAllByTestId('test-modal')).toHaveLength(0);
 }
 
 async function expectModalToBeOpen () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByTestId('test-modal');
 }
 
