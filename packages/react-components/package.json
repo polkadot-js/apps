@@ -43,6 +43,7 @@
     "react-router": "^5.3.1",
     "react-router-dom": "^5.3.1",
     "react-tooltip": "^4.2.21",
+    "rehype-raw": "^6.1.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12",
