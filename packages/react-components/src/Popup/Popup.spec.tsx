@@ -57,11 +57,13 @@ describe('Popup Component', () => {
 });
 
 async function expectPopupToBeClosed () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByRole('button');
   expect(screen.queryAllByText('Test popup content')).toHaveLength(0);
 }
 
 async function expectPopupToBeOpen () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByText('Test popup content');
 }
 
