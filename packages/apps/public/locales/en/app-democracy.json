@@ -19,12 +19,7 @@
   "No voters": "No voters",
   "Nothing queued for execution": "Nothing queued for execution",
   "Overview": "Overview",
-  "Second": "Second",
-  "Second proposal": "Second proposal",
-  "Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.": "Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.",
-  "Seconds ({{count}})": "Seconds ({{count}})",
   "Select the account you wish to endorse with. This will lock your funds until the proposal is either approved or rejected": "Select the account you wish to endorse with. This will lock your funds until the proposal is either approved or rejected",
-  "Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected": "Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected",
   "Select the committee account you wish to make the proposal with.": "Select the committee account you wish to make the proposal with.",
   "Submit Aye vote with proposal": "Submit Aye vote with proposal",
   "Submit an Aye vote alongside the proposal as part of a batch": "Submit an Aye vote alongside the proposal as part of a batch",
@@ -87,7 +82,6 @@
   "referenda": "referenda",
   "remaining": "remaining",
   "scheduled": "scheduled",
-  "second with account": "second with account",
   "send from account": "send from account",
   "support": "support",
   "threshold": "threshold",
@@ -97,7 +91,6 @@
   "votes": "votes",
   "voting period": "voting period",
   "{{blocks}} blocks": "{{blocks}} blocks",
-  "{{percentage}} aye": "{{percentage}} aye",
   "{{threshold}}, not passing": "{{threshold}}, not passing",
   "{{threshold}}, passing": "{{threshold}}, passing"
 }
