@@ -1,4 +1,4 @@
-    3522	Jaco                          	Align info banners on staking (#7395)
+    3523	Jaco                          	Allow for id extraction from AccountId (#7396)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
