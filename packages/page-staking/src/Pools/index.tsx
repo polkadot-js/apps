@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OwnPool } from '../types';
+
 import React from 'react';
 
 import Pools from './Pools';
@@ -10,9 +12,10 @@ import usePoolIds from './usePoolIds';
 
 interface Props {
   className?: string;
+  ownPools?: OwnPool[];
 }
 
-function NominationPools ({ className }: Props): React.ReactElement<Props> {
+function NominationPools ({ className, ownPools }: Props): React.ReactElement<Props> {
   const ids = usePoolIds();
   const params = useParams();
 
@@ -24,6 +27,7 @@ function NominationPools ({ className }: Props): React.ReactElement<Props> {
       />
       <Pools
         ids={ids}
+        ownPools={ownPools}
         params={params}
       />
     </div>

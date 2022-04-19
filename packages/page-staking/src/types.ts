@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Inflation } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -94,3 +95,5 @@ export interface SortedTargets {
   validatorIds?: string[];
   waitingIds?: string[];
 }
+
+export type OwnPool = [u32, string[]];

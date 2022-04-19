@@ -4,7 +4,7 @@
 import '@polkadot/api-augment';
 
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { SortedTargets } from '../types';
+import type { OwnPool, SortedTargets } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -24,6 +24,7 @@ interface Props {
   className?: string;
   isInElection?: boolean;
   minCommission?: BN;
+  ownPools?: OwnPool[];
   ownStashes?: StakerState[];
   next?: string[];
   validators?: string[];

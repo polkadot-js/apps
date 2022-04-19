@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { OwnPool } from '../types';
 import type { Params } from './types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Create from './Create';
@@ -17,14 +17,14 @@ import useMembers from './useMembers';
 interface Props {
   className?: string;
   ids?: BN[];
+  ownPools?: OwnPool[];
   params: Params;
 }
 
-function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
+function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
   const membersMap = useMembers();
-  const [typeIndex, setTypeIndex] = useState(1);
+  const [typeIndex, setTypeIndex] = useState(() => ownPools && ownPools.length ? 0 : 1);
 
   const noCreate = useMemo(
     () => !ids || (!!params.maxPools && (ids.length > params.maxPools)),
@@ -32,16 +32,12 @@ function Pools ({ className, ids, params }: Props): React.ReactElement<Props> {
   );
 
   const filtered = useMemo(
-    () => membersMap && allAccounts && ids
+    () => ownPools && ids
       ? typeIndex
         ? ids
-        : ids.filter((id) =>
-          (membersMap[id.toString()] || []).some(({ accountId }) =>
-            allAccounts.some((a) => accountId.eq(a))
-          )
-        )
+        : ids.filter((id) => ownPools.some(([o]) => id.eq(o)))
       : undefined,
-    [allAccounts, ids, membersMap, typeIndex]
+    [ids, ownPools, typeIndex]
   );
 
   const header = useMemo(() => [
