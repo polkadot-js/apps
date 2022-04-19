@@ -32,7 +32,7 @@ interface Props {
 
 type AddrMatcher = (addr: unknown) => string | null;
 
-function createFullMatcher (partial: string, name: string): AddrMatcher {
+function createAllMatcher (partial: string, name: string): AddrMatcher {
   const test = registry.createType('AccountId', stringToU8a(`modlpy/${partial}`.padEnd(32, '\0')));
 
   return (addr: unknown) =>
@@ -58,10 +58,10 @@ function createU32Matcher (partial: string, name: string): AddrMatcher {
 }
 
 const MATCHERS: AddrMatcher[] = [
-  createFullMatcher('socie', 'Society'),
-  createFullMatcher('trsry', 'Treasury'),
+  createAllMatcher('socie', 'Society'),
+  createAllMatcher('trsry', 'Treasury'),
   createU32Matcher('cfund', 'Crowdloan'),
-  createU32Matcher('npols', 'Pool')
+  createU32Matcher('npols\0', 'Pool')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
