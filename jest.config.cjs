@@ -27,5 +27,5 @@ module.exports = {
   testTimeout: 90000,
   // NOTE Everything after "smoldot" is due to react-markdown being ESM - cannot wait for Jest to
   // finally get this right and work in the modern world. Jest 28 maybe?
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|@substrate|smoldot|react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens)']
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|@substrate|smoldot|react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-|hast-to-|space-separated-tokens|comma-separated-tokens|rehype-raw|hastscript|web-namespaces|zwitch|html-void-elements)']
 };
