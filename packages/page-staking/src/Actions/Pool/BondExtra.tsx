@@ -4,7 +4,7 @@
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -33,10 +33,16 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
     { text: t<string>('Pool rewards'), value: 'rewards' }
   ]);
 
-  const isAmountError = type === 'free' && (
-    !amount ||
-    amount.isZero() ||
-    (balances && amount.gte(balances.freeBalance))
+  const isAmountError = useMemo(
+    () => type === 'free' && (
+      !amount ||
+      amount.isZero() ||
+      (
+        !!balances &&
+        amount.gte(balances.availableBalance.sub(api.consts.balances.existentialDeposit))
+      )
+    ),
+    [api, type, amount, balances]
   );
 
   return (
