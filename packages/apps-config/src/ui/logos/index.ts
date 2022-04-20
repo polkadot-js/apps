@@ -68,6 +68,7 @@ import externalSubscan from './external/subscan.svg';
 import externalSubsquare from './external/subsquare.svg';
 import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
+import nodeArctic from './nodes/arctic.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
@@ -189,7 +190,6 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeArctic from './nodes/arctic.png';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 

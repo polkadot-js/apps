@@ -592,6 +592,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       providers: {
         Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
       }
-    },
+    }
   ], firstOnly, withSort);
 }
