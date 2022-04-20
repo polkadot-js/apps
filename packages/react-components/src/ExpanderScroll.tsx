@@ -27,17 +27,16 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
           empty={empty}
           isInline
         >
-          {
-            renderChildren
-              ? renderChildren().map((row, key) => (
-                <tr
-                  className='expand'
-                  key={key}
-                >
-                  <td>{row}</td>
-                </tr>
-              ))
-              : <tr className='expand'><td>{children}</td></tr>
+          {renderChildren
+            ? renderChildren().map((row, key) => (
+              <tr
+                className='expand'
+                key={key}
+              >
+                <td>{row}</td>
+              </tr>
+            ))
+            : <tr className='expand'><td>{children}</td></tr>
           }
         </Table>
       </div>
@@ -61,7 +60,6 @@ export default React.memo(styled(ExpanderScroll)`
     overflow-y: scroll;
     display: block;
     margin: 0 0 0 auto;
-    min-height: 50px;
     max-height: 200px;
     max-width: 30rem;
     overflow-x: hidden;
