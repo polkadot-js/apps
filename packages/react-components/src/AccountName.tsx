@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
-import { formatNumber, isCodec, isFunction, stringToU8a, u8aEq, u8aToBn } from '@polkadot/util';
+import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import Badge from './Badge';
@@ -41,32 +41,32 @@ function createAllMatcher (partial: string, name: string): AddrMatcher {
       : null;
 }
 
-function createU32Matcher (partial: string, name: string): AddrMatcher {
+function createNumMatcher (partial: string, name: string): AddrMatcher {
   const test = stringToU8a(`modlpy/${partial}`);
+
+  // 4 bytes for u32 (more should not hurt, LE)
+  const minLength = test.length + 4;
 
   return (addr: unknown): string | null => {
     const u8a = isCodec(addr)
       ? addr.toU8a()
       : decodeAddress(addr as string);
 
-    if (u8a.length > test.length && u8aEq(test, u8a.subarray(0, test.length))) {
-      return `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, test.length + 4)))}`;
-    }
-
-    return null;
+    return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
+      ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}`
+      : null;
   };
 }
 
 const MATCHERS: AddrMatcher[] = [
   createAllMatcher('socie', 'Society'),
   createAllMatcher('trsry', 'Treasury'),
-  createU32Matcher('cfund', 'Crowdloan'),
-  createU32Matcher('npols\0', 'Pool')
+  createNumMatcher('cfund', 'Crowdloan'),
+  createNumMatcher('npols\0', 'Pool')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
-
 const parentCache = new Map<string, string>();
 
 export function getParentAccount (value: string): string | undefined {
