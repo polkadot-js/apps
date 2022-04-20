@@ -15,7 +15,7 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.112.2-27",
+  "version": "0.112.2-31",
   "workspaces": [
     "packages/*"
   ],
@@ -99,7 +99,7 @@
     "@polkadot/hw-ledger": "^9.0.1",
     "@polkadot/keyring": "^9.0.1",
     "@polkadot/networks": "^9.0.1",
-    "@polkadot/phishing": "^0.11.56",
+    "@polkadot/phishing": "^0.11.58",
     "@polkadot/rpc-augment": "^8.1.1",
     "@polkadot/rpc-core": "^8.1.1",
     "@polkadot/rpc-provider": "^8.1.1",

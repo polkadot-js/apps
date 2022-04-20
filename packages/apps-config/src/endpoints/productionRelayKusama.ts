@@ -75,7 +75,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
-          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws'
+          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws',
+          Dwellir: 'wss://basilisk-rpc.dwellir.com'
         }
       },
       {
@@ -87,7 +88,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
           'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
           'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          Dwellir: 'wss://bifrost-rpc.dwellir.com'
         }
       },
       {
@@ -107,7 +109,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
           'Manta Network': 'wss://ws.calamari.systems/',
-          OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
+          OnFinality: 'wss://calamari.api.onfinality.io/public-ws',
+          Dwellir: 'wss://calamari-rpc.dwellir.com'
         }
       },
       {
@@ -188,7 +191,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://khala-api.phala.network/ws',
-          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
+          OnFinality: 'wss://khala.api.onfinality.io/public-ws',
+          Dwellir: 'wss://khala-rpc.dwellir.com'
         }
       },
       {
@@ -219,7 +223,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
           'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
+          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws',
+          Dwellir: 'wss://kintsugi-rpc.dwellir.com'
         }
       },
       {
