@@ -13,16 +13,16 @@ const OPT_MULTI = {
       .map((id, i): [string, Option<PalletNominationPoolsDelegator>] => [id, all[i]])
       .filter(([, o]) => o.isSome)
       .map(([id, o]): [string, PalletNominationPoolsDelegator] => [id, o.unwrap()])
-      .reduce((pools: OwnPool[], [accountId, { poolId }]): OwnPool[] => {
-        let entry = pools.find(([pId]) => pId.eq(poolId));
+      .reduce((pools: OwnPool[], [accountId, d]): OwnPool[] => {
+        let entry = pools.find(({ poolId }) => poolId.eq(d.poolId));
 
         if (!entry) {
-          entry = [poolId, []];
+          entry = { accounts: {}, poolId: d.poolId };
 
           pools.push(entry);
         }
 
-        entry[1].push(accountId);
+        entry.accounts[accountId] = d;
 
         return pools;
       }, []),

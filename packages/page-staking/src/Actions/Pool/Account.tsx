@@ -23,9 +23,9 @@ import BondExtra from './BondExtra';
 interface Props {
   accountId: string;
   className?: string;
-  id: BN;
   info: PoolInfo;
   isFirst: boolean;
+  poolId: BN;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;
@@ -46,7 +46,7 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, isFirst, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, isFirst, poolId, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
@@ -65,7 +65,7 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{isFirst && formatNumber(id)}</h1></td>
+      <td className='number'><h1>{isFirst && formatNumber(poolId)}</h1></td>
       <td className='start'>{isFirst && metadata}</td>
       <td className='address'><AddressSmall value={accountId} /></td>
       <td className='number'>{accInfo && <FormatBalance value={accInfo.points} />}</td>
@@ -82,7 +82,7 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
           <BondExtra
             controllerId={accountId}
             onClose={toggleBond}
-            poolId={id}
+            poolId={poolId}
           />
         )}
         {isNominateOpen && (
@@ -90,7 +90,7 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
             controllerId={accountId}
             nominating={nominating}
             onClose={toggleNominate}
-            poolId={id}
+            poolId={poolId}
             stashId={accountId}
             targets={targets}
           />

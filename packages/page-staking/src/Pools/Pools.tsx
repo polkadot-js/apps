@@ -35,7 +35,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
     () => ownPools && ids
       ? typeIndex
         ? ids
-        : ids.filter((id) => ownPools.some(([o]) => id.eq(o)))
+        : ids.filter((id) => ownPools.some(({ poolId }) => id.eq(poolId)))
       : undefined,
     [ids, ownPools, typeIndex]
   );
