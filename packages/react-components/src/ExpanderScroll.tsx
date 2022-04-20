@@ -14,6 +14,14 @@ interface Props extends ExpanderProps {
   renderChildren?: () => React.ReactNode[];
 }
 
+function mapRow (row: React.ReactNode, key: number): React.ReactNode {
+  return (
+    <tr key={key}>
+      <td>{row}</td>
+    </tr>
+  );
+}
+
 function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
   const hasContent = useMemo(
     () => !!(renderChildren || children),
@@ -28,15 +36,10 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
           isInline
         >
           {renderChildren
-            ? renderChildren().map((row, key) => (
-              <tr
-                className='expand'
-                key={key}
-              >
-                <td>{row}</td>
-              </tr>
-            ))
-            : <tr className='expand'><td>{children}</td></tr>
+            ? renderChildren().map(mapRow)
+            : Array.isArray(children)
+              ? children.map(mapRow)
+              : <tr><td>{children}</td></tr>
           }
         </Table>
       </div>
@@ -60,8 +63,8 @@ export default React.memo(styled(ExpanderScroll)`
     overflow-y: scroll;
     display: block;
     margin: 0 0 0 auto;
-    max-height: 14rem;
-    max-width: 30rem;
+    max-height: 13.75rem;
+    max-width: 25rem;
     overflow-x: hidden;
   }
 `);

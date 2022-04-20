@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, Expander, MarkWarning } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -79,7 +79,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   return (
     <>
       {renOver && (
-        <Expander
+        <ExpanderScroll
           className='stakeOver'
           help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: api.consts.staking?.maxNominatorRewardedPerValidator?.toString() })}
           renderChildren={renOver[1]}
@@ -87,28 +87,28 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         />
       )}
       {renActive && (
-        <Expander
+        <ExpanderScroll
           help={t<string>('The validators selected by the Phragmen algorithm to nominate for this era.')}
           renderChildren={renActive[1]}
           summary={t<string>('Active nominations ({{count}})', { replace: { count: renActive[0] } })}
         />
       )}
       {renInactive && (
-        <Expander
+        <ExpanderScroll
           help={t<string>('The elected validator list that did not get selected by the Phragmen algorithm for this era. However they may be selected in the future.')}
           renderChildren={renInactive[1]}
           summary={t<string>('Inactive nominations ({{count}})', { replace: { count: renInactive[0] } })}
         />
       )}
       {renChilled && (
-        <Expander
+        <ExpanderScroll
           help={t<string>('The validators that got slashed and for which your nomination got auto-chilled. Re-nominating these will make them available to the Phragmen algorithm.')}
           renderChildren={renChilled[1]}
           summary={t<string>('Renomination required ({{count}})', { replace: { count: renChilled[0] } })}
         />
       )}
       {renWaiting && (
-        <Expander
+        <ExpanderScroll
           help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stopped validating. Any nominations made before the next election will also appear here.')}
           renderChildren={renWaiting[1]}
           summary={t<string>('Waiting nominations ({{count}})', { replace: { count: renWaiting[0] } })}

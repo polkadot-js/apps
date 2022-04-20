@@ -227,7 +227,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </td>
         )
         : (
-          <td className='all expand left'>
+          <td className='all expand'>
             {isStashNominating && (
               <>
                 <ListNominees

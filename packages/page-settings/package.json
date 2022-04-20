@@ -11,12 +11,12 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.112.2-32",
+  "version": "0.112.2-35",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
-    "@polkadot/apps-config": "^0.112.2-32",
-    "@polkadot/react-components": "^0.112.2-32",
-    "@polkadot/react-query": "^0.112.2-32",
+    "@polkadot/apps-config": "^0.112.2-35",
+    "@polkadot/react-components": "^0.112.2-35",
+    "@polkadot/react-query": "^0.112.2-35",
     "query-string": "^7.1.1"
   }
 }

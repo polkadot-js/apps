@@ -1,4 +1,4 @@
-    3526	Jaco                          	Make addr -> name checks more robust (#7403)
+    3528	Jaco                          	Use ExpanderScroll on staking lists (#7406)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
@@ -220,6 +220,7 @@
        1	Fredrik Simonsson             	Polkadex testnet have been resurrected (#6783)
        1	gabriel klawitter             	CI: add file for substrate-ui and substrate-ui-light domains (#767)
        1	George Angelopoulos           	typo fix (#5704)
+       1	Georgi Zlatarev               	Dolphin parachain on Rococo (#7401)
        1	goldsteinsveta                	Style bug fix: Balances asset selector (#6668)
        1	Guenit                        	remove apron config `isDisabled` flag (#5151)
        1	h4x3rotab                     	Update Phala's websocket endpoint (#4241)
