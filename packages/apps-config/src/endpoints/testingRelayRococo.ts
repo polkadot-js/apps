@@ -175,7 +175,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'arctic',
-        paraId: 9999, // TODO: need to be updated
+        paraId: 3025,
         text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
         providers: {
           Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
