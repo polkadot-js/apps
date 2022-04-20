@@ -157,6 +157,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'arctic',
+        paraId: 3025,
+        text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
+        providers: {
+          Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+        }
+      },
+      {
         info: 'rococoSpreehafen',
         paraId: 2116,
         text: t('rpc.rococo.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
@@ -171,14 +179,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitggeist: 'wss://roc.zeitgeist.pm'
-        }
-      },
-      {
-        info: 'arctic',
-        paraId: 3025,
-        text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
-        providers: {
-          Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
         }
       }
     ]

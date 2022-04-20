@@ -580,17 +580,17 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'zero',
-      text: t('rpc.test.zero', 'Zero', { ns: 'apps-config' }),
-      providers: {
-        ZERO: 'wss://alphaville.zero.io'
-      }
-    },
-    {
       info: 'arctic',
       text: t('rpc.test.arctic', 'Arctic', { ns: 'apps-config' }),
       providers: {
         Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      }
+    },
+    {
+      info: 'zero',
+      text: t('rpc.test.zero', 'Zero', { ns: 'apps-config' }),
+      providers: {
+        ZERO: 'wss://alphaville.zero.io'
       }
     }
   ], firstOnly, withSort);
