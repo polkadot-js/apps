@@ -5,7 +5,7 @@ import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PoolInfoExists } from '../../Pools/types';
+import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
 import React, { useMemo } from 'react';
@@ -23,7 +23,7 @@ interface Props {
   accountId: string;
   className?: string;
   id: BN;
-  info: PoolInfoExists;
+  info: PoolInfo;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;

@@ -16,13 +16,9 @@ export interface Params {
 }
 
 export interface PoolInfo {
-  bonded: PalletNominationPoolsBondedPoolInner | null;
-  reward: PalletNominationPoolsRewardPool | null;
-  metadata: string | null;
-}
-
-export interface PoolInfoExists extends PoolInfo {
   bonded: PalletNominationPoolsBondedPoolInner;
+  reward: PalletNominationPoolsRewardPool;
+  metadata: string | null;
 }
 
 export interface MembersMapEntry {

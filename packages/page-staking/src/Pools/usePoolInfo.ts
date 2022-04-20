@@ -9,18 +9,22 @@ import type { PoolInfo } from './types';
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 const OPT_MULTI = {
-  transform: ([bonded, metadata, reward]: [Option<PalletNominationPoolsBondedPoolInner>, Bytes, Option<PalletNominationPoolsRewardPool>]): PoolInfo => ({
-    bonded: bonded.unwrapOr(null),
-    metadata: metadata.length
-      ? metadata.isUtf8
-        ? metadata.toUtf8()
-        : metadata.toString()
-      : null,
-    reward: reward.unwrapOr(null)
-  })
+  defaultValue: null,
+  transform: ([bonded, metadata, reward]: [Option<PalletNominationPoolsBondedPoolInner>, Bytes, Option<PalletNominationPoolsRewardPool>]): PoolInfo | null =>
+    bonded.isSome && reward.isSome
+      ? {
+        bonded: bonded.unwrap(),
+        metadata: metadata.length
+          ? metadata.isUtf8
+            ? metadata.toUtf8()
+            : metadata.toString()
+          : null,
+        reward: reward.unwrap()
+      }
+      : null
 };
 
-function usePoolInfoImpl (id: BN): PoolInfo | undefined {
+function usePoolInfoImpl (id: BN): PoolInfo | null {
   const { api } = useApi();
 
   return useCallMulti([

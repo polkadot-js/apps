@@ -3,7 +3,6 @@
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
-import type { PoolInfoExists } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
 import React, { useMemo } from 'react';
@@ -16,6 +15,7 @@ import Account from './Account';
 
 interface Props {
   accounts: string[];
+  count: number;
   className?: string;
   id: u32;
   targets: SortedTargets;
@@ -24,7 +24,7 @@ interface Props {
 const POOL_PREFIX = stringToU8a('modlpy/npols\0');
 const EMPTY_H256 = new Uint8Array(32);
 
-function Pool ({ accounts, className, id, targets }: Props): React.ReactElement<Props> | null {
+function Pool ({ accounts, className, count, id, targets }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = usePoolInfo(id);
 
@@ -35,7 +35,7 @@ function Pool ({ accounts, className, id, targets }: Props): React.ReactElement<
 
   const stakingInfo = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
 
-  if (!info || !info.bonded) {
+  if (!info) {
     return null;
   }
 
@@ -44,9 +44,9 @@ function Pool ({ accounts, className, id, targets }: Props): React.ReactElement<
       {accounts.map((accountId, index) => (
         <Account
           accountId={accountId}
-          className={className}
+          className={`${className || ''} ${count % 2 ? 'isEven' : 'isOdd'}`}
           id={id}
-          info={info as PoolInfoExists}
+          info={info}
           key={`${id.toString()}:${accountId}`}
           stakingInfo={stakingInfo}
           stashId={stashId}
