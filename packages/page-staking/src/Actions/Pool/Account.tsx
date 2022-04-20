@@ -1,43 +1,91 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PoolInfoExists } from '../../Pools/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-// import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate';
+import ListNominees from '../Account/ListNominees';
 
 interface Props {
   accountId: string;
   className?: string;
   id: BN;
   info: PoolInfoExists;
+  stakingInfo?: DeriveStakingAccount;
+  stashId: string;
+  withMeta: boolean;
 }
 
-function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata } }: Props): React.ReactElement<Props> | null {
-  // const { t } = useTranslation();
+interface Roles {
+  isNominator: boolean;
+}
 
-  const [, isNominator, isRoot] = useMemo(
-    () => [
-      roles.depositor.eq(accountId),
-      roles.nominator.eq(accountId),
-      roles.root.eq(accountId),
-      roles.stateToggler.eq(accountId)
-    ],
+const OPT_DEL = {
+  transform: (opt: Option<PalletNominationPoolsDelegator>): PalletNominationPoolsDelegator | null =>
+    opt.unwrapOr(null)
+};
+
+function extractRoles (accountId: string, { nominator, root }: PalletNominationPoolsPoolRoles): Roles {
+  return {
+    isNominator: nominator.eq(accountId) || root.eq(accountId)
+  };
+}
+
+function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, stakingInfo, stashId, withMeta }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
+
+  const { isNominator } = useMemo(
+    () => extractRoles(accountId, roles),
     [accountId, roles]
   );
 
-  console.log('accountId: isNominator=', isNominator, ', isRoot=', isRoot);
+  const nominating = useMemo(
+    () => stakingInfo && stakingInfo.nominators.map((n) => n.toString()),
+    [stakingInfo]
+  );
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='start'>{metadata}</td>
+      <td className='number'><h1>{withMeta && formatNumber(id)}</h1></td>
+      <td className='start'>{withMeta && metadata}</td>
       <td className='address'><AddressSmall value={accountId} /></td>
+      <td className='number'>{accInfo && <FormatBalance value={accInfo.points} />}</td>
+      <td>
+        {withMeta && nominating && (
+          <ListNominees
+            nominating={nominating}
+            stashId={stashId}
+          />
+        )}
+      </td>
+      <td className='button'>
+        <Popup
+          key='settings'
+          value={
+            <Menu>
+              <Menu.Item label={t<string>('Bond more funds')} />
+              <Menu.Divider />
+              <Menu.Item
+                isDisabled={!isNominator}
+                label={t<string>('Set nominees')}
+              />
+            </Menu>
+          }
+        />
+      </td>
     </tr>
   );
 }

@@ -26,7 +26,10 @@ function Pools ({ className, list }: Props): React.ReactElement<Props> {
 
   const hdrRef = useRef([
     [t('pool'), 'start', 2],
-    [t('account'), 'address']
+    [t('account'), 'address'],
+    [t('bonded')],
+    [],
+    []
   ]);
 
   return (
