@@ -82,7 +82,7 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.dolphin', 'Dolphin', { ns: 'apps-config' }),
         providers: {
           'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
-        },
+        }
       },
       {
         info: 'rocfinity',
