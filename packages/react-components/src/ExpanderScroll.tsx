@@ -60,7 +60,7 @@ export default React.memo(styled(ExpanderScroll)`
     overflow-y: scroll;
     display: block;
     margin: 0 0 0 auto;
-    max-height: 15rem;
+    max-height: 14rem;
     max-width: 30rem;
     overflow-x: hidden;
   }
