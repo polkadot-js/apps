@@ -77,6 +77,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoDolphin',
+        paraId: 2084,
+        text: t('rpc.rococo.dolphin', 'Dolphin', { ns: 'apps-config' }),
+        providers: {
+          'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
+        }
+      },
+      {
         info: 'rocfinity',
         paraId: 2051,
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),

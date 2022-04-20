@@ -274,6 +274,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  Dolphin: chainDolphin,
   'Dolphin Testnet': chainDolphin,
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
