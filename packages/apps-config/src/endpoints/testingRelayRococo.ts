@@ -170,7 +170,15 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2050,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
-          Zeitgeist: 'wss://roc.zeitgeist.pm'
+          Zeitggeist: 'wss://roc.zeitgeist.pm'
+        }
+      },
+      {
+        info: 'arctic',
+        paraId: 9999, // TODO: need to be updated
+        text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
+        providers: {
+          Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
         }
       }
     ]

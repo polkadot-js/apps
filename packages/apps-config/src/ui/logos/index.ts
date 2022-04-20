@@ -189,6 +189,7 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeArctic from './nodes/arctic.png';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
@@ -202,6 +203,7 @@ export const chainLogos = Object.entries({
   'Apron PC1': nodeApron,
   'Ares Gladios': nodeAresGladios,
   'Ares PC1': nodeAres,
+  'Arctic': nodeArctic,
   Astar: chainAstar,
   Automata: nodeAutomata,
   'Automata ContextFree': nodeAutomata,
@@ -396,6 +398,7 @@ export const nodeLogos = Object.entries({
   'Ares Gladios': nodeAresGladios,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
+  'Arctic': nodeArctic,
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomata,
   'Automata Node': nodeAutomata,
@@ -593,6 +596,7 @@ export const namedLogos: Record<string, unknown> = {
   alexander: nodePolkadot,
   altair: chainAltair,
   'Ares Gladios': nodeAresGladios,
+  arctic: nodeArctic,
   astar: chainAstar,
   automata: nodeAutomata,
   'automata-contextfree': nodeAutomata,
