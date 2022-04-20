@@ -50,15 +50,6 @@ export function createRococo (t: TFunction): EndpointOption {
         teleport: [-1]
       },
       {
-        info: 'rococoDolphin',
-        paraId: 2084,
-        text: t('rpc.rococo.dolphin', 'Dolphin', { ns: 'apps-config' }),
-        providers: {
-          'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
-        },
-        teleport: [-1]
-      },
-      {
         info: 'encointer',
         homepage: 'https://encointer.org/',
         paraId: 1003,
@@ -84,6 +75,14 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
         }
+      },
+      {
+        info: 'rococoDolphin',
+        paraId: 2084,
+        text: t('rpc.rococo.dolphin', 'Dolphin', { ns: 'apps-config' }),
+        providers: {
+          'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
+        },
       },
       {
         info: 'rocfinity',
