@@ -20,7 +20,7 @@ const OPT_MULTI = {
   })
 };
 
-function usePoolInfoImpl (id: BN): PoolInfo {
+function usePoolInfoImpl (id: BN): PoolInfo | undefined {
   const { api } = useApi();
 
   return useCallMulti([

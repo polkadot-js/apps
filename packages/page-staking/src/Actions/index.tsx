@@ -6,19 +6,20 @@ import '@polkadot/api-augment';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { OwnPool, SortedTargets } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Button, Table, ToggleGroup } from '@polkadot/react-components';
+import { Button, ToggleGroup } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
-import Account from './Account';
+import Accounts from './Accounts';
 import NewNominator from './NewNominator';
 import NewStash from './NewStash';
 import NewValidator from './NewValidator';
+import Pools from './Pools';
 
 interface Props {
   className?: string;
@@ -113,35 +114,30 @@ function formatTotal (typeIndex: number, state: State): React.ReactNode {
   return value && <FormatBalance value={value} />;
 }
 
-function Actions ({ className = '', isInElection, minCommission, ownStashes, targets }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, minCommission, ownPools, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const [typeIndex, setTypeIndex] = useState(0);
-  const [, setSelected] = useState<[string, string][]>([]);
 
-  const headerRef = useRef([
-    [t('stashes'), 'start', 2],
-    [t('controller'), 'address'],
-    [t('rewards'), 'start media--1200'],
-    [t('bonded'), 'number'],
-    [undefined, undefined, 2]
-  ]);
-
-  const typeRef = useRef([
-    { text: t('All stashes'), value: 'all' },
-    { text: t('Nominators'), value: 'noms' },
-    { text: t('Validators'), value: 'vals' },
-    { text: t('Inactive'), value: 'chill' }
-  ]);
+  const types = useMemo(
+    () => [
+      { text: t('All stashes'), value: 'all' },
+      { text: t('Nominators'), value: 'noms' },
+      { text: t('Validators'), value: 'vals' },
+      { text: t('Inactive'), value: 'chill' },
+      ownPools && ownPools.length !== 0 &&
+        { text: t('Pooled'), value: 'pools' }
+    ],
+    [ownPools, t]
+  );
 
   const state = useMemo(
     () => extractState(ownStashes),
     [ownStashes]
   );
 
-  const [isSelectable, filtered, footer] = useMemo(
+  const [filtered, footer] = useMemo(
     () => [
-      false, // [1, 2].includes(typeIndex)
       state.foundStashes && filterStashes(typeIndex, state.foundStashes),
       (
         <tr key='footer'>
@@ -154,27 +150,12 @@ function Actions ({ className = '', isInElection, minCommission, ownStashes, tar
     [state, typeIndex]
   );
 
-  const onSelectStash = useCallback(
-    (stashId: string, controllerId: string, isSelected: boolean) =>
-      setSelected((prev) =>
-        isSelected
-          ? [...prev, [stashId, controllerId]]
-          : prev.filter(([s]) => s !== stashId)
-      ),
-    []
-  );
-
-  useEffect(
-    () => setSelected([]),
-    [typeIndex]
-  );
-
   return (
     <div className={className}>
       <Button.Group>
         <ToggleGroup
           onChange={setTypeIndex}
-          options={typeRef.current}
+          options={types}
           value={typeIndex}
         />
         <NewNominator
@@ -189,24 +170,25 @@ function Actions ({ className = '', isInElection, minCommission, ownStashes, tar
         <NewStash />
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />
-      <Table
-        empty={filtered && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
-        footer={footer}
-        header={headerRef.current}
-      >
-        {filtered?.map((info): React.ReactNode => (
-          <Account
+      {typeIndex === 4
+        ? (
+          <Pools
             allSlashes={allSlashes}
-            info={info}
-            isDisabled={isInElection}
-            isSelectable={isSelectable}
-            key={info.stashId}
-            minCommission={minCommission}
-            onSelect={onSelectStash}
+            list={ownPools}
             targets={targets}
           />
-        ))}
-      </Table>
+        )
+        : (
+          <Accounts
+            allSlashes={allSlashes}
+            footer={footer}
+            isInElection={isInElection}
+            list={filtered}
+            minCommission={minCommission}
+            targets={targets}
+          />
+        )
+      }
     </div>
   );
 }

@@ -21,6 +21,10 @@ export interface PoolInfo {
   metadata: string | null;
 }
 
+export interface PoolInfoExists extends PoolInfo {
+  bonded: PalletNominationPoolsBondedPoolInner;
+}
+
 export interface MembersMapEntry {
   accountId: AccountId32;
   info: PalletNominationPoolsDelegator;

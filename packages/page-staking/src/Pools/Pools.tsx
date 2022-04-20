@@ -42,6 +42,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
 
   const header = useMemo(() => [
     [t('pools'), 'start', 2],
+    [t('state')],
     [t('points')],
     [t('members')]
   ], [t]);

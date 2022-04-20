@@ -44,6 +44,7 @@ function Pool ({ className, id, members, params }: Props): React.ReactElement<Pr
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='start'>{info.metadata}</td>
+      <td className='number'>{info.bonded && info.bonded.state.type}</td>
       <td className='number'><FormatBalance value={info.bonded && info.bonded.points} /></td>
       <td className='number'>
         {members && members.length !== 0 && (

@@ -12,7 +12,7 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Checkbox, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
 
@@ -34,11 +34,9 @@ interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
   className?: string;
   isDisabled?: boolean;
-  isSelectable: boolean;
   info: StakerState;
   minCommission?: BN;
   next?: string[];
-  onSelect: (stashId: string, controllerId: string, isSelected: boolean) => void;
   stashId: string;
   targets: SortedTargets;
   validators?: string[];
@@ -71,7 +69,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, minCommission, onSelect, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, minCommission, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -86,13 +84,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
-
-  const _onSelect = useCallback(
-    (isSelected: boolean) => controllerId && onSelect(stashId, controllerId, isSelected),
-    [controllerId, stashId, onSelect]
-  );
-
-  const [isSelected, , setSelected] = useToggle(false, _onSelect);
 
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
@@ -384,14 +375,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               }
             />
           </>
-        )}
-      </td>
-      <td className='--hidden'>
-        {isSelectable && controllerId && (
-          <Checkbox
-            onChange={setSelected}
-            value={isSelected}
-          />
         )}
       </td>
     </tr>
