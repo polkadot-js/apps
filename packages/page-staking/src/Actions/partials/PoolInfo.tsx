@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
@@ -12,7 +12,7 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId?: string | null;
-  poolId?: u32;
+  poolId?: BN;
 }
 
 function PoolInfo ({ className = '', controllerId, poolId }: Props): React.ReactElement<Props> | null {

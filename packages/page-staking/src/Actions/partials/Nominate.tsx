@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../../types';
 import type { NominateInfo } from './types';
 
@@ -21,7 +21,7 @@ interface Props {
   controllerId: string;
   nominating?: string[];
   onChange: (info: NominateInfo) => void;
-  poolId?: u32;
+  poolId?: BN;
   stashId: string;
   targets: SortedTargets;
   withSenders?: boolean;
@@ -60,7 +60,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
   }, [api, onChange, poolId, selected]);
 
   const maxNominations = api.consts.staking.maxNominations
-    ? (api.consts.staking.maxNominations as u32).toNumber()
+    ? (api.consts.staking.maxNominations as BN).toNumber()
     : MAX_NOMINATIONS;
 
   return (

@@ -21,7 +21,7 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Pools ({ className, list }: Props): React.ReactElement<Props> {
+function Pools ({ className, list, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const hdrRef = useRef([
@@ -43,6 +43,7 @@ function Pools ({ className, list }: Props): React.ReactElement<Props> {
           accounts={accounts}
           id={id}
           key={id.toString()}
+          targets={targets}
         />
       ))}
     </Table>

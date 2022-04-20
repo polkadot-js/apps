@@ -6,16 +6,18 @@ import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PoolInfoExists } from '../../Pools/types';
+import type { SortedTargets } from '../../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall, Menu, Popup } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import ListNominees from '../Account/ListNominees';
+import Nominate from '../Account/Nominate';
 
 interface Props {
   accountId: string;
@@ -24,6 +26,7 @@ interface Props {
   info: PoolInfoExists;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
+  targets: SortedTargets;
   withMeta: boolean;
 }
 
@@ -42,10 +45,11 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, stakingInfo, stashId, withMeta }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, stakingInfo, stashId, targets, withMeta }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
+  const [isNominateOpem, toggleNominate] = useToggle();
 
   const { isNominator } = useMemo(
     () => extractRoles(accountId, roles),
@@ -72,6 +76,16 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
         )}
       </td>
       <td className='button'>
+        {isNominateOpem && (
+          <Nominate
+            controllerId={accountId}
+            nominating={nominating}
+            onClose={toggleNominate}
+            poolId={id}
+            stashId={accountId}
+            targets={targets}
+          />
+        )}
         <Popup
           key='settings'
           value={
@@ -81,6 +95,7 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
               <Menu.Item
                 isDisabled={!isNominator}
                 label={t<string>('Set nominees')}
+                onClick={toggleNominate}
               />
             </Menu>
           }
