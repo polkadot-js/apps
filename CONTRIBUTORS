@@ -220,6 +220,7 @@
        1	Fredrik Simonsson             	Polkadex testnet have been resurrected (#6783)
        1	gabriel klawitter             	CI: add file for substrate-ui and substrate-ui-light domains (#767)
        1	George Angelopoulos           	typo fix (#5704)
+       1	Georgi Zlatarev               	Dolphin parachain on Rococo (#7401)
        1	goldsteinsveta                	Style bug fix: Balances asset selector (#6668)
        1	Guenit                        	remove apron config `isDisabled` flag (#5151)
        1	h4x3rotab                     	Update Phala's websocket endpoint (#4241)
