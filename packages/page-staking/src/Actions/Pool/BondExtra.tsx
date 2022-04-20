@@ -1,16 +1,16 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
+import useAmountError from '../../Pools/useAmountError';
 import { useTranslation } from '../../translate';
 import PoolInfo from '../partials/PoolInfo';
 
@@ -26,24 +26,12 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
   const { api } = useApi();
   const [type, setType] = useState('free');
   const [amount, setAmount] = useState(BN_ZERO);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [controllerId]);
+  const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
   const typeRef = useRef([
     { text: t<string>('Free balance'), value: 'free' },
     { text: t<string>('Pool rewards'), value: 'rewards' }
   ]);
-
-  const isAmountError = useMemo(
-    () => type === 'free' && (
-      !amount ||
-      amount.isZero() ||
-      (
-        !!balances &&
-        amount.gte(balances.availableBalance.sub(api.consts.balances.existentialDeposit))
-      )
-    ),
-    [api, type, amount, balances]
-  );
 
   return (
     <Modal
@@ -85,7 +73,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
         <TxButton
           accountId={controllerId}
           icon='sign-in-alt'
-          isDisabled={isAmountError}
+          isDisabled={type === 'free' && isAmountError}
           label={t<string>('Bond Extra')}
           onStart={onClose}
           params={[

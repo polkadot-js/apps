@@ -4,12 +4,13 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import useAmountError from './useAmountError';
 
 interface Props {
   className?: string;
@@ -24,11 +25,7 @@ function Join ({ className, id, isDisabled, params: { minMemberBond } }: Props):
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
-
-  const isAmountError = useMemo(
-    () => !amount || !minMemberBond || amount.lt(minMemberBond),
-    [amount, minMemberBond]
-  );
+  const isAmountError = useAmountError(accountId, amount, minMemberBond);
 
   if (isDisabled) {
     return null;
@@ -58,7 +55,7 @@ function Join ({ className, id, isDisabled, params: { minMemberBond } }: Props):
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minMemberBond}

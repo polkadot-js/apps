@@ -11,6 +11,7 @@ import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ONE, bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useAmountError from './useAmountError';
 
 interface Props {
   className?: string;
@@ -36,14 +37,11 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
     [api, minCreateBond, minNominatorBond]
   );
 
+  const isAmountError = useAmountError(accountId, amount, minValue);
+
   const nextPoolId = useMemo(
     () => lastPoolId && lastPoolId.add(BN_ONE),
     [lastPoolId]
-  );
-
-  const isAmountError = useMemo(
-    () => !amount || !minValue || amount.lt(minValue),
-    [amount, minValue]
   );
 
   const isMetaError = useMemo(
@@ -85,7 +83,7 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minValue}
