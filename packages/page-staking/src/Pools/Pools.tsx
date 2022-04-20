@@ -71,12 +71,12 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
         emptySpinner={t<string>('Retrieving nomination pools')}
         header={header}
       >
-        {membersMap && filtered && filtered.map((id) => (
+        {membersMap && filtered && filtered.map((poolId) => (
           <Pool
-            id={id}
-            key={id.toString()}
-            members={membersMap[id.toString()]}
+            key={poolId.toString()}
+            members={membersMap[poolId.toString()]}
             params={params}
+            poolId={poolId}
           />
         ))}
       </Table>

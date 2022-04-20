@@ -14,12 +14,12 @@ import useAmountError from './useAmountError';
 
 interface Props {
   className?: string;
-  id: BN;
   isDisabled?: boolean;
   params: Params;
+  poolId: BN;
 }
 
-function Join ({ className, id, isDisabled, params: { minMemberBond } }: Props): React.ReactElement<Props> | null {
+function Join ({ className, isDisabled, params: { minMemberBond }, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -72,7 +72,7 @@ function Join ({ className, id, isDisabled, params: { minMemberBond } }: Props):
               isDisabled={!accountId || isAmountError}
               label={t<string>('Join')}
               onStart={toggleOpen}
-              params={[amount, id]}
+              params={[amount, poolId]}
               tx={api.tx.nominationPools.join}
             />
           </Modal.Actions>

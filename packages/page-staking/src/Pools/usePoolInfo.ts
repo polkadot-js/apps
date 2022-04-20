@@ -24,13 +24,13 @@ const OPT_MULTI = {
       : null
 };
 
-function usePoolInfoImpl (id: BN): PoolInfo | null {
+function usePoolInfoImpl (poolId: BN): PoolInfo | null {
   const { api } = useApi();
 
   return useCallMulti([
-    [api.query.nominationPools.bondedPools, id],
-    [api.query.nominationPools.metadata, id],
-    [api.query.nominationPools.rewardPools, id]
+    [api.query.nominationPools.bondedPools, poolId],
+    [api.query.nominationPools.metadata, poolId],
+    [api.query.nominationPools.rewardPools, poolId]
   ], OPT_MULTI);
 }
 

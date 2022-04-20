@@ -16,14 +16,14 @@ import usePoolInfo from './usePoolInfo';
 
 interface Props {
   className?: string;
-  id: BN;
   members: MembersMapEntry[];
   params: Params;
+  poolId: BN;
 }
 
-function Pool ({ className, id, members, params }: Props): React.ReactElement<Props> | null {
+function Pool ({ className, members, params, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const info = usePoolInfo(id);
+  const info = usePoolInfo(poolId);
   const renderMembers = useCallback(
     () => members.map(({ accountId }, count) => (
       <AddressMini
@@ -42,7 +42,7 @@ function Pool ({ className, id, members, params }: Props): React.ReactElement<Pr
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='number'><h1>{formatNumber(poolId)}</h1></td>
       <td className='start'>{info.metadata}</td>
       <td className='number'>{info.bonded.state.type}</td>
       <td className='number'><FormatBalance value={info.bonded.points} /></td>
@@ -57,9 +57,9 @@ function Pool ({ className, id, members, params }: Props): React.ReactElement<Pr
       </td>
       <td className='button'>
         <Join
-          id={id}
           isDisabled={!info.bonded.state.isOpen || !info.bonded.delegatorCounter.ltn(params.maxMembersPerPool)}
           params={params}
+          poolId={poolId}
         />
       </td>
     </tr>
