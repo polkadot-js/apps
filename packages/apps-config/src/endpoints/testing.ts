@@ -567,6 +567,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zCloak',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7408
       text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
       providers: {
         'zCloak Network': 'wss://test1.zcloak.network'
