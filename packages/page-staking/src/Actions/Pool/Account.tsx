@@ -18,16 +18,17 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 import ListNominees from '../Account/ListNominees';
 import Nominate from '../Account/Nominate';
+import BondExtra from './BondExtra';
 
 interface Props {
   accountId: string;
   className?: string;
   id: BN;
   info: PoolInfo;
+  isFirst: boolean;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;
-  withMeta: boolean;
 }
 
 interface Roles {
@@ -45,11 +46,12 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, stakingInfo, stashId, targets, withMeta }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }, isFirst, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
-  const [isNominateOpem, toggleNominate] = useToggle();
+  const [isNominateOpen, toggleNominate] = useToggle();
+  const [isBondOpen, toggleBond] = useToggle();
 
   const { isNominator } = useMemo(
     () => extractRoles(accountId, roles),
@@ -63,12 +65,12 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{withMeta && formatNumber(id)}</h1></td>
-      <td className='start'>{withMeta && metadata}</td>
+      <td className='number'><h1>{isFirst && formatNumber(id)}</h1></td>
+      <td className='start'>{isFirst && metadata}</td>
       <td className='address'><AddressSmall value={accountId} /></td>
       <td className='number'>{accInfo && <FormatBalance value={accInfo.points} />}</td>
-      <td>
-        {withMeta && nominating && (
+      <td className='number'>
+        {isFirst && nominating && (
           <ListNominees
             nominating={nominating}
             stashId={stashId}
@@ -76,7 +78,14 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
         )}
       </td>
       <td className='button'>
-        {isNominateOpem && (
+        {isBondOpen && (
+          <BondExtra
+            controllerId={accountId}
+            onClose={toggleBond}
+            poolId={id}
+          />
+        )}
+        {isNominateOpen && (
           <Nominate
             controllerId={accountId}
             nominating={nominating}
@@ -90,7 +99,10 @@ function Pool ({ accountId, className, id, info: { bonded: { roles }, metadata }
           key='settings'
           value={
             <Menu>
-              <Menu.Item label={t<string>('Bond more funds')} />
+              <Menu.Item
+                label={t<string>('Bond more funds')}
+                onClick={toggleBond}
+              />
               <Menu.Divider />
               <Menu.Item
                 isDisabled={!isNominator}

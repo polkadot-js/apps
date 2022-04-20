@@ -47,11 +47,11 @@ function Pool ({ accounts, className, count, id, targets }: Props): React.ReactE
           className={`${className || ''} ${count % 2 ? 'isEven' : 'isOdd'}`}
           id={id}
           info={info}
+          isFirst={index === 0}
           key={`${id.toString()}:${accountId}`}
           stakingInfo={stakingInfo}
           stashId={stashId}
           targets={targets}
-          withMeta={index === 0}
         />
       ))}
     </>
