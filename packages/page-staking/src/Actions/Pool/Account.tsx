@@ -18,6 +18,7 @@ import { useTranslation } from '../../translate';
 import ListNominees from '../Account/ListNominees';
 import Nominate from '../Account/Nominate';
 import BondExtra from './BondExtra';
+import Unbond from './Unbond';
 import useAccountInfo from './useAccountInfo';
 
 interface Props {
@@ -46,8 +47,9 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-  const [isNominateOpen, toggleNominate] = useToggle();
   const [isBondOpen, toggleBond] = useToggle();
+  const [isNominateOpen, toggleNominate] = useToggle();
+  const [isUnbondOpen, toggleUnbond] = useToggle();
   const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
 
   const claimPayout = useCallback(
@@ -101,6 +103,14 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
             targets={targets}
           />
         )}
+        {accInfo && isUnbondOpen && (
+          <Unbond
+            controllerId={accountId}
+            maxUnbond={accInfo.delegator.points}
+            onClose={toggleUnbond}
+            poolId={poolId}
+          />
+        )}
         <Popup
           key='settings'
           value={
@@ -110,7 +120,12 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
                 onClick={toggleBond}
               />
               <Menu.Item
-                isDisabled={!!accInfo && accInfo.claimable.isZero()}
+                isDisabled={!accInfo || accInfo.delegator.points.isZero()}
+                label={t<string>('Unbond funds')}
+                onClick={toggleUnbond}
+              />
+              <Menu.Item
+                isDisabled={!accInfo || accInfo.claimable.isZero()}
                 label={t<string>('Withdraw payout')}
                 onClick={claimPayout}
               />
