@@ -1,15 +1,15 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
+import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StatusContext } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, StakingUnbonding, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -28,6 +28,7 @@ interface Props {
   isFirst: boolean;
   poolId: BN;
   rewardBalance?: BN;
+  sessionProgress?: DeriveSessionProgress;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;
@@ -43,7 +44,17 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
+function calcUnbonding ({ activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): DeriveUnlocking[] {
+  const unlocking: DeriveUnlocking[] = [];
+
+  for (const [era, value] of unbondingEras.entries()) {
+    unlocking.push({ remainingEras: era.sub(activeEra), value });
+  }
+
+  return unlocking;
+}
+
+function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, sessionProgress, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -51,6 +62,13 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
+
+  const unbondInfo = useMemo(
+    () => sessionProgress && accInfo && accInfo.delegator.unbondingEras && !accInfo.delegator.unbondingEras.isEmpty
+      ? { accountId, unlocking: calcUnbonding(sessionProgress, accInfo.delegator) }
+      : null,
+    [accInfo, accountId, sessionProgress]
+  );
 
   const claimPayout = useCallback(
     () => queueExtrinsic({
@@ -75,7 +93,14 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
       <td className='number'><h1>{isFirst && formatNumber(poolId)}</h1></td>
       <td className='start'>{isFirst && metadata}</td>
       <td className='address'><AddressSmall value={accountId} /></td>
-      <td className='number'>{accInfo && <FormatBalance value={accInfo.delegator.points} />}</td>
+      <td className='number'>
+        {accInfo && (
+          <>
+            {!accInfo.delegator.points.isZero() && <FormatBalance value={accInfo.delegator.points} />}
+            {unbondInfo && <StakingUnbonding stakingInfo={unbondInfo} />}
+          </>
+        )}
+      </td>
       <td className='number'>{accInfo && !accInfo.claimable.isZero() && <FormatBalance value={accInfo.claimable} />}</td>
       <td className='number'>
         {isFirst && nominating && (

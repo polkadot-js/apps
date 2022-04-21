@@ -1,12 +1,14 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 import type { OwnPool, SortedTargets } from '../types';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,6 +25,8 @@ interface Props {
 
 function Pools ({ className, list, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const sessionProgress = useCall<DeriveSessionProgress>(api.derive.session.progress);
 
   const hdrRef = useRef([
     [t('pool'), 'start', 2],
@@ -45,6 +49,7 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
           key={poolId.toString()}
           members={members}
           poolId={poolId}
+          sessionProgress={sessionProgress}
           targets={targets}
         />
       ))}
