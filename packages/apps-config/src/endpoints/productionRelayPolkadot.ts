@@ -81,9 +81,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
-        paraId: 2001,
-        isUnreachable: true,
+        homepage: 'https://crowdloan.bifrost.finance',
+        paraId: 2030,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-dot.liebi.com/ws'
