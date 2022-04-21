@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { PORTAL_ID } from '../../../apps/src/Apps';
 import AddressToggle from '../AddressToggle';
@@ -14,7 +14,7 @@ interface Props {
   onDeselect: (index: number) => void;
 }
 
-const portal = document.getElementById(PORTAL_ID) as Element;
+const portal = document.getElementById(PORTAL_ID) as HTMLElement;
 
 function Selected ({ address, index, onDeselect }: Props): React.ReactElement<Props> {
   return (
@@ -41,7 +41,7 @@ function Selected ({ address, index, onDeselect }: Props): React.ReactElement<Pr
         );
 
         return snapshot.isDragging
-          ? ReactDOM.createPortal(element, portal)
+          ? createRoot(portal).render(element) as unknown as React.ReactElement
           : element;
       }}
     </Draggable>

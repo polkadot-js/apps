@@ -5,7 +5,7 @@ import type { NominatorValue } from './types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, Expander } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
@@ -59,7 +59,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
     <td className='expand all'>
       {rewarded && (
         <>
-          <Expander
+          <ExpanderScroll
             renderChildren={rewarded[1]}
             summary={
               <FormatBalance
@@ -69,7 +69,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
             }
           />
           {unrewarded && (
-            <Expander
+            <ExpanderScroll
               className='stakeOver'
               renderChildren={unrewarded[1]}
               summary={

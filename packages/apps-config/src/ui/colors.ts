@@ -69,6 +69,7 @@ const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
+const chainOriginTrail = '#FB5DEB';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
@@ -185,7 +186,6 @@ const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
 const nodeOpportunity = '#6143bc';
-const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
 const nodeParallel = '#ef18ac';
@@ -274,6 +274,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  Dolphin: chainDolphin,
   'Dolphin Testnet': chainDolphin,
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
@@ -357,8 +358,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
+  'OriginTrail Parachain': chainOriginTrail,
   Pangolin: chainPangolin,
   'Pangolin Parachain': chainPangolin,
   Pangoro: chainPangoro,
@@ -489,7 +489,6 @@ export const nodeColors = Object.entries({
   'nodle chain node': nodeNodle,
   'Opal Node': nodeOpal,
   'Opportunity Standalone Testnet': nodeOpportunity,
-  'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   'Pangolin Parachain': nodePangolin,
   Pangoro: nodePangoro,

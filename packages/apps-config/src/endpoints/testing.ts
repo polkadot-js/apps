@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'arctic',
+      text: t('rpc.test.arctic', 'Arctic', { ns: 'apps-config' }),
+      providers: {
+        Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      }
+    },
+    {
       info: 'Ares Gladios',
       text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
       providers: {
@@ -362,13 +369,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'origintrail-parachain-testnet',
-      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
-      providers: {
-        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
-      }
-    },
-    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
@@ -567,6 +567,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zCloak',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7408
       text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
       providers: {
         'zCloak Network': 'wss://test1.zcloak.network'

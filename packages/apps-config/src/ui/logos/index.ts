@@ -35,6 +35,7 @@ import chainListen from './chains/listen.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
+import chainOriginTrail from './chains/origintrail.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
@@ -68,6 +69,7 @@ import externalSubscan from './external/subscan.svg';
 import externalSubsquare from './external/subsquare.svg';
 import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
+import nodeArctic from './nodes/arctic.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
@@ -135,7 +137,6 @@ import nodeNodle from './nodes/nodle.svg';
 import oak from './nodes/oak.png';
 import nodeUniqueWestend from './nodes/opal-logo.png';
 import nodeOpportunity from './nodes/opportunity.png';
-import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodePangoro from './nodes/pangoro.svg';
 import nodeParallel from './nodes/parallel.svg';
@@ -200,6 +201,7 @@ export const chainLogos = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
+  Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
   'Ares PC1': nodeAres,
   Astar: chainAstar,
@@ -310,8 +312,7 @@ export const chainLogos = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   Odyssey: nodeAresGladios,
   'OPAL by UNIQUE': chainOpal,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
+  'OriginTrail Parachain': chainOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: chainParallel,
@@ -393,6 +394,7 @@ export const nodeLogos = Object.entries({
   'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
+  Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
@@ -485,8 +487,6 @@ export const nodeLogos = Object.entries({
   'Nodle Chain Node': nodeNodle,
   'Opal Node': nodeUniqueWestend,
   'Opportunity Standalone Testnet': nodeOpportunity,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: nodeParallel,
@@ -592,6 +592,7 @@ export const namedLogos: Record<string, unknown> = {
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
+  arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
   astar: chainAstar,
   automata: nodeAutomata,
@@ -685,7 +686,7 @@ export const namedLogos: Record<string, unknown> = {
   odyssey: nodeAresGladios,
   opal: nodeUniqueWestend,
   opportunity: nodeOpportunity,
-  'origintrail-parachain-testnet': nodeOriginTrail,
+  'origintrail-parachain': chainOriginTrail,
   pangolin: nodePangolin,
   pangoro: nodePangoro,
   parallel: chainParallel,
@@ -721,6 +722,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
   rococoGalital: nodeGalital,
@@ -740,7 +742,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
   rococoNodle: nodeNodle,
-  rococoOriginTrail: nodeOriginTrail,
   rococoPangolin: nodePangolin,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,

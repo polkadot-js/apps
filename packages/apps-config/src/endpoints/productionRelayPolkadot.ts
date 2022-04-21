@@ -251,6 +251,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'origintrail-parachain',
+        homepage: 'https://parachain.origintrail.io',
+        isUnreachable: true,
+        text: t('rpc.polkadot.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        paraId: 2042,
+        providers: {
+          TraceLabs: 'wss://parachain-rpc.origin-trail.network'
+        }
+      },
+      {
         info: 'parallel',
         homepage: 'https://parallel.fi',
         paraId: 2012,

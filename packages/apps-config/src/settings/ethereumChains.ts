@@ -7,6 +7,5 @@ export const ethereumChains = [
   'moonbase',
   'moonbeam',
   'moonriver',
-  'moonshadow',
-  'origintrail-parachain'
+  'moonshadow'
 ];
