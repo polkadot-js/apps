@@ -3,7 +3,6 @@
 
 import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
 import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
@@ -12,11 +11,12 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { AddressSmall, Menu, Popup, StakingUnbonding, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import ListNominees from '../Account/ListNominees';
 import Nominate from '../Account/Nominate';
+import useSlashingSpans from '../useSlashingSpans';
 import BondExtra from './BondExtra';
 import Unbond from './Unbond';
 import useAccountInfo from './useAccountInfo';
@@ -44,28 +44,38 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function calcUnbonding ({ activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): DeriveUnlocking[] {
+function calcUnbonding (accountId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): { accountId: string, redeemable: BN, unlocking: DeriveUnlocking[] } {
   const unlocking: DeriveUnlocking[] = [];
+  const redeemable = new BN(0);
 
   for (const [era, value] of unbondingEras.entries()) {
-    unlocking.push({ remainingEras: era.sub(activeEra), value });
+    if (era.gte(activeEra)) {
+      redeemable.iadd(value);
+    } else {
+      unlocking.push({ remainingEras: era.sub(activeEra), value });
+    }
   }
 
-  return unlocking;
+  return {
+    accountId,
+    redeemable,
+    unlocking
+  };
 }
 
-function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, sessionProgress, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, sessionProgress, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const spanCount = useSlashingSpans(accountStash);
   const { queueExtrinsic } = useContext(StatusContext);
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
 
-  const unbondInfo = useMemo(
+  const bondedInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.delegator.unbondingEras && !accInfo.delegator.unbondingEras.isEmpty
-      ? { accountId, unlocking: calcUnbonding(sessionProgress, accInfo.delegator) }
+      ? calcUnbonding(accountId, sessionProgress, accInfo.delegator)
       : null,
     [accInfo, accountId, sessionProgress]
   );
@@ -76,6 +86,14 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
       extrinsic: api.tx.nominationPools.claimPayout()
     }),
     [api, accountId, queueExtrinsic]
+  );
+
+  const withdrawUnbonded = useCallback(
+    () => queueExtrinsic({
+      accountId,
+      extrinsic: api.tx.nominationPools.withdrawUnbonded(accountId, spanCount)
+    }),
+    [api, accountId, spanCount, queueExtrinsic]
   );
 
   const { isNominator } = useMemo(
@@ -97,7 +115,7 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
         {accInfo && (
           <>
             {!accInfo.delegator.points.isZero() && <FormatBalance value={accInfo.delegator.points} />}
-            {unbondInfo && <StakingUnbonding stakingInfo={unbondInfo} />}
+            {bondedInfo && <StakingUnbonding stakingInfo={bondedInfo} />}
           </>
         )}
       </td>
@@ -149,10 +167,16 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
                 label={t<string>('Unbond funds')}
                 onClick={toggleUnbond}
               />
+              <Menu.Divider />
               <Menu.Item
                 isDisabled={!accInfo || accInfo.claimable.isZero()}
-                label={t<string>('Withdraw payout')}
+                label={t<string>('Withdraw claimable')}
                 onClick={claimPayout}
+              />
+              <Menu.Item
+                isDisabled={!bondedInfo || bondedInfo.redeemable.isZero()}
+                label={t<string>('Withdraw unbonded')}
+                onClick={withdrawUnbonded}
               />
               <Menu.Divider />
               <Menu.Item
