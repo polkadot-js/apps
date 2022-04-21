@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useEventChanges, useMapEntries } from '@polkadot/react-hooks';
 
+const EMPTY_START: AccountId32[] = [];
+
 const OPT_ENTRIES = {
   transform: (entries: [StorageKey<[AccountId32]>, Option<PalletNominationPoolsDelegator>][]): MembersMap =>
     entries.reduce((all: MembersMap, [{ args: [accountId] }, optInfo]) => {
@@ -87,7 +89,7 @@ function useMembersImpl (): MembersMap | undefined {
   const queryMap = useMapEntries(api.query.nominationPools.delegators, OPT_ENTRIES);
   const ids = useEventChanges([
     api.events.nominationPools.Bonded
-  ], filterEvents, []);
+  ], filterEvents, EMPTY_START);
   const additions = useCall(ids.length !== 0 && api.query.nominationPools.delegators.multi, [ids], OPT_MULTI);
 
   // initial entries
