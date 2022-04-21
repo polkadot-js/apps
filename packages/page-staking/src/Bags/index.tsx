@@ -10,7 +10,6 @@ import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Bag from './Bag';
-import Summary from './Summary';
 import useBagsList from './useBagsList';
 import useBagsNodes from './useBagsNodes';
 
@@ -61,10 +60,6 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <Summary
-        bags={bags}
-        mapOwn={mapOwn}
-      />
       <Button.Group>
         <ToggleGroup
           onChange={setFilterIndex}

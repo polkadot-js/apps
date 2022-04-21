@@ -21,7 +21,6 @@ import Legend from '../Legend';
 import { useTranslation } from '../translate';
 import useIdentities from '../useIdentities';
 import Nominate from './Nominate';
-import Summary from './Summary';
 import useOwnNominators from './useOwnNominators';
 import Validator from './Validator';
 
@@ -360,18 +359,6 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
 
   return (
     <div className={className}>
-      <Summary
-        avgStaked={avgStaked}
-        lastEra={lastEra}
-        lowStaked={lowStaked}
-        minNominated={minNominated}
-        minNominatorBond={minNominatorBond}
-        numNominators={nominators?.length}
-        numValidators={validators?.length}
-        stakedReturn={stakedReturn}
-        totalIssuance={totalIssuance}
-        totalStaked={totalStaked}
-      />
       <Button.Group>
         <Button
           icon='check'
