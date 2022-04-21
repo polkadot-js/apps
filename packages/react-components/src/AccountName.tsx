@@ -41,7 +41,7 @@ function createAllMatcher (partial: string, name: string): AddrMatcher {
       : null;
 }
 
-function createNumMatcher (partial: string, name: string): AddrMatcher {
+function createNumMatcher (partial: string, name: string, extra?: string): AddrMatcher {
   const test = stringToU8a(`modlpy/${partial}`);
 
   // 4 bytes for u32 (more should not hurt, LE)
@@ -53,7 +53,7 @@ function createNumMatcher (partial: string, name: string): AddrMatcher {
       : decodeAddress(addr as string);
 
     return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
-      ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}`
+      ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${extra ? ` (${extra})` : ''}`
       : null;
   };
 }
@@ -62,7 +62,8 @@ const MATCHERS: AddrMatcher[] = [
   createAllMatcher('socie', 'Society'),
   createAllMatcher('trsry', 'Treasury'),
   createNumMatcher('cfund', 'Crowdloan'),
-  createNumMatcher('npols\0', 'Pool')
+  createNumMatcher('npols\x00', 'Pool', 'Stash'),
+  createNumMatcher('npols\x01', 'Pool', 'Reward')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
