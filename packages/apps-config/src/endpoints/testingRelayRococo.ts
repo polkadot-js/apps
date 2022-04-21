@@ -182,6 +182,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 't0rn',
+        paraId: 3333,
+        text: t('rpc.rococo.t3rn', 't0rn', { ns: 'apps-config' }),
+        providers: {
+          t3rn: 'wss://dev.net.t3rn.io'
+        }
+      },
+      {
         info: 'rococoZeitgeist',
         isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
         paraId: 2050,

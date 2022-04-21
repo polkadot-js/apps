@@ -107,6 +107,7 @@ import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
 import swapdex from './swapdex';
+import t0rn from './t0rn';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import turing from './turing';
@@ -257,6 +258,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   swapdex,
+  t0rn,
   ternoa,
   trustbase,
   turing,
