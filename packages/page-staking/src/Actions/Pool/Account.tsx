@@ -8,7 +8,7 @@ import type { SortedTargets } from '../../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StakingUnbonding, StatusContext } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
@@ -44,12 +44,12 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function calcUnbonding (accountId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): { accountId: string, redeemable: BN, unlocking: DeriveUnlocking[] } {
+function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
   const unlocking: DeriveUnlocking[] = [];
   const redeemable = new BN(0);
 
   for (const [era, value] of unbondingEras.entries()) {
-    if (era.gte(activeEra)) {
+    if (era.lte(activeEra)) {
       redeemable.iadd(value);
     } else {
       unlocking.push({ remainingEras: era.sub(activeEra), value });
@@ -58,7 +58,9 @@ function calcUnbonding (accountId: string, { activeEra }: DeriveSessionProgress,
 
   return {
     accountId,
+    controllerId: accountId,
     redeemable,
+    stashId,
     unlocking
   };
 }
@@ -75,9 +77,9 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
 
   const bondedInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.delegator.unbondingEras && !accInfo.delegator.unbondingEras.isEmpty
-      ? calcUnbonding(accountId, sessionProgress, accInfo.delegator)
+      ? calcUnbonding(accountId, accountStash, sessionProgress, accInfo.delegator)
       : null,
-    [accInfo, accountId, sessionProgress]
+    [accInfo, accountId, accountStash, sessionProgress]
   );
 
   const claimPayout = useCallback(
@@ -116,6 +118,12 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
           <>
             {!accInfo.delegator.points.isZero() && <FormatBalance value={accInfo.delegator.points} />}
             {bondedInfo && <StakingUnbonding stakingInfo={bondedInfo} />}
+            {bondedInfo && (
+              <StakingRedeemable
+                isPool
+                stakingInfo={bondedInfo}
+              />
+            )}
           </>
         )}
       </td>
