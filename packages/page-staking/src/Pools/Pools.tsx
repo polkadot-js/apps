@@ -8,6 +8,7 @@ import type { Params } from './types';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
+import { arrayFlatten } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Create from './Create';
@@ -25,6 +26,11 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
   const { t } = useTranslation();
   const membersMap = useMembers();
   const [typeIndex, setTypeIndex] = useState(() => ownPools && ownPools.length ? 0 : 1);
+
+  const ownAccounts = useMemo(
+    () => ownPools && arrayFlatten(ownPools.map(({ members }) => Object.keys(members))),
+    [ownPools]
+  );
 
   const noCreate = useMemo(
     () => !ids || (!!params.maxPools && (ids.length > params.maxPools)),
@@ -44,6 +50,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
     [t('pools'), 'start', 2],
     [t('state')],
     [t('points')],
+    [t('rewards'), 'media--1100'],
     [t('members')]
   ], [t]);
 
@@ -62,6 +69,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
         />
         <Create
           isDisabled={noCreate}
+          ownAccounts={ownAccounts}
           params={params}
         />
       </Button.Group>
@@ -75,6 +83,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
           <Pool
             key={poolId.toString()}
             members={membersMap[poolId.toString()]}
+            ownAccounts={ownAccounts}
             params={params}
             poolId={poolId}
           />

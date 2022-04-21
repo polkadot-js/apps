@@ -22,7 +22,10 @@ const OPT_ENTRIES = {
           all[poolId] = [];
         }
 
-        all[poolId].push({ accountId, info });
+        all[poolId].push({
+          accountId: accountId.toString(),
+          info
+        });
       }
 
       return all;
@@ -33,7 +36,10 @@ const OPT_MULTI = {
   transform: ([[ids], values]: [[AccountId32[]], Option<PalletNominationPoolsDelegator>[]]): MembersMapEntry[] =>
     ids
       .filter((_, i) => values[i].isSome)
-      .map((accountId, i) => ({ accountId, info: values[i].unwrap() })),
+      .map((accountId, i) => ({
+        accountId: accountId.toString(),
+        info: values[i].unwrap()
+      })),
   withParamsTransform: true
 };
 
@@ -61,7 +67,7 @@ function interleave (prev: MembersMap, additions: MembersMapEntry[]): MembersMap
 
     if (all[poolId]) {
       all[poolId].forEach((prev): void => {
-        if (!prev.accountId.eq(entry.accountId)) {
+        if (prev.accountId !== entry.accountId) {
           arr.push(prev);
         }
       });

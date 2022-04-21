@@ -39,6 +39,7 @@ interface Props {
   type?: KeyringOption$Type;
   value?: string | Uint8Array | string[] | null;
   withEllipsis?: boolean;
+  withExclude?: boolean;
   withLabel?: boolean;
 }
 
@@ -241,11 +242,19 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private getFiltered (): Option[] {
-    const { filter, optionsAll, type = DEFAULT_TYPE } = this.props;
+    const { filter, optionsAll, type = DEFAULT_TYPE, withExclude = false } = this.props;
 
     return !optionsAll
       ? []
-      : dedupe(optionsAll[type]).filter(({ value }) => !filter || (!!value && filter.includes(value)));
+      : dedupe(optionsAll[type]).filter(({ value }) =>
+        !filter || (
+          !!value && (
+            withExclude
+              ? !filter.includes(value)
+              : filter.includes(value)
+          )
+        )
+      );
   }
 
   private onChange = (address: string): void => {

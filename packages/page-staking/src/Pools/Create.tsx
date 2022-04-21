@@ -16,13 +16,14 @@ import useAmountError from './useAmountError';
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  ownAccounts?: string[];
   params: Params;
 }
 
 const MAX_META_LEN = 32;
 const MIN_META_LEN = 3;
 
-function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
+function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const lastPoolId = useCall<BN>(api.query.nominationPools.lastPoolId);
@@ -77,10 +78,12 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
           <Modal.Content>
             <Modal.Columns hint={t<string>('The origin account will also be set as the pool admin, nominator and state toggler.')}>
               <InputAddress
+                filter={ownAccounts}
                 label={t<string>('create pool from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
+                withExclude
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>

@@ -21,10 +21,12 @@ interface Props {
   poolId: BN;
 }
 
+const DEFAULT_TYPE = 'rewards';
+
 function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [type, setType] = useState('free');
+  const [type, setType] = useState(DEFAULT_TYPE);
   const [amount, setAmount] = useState(BN_ZERO);
   const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
@@ -47,7 +49,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
         />
         <Modal.Columns hint={t<string>('You can either bond a specific amount from your free balance, or all of the accumulated rewards.')}>
           <Dropdown
-            defaultValue='free'
+            defaultValue={DEFAULT_TYPE}
             label={t<string>('type of funds to bond')}
             onChange={setType}
             options={typeRef.current}

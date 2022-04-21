@@ -38,11 +38,11 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
       empty={list && t<string>('Not participating in any pools. Join a pool first.')}
       header={hdrRef.current}
     >
-      {list?.map(({ accounts, poolId }, count): React.ReactNode => (
+      {list?.map(({ members, poolId }, count): React.ReactNode => (
         <Pool
-          accounts={accounts}
           count={count}
           key={poolId.toString()}
+          members={members}
           poolId={poolId}
           targets={targets}
         />

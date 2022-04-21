@@ -97,7 +97,16 @@ export interface SortedTargets {
   waitingIds?: string[];
 }
 
-export interface OwnPool {
-  accounts: Record<string, PalletNominationPoolsDelegator>;
+export interface PoolAccounts {
+  accountReward: string;
+  accountStash: string;
+}
+
+export interface OwnPoolBase {
+  members: Record<string, PalletNominationPoolsDelegator>;
   poolId: u32;
+}
+
+export interface OwnPool extends OwnPoolBase, PoolAccounts {
+  // nothing additional, only combined
 }

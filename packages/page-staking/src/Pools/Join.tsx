@@ -15,11 +15,12 @@ import useAmountError from './useAmountError';
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  ownAccounts?: string[];
   params: Params;
   poolId: BN;
 }
 
-function Join ({ className, isDisabled, params: { minMemberBond }, poolId }: Props): React.ReactElement<Props> | null {
+function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -49,10 +50,12 @@ function Join ({ className, isDisabled, params: { minMemberBond }, poolId }: Pro
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account that is to join the pool.')}>
               <InputAddress
+                filter={ownAccounts}
                 label={t<string>('join pool from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
+                withExclude
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>

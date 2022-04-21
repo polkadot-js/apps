@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsDelegator, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
@@ -15,14 +14,19 @@ export interface Params {
   minNominatorBond?: BN;
 }
 
-export interface PoolInfo {
+export interface PoolInfoBase {
   bonded: PalletNominationPoolsBondedPoolInner;
   reward: PalletNominationPoolsRewardPool;
   metadata: string | null;
 }
 
+export interface PoolInfo extends PoolInfoBase {
+  accountReward: string;
+  accountStash: string;
+}
+
 export interface MembersMapEntry {
-  accountId: AccountId32;
+  accountId: string;
   info: PalletNominationPoolsDelegator;
 }
 

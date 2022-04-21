@@ -1,12 +1,14 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 import type { MembersMapEntry, Params } from './types';
 
 import React, { useCallback } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -17,17 +19,20 @@ import usePoolInfo from './usePoolInfo';
 interface Props {
   className?: string;
   members: MembersMapEntry[];
+  ownAccounts?: string[];
   params: Params;
   poolId: BN;
 }
 
-function Pool ({ className, members, params, poolId }: Props): React.ReactElement<Props> | null {
+function Pool ({ className, members, ownAccounts, params, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const info = usePoolInfo(poolId);
+  const rewardBalances = useCall<DeriveBalancesAll>(info && api.derive.balances.all, [info?.accountReward]);
   const renderMembers = useCallback(
     () => members.map(({ accountId }, count) => (
       <AddressMini
-        key={`${count}:${accountId.toHex()}`}
+        key={`${count}:${accountId}`}
         value={accountId}
         withBalance={false}
         withShrink
@@ -46,6 +51,7 @@ function Pool ({ className, members, params, poolId }: Props): React.ReactElemen
       <td className='start'>{info.metadata}</td>
       <td className='number'>{info.bonded.state.type}</td>
       <td className='number'><FormatBalance value={info.bonded.points} /></td>
+      <td className='number media--1100'>{rewardBalances && <FormatBalance value={rewardBalances.freeBalance} />}</td>
       <td className='number'>
         {members && members.length !== 0 && (
           <ExpanderScroll
@@ -58,6 +64,7 @@ function Pool ({ className, members, params, poolId }: Props): React.ReactElemen
       <td className='button'>
         <Join
           isDisabled={!info.bonded.state.isOpen || !info.bonded.delegatorCounter.ltn(params.maxMembersPerPool)}
+          ownAccounts={ownAccounts}
           params={params}
           poolId={poolId}
         />
