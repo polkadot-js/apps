@@ -35,6 +35,7 @@ import chainListen from './chains/listen.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
+import chainOriginTrail from './chains/origintrail.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
@@ -136,7 +137,6 @@ import nodeNodle from './nodes/nodle.svg';
 import oak from './nodes/oak.png';
 import nodeUniqueWestend from './nodes/opal-logo.png';
 import nodeOpportunity from './nodes/opportunity.png';
-import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodePangoro from './nodes/pangoro.svg';
 import nodeParallel from './nodes/parallel.svg';
@@ -312,8 +312,7 @@ export const chainLogos = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   Odyssey: nodeAresGladios,
   'OPAL by UNIQUE': chainOpal,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
+  'OriginTrail Parachain': chainOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: chainParallel,
@@ -488,8 +487,6 @@ export const nodeLogos = Object.entries({
   'Nodle Chain Node': nodeNodle,
   'Opal Node': nodeUniqueWestend,
   'Opportunity Standalone Testnet': nodeOpportunity,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: nodeParallel,
@@ -689,7 +686,7 @@ export const namedLogos: Record<string, unknown> = {
   odyssey: nodeAresGladios,
   opal: nodeUniqueWestend,
   opportunity: nodeOpportunity,
-  'origintrail-parachain-testnet': nodeOriginTrail,
+  'origintrail-parachain': chainOriginTrail,
   pangolin: nodePangolin,
   pangoro: nodePangoro,
   parallel: chainParallel,
@@ -745,7 +742,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
   rococoNodle: nodeNodle,
-  rococoOriginTrail: nodeOriginTrail,
   rococoPangolin: nodePangolin,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
