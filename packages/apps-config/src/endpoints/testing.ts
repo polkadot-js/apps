@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'arctic',
+      text: t('rpc.test.arctic', 'Arctic', { ns: 'apps-config' }),
+      providers: {
+        Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      }
+    },
+    {
       info: 'Ares Gladios',
       text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
       providers: {

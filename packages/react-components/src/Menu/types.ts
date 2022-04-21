@@ -14,7 +14,7 @@ export interface ItemProps {
   className?: string;
   icon?: IconName;
   isDisabled?: boolean;
-  label?: string;
+  label?: React.ReactNode;
   onClick?: () => void | Promise<void> | null;
 }
 
