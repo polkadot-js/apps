@@ -91,7 +91,7 @@ function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
           />
         ))}
       </Table>
-    </div>
+    </>
   );
 }
 
