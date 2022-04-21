@@ -6,10 +6,10 @@ import '@polkadot/api-augment';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { OwnPool, SortedTargets } from '../types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
-import { useAvailableSlashes } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
@@ -87,9 +87,9 @@ function extractState (ownStashes?: StakerState[]): State {
   };
 }
 
-function filterStashes (typeIndex: number, stashes: StakerState[]): StakerState[] {
+function filterStashes (stashTypeIndex: number, stashes: StakerState[]): StakerState[] {
   return stashes.filter(({ isStashNominating, isStashValidating }) => {
-    switch (typeIndex) {
+    switch (stashTypeIndex) {
       case 1: return isStashNominating;
       case 2: return isStashValidating;
       case 3: return !isStashNominating && !isStashValidating;
@@ -98,8 +98,8 @@ function filterStashes (typeIndex: number, stashes: StakerState[]): StakerState[
   });
 }
 
-function getValue (typeIndex: number, { bondedNoms, bondedNone, bondedTotal, bondedVals }: State): BN | undefined {
-  switch (typeIndex) {
+function getValue (stashTypeIndex: number, { bondedNoms, bondedNone, bondedTotal, bondedVals }: State): BN | undefined {
+  switch (stashTypeIndex) {
     case 0: return bondedTotal;
     case 1: return bondedNoms;
     case 2: return bondedVals;
@@ -108,28 +108,30 @@ function getValue (typeIndex: number, { bondedNoms, bondedNone, bondedTotal, bon
   }
 }
 
-function formatTotal (typeIndex: number, state: State): React.ReactNode {
-  const value = getValue(typeIndex, state);
+function formatTotal (stashTypeIndex: number, state: State): React.ReactNode {
+  const value = getValue(stashTypeIndex, state);
 
   return value && <FormatBalance value={value} />;
 }
 
 function Actions ({ className = '', isInElection, minCommission, ownPools, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const allSlashes = useAvailableSlashes();
-  const [typeIndex, setTypeIndex] = useState(0);
+  const [accTypeIndex, setAccTypeIndex] = useState(0);
+  const [stashTypeIndex, setStashTypeIndex] = useState(0);
 
-  const types = useMemo(
-    () => [
-      { text: t('All stashes'), value: 'all' },
-      { text: t('Nominators'), value: 'noms' },
-      { text: t('Validators'), value: 'vals' },
-      { text: t('Inactive'), value: 'chill' },
-      ownPools && ownPools.length !== 0 &&
-        { text: t('Pooled'), value: 'pools' }
-    ],
-    [ownPools, t]
-  );
+  const accTypes = useRef([
+    { text: t<string>('Stashed'), value: 'stash' },
+    { text: t<string>('Pooled'), value: 'pool' }
+  ]);
+
+  const stashTypes = useRef([
+    { text: t('All stashes'), value: 'all' },
+    { text: t('Nominators'), value: 'noms' },
+    { text: t('Validators'), value: 'vals' },
+    { text: t('Inactive'), value: 'chill' }
+  ]);
 
   const state = useMemo(
     () => extractState(ownStashes),
@@ -138,53 +140,64 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
 
   const [filtered, footer] = useMemo(
     () => [
-      state.foundStashes && filterStashes(typeIndex, state.foundStashes),
+      state.foundStashes && filterStashes(stashTypeIndex, state.foundStashes),
       (
         <tr key='footer'>
           <td colSpan={4} />
-          <td className='number'>{formatTotal(typeIndex, state)}</td>
+          <td className='number'>{formatTotal(stashTypeIndex, state)}</td>
           <td colSpan={2} />
         </tr>
       )
     ],
-    [state, typeIndex]
+    [state, stashTypeIndex]
   );
 
   return (
     <div className={className}>
       <Button.Group>
-        <ToggleGroup
-          onChange={setTypeIndex}
-          options={types}
-          value={typeIndex}
-        />
-        <NewNominator
-          isInElection={isInElection}
-          targets={targets}
-        />
-        <NewValidator
-          isInElection={isInElection}
-          minCommission={minCommission}
-          targets={targets}
-        />
-        <NewStash />
+        {api.consts.nominationPools && (
+          <ToggleGroup
+            onChange={setAccTypeIndex}
+            options={accTypes.current}
+            value={accTypeIndex}
+          />
+        )}
+        {accTypeIndex === 0 && (
+          <>
+            <ToggleGroup
+              onChange={setStashTypeIndex}
+              options={stashTypes.current}
+              value={stashTypeIndex}
+            />
+            <NewNominator
+              isInElection={isInElection}
+              targets={targets}
+            />
+            <NewValidator
+              isInElection={isInElection}
+              minCommission={minCommission}
+              targets={targets}
+            />
+            <NewStash />
+          </>
+        )}
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />
-      {typeIndex === 4
+      {accTypeIndex === 0
         ? (
-          <Pools
-            allSlashes={allSlashes}
-            list={ownPools}
-            targets={targets}
-          />
-        )
-        : (
           <Accounts
             allSlashes={allSlashes}
             footer={footer}
             isInElection={isInElection}
             list={filtered}
             minCommission={minCommission}
+            targets={targets}
+          />
+        )
+        : (
+          <Pools
+            allSlashes={allSlashes}
+            list={ownPools}
             targets={targets}
           />
         )
