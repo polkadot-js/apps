@@ -30,11 +30,12 @@ function Pool ({ className, members, ownAccounts, params, poolId }: Props): Reac
   const info = usePoolInfo(poolId);
   const rewardBalances = useCall<DeriveBalancesAll>(info && api.derive.balances.all, [info?.accountReward]);
   const renderMembers = useCallback(
-    () => members.map(({ accountId }, count) => (
+    () => members.map(({ accountId, info }, count) => (
       <AddressMini
+        balance={info.points}
         key={`${count}:${accountId}`}
         value={accountId}
-        withBalance={false}
+        withBalance
         withShrink
       />
     )),
