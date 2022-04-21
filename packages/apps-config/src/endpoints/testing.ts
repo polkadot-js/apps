@@ -362,13 +362,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'origintrail-parachain-testnet',
-      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
-      providers: {
-        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
-      }
-    },
-    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
