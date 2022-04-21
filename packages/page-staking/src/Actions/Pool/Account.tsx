@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
@@ -11,7 +10,7 @@ import type { SortedTargets } from '../../types';
 import React, { useCallback, useContext, useMemo } from 'react';
 
 import { AddressSmall, Menu, Popup, StatusContext } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -19,6 +18,7 @@ import { useTranslation } from '../../translate';
 import ListNominees from '../Account/ListNominees';
 import Nominate from '../Account/Nominate';
 import BondExtra from './BondExtra';
+import useAccountInfo from './useAccountInfo';
 
 interface Props {
   accountId: string;
@@ -26,6 +26,7 @@ interface Props {
   info: PoolInfo;
   isFirst: boolean;
   poolId: BN;
+  rewardBalance?: BN;
   stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;
@@ -35,32 +36,25 @@ interface Roles {
   isNominator: boolean;
 }
 
-const OPT_DEL = {
-  transform: (opt: Option<PalletNominationPoolsDelegator>): PalletNominationPoolsDelegator | null =>
-    opt.unwrapOr(null)
-};
-
 function extractRoles (accountId: string, { nominator, root }: PalletNominationPoolsPoolRoles): Roles {
   return {
     isNominator: nominator.eq(accountId) || root.eq(accountId)
   };
 }
 
-function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, isFirst, poolId, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
   const { queueExtrinsic } = useContext(StatusContext);
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isBondOpen, toggleBond] = useToggle();
+  const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
 
   const claimPayout = useCallback(
-    () => {
-      queueExtrinsic({
-        accountId: accountId,
-        extrinsic: api.tx.nominationPools.claimPayout()
-      });
-    },
+    () => queueExtrinsic({
+      accountId: accountId,
+      extrinsic: api.tx.nominationPools.claimPayout()
+    }),
     [api, accountId, queueExtrinsic]
   );
 
@@ -79,7 +73,8 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, is
       <td className='number'><h1>{isFirst && formatNumber(poolId)}</h1></td>
       <td className='start'>{isFirst && metadata}</td>
       <td className='address'><AddressSmall value={accountId} /></td>
-      <td className='number'>{accInfo && <FormatBalance value={accInfo.points} />}</td>
+      <td className='number'>{accInfo && <FormatBalance value={accInfo.delegator.points} />}</td>
+      <td className='number'>{accInfo && !accInfo.claimable.isZero() && <FormatBalance value={accInfo.claimable} />}</td>
       <td className='number'>
         {isFirst && nominating && (
           <ListNominees
@@ -115,6 +110,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, is
                 onClick={toggleBond}
               />
               <Menu.Item
+                isDisabled={!!accInfo && accInfo.claimable.isZero()}
                 label={t<string>('Withdraw payout')}
                 onClick={claimPayout}
               />

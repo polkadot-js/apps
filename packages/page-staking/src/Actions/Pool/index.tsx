@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAccount, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
 import type { PalletNominationPoolsDelegator } from '@polkadot/types/lookup';
 import type { SortedTargets } from '../../types';
@@ -24,8 +24,8 @@ interface Props {
 function Pool ({ className, count, members, poolId, targets }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = usePoolInfo(poolId);
-
   const stakingInfo = useCall<DeriveStakingAccount>(info && api.derive.staking.account, [info?.accountStash]);
+  const rewardBalance = useCall<DeriveBalancesAccount>(info && api.derive.balances.account, [info?.accountReward]);
 
   if (!info) {
     return null;
@@ -33,7 +33,7 @@ function Pool ({ className, count, members, poolId, targets }: Props): React.Rea
 
   return (
     <>
-      {Object.entries(members).map(([accountId], index) => (
+      {Object.keys(members).map((accountId, index) => (
         <Account
           accountId={accountId}
           className={`${className || ''} ${count % 2 ? 'isEven' : 'isOdd'}`}
@@ -41,6 +41,7 @@ function Pool ({ className, count, members, poolId, targets }: Props): React.Rea
           isFirst={index === 0}
           key={`${poolId.toString()}:${accountId}`}
           poolId={poolId}
+          rewardBalance={rewardBalance && rewardBalance.freeBalance}
           stakingInfo={stakingInfo}
           stashId={info.accountStash.toString()}
           targets={targets}

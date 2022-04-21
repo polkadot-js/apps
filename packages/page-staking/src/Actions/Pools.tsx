@@ -28,6 +28,7 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
     [t('pool'), 'start', 2],
     [t('account'), 'address'],
     [t('bonded')],
+    [t('claimable')],
     [],
     []
   ]);

@@ -91,16 +91,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   );
 
   const withdrawFunds = useCallback(
-    () => {
-      queueExtrinsic({
-        accountId: controllerId,
-        extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
-          ? api.tx.staking.withdrawUnbonded(spanCount || 0)
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
-          : api.tx.staking.withdrawUnbonded()
-      });
-    },
+    () => queueExtrinsic({
+      accountId: controllerId,
+      extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
+        ? api.tx.staking.withdrawUnbonded(spanCount || 0)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+        : api.tx.staking.withdrawUnbonded()
+    }),
     [api, controllerId, queueExtrinsic, spanCount]
   );
 
