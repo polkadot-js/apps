@@ -8,9 +8,9 @@ import type { BN } from '@polkadot/util';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, StatusContext } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -50,8 +50,19 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, is
   const { t } = useTranslation();
   const { api } = useApi();
   const accInfo = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
+  const { queueExtrinsic } = useContext(StatusContext);
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isBondOpen, toggleBond] = useToggle();
+
+  const claimPayout = useCallback(
+    () => {
+      queueExtrinsic({
+        accountId: accountId,
+        extrinsic: api.tx.nominationPools.claimPayout()
+      });
+    },
+    [api, accountId, queueExtrinsic]
+  );
 
   const { isNominator } = useMemo(
     () => extractRoles(accountId, roles),
@@ -102,6 +113,10 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata }, is
               <Menu.Item
                 label={t<string>('Bond more funds')}
                 onClick={toggleBond}
+              />
+              <Menu.Item
+                label={t<string>('Withdraw payout')}
+                onClick={claimPayout}
               />
               <Menu.Divider />
               <Menu.Item
