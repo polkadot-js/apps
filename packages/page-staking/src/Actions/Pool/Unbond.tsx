@@ -86,7 +86,7 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           isDisabled={!withMax && isAmountError}
           label={t<string>('Unbond')}
           onStart={onClose}
-          params={[controllerId, withMax ? amount : maxUnbond]}
+          params={[controllerId, withMax ? maxUnbond : amount]}
           tx={api.tx.nominationPools.unbond}
         />
       </Modal.Actions>
