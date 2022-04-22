@@ -62,6 +62,7 @@ export function createRococo (t: TFunction): EndpointOption {
       // add any additional parachains here, alphabetical
       {
         info: 'arctic',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7420
         paraId: 3025,
         text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
         providers: {
