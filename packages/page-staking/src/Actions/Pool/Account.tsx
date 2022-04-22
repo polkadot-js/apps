@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
@@ -26,10 +26,10 @@ interface Props {
   className?: string;
   info: PoolInfo;
   isFirst: boolean;
+  nominating: string[];
   poolId: BN;
-  rewardBalance?: BN;
+  rewardClaimable: BN;
   sessionProgress?: DeriveSessionProgress;
-  stakingInfo?: DeriveStakingAccount;
   stashId: string;
   targets: SortedTargets;
 }
@@ -65,7 +65,7 @@ function calcUnbonding (accountId: string, stashId: string, { activeEra }: Deriv
   };
 }
 
-function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, reward }, isFirst, poolId, rewardBalance, sessionProgress, stakingInfo, stashId, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, reward }, isFirst, nominating, poolId, rewardClaimable, sessionProgress, stashId, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(accountStash);
@@ -73,7 +73,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
-  const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
+  const accInfo = useAccountInfo(accountId, reward, points, rewardClaimable);
 
   const bondedInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
@@ -101,11 +101,6 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
   const { isNominator } = useMemo(
     () => extractRoles(accountId, roles),
     [accountId, roles]
-  );
-
-  const nominating = useMemo(
-    () => stakingInfo && stakingInfo.nominators.map((n) => n.toString()),
-    [stakingInfo]
   );
 
   return (

@@ -1,14 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 import type { MembersMapEntry, Params } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -26,16 +24,7 @@ interface Props {
 
 function Pool ({ className, members, ownAccounts, params, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
   const info = usePoolInfo(poolId);
-  const rewardBalances = useCall<DeriveBalancesAll>(info && api.derive.balances.all, [info?.accountReward]);
-
-  const claimableBalance = useMemo(
-    () => rewardBalances && rewardBalances.freeBalance.gt(api.consts.balances.existentialDeposit)
-      ? rewardBalances.freeBalance.sub(api.consts.balances.existentialDeposit)
-      : null,
-    [api, rewardBalances]
-  );
 
   const renderMembers = useCallback(
     () => members.map(({ accountId, member }, count) => (
@@ -60,7 +49,7 @@ function Pool ({ className, members, ownAccounts, params, poolId }: Props): Reac
       <td className='start'>{info.metadata}</td>
       <td className='number'>{info.bonded.state.type}</td>
       <td className='number'><FormatBalance value={info.bonded.points} /></td>
-      <td className='number media--1100'>{claimableBalance && <FormatBalance value={claimableBalance} />}</td>
+      <td className='number media--1100'>{!info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
       <td className='number'>
         {members && members.length !== 0 && (
           <ExpanderScroll

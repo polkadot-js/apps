@@ -33,13 +33,13 @@ function createInfo (member: PalletNominationPoolsPoolMember, rewardPool: Pallet
   };
 }
 
-function useAccountInfoImpl (accountId: string, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, rewardBalance?: BN): AccountInfo | undefined | null {
+function useAccountInfoImpl (accountId: string, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, rewardClaimable: BN): AccountInfo | undefined | null {
   const { api } = useApi();
   const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   return useMemo(
-    () => member && rewardBalance && createInfo(member, rewardPool, poolPoints, bnMax(BN_ZERO, rewardBalance.sub(api.consts.balances.existentialDeposit))),
-    [api, member, poolPoints, rewardPool, rewardBalance]
+    () => member && createInfo(member, rewardPool, poolPoints, rewardClaimable),
+    [member, poolPoints, rewardPool, rewardClaimable]
   );
 }
 

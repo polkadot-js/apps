@@ -23,6 +23,8 @@ export interface PoolInfoBase {
 export interface PoolInfo extends PoolInfoBase {
   accountReward: string;
   accountStash: string;
+  nominating: string[];
+  rewardClaimable: BN;
 }
 
 export interface MembersMapEntry {

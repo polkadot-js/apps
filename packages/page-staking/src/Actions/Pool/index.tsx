@@ -1,14 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAccount, DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { SortedTargets } from '../../types';
 
 import React from 'react';
-
-import { useApi, useCall } from '@polkadot/react-hooks';
 
 import usePoolInfo from '../../Pools/usePoolInfo';
 import Account from './Account';
@@ -23,10 +21,7 @@ interface Props {
 }
 
 function Pool ({ className, count, members, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const info = usePoolInfo(poolId);
-  const stakingInfo = useCall<DeriveStakingAccount>(info && api.derive.staking.account, [info?.accountStash]);
-  const rewardBalance = useCall<DeriveBalancesAccount>(info && api.derive.balances.account, [info?.accountReward]);
 
   if (!info) {
     return null;
@@ -41,10 +36,10 @@ function Pool ({ className, count, members, poolId, sessionProgress, targets }: 
           info={info}
           isFirst={index === 0}
           key={`${poolId.toString()}:${accountId}`}
+          nominating={info.nominating}
           poolId={poolId}
-          rewardBalance={rewardBalance && rewardBalance.freeBalance}
+          rewardClaimable={info.rewardClaimable}
           sessionProgress={sessionProgress}
-          stakingInfo={stakingInfo}
           stashId={info.accountStash.toString()}
           targets={targets}
         />
