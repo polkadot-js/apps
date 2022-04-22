@@ -81,7 +81,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://crowdloan.bifrost.finance',
+        homepage: 'https://crowdloan.bifrost.app',
         paraId: 2030,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
