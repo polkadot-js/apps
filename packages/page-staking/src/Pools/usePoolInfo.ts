@@ -1,42 +1,35 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAccount, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Bytes, Option } from '@polkadot/types';
-import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
+import type { FrameSystemAccountInfo, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsRewardPool, PalletStakingNominations } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PoolInfo, PoolInfoBase } from './types';
 
 import { useMemo } from 'react';
 
-import { createNamedHook, useApi, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 import usePoolAccounts from '../usePoolAccounts';
 
 const OPT_MULTI = {
   defaultValue: null,
-  transform: ([bonded, metadata, reward]: [Option<PalletNominationPoolsBondedPoolInner>, Bytes, Option<PalletNominationPoolsRewardPool>]): PoolInfoBase | null =>
-    bonded.isSome && reward.isSome
+  transform: ([optBonded, metadata, optReward, optNominating, accountInfo]: [Option<PalletNominationPoolsBondedPoolInner>, Bytes, Option<PalletNominationPoolsRewardPool>, Option<PalletStakingNominations>, FrameSystemAccountInfo]): PoolInfoBase | null =>
+    optBonded.isSome && optReward.isSome
       ? {
-        bonded: bonded.unwrap(),
+        bonded: optBonded.unwrap(),
         metadata: metadata.length
           ? metadata.isUtf8
             ? metadata.toUtf8()
             : metadata.toString()
           : null,
-        reward: reward.unwrap()
+        nominating: optNominating
+          .unwrapOr({ targets: [] })
+          .targets.map((n) => n.toString()),
+        reward: optReward.unwrap(),
+        rewardClaimable: accountInfo.data.free
       }
       : null
-};
-
-const OPT_REWARD = {
-  transform: ({ freeBalance }: DeriveBalancesAccount): BN =>
-    freeBalance
-};
-
-const OPT_NOMS = {
-  transform: ({ nominators }: DeriveStakingAccount): string[] =>
-    nominators.map((n) => n.toString())
 };
 
 function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
@@ -45,19 +38,18 @@ function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
   const baseInfo = useCallMulti([
     [api.query.nominationPools.bondedPools, poolId],
     [api.query.nominationPools.metadata, poolId],
-    [api.query.nominationPools.rewardPools, poolId]
+    [api.query.nominationPools.rewardPools, poolId],
+    [api.query.staking.nominators, accounts.accountStash],
+    [api.query.system.account, accounts.accountReward]
   ], OPT_MULTI);
-  const rewardFree = useCall(api.derive.balances.account, [accounts.accountReward], OPT_REWARD);
-  const nominating = useCall(api.derive.staking.account, [accounts.accountStash], OPT_NOMS);
 
   return useMemo(
-    () => baseInfo && rewardFree && nominating && {
+    () => baseInfo && {
       ...accounts,
       ...baseInfo,
-      nominating,
-      rewardClaimable: rewardFree.sub(api.consts.balances.existentialDeposit)
+      rewardClaimable: baseInfo.rewardClaimable.sub(api.consts.balances.existentialDeposit)
     },
-    [api, baseInfo, accounts, nominating, rewardFree]
+    [api, baseInfo, accounts]
   );
 }
 

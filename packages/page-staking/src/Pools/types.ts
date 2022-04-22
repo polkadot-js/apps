@@ -18,13 +18,13 @@ export interface PoolInfoBase {
   bonded: PalletNominationPoolsBondedPoolInner;
   reward: PalletNominationPoolsRewardPool;
   metadata: string | null;
+  nominating: string[];
+  rewardClaimable: BN;
 }
 
 export interface PoolInfo extends PoolInfoBase {
   accountReward: string;
   accountStash: string;
-  nominating: string[];
-  rewardClaimable: BN;
 }
 
 export interface MembersMapEntry {
