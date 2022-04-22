@@ -9,6 +9,7 @@ import type { PoolInfo, PoolInfoBase } from './types';
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
+import { BN_ZERO, bnMax } from '@polkadot/util';
 
 import usePoolAccounts from '../usePoolAccounts';
 
@@ -47,9 +48,7 @@ function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
     () => baseInfo && {
       ...accounts,
       ...baseInfo,
-      rewardClaimable: baseInfo.rewardClaimable.isZero()
-        ? baseInfo.rewardClaimable
-        : baseInfo.rewardClaimable.sub(api.consts.balances.existentialDeposit)
+      rewardClaimable: bnMax(BN_ZERO, baseInfo.rewardClaimable.sub(api.consts.balances.existentialDeposit))
     },
     [api, baseInfo, accounts]
   );
