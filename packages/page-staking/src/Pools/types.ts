@@ -3,6 +3,7 @@
 
 import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { PoolAccounts } from '../types';
 
 export interface Params {
   maxMembers: number;
@@ -22,9 +23,8 @@ export interface PoolInfoBase {
   rewardClaimable: BN;
 }
 
-export interface PoolInfo extends PoolInfoBase {
-  accountReward: string;
-  accountStash: string;
+export interface PoolInfo extends PoolInfoBase, PoolAccounts {
+  // nothing extra
 }
 
 export interface MembersMapEntry {

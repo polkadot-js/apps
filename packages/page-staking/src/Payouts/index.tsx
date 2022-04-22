@@ -169,7 +169,7 @@ function Payouts ({ className = '', isInElection, ownPools, ownValidators }: Pro
   const blockTime = useBlockInterval();
 
   const poolStashes = useMemo(
-    () => ownPools && ownPools.map(({ accountStash }) => accountStash),
+    () => ownPools && ownPools.map(({ stashId }) => stashId),
     [ownPools]
   );
 

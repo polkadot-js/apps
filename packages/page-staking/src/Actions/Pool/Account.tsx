@@ -62,10 +62,10 @@ function calcUnbonding (accountId: string, stashId: string, { activeEra }: Deriv
   };
 }
 
-function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, nominating, reward, rewardClaimable }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, nominating, reward, rewardClaimable, stashId }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const spanCount = useSlashingSpans(accountStash);
+  const spanCount = useSlashingSpans(stashId);
   const { queueExtrinsic } = useContext(StatusContext);
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -74,9 +74,9 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
 
   const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
-      ? calcUnbonding(accountId, accountStash, sessionProgress, accInfo.member)
+      ? calcUnbonding(accountId, stashId, sessionProgress, accInfo.member)
       : null,
-    [accInfo, accountId, accountStash, sessionProgress]
+    [accInfo, accountId, stashId, sessionProgress]
   );
 
   const claimPayout = useCallback(
@@ -126,7 +126,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
         {isFirst && nominating && (
           <ListNominees
             nominating={nominating}
-            stashId={accountStash}
+            stashId={stashId}
           />
         )}
       </td>

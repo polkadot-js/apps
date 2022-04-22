@@ -41,8 +41,8 @@ function useOwnPoolsImpl (): OwnPool[] | undefined {
   return useMemo(
     () => base && base.map((base) => ({
       ...base,
-      accountReward: createAccount(api, base.poolId, 1),
-      accountStash: createAccount(api, base.poolId, 0)
+      rewardId: createAccount(api, base.poolId, 1),
+      stashId: createAccount(api, base.poolId, 0)
     })),
     [api, base]
   );

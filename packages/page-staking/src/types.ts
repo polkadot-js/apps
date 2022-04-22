@@ -98,8 +98,8 @@ export interface SortedTargets {
 }
 
 export interface PoolAccounts {
-  accountReward: string;
-  accountStash: string;
+  rewardId: string;
+  stashId: string;
 }
 
 export interface OwnPoolBase {

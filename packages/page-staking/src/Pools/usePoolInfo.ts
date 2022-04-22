@@ -39,8 +39,8 @@ function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
     [api.query.nominationPools.bondedPools, poolId],
     [api.query.nominationPools.metadata, poolId],
     [api.query.nominationPools.rewardPools, poolId],
-    [api.query.staking.nominators, accounts.accountStash],
-    [api.query.system.account, accounts.accountReward]
+    [api.query.staking.nominators, accounts.stashId],
+    [api.query.system.account, accounts.rewardId]
   ], OPT_MULTI);
 
   return useMemo(

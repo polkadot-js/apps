@@ -25,8 +25,8 @@ function usePoolAccountsImpl (poolId: BN): PoolAccounts {
 
   return useMemo(
     () => ({
-      accountReward: createAccount(api, poolId, 1),
-      accountStash: createAccount(api, poolId, 0)
+      rewardId: createAccount(api, poolId, 1),
+      stashId: createAccount(api, poolId, 0)
     }),
     [api, poolId]
   );
