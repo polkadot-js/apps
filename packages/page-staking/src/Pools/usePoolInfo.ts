@@ -47,7 +47,9 @@ function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
     () => baseInfo && {
       ...accounts,
       ...baseInfo,
-      rewardClaimable: baseInfo.rewardClaimable.sub(api.consts.balances.existentialDeposit)
+      rewardClaimable: baseInfo.rewardClaimable.isZero()
+        ? baseInfo.rewardClaimable
+        : baseInfo.rewardClaimable.sub(api.consts.balances.existentialDeposit)
     },
     [api, baseInfo, accounts]
   );
