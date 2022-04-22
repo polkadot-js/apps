@@ -41,12 +41,12 @@ const OPT_NOMS = {
 
 function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
   const { api } = useApi();
+  const accounts = usePoolAccounts(poolId);
   const baseInfo = useCallMulti([
     [api.query.nominationPools.bondedPools, poolId],
     [api.query.nominationPools.metadata, poolId],
     [api.query.nominationPools.rewardPools, poolId]
   ], OPT_MULTI);
-  const accounts = usePoolAccounts(poolId);
   const rewardFree = useCall(api.derive.balances.account, [accounts.accountReward], OPT_REWARD);
   const nominating = useCall(api.derive.staking.account, [accounts.accountStash], OPT_NOMS);
 
