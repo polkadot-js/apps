@@ -131,6 +131,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
+  'Genshiro Rococo Testnet': genshiro,
   Pangolin: pangolin,
   Pangoro: pangoro,
   VLN: vln,
