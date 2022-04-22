@@ -12,24 +12,23 @@ import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-h
 import { createAccount } from './usePoolAccounts';
 
 const OPT_MULTI = {
-  transform: ([[ids], all]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] =>
-    ids
-      .map((id, i): [string, Option<PalletNominationPoolsPoolMember>] => [id, all[i]])
-      .filter(([, o]) => o.isSome)
-      .map(([id, o]): [string, PalletNominationPoolsPoolMember] => [id, o.unwrap()])
-      .reduce((pools: OwnPoolBase[], [accountId, d]): OwnPoolBase[] => {
-        let entry = pools.find(({ poolId }) => poolId.eq(d.poolId));
+  transform: ([[ids], opts]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] =>
+    ids.reduce((pools: OwnPoolBase[], accountId, index): OwnPoolBase[] => {
+      if (opts[index].isSome) {
+        const member = opts[index].unwrap();
+        let entry = pools.find(({ poolId }) => poolId.eq(member.poolId));
 
         if (!entry) {
-          entry = { members: {}, poolId: d.poolId };
+          entry = { members: {}, poolId: member.poolId };
 
           pools.push(entry);
         }
 
-        entry.members[accountId] = d;
+        entry.members[accountId] = member;
+      }
 
-        return pools;
-      }, []),
+      return pools;
+    }, []),
   withParamsTransform: true
 };
 
