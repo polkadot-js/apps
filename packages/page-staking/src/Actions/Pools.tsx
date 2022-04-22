@@ -29,7 +29,7 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
   const sessionProgress = useCall<DeriveSessionProgress>(api.derive.session.progress);
 
   const hdrRef = useRef([
-    [t('pool'), 'start', 2],
+    [t('pools'), 'start', 2],
     [t('account'), 'address'],
     [t('bonded')],
     [t('claimable')],
