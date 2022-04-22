@@ -185,6 +185,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         favorites={favorites}
         hasAccounts={hasAccounts}
         hasQueries={hasQueries}
+        hasStashes={hasStashes}
         minCommission={minCommission}
         nominatedBy={nominatedBy}
         ownStashes={ownStashes}

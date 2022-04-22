@@ -8,6 +8,9 @@ import type { SortedTargets } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 
+import { useApi } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
+
 import SummaryBags from './SummaryBags';
 import SummaryGeneral from './SummaryGeneral';
 import SummaryNominators from './SummaryNominators';
@@ -19,17 +22,21 @@ interface Props {
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
+  hasStashes?: boolean
 }
 
 function Overview ({ className = '',
+  hasStashes,
   ownStashes,
   targets }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+
   return (
     <div className={`staking--Overview ${className}`}>
       <SummaryGeneral targets={targets} />
       <SummaryValidators targets={targets} />
       <SummaryNominators targets={targets} />
-      <SummaryBags ownStashes={ownStashes} />
+      {hasStashes && isFunction(api.query.bagsList?.counterForListNodes) && <SummaryBags ownStashes={ownStashes} />}
     </div>
   );
 }
