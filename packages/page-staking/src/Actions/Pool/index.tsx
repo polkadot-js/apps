@@ -3,7 +3,7 @@
 
 import type { DeriveBalancesAccount, DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
-import type { PalletNominationPoolsDelegator } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { SortedTargets } from '../../types';
 
 import React from 'react';
@@ -16,7 +16,7 @@ import Account from './Account';
 interface Props {
   count: number;
   className?: string;
-  members: Record<string, PalletNominationPoolsDelegator>;
+  members: Record<string, PalletNominationPoolsPoolMember>;
   poolId: u32;
   sessionProgress?: DeriveSessionProgress;
   targets: SortedTargets;

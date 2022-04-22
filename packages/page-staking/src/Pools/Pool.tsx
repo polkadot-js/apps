@@ -38,9 +38,9 @@ function Pool ({ className, members, ownAccounts, params, poolId }: Props): Reac
   );
 
   const renderMembers = useCallback(
-    () => members.map(({ accountId, info }, count) => (
+    () => members.map(({ accountId, member }, count) => (
       <AddressMini
-        balance={info.points}
+        balance={member.points}
         key={`${count}:${accountId}`}
         value={accountId}
         withBalance
@@ -72,7 +72,7 @@ function Pool ({ className, members, ownAccounts, params, poolId }: Props): Reac
       </td>
       <td className='button'>
         <Join
-          isDisabled={!info.bonded.state.isOpen || !info.bonded.delegatorCounter.ltn(params.maxMembersPerPool)}
+          isDisabled={!info.bonded.state.isOpen || !info.bonded.memberCounter.ltn(params.maxMembersPerPool)}
           ownAccounts={ownAccounts}
           params={params}
           poolId={poolId}

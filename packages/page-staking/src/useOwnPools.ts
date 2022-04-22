@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletNominationPoolsDelegator } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { OwnPool, OwnPoolBase } from './types';
 
 import { useMemo } from 'react';
@@ -12,11 +12,11 @@ import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-h
 import { createAccount } from './usePoolAccounts';
 
 const OPT_MULTI = {
-  transform: ([[ids], all]: [[string[]], Option<PalletNominationPoolsDelegator>[]]): OwnPoolBase[] =>
+  transform: ([[ids], all]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] =>
     ids
-      .map((id, i): [string, Option<PalletNominationPoolsDelegator>] => [id, all[i]])
+      .map((id, i): [string, Option<PalletNominationPoolsPoolMember>] => [id, all[i]])
       .filter(([, o]) => o.isSome)
-      .map(([id, o]): [string, PalletNominationPoolsDelegator] => [id, o.unwrap()])
+      .map(([id, o]): [string, PalletNominationPoolsPoolMember] => [id, o.unwrap()])
       .reduce((pools: OwnPoolBase[], [accountId, d]): OwnPoolBase[] => {
         let entry = pools.find(({ poolId }) => poolId.eq(d.poolId));
 

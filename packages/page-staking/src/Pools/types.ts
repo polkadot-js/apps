@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsDelegator, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface Params {
@@ -27,7 +27,7 @@ export interface PoolInfo extends PoolInfoBase {
 
 export interface MembersMapEntry {
   accountId: string;
-  info: PalletNominationPoolsDelegator;
+  member: PalletNominationPoolsPoolMember;
 }
 
 export type MembersMap = Record<string, MembersMapEntry[]>;

@@ -14,9 +14,9 @@ const OPT_MULTI = {
     maxMembersPerPool: 0,
     maxPools: 0
   },
-  transform: ([maxMembers, maxMembersPerPool, maxPools, minCreateBond, minJoinBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN, BN]): Params => ({
-    maxMembers: maxMembers.unwrapOr(BN_ZERO).toNumber(),
-    maxMembersPerPool: maxMembersPerPool.unwrapOr(BN_ZERO).toNumber(),
+  transform: ([maxPoolMembers, maxPoolMembersPerPool, maxPools, minCreateBond, minJoinBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN, BN]): Params => ({
+    maxMembers: maxPoolMembers.unwrapOr(BN_ZERO).toNumber(),
+    maxMembersPerPool: maxPoolMembersPerPool.unwrapOr(BN_ZERO).toNumber(),
     maxPools: maxPools.unwrapOr(BN_ZERO).toNumber(),
     minCreateBond,
     minJoinBond,
@@ -29,8 +29,8 @@ function useParamsImpl (): Params {
   const { api } = useApi();
 
   return useCallMulti<Params>([
-    api.query.nominationPools.maxDelegators,
-    api.query.nominationPools.maxDelegatorsPerPool,
+    api.query.nominationPools.maxPoolMembers,
+    api.query.nominationPools.maxPoolMembersPerPool,
     api.query.nominationPools.maxPools,
     api.query.nominationPools.minCreateBond,
     api.query.nominationPools.minJoinBond,

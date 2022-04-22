@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
-import type { PalletNominationPoolsDelegator, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
@@ -44,7 +44,7 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsDelegator): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
+function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsPoolMember): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
   const unlocking: DeriveUnlocking[] = [];
   const redeemable = new BN(0);
 
@@ -76,8 +76,8 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
   const accInfo = useAccountInfo(accountId, reward, points, rewardBalance);
 
   const bondedInfo = useMemo(
-    () => sessionProgress && accInfo && accInfo.delegator.unbondingEras && !accInfo.delegator.unbondingEras.isEmpty
-      ? calcUnbonding(accountId, accountStash, sessionProgress, accInfo.delegator)
+    () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
+      ? calcUnbonding(accountId, accountStash, sessionProgress, accInfo.member)
       : null,
     [accInfo, accountId, accountStash, sessionProgress]
   );
@@ -116,7 +116,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
       <td className='number'>
         {accInfo && (
           <>
-            {!accInfo.delegator.points.isZero() && <FormatBalance value={accInfo.delegator.points} />}
+            {!accInfo.member.points.isZero() && <FormatBalance value={accInfo.member.points} />}
             {bondedInfo && <StakingUnbonding stakingInfo={bondedInfo} />}
             {bondedInfo && (
               <StakingRedeemable
@@ -157,7 +157,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
         {accInfo && isUnbondOpen && (
           <Unbond
             controllerId={accountId}
-            maxUnbond={accInfo.delegator.points}
+            maxUnbond={accInfo.member.points}
             onClose={toggleUnbond}
             poolId={poolId}
           />
@@ -171,7 +171,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
                 onClick={toggleBond}
               />
               <Menu.Item
-                isDisabled={!accInfo || accInfo.delegator.points.isZero()}
+                isDisabled={!accInfo || accInfo.member.points.isZero()}
                 label={t<string>('Unbond funds')}
                 onClick={toggleUnbond}
               />

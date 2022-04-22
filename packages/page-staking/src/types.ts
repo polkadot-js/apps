@@ -4,7 +4,7 @@
 import type { Inflation } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import type { PalletNominationPoolsDelegator } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export type Nominators = Record<string, string[]>;
@@ -103,7 +103,7 @@ export interface PoolAccounts {
 }
 
 export interface OwnPoolBase {
-  members: Record<string, PalletNominationPoolsDelegator>;
+  members: Record<string, PalletNominationPoolsPoolMember>;
   poolId: u32;
 }
 

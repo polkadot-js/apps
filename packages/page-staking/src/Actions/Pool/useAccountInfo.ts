@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletNominationPoolsDelegator, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
+import type { PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { AccountInfo } from './types';
 
@@ -12,34 +12,34 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO, bnMax } from '@polkadot/util';
 
 const OPT_DEL = {
-  transform: (opt: Option<PalletNominationPoolsDelegator>): PalletNominationPoolsDelegator | null =>
+  transform: (opt: Option<PalletNominationPoolsPoolMember>): PalletNominationPoolsPoolMember | null =>
     opt.unwrapOr(null)
 };
 
-function createInfo (delegator: PalletNominationPoolsDelegator, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, currentBalance: BN): AccountInfo {
+function createInfo (member: PalletNominationPoolsPoolMember, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, currentBalance: BN): AccountInfo {
   const lastTotalEarnings = rewardPool.totalEarnings;
   const currTotalEarnings = bnMax(BN_ZERO, currentBalance.sub(rewardPool.balance)).add(rewardPool.totalEarnings);
   const newEarnings = bnMax(BN_ZERO, currTotalEarnings.sub(lastTotalEarnings));
   const newPoints = poolPoints.mul(newEarnings);
   const currentPoints = rewardPool.points.add(newPoints);
-  const newEarningsSinceLastClaim = bnMax(BN_ZERO, currTotalEarnings.sub(delegator.rewardPoolTotalEarnings));
-  const delegatorVirtualPoints = delegator.points.mul(newEarningsSinceLastClaim);
+  const newEarningsSinceLastClaim = bnMax(BN_ZERO, currTotalEarnings.sub(member.rewardPoolTotalEarnings));
+  const delegatorVirtualPoints = member.points.mul(newEarningsSinceLastClaim);
 
   return {
     claimable: delegatorVirtualPoints.isZero() || currentPoints.isZero() || currentBalance.isZero()
       ? BN_ZERO
       : delegatorVirtualPoints.mul(currentBalance).div(currentPoints),
-    delegator
+    member
   };
 }
 
 function useAccountInfoImpl (accountId: string, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, rewardBalance?: BN): AccountInfo | undefined | null {
   const { api } = useApi();
-  const delegator = useCall(api.query.nominationPools.delegators, [accountId], OPT_DEL);
+  const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   return useMemo(
-    () => delegator && rewardBalance && createInfo(delegator, rewardPool, poolPoints, bnMax(BN_ZERO, rewardBalance.sub(api.consts.balances.existentialDeposit))),
-    [api, delegator, poolPoints, rewardPool, rewardBalance]
+    () => member && rewardBalance && createInfo(member, rewardPool, poolPoints, bnMax(BN_ZERO, rewardBalance.sub(api.consts.balances.existentialDeposit))),
+    [api, member, poolPoints, rewardPool, rewardBalance]
   );
 }
 
