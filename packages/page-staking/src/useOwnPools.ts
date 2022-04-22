@@ -36,7 +36,7 @@ const OPT_MULTI = {
 function useOwnPoolsImpl (): OwnPool[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const base = useCall(api.query.nominationPools?.delegators.multi, [allAccounts], OPT_MULTI);
+  const base = useCall(api.query.nominationPools?.poolMembers.multi, [allAccounts], OPT_MULTI);
 
   return useMemo(
     () => base && base.map((base) => ({
