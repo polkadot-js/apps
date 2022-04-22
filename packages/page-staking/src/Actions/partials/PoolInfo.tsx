@@ -25,7 +25,7 @@ function PoolInfo ({ className = '', controllerId, poolId }: Props): React.React
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}
+      hint={t<string>('The pool and pool member that is to be affected. The transaction will be sent from the associated pool member account.')}
     >
       <InputNumber
         defaultValue={poolId}
@@ -35,7 +35,7 @@ function PoolInfo ({ className = '', controllerId, poolId }: Props): React.React
       <InputAddress
         defaultValue={controllerId}
         isDisabled
-        label={t<string>('nominator account')}
+        label={t<string>('member account')}
       />
     </Modal.Columns>
   );
