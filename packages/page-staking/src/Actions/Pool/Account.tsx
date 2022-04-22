@@ -26,11 +26,8 @@ interface Props {
   className?: string;
   info: PoolInfo;
   isFirst: boolean;
-  nominating: string[];
   poolId: BN;
-  rewardClaimable: BN;
   sessionProgress?: DeriveSessionProgress;
-  stashId: string;
   targets: SortedTargets;
 }
 
@@ -65,7 +62,7 @@ function calcUnbonding (accountId: string, stashId: string, { activeEra }: Deriv
   };
 }
 
-function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, reward }, isFirst, nominating, poolId, rewardClaimable, sessionProgress, stashId, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { accountStash, bonded: { points, roles }, metadata, nominating, reward, rewardClaimable }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(accountStash);
@@ -75,7 +72,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const accInfo = useAccountInfo(accountId, reward, points, rewardClaimable);
 
-  const bondedInfo = useMemo(
+  const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
       ? calcUnbonding(accountId, accountStash, sessionProgress, accInfo.member)
       : null,
@@ -112,12 +109,14 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
         {accInfo && (
           <>
             {!accInfo.member.points.isZero() && <FormatBalance value={accInfo.member.points} />}
-            {bondedInfo && <StakingUnbonding stakingInfo={bondedInfo} />}
-            {bondedInfo && (
-              <StakingRedeemable
-                isPool
-                stakingInfo={bondedInfo}
-              />
+            {stakingInfo && (
+              <>
+                <StakingUnbonding stakingInfo={stakingInfo} />
+                <StakingRedeemable
+                  isPool
+                  stakingInfo={stakingInfo}
+                />
+              </>
             )}
           </>
         )}
@@ -127,7 +126,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
         {isFirst && nominating && (
           <ListNominees
             nominating={nominating}
-            stashId={stashId}
+            stashId={accountStash}
           />
         )}
       </td>
@@ -177,7 +176,7 @@ function Pool ({ accountId, className, info: { accountStash, bonded: { points, r
                 onClick={claimPayout}
               />
               <Menu.Item
-                isDisabled={!bondedInfo || bondedInfo.redeemable.isZero()}
+                isDisabled={!stakingInfo || stakingInfo.redeemable.isZero()}
                 label={t<string>('Withdraw unbonded')}
                 onClick={withdrawUnbonded}
               />

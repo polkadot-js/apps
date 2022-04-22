@@ -36,11 +36,8 @@ function Pool ({ className, count, members, poolId, sessionProgress, targets }: 
           info={info}
           isFirst={index === 0}
           key={`${poolId.toString()}:${accountId}`}
-          nominating={info.nominating}
           poolId={poolId}
-          rewardClaimable={info.rewardClaimable}
           sessionProgress={sessionProgress}
-          stashId={info.accountStash.toString()}
           targets={targets}
         />
       ))}
