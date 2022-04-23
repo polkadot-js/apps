@@ -1927,10 +1927,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.5.10":
-  version: 1.5.10
-  resolution: "@interlay/interbtc-types@npm:1.5.10"
-  checksum: d6868921b18a2ae1adbce1dd3763774f07f7edd0fc1701db11644730d0de63dfa5c52ae7610c7515deb518ffe4e2a308254268e50248129d7e1e4a8fd66eccdc
+"@interlay/interbtc-types@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@interlay/interbtc-types@npm:1.6.0"
+  checksum: 74522d688124fb316c5fa534d3b80d3d8be2403d33a1d1ae3c37ed072ee5a77e7be2f7a52d7c80bfb0c399870a85f47bf3651d54d376f78b741205da1ff65396
   languageName: node
   linkType: hard
 
@@ -2313,12 +2313,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mangata-finance/types@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@mangata-finance/types@npm:0.1.4"
+"@mangata-finance/types@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@mangata-finance/types@npm:0.1.5"
   dependencies:
     "@polkadot/api": ^7.13.1
-  checksum: e2601373dc0638453fb4b0ad40406d21784676d787c0af9237fcd4f91f7848b2132aacb7aa45bca05872f3093862252fcbc1e88b44bbc05ab638d4f023913e0a
+  checksum: 94c2cfa92b0e5b6e395ec8855d03184a1baeaf6b8c592760d713ee0297e41e8bfa4ca15514162112111f38b1118b7095e6ed44d2858b5f23d16929769ba657c5
   languageName: node
   linkType: hard
 
@@ -2666,7 +2666,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.9
     "@polkadot/hw-ledger": ^9.0.1
-    "@polkadot/phishing": ^0.11.77
+    "@polkadot/phishing": ^0.11.78
     "@polkadot/react-components": ^0.112.2-48
     "@polkadot/react-hooks": ^0.112.2-48
     "@polkadot/test-support": 0.112.2-48
@@ -2943,10 +2943,10 @@ __metadata:
     "@docknetwork/node-types": 0.6.0
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.11
-    "@interlay/interbtc-types": 1.5.10
+    "@interlay/interbtc-types": 1.6.0
     "@kiltprotocol/type-definitions": 0.1.23
     "@laminar/type-definitions": 0.3.1
-    "@mangata-finance/types": ^0.1.4
+    "@mangata-finance/types": ^0.1.5
     "@metaverse-network-sdk/type-definitions": ^0.0.1-13
     "@parallel-finance/type-definitions": 1.6.5
     "@phala/typedefs": 0.2.30
@@ -2958,10 +2958,10 @@ __metadata:
     "@polkadot/x-fetch": ^9.0.1
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
-    "@sora-substrate/type-definitions": 1.8.22
+    "@sora-substrate/type-definitions": 1.8.24
     "@subsocial/definitions": ^0.6.8
     "@unique-nft/types": 0.4.0
-    "@zeitgeistpm/type-defs": 0.4.14
+    "@zeitgeistpm/type-defs": 0.5.0
     "@zeroio/type-definitions": 0.0.14
     lodash: ^4.17.21
     moonbeam-types-bundle: 2.0.4
@@ -3897,12 +3897,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.8.22":
-  version: 1.8.22
-  resolution: "@sora-substrate/type-definitions@npm:1.8.22"
+"@sora-substrate/type-definitions@npm:1.8.24":
+  version: 1.8.24
+  resolution: "@sora-substrate/type-definitions@npm:1.8.24"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-35
-  checksum: 15604a42f353aeac08f3eef0d0259bae420c29ef401876700e86bab31590789f5530f0661ec791e48f0744653468a1f9196f2a99e04e51e33506e465342e1875
+  checksum: cdff2688fcd27a20d69d7889bb40fcb5090b43a5feb6c10c12b5662dcc8374431265934b0679b237919442e1a0fc0c770b074dcfc1140c2099deea9bd83d9301
   languageName: node
   linkType: hard
 
@@ -5247,10 +5247,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeitgeistpm/type-defs@npm:0.4.14":
-  version: 0.4.14
-  resolution: "@zeitgeistpm/type-defs@npm:0.4.14"
-  checksum: 380699c2129fda4ff365f750bbbed551635ac0468939f5f640309ef0ff0bb83a9fc0fa1285c6bf3c0101a1d41b18a037f8f1e64efcf68db8b0d233c2afd6e7db
+"@zeitgeistpm/type-defs@npm:0.5.0":
+  version: 0.5.0
+  resolution: "@zeitgeistpm/type-defs@npm:0.5.0"
+  checksum: 9e4900c2d351c70b40a8955cbafd073ce2ba0e4341ca3098de13a074ec12841706fa25d9f68b4c6b12a481cbef90a6a44313549ea57a462e327a1206b893b572
   languageName: node
   linkType: hard
 
