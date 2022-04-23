@@ -39,7 +39,7 @@
     "react-dropzone": "^11.7.1",
     "react-i18next": "^11.16.7",
     "react-is": "^18.0.0",
-    "react-markdown": "^8.0.2",
+    "react-markdown": "^8.0.3",
     "react-router": "^5.3.1",
     "react-router-dom": "^5.3.1",
     "react-tooltip": "^4.2.21",
