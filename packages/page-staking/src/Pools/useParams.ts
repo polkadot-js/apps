@@ -6,21 +6,25 @@ import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 const queryOptions = {
   defaultValue: {
+    lastPoolId: BN_ZERO,
     maxDelegators: 0,
     maxDelegatorsPool: 0,
-    maxPools: 0
+    maxPools: 0,
+    nextPoolId: BN_ONE
   },
-  transform: ([maxDelegators, maxDelegatorsPerPool, maxPools, minCreateBond, minJoinBond, minNominatorBond]: [Option<u32>, Option<u32>, Option<u32>, BN, BN, BN]): Params => ({
+  transform: ([lastPoolId, maxDelegators, maxDelegatorsPerPool, maxPools, minCreateBond, minJoinBond, minNominatorBond]: [BN, Option<u32>, Option<u32>, Option<u32>, BN, BN, BN]): Params => ({
+    lastPoolId,
     maxDelegators: maxDelegators.unwrapOr(BN_ZERO).toNumber(),
     maxDelegatorsPool: maxDelegatorsPerPool.unwrapOr(BN_ZERO).toNumber(),
     maxPools: maxPools.unwrapOr(BN_ZERO).toNumber(),
     minCreateBond,
     minJoinBond,
-    minNominatorBond
+    minNominatorBond,
+    nextPoolId: lastPoolId.add(BN_ONE)
   })
 };
 
@@ -28,8 +32,9 @@ function useParamsImpl (): Params {
   const { api } = useApi();
 
   return useCallMulti<Params>([
-    api.query.nominationPools.maxDelegators,
-    api.query.nominationPools.maxDelegatorsPerPool,
+    api.query.nominationPools.lastPoolId,
+    api.query.nominationPools.maxPoolMembers,
+    api.query.nominationPools.maxPoolMembersPerPool,
     api.query.nominationPools.maxPools,
     api.query.nominationPools.minCreateBond,
     api.query.nominationPools.minJoinBond,
