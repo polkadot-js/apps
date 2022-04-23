@@ -18,7 +18,7 @@
     "@babel/runtime": "^7.17.9",
     "@polkadot/apps-config": "^0.112.2-47",
     "@polkadot/apps-routing": "^0.112.2-47",
-    "@polkadot/dev": "^0.66.5",
+    "@polkadot/dev": "^0.66.9",
     "@polkadot/react-api": "^0.112.2-47",
     "@polkadot/react-components": "^0.112.2-47",
     "@polkadot/react-hooks": "^0.112.2-47",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/punycode": "^2.1.0",
     "assert": "^2.0.0",
-    "babel-loader": "^8.2.4",
+    "babel-loader": "^8.2.5",
     "buffer": "^6.0.3",
     "copy-webpack-plugin": "^10.2.4",
     "crypto-browserify": "^3.12.0",
