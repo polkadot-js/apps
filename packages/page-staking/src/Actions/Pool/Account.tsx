@@ -81,7 +81,7 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
 
   const claimPayout = useCallback(
     () => queueExtrinsic({
-      accountId: accountId,
+      accountId,
       extrinsic: api.tx.nominationPools.claimPayout()
     }),
     [api, accountId, queueExtrinsic]
