@@ -78,6 +78,7 @@
   "rpc.polkadot.moonbeam": "Moonbeam",
   "rpc.polkadot.nodle": "Nodle",
   "rpc.polkadot.odyssey": "Ares Odyssey",
+  "rpc.polkadot.origintrail": "OriginTrail Parachain",
   "rpc.polkadot.parallel": "Parallel",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.phala": "Phala Network",

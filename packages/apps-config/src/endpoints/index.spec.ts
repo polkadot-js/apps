@@ -104,7 +104,7 @@ describe('endpopints do not contain emojis or all uppercase', (): void => {
     .map(({ text, textBy, value }): Endpoint => ({
       name: text as string,
       provider: textBy,
-      value: value
+      value
     }))
     .forEach(({ name, provider }) =>
       it(`${name}:: ${provider}`, (): void => {

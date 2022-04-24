@@ -6,6 +6,7 @@ import type { BN } from '@polkadot/util';
 import type { PoolAccounts } from '../types';
 
 export interface Params {
+  lastPoolId: BN;
   maxMembers: number;
   maxMembersPerPool: number;
   maxPools: number;
@@ -13,6 +14,7 @@ export interface Params {
   minJoinBond?: BN;
   minMemberBond?: BN;
   minNominatorBond?: BN;
+  nextPoolId: BN;
 }
 
 export interface PoolInfoBase {

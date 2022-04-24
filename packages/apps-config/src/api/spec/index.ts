@@ -144,10 +144,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-odyssey': aresParachain,
   asgard: bifrostAsgard,
   astar,
-  automata: automata,
+  automata,
   basilisk,
   beresheet,
-  bifrost: bifrost,
+  bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
@@ -177,7 +177,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
-  galital: galital,
+  galital,
   'galital-collator': galitalParachain,
   gamepower,
   'hack-hydra-dx': hydrate,
@@ -223,7 +223,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
-  opal: opal,
+  opal,
   opportunity,
   'origintrail-parachain': origintrail,
   parallel,
@@ -236,7 +236,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh,
   'pontem-node': pontem,
   prism,
-  quartz: quartz,
+  quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,
@@ -267,7 +267,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,
-  zeitgeist: zeitgeist
+  zeitgeist
 };
 
 export default spec;

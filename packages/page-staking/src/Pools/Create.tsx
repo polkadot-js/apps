@@ -7,8 +7,8 @@ import type { Params } from './types';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { BN_ONE, bnMax } from '@polkadot/util';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO, bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useAmountError from './useAmountError';
@@ -23,13 +23,12 @@ interface Props {
 const MAX_META_LEN = 32;
 const MIN_META_LEN = 3;
 
-function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
+function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, minNominatorBond, nextPoolId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const lastPoolId = useCall<BN>(api.query.nominationPools.lastPoolId);
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [amount, setAmount] = useState<BN | undefined>();
+  const [amount, setAmount] = useState<BN>(BN_ZERO);
   const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(
@@ -40,13 +39,8 @@ function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, 
 
   const isAmountError = useAmountError(accountId, amount, minValue);
 
-  const nextPoolId = useMemo(
-    () => lastPoolId && lastPoolId.add(BN_ONE),
-    [lastPoolId]
-  );
-
   const isMetaError = useMemo(
-    () => !metadata || metadata.length < MIN_META_LEN || metadata.length > MAX_META_LEN,
+    () => !metadata || (metadata.length < MIN_META_LEN) || (metadata.length > MAX_META_LEN),
     [metadata]
   );
 
