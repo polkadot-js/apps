@@ -50,18 +50,15 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
           value={value}
           withSidebar={false}
         />
-
         <div className='ui--AddressMenu-addr'>
           {value}
         </div>
-
         {accountIndex && (
           <div className='ui--AddressMenu-index'>
             <label>{t<string>('index')}:</label> {accountIndex}
           </div>
         )}
       </div>
-
       <div className='ui--AddressSection__CopyColumn'>
         <div className='ui--AddressMenu-copyaddr'>
           <CopyToClipboard

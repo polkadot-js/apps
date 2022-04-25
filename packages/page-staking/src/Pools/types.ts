@@ -6,12 +6,14 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 export interface Params {
+  lastPoolId: BN;
   maxDelegators: number;
   maxDelegatorsPool: number;
   maxPools: number;
   minCreateBond?: BN;
   minJoinBond?: BN;
   minNominatorBond?: BN;
+  nextPoolId: BN;
 }
 
 // FIXME Once available, use types from lookup

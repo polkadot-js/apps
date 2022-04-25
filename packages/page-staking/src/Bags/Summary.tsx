@@ -13,12 +13,12 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  bags?: unknown[];
   className?: string;
-  ids?: BN[];
   mapOwn?: BagMap;
 }
 
-function Summary ({ className = '', ids, mapOwn }: Props): React.ReactElement<Props> {
+function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const total = useCall<BN>(api.query.bagsList.counterForListNodes);
@@ -31,8 +31,8 @@ function Summary ({ className = '', ids, mapOwn }: Props): React.ReactElement<Pr
   return (
     <SummaryBox className={className}>
       <CardSummary label={t<string>('total bags')}>
-        {ids
-          ? formatNumber(ids.length)
+        {bags
+          ? formatNumber(bags.length)
           : <Spinner noLabel />
         }
       </CardSummary>

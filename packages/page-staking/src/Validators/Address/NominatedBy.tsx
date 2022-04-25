@@ -6,7 +6,7 @@ import type { NominatedBy as NominatedByType } from '../../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, Expander } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -63,13 +63,13 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
   return (
     <td className='expand all'>
       {active && (
-        <Expander
+        <ExpanderScroll
           renderChildren={active[1]}
           summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
         />
       )}
       {chilled && (
-        <Expander
+        <ExpanderScroll
           renderChildren={chilled[1]}
           summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
         />

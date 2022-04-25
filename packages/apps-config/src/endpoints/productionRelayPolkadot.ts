@@ -81,9 +81,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
-        paraId: 2001,
         isUnreachable: true,
+        homepage: 'https://crowdloan.bifrost.app',
+        paraId: 2030,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-dot.liebi.com/ws'
@@ -95,7 +95,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2031,
         text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
+          OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
         }
       },
       {
@@ -247,6 +248,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
           Dwellir: 'wss://eden-rpc.dwellir.com'
+        }
+      },
+      {
+        info: 'origintrail-parachain',
+        homepage: 'https://parachain.origintrail.io',
+        isUnreachable: true,
+        text: t('rpc.polkadot.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        paraId: 2043,
+        providers: {
+          TraceLabs: 'wss://parachain-rpc.origin-trail.network'
         }
       },
       {

@@ -36,6 +36,7 @@ interface Props {
   isDisabled?: boolean;
   isSelectable: boolean;
   info: StakerState;
+  minCommission?: BN;
   next?: string[];
   onSelect: (stashId: string, controllerId: string, isSelected: boolean) => void;
   stashId: string;
@@ -70,7 +71,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, onSelect, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, minCommission, onSelect, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -199,6 +200,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isValidateOpen && controllerId && (
           <Validate
             controllerId={controllerId}
+            minCommission={minCommission}
             onClose={toggleValidate}
             stashId={stashId}
           />
@@ -234,7 +236,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </td>
         )
         : (
-          <td className='all expand left'>
+          <td className='all expand'>
             {isStashNominating && (
               <>
                 <ListNominees
@@ -303,56 +305,48 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 <Menu>
                   <Menu.Item
                     isDisabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
+                    label={t<string>('Bond more funds')}
                     onClick={toggleBondExtra}
-                  >
-                    {t<string>('Bond more funds')}
-                  </Menu.Item>
+                  />
                   <Menu.Item
                     isDisabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
+                    label={t<string>('Unbond funds')}
                     onClick={toggleUnbond}
-                  >
-                    {t<string>('Unbond funds')}
-                  </Menu.Item>
+                  />
                   <Menu.Item
                     isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    label={t<string>('Rebond funds')}
                     onClick={toggleRebond}
-                  >
-                    {t<string>('Rebond funds')}
-                  </Menu.Item>
+                  />
                   <Menu.Item
                     isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    label={t<string>('Withdraw unbonded funds')}
                     onClick={withdrawFunds}
-                  >
-                    {t<string>('Withdraw unbonded funds')}
-                  </Menu.Item>
+                  />
                   <Menu.Divider />
                   <Menu.Item
                     isDisabled={!isOwnStash}
+                    label={t<string>('Change controller account')}
                     onClick={toggleSetController}
-                  >
-                    {t<string>('Change controller account')}
-                  </Menu.Item>
+                  />
                   <Menu.Item
                     isDisabled={!isOwnController}
+                    label={t<string>('Change reward destination')}
                     onClick={toggleRewardDestination}
-                  >
-                    {t<string>('Change reward destination')}
-                  </Menu.Item>
+                  />
                   {isStashValidating && (
                     <>
                       <Menu.Item
                         isDisabled={!isOwnController}
+                        label={t<string>('Change validator preferences')}
                         onClick={toggleValidate}
-                      >
-                        {t<string>('Change validator preferences')}
-                      </Menu.Item>
+                      />
                       {isFunction(api.tx.staking.kick) && (
                         <Menu.Item
                           isDisabled={!isOwnController}
+                          label={t<string>('Remove nominees')}
                           onClick={toggleKick}
-                        >
-                          {t<string>('Remove nominees')}
-                        </Menu.Item>
+                        />
                       )}
                     </>
                   )}
@@ -360,23 +354,22 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   {!isStashNominating && (
                     <Menu.Item
                       isDisabled={!isOwnController}
+                      label={t<string>('Change session keys')}
                       onClick={toggleSetSession}
-                    >
-                      {t<string>('Change session keys')}
-                    </Menu.Item>
+                    />
                   )}
                   {isStashNominating && (
                     <Menu.Item
                       isDisabled={!isOwnController || !targets.validators?.length}
+                      label={t<string>('Set nominees')}
                       onClick={toggleNominate}
-                    >
-                      {t<string>('Set nominees')}
-                    </Menu.Item>
+                    />
                   )}
                   {!isStashNominating && (
-                    <Menu.Item onClick={toggleInject}>
-                      {t<string>('Inject session keys (advanced)')}
-                    </Menu.Item>
+                    <Menu.Item
+                      label={t<string>('Inject session keys (advanced)')}
+                      onClick={toggleInject}
+                    />
                   )}
                 </Menu>
               }
@@ -384,7 +377,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </>
         )}
       </td>
-      <td className='hidden'>
+      <td className='--hidden'>
         {isSelectable && controllerId && (
           <Checkbox
             onChange={setSelected}
@@ -401,9 +394,5 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
-  }
-
-  .hidden {
-    display: none;
   }
 `);

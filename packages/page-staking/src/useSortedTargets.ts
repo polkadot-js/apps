@@ -231,6 +231,7 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
 
   return {
     avgStaked,
+    lastEra: lastEraInfo.lastEra,
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
@@ -244,16 +245,18 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-const transformEra = {
+const OPT_ERA = {
   transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
     activeEra,
     eraLength,
-    lastEra: activeEra.isZero() ? BN_ZERO : activeEra.subn(1),
+    lastEra: activeEra.isZero()
+      ? BN_ZERO
+      : activeEra.sub(BN_ONE),
     sessionLength
   })
 };
 
-const transformMulti = {
+const OPT_MULTI = {
   defaultValue: {},
   transform: ([historyDepth, counterForNominators, counterForValidators, optMaxNominatorsCount, optMaxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance]: [BN, BN?, BN?, Option<u32>?, Option<u32>?, BN?, BN?, BN?]): MultiResult => ({
     counterForNominators,
@@ -283,10 +286,10 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minNominatorBond,
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
-  ], transformMulti);
+  ], OPT_MULTI);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
-  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
+  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo

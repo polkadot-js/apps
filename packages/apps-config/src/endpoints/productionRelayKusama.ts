@@ -24,6 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
       Dwellir: 'wss://kusama-rpc.dwellir.com',
+      RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -74,7 +75,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
-          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws'
+          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws',
+          Dwellir: 'wss://basilisk-rpc.dwellir.com'
         }
       },
       {
@@ -86,7 +88,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
           'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
           'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          Dwellir: 'wss://bifrost-rpc.dwellir.com'
         }
       },
       {
@@ -106,7 +109,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
           'Manta Network': 'wss://ws.calamari.systems/',
-          OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
+          OnFinality: 'wss://calamari.api.onfinality.io/public-ws',
+          Dwellir: 'wss://calamari-rpc.dwellir.com'
         }
       },
       {
@@ -157,6 +161,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kabocha',
+        homepage: 'https://kabocha.network',
+        paraId: 2113,
+        text: t('rpc.kusama.kabocha', 'Kabocha', { ns: 'apps-config' }),
+        providers: {
+          JelliedOwl: 'wss://kabocha.jelliedowl.com'
+        }
+      },
+      {
         info: 'karura',
         homepage: 'https://acala.network/karura/join-karura',
         paraId: 2000,
@@ -178,7 +191,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://khala-api.phala.network/ws',
-          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
+          OnFinality: 'wss://khala.api.onfinality.io/public-ws',
+          Dwellir: 'wss://khala-rpc.dwellir.com'
         }
       },
       {
@@ -209,7 +223,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
           'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
+          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws',
+          Dwellir: 'wss://kintsugi-rpc.dwellir.com'
         }
       },
       {
@@ -391,10 +406,10 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'subsocial',
+        info: 'subsocialX',
         homepage: 'https://subsocial.network/',
         paraId: 2100,
-        text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
+        text: t('rpc.kusama.subsocial', 'SubsocialX', { ns: 'apps-config' }),
         providers: {
           Dappforce: 'wss://para.subsocial.network'
         }

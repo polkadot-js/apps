@@ -17,6 +17,8 @@ export interface NominatedBy {
   submittedIn: EraIndex;
 }
 
+export type NominatedByMap = Record<string, NominatedBy[]>;
+
 export interface Slash {
   accountId: AccountId;
   amount: Balance;
@@ -76,6 +78,7 @@ export interface SortedTargets {
   counterForValidators?: BN;
   electedIds?: string[];
   inflation: Inflation;
+  lastEra?: BN;
   lowStaked?: BN;
   medianComm: number;
   maxNominatorsCount?: BN;

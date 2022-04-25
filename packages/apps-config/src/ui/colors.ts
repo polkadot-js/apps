@@ -68,6 +68,8 @@ const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
+const chainNodle = '#1ab394';
+const chainOriginTrail = '#FB5DEB';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
@@ -130,7 +132,6 @@ const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
-const chainSubsocial = '#b9018c';
 const chainSwapdex = '#E94082';
 const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
@@ -168,6 +169,7 @@ const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
+const nodeKabocha = '#f53485';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
@@ -184,7 +186,6 @@ const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
 const nodeOpportunity = '#6143bc';
-const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
 const nodeParallel = '#ef18ac';
@@ -201,6 +202,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
+const nodeSubsocialX = '#69058C';
 const nodeSubspace = '#562b8e';
 const nodeSwapdex = '#E94082';
 const nodeTernoa = '#d622ff';
@@ -272,6 +274,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  Dolphin: chainDolphin,
   'Dolphin Testnet': chainDolphin,
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
@@ -351,10 +354,11 @@ export const chainColors: Record<string, string> = Object.entries({
   'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
+  'Nodle Parachain': chainNodle,
+  'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
+  'OriginTrail Parachain': chainOriginTrail,
   Pangolin: chainPangolin,
   'Pangolin Parachain': chainPangolin,
   Pangoro: chainPangoro,
@@ -402,7 +406,6 @@ export const chainColors: Record<string, string> = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
-  'Subsocial PC1': chainSubsocial,
   Subspace: nodeSubspace,
   swapdex: chainSwapdex,
   Tick: chainRoccoTick,
@@ -467,6 +470,7 @@ export const nodeColors = Object.entries({
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
+  Kabocha: nodeKabocha,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
@@ -485,7 +489,6 @@ export const nodeColors = Object.entries({
   'nodle chain node': nodeNodle,
   'Opal Node': nodeOpal,
   'Opportunity Standalone Testnet': nodeOpportunity,
-  'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   'Pangolin Parachain': nodePangolin,
   Pangoro: nodePangoro,
@@ -513,6 +516,7 @@ export const nodeColors = Object.entries({
   subgame: nodeSubGame,
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
+  'Subsocial Collator': nodeSubsocialX,
   'subsocial node': nodeSubsocial,
   Subspace: nodeSubspace,
   'subzero node': nodeZero,

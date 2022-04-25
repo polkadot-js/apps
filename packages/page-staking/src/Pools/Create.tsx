@@ -7,8 +7,8 @@ import type { Params } from './types';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { BN_ONE, bnMax } from '@polkadot/util';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO, bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -18,24 +18,18 @@ interface Props {
   params: Params;
 }
 
-function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
+function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond, nextPoolId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const lastPoolId = useCall<BN>(api.query.nominationPools.lastPoolId);
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [amount, setAmount] = useState<BN | undefined>();
+  const [amount, setAmount] = useState<BN>(BN_ZERO);
   const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(
     () => minCreateBond && minNominatorBond &&
       bnMax(minCreateBond, minNominatorBond, api.consts.balances.existentialDeposit),
     [api, minCreateBond, minNominatorBond]
-  );
-
-  const nextPoolId = useMemo(
-    () => lastPoolId && lastPoolId.add(BN_ONE),
-    [lastPoolId]
   );
 
   const isAmountError = useMemo(

@@ -6,16 +6,16 @@ import type { BagInfo, BagMap, StashNode } from './types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
-import { Button, Table, ToggleGroup } from '@polkadot/react-components';
+import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Bag from './Bag';
 import Summary from './Summary';
-import useBagsIds from './useBagsIds';
 import useBagsList from './useBagsList';
 import useBagsNodes from './useBagsNodes';
 
 interface Props {
+  className?: string;
   ownStashes?: StakerState[];
 }
 
@@ -25,7 +25,7 @@ function sortNodes (list: BagInfo[], nodes: BagMap, onlyMine: boolean): [BagInfo
     .filter(([, n]) => !onlyMine || !!n);
 }
 
-function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
+function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const stashIds = useMemo(
     () => ownStashes
@@ -34,8 +34,7 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [ownStashes]
   );
   const [filterIndex, setFilterIndex] = useState(() => stashIds.length ? 0 : 1);
-  const ids = useBagsIds();
-  const list = useBagsList(ids);
+  const bags = useBagsList();
   const mapOwn = useBagsNodes(stashIds);
 
   const headerRef = useRef([
@@ -57,14 +56,14 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
     [stashIds, t]
   );
   const filtered = useMemo(
-    () => list && mapOwn && sortNodes(list, mapOwn, !filterIndex),
-    [filterIndex, list, mapOwn]
+    () => bags && mapOwn && sortNodes(bags, mapOwn, !filterIndex),
+    [bags, filterIndex, mapOwn]
   );
 
   return (
-    <>
+    <div className={className}>
       <Summary
-        ids={ids}
+        bags={bags}
         mapOwn={mapOwn}
       />
       <Button.Group>
@@ -74,10 +73,13 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
           value={filterIndex}
         />
       </Button.Group>
-      <article className='warning centered'>
+      <MarkWarning
+        className='warning centered'
+        withIcon={false}
+      >
         <p>{t('The All bags list is composed of bags that each describe a range of active bonded funds of the nominators. In each bag is a list of nodes that correspond to a nominator and their staked funds.')}</p>
         <p>{t('Within the context of a single bag, nodes are not sorted by their stake, but instead placed in insertion order. In other words, the most recently inserted node will be the last node in the bag, regardless of stake. Events like staking rewards or slashes do not automatically put you in a different bag. The bags-list pallet comes with an important permissionless extrinsic: rebag. This allows anyone to specify another account that is in the wrong bag, and place it in the correct one.')}</p>
-      </article>
+      </MarkWarning>
       <Table
         empty={filtered && t<string>('No available bags')}
         emptySpinner={t<string>('Retrieving all available bags, this will take some time')}
@@ -94,7 +96,7 @@ function Bags ({ ownStashes }: Props): React.ReactElement<Props> {
           />
         ))}
       </Table>
-    </>
+    </div>
   );
 }
 

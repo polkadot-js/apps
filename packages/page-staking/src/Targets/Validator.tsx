@@ -14,8 +14,8 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import MaxBadge from '../MaxBadge';
-import Favorite from '../Overview/Address/Favorite';
 import { useTranslation } from '../translate';
+import Favorite from '../Validators/Address/Favorite';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];

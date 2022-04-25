@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'arctic',
+      text: t('rpc.test.arctic', 'Arctic', { ns: 'apps-config' }),
+      providers: {
+        Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      }
+    },
+    {
       info: 'Ares Gladios',
       text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
       providers: {
@@ -362,13 +369,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'origintrail-parachain-testnet',
-      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
-      providers: {
-        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
-      }
-    },
-    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
@@ -384,7 +384,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phala',
-      isDisabled: false,
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7364
       text: t('rpc.test.phala', 'Phala (PoC 5)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://poc5.phala.network/ws'
@@ -430,6 +430,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'prism',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7340
       text: t('rpc.test.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
         Prism: 'wss://testnet.psm.link'
@@ -469,6 +470,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.snowbridge', 'Snowbridge', { ns: 'apps-config' }),
       providers: {
         Snowfork: 'wss://parachain-rpc.snowbridge.network'
+      }
+    },
+    {
+      info: 'soonsocial',
+      text: t('rpc.test.subsocial', 'Soonsocial', { ns: 'apps-config' }),
+      providers: {
+        DappForce: 'wss://testnet.subsocial.network'
       }
     },
     {
@@ -559,6 +567,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zCloak',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7408
       text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
       providers: {
         'zCloak Network': 'wss://test1.zcloak.network'
