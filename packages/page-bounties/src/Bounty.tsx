@@ -164,8 +164,16 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           </div>
           <div className='label-column-right'>
-            <div className='label'>{t("Curator's deposit")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+            {!curatorDeposit.isZero && (
+              <>
+                <div className='label'>{t("Curator's deposit")}</div>
+                <div className='inline-balance'>
+                  {curator
+                    ? <FormatBalance value={curatorDeposit} />
+                    : EMPTY_CELL}
+                </div>
+              </>
+            )}
           </div>
         </td>
         <td />
