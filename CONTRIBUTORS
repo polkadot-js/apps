@@ -207,6 +207,7 @@
        1	ddorgan                       	Fix container build (#1456)
        1	ddorgan                       	Initial commit of kubernetes deployment (#616)
        1	Dean                          	mybank.network (#5024)
+       1	Denis Drozhzhin               	Genshiro on Rococo Testnet (#7423)
        1	dm4                           	Add Geminis parachain information (#7034)
        1	Dmytro Filippov               	Targets page: fix validators sorting (#6886)
        1	Eddie Machado                 	not truncating the address (#4311)
