@@ -13,6 +13,7 @@ import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
+import chainBitgreen from './chains/bitgreen.png';
 import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
@@ -211,6 +212,7 @@ export const chainLogos = Object.entries({
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
+  BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
@@ -715,6 +717,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBasilisk: nodeBasilisk,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoBitgreen: chainBitgreen,
   rococoCanvas: chainRococoCanvas,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
