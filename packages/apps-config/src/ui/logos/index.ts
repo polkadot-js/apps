@@ -13,7 +13,7 @@ import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
-import chainBitgreen from './chains/bitgreen.jpeg';
+import chainBitgreen from './chains/bitgreen.png';
 import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
