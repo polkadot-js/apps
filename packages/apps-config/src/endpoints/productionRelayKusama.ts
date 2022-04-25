@@ -388,6 +388,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'shiden',
+        homepage: 'https://shiden.plasmnet.io/',
+        paraId: 2120,
+        text: t('rpc.kusama.shiden', 'Shiden Crowdloan 2', { ns: 'apps-config' }),
+        isUnreachable: true,
+        providers: {
+          StakeTechnologies: 'wss://rpc.shiden.astar.network'
+        }
+      },
+      {
         info: 'sora_ksm',
         homepage: 'https://sora.org/',
         paraId: 2011,
