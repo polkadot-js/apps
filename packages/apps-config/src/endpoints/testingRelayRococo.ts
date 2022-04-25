@@ -78,6 +78,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBitgreen',
+        paraId: 3024,
+        text: t('rpc.rococo.bitgreen', 'Bitgreen', { ns: 'apps-config' }),
+        providers: {
+          'Bitgreen': 'wss://rococobitgreen.abhath-labs.com'
+        }
+      },
+      {
         info: 'rococoCatalyst',
         paraId: 2031,
         text: t('rpc.rococo.catalyst', 'Catalyst', { ns: 'apps-config' }),
