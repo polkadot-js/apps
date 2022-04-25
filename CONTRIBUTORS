@@ -186,6 +186,7 @@
        2	Yashiro                       	Hotfix files upload progress style (#6997)
        2	Yashiro                       	Add crust mainnet endpoint (#5929)
        2	zhenfei                       	updating `Manta Network` parachain ID (#5149)
+       1	abhath-labs                   	Add Bitgreen parachain to Rococo (#7441)
        1	Adam                          	new edeware logo and color (#6249)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	albertov19                    	Fix provider name (#5716)
