@@ -78,6 +78,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBitgreen',
+        paraId: 3024,
+        text: t('rpc.rococo.bitgreen', 'Bitgreen', { ns: 'apps-config' }),
+        providers: {
+          Bitgreen: 'wss://rococobitgreen.abhath-labs.com'
+        }
+      },
+      {
         info: 'rococoCatalyst',
         paraId: 2031,
         text: t('rpc.rococo.catalyst', 'Catalyst', { ns: 'apps-config' }),
@@ -99,6 +107,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.efinity.io', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.rococo.efinity.io'
+        }
+      },
+      {
+        info: 'rococoGenshiro',
+        paraId: 2024,
+        text: t('rpc.rococo.genshiro', 'Genshiro Rococo Testnet', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
         }
       },
       {
