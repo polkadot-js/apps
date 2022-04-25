@@ -49,6 +49,7 @@ import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
+import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
@@ -362,6 +363,7 @@ export const chainLogos = Object.entries({
   subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -543,6 +545,7 @@ export const nodeLogos = Object.entries({
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   'Ternoa Node': nodeTernoa,
   'Totem Parachain Collator': nodeTotem,
   'TrustBase Collator': nodeTrustBase,
@@ -797,6 +800,7 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,

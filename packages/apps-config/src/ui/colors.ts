@@ -134,6 +134,7 @@ const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSwapdex = '#E94082';
+const chainT0rn = '#212322';
 const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
@@ -410,6 +411,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Staging': nodeSubGame,
   Subspace: nodeSubspace,
   swapdex: chainSwapdex,
+  t0rn: chainT0rn,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
@@ -451,6 +453,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'Circuit Collator': chainT0rn,
   Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
