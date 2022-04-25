@@ -53,6 +53,7 @@ import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
+import chainMoonRabbit from './chains/moonrabbit.png'
 import chainUnorthodox from './chains/unorthodox.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
@@ -381,7 +382,8 @@ export const chainLogos = Object.entries({
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
-  'zcloak poc1': nodeZCloak
+  'zcloak poc1': nodeZCloak,
+  'Moon Rabbit': chainMoonRabbit
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
@@ -646,6 +648,7 @@ export const namedLogos: Record<string, unknown> = {
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
   interlay: chainInterlay,
+  moonrabbit: chainMoonRabbit,
   ipse: nodeIpse,
   joystream: nodeJoystream,
   jupiter: nodeJupiter,

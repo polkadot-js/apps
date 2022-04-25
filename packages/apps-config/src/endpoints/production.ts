@@ -191,6 +191,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'moonrabbit',
+      text: t('rpc.prod.moonrabbit', 'Moon Rabbit', { ns: 'apps-config' }),
+      providers: {
+        MoonRabbit: 'wss://main.hole.moonrabbit.com'
+      }
+    },
+    {
       info: 'minix',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
       text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),

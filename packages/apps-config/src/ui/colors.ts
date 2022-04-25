@@ -82,6 +82,7 @@ const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
+const chainMoonRabbit = '#1C2934';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKico = '#29B58D';
 const chainKilt = '#8c145a';
@@ -290,6 +291,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
+  'Moon Rabbit': chainMoonRabbit,
   HydraDX: chainHydrate,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
