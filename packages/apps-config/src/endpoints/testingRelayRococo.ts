@@ -102,6 +102,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoGenshiro',
+        paraId: 2024,
+        text: t('rpc.rococo.genshiro', 'Genshiro Rococo Testnet', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
+        }
+      },
+      {
         info: 'rococoIntegritee',
         paraId: 3002,
         text: t('rpc.rococo.integritee', 'Integritee Network', { ns: 'apps-config' }),
