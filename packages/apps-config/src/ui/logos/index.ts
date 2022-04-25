@@ -732,6 +732,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
+  rococoIntegritee: nodeIntegritee,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
