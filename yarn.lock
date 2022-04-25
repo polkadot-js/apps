@@ -2666,7 +2666,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.9
     "@polkadot/hw-ledger": ^9.0.1
-    "@polkadot/phishing": ^0.11.82
+    "@polkadot/phishing": ^0.11.85
     "@polkadot/react-components": ^0.112.2-51
     "@polkadot/react-hooks": ^0.112.2-51
     "@polkadot/test-support": 0.112.2-51
@@ -3240,15 +3240,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/phishing@npm:^0.11.82":
-  version: 0.11.82
-  resolution: "@polkadot/phishing@npm:0.11.82"
+"@polkadot/phishing@npm:^0.11.85":
+  version: 0.11.85
+  resolution: "@polkadot/phishing@npm:0.11.85"
   dependencies:
     "@babel/runtime": ^7.17.9
     "@polkadot/util": ^9.0.1
     "@polkadot/util-crypto": ^9.0.1
     "@polkadot/x-fetch": ^9.0.1
-  checksum: 1373a44e9c88339438eae39f22732f0e76111bf5b818a8180a11ea09247e27ae9768cdb690f13eed8d19972afc8fcabb50fef58a2fff53cb976004fcd18866f9
+  checksum: 9b930171b5401fe7d811fff02ed1516817d28de7ce7d895bb7f49904fe1b97efdbaabc2fc1e3091d9c9dea7ed364879faa8bf1ad5b83d9d75714924e01fb40f4
   languageName: node
   linkType: hard
 
