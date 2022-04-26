@@ -26,6 +26,7 @@ import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 import useNominations from './useNominations';
+import useOwnPools from './useOwnPools';
 import useSortedTargets from './useSortedTargets';
 import Validators from './Validators';
 
@@ -60,6 +61,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], OPT_MULTI);
+  const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
@@ -147,11 +149,12 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={`${basePath}/payout`}>
           <Payouts
             isInElection={isInElection}
+            ownPools={ownPools}
             ownValidators={ownValidators}
           />
         </Route>
         <Route path={`${basePath}/pools`}>
-          <Pools />
+          <Pools ownPools={ownPools} />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
@@ -179,6 +182,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
         minCommission={minCommission}
+        ownPools={ownPools}
         ownStashes={ownStashes}
         targets={targets}
       />

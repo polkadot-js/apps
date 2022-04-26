@@ -2,50 +2,69 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Params } from './types';
+import type { MembersMapEntry, Params } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 
+import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber, stringify } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import Join from './Join';
 import usePoolInfo from './usePoolInfo';
 
 interface Props {
   className?: string;
-  id: BN;
+  members: MembersMapEntry[];
+  ownAccounts?: string[];
   params: Params;
+  poolId: BN;
 }
 
-function Pool ({ className, id, params }: Props): React.ReactElement<Props> | null {
-  const info = usePoolInfo(id);
-  const metadata = useMemo(
-    () => info && info.metadata && info.metadata.length
-      ? info.metadata.isUtf8
-        ? info.metadata.toUtf8()
-        : info.metadata.toString()
-      : null,
-    [info]
+function Pool ({ className, members, ownAccounts, params, poolId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const info = usePoolInfo(poolId);
+
+  const renderMembers = useCallback(
+    () => members.map(({ accountId, member }, count) => (
+      <AddressMini
+        balance={member.points}
+        key={`${count}:${accountId}`}
+        value={accountId}
+        withBalance
+        withShrink
+      />
+    )),
+    [members]
   );
 
   if (!info) {
     return null;
   }
 
-  console.log(stringify(info, 2));
-
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='start'>{metadata}</td>
-      <td className='number'><FormatBalance value={info.bonded?.points} /></td>
-      <td className='number'>{formatNumber(info.bonded?.delegatorCounter)}</td>
+      <td className='number'><h1>{formatNumber(poolId)}</h1></td>
+      <td className='start'>{info.metadata}</td>
+      <td className='number'>{info.bonded.state.type}</td>
+      <td className='number'><FormatBalance value={info.bonded.points} /></td>
+      <td className='number media--1100'>{!info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
+      <td className='number'>
+        {members && members.length !== 0 && (
+          <ExpanderScroll
+            empty={t<string>('No members')}
+            renderChildren={renderMembers}
+            summary={t<string>('Members ({{count}})', { replace: { count: members.length } })}
+          />
+        )}
+      </td>
       <td className='button'>
         <Join
-          id={id}
-          isDisabled={!info.bonded?.state.isOpen}
+          isDisabled={!info.bonded.state.isOpen || !info.bonded.memberCounter.ltn(params.maxMembersPerPool)}
+          ownAccounts={ownAccounts}
           params={params}
+          poolId={poolId}
         />
       </td>
     </tr>

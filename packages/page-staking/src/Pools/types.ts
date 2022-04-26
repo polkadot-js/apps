@@ -1,40 +1,37 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { PoolAccounts } from '../types';
 
 export interface Params {
   lastPoolId: BN;
-  maxDelegators: number;
-  maxDelegatorsPool: number;
+  maxMembers: number;
+  maxMembersPerPool: number;
   maxPools: number;
   minCreateBond?: BN;
   minJoinBond?: BN;
+  minMemberBond?: BN;
   minNominatorBond?: BN;
   nextPoolId: BN;
 }
 
-// FIXME Once available, use types from lookup
-export interface PoolInfo {
-  bonded: {
-    points: BN;
-    state: {
-      isOpen: boolean;
-    }
-    delegatorCounter: BN;
-    roles: {
-      depositor: AccountId;
-      root: AccountId;
-      nominator: AccountId;
-      stateToggler: AccountId;
-    };
-  } | null;
-  reward: {
-    balance: BN;
-    totalEarnings: BN;
-    points: BN;
-  } | null;
-  metadata: Bytes;
+export interface PoolInfoBase {
+  bonded: PalletNominationPoolsBondedPoolInner;
+  reward: PalletNominationPoolsRewardPool;
+  metadata: string | null;
+  nominating: string[];
+  rewardClaimable: BN;
 }
+
+export interface PoolInfo extends PoolInfoBase, PoolAccounts {
+  // nothing extra
+}
+
+export interface MembersMapEntry {
+  accountId: string;
+  member: PalletNominationPoolsPoolMember;
+}
+
+export type MembersMap = Record<string, MembersMapEntry[]>;
