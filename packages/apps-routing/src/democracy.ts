@@ -8,8 +8,8 @@ import type { Route } from './types';
 import Component, { useCounter } from '@polkadot/app-democracy';
 
 function needsApiCheck (api: ApiPromise): boolean {
-  // we need to be able to create an actual vote
   try {
+    // we need to be able to create an actual vote
     api.tx.democracy.vote(1, { Standard: { balance: 1, vote: { aye: true, conviction: 1 } } });
 
     return true;
