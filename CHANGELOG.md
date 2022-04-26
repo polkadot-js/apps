@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## 0.113.1 Apr 26, 2022
+
+Contributed:
+
+- Adjust democracy display lists & buttons (Thanks to https://github.com/gilles437)
+- Adjust light client usage (Thanks to https://github.com/wirednkod)
+- Add support for `substrate-connect` on Rococo (Thanks to https://github.com/wirednkod)
+- Adjust Nodle parachain logo/colors (Thanks to https://github.com/ETeissonniere)
+- Add Kabocha parachain to Kusama (Thanks to https://github.com/decentration)
+- Add Subsocial testnets (Thanks to https://github.com/olehmell)
+- Fix text with repeated `available` (Thanks to https://github.com/Nick-1979)
+- Update Darwinia types (Thanks to https://github.com/JayJay1024)
+- Add additional parachain endpoints for Dwrllir (Thanks to https://github.com/Ank4n)
+- Add Dolphin parachain on Rococo (Thanks to https://github.com/ghzlatarev)
+- Add Arctic testnet (Thanks to https://github.com/itsmemz)
+- Update OriginTrail parachain (Thanks to https://github.com/kotlarmilos)
+- Update Bifrost chain info (Thanks to https://github.com/awesomepan)
+- Add Shiden Crowdloan 2 (Thanks to https://github.com/akru)
+- Update CreditCoin logos (Thanks to https://github.com/MrAusnadian)
+- Add Genshiro on Rococo (Thanks to https://github.com/MucTepDayH16)
+- Add Bitgreen on Rococo  (Thanks to https://github.com/abhath-labs)
+- Update Integritee logo on Rococo (Thanks to https://github.com/mosonyi)
+- Add T0rn on Rococo (Thanks to https://github.com/chiefbiiko)
+
+Changes:
+
+- Adjust `AddressName` to check for prefixes for numbered addresses
+- Combine active & waiting validator views
+- Adjust Dock logo location
+- Consolidate `staking--hidden` into `--hidden` classes
+- Detect democracy & staking via API type construction
+- Allow conviction entry in `Vote` parameter (extrinsics)
+- Cater for 9190 bounties without curator deposit
+- Add `ExpanderScroll` component for expander tables
+- Add `label` prop to `Menu.Item`
+- Convert all member lists to `ExpanderScroll`
+- Add `isOdd/isEven` classes on tables
+- Align all info banners on staking
+- Re-adjust Subscocial type imports (non-duplicated API imports)
+- SXwap to React 18 (w/ createRoot)
+- Remove jsx-runtime alias (not needed in React 18)
+- Small adjustments for upcoming nomination pools merge
+- silence all React test output warnings
+- Disable unreachable endpoints
+
+
 ## 0.112.1 Apr 11, 2022
 
 Contributed:
