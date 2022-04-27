@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "@polkadot/hw-ledger": "^9.0.1",
-    "@polkadot/phishing": "^0.11.91",
+    "@polkadot/phishing": "^0.11.98",
     "@polkadot/react-components": "^0.113.2-6",
     "@polkadot/react-hooks": "^0.113.2-6",
     "@polkadot/util": "^9.0.1",
