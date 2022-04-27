@@ -26,6 +26,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'aleph',
+      text: t('rpc.test.alephsmart', 'Aleph Zero Smartnet', { ns: 'apps-config' }),
+      providers: {
+        'Aleph Zero Foundation': 'wss://ws-smartnet.test.azero.dev'
+      }
+    },
+    {
+      info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
         'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
