@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.113.2-7",
+  "version": "0.113.2-8",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "@polkadot/api-contract": "^8.2.2-2"
