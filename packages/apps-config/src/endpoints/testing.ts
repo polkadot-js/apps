@@ -385,7 +385,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phala',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7364
       text: t('rpc.test.phala', 'Phala (PoC 5)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://poc5.phala.network/ws'
