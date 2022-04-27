@@ -1,4 +1,4 @@
-    3550	Jaco                          	Adjust API check order, ensure deposit is defaultValue (#7465)
+    3551	Jaco                          	Bump @polkadot/dev (#7466)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
