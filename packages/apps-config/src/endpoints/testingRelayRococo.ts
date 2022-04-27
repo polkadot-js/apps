@@ -15,7 +15,7 @@ import { ROCOCO_GENESIS } from '../api/constants';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): EndpointOption {
+export function createRococo(t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
     genesisHash: ROCOCO_GENESIS,
@@ -67,6 +67,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.arctic', 'Arctic', { ns: 'apps-config' }),
         providers: {
           Arctic: 'wss://arctic-rpc-parachain.icenetwork.io:9944'
+        }
+      },
+      {
+        info: 'rococoBajun',
+        paraId: 3026,
+        text: t('rpc.rococo.bajun', 'Bajun Network', { ns: 'apps-config' }),
+        providers: {
+          AjunaNetwork: 'wss://rpc-rococo.bajun.network'
         }
       },
       {
