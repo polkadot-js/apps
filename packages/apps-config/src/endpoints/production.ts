@@ -91,7 +91,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network'
+        'Darwinia Network': 'wss://rpc.darwinia.network',
+        Dwellir: 'wss://darwinia-rpc.dwellir.com'
       }
     },
     {
