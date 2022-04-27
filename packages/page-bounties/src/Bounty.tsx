@@ -4,10 +4,11 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -36,7 +37,7 @@ const EMPTY_CELL = '-';
 
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, toggleExpanded] = useToggle(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
   const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
@@ -55,11 +56,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
       : null;
   }, [curator, proposals, status]);
-
-  const handleOnIconClick = useCallback(
-    () => setIsExpanded((isExpanded) => !isExpanded),
-    []
-  );
 
   return (
     <>
@@ -142,7 +138,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
             <ExpandButton
               expanded={isExpanded}
-              onClick={handleOnIconClick}
+              onClick={toggleExpanded}
             />
           </div>
         </td>
@@ -201,14 +197,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 }
 
 export default React.memo(styled(Bounty)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
   .description-column {
     max-width: 200px;
 
@@ -228,8 +216,8 @@ export default React.memo(styled(Bounty)`
     width: 1%;
 
     .fast-actions-row {
-      display: flex;
       align-items: center;
+      display: flex;
       justify-content: flex-end;
 
       & > * + * {
