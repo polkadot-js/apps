@@ -128,9 +128,17 @@ export default React.memo(styled(Table)`
 
     &.withCollapsibleRows tbody tr {
       background-color: unset;
+
       &:nth-child(4n - 2),
       &:nth-child(4n - 3) {
         background-color: var(--bg-table);
+      }
+    }
+
+    &:not(.withCollapsibleRows) tbody tr {
+      &.isOdd,
+      &:nth-child(odd):not(.isEven) {
+        background: var(--bg-table);
       }
     }
   }
@@ -180,6 +188,9 @@ export default React.memo(styled(Table)`
       }
 
       &.button {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
         padding: 0.25rem 0.5rem;
         text-align: right;
         white-space: nowrap;
@@ -291,11 +302,6 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      &.isOdd,
-      &:nth-child(odd):not(.isEven) {
-        background: var(--bg-table);
-      }
-
       &:first-child {
         td {
           border-top: 0.25rem solid var(--bg-page);
@@ -331,6 +337,14 @@ export default React.memo(styled(Table)`
       &.noBorder td {
         border-bottom: 1px solid transparent;
         padding-bottom: 0 !important;
+      }
+
+      &.isCollapsed {
+        visibility: collapse;
+      }
+
+      &.isExpanded {
+        visibility: visible;
       }
 
       .ui--Button-Group {
