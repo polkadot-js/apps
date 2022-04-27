@@ -69,6 +69,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'bajun',
+        homepage: 'https://ajuna.io',
+        paraId: 2119,
+        text: t('rpc.kusama.bajun', 'Bajun Network', { ns: 'apps-config' }),
+        providers: {
+          AjunaNetwork: 'wss://rpc-parachain.bajun.network'
+        }
+      },
+      {
         info: 'basilisk',
         homepage: 'https://bsx.fi',
         paraId: 2090,

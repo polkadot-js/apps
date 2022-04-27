@@ -605,6 +605,7 @@ export const namedLogos: Record<string, unknown> = {
   astar: chainAstar,
   automata: nodeAutomata,
   'automata-contextfree': nodeAutomata,
+  bajun: nodeBajun,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
