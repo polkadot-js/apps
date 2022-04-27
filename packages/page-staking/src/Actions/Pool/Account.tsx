@@ -8,7 +8,7 @@ import type { SortedTargets } from '../../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
+import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
@@ -131,6 +131,10 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
         )}
       </td>
       <td className='button'>
+        <Badge
+          color={isNominator ? 'green' : 'transparent'}
+          icon='hand-paper'
+        />
         {isBondOpen && (
           <BondExtra
             controllerId={accountId}
