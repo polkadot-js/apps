@@ -148,6 +148,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   asgard: bifrostAsgard,
   astar,
   automata,
+  bajun,
   basilisk,
   beresheet,
   bifrost,
