@@ -15,7 +15,7 @@ import { ROCOCO_GENESIS } from '../api/constants';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo(t: TFunction): EndpointOption {
+export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
     genesisHash: ROCOCO_GENESIS,
