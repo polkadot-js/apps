@@ -223,6 +223,7 @@ import emptyLogo from './empty.svg';
 export const chainLogos = Object.entries({
   'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
+  'Aleph Zero Smartnet': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   Amplitude: chainAmplitude,
