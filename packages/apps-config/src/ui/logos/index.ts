@@ -77,6 +77,7 @@ import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
 import nodeAstar from './nodes/astar.png';
 import nodeAutomata from './nodes/automata.png';
+import nodeBajun from './nodes/bajun.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -209,6 +210,7 @@ export const chainLogos = Object.entries({
   Astar: chainAstar,
   Automata: nodeAutomata,
   'Automata ContextFree': nodeAutomata,
+  'Bajun Testnet': nodeBajun,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
@@ -405,6 +407,7 @@ export const nodeLogos = Object.entries({
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomata,
   'Automata Node': nodeAutomata,
+  'Bajun Node': nodeBajun,
   Basilisk: nodeBasilisk,
   'Beast Node': nodeBeast,
   Bifrost: nodeBifrost,
@@ -717,6 +720,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAcala: chainAcala,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
+  rococoBajun: nodeBajun,
   rococoBasilisk: nodeBasilisk,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,

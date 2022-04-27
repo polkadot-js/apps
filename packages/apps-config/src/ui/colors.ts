@@ -16,13 +16,14 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chainAcala = '#645AFF';
-const chainAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
+const chainAjuna = '#262324';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
+const chainBajun = '#262324';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
@@ -245,6 +246,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
+  'Bajun Testnet': chainBajun,
   'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
