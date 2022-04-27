@@ -2694,7 +2694,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.17.9
     "@polkadot/hw-ledger": ^9.0.1
-    "@polkadot/phishing": ^0.11.91
+    "@polkadot/phishing": ^0.11.98
     "@polkadot/react-components": ^0.113.2-6
     "@polkadot/react-hooks": ^0.113.2-6
     "@polkadot/test-support": 0.113.2-6
@@ -2713,7 +2713,7 @@ __metadata:
     "@polkadot/react-components": ^0.113.2-6
     "@testing-library/react": ^13.1.1
     file-saver: ^2.0.5
-    testcontainers: ^8.7.2
+    testcontainers: ^8.8.0
   languageName: unknown
   linkType: soft
 
@@ -3013,8 +3013,8 @@ __metadata:
     electron-log: ^4.4.6
     electron-updater: ^4.6.5
     html-webpack-plugin: ^5.5.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    react: ^18.1.0
+    react-dom: ^18.1.0
     thread-loader: ^3.0.4
     tmp: ^0.2.1
     webpack: ^5.72.0
@@ -3319,14 +3319,14 @@ __metadata:
     i18next: ^21.6.16
     i18next-browser-languagedetector: ^6.1.4
     owasp-password-strength-test: ^1.3.0
-    react: ^18.0.0
+    react: ^18.1.0
     react-beautiful-dnd: ^13.1.0
     react-chartjs-2: ^4.1.0
     react-copy-to-clipboard: ^5.1.0
-    react-dom: ^18.0.0
+    react-dom: ^18.1.0
     react-dropzone: ^11.7.1
     react-i18next: ^11.16.7
-    react-is: ^18.0.0
+    react-is: ^18.1.0
     react-markdown: ^8.0.3
     react-router: ^5.3.1
     react-router-dom: ^5.3.1
@@ -3479,7 +3479,7 @@ __metadata:
     "@polkadot/types-support": ^8.2.2-2
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.1.1
-    testcontainers: ^8.7.2
+    testcontainers: ^8.8.0
     tsconfig-paths: ^3.14.1
   languageName: unknown
   linkType: soft
@@ -15764,9 +15764,9 @@ __metadata:
     electron-builder: 22.14.13
     electron-builder-notarize: ^1.2.0
     i18next-scanner: ^3.1.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-    react-is: ^18.0.0
+    react: ^18.1.0
+    react-dom: ^18.1.0
+    react-is: ^18.1.0
     source-map-explorer: ^2.5.2
     styled-components: ^5.3.5
     webpack: ^5.72.0
@@ -16419,15 +16419,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.0.0":
-  version: 18.0.0
-  resolution: "react-dom@npm:18.0.0"
+"react-dom@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "react-dom@npm:18.1.0"
   dependencies:
     loose-envify: ^1.1.0
-    scheduler: ^0.21.0
+    scheduler: ^0.22.0
   peerDependencies:
-    react: ^18.0.0
-  checksum: dd0ba9f2f31dd728076c892a95b2f5a8dfe79136431b0289afb46eec39d0ca6b6f0f40a60fd8aa6ef702c98ce7c26100d3d4dbc35c7c9e87429cd04f84cb58bd
+    react: ^18.1.0
+  checksum: bb0d48eeb0b297c79c2a03978baa29f5b3ff7ba3d070b21e34c9af1a6e7fdf0ca8b8d73e41f9214d91ad40eeb6d1f3559f884cbbc338713374a51320637c23df
   languageName: node
   linkType: hard
 
@@ -16477,10 +16477,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^18.0.0":
-  version: 18.0.0
-  resolution: "react-is@npm:18.0.0"
-  checksum: d38f6afee4d8d791cdd69c715841c01a503c9b06da6158e0893447cea6ba50cd262dca9bde84127720cf44fd05c58185eafc32accace4bb2deb03b3cdbeb6b6b
+"react-is@npm:^18.0.0, react-is@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "react-is@npm:18.1.0"
+  checksum: d206a0fe6790851bff168727bfb896de02c5591695afb0c441163e8630136a3e13ee1a7ddd59fdccddcc93968b4721ae112c10f790b194b03b35a3dc13a355ef
   languageName: node
   linkType: hard
 
@@ -16613,12 +16613,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.0.0":
-  version: 18.0.0
-  resolution: "react@npm:18.0.0"
+"react@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "react@npm:18.1.0"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 293020b96536b3c7113ee57ca5c990a3f25649d1751b1c7a3aabd16dff0691fe9f1eed1206616d0906d05933536052037340a0c8d0941ff870b0eb469a2f975b
+  checksum: 5bb296b561b43ef2220395da4faac86c14a087c8c80e1a7598a5740f01ee605c11eaf249985c1e2000971c4cd32ccb46d40f00479bbd9fb6b1c7cf857393b7d4
   languageName: node
   linkType: hard
 
@@ -17398,12 +17398,12 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.21.0":
-  version: 0.21.0
-  resolution: "scheduler@npm:0.21.0"
+"scheduler@npm:^0.22.0":
+  version: 0.22.0
+  resolution: "scheduler@npm:0.22.0"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 4f8285076041ed2c81acdd1faa987f1655fdbd30554bc667c1ea64743fc74fb3a04ca7d27454b3d678735df5a230137a3b84756061b43dc5796e80701b66d124
+  checksum: a8ef5cab769c020cd6382ad9ecc3f72dbde56a50a36639b3a42ad9c11f7724f03700bcad373044059b8067d4a6365154dc7c0ca8027ef20ff4900cf58a0fc2c5
   languageName: node
   linkType: hard
 
@@ -18776,9 +18776,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^8.7.2":
-  version: 8.7.2
-  resolution: "testcontainers@npm:8.7.2"
+"testcontainers@npm:^8.8.0":
+  version: 8.8.0
+  resolution: "testcontainers@npm:8.8.0"
   dependencies:
     "@balena/dockerignore": ^1.0.2
     "@types/archiver": ^5.3.1
@@ -18792,7 +18792,7 @@ resolve@^2.0.0-next.3:
     properties-reader: ^2.2.0
     ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: 477e659f5bfbddf1305466c45ba7dc90ed3e727a437de51dba00938ef8b707cead2bab35ed13390c878f980514881c9bbca5c26d5a36d75de1e99a841962c83e
+  checksum: 46831b493578feb8da61a5cc6f23ee9177d2535a9cabf3bb394402e1f1f0ca250c3ad6b39fa69240028f83af594d306c49eb605ce38278fbb2c1fa5bee777036
   languageName: node
   linkType: hard
 
