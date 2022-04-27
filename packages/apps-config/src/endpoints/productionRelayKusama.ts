@@ -377,7 +377,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
-        homepage: 'https://shiden.plasmnet.io/',
+        homepage: 'https://shiden.astar.network/',
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
@@ -389,7 +389,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
-        homepage: 'https://shiden.plasmnet.io/',
+        homepage: 'https://shiden.astar.network/',
         paraId: 2120,
         text: t('rpc.kusama.shiden', 'Shiden Crowdloan 2', { ns: 'apps-config' }),
         isUnreachable: true,
