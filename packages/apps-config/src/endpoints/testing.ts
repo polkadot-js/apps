@@ -489,6 +489,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'subdao',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7473
       text: t('rpc.test.subdao', 'SubDAO Staging', { ns: 'apps-config' }),
       providers: {
         SubDAO: 'wss://alpha.subdao.org'
