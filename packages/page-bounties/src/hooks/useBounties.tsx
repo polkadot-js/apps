@@ -8,7 +8,7 @@ import type { BN } from '@polkadot/util';
 import { useMemo } from 'react';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BalanceOf } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -38,6 +38,7 @@ interface BountyApiStatics extends BountyApiConstants, BountyApiTxs {
 }
 
 export interface BountyApi extends BountyApiStatics {
+  bestNumber?: BN;
   bounties?: DeriveBounties;
   bountyCount?: BN;
   childCount?: BN;
@@ -75,6 +76,7 @@ function useBountiesImpl (): BountyApi {
   const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
   const bountyCount = useCall<BN>((api.query.bounties || api.query.treasury).bountyCount);
   const childCount = useCall<BN>(api.query.childBounties?.childBountyCount);
+  const bestNumber = useBestNumber();
 
   const statics = useMemo(
     () => getStatics(api),
@@ -84,11 +86,12 @@ function useBountiesImpl (): BountyApi {
   return useMemo(
     (): BountyApi => ({
       ...statics,
+      bestNumber,
       bounties,
       bountyCount,
       childCount
     }),
-    [bounties, bountyCount, childCount, statics]
+    [bestNumber, bounties, bountyCount, childCount, statics]
   );
 }
 

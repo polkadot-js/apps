@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
-import { useBestNumber } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
@@ -20,7 +19,6 @@ interface Props {
 function Bounties ({ className }: Props): React.ReactElement {
   const { t } = useTranslation();
   const info = useBounties();
-  const bestNumber = useBestNumber();
 
   const sorted = useMemo(
     () => info && info.bounties && [...info.bounties].sort((a, b) => b.index.cmp(a.index)),
@@ -36,10 +34,7 @@ function Bounties ({ className }: Props): React.ReactElement {
 
   return (
     <div className={className}>
-      <Summary
-        bestNumber={bestNumber}
-        info={info}
-      />
+      <Summary info={info} />
       <Button.Group>
         <BountyCreate />
       </Button.Group>
@@ -49,9 +44,9 @@ function Bounties ({ className }: Props): React.ReactElement {
         header={headerRef.current}
         withCollapsibleRows
       >
-        {sorted && bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
+        {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty
-            bestNumber={bestNumber}
+            bestNumber={info.bestNumber}
             bounty={bounty}
             description={description}
             index={index}

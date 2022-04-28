@@ -14,11 +14,10 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  bestNumber?: BN;
   info: BountyApi;
 }
 
-function Summary ({ bestNumber, className = '', info: { bounties, bountyCount, childCount } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, childCount } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { spendPeriod } = useTreasury();
 
