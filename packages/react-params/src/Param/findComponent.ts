@@ -148,8 +148,6 @@ export default function findComponent (registry: Registry, def: TypeDef, overrid
   const type = fromDef(def);
   let Component = findOne(def.lookupName) || findOne(type);
 
-  console.log(type);
-
   if (!Component) {
     let error: string | null = null;
 
