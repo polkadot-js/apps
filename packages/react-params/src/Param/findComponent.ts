@@ -55,7 +55,7 @@ const componentDef: TypeToComponent[] = [
   { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: DISPATCH_ERROR },
-  { c: DispatchResult, t: ['DispatchResult'] },
+  { c: DispatchResult, t: ['DispatchResult', 'Result<Null, SpRuntimeDispatchError>'] },
   { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },
@@ -88,8 +88,6 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 const warnList: string[] = [];
 
 function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
-  // const nameOverride = displayName || typeName;
-
   if (displayName && SPECIAL_TYPES.includes(displayName)) {
     return displayName;
   } else if (type.endsWith('RuntimeSessionKeys')) {
@@ -109,7 +107,7 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
       return 'Enum';
 
     case TypeDefInfo.Result:
-      return DISPATCH_ERROR.includes((sub as TypeDef[])[1].type)
+      return DISPATCH_ERROR.includes((sub as TypeDef[])[1].lookupName || '')
         ? 'DispatchResult'
         : typeValue;
 
@@ -143,8 +141,11 @@ export default function findComponent (registry: Registry, def: TypeDef, overrid
     type
       ? overrides[type] || components[type]
       : null;
+
   const type = fromDef(def);
   let Component = findOne(def.lookupName) || findOne(type);
+
+  console.log(type);
 
   if (!Component) {
     let error: string | null = null;
