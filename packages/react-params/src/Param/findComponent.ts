@@ -51,7 +51,7 @@ const componentDef: TypeToComponent[] = [
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
-  { c: Bytes, t: ['Bytes'] },
+  { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
   { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: DISPATCH_ERROR },
@@ -106,10 +106,13 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
     case TypeDefInfo.Enum:
       return 'Enum';
 
-    case TypeDefInfo.Result:
-      return DISPATCH_ERROR.includes((sub as TypeDef[])[1].lookupName || '')
+    case TypeDefInfo.Result: {
+      const [, errSub] = (sub as TypeDef[]);
+
+      return DISPATCH_ERROR.includes(errSub.lookupName || errSub.type)
         ? 'DispatchResult'
         : typeValue;
+    }
 
     case TypeDefInfo.Struct:
       return 'Struct';
