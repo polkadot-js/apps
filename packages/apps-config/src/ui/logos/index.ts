@@ -20,8 +20,8 @@ import chainComposableFinance from './chains/composableFinance.png';
 import chainCreditcoin from './chains/creditcoin.png';
 import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
-import chainRoccoDataHighway from './chains/datahighway.png';
 import chainRococoDali from './chains/dali.png';
+import chainRoccoDataHighway from './chains/datahighway.png';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
@@ -632,7 +632,6 @@ export const namedLogos: Record<string, unknown> = {
   'Dali Testnet (Rococo Relay)': chainRococoDali,
   DaliTestnet: nodeDaliTestnet,
   darwinia: nodeDarwinia,
-  rococoDali: chainRococoDali,
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
   'dock-pos-testnet': nodeDockTestnet,
@@ -737,6 +736,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
+  rococoDali: chainRococoDali,
   rococoDarwinia: nodeDarwinia,
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
