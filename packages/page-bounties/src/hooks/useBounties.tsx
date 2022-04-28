@@ -3,13 +3,13 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
 import { useMemo } from 'react';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
-import { BalanceOf } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 interface BountyApiTxs {
@@ -50,11 +50,11 @@ function getStatics (api: ApiPromise): BountyApiStatics {
 
   return {
     // constants
-    bountyCuratorDeposit: (constsBase.bountyCuratorDeposit as BalanceOf || { toBn: () => BN_ZERO }).toBn(),
-    bountyDepositBase: (constsBase.bountyDepositBase as BalanceOf).toBn(),
+    bountyCuratorDeposit: (constsBase.bountyCuratorDeposit as (BN & Codec)) || BN_ZERO,
+    bountyDepositBase: constsBase.bountyDepositBase,
     bountyUpdatePeriod: constsBase.bountyUpdatePeriod,
-    bountyValueMinimum: (constsBase.bountyValueMinimum as BalanceOf).toBn(),
-    dataDepositPerByte: (constsBase.dataDepositPerByte as BalanceOf).toBn(),
+    bountyValueMinimum: constsBase.bountyValueMinimum,
+    dataDepositPerByte: constsBase.dataDepositPerByte,
     maximumReasonLength: constsBase.maximumReasonLength.toNumber(),
 
     // extrinsics
