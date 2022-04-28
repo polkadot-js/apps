@@ -70,6 +70,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBajun',
+        paraId: 3026,
+        text: t('rpc.rococo.bajun', 'Bajun Network', { ns: 'apps-config' }),
+        providers: {
+          AjunaNetwork: 'wss://rpc-rococo.bajun.network'
+        }
+      },
+      {
         info: 'rococoBasilisk',
         paraId: 2090,
         text: t('rpc.rococo.basilisk', 'Basilisk', { ns: 'apps-config' }),

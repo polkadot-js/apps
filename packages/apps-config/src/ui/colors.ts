@@ -16,13 +16,14 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chainAcala = '#645AFF';
-const chainAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
+const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
+const chainBajun = '#161212';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
@@ -145,13 +146,14 @@ const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
-const nodeAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
+const nodeAjuna = '#161212';
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
 const nodeAutomata = '#EC7032';
 const nodeAutomataContextFree = '#EC7032';
 const nodeBasilisk = '#9eec1b';
+const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCentrifuge = '#fcc367';
@@ -245,6 +247,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
+  'Bajun Testnet': chainBajun,
   'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
@@ -446,6 +449,7 @@ export const nodeColors = Object.entries({
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomataContextFree,
   'Automata Node': nodeAutomata,
+  'Bajun Node': nodeBajun,
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,

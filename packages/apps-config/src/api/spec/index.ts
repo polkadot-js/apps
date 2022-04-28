@@ -11,6 +11,7 @@ import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
 import automata from './automata';
+import bajun from './bajun';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -147,6 +148,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   asgard: bifrostAsgard,
   astar,
   automata,
+  bajun,
   basilisk,
   beresheet,
   bifrost,
