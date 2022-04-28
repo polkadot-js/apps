@@ -70,6 +70,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bajun',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7480
         homepage: 'https://ajuna.io',
         paraId: 2119,
         text: t('rpc.kusama.bajun', 'Bajun Network', { ns: 'apps-config' }),
