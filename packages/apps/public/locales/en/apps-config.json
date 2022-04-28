@@ -162,6 +162,7 @@
   "rpc.test.coinversation": "Coinversation",
   "rpc.test.creditcoin": "Creditcoin Testnet",
   "rpc.test.crust.network": "Crust Maxwell",
+  "rpc.rococo.dali": "Dali",
   "rpc.test.datahighway.spreehafen": "Spreehafen",
   "rpc.test.dock-pos-testnet": "Dock",
   "rpc.test.dotmog": "DOTMog",
