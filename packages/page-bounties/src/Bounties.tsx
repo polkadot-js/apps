@@ -1,11 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
+import { useBestNumber } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
@@ -18,7 +19,13 @@ interface Props {
 
 function Bounties ({ className }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { bestNumber, bounties } = useBounties();
+  const info = useBounties();
+  const bestNumber = useBestNumber();
+
+  const sorted = useMemo(
+    () => info && info.bounties && [...info.bounties].sort((a, b) => b.index.cmp(a.index)),
+    [info]
+  );
 
   const headerRef = useRef([
     [t('bounties'), 'start', 3],
@@ -29,30 +36,29 @@ function Bounties ({ className }: Props): React.ReactElement {
 
   return (
     <div className={className}>
-      <Summary activeBounties={bounties?.length} />
+      <Summary
+        bestNumber={bestNumber}
+        info={info}
+      />
       <Button.Group>
         <BountyCreate />
       </Button.Group>
       <Table
         className='bounties-table-wrapper'
-        empty={bounties && t<string>('No open bounties')}
+        empty={sorted && t<string>('No open bounties')}
         header={headerRef.current}
         withCollapsibleRows
       >
-        {bounties && bestNumber &&
-          bounties
-            .sort((a, b) => b.index.cmp(a.index))
-            .map(({ bounty, description, index, proposals }) => (
-              <Bounty
-                bestNumber={bestNumber}
-                bounty={bounty}
-                description={description}
-                index={index}
-                key={index.toNumber()}
-                proposals={proposals}
-              />
-            ))
-        }
+        {sorted && bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
+          <Bounty
+            bestNumber={bestNumber}
+            bounty={bounty}
+            description={description}
+            index={index}
+            key={index.toNumber()}
+            proposals={proposals}
+          />
+        ))}
       </Table>
     </div>
   );

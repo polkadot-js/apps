@@ -33,8 +33,6 @@ interface Props {
   proposals?: DeriveCollectiveProposal[];
 }
 
-const EMPTY_CELL = '-';
-
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(false);
@@ -155,18 +153,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
+          {curator && (
+            <div className='label-column-right'>
+              <div className='label'>{t("Curator's fee")}</div>
+              <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
+            </div>
+          )}
           <div className='label-column-right'>
-            <div className='label'>{t("Curator's fee")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
-          </div>
-          <div className='label-column-right'>
-            {!curatorDeposit.isZero && (
+            {curator && !curatorDeposit.isZero() && (
               <>
                 <div className='label'>{t("Curator's deposit")}</div>
                 <div className='inline-balance'>
-                  {curator
-                    ? <FormatBalance value={curatorDeposit} />
-                    : EMPTY_CELL}
+                  <FormatBalance value={curatorDeposit} />
                 </div>
               </>
             )}
