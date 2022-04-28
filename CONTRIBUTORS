@@ -1,4 +1,4 @@
-    3554	Jaco                          	Adjust CI Jest setup (#7471)
+    3555	Jaco                          	Disable unreachable endpoints (#7474)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
