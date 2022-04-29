@@ -190,6 +190,15 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'robonomics',
+        homepage: 'http://robonomics.network/',
+        paraId: 3001,
+        text: t('rpc.rococo.robonomics', 'Robonomics', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://rococo.rpc.robonomics.network'
+        }
+      },
+      {
         info: 'rococoSubsocial',
         paraId: 2100,
         text: t('rpc.rococo.subsocial', 'SoonsocialX', { ns: 'apps-config' }),
