@@ -364,7 +364,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2048,
         text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
         providers: {
-          Airalab: 'wss://kusama.rpc.robonomics.network/'
+          Airalab: 'wss://kusama.rpc.robonomics.network/',
+          OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
         }
       },
       {
