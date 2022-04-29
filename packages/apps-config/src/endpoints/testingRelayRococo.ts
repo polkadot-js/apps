@@ -102,6 +102,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoDali',
+        paraId: 2087,
+        text: t('rpc.rococo.dali', 'Dali', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composablefinance.ninja'
+        }
+      },
+      {
         info: 'rococoDolphin',
         paraId: 2084,
         text: t('rpc.rococo.dolphin', 'Dolphin', { ns: 'apps-config' }),

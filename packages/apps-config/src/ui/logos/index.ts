@@ -20,6 +20,7 @@ import chainComposableFinance from './chains/composableFinance.png';
 import chainCreditcoin from './chains/creditcoin.png';
 import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
+import chainRococoDali from './chains/dali.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
@@ -93,6 +94,7 @@ import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
 import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
 import nodeCrustParachain from './nodes/crustParachain.svg';
+import nodeDaliTestnet from './nodes/dali.png';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -627,6 +629,8 @@ export const namedLogos: Record<string, unknown> = {
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   crustParachain: nodeCrustParachain,
+  'Dali Testnet (Rococo Relay)': chainRococoDali,
+  DaliTestnet: nodeDaliTestnet,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
@@ -732,6 +736,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
+  rococoDali: chainRococoDali,
   rococoDarwinia: nodeDarwinia,
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
