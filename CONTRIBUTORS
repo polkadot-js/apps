@@ -277,6 +277,7 @@
        1	ok.man                        	update-mandala (#6785)
        1	paulhealy09                   	Update Unit Network logo (Thanks to https://github.com/unit-network) (#5027)
        1	Pavel                         	Added new community node for SORA (#5600)
+       1	Pavel Sheremetev              	Add OnFinality endpoint for Robonomics (#7490)
        1	Peter Chung                   	Align Sig Validity Indicator (#1660) (#1697)
        1	Pierre Krieger                	Update translation.json (#6266)
        1	Pierre-Luc Gagné              	Added a warning popup at account creation for seed backup (#325)
