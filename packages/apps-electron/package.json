@@ -14,13 +14,13 @@
   "dependencies": {
     "@babel/core": "^7.17.9",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.66.14",
+    "@polkadot/dev": "^0.66.15",
     "@polkadot/react-components": "^0.113.2-20",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.0.2",
+    "@types/react-dom": "^18.0.3",
     "@types/tmp": "^0.2.3",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^10.2.4",
