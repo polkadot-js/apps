@@ -149,6 +149,7 @@
   "rpc.rococo.zeitgeist": "Zeitgeist PC",
   "rpc.spanner": "Spanner",
   "rpc.test.ajuna": "Ajuna Testnet",
+  "rpc.test.alephsmart": "Aleph Zero Smartnet",
   "rpc.test.aleph": "Aleph Zero Testnet",
   "rpc.test.arctic": "Arctic",
   "rpc.test.ares.network": "Ares Gladios",
