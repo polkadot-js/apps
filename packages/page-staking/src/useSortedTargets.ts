@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -7,11 +7,10 @@ import type { Inflation } from '@polkadot/react-hooks/types';
 import type { Option, u32 } from '@polkadot/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
-import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -232,6 +231,7 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
 
   return {
     avgStaked,
+    lastEra: lastEraInfo.lastEra,
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
@@ -245,16 +245,18 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-const transformEra = {
+const OPT_ERA = {
   transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
     activeEra,
     eraLength,
-    lastEra: activeEra.isZero() ? BN_ZERO : activeEra.subn(1),
+    lastEra: activeEra.isZero()
+      ? BN_ZERO
+      : activeEra.sub(BN_ONE),
     sessionLength
   })
 };
 
-const transformMulti = {
+const OPT_MULTI = {
   defaultValue: {},
   transform: ([historyDepth, counterForNominators, counterForValidators, optMaxNominatorsCount, optMaxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance]: [BN, BN?, BN?, Option<u32>?, Option<u32>?, BN?, BN?, BN?]): MultiResult => ({
     counterForNominators,
@@ -284,10 +286,10 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minNominatorBond,
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
-  ], transformMulti);
+  ], OPT_MULTI);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
-  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
+  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo

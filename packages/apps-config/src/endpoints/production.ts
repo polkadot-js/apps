@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -25,19 +25,51 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'automata',
+      text: t('rpc.prod.automata', 'Automata', { ns: 'apps-config' }),
+      providers: {
+        'Automata Network': 'wss://api.ata.network',
+        OnFinality: 'wss://automata.api.onfinality.io/public-ws'
+      }
+    },
+    {
       dnslink: 'centrifuge',
       info: 'centrifuge',
-      text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+      text: t('rpc.prod.centrifuge', 'Centrifuge Standalone [Archived]', { ns: 'apps-config' }),
       providers: {
-        Centrifuge: 'wss://fullnode.centrifuge.io'
+        Centrifuge: 'wss://fullnode.centrifuge.io',
+        Dwellir: 'wss://centrifuge-rpc.dwellir.com'
       }
     },
     {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
-        'Patract Elara': 'wss://pub.elara.patract.io/chainx'
+        ChainX: 'wss://mainnet.chainx.org/ws'
+      }
+    },
+    {
+      // this is also a duplicate as a parachain under Polkadot and Testing net -
+      // it is either/or, not and
+      info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
+      text: t('rpc.prod.coinversation', 'Coinversation', { ns: 'apps-config' }),
+      providers: {
+        Coinversation: 'wss://rpc.coinversation.io/'
+      }
+    },
+    {
+      info: 'competitors-club',
+      text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
+      providers: {
+        'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
+      info: 'creditcoin',
+      text: t('rpc.prod.creditcoin', 'Creditcoin', { ns: 'apps-config' }),
+      providers: {
+        'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
       }
     },
     {
@@ -51,30 +83,31 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'crust',
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
-        'Crust Network': 'wss://rpc.crust.network'
+        'Crust Network': 'wss://rpc.crust.network',
+        OnFinality: 'wss://crust.api.onfinality.io/public-ws'
       }
     },
     {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/darwinia'
+        'Darwinia Network': 'wss://rpc.darwinia.network'
       }
     },
     {
       info: 'crab',
       text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network',
+        Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+        OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
       }
     },
     {
       info: 'dock-pos-mainnet',
       text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://mainnet-node.dock.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/dock'
+        'Dock Association': 'wss://mainnet-node.dock.io'
       }
     },
     {
@@ -83,12 +116,20 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-        'Patract Elara': 'wss://pub.elara.patract.io/edgeware',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
+      info: 'efinity',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
+      text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
+      providers: {
+        Efinity: 'wss://rpc.efinity.io'
+      }
+    },
+    {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'
@@ -119,12 +160,26 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io',
+        OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
-        'Patract Elara': 'wss://pub.elara.patract.io/kulupu'
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
+      }
+    },
+    {
+      info: 'kusari',
+      text: t('rpc.prod.kusari', 'Kusari', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.kusari.network'
       }
     },
     {
@@ -133,6 +188,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       providers: {
         MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
         'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      }
+    },
+    {
+      info: 'minix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
+      text: t('rpc.prod.minix', 'MiniX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://minichain-mainnet.coming.chat/ws'
       }
     },
     {
@@ -154,7 +217,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/nodle'
+        OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
         // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
@@ -173,6 +236,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'polymesh',
+      text: t('rpc.prod.polymesh', 'Polymesh Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://mainnet-rpc.polymesh.network'
+      }
+    },
+    {
       info: 'riochain',
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
@@ -181,9 +251,17 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'robonomics',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
       providers: {
         Airalab: 'wss://kusama.rpc.robonomics.network/'
+      }
+    },
+    {
+      info: 'sherpax',
+      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://mainnet.sherpax.io'
       }
     },
     {
@@ -200,6 +278,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'spanner',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
       text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
       providers: {
         Spanner: 'wss://wss.spannerprotocol.com'
@@ -210,8 +289,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),
       providers: {
-        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/stafi'
+        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
       }
     },
     {
@@ -225,9 +303,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'subsocial',
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/subsocial',
-        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
+        DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'swapdex',
+      text: t('rpc.prod.swapdex', 'Swapdex', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.swapdex.network'
       }
     },
     {
@@ -239,6 +322,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'westlake',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/7293
       text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
         DataHighway: 'wss://westlake.datahighway.com'

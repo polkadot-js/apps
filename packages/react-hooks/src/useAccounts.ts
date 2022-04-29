@@ -1,5 +1,7 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import { useEffect, useState } from 'react';
 
@@ -20,21 +22,23 @@ export interface UseAccounts {
 
 const EMPTY: UseAccounts = { allAccounts: [], allAccountsHex: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
 
+function extractAccounts (accounts: SubjectInfo = {}): UseAccounts {
+  const allAccounts = Object.keys(accounts);
+  const allAccountsHex = allAccounts.map((a) => u8aToHex(decodeAddress(a)));
+  const hasAccounts = allAccounts.length !== 0;
+  const isAccount = (address?: string | null) => !!address && allAccounts.includes(address);
+
+  return { allAccounts, allAccountsHex, areAccountsLoaded: true, hasAccounts, isAccount };
+}
+
 function useAccountsImpl (): UseAccounts {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAccounts>(EMPTY);
 
   useEffect((): () => void => {
-    const subscription = keyring.accounts.subject.subscribe((accounts): void => {
-      if (mountedRef.current) {
-        const allAccounts = accounts ? Object.keys(accounts) : [];
-        const allAccountsHex = allAccounts.map((a) => u8aToHex(decodeAddress(a)));
-        const hasAccounts = allAccounts.length !== 0;
-        const isAccount = (address?: string | null) => !!address && allAccounts.includes(address);
-
-        setState({ allAccounts, allAccountsHex, areAccountsLoaded: true, hasAccounts, isAccount });
-      }
-    });
+    const subscription = keyring.accounts.subject.subscribe((accounts = {}) =>
+      mountedRef.current && setState(extractAccounts(accounts))
+    );
 
     return (): void => {
       setTimeout(() => subscription.unsubscribe(), 0);

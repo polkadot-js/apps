@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
@@ -17,8 +17,10 @@ function hasEndpoint (api: ApiPromise, endpoint: string, needsApiInstances: bool
   }
 }
 
-export function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[], needsApiInstances = false): (string | string[])[] {
-  if (!needsApi) {
+export function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[], needsApiInstances = false, needsApiCheck?: (api: ApiPromise) => boolean): (string | string[])[] {
+  if (needsApiCheck && !needsApiCheck(api)) {
+    return ['needsApiCheck'];
+  } else if (!needsApi) {
     return [];
   }
 

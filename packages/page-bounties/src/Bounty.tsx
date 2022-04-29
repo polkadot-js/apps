@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -164,8 +164,16 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           </div>
           <div className='label-column-right'>
-            <div className='label'>{t("Curator's deposit")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+            {!curatorDeposit.isZero && (
+              <>
+                <div className='label'>{t("Curator's deposit")}</div>
+                <div className='inline-balance'>
+                  {curator
+                    ? <FormatBalance value={curatorDeposit} />
+                    : EMPTY_CELL}
+                </div>
+              </>
+            )}
           </div>
         </td>
         <td />

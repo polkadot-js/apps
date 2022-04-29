@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
@@ -26,7 +26,7 @@ interface Result {
   watermark: BlockNumber | null;
 }
 
-const optionsMulti = {
+const MULTI_OPTS = {
   defaultValue: {
     headHex: null,
     leases: [],
@@ -74,7 +74,7 @@ function useParaInfoImpl (id: ParaId): Result {
     [(api.query.parasInclusion || api.query.paraInclusion || api.query.inclusion)?.pendingAvailability, id],
     [api.query.registrar.paras, id],
     [api.query.slots.leases, id]
-  ], optionsMulti);
+  ], MULTI_OPTS);
 }
 
 export default createNamedHook('useParaInfo', useParaInfoImpl);

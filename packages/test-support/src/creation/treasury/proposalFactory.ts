@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -20,9 +20,9 @@ export function proposalFactory (api: ApiPromise): ProposalFactory {
       hash: aHash(),
       proposal: registry.createType('Proposal', extrinsic),
       votes: registry.createType('Votes', {
-        ayes: ayes,
+        ayes,
         index: 0,
-        nays: nays,
+        nays,
         threshold: 4
       })
     })

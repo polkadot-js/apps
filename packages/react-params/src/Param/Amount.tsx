@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { Props } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
@@ -10,6 +11,14 @@ import { Input, InputNumber } from '@polkadot/react-components';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
+
+function getBitLength (registry: Registry, { type }: TypeDef): number {
+  try {
+    return registry.createType(type as 'u32').bitLength();
+  } catch (error) {
+    return 32;
+  }
+}
 
 function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
@@ -22,21 +31,16 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
   );
 
   const bitLength = useMemo(
-    (): number => {
-      try {
-        return registry.createType(type.type as 'u32').bitLength();
-      } catch (error) {
-        return 32;
-      }
-    },
+    () => getBitLength(registry, type),
     [registry, type]
   );
 
   const _onChange = useCallback(
-    (value?: BN) => onChange && onChange({
-      isValid: !isUndefined(value),
-      value
-    }),
+    (value?: BN) =>
+      onChange && onChange({
+        isValid: !isUndefined(value),
+        value
+      }),
     [onChange]
   );
 

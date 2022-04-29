@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Data, Option } from '@polkadot/types';
@@ -262,8 +262,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   );
 }
 
-export default styled(IdentityMain)`
+export default React.memo(styled(IdentityMain)`
   .toggle-Wrap {
     position: relative;
   }
-`;
+`);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -30,7 +30,9 @@ function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], sta
 }
 
 export function proposalNameToDisplay (bountyProposal: DeriveCollectiveProposal, status: BountyStatus): string | undefined {
-  if (bountyProposal.proposal.method !== 'unassignCurator') { return bountyProposal.proposal.method; }
+  if (bountyProposal.proposal.method !== 'unassignCurator') {
+    return bountyProposal.proposal.method;
+  }
 
   return status.isCuratorProposed ? 'unassignCurator' : 'slashCurator';
 }

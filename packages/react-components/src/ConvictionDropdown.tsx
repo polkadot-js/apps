@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
 
-import BN from 'bn.js';
 import React, { useRef } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { useApi, useBlockTime } from '@polkadot/react-hooks';
-import { BN_THOUSAND } from '@polkadot/util';
+import { useApi, useBlockInterval } from '@polkadot/react-hooks';
+import { BN, BN_THOUSAND } from '@polkadot/util';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';
@@ -24,7 +23,7 @@ export interface Props {
 const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
 const SEC_DAY = 60 * 60 * 24;
 
-function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { text: string; value: number }[] {
+function createOptions (api: ApiPromise, t: TFunction, blockTime: BN): { text: string; value: number }[] {
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
@@ -35,7 +34,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { tex
             bnLock.mul(
               api.consts.democracy.voteLockingPeriod ||
               api.consts.democracy.enactmentPeriod
-            ).muln(blockTime).div(BN_THOUSAND).toNumber() / SEC_DAY
+            ).mul(blockTime).div(BN_THOUSAND).toNumber() / SEC_DAY
           ).toFixed(2),
           value
         }
@@ -48,7 +47,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { tex
 function Convictions ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const [blockTime] = useBlockTime();
+  const blockTime = useBlockInterval();
 
   const optionsRef = useRef(createOptions(api, t, blockTime));
 

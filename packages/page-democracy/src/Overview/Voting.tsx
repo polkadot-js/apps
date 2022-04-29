@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
@@ -108,7 +108,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
         </Modal>
       )}
       <Button
-        icon='check'
+        icon='check-to-slot'
         label={t<string>('Vote')}
         onClick={toggleVoting}
       />

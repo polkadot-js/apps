@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
@@ -12,6 +12,7 @@ import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
 
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
+import Latency from './Latency';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 import { useTranslation } from './translate';
@@ -40,6 +41,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Block details')
     },
     {
+      name: 'latency',
+      text: t<string>('Latency')
+    },
+    {
       name: 'forks',
       text: t<string>('Forks')
     },
@@ -63,6 +68,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
+        <Route path={`${basePath}/latency`}><Latency /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
         <Route path={`${basePath}/query`}><BlockInfo /></Route>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>

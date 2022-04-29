@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const config = require('@polkadot/dev/config/jest.cjs');
@@ -25,5 +25,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
   testEnvironment: 'jsdom',
   testTimeout: 90000,
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|@substrate|smoldot)']
+  // NOTE Everything after "smoldot" is due to react-markdown being ESM - cannot wait for Jest to
+  // finally get this right and work in the modern world. Jest 28 maybe?
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|@substrate|smoldot|react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-|hast-to-|space-separated-tokens|comma-separated-tokens|rehype-raw|hastscript|web-namespaces|zwitch|html-void-elements)']
 };

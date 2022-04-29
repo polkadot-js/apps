@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 
@@ -45,7 +45,7 @@ function Tooltip ({ className = '', clickable = false, effect = 'solid', offset,
     };
   }, [tooltipContainer]);
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
       clickable={clickable}

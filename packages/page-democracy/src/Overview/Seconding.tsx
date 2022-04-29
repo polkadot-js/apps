@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
@@ -35,7 +35,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
     <>
       {isSecondingOpen && (
         <Modal
-          header={t<string>('Second proposal')}
+          header={t<string>('Endorse proposal')}
           onClose={toggleSeconding}
           size='large'
         >
@@ -46,10 +46,10 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
                 proposal={image?.proposal}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}>
+            <Modal.Columns hint={t<string>('Endorsing a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-                label={t<string>('second with account')}
+                help={t<string>('Select the account you wish to endorse with. This will lock your funds until the proposal is either approved or rejected')}
+                label={t<string>('endorse with account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
@@ -68,7 +68,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
               accountId={accountId}
               icon='sign-in-alt'
               isDisabled={!accountId}
-              label={t<string>('Second')}
+              label={t<string>('Endorse')}
               onStart={toggleSeconding}
               params={
                 api.tx.democracy.second.meta.args.length === 2
@@ -82,7 +82,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
       )}
       <Button
         icon='toggle-off'
-        label={t<string>('Second')}
+        label={t<string>('Endorse')}
         onClick={toggleSeconding}
       />
     </>

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
@@ -22,9 +22,7 @@ interface Props {
 
 const NOT_FOUND: Route = {
   Component: NotFound,
-  display: {
-    needsApi: undefined
-  },
+  display: {},
   group: 'settings',
   icon: 'times',
   isIgnored: false,
@@ -38,7 +36,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi, needsApiInstances }, icon, name, text } = useMemo(
+  const { Component, display: { needsApi, needsApiCheck, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
@@ -50,10 +48,10 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const missingApis = useMemo(
     () => needsApi
       ? isApiReady && isApiConnected
-        ? findMissingApis(api, needsApi, needsApiInstances)
+        ? findMissingApis(api, needsApi, needsApiInstances, needsApiCheck)
         : null
       : [],
-    [api, isApiConnected, isApiReady, needsApi, needsApiInstances]
+    [api, isApiConnected, isApiReady, needsApi, needsApiCheck, needsApiInstances]
   );
 
   return (

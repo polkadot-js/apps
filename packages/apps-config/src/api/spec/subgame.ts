@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -31,7 +31,7 @@ const definitions: OverrideBundleDefinition = {
           user: 'AccountId',
           game_id: 'u32',
           amount: 'u128',
-          game_mode: 'u8' // 1 = odd , 2 = even
+          game_mode: 'u8'
         },
         Template: {
           template_id: 'u32',
@@ -96,6 +96,7 @@ const definitions: OverrideBundleDefinition = {
           pallet_id: 'PalletId',
           program_id: 'ProgramId',
           stake_amount: 'Balance',
+          will_expire: 'bool',
           expires_at: 'Moment',
           nft_id: 'NftId'
         },

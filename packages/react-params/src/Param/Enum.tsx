@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ParamDef, Props, RawParam } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
@@ -23,40 +23,61 @@ interface Options {
   subTypes: TypeDef[];
 }
 
+interface Initial {
+  initialEnum: string | null;
+  initialValues: RawParam[] | undefined;
+}
+
+function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
+  const rawType = registry.createType(type.type as 'u32').toRawType();
+
+  return getTypeDef(rawType).sub as TypeDef[];
+}
+
+function getOptions (registry: Registry, type: TypeDef): Options {
+  const subTypes = getSubTypes(registry, type).filter(({ name }) => !!name && !name.startsWith('__Unused'));
+
+  return {
+    options: subTypes.map(({ name }): Option => ({
+      text: name,
+      value: name
+    })),
+    subTypes
+  };
+}
+
+function getInitial (defaultValue: RawParam): Initial {
+  return {
+    initialEnum: defaultValue && defaultValue.value
+      ? defaultValue.value instanceof Enum
+        ? defaultValue.value.type
+        : Object.keys(defaultValue.value as Record<string, unknown>)[0]
+      : null,
+    initialValues: defaultValue && defaultValue.value
+      ? defaultValue.value instanceof Enum
+        ? [{ isValid: true, value: defaultValue.value.inner }]
+        : undefined
+      : undefined
+  };
+}
+
+function getCurrent (registry: Registry, type: TypeDef, defaultValue: RawParam, subTypes: TypeDef[]): ParamDef[] | null {
+  const subs = getSubTypes(registry, type);
+
+  return defaultValue.value instanceof Enum
+    ? [{ name: defaultValue.value.type, type: subs[defaultValue.value.index] }]
+    : [{ name: subTypes[0].name, type: subTypes[0] }];
+}
+
 function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
-  const [current, setCurrent] = useState<ParamDef[] | null>(null);
-  const [initialValue, setInitialValue] = useState<string | null>(null);
-  const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
-
-  useEffect((): void => {
-    const rawType = registry.createType(type.type as 'u32').toRawType();
-    const typeDef = getTypeDef(rawType);
-    const subTypes = (typeDef.sub as TypeDef[]).filter(({ name }) => !!name && !name.startsWith('__Unused'));
-
-    setOptions({
-      options: subTypes.map(({ name }): Option => ({
-        text: name,
-        value: name
-      })),
-      subTypes
-    });
-    setCurrent([{ name: subTypes[0].name, type: subTypes[0] }]);
-  }, [registry, type]);
-
-  useEffect((): void => {
-    setInitialValue(
-      defaultValue && defaultValue.value
-        ? defaultValue.value instanceof Enum
-          ? defaultValue.value.type
-          : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-        : null
-    );
-  }, [defaultValue]);
+  const [{ options, subTypes }] = useState<Options>(() => getOptions(registry, type));
+  const [current, setCurrent] = useState<ParamDef[] | null>(() => getCurrent(registry, type, defaultValue, subTypes));
+  const [{ initialEnum, initialValues }] = useState<Initial>(() => getInitial(defaultValue));
 
   const _onChange = useCallback(
     (value: string): void => {
-      const newType = subTypes.find(({ name }): boolean => name === value) || null;
+      const newType = subTypes.find(({ name }) => name === value) || null;
 
       setCurrent(
         newType
@@ -85,7 +106,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
     <Bare className={className}>
       <Dropdown
         className='full'
-        defaultValue={initialValue}
+        defaultValue={initialEnum}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
@@ -100,6 +121,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           overrides={overrides}
           params={current}
           registry={registry}
+          values={initialValues}
         />
       )}
     </Bare>

@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
@@ -60,7 +60,13 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const extrinsics = useTxBatch(txs, { batchSize: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64) });
+  const batchOpts = useMemo(
+    () => ({
+      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+    }),
+    [api]
+  );
+  const extrinsics = useTxBatch(txs, batchOpts);
 
   useEffect((): void => {
     payout && setTxs(

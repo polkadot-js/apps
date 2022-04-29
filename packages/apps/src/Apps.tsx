@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BareProps as Props, ThemeDef } from '@polkadot/react-components/types';
@@ -54,4 +54,8 @@ export default React.memo(styled(Apps)`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  .--hidden {
+    display: none;
+  }
 `);

@@ -1,16 +1,17 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import '@polkadot/api-augment';
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { SortedTargets } from '../types';
 
-import BN from 'bn.js';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -22,6 +23,7 @@ import NewValidator from './NewValidator';
 interface Props {
   className?: string;
   isInElection?: boolean;
+  minCommission?: BN;
   ownStashes?: StakerState[];
   next?: string[];
   validators?: string[];
@@ -110,10 +112,11 @@ function formatTotal (typeIndex: number, state: State): React.ReactNode {
   return value && <FormatBalance value={value} />;
 }
 
-function Actions ({ className = '', isInElection, ownStashes, targets }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, minCommission, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const [typeIndex, setTypeIndex] = useState(0);
+  const [, setSelected] = useState<[string, string][]>([]);
 
   const headerRef = useRef([
     [t('stashes'), 'start', 2],
@@ -135,17 +138,34 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
     [ownStashes]
   );
 
-  const footer = useMemo(() => (
-    <tr>
-      <td colSpan={4} />
-      <td className='number'>{formatTotal(typeIndex, state)}</td>
-      <td colSpan={2} />
-    </tr>
-  ), [state, typeIndex]);
-
-  const filtered = useMemo(
-    () => state.foundStashes && filterStashes(typeIndex, state.foundStashes),
+  const [isSelectable, filtered, footer] = useMemo(
+    () => [
+      false, // [1, 2].includes(typeIndex)
+      state.foundStashes && filterStashes(typeIndex, state.foundStashes),
+      (
+        <tr key='footer'>
+          <td colSpan={4} />
+          <td className='number'>{formatTotal(typeIndex, state)}</td>
+          <td colSpan={2} />
+        </tr>
+      )
+    ],
     [state, typeIndex]
+  );
+
+  const onSelectStash = useCallback(
+    (stashId: string, controllerId: string, isSelected: boolean) =>
+      setSelected((prev) =>
+        isSelected
+          ? [...prev, [stashId, controllerId]]
+          : prev.filter(([s]) => s !== stashId)
+      ),
+    []
+  );
+
+  useEffect(
+    () => setSelected([]),
+    [typeIndex]
   );
 
   return (
@@ -162,6 +182,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
         />
         <NewValidator
           isInElection={isInElection}
+          minCommission={minCommission}
           targets={targets}
         />
         <NewStash />
@@ -177,7 +198,10 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
             allSlashes={allSlashes}
             info={info}
             isDisabled={isInElection}
+            isSelectable={isSelectable}
             key={info.stashId}
+            minCommission={minCommission}
+            onSelect={onSelectStash}
             targets={targets}
           />
         ))}

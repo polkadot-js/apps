@@ -1,17 +1,16 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
+import { Badge, Button, Icon, LinkExternal, Progress } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useChangeCalc from '../useChangeCalc';
@@ -36,6 +35,10 @@ interface VoteType {
   hasVotedAye: boolean;
 }
 
+function percentage (val: BN, div: BN): string {
+  return Math.min(100, val.muln(10000).div(div).toNumber() / 100).toFixed(2);
+}
+
 function Referendum ({ className = '', value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -47,6 +50,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+  const totalCalculated = votedAye.add(votedNay);
 
   const [percentages, { hasVoted, hasVotedAye }] = useMemo(
     (): [Percentages | null, VoteType] => {
@@ -59,11 +63,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           {
             aye: votedTotal.isZero()
               ? ''
-              : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+              : `${percentage(aye, votedTotal)}%`,
             nay: votedTotal.isZero()
               ? ''
-              : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
-            turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+              : `${percentage(nay, votedTotal)}%`,
+            turnout: `${percentage(votedTotal, totalIssuance)}%`
           },
           {
             hasVoted: hasVotedAye || allNay.some(({ accountId }) => allAccounts.includes(accountId.toString())),
@@ -103,9 +107,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-            {percentages.aye && (
-              <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
-            )}
           </>
         )}
       </td>
@@ -140,6 +141,12 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
+      <td className='media--1000 middle chart'>
+        <Progress
+          total={totalCalculated}
+          value={votedAye}
+        />
+      </td>
       <td className='button'>
         <Button.Group>
           {!image?.proposal && (
@@ -169,11 +176,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 }
 
 export default React.memo(styled(Referendum)`
-  .democracy--Referendum-results {
-    margin-bottom: 1em;
+  td.chart {
+    padding: 0.5rem 0;
 
-    &.chart {
-      text-align: center;
+    .ui--Progress {
+      display: inline-block;
     }
   }
 `);

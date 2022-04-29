@@ -1,27 +1,27 @@
-// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { Detector } from '@substrate/connect';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { WsProvider } from '@polkadot/api';
-import { ApiPromise } from '@polkadot/api/promise';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
+import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { formatBalance, isTestChain, objectSpread } from '@polkadot/util';
+import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -99,8 +99,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.system.properties(),
+  const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
@@ -113,9 +112,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   return {
     injectedAccounts,
     properties: registry.createType('ChainProperties', {
-      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
-      tokenDecimals: chainProperties.tokenDecimals,
-      tokenSymbol: chainProperties.tokenSymbol
+      ss58Format: api.registry.chainSS58,
+      tokenDecimals: api.registry.chainDecimals,
+      tokenSymbol: api.registry.chainTokens
     }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
@@ -124,26 +123,27 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
   const ss58Format = settings.prefix === -1
-    ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+    ? chainSS58
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
-  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
+  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
 
   // first setup the UI helpers
   formatBalance.setDefaults({
-    decimals: (tokenDecimals as BN[]).map((b) => b.toNumber()),
+    decimals: tokenDecimals.map((b) => b.toNumber()),
     unit: tokenSymbol[0].toString()
   });
   TokenUnit.setAbbr(tokenSymbol[0].toString());
@@ -151,6 +151,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
+    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+      ? [endpoint.genesisHashRelay]
+      : [],
     isDevelopment,
     ss58Format,
     store,
@@ -167,6 +170,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
+    chainSS58,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
@@ -179,6 +183,51 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
+function getWellKnownChain (chain = 'polkadot') {
+  switch (chain) {
+    case 'kusama':
+      return WellKnownChain.ksmcc3;
+    case 'polkadot':
+      return WellKnownChain.polkadot;
+    case 'rococo':
+      return WellKnownChain.rococo_v2_1;
+    case 'westend':
+      return WellKnownChain.westend2;
+    default:
+      throw new Error(`Unable to construct light chain ${chain}`);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
+  const types = getDevTypes();
+  const isLight = apiUrl.startsWith('light://');
+
+  try {
+    const provider = isLight
+      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+      : new WsProvider(apiUrl);
+
+    api = new ApiPromise({
+      provider,
+      registry,
+      signer,
+      types,
+      typesBundle,
+      typesChain
+    });
+
+    // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
+    if (isLight) {
+      await provider.connect();
+    }
+  } catch (error) {
+    onError(error);
+  }
+
+  return types;
+}
+
 function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
@@ -186,51 +235,51 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
-
+  const apiEndpoint = useEndpoint(apiUrl);
+  const relayUrls = useMemo(
+    () => (apiEndpoint && apiEndpoint.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
+      ? apiEndpoint.valueRelay
+      : null,
+    [apiEndpoint]
+  );
+  const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
+  );
+
+  const onError = useCallback(
+    (error: unknown): void => {
+      console.error(error);
+
+      setApiError((error as Error).message);
+    },
+    [setApiError]
   );
 
   // initial initialization
   useEffect((): void => {
-    let provider;
+    createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
+      .then((types): void => {
+        api.on('connected', () => setIsApiConnected(true));
+        api.on('disconnected', () => setIsApiConnected(false));
+        api.on('error', onError);
+        api.on('ready', (): void => {
+          const injectedPromise = web3Enable('polkadot-js/apps');
 
-    if (apiUrl.startsWith('light://')) {
-      const detect = new Detector('polkadot-js/apps');
+          injectedPromise
+            .then(setExtensions)
+            .catch(console.error);
 
-      provider = detect.provider({ name: apiUrl.replace('light://substrate-connect/', ''), spec: '' });
-      provider.connect().catch(console.error);
-    } else {
-      provider = new WsProvider(apiUrl);
-    }
-
-    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-    const types = getDevTypes();
-
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
-
-    api.on('connected', () => setIsApiConnected(true));
-    api.on('disconnected', () => setIsApiConnected(false));
-    api.on('error', (error: Error) => setApiError(error.message));
-    api.on('ready', (): void => {
-      const injectedPromise = web3Enable('polkadot-js/apps');
-
-      injectedPromise
-        .then(setExtensions)
-        .catch(console.error);
-
-      loadOnReady(api, injectedPromise, store, types)
-        .then(setState)
-        .catch((error): void => {
-          console.error(error);
-
-          setApiError((error as Error).message);
+          loadOnReady(api, apiEndpoint, injectedPromise, store, types)
+            .then(setState)
+            .catch(onError);
         });
-    });
 
-    setIsApiInitialized(true);
-  }, [apiUrl, queuePayload, queueSetTxStatus, store]);
+        setIsApiInitialized(true);
+      })
+      .catch(onError);
+  }, [apiEndpoint, apiUrl, onError, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;

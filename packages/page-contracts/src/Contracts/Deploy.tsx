@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -8,13 +8,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
+import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isHex, stringify } from '@polkadot/util';
+import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
@@ -31,13 +30,15 @@ interface Props {
 function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [params, setParams] = useState<unknown[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
+  const [params, setParams] = useState<unknown[]>([]);
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
+  const weight = useWeight();
+
+  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
 
   useEffect((): void => {
     setParams([]);
@@ -76,7 +77,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   useEffect((): void => {
-    endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
+    value && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
@@ -84,7 +85,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             salt: withSalt
               ? salt
               : null,
-            value: endowment
+            storageDepositLimit: null,
+            value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
         } catch (error) {
           return null;
@@ -93,7 +95,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, contractAbi, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, contractAbi, constructorIndex, value, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
@@ -114,7 +116,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   const isSaltValid = !withSalt || (salt && (!salt.startsWith('0x') || isHex(salt)));
-  const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid && isSaltValid;
+  const isValid = isNameValid && isValueValid && weight.isValid && isAccountIdValid && isSaltValid;
 
   return (
     <Modal
@@ -170,13 +172,16 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
           </>
         )}
-        <InputBalance
-          help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
-          isError={!isEndowmentValid}
-          label={t<string>('endowment')}
-          onChange={setEndowment}
-          value={endowment}
-        />
+        {contractAbi?.constructors[constructorIndex].isPayable && (
+          <InputBalance
+            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+            isError={!isValueValid}
+            isZeroable={hasStorageDeposit}
+            label={t<string>('value')}
+            onChange={setValue}
+            value={value}
+          />
+        )}
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}

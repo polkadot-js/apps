@@ -1,44 +1,70 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    Acala: 'acala',
     'Acala Mandala TC5': 'acala-testnet',
-    'Ares Gladios': 'ares-testnet',
+    'Aleph Zero': 'alephzero',
+    Altair: 'altair',
+    Astar: 'astar',
     Bifrost: 'bifrost',
     Calamari: 'calamari',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
-    'Crust Maxwell': 'crust',
+    Clover: 'clv',
+    'Crab-parachain': 'crab-parachain',
+    Crust: 'crust',
+    'Crust Collator': 'shadow',
+    'Crust Maxwell': 'maxwell',
     Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
+    Dock: 'dock',
     Edgeware: 'edgeware',
+    'Encointer-parachain': 'encointer',
     Equilibrium: 'equilibrium',
+    'Integritee Collator': 'integritee',
+    Interlay: 'interlay',
     'KILT Peregrine': 'kilt-testnet',
     'KILT Spiritnet': 'spiritnet',
     Karura: 'karura',
     Khala: 'khala',
+    Kintsugi: 'kintsugi',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
-    'Laminar Turbulence TC2': 'laminar-testnet',
+    Litmus: 'litmus',
     Moonbase: 'moonbase',
+    Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
-    'Phala PoC-4': 'phala',
+    'Nodle Parachain': 'nodle',
+    Pangolin: 'pangolin',
+    Pangoro: 'pangoro',
+    Parallel: 'parallel',
+    'Parallel Heiko': 'parallel-heiko',
+    Picasso: 'picasso',
+    'Pioneer Network': 'pioneer',
     Plasm: 'plasm',
+    Polkadex: 'polkadex',
     Polkadot: 'polkadot',
+    Polymesh: 'polymesh',
+    'QUARTZ by UNIQUE': 'quartz',
+    Robonomics: 'robonomics',
     Rococo: 'rococo',
     SORA: 'sora',
+    Shibuya: 'shibuya',
     'Shibuya Testnet': 'shibuya',
     Shiden: 'shiden',
     Stafi: 'stafi',
     Statemine: 'statemine',
+    Statemint: 'statemint',
     Subgame: 'subgame',
     Uniarts: 'uniarts',
-    Westend: 'westend'
+    Westend: 'westend',
+    Zeitgeist: 'zeitgeist'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
@@ -47,6 +73,7 @@ export default {
   paths: {
     address: 'account',
     block: 'block',
+    bounty: 'bounty',
     council: 'council',
     extrinsic: 'extrinsic',
     proposal: 'democracy_proposal',

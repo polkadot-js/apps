@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
@@ -23,9 +23,9 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      // 'Patract Elara': 'wss://pub.elara.patract.io/westend', // No balances showing on Westend, runtime 9110
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
+      Dwellir: 'wss://westend-rpc.dwellir.com',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     },
@@ -40,7 +40,7 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io',
-          'Patract Elara': 'wss://pub.elara.patract.io/westmint'
+          Dwellir: 'wss://westmint-rpc.dwellir.com'
         },
         teleport: [-1]
       },
@@ -73,10 +73,10 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'interBTC',
+        info: 'interlay',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
         paraId: 2094,
-        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        text: t('rpc.westend.interbtc', 'Interlay', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-westend.interlay.io/parachain'
         }
@@ -91,17 +91,8 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'opal',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6456
-        homepage: 'https://unique.network/',
-        paraId: 2096,
-        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
-        providers: {
-          Unique: 'wss://westend-opal.unique.network'
-        }
-      },
-      {
         info: 'pangoro',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
         paraId: 2102,
         text: t('rpc.westend.pangoro', 'Pangoro', { ns: 'apps-config' }),
@@ -112,7 +103,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'westendPichiu',
         homepage: 'https://kylin.network/',
-        paraId: 2106,
+        paraId: 2112,
         text: t('westend.kylin-node.co.uk', 'Pichiu', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://westend.kylin-node.co.uk'

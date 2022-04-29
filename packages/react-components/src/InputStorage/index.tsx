@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: We have a lot shared between this and InputExtrinsic
@@ -11,8 +11,7 @@ import React, { useCallback, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import keyOptions from './options/key';
-import sectionOptions from './options/section';
+import { keyOptions, sectionOptions } from './options';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 
