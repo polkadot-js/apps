@@ -67,8 +67,6 @@ function includeAuthors (prev: Collator[], authored: Authored): Collator[] {
 
 function useCollatorImpl (): Collator[] | undefined {
   const { api } = useApi();
-  const invulnerables = useCall<Collator[]>(api.query.collatorSelection.invulnerables, [], OPT_INV);
-  const candidates = useCall<Collator[]>(api.query.collatorSelection.candidates, [], OPT_CAN);
   const [state, setState] = useState<Collator[] | undefined>();
 
   const accountIds = useMemo(
@@ -76,6 +74,8 @@ function useCollatorImpl (): Collator[] | undefined {
     [state]
   );
 
+  const invulnerables = useCall<Collator[]>(api.query.collatorSelection.invulnerables, [], OPT_INV);
+  const candidates = useCall<Collator[]>(api.query.collatorSelection.candidates, [], OPT_CAN);
   const lastBlocks = useCall<Authored>(accountIds && api.query.collatorSelection.lastAuthoredBlock?.multi, [accountIds], OPT_AUT);
 
   useEffect(
