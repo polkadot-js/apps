@@ -2771,6 +2771,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-collator@workspace:packages/page-collator":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-collator@workspace:packages/page-collator"
+  dependencies:
+    "@babel/runtime": ^7.17.9
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-contracts@workspace:packages/page-contracts":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"

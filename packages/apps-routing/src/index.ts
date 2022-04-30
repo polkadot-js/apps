@@ -10,6 +10,7 @@ import assets from './assets';
 import bounties from './bounties';
 import calendar from './calendar';
 import claims from './claims';
+import collator from './collator';
 import contracts from './contracts';
 import council from './council';
 import democracy from './democracy';
@@ -44,6 +45,7 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    collator(t),
     democracy(t),
     council(t),
     treasury(t),
