@@ -21,7 +21,7 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
         {isInvulnerable && (
           <Badge
             color='green'
-            icon='vector-square'
+            icon='shield'
           />
         )}
       </td>
