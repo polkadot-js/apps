@@ -1752,7 +1752,7 @@
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, hosted by Parity)",
   "rpc.header.dev": "Разработка",
-  "rpc.header.kusama.relay": "Kusuma & связанные сети",
+  "rpc.header.kusama.relay": "Kusama & связанные сети",
   "rpc.header.live": "Рабочие сети",
   "rpc.header.polkadot.relay": "Polkadot & связанные сети",
   "rpc.header.rococo.relay": "Test Rococo & связанные сети",
