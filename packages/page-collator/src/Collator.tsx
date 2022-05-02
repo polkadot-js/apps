@@ -3,7 +3,7 @@
 
 import type { Collator as CollatorType } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { AddressSmall, Badge } from '@polkadot/react-components';
 import { BalanceFree, FormatBalance } from '@polkadot/react-query';
@@ -12,9 +12,17 @@ import { formatNumber } from '@polkadot/util';
 interface Props {
   className?: string;
   info: CollatorType;
+  lastBlock?: string;
 }
 
-function Collator ({ className, info: { accountId, deposit, isInvulnerable, lastBlock } }: Props): React.ReactElement<Props> {
+function Collator ({ className, info: { accountId, deposit, isInvulnerable, lastBlock: lastStateBlock }, lastBlock: lastGlobalBlock }: Props): React.ReactElement<Props> {
+  const lastBlock = useMemo(
+    () => lastStateBlock
+      ? formatNumber(lastStateBlock)
+      : lastGlobalBlock,
+    [lastStateBlock, lastGlobalBlock]
+  );
+
   return (
     <tr className={className}>
       <td className='badge number'>
@@ -37,7 +45,7 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
         <BalanceFree params={accountId} />
       </td>
       <td className='number'>
-        {lastBlock && formatNumber(lastBlock)}
+        {lastBlock}
       </td>
     </tr>
   );
