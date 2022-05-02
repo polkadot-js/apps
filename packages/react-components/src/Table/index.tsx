@@ -188,9 +188,6 @@ export default React.memo(styled(Table)`
       }
 
       &.button {
-        align-items: center;
-        display: flex;
-        justify-content: flex-end;
         padding: 0.25rem 0.5rem;
         text-align: right;
         white-space: nowrap;
