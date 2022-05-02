@@ -19,6 +19,7 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   setLast: (value: DecodedExtrinsic | null) => void;
+  calldata?: string;
 }
 
 interface ExtrinsicInfo {
@@ -39,7 +40,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicHex: null
 };
 
-function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
+function Decoder ({ className, setLast, calldata }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
@@ -86,6 +87,7 @@ function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
         label={t<string>('hex-encoded call')}
         onChange={_setExtrinsicHex}
         placeholder={t<string>('0x...')}
+        defaultValue={calldata}
       />
       {extrinsicError && (
         <MarkError content={extrinsicError} />
