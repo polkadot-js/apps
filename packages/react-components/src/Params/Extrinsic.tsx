@@ -23,7 +23,7 @@ interface Props {
 
 function ExtrinsicDisplay ({ className = '', defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [defaultArgs] = useState(
-    () => defaultValue.args.map((value): RawParam => ({
+    () => defaultValue && defaultValue.args && defaultValue.args.map((value): RawParam => ({
       isValid: true,
       value
     }))
