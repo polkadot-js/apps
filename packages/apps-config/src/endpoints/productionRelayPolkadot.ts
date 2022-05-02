@@ -128,7 +128,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2019,
         text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
         providers: {
-          Composable: 'wss://rpc.composable.finance'
+          Composable: 'wss://rpc.composable.finance',
+          Dwellir: 'wss://composable-rpc.dwellir.com'
         }
       },
       {

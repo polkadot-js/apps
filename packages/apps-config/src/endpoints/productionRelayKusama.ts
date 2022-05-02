@@ -324,7 +324,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2087,
         text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
         providers: {
-          Composable: 'wss://picasso-rpc.composable.finance'
+          Composable: 'wss://picasso-rpc.composable.finance',
+          Dwellir: 'wss://picasso-rpc.dwellir.com'
         }
       },
       {
