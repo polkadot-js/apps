@@ -1,4 +1,4 @@
-    3570	Jaco                          	Ensure Call values are correctly passed on decode (#7504)
+    3571	Jaco                          	Ensure decode fills non-existent MultiAddress (allPlus) (#7506)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
