@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Props, RawParam } from '@polkadot/react-params/types';
 import type { Call } from '@polkadot/types/interfaces';
@@ -27,29 +28,31 @@ function mapArgs (args: unknown[]): RawParam[] {
   }));
 }
 
+export function extractInitial (api: ApiPromise, initialValue: SubmittableExtrinsicFunction<'promise'>, input?: RawParam): { initialArgs?: RawParam[], initialValue: SubmittableExtrinsicFunction<'promise'> } {
+  try {
+    return input && input.value
+      ? isCall(input.value)
+        ? {
+          initialArgs: mapArgs(input.value.args),
+          initialValue: api.tx[input.value.section][input.value.method]
+        }
+        : isSubmittable(input.value)
+          ? {
+            initialArgs: mapArgs(input.value.method.args),
+            initialValue: api.tx[input.value.method.section][input.value.method.method]
+          }
+          : { initialValue: (input.value as SubmittableExtrinsicFunction<'promise'>) }
+      : { initialValue };
+  } catch (error) {
+    return { initialValue };
+  }
+}
+
 function CallDisplay ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTx } = useApi();
 
   const [{ initialArgs, initialValue }] = useState(
-    (): { initialArgs?: RawParam[], initialValue: SubmittableExtrinsicFunction<'promise'> } => {
-      try {
-        return defaultValue && defaultValue.value
-          ? isCall(defaultValue.value)
-            ? {
-              initialArgs: mapArgs(defaultValue.value.args),
-              initialValue: api.tx[defaultValue.value.section][defaultValue.value.method]
-            }
-            : isSubmittable(defaultValue.value)
-              ? {
-                initialArgs: mapArgs(defaultValue.value.method.args),
-                initialValue: api.tx[defaultValue.value.method.section][defaultValue.value.method.method]
-              }
-              : { initialValue: (defaultValue.value as SubmittableExtrinsicFunction<'promise'>) }
-          : { initialValue: api.tx.balances.transfer };
-      } catch (error) {
-        return { initialValue: apiDefaultTx };
-      }
-    }
+    () => extractInitial(api, apiDefaultTx, defaultValue)
   );
 
   return (
