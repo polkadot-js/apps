@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { useLocation } from 'react-router-dom';
 import type { Call } from '@polkadot/types/interfaces';
 import type { DecodedExtrinsic } from './types';
 
@@ -10,6 +9,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, TxButton } from '@polkadot/react-components';
+import { useLocation } from 'react-router-dom';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { assert, isHex } from '@polkadot/util';
@@ -18,9 +18,9 @@ import Decoded from './Decoded';
 import { useTranslation } from './translate';
 
 interface Props {
+  calldata?: string;
   className?: string;
   setLast: (value: DecodedExtrinsic | null) => void;
-  calldata?: string;
 }
 
 interface ExtrinsicInfo {
@@ -52,7 +52,6 @@ function Decoder({ className, setLast }: Props): React.ReactElement<Props> {
   const _setExtrinsicHex = useCallback(
     (extrinsicHex: string): void => {
       try {
-        console.log('got here' + extrinsicHex);
         assert(isHex(extrinsicHex), 'Expected a hex-encoded call');
 
         let extrinsicCall: Call;
@@ -84,9 +83,9 @@ function Decoder({ className, setLast }: Props): React.ReactElement<Props> {
     [api, setLast]
   );
 
-  if (calldata && decoded === null) {   
+  if (calldata && decoded === null) {
     // Seems the function needs forcing to run. might be a way to touch the input to trigger the onChange?
-    _setExtrinsicHex(calldata);
+    _setExtrinsicHex( calldata );
   }
 
   return (
