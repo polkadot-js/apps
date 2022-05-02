@@ -1,4 +1,4 @@
-    3568	Jaco                          	Fallback check for Collator blocks via context (#7502)
+    3569	Jaco                          	Nested Call decoded display (#7503)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
