@@ -4,27 +4,31 @@
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Props } from '@polkadot/react-params/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsic from './Extrinsic';
 
-function Call ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function Call ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTx } = useApi();
 
-  const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
-    try {
-      return api.tx.balances.transfer;
-    } catch (error) {
-      return apiDefaultTx;
+  const [initialValue] = useState(
+    (): SubmittableExtrinsicFunction<'promise'> => {
+      try {
+        return defaultValue && defaultValue.value
+          ? defaultValue.value as SubmittableExtrinsicFunction<'promise'>
+          : api.tx.balances.transfer;
+      } catch (error) {
+        return apiDefaultTx;
+      }
     }
-  })();
+  );
 
   return (
     <Extrinsic
       className={className}
-      defaultValue={defaultValue}
+      defaultValue={initialValue}
       isDisabled={isDisabled}
       isError={isError}
       isPrivate={false}
