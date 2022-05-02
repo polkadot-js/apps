@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import { useLocation } from 'react-router-dom';
 import type { Call } from '@polkadot/types/interfaces';
 import type { DecodedExtrinsic } from './types';
 
@@ -40,7 +41,9 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicHex: null
 };
 
-function Decoder ({ className, setLast, calldata }: Props): React.ReactElement<Props> {
+function Decoder({ className, setLast }: Props): React.ReactElement<Props> {
+  const location = useLocation();
+  const calldata = location?.search?.replace('?calldata=', '');
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
@@ -49,6 +52,7 @@ function Decoder ({ className, setLast, calldata }: Props): React.ReactElement<P
   const _setExtrinsicHex = useCallback(
     (extrinsicHex: string): void => {
       try {
+        console.log('got here' + extrinsicHex);
         assert(isHex(extrinsicHex), 'Expected a hex-encoded call');
 
         let extrinsicCall: Call;
@@ -79,6 +83,11 @@ function Decoder ({ className, setLast, calldata }: Props): React.ReactElement<P
     },
     [api, setLast]
   );
+
+  if (calldata && decoded === null) {   
+    // Seems the function needs forcing to run. might be a way to touch the input to trigger the onChange?
+    _setExtrinsicHex(calldata);
+  }
 
   return (
     <div className={className}>
