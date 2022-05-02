@@ -6,10 +6,10 @@ import type { Call } from '@polkadot/types/interfaces';
 import type { DecodedExtrinsic } from './types';
 
 import React, { useCallback, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, TxButton } from '@polkadot/react-components';
-import { useLocation } from 'react-router-dom';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { assert, isHex } from '@polkadot/util';
@@ -41,7 +41,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicHex: null
 };
 
-function Decoder({ className, setLast }: Props): React.ReactElement<Props> {
+function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const calldata = location?.search?.replace('?calldata=', '');
   const { t } = useTranslation();
@@ -85,17 +85,17 @@ function Decoder({ className, setLast }: Props): React.ReactElement<Props> {
 
   if (calldata && decoded === null) {
     // Seems the function needs forcing to run. might be a way to touch the input to trigger the onChange?
-    _setExtrinsicHex( calldata );
+    _setExtrinsicHex(calldata);
   }
 
   return (
     <div className={className}>
       <Input
+        defaultValue={calldata}
         isError={!extrinsicFn}
         label={t<string>('hex-encoded call')}
         onChange={_setExtrinsicHex}
         placeholder={t<string>('0x...')}
-        defaultValue={calldata}
       />
       {extrinsicError && (
         <MarkError content={extrinsicError} />
