@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import BaseExtrinsic from '../Extrinsic';
 
@@ -22,6 +22,13 @@ interface Props {
 }
 
 function ExtrinsicDisplay ({ className = '', defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+  const [defaultArgs] = useState(
+    () => defaultValue && defaultValue.args && defaultValue.args.map((value): RawParam => ({
+      isValid: true,
+      value
+    }))
+  );
+
   const _onChange = useCallback(
     (method?: SubmittableExtrinsic<'promise'>): void =>
       onChange && onChange({
@@ -34,6 +41,7 @@ function ExtrinsicDisplay ({ className = '', defaultValue, isDisabled, isError, 
   return (
     <BaseExtrinsic
       className={className}
+      defaultArgs={defaultArgs}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
