@@ -1,4 +1,4 @@
-    3567	Jaco                          	Chnage ExpandButton to inline (#7501)
+    3568	Jaco                          	Fallback check for Collator blocks via context (#7502)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
