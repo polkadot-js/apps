@@ -12,6 +12,7 @@ import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { keyring } from '@polkadot/ui-keyring';
 import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
+import { isAddress } from '@polkadot/util-crypto';
 
 import Dropdown from '../Dropdown';
 import Static from '../Static';
@@ -170,7 +171,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     const { lastValue, value } = this.state;
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
-      isDisabled || (defaultValue && this.hasValue(defaultValue))
+      isDisabled || (defaultValue && (this.hasValue(defaultValue) || type === 'allPlus'))
         ? defaultValue
         : this.hasValue(lastValue)
           ? lastValue
@@ -180,7 +181,9 @@ class InputAddress extends React.PureComponent<Props, State> {
       ? dedupe(options.map((o) => createItem(o)))
       : isDisabled && actualValue
         ? [createOption(actualValue)]
-        : this.getFiltered();
+        : actualValue
+          ? this.addActual(actualValue)
+          : this.getFiltered();
     const _defaultValue = (isMultiple || !isUndefined(value))
       ? undefined
       : actualValue;
@@ -217,6 +220,14 @@ class InputAddress extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       />
     );
+  }
+
+  private addActual (actualValue: string): Option[] {
+    const base = this.getFiltered();
+
+    return this.hasValue(actualValue)
+      ? base
+      : base.concat(createOption(actualValue));
   }
 
   private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
@@ -263,7 +274,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     !filter && setLastValue(type, address);
 
     onChange && onChange(
-      this.hasValue(address)
+      !!address && (this.hasValue(address) || (type === 'allPlus' && isAddress(address)))
         ? transformToAccountId(address)
         : null
     );
