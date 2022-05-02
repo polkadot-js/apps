@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import Collator from './Collator';
 import Summary from './Summary';
@@ -17,6 +18,7 @@ interface Props {
 function Collators ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const collators = useCollators();
+  const { byAuthor } = useContext(BlockAuthorsContext);
 
   const hdrRef = useRef([
     [t<string>('collators'), 'start', 2],
@@ -36,6 +38,7 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
           <Collator
             info={c}
             key={c.accountId}
+            lastBlock={byAuthor[c.accountId]}
           />
         ))}
       </Table>
