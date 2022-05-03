@@ -124,6 +124,7 @@ export default React.memo(styled(DecodedInspect)`
 
         &:not(.isLink) td:last-child {
           font: var(--font-mono);
+          width: 100%;
         }
 
         &.isLink td {
