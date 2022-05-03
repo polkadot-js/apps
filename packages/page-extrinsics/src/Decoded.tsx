@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Inspect } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -19,7 +20,7 @@ interface Props {
   withHash?: boolean;
 }
 
-function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, string, Inspect | null] {
+function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [HexString, HexString, Inspect | null] {
   if (!extrinsic) {
     return ['0x', '0x', null];
   }
@@ -74,6 +75,7 @@ function Decoded ({ className, extrinsic, withData = true, withHash = true }: Pr
       </Columar.Column>
       <Columar.Column>
         <DecodedInspect
+          hex={hex}
           inspect={inspect}
           label={t<string>('encoded call details')}
         />
