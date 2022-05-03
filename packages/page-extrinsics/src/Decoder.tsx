@@ -25,7 +25,6 @@ interface Props {
 
 interface ExtrinsicInfo {
   decoded: SubmittableExtrinsic<'promise'> | null;
-  extrinsic: SubmittableExtrinsic<'promise'> | null;
   extrinsicCall: Call | null;
   extrinsicError: string | null;
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
@@ -34,7 +33,6 @@ interface ExtrinsicInfo {
 
 const DEFAULT_INFO: ExtrinsicInfo = {
   decoded: null,
-  extrinsic: null,
   extrinsicCall: null,
   extrinsicError: null,
   extrinsicFn: null,
@@ -66,13 +64,12 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
         const extrinsicFn = api.tx[section][method];
-        const extrinsic = extrinsicFn(...extrinsicCall.args);
 
         if (!decoded) {
-          decoded = extrinsic;
+          decoded = extrinsicFn(...extrinsicCall.args);
         }
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsic, extrinsicCall, extrinsicFn, extrinsicHex: hex });
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex });
         setLast({ call: extrinsicCall, fn: extrinsicFn, hex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
