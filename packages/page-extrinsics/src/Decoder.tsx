@@ -10,9 +10,8 @@ import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, TxButton } from '@polkadot/react-components';
+import { Call as CallDisplay, Input, InputExtrinsic, MarkError } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BalanceFree } from '@polkadot/react-query';
 import { assert, isHex } from '@polkadot/util';
 
 import Decoded from './Decoded';
@@ -26,7 +25,6 @@ interface Props {
 
 interface ExtrinsicInfo {
   decoded: SubmittableExtrinsic<'promise'> | null;
-  extrinsic: SubmittableExtrinsic<'promise'> | null;
   extrinsicCall: Call | null;
   extrinsicError: string | null;
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
@@ -35,7 +33,6 @@ interface ExtrinsicInfo {
 
 const DEFAULT_INFO: ExtrinsicInfo = {
   decoded: null,
-  extrinsic: null,
   extrinsicCall: null,
   extrinsicError: null,
   extrinsicFn: null,
@@ -47,35 +44,33 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
-  const [accountId, setAccountId] = useState<string | null>(null);
+  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
 
   const _setExtrinsicHex = useCallback(
-    (extrinsicHex: string): void => {
+    (hex: string): void => {
       try {
-        assert(isHex(extrinsicHex), 'Expected a hex-encoded call');
+        assert(isHex(hex), 'Expected a hex-encoded call');
 
         let extrinsicCall: Call;
         let decoded: SubmittableExtrinsic<'promise'> | null = null;
 
         try {
           // cater for an extrinsic input...
-          decoded = api.tx(extrinsicHex);
+          decoded = api.tx(hex);
           extrinsicCall = api.createType('Call', decoded.method);
         } catch (e) {
-          extrinsicCall = api.createType('Call', extrinsicHex);
+          extrinsicCall = api.createType('Call', hex);
         }
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
         const extrinsicFn = api.tx[section][method];
-        const extrinsic = extrinsicFn(...extrinsicCall.args);
 
         if (!decoded) {
-          decoded = extrinsic;
+          decoded = extrinsicFn(...extrinsicCall.args);
         }
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsic, extrinsicCall, extrinsicFn, extrinsicHex });
-        setLast({ call: extrinsicCall, fn: extrinsicFn, hex: extrinsicHex });
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex });
+        setLast({ call: extrinsicCall, fn: extrinsicFn, hex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
         setLast(null);
@@ -113,32 +108,6 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         extrinsic={decoded}
         withData={false}
       />
-      <InputAddress
-        label={t<string>('using the selected account')}
-        labelExtra={
-          <BalanceFree
-            label={<label>{t<string>('free balance')}</label>}
-            params={accountId}
-          />
-        }
-        onChange={setAccountId}
-        type='account'
-      />
-      <Button.Group>
-        <TxButton
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          isUnsigned
-          label={t<string>('Submit Unsigned')}
-          withSpinner
-        />
-        <TxButton
-          accountId={accountId}
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          label={t<string>('Submit Transaction')}
-        />
-      </Button.Group>
     </div>
   );
 }
