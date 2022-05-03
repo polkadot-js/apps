@@ -40,7 +40,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
 };
 
 function Decoder ({ className, defaultValue, setLast }: Props): React.ReactElement<Props> {
-  const { value: encoded } = useParams<{ value: string }>();
+  const { encoded } = useParams<{ encoded: string }>();
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
