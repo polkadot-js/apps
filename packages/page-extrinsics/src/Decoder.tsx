@@ -3,9 +3,11 @@
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Call } from '@polkadot/types/interfaces';
+import type { HexString } from '@polkadot/util/types';
 import type { DecodedExtrinsic } from './types';
 
 import React, { useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button, Call as CallDisplay, Input, InputAddress, InputExtrinsic, MarkError, TxButton } from '@polkadot/react-components';
@@ -18,6 +20,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  defaultValue?: HexString | null;
   setLast: (value: DecodedExtrinsic | null) => void;
 }
 
@@ -39,7 +42,9 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicHex: null
 };
 
-function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
+function Decoder ({ className, defaultValue, setLast }: Props): React.ReactElement<Props> {
+  const { value: encoded } = useParams<{ value: string }>();
+  const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ decoded, extrinsic, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
@@ -70,7 +75,7 @@ function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
         }
 
         setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsic, extrinsicCall, extrinsicFn, extrinsicHex });
-        setLast({ call: extrinsicCall, fn: extrinsicFn });
+        setLast({ call: extrinsicCall, fn: extrinsicFn, hex: extrinsicHex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
         setLast(null);
@@ -82,6 +87,7 @@ function Decoder ({ className, setLast }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Input
+        defaultValue={initialValue}
         isError={!extrinsicFn}
         label={t<string>('hex-encoded call')}
         onChange={_setExtrinsicHex}
