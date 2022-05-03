@@ -117,7 +117,7 @@ export default React.memo(styled(DecodedInspect)`
 
         td:first-child {
           color: var(--color-label);
-          padding-right: 0.5em;
+          padding: 0 0.5em 0 1rem;
           text-align: right;
           white-space: nowrap;
         }
