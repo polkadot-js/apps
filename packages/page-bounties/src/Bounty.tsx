@@ -124,7 +124,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='fast-actions-row'>
             <LinkExternal
               data={index}
-              isLogo
               type='bounty'
             />
             <BountyExtraActions
