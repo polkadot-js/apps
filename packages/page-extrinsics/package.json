@@ -11,11 +11,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.113.2-37",
+  "version": "0.113.2-38",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
-    "@polkadot/react-components": "^0.113.2-37",
-    "@polkadot/react-params": "^0.113.2-37",
-    "@polkadot/react-signer": "^0.113.2-37"
+    "@polkadot/react-components": "^0.113.2-38",
+    "@polkadot/react-params": "^0.113.2-38",
+    "@polkadot/react-signer": "^0.113.2-38"
   }
 }
