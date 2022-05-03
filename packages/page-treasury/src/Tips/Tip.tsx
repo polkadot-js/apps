@@ -205,7 +205,6 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <td className='links media--1700'>
         <LinkExternal
           data={hash}
-          isLogo
           type='tip'
         />
       </td>
