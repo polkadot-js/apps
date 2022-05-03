@@ -18,7 +18,7 @@ import { useTranslation } from './translate';
 function createPathRef (basePath: string): Record<string, string | string[]> {
   return {
     decode: [
-      `${basePath}/decode/:value`,
+      `${basePath}/decode/:encoded`,
       `${basePath}/decode`
     ]
   };
