@@ -24,6 +24,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
       text: t<string>('Submission')
     },
     {
+      hasParams: true,
       name: 'decode',
       text: t<string>('Decode')
     }
@@ -36,8 +37,11 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Switch>
-        <Route path={`${basePath}/decode`}>
-          <Decoder setLast={setDecoded} />
+        <Route path={[`${basePath}/decode/:value`, `${basePath}/decode`]}>
+          <Decoder
+            defaultValue={decoded && decoded.hex}
+            setLast={setDecoded}
+          />
         </Route>
         <Route>
           <Submission defaultValue={decoded} />
