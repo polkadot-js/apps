@@ -36,6 +36,7 @@ export interface ApiProps extends ApiState {
   apiError: string | null;
   apiRelay: ApiPromise | null;
   apiUrl?: string;
+  createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
   isApiConnected: boolean;
   isApiInitialized: boolean;
