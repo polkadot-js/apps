@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
@@ -12,9 +11,9 @@ import { WESTEND_GENESIS } from '../api/constants';
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
-//   value: The actual hosted secure websocket endpoint
+//   providers: The actual hosted secure websocket endpoint
 //
-// Alpahebtical based on text
+// IMPORTANT: Alphabetical based on text
 export const testParasWestend: EndpointOption[] = [
   {
     info: 'basilisk',
@@ -128,26 +127,22 @@ export const testParasWestendCommon: EndpointOption[] = [
   }
 ];
 
-// Based on history, this will expand so keep it as a singular chunk
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function createWestend (t: TFunction): EndpointOption {
-  return {
-    dnslink: 'westend',
-    genesisHash: WESTEND_GENESIS,
-    info: 'westend',
-    text: 'Westend',
-    providers: {
-      Parity: 'wss://westend-rpc.polkadot.io',
-      OnFinality: 'wss://westend.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
-      Dwellir: 'wss://westend-rpc.dwellir.com',
-      'light client': 'light://substrate-connect/westend'
-      // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-    },
-    teleport: [1000],
-    linked: [
-      ...testParasWestendCommon,
-      ...testParasWestend
-    ]
-  };
-}
+export const testRelayWestend: EndpointOption = {
+  dnslink: 'westend',
+  genesisHash: WESTEND_GENESIS,
+  info: 'westend',
+  text: 'Westend',
+  providers: {
+    Parity: 'wss://westend-rpc.polkadot.io',
+    OnFinality: 'wss://westend.api.onfinality.io/public-ws',
+    Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
+    Dwellir: 'wss://westend-rpc.dwellir.com',
+    // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
+    'light client': 'light://substrate-connect/westend'
+  },
+  teleport: [1000],
+  linked: [
+    ...testParasWestendCommon,
+    ...testParasWestend
+  ]
+};

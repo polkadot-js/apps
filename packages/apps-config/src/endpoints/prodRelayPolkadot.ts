@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
@@ -12,9 +11,9 @@ import { POLKADOT_GENESIS } from '../api/constants';
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
-//   value: The actual hosted secure websocket endpoint
+//   providers: The actual hosted secure websocket endpoint
 //
-// Alpahebtical based on text
+// IMPORTANT: Alphabetical based on text
 export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'acala',
@@ -306,24 +305,21 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   }
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function createPolkadot (t: TFunction): EndpointOption {
-  return {
-    dnslink: 'polkadot',
-    genesisHash: POLKADOT_GENESIS,
-    info: 'polkadot',
-    text: 'Polkadot',
-    providers: {
-      Parity: 'wss://rpc.polkadot.io',
-      OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-      // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-      Dwellir: 'wss://polkadot-rpc.dwellir.com',
-      'light client': 'light://substrate-connect/polkadot'
-      // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    },
-    linked: [
-      ...prodParasPolkadotCommon,
-      ...prodParasPolkadot
-    ]
-  };
-}
+export const prodRelayPolkadot: EndpointOption = {
+  dnslink: 'polkadot',
+  genesisHash: POLKADOT_GENESIS,
+  info: 'polkadot',
+  text: 'Polkadot',
+  providers: {
+    Parity: 'wss://rpc.polkadot.io',
+    OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
+    Dwellir: 'wss://polkadot-rpc.dwellir.com',
+    // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+    // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
+    'light client': 'light://substrate-connect/polkadot'
+  },
+  linked: [
+    ...prodParasPolkadotCommon,
+    ...prodParasPolkadot
+  ]
+};
