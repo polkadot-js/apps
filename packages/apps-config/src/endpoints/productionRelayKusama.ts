@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
@@ -12,9 +11,9 @@ import { KUSAMA_GENESIS } from '../api/constants';
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
-//   value: The actual hosted secure websocket endpoint
+//   providers: The actual hosted secure websocket endpoint
 //
-// Alpahebtical based on text
+// IMPORTANT: Alphabetical based on text
 export const prodParasKusama: EndpointOption[] = [
   {
     info: 'altair',
@@ -459,26 +458,23 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   }
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function createKusama (t: TFunction): EndpointOption {
-  return {
-    dnslink: 'kusama',
-    genesisHash: KUSAMA_GENESIS,
-    info: 'kusama',
-    text: 'Kusama',
-    providers: {
-      Parity: 'wss://kusama-rpc.polkadot.io',
-      OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-      Dwellir: 'wss://kusama-rpc.dwellir.com',
-      RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
-      'light client': 'light://substrate-connect/kusama'
-      // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    },
-    teleport: [1000, 1001],
-    linked: [
-      ...prodParasKusamaCommon,
-      ...prodParasKusama
-    ]
-  };
-}
+export const prodRelayKusama: EndpointOption = {
+  dnslink: 'kusama',
+  genesisHash: KUSAMA_GENESIS,
+  info: 'kusama',
+  text: 'Kusama',
+  providers: {
+    Parity: 'wss://kusama-rpc.polkadot.io',
+    OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
+    Dwellir: 'wss://kusama-rpc.dwellir.com',
+    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
+    // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+    // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
+    'light client': 'light://substrate-connect/kusama'
+  },
+  teleport: [1000, 1001],
+  linked: [
+    ...prodParasKusamaCommon,
+    ...prodParasKusama
+  ]
+};

@@ -1,10 +1,10 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
-import type { EndpointOption, LinkOption } from './types';
+import type { EndpointOption } from './types';
 
-import { expandEndpoints } from './util';
+export * from './testingRelayRococo';
+export * from './testingRelayWestend';
 
 /* eslint-disable sort-keys */
 
@@ -12,9 +12,9 @@ import { expandEndpoints } from './util';
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
-//   value: The actual hosted secure websocket endpoint
+//   providers: The actual hosted secure websocket endpoint
 //
-// Alpahebtical based on text
+// IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
   {
     info: 'ajuna',
@@ -588,7 +588,3 @@ export const testChains: EndpointOption[] = [
     }
   }
 ];
-
-export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
-  return expandEndpoints(t, testChains, firstOnly, withSort);
-}
