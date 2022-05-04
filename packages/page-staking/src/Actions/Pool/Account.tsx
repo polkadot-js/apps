@@ -148,7 +148,7 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
             nominating={nominating}
             onClose={toggleNominate}
             poolId={poolId}
-            stashId={accountId}
+            stashId={stashId}
             targets={targets}
           />
         )}
