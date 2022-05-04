@@ -297,6 +297,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'statemint',
     paraId: 1000,
     text: 'Statemint',
+    teleport: [-1],
     providers: {
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
