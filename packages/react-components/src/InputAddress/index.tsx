@@ -171,7 +171,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     const { lastValue, value } = this.state;
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
-      isDisabled || (defaultValue && (this.hasValue(defaultValue) || type === 'allPlus'))
+      isDisabled || (defaultValue && defaultValue !== '0x' && (this.hasValue(defaultValue) || type === 'allPlus'))
         ? defaultValue
         : this.hasValue(lastValue)
           ? lastValue
