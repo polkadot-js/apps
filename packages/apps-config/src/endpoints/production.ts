@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types';
 
-export * from './prodRelayKusama';
-export * from './prodRelayPolkadot';
+export * from './productionRelayKusama';
+export * from './productionRelayPolkadot';
 
 /* eslint-disable sort-keys */
 

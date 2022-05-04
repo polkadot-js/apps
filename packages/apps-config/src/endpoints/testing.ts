@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types';
 
-export * from './testRelayRococo';
-export * from './testRelayWestend';
+export * from './testingRelayRococo';
+export * from './testingRelayWestend';
 
 /* eslint-disable sort-keys */
 

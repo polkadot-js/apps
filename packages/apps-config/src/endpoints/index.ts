@@ -5,14 +5,14 @@ import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { defaultT } from '../util';
-import { createCustom, createDev, createOwn } from './dev';
-import { prodChains, prodRelayKusama, prodRelayPolkadot } from './prod';
-import { testChains, testRelayRococo, testRelayWestend } from './test';
+import { createCustom, createDev, createOwn } from './development';
+import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production';
+import { testChains, testRelayRococo, testRelayWestend } from './testing';
 import { expandEndpoints } from './util';
 
-export { CUSTOM_ENDPOINT_KEY } from './dev';
-export * from './prod';
-export * from './test';
+export { CUSTOM_ENDPOINT_KEY } from './development';
+export * from './production';
+export * from './testing';
 
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
