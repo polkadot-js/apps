@@ -27,6 +27,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       'light client': 'light://substrate-connect/polkadot'
       // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
+    teleport: [1000],
     linked: [
       // (1) system parachains (none available yet)
       // ...
