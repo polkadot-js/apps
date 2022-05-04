@@ -75,7 +75,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
       </Button.Group>
       <Table
         className={className}
-        empty={filtered && t<string>('No available nomination pools')}
+        empty={membersMap && filtered && t<string>('No available nomination pools')}
         emptySpinner={t<string>('Retrieving nomination pools')}
         header={header}
         withCollapsibleRows
