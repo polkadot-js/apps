@@ -21,18 +21,23 @@ function Summary ({ className, params: { maxMembers, maxMembersPerPool, maxPools
 
   return (
     <SummaryBox className={className}>
-      {maxMembers && (
-        <CardSummary label={t<string>('pools')}>
-          {isNumber(poolCount) && <>{formatNumber(poolCount)}&nbsp;/&nbsp;</>}{formatNumber(maxPools)}
-        </CardSummary>
-      )}
+      <CardSummary label={t<string>('pools')}>
+        {isNumber(poolCount) && (
+          <>
+            {formatNumber(poolCount)}
+            {maxPools > 0 && (
+              <>&nbsp;/&nbsp;{formatNumber(maxPools)}</>
+            )}
+          </>
+        )}
+      </CardSummary>
       <section>
-        {maxMembers && (
+        {maxMembers > 0 && (
           <CardSummary label={t<string>('max. members')}>
             {formatNumber(maxMembers)}
           </CardSummary>
         )}
-        {maxMembersPerPool && (
+        {maxMembersPerPool > 0 && (
           <CardSummary label={t<string>('max. members / pool')}>
             {formatNumber(maxMembersPerPool)}
           </CardSummary>

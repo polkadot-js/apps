@@ -65,7 +65,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
         </td>
         <td className='button'>
           <Join
-            isDisabled={!info.bonded.state.isOpen || !info.bonded.memberCounter.ltn(params.maxMembersPerPool)}
+            isDisabled={!info.bonded.state.isOpen || (!!params.maxMembersPerPool && !info.bonded.memberCounter.ltn(params.maxMembersPerPool))}
             ownAccounts={ownAccounts}
             params={params}
             poolId={poolId}
