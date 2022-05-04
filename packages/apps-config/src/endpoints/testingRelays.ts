@@ -8,6 +8,9 @@ import { createRococo } from './testingRelayRococo';
 import { createWestend } from './testingRelayWestend';
 import { expandEndpoints } from './util';
 
+export { testParasRococo, testParasRococoCommon } from './testingRelayRococo';
+export { testParasWestend, testParasWestendCommon } from './testingRelayWestend';
+
 export function createRococoRelay (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [createRococo(t)], firstOnly, withSort);
 }

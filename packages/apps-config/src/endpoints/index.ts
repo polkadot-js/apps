@@ -12,6 +12,10 @@ import { createTesting } from './testing';
 import { createRococoRelay, createWestendRelay } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
+export { prodChains } from './production';
+export { prodParasKusama, prodParasKusamaCommon, prodParasPolkadot, prodParasPolkadotCommon } from './productionRelays';
+export { testChains } from './testing';
+export { testParasRococo, testParasRococoCommon, testParasWestend, testParasWestendCommon } from './testingRelays';
 
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
