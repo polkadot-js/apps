@@ -297,6 +297,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'statemint',
     paraId: 1000,
     text: 'Statemint',
+    teleport: [-1],
     providers: {
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
@@ -318,6 +319,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/polkadot'
   },
+  teleport: [1000],
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot
