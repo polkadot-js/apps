@@ -114,6 +114,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoMoonsama',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
     text: 'Moonsama',
     providers: {
