@@ -461,7 +461,8 @@ export const testChains: EndpointOption[] = [
     info: 'shibuya',
     text: 'Shibuya',
     providers: {
-      StakeTechnologies: 'wss://rpc.shibuya.astar.network'
+      StakeTechnologies: 'wss://rpc.shibuya.astar.network',
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     }
   },
   {
