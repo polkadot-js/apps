@@ -48,10 +48,11 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
 
   const header = useMemo(() => [
     [t('pools'), 'start', 2],
-    [t('state')],
+    [t('state'), 'media--1100'],
     [t('points')],
-    [t('claimable'), 'media--1100'],
-    [t('members')]
+    [t('claimable'), 'media--1400'],
+    [undefined, 'media--1300'],
+    [undefined, 'media--1200']
   ], [t]);
 
   const poolTypes = useRef([

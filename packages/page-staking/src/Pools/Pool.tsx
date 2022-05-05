@@ -42,17 +42,39 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
     [members]
   );
 
+  const renderNominees = useCallback(
+    () => info && info.nominating.map((stashId, count) => (
+      <AddressMini
+        key={`${count}:${stashId}`}
+        value={stashId}
+        withShrink
+      />
+    )),
+    [info]
+  );
+
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='number'><h1>{formatNumber(poolId)}</h1></td>
         <td className='start'>{info && info.metadata}</td>
-        <td className='number'>{info && info.bonded.state.type}</td>
+        <td className='number media--1100'>{info && info.bonded.state.type}</td>
         <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
-        <td className='number media--1100'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
+        <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
+        <td className='number'>
+          {info && info.nominating.length !== 0 && (
+            <ExpanderScroll
+              className='media--1300'
+              empty={t<string>('No nominees')}
+              renderChildren={renderNominees}
+              summary={t<string>('Nominees ({{count}})', { replace: { count: info.nominating.length } })}
+            />
+          )}
+        </td>
         <td className='number'>
           {members && members.length !== 0 && (
             <ExpanderScroll
+              className='media--1200'
               empty={t<string>('No members')}
               renderChildren={renderMembers}
               summary={t<string>('Members ({{count}})', { replace: { count: members.length } })}
@@ -99,8 +121,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
               <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler} /></div>
             </div>
           </td>
-          <td className='number media--1100' />
-          <td colSpan={2}>
+          <td colSpan={4}>
             <div className='label-column-right'>
               <div className='label'>{t('stash')}</div>
               <div className='inline-balance'><AddressMini value={info.stashId} /></div>
