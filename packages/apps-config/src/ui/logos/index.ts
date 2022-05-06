@@ -13,12 +13,14 @@ import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
+import chainBitgreen from './chains/bitgreen.png';
 import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCreditcoin from './chains/creditcoin.png';
 import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
+import chainRococoDali from './chains/dali.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
@@ -36,6 +38,7 @@ import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
+import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
@@ -48,6 +51,7 @@ import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
+import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
@@ -75,6 +79,7 @@ import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
 import nodeAstar from './nodes/astar.png';
 import nodeAutomata from './nodes/automata.png';
+import nodeBajun from './nodes/bajun.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -90,6 +95,7 @@ import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
 import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
 import nodeCrustParachain from './nodes/crustParachain.svg';
+import nodeDaliTestnet from './nodes/dali.png';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -207,10 +213,12 @@ export const chainLogos = Object.entries({
   Astar: chainAstar,
   Automata: nodeAutomata,
   'Automata ContextFree': nodeAutomata,
+  'Bajun Testnet': nodeBajun,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
+  BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
@@ -244,7 +252,7 @@ export const chainLogos = Object.entries({
   GEEK: nodeGeek,
   Geminis: chainGeminis,
   Genshiro: chainGenshiro,
-  'Genshiro Rococo Testnet': chainEquilibrium,
+  'Genshiro Rococo Testnet': chainGenshiro,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -313,6 +321,7 @@ export const chainLogos = Object.entries({
   Odyssey: nodeAresGladios,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
+  'OriginTrail Parachain Testnet': chainOriginTrailTestnet,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
   Parallel: chainParallel,
@@ -360,6 +369,7 @@ export const chainLogos = Object.entries({
   subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -401,6 +411,7 @@ export const nodeLogos = Object.entries({
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomata,
   'Automata Node': nodeAutomata,
+  'Bajun Node': nodeBajun,
   Basilisk: nodeBasilisk,
   'Beast Node': nodeBeast,
   Bifrost: nodeBifrost,
@@ -541,6 +552,7 @@ export const nodeLogos = Object.entries({
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   'Ternoa Node': nodeTernoa,
   'Totem Parachain Collator': nodeTotem,
   'TrustBase Collator': nodeTrustBase,
@@ -597,6 +609,7 @@ export const namedLogos: Record<string, unknown> = {
   astar: chainAstar,
   automata: nodeAutomata,
   'automata-contextfree': nodeAutomata,
+  bajun: nodeBajun,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
@@ -618,6 +631,8 @@ export const namedLogos: Record<string, unknown> = {
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   crustParachain: nodeCrustParachain,
+  'Dali Testnet (Rococo Relay)': chainRococoDali,
+  DaliTestnet: nodeDaliTestnet,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
@@ -675,11 +690,11 @@ export const namedLogos: Record<string, unknown> = {
   mathchain: nodeMath,
   minix: nodeMinix,
   moonbaseAlpha: moonbase,
-  moonbeam: moonbeam,
-  moonriver: moonriver,
+  moonbeam,
+  moonriver,
   moonrock: nodeMoonrock,
-  moonshadow: moonshadow,
-  mybank: mybank,
+  moonshadow,
+  mybank,
   neumann: oak,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
@@ -712,15 +727,18 @@ export const namedLogos: Record<string, unknown> = {
   rococoAcala: chainAcala,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
+  rococoBajun: nodeBajun,
   rococoBasilisk: nodeBasilisk,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoBitgreen: chainBitgreen,
   rococoCanvas: chainRococoCanvas,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
+  rococoDali: chainRococoDali,
   rococoDarwinia: nodeDarwinia,
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
@@ -729,6 +747,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
+  rococoIntegritee: nodeIntegritee,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
@@ -742,6 +761,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
   rococoNodle: nodeNodle,
+  rococoOriginTrailParachain: chainOriginTrailTestnet,
   rococoPangolin: nodePangolin,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
@@ -793,6 +813,7 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
+  t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,

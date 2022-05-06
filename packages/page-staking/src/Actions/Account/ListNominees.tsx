@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, ExpanderScroll, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { isFunction, isToBn } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
@@ -31,7 +31,8 @@ function mapExposure (stashId: string, all: string[], eraExposure?: DeriveEraExp
   all.forEach((nom) => {
     // cycle through its nominator to find our current stash
     eraExposure.validators[nom]?.others.some((o) => {
-      if (o.who.eq(stashId)) {
+      // NOTE Some chains have non-standard implementations, without value
+      if (o.who.eq(stashId) && isToBn(o.value)) {
         nomBalanceMap[nom] = o.value.toBn();
 
         return true;
@@ -56,7 +57,7 @@ function renderNominators (stashId: string, all: string[] = [], eraExposure?: De
             balance={nomBalanceMap[nomineeId]}
             key={index}
             value={nomineeId}
-            withBalance={!!eraExposure}
+            withBalance={!!eraExposure && !!nomBalanceMap[nomineeId]}
           />
         ));
       }

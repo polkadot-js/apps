@@ -79,7 +79,6 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
 
   useEffect((): void => {
     const isValid = isValuesValid(extrinsic.params, values);
-
     let method;
 
     if (isValid) {
@@ -97,7 +96,11 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
 
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>) =>
-      setDisplay(getCallState(fn)),
+      setDisplay((prev): CallState =>
+        fn.section === prev.extrinsic.fn.section && fn.method === prev.extrinsic.fn.method
+          ? prev
+          : getCallState(fn)
+      ),
     []
   );
 

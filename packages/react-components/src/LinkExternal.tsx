@@ -16,7 +16,7 @@ interface Props {
   className?: string;
   data: BN | number | string;
   hash?: string;
-  isLogo?: boolean;
+  isText?: boolean;
   isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
@@ -26,7 +26,7 @@ interface Props {
 //   return `${name[0]}${name[name.length - 1]}`;
 // }
 
-function genLinks (systemChain: string, { data, hash, isLogo, isSidebar, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
@@ -45,14 +45,14 @@ function genLinks (systemChain: string, { data, hash, isLogo, isSidebar, type }:
           target='_blank'
           title={`${name}, ${url}`}
         >
-          {isLogo
-            ? (
+          {isText
+            ? name
+            : (
               <img
                 className={`${isSidebar ? ' isSidebar' : ''}`}
                 src={logo}
               />
             )
-            : name
           }
         </a>
       );
@@ -60,12 +60,12 @@ function genLinks (systemChain: string, { data, hash, isLogo, isSidebar, type }:
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isLogo, isSidebar, isSmall, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
-    () => genLinks(systemChain, { data, hash, isLogo, isSidebar, type }),
-    [systemChain, data, hash, isLogo, isSidebar, type]
+    () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
+    [systemChain, data, hash, isSidebar, isText, type]
   );
 
   if (!links.length) {
@@ -73,8 +73,8 @@ function LinkExternal ({ className = '', data, hash, isLogo, isSidebar, isSmall,
   }
 
   return (
-    <div className={`${className}${isLogo ? ' isLogo' : ''}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
-      {!(isLogo || isSmall) && <div>{t<string>('View this externally')}</div>}
+    <div className={`${className} ${isText ? 'isText' : 'isLogo'}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
+      {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
       <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );

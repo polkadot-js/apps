@@ -7,14 +7,14 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
-const keyOptions = {
+const OPT_KEYS = {
   transform: (keys: StorageKey<[u32]>[]): u32[] =>
     keys
       .map(({ args: [poolId] }) => poolId)
       .sort((a, b) => a.cmp(b))
 };
 
-function filter (records: EventRecord[]): Changes<u32> {
+function filterEvents (records: EventRecord[]): Changes<u32> {
   const added: u32[] = [];
   const removed: u32[] = [];
 
@@ -31,12 +31,12 @@ function filter (records: EventRecord[]): Changes<u32> {
 
 function usePoolIdsImpl (): u32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.nominationPools.bondedPools, keyOptions);
+  const startValue = useMapKeys(api.query.nominationPools.bondedPools, OPT_KEYS);
 
   return useEventChanges([
     api.events.nominationPools.Created,
     api.events.nominationPools.Destroyed
-  ], filter, startValue);
+  ], filterEvents, startValue);
 }
 
 export default createNamedHook('usePoolIds', usePoolIdsImpl);

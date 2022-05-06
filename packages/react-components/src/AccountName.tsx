@@ -32,8 +32,8 @@ interface Props {
 
 type AddrMatcher = (addr: unknown) => string | null;
 
-function createAllMatcher (partial: string, name: string): AddrMatcher {
-  const test = registry.createType('AccountId', stringToU8a(`modlpy/${partial}`.padEnd(32, '\0')));
+function createAllMatcher (prefix: string, name: string): AddrMatcher {
+  const test = registry.createType('AccountId', stringToU8a(prefix.padEnd(32, '\0')));
 
   return (addr: unknown) =>
     test.eq(addr)
@@ -41,8 +41,8 @@ function createAllMatcher (partial: string, name: string): AddrMatcher {
       : null;
 }
 
-function createNumMatcher (partial: string, name: string, extra?: string): AddrMatcher {
-  const test = stringToU8a(`modlpy/${partial}`);
+function createNumMatcher (prefix: string, name: string, add?: string): AddrMatcher {
+  const test = stringToU8a(prefix);
 
   // 4 bytes for u32 (more should not hurt, LE)
   const minLength = test.length + 4;
@@ -53,17 +53,22 @@ function createNumMatcher (partial: string, name: string, extra?: string): AddrM
       : decodeAddress(addr as string);
 
     return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
-      ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${extra ? ` (${extra})` : ''}`
+      ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${add ? ` (${add})` : ''}`
       : null;
   };
 }
 
 const MATCHERS: AddrMatcher[] = [
-  createAllMatcher('socie', 'Society'),
-  createAllMatcher('trsry', 'Treasury'),
-  createNumMatcher('cfund', 'Crowdloan'),
-  createNumMatcher('npols\x00', 'Pool', 'Stash'),
-  createNumMatcher('npols\x01', 'Pool', 'Reward')
+  createAllMatcher('modlpy/socie', 'Society'),
+  createAllMatcher('modlpy/trsry', 'Treasury'),
+  createNumMatcher('modlpy/cfund', 'Crowdloan'),
+  // Substrate master
+  createNumMatcher('modlpy/npols\x00', 'Pool', 'Stash'),
+  createNumMatcher('modlpy/npols\x01', 'Pool', 'Reward'),
+  // Westend
+  createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
+  createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
+  createNumMatcher('para', 'Parachain')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
