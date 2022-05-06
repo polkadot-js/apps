@@ -1,0 +1,19 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-multi-tokens#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-multi-tokens",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-multi-tokens",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.113.2-40",
+  "dependencies": {
+    "@babel/runtime": "^7.17.9",
+    "@polkadot/react-components": "^0.113.2-40"
+  }
+}

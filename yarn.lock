@@ -2865,6 +2865,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-multi-tokens@workspace:packages/page-multi-tokens":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-multi-tokens@workspace:packages/page-multi-tokens"
+  dependencies:
+    "@babel/runtime": ^7.17.9
+    "@polkadot/react-components": ^0.113.2-40
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-nfts@workspace:packages/page-nfts":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-nfts@workspace:packages/page-nfts"

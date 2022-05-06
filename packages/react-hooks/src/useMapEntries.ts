@@ -10,14 +10,14 @@ interface Options <T> {
 }
 
 // FIXME This is generic, we cannot really use createNamedHook
-export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { transform }: Options<T> = {}, at?: string | null | false): T | undefined {
+export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { transform }: Options<T> = {}, params?: any[], at?: string | null | false): T | undefined {
   const [state, setState] = useState<T | undefined>();
 
   useEffect((): void => {
     entry && (
       at && at !== '0'
-        ? entry.entriesAt(at)
-        : entry.entries()
+        ? entry.entriesAt(at, ...(params || []))
+        : entry.entries(...(params || []))
     ).then((entries) => setState(
       transform
         ? transform(entries)

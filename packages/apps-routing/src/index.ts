@@ -20,6 +20,7 @@ import files from './files';
 import gilt from './gilt';
 import js from './js';
 import membership from './membership';
+import multiTokens from './multiTokens';
 import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
@@ -56,6 +57,7 @@ export default function create (t: TFunction): Routes {
     parachains(t),
     gilt(t),
     assets(t),
+    multiTokens(t),
     nfts(t),
     society(t),
     calendar(t),
