@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-signing authors & contributors
+// Copyright 2017-2022 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -9,13 +9,17 @@ import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { useTranslation } from './translate';
 
+interface Props {
+  className?: string;
+}
+
 interface State {
   data: string;
   hash: string;
   isHexData: boolean;
 }
 
-function Hash (): React.ReactElement {
+function Hash ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ data, hash, isHexData }, setState] = useState<State>({
     data: '',
@@ -42,7 +46,7 @@ function Hash (): React.ReactElement {
   );
 
   return (
-    <div className='toolbox--Hash'>
+    <div className={className}>
       <div className='ui--row'>
         <Input
           autoFocus

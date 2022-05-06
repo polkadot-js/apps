@@ -68,6 +68,8 @@
       "@polkadot/app-tech-comm/*": ["page-tech-comm/src/*"],
       "@polkadot/app-treasury": ["page-treasury/src"],
       "@polkadot/app-treasury/*": ["page-treasury/src/*"],
+      "@polkadot/app-utilities": ["page-utilities/src"],
+      "@polkadot/app-utilities/*": ["page-utilities/src/*"],
       "@polkadot/react-api": ["react-api/src"],
       "@polkadot/react-api/*": ["react-api/src/*"],
       "@polkadot/react-components": ["react-components/src"],
