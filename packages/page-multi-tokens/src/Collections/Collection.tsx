@@ -67,16 +67,24 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
                   <Policy policy='Burn' borders={['top', 'right']} />
                   <Policy policy='Attribute' borders={['top', 'left']} />
                 </Policies>
-                <List>
-                  {tokenIds.map((tokenId) => (
-                    <TokenItem key={tokenId.toString()} collection={id} token={tokenId} />
-                  ))}
-                </List>
-                <List>
-                  {attributeKeys.map((attributeKey) => (
-                    <AttributeItem key={attributeKey.toString()} collection={id} attributeKey={attributeKey} />
-                  ))}
-                </List>
+                {tokenIds.length ? (
+                  <List>
+                    {tokenIds.map((tokenId) => (
+                      <TokenItem key={tokenId.toString()} collection={id} token={tokenId} />
+                    ))}
+                  </List>
+                ) : (
+                  <div style={{ height: '100%' }}>{t('This collection doesnt have any tokens')}</div>
+                )}
+                {attributeKeys.length ? (
+                  <List>
+                    {attributeKeys.map((attributeKey) => (
+                      <AttributeItem key={attributeKey.toString()} collection={id} attributeKey={attributeKey} />
+                    ))}
+                  </List>
+                ) : (
+                  <div style={{ height: '100%' }}>{t('This collection doesnt have any attributes')}</div>
+                )}
               </Row>
             </MoreData>
           </td>

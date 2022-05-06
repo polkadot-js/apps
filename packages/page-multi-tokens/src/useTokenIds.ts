@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
-import type { StorageKey, u128, Option } from '@polkadot/types';
+import type { StorageKey, u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 import type { EventRecord } from '@polkadot/types/interfaces';
 
-import { createNamedHook, useApi, useEventChanges, useMapEntries } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
 const keyOptions = {
-  transform: (keys: [StorageKey<u128[]>, Option<any>][]): u128[] => keys.map(([storageKey]) => storageKey.args[1]).sort((a, b) => a.cmp(b))
+  transform: (keys: StorageKey<u128[]>[]): u128[] => keys.map(({args: [_collection, tokenId]}) => tokenId)
 };
 
 const filter = (records: EventRecord[]): Changes<u128> => {
@@ -34,10 +34,10 @@ const filter = (records: EventRecord[]): Changes<u128> => {
   return { added, removed };
 };
 
-const useTokenIdsImpl = (collectionId: BN): u128[] => {
+const useTokenIdsImpl = (collection: BN): u128[] => {
   const { api } = useApi();
 
-  const startValue = useMapEntries(api.query.multiTokens.tokens, keyOptions, [collectionId]);
+  const startValue = useMapKeys(api.query.multiTokens.tokens, keyOptions, [collection]);
 
   return useEventChanges([api.events.multiTokens.TokenCreated, api.events.multiTokens.TokenDestroyed], filter, startValue);
 };

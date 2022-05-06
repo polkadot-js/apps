@@ -12,6 +12,7 @@ import { useAccounts } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
 import useCollectionIds from './useCollectionIds';
+import MyCollections from './MyCollections';
 
 interface Props {
   basePath: string;
@@ -21,22 +22,16 @@ interface Props {
 function MultiTokensApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
-  const ids = useCollectionIds();
-  // const infos = useCollectionInfos(ids);
 
   const tabsRef = useRef([
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'my-collections',
-      text: t<string>('My Collections')
-    },
-    {
-      name: 'my-tokens',
-      text: t<string>('My Tokens')
+      text: t('My Collections')
     }
   ]);
 
@@ -46,11 +41,11 @@ function MultiTokensApp({ basePath, className }: Props): React.ReactElement<Prop
     <main className={className}>
       <Tabs basePath={basePath} hidden={hidden} items={tabsRef.current} />
       <Switch>
-        {/* <Route path={`${basePath}/my-nfts`}>
-          <AccountItems infos={infos} />
-        </Route> */}
+        <Route path={`${basePath}/my-collections`}>
+          <MyCollections />
+        </Route>
         <Route>
-          <Overview ids={ids} />
+          <Overview />
         </Route>
       </Switch>
     </main>

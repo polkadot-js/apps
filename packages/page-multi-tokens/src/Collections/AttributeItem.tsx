@@ -3,27 +3,24 @@
 
 import React from 'react';
 
-import type { u32 } from '@polkadot/types';
+import type { u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import styled from 'styled-components';
-import useTokenData from '../useTokenData';
 import { listItem } from './shared';
 import useAttributeData from '../useAttributeData';
 
 interface AttributeItemProps {
   collection: BN;
-  attributeKey: u32;
+  attributeKey: u128;
 }
 
 const AttributeItem = ({ collection, attributeKey }: AttributeItemProps) => {
   const { t } = useTranslation();
 
   const data = useAttributeData(collection, attributeKey);
-
-  console.log({value: data?.value}, typeof data?.value)
 
   return (
     <Container>
@@ -44,7 +41,7 @@ const Container = styled.div`
 
 const Value = styled.div`
   flex: 2.5 !important;
-  padding-left: 10px;
+  padding-left: 20px;
 `;
 
 export default React.memo(AttributeItem);
