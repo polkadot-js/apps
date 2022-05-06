@@ -130,6 +130,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoOriginTrailParachain',
+    homepage: 'https://parachain.origintrail.io',
+    paraId: 3005,
+    text: 'OriginTrail Parachain Testnet',
+    providers: {
+      TraceLabs: 'wss://parachain-testnet-loadbalancer.origin-trail.network/'
+    }
+  },
+  {
     info: 'rococoPangolin',
     paraId: 2105,
     text: 'Pangolin Parachain',

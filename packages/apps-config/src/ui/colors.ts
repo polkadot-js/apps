@@ -72,6 +72,7 @@ const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
 const chainOriginTrail = '#FB5DEB';
+const chainOriginTrailTestnet = '#0C0C0C';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
 const chainParallel = '#ef18ac';
@@ -365,6 +366,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
+  'OriginTrail Parachain Testnet': chainOriginTrailTestnet,
   Pangolin: chainPangolin,
   'Pangolin Parachain': chainPangolin,
   Pangoro: chainPangoro,
