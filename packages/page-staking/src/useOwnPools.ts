@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
-import { createAccount } from './usePoolAccounts';
+import { createAccounts } from './usePoolAccounts';
 
 const OPT_MULTI = {
   transform: ([[ids], opts]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] =>
@@ -40,8 +40,7 @@ function useOwnPoolsImpl (): OwnPool[] | undefined {
   return useMemo(
     () => base && base.map((base) => ({
       ...base,
-      rewardId: createAccount(api, base.poolId, 1),
-      stashId: createAccount(api, base.poolId, 0)
+      ...createAccounts(api, base.poolId)
     })),
     [api, base]
   );
