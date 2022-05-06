@@ -95,7 +95,6 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'composableFinance',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6721
     homepage: 'https://composable.finance/',
     paraId: 2019,
     text: 'Composable Finance',
