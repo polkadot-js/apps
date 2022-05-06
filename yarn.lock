@@ -2982,6 +2982,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-utilities@workspace:packages/page-utilities":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-utilities@workspace:packages/page-utilities"
+  dependencies:
+    "@babel/runtime": ^7.17.9
+    "@polkadot/react-components": ^0.113.2-55
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/apps-config@^0.113.2-55, @polkadot/apps-config@workspace:packages/apps-config":
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
