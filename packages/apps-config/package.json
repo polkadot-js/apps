@@ -10,7 +10,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.113.2-58",
+  "version": "0.113.2-59",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "^4.1.1",
