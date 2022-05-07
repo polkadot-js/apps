@@ -12,7 +12,7 @@ import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
 
-type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
+export type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
 interface Result {
   blockHash: string;

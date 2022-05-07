@@ -10,6 +10,7 @@ import assets from './assets';
 import bounties from './bounties';
 import calendar from './calendar';
 import claims from './claims';
+import collator from './collator';
 import contracts from './contracts';
 import council from './council';
 import democracy from './democracy';
@@ -19,6 +20,7 @@ import files from './files';
 import gilt from './gilt';
 import js from './js';
 import membership from './membership';
+import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
 import rpc from './rpc';
@@ -32,6 +34,7 @@ import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
+import utilities from './utilities';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -43,6 +46,7 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    collator(t),
     democracy(t),
     council(t),
     treasury(t),
@@ -52,6 +56,7 @@ export default function create (t: TFunction): Routes {
     parachains(t),
     gilt(t),
     assets(t),
+    nfts(t),
     society(t),
     calendar(t),
     contracts(t),
@@ -62,6 +67,7 @@ export default function create (t: TFunction): Routes {
     sudo(t),
     files(t),
     js(t),
+    utilities(t),
     settings(t)
   ];
 }

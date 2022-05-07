@@ -1,7 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { RawParam } from '@polkadot/react-params/types';
+import type { DecodedExtrinsic } from './types';
 
 import React, { useCallback, useState } from 'react';
 
@@ -14,22 +16,45 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  defaultValue: DecodedExtrinsic | null;
 }
 
-function Selection ({ className }: Props): React.ReactElement<Props> {
+interface DefaultExtrinsic {
+  defaultArgs?: RawParam[];
+  defaultFn: SubmittableExtrinsicFunction<'promise'>;
+}
+
+function extractDefaults (value: DecodedExtrinsic | null, defaultFn: SubmittableExtrinsicFunction<'promise'>): DefaultExtrinsic {
+  if (!value) {
+    return { defaultFn };
+  }
+
+  return {
+    defaultArgs: value.call.args.map((value) => ({
+      isValid: true,
+      value
+    })),
+    defaultFn: value.fn
+  };
+}
+
+function Selection ({ className, defaultValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ defaultArgs, defaultFn }] = useState<DefaultExtrinsic>(() => extractDefaults(defaultValue, apiDefaultTxSudo));
 
   const _onExtrinsicChange = useCallback(
-    (method?: SubmittableExtrinsic<'promise'>) => setExtrinsic(() => method || null),
+    (method?: SubmittableExtrinsic<'promise'>) =>
+      setExtrinsic(() => method || null),
     []
   );
 
   const _onExtrinsicError = useCallback(
-    (error?: Error | null) => setError(error ? error.message : null),
+    (error?: Error | null) =>
+      setError(error ? error.message : null),
     []
   );
 
@@ -47,7 +72,8 @@ function Selection ({ className }: Props): React.ReactElement<Props> {
         type='account'
       />
       <Extrinsic
-        defaultValue={apiDefaultTxSudo}
+        defaultArgs={defaultArgs}
+        defaultValue={defaultFn}
         label={t<string>('submit the following extrinsic')}
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}

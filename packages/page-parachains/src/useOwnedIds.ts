@@ -20,30 +20,32 @@ interface Owned {
   owned: OwnedIdPartial[];
 }
 
-function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>][]): Owned {
-  const owned = entries
-    .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
-      if (optInfo.isNone) {
-        return null;
-      }
+const OPT_ENTRIES = {
+  transform: (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>][]): Owned => {
+    const owned = entries
+      .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
+        if (optInfo.isNone) {
+          return null;
+        }
 
-      const paraInfo = optInfo.unwrap();
+        const paraInfo = optInfo.unwrap();
 
-      return {
-        manager: paraInfo.manager.toString(),
-        paraId,
-        paraInfo
-      };
-    })
-    .filter((id): id is OwnedIdPartial => !!id);
+        return {
+          manager: paraInfo.manager.toString(),
+          paraId,
+          paraInfo
+        };
+      })
+      .filter((id): id is OwnedIdPartial => !!id);
 
-  return {
-    ids: owned.map(({ paraId }) => paraId),
-    owned
-  };
-}
+    return {
+      ids: owned.map(({ paraId }) => paraId),
+      owned
+    };
+  }
+};
 
-const hashesOption = {
+const OPT_HASHES = {
   transform: ([[paraIds], optHashes]: [[ParaId[]], Option<Hash>[]]) =>
     paraIds.map((paraId, index): CodeHash => ({
       hash: optHashes[index].unwrapOr(null),
@@ -55,9 +57,12 @@ const hashesOption = {
 function useOwnedIdsImpl (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
-  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, { at: trigger.blockHash, transform: extractIds });
-  const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
+  const trigger = useEventTrigger([
+    api.events.registrar.Registered,
+    api.events.registrar.Reserved
+  ]);
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, OPT_ENTRIES, trigger.blockHash);
+  const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], OPT_HASHES);
 
   return useMemo(
     () => unfiltered && hashes

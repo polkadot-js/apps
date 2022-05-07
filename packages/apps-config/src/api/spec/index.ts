@@ -11,6 +11,7 @@ import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
 import automata from './automata';
+import bajun from './bajun';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -54,6 +55,7 @@ import idavoll from './idavoll';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
+import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import khala from './khala';
@@ -106,8 +108,10 @@ import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
 import swapdex from './swapdex';
+import t0rn from './t0rn';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
+import turing from './turing';
 import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
@@ -129,6 +133,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
+  'Genshiro Rococo Testnet': genshiro,
   Pangolin: pangolin,
   Pangoro: pangoro,
   VLN: vln,
@@ -142,10 +147,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-odyssey': aresParachain,
   asgard: bifrostAsgard,
   astar,
-  automata: automata,
+  automata,
+  bajun,
   basilisk,
   beresheet,
-  bifrost: bifrost,
+  bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
@@ -162,7 +168,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
-  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
@@ -176,7 +181,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
-  galital: galital,
+  galital,
   'galital-collator': galitalParachain,
   gamepower,
   'hack-hydra-dx': hydrate,
@@ -189,8 +194,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
   'ipse-node': ipse,
+  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  kerria: parallel,
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
@@ -202,7 +209,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
-  mangata: mangata,
+  mangata,
+  'mangata-parachain': mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
@@ -219,7 +227,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
-  opal: opal,
+  opal,
   opportunity,
   'origintrail-parachain': origintrail,
   parallel,
@@ -232,7 +240,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh,
   'pontem-node': pontem,
   prism,
-  quartz: quartz,
+  quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,
@@ -252,16 +260,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   swapdex,
+  t0rn,
   ternoa,
   trustbase,
+  turing,
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,
+  vanilla: parallel,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,
-  zeitgeist: zeitgeist
+  zeitgeist
 };
 
 export default spec;

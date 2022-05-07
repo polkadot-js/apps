@@ -1,15 +1,13 @@
 // Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SupportedChains } from '@substrate/connect';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { ScProvider } from '@substrate/connect';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -20,6 +18,7 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
@@ -99,6 +98,14 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
+function createLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
+  return (path: string, apiUrl?: string): string =>
+    `${isElectron
+      ? 'https://polkadot.js.org/apps/'
+      : `${window.location.origin}${window.location.pathname}`
+    }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
@@ -128,8 +135,9 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
   const ss58Format = settings.prefix === -1
-    ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+    ? chainSS58
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
@@ -170,6 +178,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
+    chainSS58,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
@@ -180,6 +189,51 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     systemName,
     systemVersion
   };
+}
+
+function getWellKnownChain (chain = 'polkadot') {
+  switch (chain) {
+    case 'kusama':
+      return WellKnownChain.ksmcc3;
+    case 'polkadot':
+      return WellKnownChain.polkadot;
+    case 'rococo':
+      return WellKnownChain.rococo_v2_2;
+    case 'westend':
+      return WellKnownChain.westend2;
+    default:
+      throw new Error(`Unable to construct light chain ${chain}`);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
+  const types = getDevTypes();
+  const isLight = apiUrl.startsWith('light://');
+
+  try {
+    const provider = isLight
+      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+      : new WsProvider(apiUrl);
+
+    api = new ApiPromise({
+      provider,
+      registry,
+      signer,
+      types,
+      typesBundle,
+      typesChain
+    });
+
+    // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
+    if (isLight) {
+      await provider.connect();
+    }
+  } catch (error) {
+    onError(error);
+  }
+
+  return types;
 }
 
 function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
@@ -197,48 +251,43 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     [apiEndpoint]
   );
   const apiRelay = useApiUrl(relayUrls);
-
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
+  );
+
+  const onError = useCallback(
+    (error: unknown): void => {
+      console.error(error);
+
+      setApiError((error as Error).message);
+    },
+    [setApiError]
   );
 
   // initial initialization
   useEffect((): void => {
-    let provider;
+    createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
+      .then((types): void => {
+        api.on('connected', () => setIsApiConnected(true));
+        api.on('disconnected', () => setIsApiConnected(false));
+        api.on('error', onError);
+        api.on('ready', (): void => {
+          const injectedPromise = web3Enable('polkadot-js/apps');
 
-    if (apiUrl.startsWith('light://')) {
-      provider = new ScProvider(apiUrl.replace('light://substrate-connect/', '') as SupportedChains);
-    } else {
-      provider = new WsProvider(apiUrl);
-    }
+          injectedPromise
+            .then(setExtensions)
+            .catch(console.error);
 
-    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-    const types = getDevTypes();
-
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
-
-    api.on('connected', () => setIsApiConnected(true));
-    api.on('disconnected', () => setIsApiConnected(false));
-    api.on('error', (error: Error) => setApiError(error.message));
-    api.on('ready', (): void => {
-      const injectedPromise = web3Enable('polkadot-js/apps');
-
-      injectedPromise
-        .then(setExtensions)
-        .catch(console.error);
-
-      loadOnReady(api, apiEndpoint, injectedPromise, store, types)
-        .then(setState)
-        .catch((error): void => {
-          console.error(error);
-
-          setApiError((error as Error).message);
+          loadOnReady(api, apiEndpoint, injectedPromise, store, types)
+            .then(setState)
+            .catch(onError);
         });
-    });
 
-    setIsApiInitialized(true);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
+        setIsApiInitialized(true);
+      })
+      .catch(onError);
+  }, [apiEndpoint, apiUrl, onError, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;

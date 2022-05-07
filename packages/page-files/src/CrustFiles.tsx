@@ -68,7 +68,9 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const [file, setFile] = useState<FileInfo | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement>(null);
   const _clickUploadFile = useCallback((dir = false) => {
-    if (!inputRef.current) return;
+    if (!inputRef.current) {
+      return;
+    }
     // eslint-disable-next-line
     // @ts-ignore
     // eslint-disable-next-line
@@ -82,7 +84,9 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const _onInputFile = useCallback<FunInputFile>((e) => {
     const files = e.target.files;
 
-    if (!files) return;
+    if (!files) {
+      return;
+    }
 
     if (files.length > 2000) {
       queueAction({
@@ -145,7 +149,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   );
   const importInputRef = useRef<HTMLInputElement>(null);
   const _clickImport = useCallback(() => {
-    if (!importInputRef.current) return;
+    if (!importInputRef.current) {
+      return;
+    }
+
     importInputRef.current.click();
   }, [importInputRef]);
   const _onInputImportFile = useCallback<FunInputFile>((e) => {
@@ -154,7 +161,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       const fileReader = new FileReader();
       const files = e.target.files;
 
-      if (!files) return;
+      if (!files) {
+        return;
+      }
+
       fileReader.readAsText(files[0], 'UTF-8');
 
       if (!(/(.json)$/i.test(e.target.value))) {
@@ -206,8 +216,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   }, [wFiles]);
 
   return <main className={className}>
-    <header>
-    </header>
+    <header></header>
     <input
       onChange={_onInputFile}
       ref={inputRef}
@@ -220,14 +229,13 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       style={{ display: 'none' }}
       type={'file'}
     />
-    {
-      file && showUpMode &&
+    {file && showUpMode && (
       <UploadModal
         file={file}
         onClose={_onClose}
         onSuccess={_onSuccess}
       />
-    }
+    )}
     <div style={{ display: 'flex', paddingBottom: '1.5rem' }}>
       <div className='uploadBtn'>
         <Button
@@ -347,10 +355,11 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   </main>;
 }
 
-export default React.memo<Props>(styled(CrustFiles)`
+export default React.memo(styled(CrustFiles)`
   h1 {
     text-transform: unset !important;
   }
+
   .uploadBtn {
     position: relative;
     padding: 5px 0;
@@ -386,5 +395,4 @@ export default React.memo<Props>(styled(CrustFiles)`
       }
     }
   }
-
 `);

@@ -5,7 +5,7 @@ import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-der
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
-import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -20,7 +20,6 @@ import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
 import useIdentities from '../useIdentities';
-import useNominations from '../useNominations';
 import Nominate from './Nominate';
 import Summary from './Summary';
 import useOwnNominators from './useOwnNominators';
@@ -29,11 +28,13 @@ import Validator from './Validator';
 interface Props {
   className?: string;
   isInElection: boolean;
+  nominatedBy?: NominatedByMap;
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   toggleLedger: () => void;
+  toggleNominatedBy: () => void;
 }
 
 interface SavedFlags {
@@ -75,7 +76,7 @@ function overlapsDisplay (displays: (string[])[], test: string[]): boolean {
   );
 }
 
-function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
+function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: NominatedByMap): ValidatorInfo[] {
   const displays: (string[])[] = [];
   const parentIds: string[] = [];
 
@@ -191,13 +192,12 @@ const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
 
 const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastEra, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const daysPayout = useBlocksPerDays(MAX_DAYS);
   const ownNominators = useOwnNominators(ownStashes);
-  const nominatedBy = useNominations(true);
   const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState(DEFAULT_NAME);
@@ -240,7 +240,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   useEffect((): void => {
     toggleLedger();
-  }, [toggleLedger]);
+    toggleNominatedBy();
+  }, [toggleLedger, toggleNominatedBy]);
 
   const maxNominations = useMemo(
     () => api.consts.staking.maxNominations
@@ -310,7 +311,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('single from operator')}
+          label={t<string>('one validator per operator')}
           onChange={setToggle.withGroup}
           value={toggles.withGroup}
         />
@@ -318,8 +319,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           className='staking--buttonToggle'
           label={
             MAX_COMM_PERCENT > 0
-              ? t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })
-              : t<string>('no median+ comm')
+              ? t<string>('comm. < {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t<string>('comm. < median')
           }
           onChange={setToggle.withoutComm}
           value={toggles.withoutComm}
@@ -328,8 +329,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           className='staking--buttonToggle'
           label={
             MAX_CAP_PERCENT < 100
-              ? t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })
-              : t<string>('no at capacity')
+              ? t<string>('capacity < {{maxCap}}%', { replace: { maxCap: MAX_CAP_PERCENT } })
+              : t<string>('with capacity')
           }
           onChange={setToggle.withoutOver}
           value={toggles.withoutOver}
@@ -345,7 +346,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         )}
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('only elected')}
+          label={t<string>('currently elected')}
           onChange={setToggle.withElected}
           value={toggles.withElected}
         />
@@ -361,6 +362,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div className={className}>
       <Summary
         avgStaked={avgStaked}
+        lastEra={lastEra}
         lowStaked={lowStaked}
         minNominated={minNominated}
         minNominatorBond={minNominatorBond}
@@ -390,13 +392,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           <>
             {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
             {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
+            {!displayList && <div>{t('Preparing target display')}</div>}
           </>
         }
         filter={filter}
         header={header}
         legend={<Legend />}
       >
-        {displayList?.map((info): React.ReactNode =>
+        {displayList && displayList.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={selected.length < maxNominations}

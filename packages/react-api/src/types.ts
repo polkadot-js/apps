@@ -18,6 +18,7 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  chainSS58: number;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
@@ -35,6 +36,7 @@ export interface ApiProps extends ApiState {
   apiError: string | null;
   apiRelay: ApiPromise | null;
   apiUrl?: string;
+  createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
   isApiConnected: boolean;
   isApiInitialized: boolean;

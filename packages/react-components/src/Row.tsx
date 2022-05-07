@@ -253,8 +253,6 @@ function Row ({ address, buttons, children, className = '', defaultName, details
   );
 }
 
-export default React.memo(
-  styled(Row)`${
-    styles
-  }`
-);
+export default React.memo(styled(Row)`${
+  styles
+}`);
