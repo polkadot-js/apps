@@ -1,4 +1,4 @@
-    3590	Jaco                          	Bump API (w/ newest substrate-connect) (#7543)
+    3591	Jaco                          	Remove suspicious toHuman in author extraction (#7542)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
