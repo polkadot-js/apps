@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import Collections from '../Collections';
 import Summary from '../Summary';
@@ -20,6 +20,6 @@ const Overview = ({ className }: Props): React.ReactElement<Props> => {
       <Collections ids={ids} />
     </div>
   );
-}
+};
 
 export default React.memo(Overview);

@@ -11,7 +11,6 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
-import useCollectionIds from './useCollectionIds';
 import MyCollections from './MyCollections';
 
 interface Props {

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-multi-tokens authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { BN } from '@polkadot/util';
 
 import { AddressSmall, ExpandButton } from '@polkadot/react-components';
@@ -15,6 +15,7 @@ import useTokenIds from '../useTokenIds';
 import TokenItem from './TokenItem';
 import AttributeItem from './AttributeItem';
 import useAttributeKeys from '../useAttributeKeys';
+import useAttributeData from '../useAttributeData';
 
 interface Props {
   className?: string;
@@ -28,12 +29,16 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
   const tokenIds = useTokenIds(id);
   const attributeKeys = useAttributeKeys(id);
 
+  const nameAttrKey = useMemo(() => attributeKeys.find((k) => k.toHuman() == 'name'), [attributeKeys]);
+  const nameAttrData = useAttributeData(id, nameAttrKey);
+
   return (
     <>
       <tr className={className}>
         <td className='number'>
           <CollectionId>{formatNumber(id)}</CollectionId>
         </td>
+        <td>{nameAttrData?.value.toHuman() || '-'}</td>
         <Owner className='address'>{data && <AddressSmall value={data.owner} />}</Owner>
         <td className='number'>{formatNumber(data?.tokenCount)}</td>
         <td className='number'>{formatNumber(data?.attributeCount)}</td>
@@ -43,7 +48,7 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
       </tr>
       {isExpanded && (
         <tr>
-          <td colSpan={5}>
+          <td colSpan={6}>
             <MoreData>
               <Row>
                 <Label>{t('Policy')}</Label>
@@ -53,7 +58,7 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
               <Row>
                 <Policies>
                   <Policy
-                    policy='Mint'
+                    policy={t('Mint')}
                     constraints={
                       {
                         maxTokenCount: data?.policy.mint.maxTokenCount,
@@ -63,9 +68,9 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
                     }
                     borders={['bottom', 'right']}
                   />
-                  <Policy policy='Transfer' constraints={{ isFrozen: data?.policy.transfer.isFrozen } as Constraints} borders={['bottom', 'left']} />
-                  <Policy policy='Burn' borders={['top', 'right']} />
-                  <Policy policy='Attribute' borders={['top', 'left']} />
+                  <Policy policy={t('Transfer')} constraints={{ isFrozen: data?.policy.transfer.isFrozen } as Constraints} borders={['bottom', 'left']} />
+                  <Policy policy={t('Burn')} borders={['top', 'right']} />
+                  <Policy policy={t('Attribute')} borders={['top', 'left']} />
                 </Policies>
                 {tokenIds.length ? (
                   <List>

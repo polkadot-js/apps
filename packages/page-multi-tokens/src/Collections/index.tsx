@@ -18,7 +18,7 @@ interface Props {
 function Collections({ className, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([[t('collections'), 'start', 1], [t('owner'), 'address'], [t('tokens')], [t('attributes')], []]);
+  const headerRef = useRef([[t('collections'), 'start', 1], [t('name'), 'start'], [t('owner'), 'address'], [t('tokens')], [t('attributes')], []]);
 
   return (
     <Table className={className} empty={ids && t<string>('No collections found')} header={headerRef.current}>

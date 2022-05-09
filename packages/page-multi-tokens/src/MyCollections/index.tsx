@@ -15,7 +15,7 @@ interface Props {
 }
 
 const MyCollections = ({ className }: Props): React.ReactElement<Props> => {
-    const ids = useCollectionIds(true);
+  const ids = useCollectionIds(true);
 
   return (
     <div className={className}>

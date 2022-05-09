@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-multi-tokens authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import type { u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
@@ -22,12 +22,39 @@ const AttributeItem = ({ collection, attributeKey }: AttributeItemProps) => {
 
   const data = useAttributeData(collection, attributeKey);
 
+  const possiblyOpenLink = useCallback(() => {
+    if (data) {
+      const key = attributeKey.toHuman();
+      const isLink = ['url', 'uri', 'link'].includes(key.toLowerCase());
+      const isIPFS = key.toLowerCase() === 'ipfs';
+      const isIPNS = key.toLowerCase() === 'ipns';
+
+      if (isLink && data?.value) {
+        window.open(data.value.toHuman(), '_blank');
+      }
+
+      if (isIPFS && data?.value) {
+        window.open(`https://ipfs.io/ipfs/${data.value.toHuman()}`, '_blank');
+      }
+
+      if (isIPNS && data?.value) {
+        window.open(`https://ipfs.io/ipns/${data.value.toHuman()}`, '_blank');
+      }
+    }
+  }, [data, attributeKey]);
+
   return (
-    <Container>
-      <div>{t('Key')}: <b>{attributeKey.toHuman()}</b></div>
+    <Container onClick={possiblyOpenLink}>
+      <div>
+        {t('Key')}: <b>{attributeKey.toHuman()}</b>
+      </div>
       <Value>
-        <div>{t('Value')}: <b>{data?.value.toHuman()}</b></div>
-        <div>{t('Deposit')}: <b>{formatNumber(data?.deposit)}</b></div>
+        <div>
+          {t('Value')}: <b>{data?.value.toHuman()}</b>
+        </div>
+        <div>
+          {t('Deposit')}: <b>{formatNumber(data?.deposit)}</b>
+        </div>
       </Value>
     </Container>
   );
