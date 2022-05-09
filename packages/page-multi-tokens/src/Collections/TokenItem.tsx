@@ -10,7 +10,7 @@ import { useTranslation } from '../translate';
 import styled from 'styled-components';
 import useTokenData from '../useTokenData';
 import { listItem } from './shared';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface TokenItemProps {
   collectionId: BN;
