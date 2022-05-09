@@ -19,13 +19,13 @@ const extractData = (optData: [BN[], Option<Attribute>]): Attribute | null => {
     : null;
 };
 
-const useAttributeDataImpl = (collection: BN, key?: BN, token?: BN): Attribute | null => {
+const useAttributeDataImpl = (collectionId: BN, key?: BN, tokenId?: BN): Attribute | null => {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [state, setState] = useState<Attribute | null>(null);
 
-  const result = useCall<[BN[], Option<Attribute>]>(api.query.multiTokens.attributes, [collection, token || '', key || ''], {
-    paramMap: (pms) => [pms[0], null, pms[2]],
+  const result = useCall<[BN[], Option<Attribute>]>(api.query.multiTokens.attributes, [collectionId, tokenId || '', key || ''], {
+    paramMap: (pms) => [pms[0], !pms[1] ? null : pms[1], pms[2]],
     withParams: true
   });
 
@@ -34,7 +34,7 @@ const useAttributeDataImpl = (collection: BN, key?: BN, token?: BN): Attribute |
       const data = extractData(result);
       setState(data);
     }
-  }, [allAccounts, collection, token, key, result]);
+  }, [allAccounts, collectionId, tokenId, key, result]);
 
   return state;
 };

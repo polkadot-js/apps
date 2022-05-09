@@ -8,6 +8,7 @@ export const listItem = css`
     height: 90px;
     margin-bottom: 5px;
     background: var(--bg-tabs);
+    color: var(--color-text) !important;
     border-radius: 4px;
     padding: 5px 10px;
     border: 2px solid transparent;

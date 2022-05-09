@@ -10,21 +10,22 @@ import { useTranslation } from '../translate';
 import styled from 'styled-components';
 import useTokenData from '../useTokenData';
 import { listItem } from './shared';
+import { Link, useHistory } from 'react-router-dom';
 
 interface TokenItemProps {
-  collection: BN;
-  token: BN;
+  collectionId: BN;
+  tokenId: BN;
 }
 
-const TokenItem = ({ collection, token }: TokenItemProps) => {
+const TokenItem = ({ collectionId, tokenId }: TokenItemProps) => {
   const { t } = useTranslation();
-  const data = useTokenData(collection, token);
+  const data = useTokenData(collectionId, tokenId);
 
   return (
-    <Container>
+    <Container to={`/multi-tokens/token/${collectionId}/${tokenId}`}>
       <div>
         <div>
-          {t('id')}: <b>{token.toString()}</b>
+          {t('id')}: <b>{tokenId.toString()}</b>
         </div>
         <div>
           {t('supply')}: <b>{formatNumber(data?.supply)}</b>
@@ -51,7 +52,7 @@ const TokenItem = ({ collection, token }: TokenItemProps) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(Link)`
    ${listItem}
 `;
 

@@ -27,10 +27,10 @@ const extractData = (optDetails: [BN[], Option<Token>]): Token | null => {
     : null;
 };
 
-const useTokenDataImpl = (collection: BN, token: BN): Token | null => {
+const useTokenDataImpl = (collectionId: BN, tokenId: BN): Token | null => {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const details = useCall<[BN[], Option<Token>]>(api.query.multiTokens.tokens, [collection, token], QUERY_OPTS);
+  const details = useCall<[BN[], Option<Token>]>(api.query.multiTokens.tokens, [collectionId, tokenId], QUERY_OPTS);
   const [state, setState] = useState<Token | null>(null);
 
   useEffect((): void => {
@@ -38,7 +38,7 @@ const useTokenDataImpl = (collection: BN, token: BN): Token | null => {
       const data = extractData(details);
       setState(data);
     }
-  }, [allAccounts, collection, token, details]);
+  }, [allAccounts, collectionId, tokenId, details]);
 
   return state;
 };

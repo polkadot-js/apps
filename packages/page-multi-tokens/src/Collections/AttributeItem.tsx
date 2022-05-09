@@ -13,14 +13,14 @@ import { listItem } from './shared';
 import useAttributeData from '../useAttributeData';
 
 interface AttributeItemProps {
-  collection: BN;
+  collectionId: BN;
   attributeKey: u128;
 }
 
-const AttributeItem = ({ collection, attributeKey }: AttributeItemProps) => {
+const AttributeItem = ({ collectionId, attributeKey }: AttributeItemProps) => {
   const { t } = useTranslation();
 
-  const data = useAttributeData(collection, attributeKey);
+  const data = useAttributeData(collectionId, attributeKey);
 
   const possiblyOpenLink = useCallback(() => {
     if (data) {

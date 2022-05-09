@@ -75,7 +75,7 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
                 {tokenIds.length ? (
                   <List>
                     {tokenIds.map((tokenId) => (
-                      <TokenItem key={tokenId.toString()} collection={id} token={tokenId} />
+                      <TokenItem key={tokenId.toString()} collectionId={id} tokenId={tokenId} />
                     ))}
                   </List>
                 ) : (
@@ -84,7 +84,7 @@ const Collection = ({ className, id }: Props): React.ReactElement<Props> => {
                 {attributeKeys.length ? (
                   <List>
                     {attributeKeys.map((attributeKey) => (
-                      <AttributeItem key={attributeKey.toString()} collection={id} attributeKey={attributeKey} />
+                      <AttributeItem key={attributeKey.toString()} collectionId={id} attributeKey={attributeKey} />
                     ))}
                   </List>
                 ) : (
