@@ -18,7 +18,7 @@
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^13.1.1",
-    "testcontainers": "^8.9.0"
+    "@testing-library/react": "^13.2.0",
+    "testcontainers": "^8.10.0"
   }
 }
