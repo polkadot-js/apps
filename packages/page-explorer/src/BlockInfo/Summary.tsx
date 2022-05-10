@@ -56,7 +56,10 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
             <CardSummary label={t<string>('deposits')}>
               <FormatBalance value={deposits} />
             </CardSummary>
-            <CardSummary label={t<string>('transfers')}>
+            <CardSummary
+              className='media--1000'
+              label={t<string>('transfers')}
+            >
               <FormatBalance value={transfers} />
             </CardSummary>
           </>
@@ -76,7 +79,7 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
           </CardSummary>
         </section>
       )}
-      <section>
+      <section className='media--900'>
         <CardSummary label={t<string>('event count')}>
           {formatNumber(events.length)}
         </CardSummary>
