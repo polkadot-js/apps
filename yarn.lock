@@ -2870,7 +2870,7 @@ __metadata:
   resolution: "@polkadot/app-multi-tokens@workspace:packages/page-multi-tokens"
   dependencies:
     "@babel/runtime": ^7.17.9
-    "@polkadot/react-components": ^0.113.2-40
+    "@polkadot/react-components": ^0.113.2-63
   languageName: unknown
   linkType: soft
 
