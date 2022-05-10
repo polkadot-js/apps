@@ -428,7 +428,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Zeitgeist',
     providers: {
       ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
-      Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
+      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
   }
 ];
