@@ -14,10 +14,10 @@
   "version": "0.113.2-63",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
-    "@polkadot/api": "^8.3.2-2",
-    "@polkadot/extension-compat-metamask": "^0.43.2-5",
-    "@polkadot/extension-dapp": "^0.43.2-5",
-    "@polkadot/rpc-provider": "^8.3.2-2",
+    "@polkadot/api": "^8.3.2",
+    "@polkadot/extension-compat-metamask": "^0.43.2-8",
+    "@polkadot/extension-dapp": "^0.43.2-8",
+    "@polkadot/rpc-provider": "^8.3.2",
     "fflate": "^0.7.3",
     "rxjs": "^7.5.5"
   }
