@@ -3,7 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
+import type { Codec, IOption } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -69,8 +69,11 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
             thisBlockAuthor = lastHeader.author.toString();
           } else if (isAuthorMappingWithDeposit && (hasConsensusDigest || hasPreRuntimeDigest)) { // Check for a Digest
             // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
-            thisBlockAuthor = (await api.query.authorMapping.mappingWithDeposit<{ account: Codec } & Codec>(hasConsensusDigest ? lastHeader.digest.logs[0].asConsensus[1] : lastHeader.digest.logs[0].asPreRuntime[1])).account.toString();
-            lastHeader.authorFromMapping = thisBlockAuthor;
+            const optMap = await api.query.authorMapping.mappingWithDeposit<IOption<{ account: Codec } & Codec>>(hasConsensusDigest ? lastHeader.digest.logs[0].asConsensus[1] : lastHeader.digest.logs[0].asPreRuntime[1]);
+
+            if (optMap.isSome) {
+              lastHeader.authorFromMapping = thisBlockAuthor = optMap.unwrap().account.toString();
+            }
           }
 
           const thisBlockNumber = formatNumber(blockNumber);
