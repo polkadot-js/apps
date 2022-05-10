@@ -5,7 +5,6 @@ import React, { useMemo } from 'react';
 
 import { BN } from '@polkadot/util';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
