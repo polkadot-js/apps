@@ -44,6 +44,8 @@
       "@polkadot/app-js/*": ["page-js/src/*"],
       "@polkadot/app-membership": ["page-membership/src"],
       "@polkadot/app-membership/*": ["page-membership/src/*"],
+      "@polkadot/app-multi-tokens": ["page-multi-tokens/src"],
+      "@polkadot/app-multi-tokens/*": ["page-multi-tokens/src/*"],
       "@polkadot/app-nfts": ["page-nfts/src"],
       "@polkadot/app-nfts/*": ["page-nfts/src/*"],
       "@polkadot/app-parachains": ["page-parachains/src"],
