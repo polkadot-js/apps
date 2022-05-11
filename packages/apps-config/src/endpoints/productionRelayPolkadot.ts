@@ -209,7 +209,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonbeam-rpc.dwellir.com'
+      // Dwellir: 'wss://moonbeam-rpc.dwellir.com'
     }
   },
   {
