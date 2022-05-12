@@ -19,20 +19,25 @@ function extractPrefs (prefs: DeriveStakerPrefs[] = []): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
-  let avgCount = 0;
-  let total = 0;
-
-  prefs.forEach(({ era, validatorPrefs }): void => {
+  const [total, avgCount] = prefs.reduce(([total, avgCount], { validatorPrefs }) => {
     const comm = validatorPrefs.commission.unwrap().mul(MULT).div(BN_BILLION).toNumber() / 100;
 
-    total += comm;
-    labels.push(era.toHuman());
-
     if (comm !== 0) {
+      total += comm;
       avgCount++;
     }
 
-    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
+    return [total, avgCount];
+  }, [0, 0]);
+
+  prefs.forEach(({ era, validatorPrefs }): void => {
+    const comm = validatorPrefs.commission.unwrap().mul(MULT).div(BN_BILLION).toNumber() / 100;
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
+
+    labels.push(era.toHuman());
+    avgSet.push(avg);
     idxSet.push(comm);
   });
 

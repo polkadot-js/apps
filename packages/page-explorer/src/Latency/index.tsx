@@ -68,16 +68,16 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
 
     blocks.labels.push(blockNumber);
     blocks.values[0].push(details[i].block.bytes);
-    blocks.values[1].push((blockTotal - details[i].block.bytes) / (details.length - 1));
+    blocks.values[1].push(blockTotal / details.length);
 
     events.labels.push(blockNumber);
     events.values[0].push(details[i].events.count);
     events.values[1].push(details[i].events.system);
-    events.values[2].push((eventTotal - details[i].events.count) / (details.length - 1));
+    events.values[2].push(eventTotal / details.length);
 
     extrinsics.labels.push(blockNumber);
     extrinsics.values[0].push(details[i].extrinsics.count);
-    extrinsics.values[1].push((txTotal - details[i].extrinsics.count) / (details.length - 1));
+    extrinsics.values[1].push(txTotal / details.length);
   }
 
   const filtered = details.filter(({ delay }) => delay);
@@ -86,7 +86,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   for (let i = 0; i < filtered.length; i++) {
     times.labels.push(formatNumber(filtered[i].block.number));
     times.values[0].push(filtered[i].delay / 1000);
-    times.values[1].push((avgBase - filtered[i].delay) / (filtered.length - 1) / 1000);
+    times.values[1].push(avgBase / filtered.length / 1000);
   }
 
   return {

@@ -53,6 +53,28 @@ interface DemocracyUnlockable {
   ids: BN[];
 }
 
+const BAL_OPTS_DEFAULT = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
+
+const BAL_OPTS_EXPANDED = {
+  available: true,
+  bonded: true,
+  locked: true,
+  redeemable: true,
+  reserved: true,
+  total: false,
+  unlocking: true,
+  vested: true
+};
+
 function calcVisible (filter: string, name: string, tags: string[]): boolean {
   if (filter.length === 0) {
     return true;
@@ -615,16 +637,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={{
-              available: false,
-              bonded: false,
-              locked: false,
-              redeemable: false,
-              reserved: false,
-              total: true,
-              unlocking: false,
-              vested: false
-            }}
+            withBalance={BAL_OPTS_DEFAULT}
             withExtended={false}
           />
         </td>
@@ -633,7 +646,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <LinkExternal
               className='ui--AddressCard-exporer-link media--1400'
               data={address}
-              isLogo
               type='address'
             />
             {isFunction(api.api.tx.balances?.transfer) && (
@@ -679,16 +691,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={{
-              available: true,
-              bonded: true,
-              locked: true,
-              redeemable: true,
-              reserved: true,
-              total: false,
-              unlocking: true,
-              vested: true
-            }}
+            withBalance={BAL_OPTS_EXPANDED}
             withExtended={false}
           />
         </td>

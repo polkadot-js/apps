@@ -1,5 +1,94 @@
 # CHANGELOG
 
+## 0.114.1 May 10, 2022
+
+Contributed:
+
+- Add hyperlink support for extrinsic decoder (Thanks to https://github.com/gilescope)
+- Add support for Statemint teleports (Thanks to https://github.com/gilescope)
+- Add Dwellir endpoint for Solochain (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoint for Shibuya (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoint for Centrifuge (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoint archived ntrifuge (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoints for Composable (Thanks to https://github.com/Ank4n)
+- Update Shiden homepage (Thanks to https://github.com/sirius651)
+- Re-enable Phala POC-5 testnet (Thanks to https://github.com/shelvenzhou)
+- Re-enable Composable Finance (Thanks to https://github.com/alexkdefi)
+- Add Bajun to Kusama and Rococo (Thanks to https://github.com/darkfriend77)
+- Add Dali to Rococo (Thanks to https://github.com/alexkdefi)
+- Add OriginTrail to Rococo (Thanks to https://github.com/NZT48)
+- Update type definitions for Sora (Thanks to https://github.com/Nikita-Polyakov)
+- OnFinality endpoint for Robonomics (Thanks to https://github.com/PavelSheremetev)
+- Add Robonomics to Rococo (Thanks to (Thanks to https://github.com/PavelSheremetev)
+- Fix Russian i18n for Kusama (Thanks to https://github.com/valentunn)
+- Add Bengali i18n (Thanks to https://github.com/itsonal)
+
+Changes:
+
+- Add support for V1 nomination pools
+- Add support for Collators display
+- Add Developer -> Utilities for conversions
+- Adjust display for `Result<null, SpRuntimeDispatchError>`
+- Adjust global events filter for parachain inclusions
+- Adjust API checks for staking functionality
+- Swap all charts from cumulative averages to overall averages
+- Disable broken sub.id redirects
+- Change Table expand to inline butoon
+- Disable unreachable endpoints
+- Fix Decoder -> Submission population of nested calls
+- Remove duplicated submission on Decoded extrinsics
+- Allow support for negative numbers, e.g. `i128`
+- Adjust all external links to only display icons
+- Simplify endpoint structure in apps-config
+- Display extracted timestamps in block info displays
+
+
+## 0.113.1 Apr 26, 2022
+
+Contributed:
+
+- Adjust democracy display lists & buttons (Thanks to https://github.com/gilles437)
+- Adjust light client usage (Thanks to https://github.com/wirednkod)
+- Add support for `substrate-connect` on Rococo (Thanks to https://github.com/wirednkod)
+- Adjust Nodle parachain logo/colors (Thanks to https://github.com/ETeissonniere)
+- Add Kabocha parachain to Kusama (Thanks to https://github.com/decentration)
+- Add Subsocial testnets (Thanks to https://github.com/olehmell)
+- Fix text with repeated `available` (Thanks to https://github.com/Nick-1979)
+- Update Darwinia types (Thanks to https://github.com/JayJay1024)
+- Add additional parachain endpoints for Dwrllir (Thanks to https://github.com/Ank4n)
+- Add Dolphin parachain on Rococo (Thanks to https://github.com/ghzlatarev)
+- Add Arctic testnet (Thanks to https://github.com/itsmemz)
+- Update OriginTrail parachain (Thanks to https://github.com/kotlarmilos)
+- Update Bifrost chain info (Thanks to https://github.com/awesomepan)
+- Add Shiden Crowdloan 2 (Thanks to https://github.com/akru)
+- Update CreditCoin logos (Thanks to https://github.com/MrAusnadian)
+- Add Genshiro on Rococo (Thanks to https://github.com/MucTepDayH16)
+- Add Bitgreen on Rococo  (Thanks to https://github.com/abhath-labs)
+- Update Integritee logo on Rococo (Thanks to https://github.com/mosonyi)
+- Add T0rn on Rococo (Thanks to https://github.com/chiefbiiko)
+
+Changes:
+
+- Adjust `AddressName` to check for prefixes for numbered addresses
+- Combine active & waiting validator views
+- Adjust Dock logo location
+- Consolidate `staking--hidden` into `--hidden` classes
+- Detect democracy & staking via API type construction
+- Allow conviction entry in `Vote` parameter (extrinsics)
+- Cater for 9190 bounties without curator deposit
+- Add `ExpanderScroll` component for expander tables
+- Add `label` prop to `Menu.Item`
+- Convert all member lists to `ExpanderScroll`
+- Add `isOdd/isEven` classes on tables
+- Align all info banners on staking
+- Re-adjust Subscocial type imports (non-duplicated API imports)
+- SXwap to React 18 (w/ createRoot)
+- Remove jsx-runtime alias (not needed in React 18)
+- Small adjustments for upcoming nomination pools merge
+- silence all React test output warnings
+- Disable unreachable endpoints
+
+
 ## 0.112.1 Apr 11, 2022
 
 Contributed:

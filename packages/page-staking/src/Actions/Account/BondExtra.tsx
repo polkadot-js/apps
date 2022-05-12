@@ -72,7 +72,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
               autoFocus
               defaultValue={startBalance}
               help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-              isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
+              isError={!!amountError?.error || !maxAdditional || maxAdditional.isZero()}
               label={t<string>('additional funds to bond')}
               labelExtra={
                 <BalanceFree

@@ -44,16 +44,18 @@ interface TypeToComponent {
 
 const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
 
+const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
+
 const componentDef: TypeToComponent[] = [
   { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
-  { c: Bytes, t: ['Bytes'] },
+  { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
   { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
-  { c: DispatchError, t: ['DispatchError', 'SpRuntimeDispatchError'] },
-  { c: DispatchResult, t: ['DispatchResult'] },
+  { c: DispatchError, t: DISPATCH_ERROR },
+  { c: DispatchResult, t: ['DispatchResult', 'Result<Null, SpRuntimeDispatchError>'] },
   { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },
@@ -86,13 +88,13 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 const warnList: string[] = [];
 
 function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
-  // const nameOverride = displayName || typeName;
-
   if (displayName && SPECIAL_TYPES.includes(displayName)) {
     return displayName;
   } else if (type.endsWith('RuntimeSessionKeys')) {
     return 'RuntimeSessionKeys';
   }
+
+  const typeValue = lookupName || type;
 
   switch (info) {
     case TypeDefInfo.Compact:
@@ -104,34 +106,36 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
     case TypeDefInfo.Enum:
       return 'Enum';
 
+    case TypeDefInfo.Result: {
+      const [, errSub] = (sub as TypeDef[]);
+
+      return DISPATCH_ERROR.includes(errSub.lookupName || errSub.type)
+        ? 'DispatchResult'
+        : typeValue;
+    }
+
     case TypeDefInfo.Struct:
       return 'Struct';
 
     case TypeDefInfo.Tuple:
-      if (components[type] === Account) {
-        return type;
-      }
-
-      return 'Tuple';
+      return components[type] === Account
+        ? type
+        : 'Tuple';
 
     case TypeDefInfo.Vec:
-      if (type === 'Vec<u8>') {
-        return 'Bytes';
-      }
-
-      return ['Vec<KeyValue>'].includes(type)
-        ? 'Vec<KeyValue>'
-        : 'Vec';
+      return type === 'Vec<u8>'
+        ? 'Bytes'
+        : ['Vec<KeyValue>'].includes(type)
+          ? 'Vec<KeyValue>'
+          : 'Vec';
 
     case TypeDefInfo.VecFixed:
-      if ((sub as TypeDef).type === 'u8') {
-        return type;
-      }
-
-      return 'VecFixed';
+      return (sub as TypeDef).type === 'u8'
+        ? type
+        : 'VecFixed';
 
     default:
-      return lookupName || type;
+      return typeValue;
   }
 }
 
@@ -140,6 +144,7 @@ export default function findComponent (registry: Registry, def: TypeDef, overrid
     type
       ? overrides[type] || components[type]
       : null;
+
   const type = fromDef(def);
   let Component = findOne(def.lookupName) || findOne(type);
 

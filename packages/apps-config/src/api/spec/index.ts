@@ -11,6 +11,7 @@ import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
 import automata from './automata';
+import bajun from './bajun';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -107,6 +108,7 @@ import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
 import swapdex from './swapdex';
+import t0rn from './t0rn';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import turing from './turing';
@@ -131,6 +133,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
+  'Genshiro Rococo Testnet': genshiro,
   Pangolin: pangolin,
   Pangoro: pangoro,
   VLN: vln,
@@ -145,6 +148,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   asgard: bifrostAsgard,
   astar,
   automata,
+  bajun,
   basilisk,
   beresheet,
   bifrost,
@@ -256,6 +260,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   swapdex,
+  t0rn,
   ternoa,
   trustbase,
   turing,
