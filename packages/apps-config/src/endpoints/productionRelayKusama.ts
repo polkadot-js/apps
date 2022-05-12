@@ -236,12 +236,12 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'mangata',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
     homepage: 'https://mangata.finance',
     paraId: 2110,
     text: 'Mangata',
     providers: {
-      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
+      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
+      OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
     }
   },
   {
