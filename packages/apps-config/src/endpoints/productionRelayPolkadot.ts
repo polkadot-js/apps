@@ -239,7 +239,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Parallel',
     providers: {
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
-      Parallel: 'wss://rpc.parallel.fi'
+      Parallel: 'wss://rpc.parallel.fi',
+      Dwellir: 'wss://parallel-rpc.dwellir.com'
     }
   },
   {
