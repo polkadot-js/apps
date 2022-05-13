@@ -271,7 +271,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Parallel Heiko',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      Parallel: 'wss://heiko-rpc.parallel.fi'
+      Parallel: 'wss://heiko-rpc.parallel.fi',
+      Dwellir: 'wss://heiko-rpc.dwellir.com'
     }
   },
   {
@@ -408,7 +409,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Turing Network',
     providers: {
       OAK: 'wss://rpc.turing.oak.tech',
-      OnFinality: 'wss://turing.api.onfinality.io/public-ws'
+      OnFinality: 'wss://turing.api.onfinality.io/public-ws',
+      Dwellir: 'wss://turing-rpc.dwellir.com'
     }
   },
   {
