@@ -188,6 +188,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoVirto',
+    paraId: 3003,
+    text: 'Virto',
+    providers: {
+      VirtoNetwork: 'wss://rococo.virtonetwork.xyz'
+    }
+  },
+  {
     info: 'rococoZeitgeist',
     isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
     paraId: 2050,
