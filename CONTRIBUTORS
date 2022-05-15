@@ -1,4 +1,4 @@
-    3603	Jaco                          	Disable multisig button is no weight retrieved (#7580)
+    3604	Jaco                          	Remove unused useWeightFee (#7581)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
