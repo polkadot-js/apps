@@ -1,4 +1,4 @@
-    3605	Jaco                          	Bump @polkadot/api (#7583)
+    3606	Jaco                          	Ensure Option params are correctly filled from decoded (#7585)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
