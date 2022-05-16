@@ -43,7 +43,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       return createRoutes(t).find((r) =>
         r &&
         app.startsWith(r.name) &&
-        (!isDevelopment || r.display.isDevelopment)
+        (isDevelopment || !r.display.isDevelopment)
       ) || NOT_FOUND;
     },
     [isDevelopment, location, t]
