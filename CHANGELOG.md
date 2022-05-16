@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.115.1 May 16, 2022
+
+Contributed:
+
+- Updata Rococo genesisHash (Thanks to https://github.com/PierreBesson)
+- Add Rococo Virto parachain (Thanks to https://github.com/cuardaigh)
+- Re-enable Bajun endpoint (Thanks to https://github.com/cowboy-bebug)
+- Re-enable Sora staging endpoint (Thanks to https://github.com/stefashkaa)
+- OnFinality endpoints for Heiko (Thanks to https://github.com/Ank4n)
+- OnFinality endpoint for Turning (Thanks to https://github.com/Ank4n)
+- OnFinality endpoint for Zeitgeist (Thanks to https://github.com/sea212)
+- Update Creditcoin logo (Thanks to https://github.com/MrAusnadian)
+- Update Joystream types (Thanks to https://github.com/Lezek123)
+
+Changes:
+
+- Fix for extrinsic Decode -> Submission with Option params
+- Remove unused `useWeightFee` hook (additional Substrate deprecation)
+- Ensure multisig button is disabled with no weight received
+- Disable Fasttrack where no utility.batch is available
+- Apply filter for available extensions
+- Rename Rockmine network
+- Update Option handling in mappingWithDeposit author
+
+
 ## 0.114.1 May 10, 2022
 
 Contributed:
