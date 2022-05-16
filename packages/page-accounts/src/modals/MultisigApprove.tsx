@@ -277,7 +277,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           accountId={signatory}
           extrinsic={tx}
           icon={isAye ? 'check' : 'times'}
-          isDisabled={!tx || (isAye && !whoFilter.length) || !callLength}
+          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !callLength)))}
           label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />
