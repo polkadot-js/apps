@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.115.2 May 16, 2022
+
+Changes:
+
+- Fix multisig approvals not showing for threshold >2
+
+
 ## 0.115.1 May 16, 2022
 
 Contributed:
