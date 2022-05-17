@@ -26,6 +26,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
     text: 'Bajun Network',
     providers: {
