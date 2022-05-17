@@ -31,8 +31,8 @@ function SummaryValidators ({ targets:
       <SummaryBox>
         <Section>
           <CardSummary
-            help={t<string>('Count of total validators.')}
-            label={t<string>('total')}
+            help={t<string>('Maximum number of validator intentions.')}
+            label={t<string>('max intention')}
           >
             <SpinnerWrap check={maxValidatorsCount}>
               {maxValidatorsCount?.toNumber()}

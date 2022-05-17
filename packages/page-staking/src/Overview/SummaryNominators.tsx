@@ -49,7 +49,7 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
         </Section>
         <Section>
           <CardSummary
-            help={t<string>('Active count of nominators.')}
+            help={t<string>('Number of nominators backing active validators in the current era.')}
             label={t<string>('active')}
           >
             <SpinnerWrap check={nominatorActiveCount}>
@@ -61,7 +61,7 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
       <SummaryBox>
         <Section>
           <CardSummary
-            help={t<string>('Threshold stake among intended nominators.')}
+            help={t<string>('Threshold stake to intend nomination.')}
             label={t<string>('intention thrs')}
           >
             <SpinnerWrap check={minNominatorBond}>
