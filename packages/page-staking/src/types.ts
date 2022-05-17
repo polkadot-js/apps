@@ -102,6 +102,7 @@ export interface SortedTargets {
   validatorIntentionCount?: number;
   validatorWaitingCount?: number;
   nominatorMinActiveThreshold?: string;
+  nominatorMaxElectingCount?: u32;
   validatorMinActiveThreshold?: string;
 }
 

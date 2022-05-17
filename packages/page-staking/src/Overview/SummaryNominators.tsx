@@ -19,7 +19,7 @@ interface Props {
 function SummaryNominators ({ targets: { maxNominatorsCount,
   minNominatorBond,
   nominatorActiveCount,
-  nominatorElectingCount,
+  nominatorMaxElectingCount,
   nominatorMinActiveThreshold } }: Props) {
   const { t } = useTranslation();
 
@@ -42,8 +42,8 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
             help={t<string>('Number of electing nominators.')}
             label={t<string>('electing')}
           >
-            <SpinnerWrap check={nominatorElectingCount}>
-              {formatNumber(nominatorElectingCount)}
+            <SpinnerWrap check={nominatorMaxElectingCount}>
+              {formatNumber(nominatorMaxElectingCount)}
             </SpinnerWrap>
           </CardSummary>
         </Section>

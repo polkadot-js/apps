@@ -297,6 +297,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
   const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
   const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string>('');
+  const [nominatorMaxElectingCount, setNominatorMaxElectingCount] = useState<u32>();
   const [nominatorElectingCount, setNominatorElectingCount] = useState<number | undefined>();
   const [nominatorActiveCount, setNominatorActiveCount] = useState<number | undefined>();
   const [validatorActiveCount, setValidatorActiveCount] = useState<number | undefined>();
@@ -324,6 +325,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
       const nominatorStakes = Array.from(assignments);
 
       nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
+
+      setNominatorMaxElectingCount(api.consts.electionProviderMultiPhase.maxElectingVoters);
 
       setNominatorElectingCount(assignments.size);
       setNominatorActiveCount(assignments.size);
@@ -372,6 +375,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     ...partial,
     nominatorActiveCount,
     nominatorElectingCount,
+    nominatorMaxElectingCount,
     nominatorMinActiveThreshold,
     validatorActiveCount,
     validatorMinActiveThreshold
