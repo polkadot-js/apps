@@ -819,6 +819,8 @@ export const namedLogos: Record<string, unknown> = {
   t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
   'ternoa-testnet': nodeTernoa,
+  'ternoa-alphanet': nodeTernoa,
+  'ternoa-mainnet': nodeTernoa,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
   turing: chainTuring,
