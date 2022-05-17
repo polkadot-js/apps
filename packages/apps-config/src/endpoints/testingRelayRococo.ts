@@ -26,6 +26,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
     text: 'Bajun Network',
     providers: {
@@ -188,6 +189,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoVirto',
+    paraId: 3003,
+    text: 'Virto',
+    providers: {
+      VirtoNetwork: 'wss://rococo.virtonetwork.xyz'
+    }
+  },
+  {
     info: 'rococoZeitgeist',
     isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
     paraId: 2050,
@@ -202,7 +211,7 @@ export const testParasRococoCommon: EndpointOption[] = [
   {
     info: 'rococoStatemint',
     paraId: 1000,
-    text: 'Statemint',
+    text: 'Rockmine',
     providers: {
       Parity: 'wss://rococo-statemint-rpc.polkadot.io'
     },

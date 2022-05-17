@@ -125,7 +125,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'payout',
       text: t<string>('Payouts')
     },
-    hasStashes && isFunction(api.query.nominationPools?.minCreateBond) && {
+    isFunction(api.query.nominationPools?.minCreateBond) && {
       name: 'pools',
       text: t<string>('Pools')
     },

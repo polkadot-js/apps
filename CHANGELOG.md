@@ -1,5 +1,80 @@
 # CHANGELOG
 
+## 0.115.2 May 16, 2022
+
+Changes:
+
+- Fix multisig approvals not showing for threshold >2
+
+
+## 0.115.1 May 16, 2022
+
+Contributed:
+
+- Updata Rococo genesisHash (Thanks to https://github.com/PierreBesson)
+- Add Rococo Virto parachain (Thanks to https://github.com/cuardaigh)
+- Re-enable Bajun endpoint (Thanks to https://github.com/cowboy-bebug)
+- Re-enable Sora staging endpoint (Thanks to https://github.com/stefashkaa)
+- OnFinality endpoints for Heiko (Thanks to https://github.com/Ank4n)
+- OnFinality endpoint for Turning (Thanks to https://github.com/Ank4n)
+- OnFinality endpoint for Zeitgeist (Thanks to https://github.com/sea212)
+- Update Creditcoin logo (Thanks to https://github.com/MrAusnadian)
+- Update Joystream types (Thanks to https://github.com/Lezek123)
+
+Changes:
+
+- Fix for extrinsic Decode -> Submission with Option params
+- Remove unused `useWeightFee` hook (additional Substrate deprecation)
+- Ensure multisig button is disabled with no weight received
+- Disable Fasttrack where no utility.batch is available
+- Apply filter for available extensions
+- Rename Rockmine network
+- Update Option handling in mappingWithDeposit author
+
+
+## 0.114.1 May 10, 2022
+
+Contributed:
+
+- Add hyperlink support for extrinsic decoder (Thanks to https://github.com/gilescope)
+- Add support for Statemint teleports (Thanks to https://github.com/gilescope)
+- Add Dwellir endpoint for Solochain (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoint for Shibuya (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoint for Centrifuge (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoint archived ntrifuge (Thanks to https://github.com/Ank4n)
+- Add Dwellir endpoints for Composable (Thanks to https://github.com/Ank4n)
+- Update Shiden homepage (Thanks to https://github.com/sirius651)
+- Re-enable Phala POC-5 testnet (Thanks to https://github.com/shelvenzhou)
+- Re-enable Composable Finance (Thanks to https://github.com/alexkdefi)
+- Add Bajun to Kusama and Rococo (Thanks to https://github.com/darkfriend77)
+- Add Dali to Rococo (Thanks to https://github.com/alexkdefi)
+- Add OriginTrail to Rococo (Thanks to https://github.com/NZT48)
+- Update type definitions for Sora (Thanks to https://github.com/Nikita-Polyakov)
+- OnFinality endpoint for Robonomics (Thanks to https://github.com/PavelSheremetev)
+- Add Robonomics to Rococo (Thanks to (Thanks to https://github.com/PavelSheremetev)
+- Fix Russian i18n for Kusama (Thanks to https://github.com/valentunn)
+- Add Bengali i18n (Thanks to https://github.com/itsonal)
+
+Changes:
+
+- Add support for V1 nomination pools
+- Add support for Collators display
+- Add Developer -> Utilities for conversions
+- Adjust display for `Result<null, SpRuntimeDispatchError>`
+- Adjust global events filter for parachain inclusions
+- Adjust API checks for staking functionality
+- Swap all charts from cumulative averages to overall averages
+- Disable broken sub.id redirects
+- Change Table expand to inline butoon
+- Disable unreachable endpoints
+- Fix Decoder -> Submission population of nested calls
+- Remove duplicated submission on Decoded extrinsics
+- Allow support for negative numbers, e.g. `i128`
+- Adjust all external links to only display icons
+- Simplify endpoint structure in apps-config
+- Display extracted timestamps in block info displays
+
+
 ## 0.113.1 Apr 26, 2022
 
 Contributed:

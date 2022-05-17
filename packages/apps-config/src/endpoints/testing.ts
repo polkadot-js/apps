@@ -466,6 +466,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'skyekiwi',
+    text: 'SkyeKiwi Testnet',
+    providers: {
+      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
+    }
+  },
+  {
     info: 'snowbridge',
     text: 'Snowbridge',
     providers: {
@@ -481,7 +488,6 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'sora-substrate',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
     text: 'SORA-staging',
     providers: {
       Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'

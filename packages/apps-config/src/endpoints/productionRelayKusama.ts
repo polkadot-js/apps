@@ -27,7 +27,6 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'bajun',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7480
     homepage: 'https://ajuna.io',
     paraId: 2119,
     text: 'Bajun Network',
@@ -236,12 +235,12 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'mangata',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
     homepage: 'https://mangata.finance',
     paraId: 2110,
     text: 'Mangata',
     providers: {
-      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
+      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
+      OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
     }
   },
   {
@@ -272,7 +271,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Parallel Heiko',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      Parallel: 'wss://heiko-rpc.parallel.fi'
+      Parallel: 'wss://heiko-rpc.parallel.fi',
+      Dwellir: 'wss://heiko-rpc.dwellir.com'
     }
   },
   {
@@ -409,7 +409,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Turing Network',
     providers: {
       OAK: 'wss://rpc.turing.oak.tech',
-      OnFinality: 'wss://turing.api.onfinality.io/public-ws'
+      OnFinality: 'wss://turing.api.onfinality.io/public-ws',
+      Dwellir: 'wss://turing-rpc.dwellir.com'
     }
   },
   {
@@ -428,7 +429,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Zeitgeist',
     providers: {
       ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
-      Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
+      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
   }
 ];
