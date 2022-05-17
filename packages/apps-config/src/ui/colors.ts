@@ -120,6 +120,7 @@ const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
+const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
@@ -223,7 +224,7 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
 const nodeZCloak = 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)';
 
-// based on the spec name
+// based on the spec e
 const specShell = '#2e86ab'; // '#0596FC';
 const specStatemine = '#113911';
 const specStatemint = '#86e62a';
@@ -400,6 +401,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Sherpax: chainSherpax,
   'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
+  'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
