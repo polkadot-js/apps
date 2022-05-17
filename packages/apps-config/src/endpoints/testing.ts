@@ -466,6 +466,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'skyekiwi',
+    text: 'SkyeKiwi Testnet',
+    providers: {
+      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
+    }
+  },
+  {
     info: 'snowbridge',
     text: 'Snowbridge',
     providers: {

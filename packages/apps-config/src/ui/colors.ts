@@ -120,6 +120,7 @@ const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
+const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
@@ -400,6 +401,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Sherpax: chainSherpax,
   'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
+  'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,

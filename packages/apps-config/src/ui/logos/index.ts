@@ -48,6 +48,7 @@ import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
+import chainSkyeKiwi from './chains/skyekiwi.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
@@ -351,6 +352,7 @@ export const chainLogos = Object.entries({
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
+  SkyeKiwi: chainSkyeKiwi,
   soonsocial: nodeSoonsocial,
   soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
@@ -794,6 +796,7 @@ export const namedLogos: Record<string, unknown> = {
   shibuya: chainShiden,
   shiden: chainShiden,
   singLavender: nodeSingLavender,
+  skyekiwi: chainSkyeKiwi,
   snakenet: chainSnakenet,
   soonsocial: nodeSoonsocial,
   sora: nodeSora,
