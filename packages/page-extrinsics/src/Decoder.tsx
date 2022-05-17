@@ -29,6 +29,7 @@ interface ExtrinsicInfo {
   extrinsicError: string | null;
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
   extrinsicHex: string | null;
+  isCall: boolean;
 }
 
 const DEFAULT_INFO: ExtrinsicInfo = {
@@ -36,7 +37,8 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicCall: null,
   extrinsicError: null,
   extrinsicFn: null,
-  extrinsicHex: null
+  extrinsicHex: null,
+  isCall: true
 };
 
 function Decoder ({ className, defaultValue, setLast }: Props): React.ReactElement<Props> {
@@ -44,7 +46,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
+  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
 
   const _setExtrinsicHex = useCallback(
     (hex: string): void => {
@@ -53,11 +55,13 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
 
         let extrinsicCall: Call;
         let decoded: SubmittableExtrinsic<'promise'> | null = null;
+        let isCall = true;
 
         try {
           // cater for an extrinsic input...
           decoded = api.tx(hex);
           extrinsicCall = api.createType('Call', decoded.method);
+          isCall = false;
         } catch (e) {
           extrinsicCall = api.createType('Call', hex);
         }
@@ -69,7 +73,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
           decoded = extrinsicFn(...extrinsicCall.args);
         }
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex });
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex, isCall });
         setLast({ call: extrinsicCall, fn: extrinsicFn, hex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
@@ -106,6 +110,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
       )}
       <Decoded
         extrinsic={decoded}
+        isCall={isCall}
         withData={false}
       />
     </div>
