@@ -16,6 +16,7 @@ export interface Route {
   Component: React.ComponentType<RouteProps> | React.MemoExoticComponent<any>;
   Modal?: React.ComponentType<any> | React.MemoExoticComponent<any>;
   display: {
+    isDevelopment?: boolean;
     isHidden?: boolean;
     isModal?: boolean;
     needsAccounts?: boolean;

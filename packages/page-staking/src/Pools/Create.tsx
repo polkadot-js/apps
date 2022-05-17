@@ -7,24 +7,28 @@ import type { Params } from './types';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { BN_ONE, bnMax } from '@polkadot/util';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO, bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useAmountError from './useAmountError';
 
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  ownAccounts?: string[];
   params: Params;
 }
 
-function Create ({ className, isDisabled, params: { minCreateBond, minNominatorBond } }: Props): React.ReactElement<Props> {
+const MAX_META_LEN = 32;
+const MIN_META_LEN = 3;
+
+function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, minNominatorBond, nextPoolId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const lastPoolId = useCall<BN>(api.query.nominationPools.lastPoolId);
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [amount, setAmount] = useState<BN | undefined>();
+  const [amount, setAmount] = useState<BN>(BN_ZERO);
   const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(
@@ -33,18 +37,15 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
     [api, minCreateBond, minNominatorBond]
   );
 
-  const nextPoolId = useMemo(
-    () => lastPoolId && lastPoolId.add(BN_ONE),
-    [lastPoolId]
-  );
+  const isAmountError = useAmountError(accountId, amount, minValue);
 
-  const isAmountError = useMemo(
-    () => !amount || !minValue || amount.lt(minValue),
-    [amount, minValue]
+  const isMetaError = useMemo(
+    () => !metadata || (metadata.length < MIN_META_LEN) || (metadata.length > MAX_META_LEN),
+    [metadata]
   );
 
   const extrinsic = useMemo(
-    () => accountId && !isAmountError
+    () => amount && accountId && !isAmountError && nextPoolId
       ? api.tx.utility.batch([
         api.tx.nominationPools.create(amount, accountId, accountId, accountId),
         api.tx.nominationPools.setMetadata(nextPoolId, metadata)
@@ -71,13 +72,15 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
           <Modal.Content>
             <Modal.Columns hint={t<string>('The origin account will also be set as the pool admin, nominator and state toggler.')}>
               <InputAddress
+                filter={ownAccounts}
                 label={t<string>('create pool from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
+                withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minValue}
@@ -88,8 +91,9 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The metadata description to set for this pool')}>
               <Input
+                isError={isMetaError}
                 label={t<string>('description')}
-                maxLength={32}
+                maxLength={MAX_META_LEN}
                 onChange={setMetadata}
               />
             </Modal.Columns>
@@ -106,7 +110,7 @@ function Create ({ className, isDisabled, params: { minCreateBond, minNominatorB
               accountId={accountId}
               extrinsic={extrinsic}
               icon='plus'
-              isDisabled={!accountId || isAmountError}
+              isDisabled={!accountId || isAmountError || isMetaError}
               label={t<string>('Create')}
               onStart={toggleOpen}
             />

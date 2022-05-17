@@ -138,9 +138,9 @@ class MockAccountHooks {
         });
 
       this.accountsMap[address] = {
-        balance: balance,
-        info: info,
-        staking: staking
+        balance,
+        info,
+        staking
       };
     }
   }

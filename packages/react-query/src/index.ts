@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export { default as Available } from './Available';
-export { default as Balance } from './Balance';
 export { default as BalanceFree } from './BalanceFree';
 export { default as BalanceVoting } from './BalanceVoting';
 export { BlockAuthors, BlockAuthorsContext, ValidatorsContext } from './BlockAuthors';

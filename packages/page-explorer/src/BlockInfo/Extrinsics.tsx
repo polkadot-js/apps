@@ -28,7 +28,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
     [label || t<string>('extrinsics'), 'start', 2],
     [t('events'), 'start media--1000', 2],
     [t('weight'), 'media--1400'],
-    [t('signer'), 'address media--1200']
+    [undefined, 'address media--1200']
   ], [label, t]);
 
   return (

@@ -217,7 +217,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           <LinkExternal
             className='ui--AddressCard-exporer-link'
             data={address}
-            isLogo
             type='address'
           />
         </td>

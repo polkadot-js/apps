@@ -8,6 +8,8 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
+import { isUndefined } from '@polkadot/util';
+
 import { useApi } from './useApi';
 import { handleError, transformIdentity, unsubscribe } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -68,7 +70,7 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
-  const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
+  const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

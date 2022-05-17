@@ -57,6 +57,15 @@ export const DEFAULT_DECIMALS = registry.createType('u32', 12);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
 
+const DISALLOW_EXTENSIONS = [
+  // The issue here is that they build on the polkadot-js extension, which is all good and
+  // certainly encouraged. Copying the code, all good, it is meant to be used and broken in
+  // weird and wonderful ways. Then the team changed all the copyright headers to drop
+  // attribution to the original project. This is not good.
+  // See https://github.com/Koniverse/SubWallet-Extension/commit/ad4c510779e0e26c0e12159f9ee99c1763c6a0e6
+  'subwallet-js'
+];
+
 let api: ApiPromise;
 
 export { api };
@@ -98,6 +107,14 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
+function createLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
+  return (path: string, apiUrl?: string): string =>
+    `${isElectron
+      ? 'https://polkadot.js.org/apps/'
+      : `${window.location.origin}${window.location.pathname}`
+    }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
@@ -110,7 +127,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   ]);
 
   return {
-    injectedAccounts,
+    injectedAccounts: injectedAccounts.filter(({ meta: { source } }) =>
+      !DISALLOW_EXTENSIONS.includes(source)
+    ),
     properties: registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
@@ -190,7 +209,7 @@ function getWellKnownChain (chain = 'polkadot') {
     case 'polkadot':
       return WellKnownChain.polkadot;
     case 'rococo':
-      return WellKnownChain.rococo_v2_1;
+      return WellKnownChain.rococo_v2_2;
     case 'westend':
       return WellKnownChain.westend2;
     default:
@@ -244,7 +263,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   );
   const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 

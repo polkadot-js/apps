@@ -6,7 +6,7 @@ import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/t
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,6 +27,7 @@ import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 import useNominations from './useNominations';
+import useOwnPools from './useOwnPools';
 import useSortedTargets from './useSortedTargets';
 import Validators from './Validators';
 
@@ -45,6 +46,20 @@ const OPT_MULTI = {
   ]
 };
 
+function createPathRef (basePath: string): Record<string, string | string[]> {
+  return {
+    bags: `${basePath}/bags`,
+    payout: `${basePath}/payout`,
+    pools: `${basePath}/pools`,
+    query: [
+      `${basePath}/query/:value`,
+      `${basePath}/query`
+    ],
+    slashes: `${basePath}/slashes`,
+    targets: `${basePath}/targets`
+  };
+}
+
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -61,9 +76,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], OPT_MULTI);
+  const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
+  const pathRef = useRef(createPathRef(basePath));
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -108,7 +125,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'payout',
       text: t<string>('Payouts')
     },
-    hasStashes && isFunction(api.query.nominationPools?.minCreateBond) && {
+    isFunction(api.query.nominationPools?.minCreateBond) && {
       name: 'pools',
       text: t<string>('Pools')
     },
@@ -146,28 +163,29 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         items={items}
       />
       <Switch>
-        <Route path={`${basePath}/bags`}>
+        <Route path={pathRef.current.bags}>
           <Bags ownStashes={ownStashes} />
         </Route>
-        <Route path={`${basePath}/payout`}>
+        <Route path={pathRef.current.payout}>
           <Payouts
             isInElection={isInElection}
+            ownPools={ownPools}
             ownValidators={ownValidators}
           />
         </Route>
-        <Route path={`${basePath}/pools`}>
-          <Pools />
+        <Route path={pathRef.current.pools}>
+          <Pools ownPools={ownPools} />
         </Route>
-        <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
+        <Route path={pathRef.current.query}>
           <Query />
         </Route>
-        <Route path={`${basePath}/slashes`}>
+        <Route path={pathRef.current.slashes}>
           <Slashes
             ownStashes={ownStashes}
             slashes={slashes}
           />
         </Route>
-        <Route path={`${basePath}/targets`}>
+        <Route path={pathRef.current.targets}>
           <Targets
             isInElection={isInElection}
             nominatedBy={nominatedBy}
@@ -199,6 +217,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
         minCommission={minCommission}
+        ownPools={ownPools}
         ownStashes={ownStashes}
         targets={targets}
       />

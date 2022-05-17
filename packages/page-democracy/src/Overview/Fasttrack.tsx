@@ -52,7 +52,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
 
   const extrinsic = useMemo(
     (): SubmittableExtrinsic<'promise'> | null => {
-      if (!modLocation || !proposal || !proposalCount) {
+      if (!modLocation || !proposal || !proposalCount || !api.tx.utility) {
         return null;
       }
 
@@ -82,7 +82,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
     });
   }, [api, delayBlocks, imageHash, members, votingBlocks]);
 
-  if (!modLocation) {
+  if (!modLocation || !api.tx.utility) {
     return null;
   }
 
