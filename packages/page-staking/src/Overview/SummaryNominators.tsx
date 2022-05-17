@@ -29,8 +29,8 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
       <SummaryBox>
         <Section>
           <CardSummary
-            help={t<string>('Total count of nominators.')}
-            label={t<string>('total')}
+            help={t<string>('Maximum number of nominator intentions.')}
+            label={t<string>('maximum')}
           >
             <SpinnerWrap check={maxNominatorsCount}>
               {formatNumber(maxNominatorsCount?.toNumber())}
@@ -39,7 +39,7 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
         </Section>
         <Section>
           <CardSummary
-            help={t<string>('Electing count of nominators.')}
+            help={t<string>('Number of electing nominators.')}
             label={t<string>('electing')}
           >
             <SpinnerWrap check={nominatorElectingCount}>
