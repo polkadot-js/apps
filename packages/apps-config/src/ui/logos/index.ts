@@ -821,6 +821,8 @@ export const namedLogos: Record<string, unknown> = {
   swapdex: nodeSwapdex,
   t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
+  'ternoa-alphanet': nodeTernoa,
+  'ternoa-mainnet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,

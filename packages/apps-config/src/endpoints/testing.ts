@@ -523,6 +523,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ternoa-alphanet',
+    text: 'Ternoa Alphanet',
+    providers: {
+      CapsuleCorp: 'wss://alphanet.ternoa.com'
+    }
+  },
+  {
     info: 'ternoa-testnet',
     text: 'Ternoa Testnet',
     providers: {

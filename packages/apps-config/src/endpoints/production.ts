@@ -303,6 +303,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ternoa-mainnet',
+    text: 'Ternoa Mainnet',
+    providers: {
+      CapsuleCorp: 'wss://mainnet.ternoa.network'
+    }
+  },
+  {
     info: 'uniarts',
     text: 'UniArts',
     providers: {
