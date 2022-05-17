@@ -304,6 +304,7 @@
        1	Shunfan Zhou                  	Re-enable Phala (PoC 5) Testnet (#7462)
        1	SimonKraus                    	fix(staking): fix typo (#4926)
        1	Skedley                       	KILT types definition repo (#5132)
+       1	Song Zhou                     	add SkyeKiwi testnet (#7597)
        1	Sota Watanabe                 	update (#2949)
        1	Spencer Judge                 	Don't crash if there is no tip field in extrinsics (#2466)
        1	Stéphane P                    	Fix Fr translations typos (#5104)
