@@ -425,6 +425,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
   'Turing Network': chainTuring,
+  'Turing Network (Staging)': chainTuring,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
