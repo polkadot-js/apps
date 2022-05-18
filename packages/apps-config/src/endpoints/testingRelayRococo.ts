@@ -189,6 +189,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoTuring',
+    paraId: 2114,
+    text: 'Turing Network (Staging)',
+    providers: {
+      OAK: 'wss://rpc.turing-staging.oak.tech'
+    }
+  },
+  {
     info: 'rococoVirto',
     paraId: 3003,
     text: 'Virto',
