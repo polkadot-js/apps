@@ -98,14 +98,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rococoTinker',
-    paraId: 2014,
-    text: 'InvArch Tinkernet',
-    providers: {
-      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
-    }
-  },
-  {
     info: 'rococoLitentry',
     paraId: 2106,
     text: 'Litentry',

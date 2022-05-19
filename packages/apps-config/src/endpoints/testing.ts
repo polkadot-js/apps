@@ -223,6 +223,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'brainstorm',
+    text: 'InvArch Brainstorm Testnet',
+    providers: {
+      'InvArch Team': 'ws://localhost:9944'
+    }
+  },
+  {
     info: 'ipse',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/6242
     text: 'IPSE',
