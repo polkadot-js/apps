@@ -35,6 +35,11 @@ function extractAuthor (
   const preRuntimes = digest.logs.filter(
     (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
   );
+
+  if (!preRuntimes || preRuntimes.length === 0) {
+    return undefined;
+  }
+
   const { solution }: SubPreDigest = api.registry.createType('SubPreDigest', preRuntimes[0].asPreRuntime[1]);
 
   return solution.public_key;

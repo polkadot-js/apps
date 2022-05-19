@@ -11,7 +11,7 @@ interface Endpoint {
   value: string;
 }
 
-const allEndpoints = createWsEndpoints((k: string, v?: string, options?: { replace: Record<string, string> }) => (options && options.replace && options.replace.host) || v || k, false, false);
+const allEndpoints = createWsEndpoints(undefined, false, false);
 
 describe('WS urls are all valid', (): void => {
   allEndpoints
@@ -95,8 +95,6 @@ describe('urls are not duplicated', (): void => {
 describe('endpopints do not contain emojis or all uppercase', (): void => {
   const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
 
-  console.error(allEndpoints);
-
   allEndpoints
     .filter(({ value }) =>
       value &&
@@ -106,7 +104,7 @@ describe('endpopints do not contain emojis or all uppercase', (): void => {
     .map(({ text, textBy, value }): Endpoint => ({
       name: text as string,
       provider: textBy,
-      value: value
+      value
     }))
     .forEach(({ name, provider }) =>
       it(`${name}:: ${provider}`, (): void => {

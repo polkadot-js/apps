@@ -8,7 +8,7 @@ import fs from 'fs';
 
 import execSync from '@polkadot/dev/scripts/execSync.mjs';
 
-import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.cjs';
+import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.js';
 
 console.log('$ scripts/ipfsUpload.mjs', process.argv.slice(2).join(' '));
 
