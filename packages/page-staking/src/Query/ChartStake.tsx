@@ -20,22 +20,27 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
   const cliSet: LineDataEntry = [];
   const expSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
-  let avgCount = 0;
-  let total = 0;
+  const [total, avgCount] = exposures.reduce(([total, avgCount], { clipped }) => {
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+
+    if (cli > 0) {
+      total += cli;
+      avgCount++;
+    }
+
+    return [total, avgCount];
+  }, [0, 0]);
 
   exposures.forEach(({ clipped, era, exposure }): void => {
     // Darwinia Crab doesn't have the total field
     const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
     const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
 
-    total += cli;
-
-    if (cli > 0) {
-      avgCount++;
-    }
-
-    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
     labels.push(era.toHuman());
+    avgSet.push(avg);
     cliSet.push(cli);
     expSet.push(exp);
   });

@@ -180,7 +180,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           />
         </td>
       </tr>
-
       <tr>
         <td>
           <Input

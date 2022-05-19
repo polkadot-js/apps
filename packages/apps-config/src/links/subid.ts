@@ -24,7 +24,7 @@ export default {
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `https://sub.id/#/${data.toString()}`,
-  isActive: true,
+  isActive: false, // https://github.com/polkadot-js/apps/issues/7485
   logo: externalLogos.subid as string,
   paths: {
     address: 'account'

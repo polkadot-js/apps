@@ -3,6 +3,7 @@
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
+import type { ICompact, INumber } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -66,6 +67,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
   const { meta, method, section } = useMemo(
     () => value.registry.findMetaCall(value.callIndex),
     [value]
+  );
+
+  const timestamp = useMemo(
+    () => section === 'timestamp' && method === 'set'
+      ? new Date((value.args[0] as ICompact<INumber>).unwrap().toNumber())
+      : undefined,
+    [method, section, value]
   );
 
   const mortality = useMemo(
@@ -137,18 +145,23 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         )}
       </td>
       <td className='top media--1200'>
-        {value.isSigned && (
-          <>
-            <AddressMini value={value.signer} />
-            <div className='explorer--BlockByHash-nonce'>
-              {t<string>('index')} {formatNumber(value.nonce)}
-            </div>
-            <LinkExternal
-              data={value.hash.toHex()}
-              type='extrinsic'
-            />
-          </>
-        )}
+        {value.isSigned
+          ? (
+            <>
+              <AddressMini value={value.signer} />
+              <div className='explorer--BlockByHash-nonce'>
+                {t<string>('index')} {formatNumber(value.nonce)}
+              </div>
+              <LinkExternal
+                data={value.hash.toHex()}
+                type='extrinsic'
+              />
+            </>
+          )
+          : timestamp
+            ? timestamp.toLocaleString()
+            : null
+        }
       </td>
     </tr>
   );

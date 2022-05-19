@@ -6,14 +6,20 @@ import type { LinkOption } from './types';
 // createDev, 
 import { defaultT } from '../util';
 import { createCustom, createOwn, defaultDevNode } from './development';
-import { createProduction } from './production';
+import { prodChains} from './production';
 // import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
-import { createTesting } from './testing';
+import { testChains } from './testing';
 import { createStaging } from './staging';
 
 // import { createRococoRelay, createWestendRelay } from './testingRelays';
+// import { createCustom, createDev, createOwn } from './development';
+// import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production';
+// import { testChains, testRelayRococo, testRelayWestend } from './testing';
+import { expandEndpoints } from './util';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
+export * from './production';
+export * from './testing';
 
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
@@ -68,7 +74,7 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       textBy: '',
       value: ''
     },
-    ...createProduction(t, firstOnly, withSort),
+    ...expandEndpoints(t, prodChains, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
@@ -76,7 +82,7 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       textBy: '',
       value: ''
     },
-    ...createTesting(t, firstOnly, withSort),
+    ...expandEndpoints(t, testChains, firstOnly, withSort),
     {
       isDevelopment: true,
       isDisabled: false,

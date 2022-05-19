@@ -17,6 +17,7 @@ interface TableProps {
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
+  isInline?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
   withCollapsibleRows: boolean;
@@ -33,13 +34,13 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -62,7 +63,6 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 }
 
 export default React.memo(styled(Table)`
-  margin-bottom: 1.5rem;
   max-width: 100%;
   width: 100%;
 
@@ -76,6 +76,26 @@ export default React.memo(styled(Table)`
 
     &.isFixed {
       table-layout: fixed;
+    }
+
+    &:not(.isInline) {
+      margin-bottom: 1.5rem;
+    }
+
+    &.isInline {
+      &.highlight--bg-faint,
+      &.highlight--bg-faint::before {
+        background: transparent;
+      }
+
+      tbody tr {
+        background: transparent;
+
+        td {
+          border-top-width: 1px;
+          padding: 0.25rem 0.75rem;
+        }
+      }
     }
 
     tr {
@@ -108,9 +128,17 @@ export default React.memo(styled(Table)`
 
     &.withCollapsibleRows tbody tr {
       background-color: unset;
+
       &:nth-child(4n - 2),
       &:nth-child(4n - 3) {
         background-color: var(--bg-table);
+      }
+    }
+
+    &:not(.withCollapsibleRows) tbody tr {
+      &.isOdd,
+      &:nth-child(odd):not(.isEven) {
+        background: var(--bg-table);
       }
     }
   }
@@ -271,11 +299,6 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      &.hasOddRowColoring,
-      &:nth-child(odd) {
-        background: var(--bg-table);
-      }
-
       &:first-child {
         td {
           border-top: 0.25rem solid var(--bg-page);
@@ -311,6 +334,14 @@ export default React.memo(styled(Table)`
       &.noBorder td {
         border-bottom: 1px solid transparent;
         padding-bottom: 0 !important;
+      }
+
+      &.isCollapsed {
+        visibility: collapse;
+      }
+
+      &.isExpanded {
+        visibility: visible;
       }
 
       .ui--Button-Group {
