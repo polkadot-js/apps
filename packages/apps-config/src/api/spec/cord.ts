@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
 import { typesBundleForPolkadot } from '@cord.network/type-definitions';
 
-export default typesBundleForPolkadot.spec;
+export default typesBundleForPolkadot.spec.cord as unknown as OverrideBundleDefinition;
