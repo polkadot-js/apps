@@ -3,7 +3,8 @@
 
 import type { TFunction } from '../types';
 import type { LinkOption } from './types';
-import { expandEndpoints } from './util';
+// import { expandEndpoints } from './util';
+import type { EndpointOption } from './types';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
@@ -38,6 +39,16 @@ export function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
+export const devChains: EndpointOption[] = [
+  {
+      info: 'Dev. Node',
+      text: 'Local Node',
+      providers: {
+        'Local Node': 'ws://127.0.0.1:9944'
+      }
+  },
+]
+
 export function createOwn (t: TFunction): LinkOption[] {
   try {
     // this may not be available, e.g. when running via script
@@ -62,24 +73,24 @@ export function createOwn (t: TFunction): LinkOption[] {
   return [];
 }
 
-export function defaultDevNode (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
-  return expandEndpoints(t, [
-    {
-      dnslink: 'local',
-      info: 'Dev. Node',
-      text: t('rpc.dev.cord', 'Dev. Node', { ns: 'apps-config' }),
-      providers: {
-        'Local Node': 'ws://127.0.0.1:9944'
-      }
-    }
-  ], firstOnly, withSort);
-}
+// export function defaultDevNode (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
+//   return expandEndpoints(t, [
+//     {
+//       dnslink: 'Development',
+//       info: 'Development',
+//       text: t('rpc.dev.local', 'Dev. Node', { ns: 'apps-config' }),
+//       providers: {
+//         'Local Node': 'ws://127.0.0.1:9944'
+//       }
+//     }
+//   ], firstOnly, withSort);
+// }
 
 export function createDev (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'local',
-      info: 'local',
+      info: 'Development',
       text: t('rpc.dev.local', 'Local Node', { ns: 'apps-config' }),
       textBy: '127.0.0.1:9944',
       value: 'ws://127.0.0.1:9944'

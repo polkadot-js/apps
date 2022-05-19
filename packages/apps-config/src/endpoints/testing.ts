@@ -18,12 +18,19 @@ export * from './testingRelayWestend';
 // IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
   {
-      info: 'cord',
+      info: 'Indian Teal',
       text: 'Indian Teal',
       providers: {
         'Cord Network': 'wss://indian-teal.dway.io'
       }
   },
+  {
+      info: 'Amber Glow',
+      text: 'Amber Glow (v2)',
+      providers: {
+        'Cord Network': 'wss://staging.cord.network'
+      }
+    },
   // {
   //   info: 'ajuna',
   //   text: 'Ajuna Testnet',

@@ -5,11 +5,11 @@ import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 // createDev, 
 import { defaultT } from '../util';
-import { createCustom, createOwn, defaultDevNode } from './development';
+import { createCustom, devChains, createOwn } from './development';
 import { prodChains} from './production';
 // import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
 import { testChains } from './testing';
-import { createStaging } from './staging';
+// import { createStaging } from './staging';
 
 // import { createRococoRelay, createWestendRelay } from './testingRelays';
 // import { createCustom, createDev, createOwn } from './development';
@@ -58,14 +58,14 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
     //   value: ''
     // },
     // ...createRococoRelay(t, firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      text: t('rpc.header.test', 'Stage Networks', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createStaging(t, firstOnly, withSort),
+    // {
+    //   isDisabled: false,
+    //   isHeader: true,
+    //   text: t('rpc.header.test', 'Stage Networks', { ns: 'apps-config' }),
+    //   textBy: '',
+    //   value: ''
+    // },
+    // ...createStaging(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
@@ -92,8 +92,7 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       textBy: '',
       value: ''
     },
-    ...defaultDevNode(t, firstOnly, withSort),
-    // ...createDev(t),
+     ...expandEndpoints(t, devChains, firstOnly, withSort),
     ...createOwn(t)
   ].filter(({ isDisabled }) => !isDisabled);
 }

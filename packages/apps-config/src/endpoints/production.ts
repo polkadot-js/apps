@@ -18,7 +18,7 @@ export * from './productionRelayPolkadot';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
   {
-      info: 'cord',
+      info: 'Royal Blue',
       text: 'Royal Blue (Studio)',
       providers: {
         'Cord Network': 'wss://royal-blue.dway.io'

@@ -13,7 +13,7 @@ import chainCord from './chains/cord-v2-staging.svg';
 import chainRoyalBlue from './chains/cord-studio.svg';
 import chainIndianTeal from './chains/cord-teal.svg';
 import chainCordDev from './chains/cord-dev.svg';
-import chainCordLocal from './chains/cord-dev.svg';
+// import chainCordLocal from './chains/cord-dev.svg';
 import chainCordStaging from './chains/cord-v2-staging.svg';
 import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
@@ -210,8 +210,9 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Development': chainCordDev,
   'Dev. Node': chainCordDev,
-  'Local': chainCordLocal,
+  'Local Node': chainCordDev,
   'Staging': chainCordStaging,
   'Amber Glow': chainCordStaging,
   'Royal Blue': chainRoyalBlue,
@@ -618,11 +619,15 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   cord: chainCord,
+  'Development': chainCordDev,
   'Dev. Node': chainCordDev,
-  'Local': chainCordLocal,
+  'local': chainCordDev,
+  'Local Node': chainCordDev,
   'Staging': chainCordStaging,
   'Amber Glow': chainCordStaging,
+  'Amber Glow (v2)': chainCordStaging,
   'Royal Blue (Studio)': chainRoyalBlue,
+  'Royal Blue': chainRoyalBlue,
   'Indian Teal': chainIndianTeal,
   empty: emptyLogo,
   acala: chainAcala,
