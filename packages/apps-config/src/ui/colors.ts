@@ -308,7 +308,7 @@ export const chainColors: Record<string, string> = Object.entries({
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
-//  'InvArch Brainstorm Testnet': chainBrainstorm,
+  'InvArch Brainstorm Testnet': chainBrainstorm,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
