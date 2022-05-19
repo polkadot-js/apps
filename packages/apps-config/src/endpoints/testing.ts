@@ -226,7 +226,7 @@ export const testChains: EndpointOption[] = [
     info: 'brainstorm',
     text: 'InvArch Brainstorm Testnet',
     providers: {
-      'InvArch Team': 'ws://localhost:9944' // Placeholder, will be changed before merge
+      'InvArch Team': 'wss://brainstorm.invarch.network/'
     }
   },
   {
