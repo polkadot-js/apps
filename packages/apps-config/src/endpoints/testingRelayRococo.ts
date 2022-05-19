@@ -158,7 +158,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
-    paraId: 3001,
+    paraId: 2048,
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://rococo.rpc.robonomics.network'
