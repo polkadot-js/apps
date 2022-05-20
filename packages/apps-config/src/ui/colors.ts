@@ -29,6 +29,7 @@ const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
 const chainBitgreen = '#13F513';
+const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainCompetitorsClub = '#213830';
@@ -138,7 +139,6 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSwapdex = '#E94082';
 const chainT0rn = '#212322';
-const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
 const chainUnitv = '#1452F0';
@@ -308,7 +308,7 @@ export const chainColors: Record<string, string> = Object.entries({
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
-  'InvArch Tinkernet': chainTinker,
+  'InvArch Brainstorm Testnet': chainBrainstorm,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -483,7 +483,7 @@ export const nodeColors = Object.entries({
   GEEK: nodeGeek,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
-  'InvArch Tinkernet Node': chainTinker,
+  'InvArch Brainstorm Node': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,

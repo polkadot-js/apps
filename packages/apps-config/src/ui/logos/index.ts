@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
 import chainBitgreen from './chains/bitgreen.png';
+import chainBrainstorm from './chains/brainstorm.png';
 import chainCoinversation from './chains/coinversation.png';
 import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
@@ -54,7 +55,6 @@ import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
-import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
@@ -264,7 +264,7 @@ export const chainLogos = Object.entries({
   InterBTC: nodeInterBTC,
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
-  'InvArch Tinkernet': chainTinker,
+  'InvArch Brainstorm Testnet': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -466,7 +466,7 @@ export const nodeLogos = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
-  'InvArch Tinkernet Node': chainTinker,
+  'InvArch Brainstorm Node': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
@@ -620,6 +620,7 @@ export const namedLogos: Record<string, unknown> = {
   'Bifrost Stage Testnet': nodeBifrost,
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
+  brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
@@ -780,7 +781,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSoonsocialX,
   rococoTick: chainRococoTick,
-  rococoTinker: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
