@@ -47,14 +47,21 @@ function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, num
     inflationInPercentage = 100 * calcInflationRewardCurve(minInflation, stakedFraction, idealStake, idealInterest, falloff);
   }
 
+  let stakedReturn = stakedFraction
+    ? (inflationInPercentage / stakedFraction)
+    : 0;
+
+  // Here we multiply stakedReturn by 0.9, as in case of Aleph Zero chain 10% of return goes to treasury
+  if ('yearlyInflationInTokens' in inflationParams) {
+    stakedReturn *= 0.9;
+  }
+
   return {
     idealInterest,
     idealStake,
     inflation: inflationInPercentage,
     stakedFraction,
-    stakedReturn: stakedFraction
-      ? (inflationInPercentage / stakedFraction)
-      : 0
+    stakedReturn
   };
 }
 
