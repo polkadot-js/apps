@@ -302,7 +302,8 @@ export const testChains: EndpointOption[] = [
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
+      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
+      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
     }
   },
   {
