@@ -221,7 +221,8 @@ export const prodChains: EndpointOption[] = [
     info: 'polkadex',
     text: 'Polkadex',
     providers: {
-      'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      'Polkadex Team': 'wss://mainnet.polkadex.trade',
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     }
   },
   {

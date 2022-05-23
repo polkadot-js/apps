@@ -327,14 +327,6 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
-  },
-  {
     info: 'sakura',
     homepage: 'https://clover.finance/',
     isUnreachable: true,
@@ -401,6 +393,14 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     }
+  },
+  {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
   },
   {
     info: 'turing',
