@@ -560,6 +560,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'unique',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7621
     text: 'Unique',
     providers: {
       Unique: 'wss://testnet2.unique.network'
