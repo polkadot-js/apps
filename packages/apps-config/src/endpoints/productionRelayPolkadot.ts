@@ -259,8 +259,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2040,
     text: 'Polkadex',
     providers: {
-      // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
-      // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
+      'Polkadex Team': 'wss://mainnet.polkadex.trade/',
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     }
   },
   {
