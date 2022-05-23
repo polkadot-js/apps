@@ -51,6 +51,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSkyeKiwi from './chains/skyekiwi.png';
 import chainSnakenet from './chains/snakenet.svg';
+import chainSnowbridge from './chains/snowbridge.jpeg';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
@@ -799,6 +800,7 @@ export const namedLogos: Record<string, unknown> = {
   singLavender: nodeSingLavender,
   skyekiwi: chainSkyeKiwi,
   snakenet: chainSnakenet,
+  snowbridge: chainSnowbridge,
   soonsocial: nodeSoonsocial,
   sora: nodeSora,
   'sora-substrate': nodeSora,
