@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
 const definitions: OverrideBundleDefinition = {
   types: [
     {
@@ -9,7 +10,7 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'MultiAddress',
-        LookupSource: 'MultiAddress',
+        LookupSource: 'MultiAddress'
       }
     }
   ]
