@@ -13,7 +13,7 @@
   "type": "module",
   "version": "0.115.3-13",
   "dependencies": {
-    "@babel/runtime": "^7.17.9",
+    "@babel/runtime": "^7.18.0",
     "@polkadot/hw-ledger": "^9.2.1",
     "is-ipfs": "6.0.2"
   }

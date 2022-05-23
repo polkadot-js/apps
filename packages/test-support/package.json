@@ -14,10 +14,10 @@
   "version": "0.115.3-13",
   "dependencies": {
     "@testing-library/react": "^13.2.0",
-    "testcontainers": "^8.10.0"
+    "testcontainers": "^8.10.1"
   },
   "devDependencies": {
-    "@polkadot/types-support": "^8.4.3-0",
+    "@polkadot/types-support": "^8.5.1",
     "@testing-library/jest-dom": "^5.16.4",
     "tsconfig-paths": "^3.14.1"
   }
