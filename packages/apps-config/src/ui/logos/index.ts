@@ -51,7 +51,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSkyeKiwi from './chains/skyekiwi.png';
 import chainSnakenet from './chains/snakenet.svg';
-import chainSnowbridge from './chains/snowbridge.jpeg';
+import chainSnowbridge from './chains/snowbridge.png';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
