@@ -157,6 +157,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'snowbridge',
+    paraId: 3016,
+    text: 'Snowbridge',
+    providers: {
+      Snowfork: 'wss://rococo-rpc.snowbridge.network'
+    }
+  },
+  {
     info: 'rococoSubsocial',
     paraId: 2100,
     text: 'SoonsocialX',
@@ -170,14 +178,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Spreehafen',
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
-    }
-  },
-  {
-    info: 'snowbridge',
-    paraId: 3016,
-    text: 'Snowbridge',
-    providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network'
     }
   },
   {
