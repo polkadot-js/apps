@@ -1,15 +1,15 @@
 // Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { selectableNetworks } from '@polkadot/networks';
+import { knownGenesis } from '@polkadot/networks/defaults';
 import { assert, BN } from '@polkadot/util';
 
 function getGenesis (name: string): string {
-  const network = selectableNetworks.find(({ network }) => network === name);
+  const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
-  assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
+  assert(network && network[1][0], `Unable to find genesisHash for ${name}`);
 
-  return network.genesisHash[0];
+  return network[1][0];
 }
 
 export const KULUPU_GENESIS = getGenesis('kulupu');
