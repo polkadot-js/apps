@@ -123,7 +123,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {

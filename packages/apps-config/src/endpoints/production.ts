@@ -149,14 +149,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'integritee',
-    text: 'Integritee Network',
-    providers: {
-      Integritee: 'wss://api.solo.integritee.io',
-      OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
-    }
-  },
-  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
