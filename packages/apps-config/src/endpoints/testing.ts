@@ -481,13 +481,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'snowbridge',
-    text: 'Snowbridge',
-    providers: {
-      Snowfork: 'wss://parachain-rpc.snowbridge.network'
-    }
-  },
-  {
     info: 'soonsocial',
     text: 'Soonsocial',
     providers: {
