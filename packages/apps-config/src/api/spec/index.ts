@@ -52,6 +52,7 @@ import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
+import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
@@ -190,6 +191,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
+  imbue,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
