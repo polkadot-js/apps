@@ -114,6 +114,7 @@ import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
+import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
@@ -261,6 +262,7 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: nodeIdavoll,
+  'Imbue Testnet': nodeImbue,
   InterBTC: nodeInterBTC,
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
@@ -466,6 +468,7 @@ export const nodeLogos = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
+  'Imbue Node': nodeImbue,
   'InvArch Brainstorm Node': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
@@ -663,6 +666,7 @@ export const namedLogos: Record<string, unknown> = {
   heiko: chainParallel,
   hydra: chainSnakenet,
   idavoll: nodeIdavoll,
+  imbue: nodeImbue,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
   interlay: chainInterlay,
@@ -752,6 +756,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
+  rococoImbue: nodeImbue,
   rococoIntegritee: nodeIntegritee,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,

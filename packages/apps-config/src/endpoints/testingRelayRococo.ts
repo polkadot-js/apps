@@ -90,6 +90,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoImbue',
+    paraId: 3017,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://rococo.imbue.network'
+    }
+  },
+  {
     info: 'rococoIntegritee',
     paraId: 3002,
     text: 'Integritee Network',

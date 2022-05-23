@@ -56,6 +56,7 @@ const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
+const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
@@ -172,6 +173,7 @@ const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
 const nodeHeiko = '#42d5de';
+const nodeImbue = '#baff36';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
@@ -310,6 +312,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
   IpseTestnet: chainIpse,
+  'Imbue Testnet': chainImbue,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
   Kapex: chainTotem,
@@ -481,6 +484,7 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   'InvArch Brainstorm Node': chainBrainstorm,
