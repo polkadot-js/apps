@@ -173,6 +173,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'snowbridge',
+    paraId: 3016,
+    text: 'Snowbridge',
+    providers: {
+      Snowfork: 'wss://rococo-rpc.snowbridge.network'
+    }
+  },
+  {
     info: 't0rn',
     paraId: 3333,
     text: 't0rn',
@@ -203,14 +211,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Zeitgeist PC',
     providers: {
       Zeitggeist: 'wss://roc.zeitgeist.pm'
-    }
-  },
-  {
-    info: 'snowbridge',
-    paraId: 3016,
-    text: 'Snowbridge',
-    providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network'
     }
   }
 ];
