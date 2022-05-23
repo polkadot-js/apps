@@ -12,16 +12,16 @@ export function createNodle(t: TFunction, firstOnly: boolean, withSort: boolean)
   return expandEndpoints(t, [
     {
       info: 'nodle',
-      text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
+      text: t('rpc.nodle-eden', 'Mainnet', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main3.nodleprotocol.io',
+        Nodle: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       }
     },
     {
       info: 'nodle',
-      text: t('rpc.nodle-arcadia', 'Arcadia', { ns: 'apps-config' }),
+      text: t('rpc.nodle-paradis', 'Testnet', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://arcadia1.nodleprotocol.io'
+        Nodle: 'wss://node-6913072722034561024.lh.onfinality.io/ws?apikey=84d77e2e-3793-4785-8908-5096cffea77a'
       }
     }
   ], firstOnly, withSort);
