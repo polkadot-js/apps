@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingDelegator, ParachainStakingRoundInfo } from '../types';
+import type { ParachainStakingBond, ParachainStakingDelegator, ParachainStakingRoundInfo } from '../types';
 
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -21,7 +21,6 @@ function UserDelegations ({ roundInfo }: Props): React.ReactElement<Props> | nul
   const { t } = useTranslation();
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [delegations, setDelegations] = useState<ParachainStakingBond[]>([]);
-  const [requests, setRequests] = useState<Record<string, ParachainStakingDelegationRequest>>();
 
   const delegatorStateOption = useCall<Option<ParachainStakingDelegator>>(api.query.parachainStaking.delegatorState, [userAddress]);
 
@@ -33,15 +32,6 @@ function UserDelegations ({ roundInfo }: Props): React.ReactElement<Props> | nul
     const delegatorState = delegatorStateOption.unwrapOr({}) as ParachainStakingDelegator;
 
     setDelegations(delegatorState.delegations || []);
-
-    const actionRequests: Record<string, ParachainStakingDelegationRequest> = {};
-
-    delegatorState.requests?.requests.forEach(
-      (v, k) => {
-        actionRequests[k.toHuman()] = v;
-      }
-    );
-    setRequests(actionRequests);
   }, [delegatorStateOption]);
 
   const headerRef = useRef(
@@ -72,7 +62,6 @@ function UserDelegations ({ roundInfo }: Props): React.ReactElement<Props> | nul
               <DelegationDetails
                 delegation={delegation}
                 key={delegation.owner.toString()}
-                request={requests?.[delegation.owner.toString()]}
                 roundInfo={roundInfo}
                 userAddress={userAddress}
               />

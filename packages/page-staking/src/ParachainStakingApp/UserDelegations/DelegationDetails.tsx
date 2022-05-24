@@ -1,13 +1,13 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParachainStakingBond, ParachainStakingDelegationRequest, ParachainStakingRoundInfo } from '../types';
+import type { ParachainStakingBond, ParachainStakingDelegationRequestsScheduledRequest, ParachainStakingRoundInfo, ScheduledRequest } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AddressSmall, Button } from '@polkadot/react-components';
 import { useTranslation } from '@polkadot/react-components/translate';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { isFunction } from '@polkadot/util';
 
@@ -20,11 +20,10 @@ import RevokeModal from '../Modals/RevokeModal';
 interface Props {
   delegation: ParachainStakingBond
   roundInfo?: ParachainStakingRoundInfo;
-  request?: ParachainStakingDelegationRequest
   userAddress: string | null
 }
 
-function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Props): React.ReactElement<Props> | null {
+function DelegationDetails ({ delegation, roundInfo, userAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isRevokeOpen, toggleRevoke] = useToggle();
@@ -32,9 +31,28 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
   const [isBondLessOpen, toggleBondLess] = useToggle();
   const [isExecuteRequestOpen, toggleExecuteRequest] = useToggle();
   const [isCancelRequestOpen, toggleCancelRequest] = useToggle();
+  const [scheduledRequest, setScheduledRequest] = useState<ScheduledRequest>();
 
+  const delegationScheduledRequests = useCall<ParachainStakingDelegationRequestsScheduledRequest>(api.query.parachainStaking.delegationScheduledRequests, [delegation.owner]);
+
+  useEffect(() => {
+    if (!delegationScheduledRequests) {
+      return;
+    }
+
+    for (let i = delegationScheduledRequests.length - 1; i >= 0; i--) {
+      if (delegationScheduledRequests[i].delegator.toString() === userAddress) {
+        setScheduledRequest(delegationScheduledRequests[i]);
+
+        return;
+      }
+    }
+
+    setScheduledRequest(undefined);
+  }, [delegationScheduledRequests, userAddress]);
   const roundDuration = roundInfo?.length;
-  const requestExecutable = !!request && roundInfo?.current.gte(request.whenExecutable);
+
+  const requestExecutable = !!scheduledRequest && roundInfo?.current.gte(scheduledRequest.whenExecutable);
 
   return (
     <tr>
@@ -56,7 +74,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
         {isFunction(api.tx.parachainStaking?.delegatorBondMore) && (
           <Button
             icon='plus'
-            isDisabled={!!request}
+            isDisabled={!!scheduledRequest}
             label={t<string>('bond more')}
             onClick={toggleBondMore}
           />
@@ -72,7 +90,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
             roundDuration={roundDuration}
           />
         )}
-        {request?.action.toHuman() === 'Decrease'
+        {scheduledRequest?.action.isDecrease
           ? (
             <Button
               icon={requestExecutable ? 'paper-plane' : 'hourglass'}
@@ -80,7 +98,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
               label={
                 t<string>(requestExecutable
                   ? 'execute bond less'
-                  : `round ${request?.whenExecutable.toHuman()}`
+                  : `round ${scheduledRequest?.whenExecutable.toHuman()}`
                 )
               }
               onClick={toggleExecuteRequest}
@@ -89,7 +107,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
           : isFunction(api.tx.parachainStaking?.scheduleDelegatorBondLess) && (
             <Button
               icon='minus'
-              isDisabled={!!request}
+              isDisabled={!!scheduledRequest}
               label={t<string>('schedule bond less')}
               onClick={toggleBondLess}
             />
@@ -107,7 +125,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
             roundDuration={roundDuration}
           />
         )}
-        {request?.action.toHuman() === 'Revoke'
+        {scheduledRequest?.action.isRevoke
           ? (
             <Button
               icon={requestExecutable ? 'paper-plane' : 'hourglass'}
@@ -115,7 +133,7 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
               label={
                 t<string>(requestExecutable
                   ? 'execute revoke'
-                  : `round ${request?.whenExecutable.toHuman()}`
+                  : `round ${scheduledRequest?.whenExecutable.toHuman()}`
                 )
               }
               onClick={toggleExecuteRequest}
@@ -124,14 +142,14 @@ function DelegationDetails ({ delegation, request, roundInfo, userAddress }: Pro
           : (isFunction(api.tx.parachainStaking?.scheduleRevokeDelegation)) && (
             <Button
               icon='times'
-              isDisabled={!!request}
+              isDisabled={!!scheduledRequest}
               label={t<string>('schedule revoke')}
               onClick={toggleRevoke}
             />
           )}
       </td>
       <td className='button media--1000'>
-        {request
+        {scheduledRequest
           ? <>
             {isCancelRequestOpen && (
               <CancelRequestModal

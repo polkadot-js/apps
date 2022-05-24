@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId20, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { BTreeMap, Enum, Option, Struct, u32, u128, Vec } from '@polkadot/types-codec';
+import type { Enum, Option, Struct, u32, u128, Vec } from '@polkadot/types-codec';
 
 import { BN } from '@polkadot/util';
 
@@ -10,6 +10,8 @@ export interface ParachainStakingBond extends Struct {
   readonly owner: AccountId20;
   readonly amount: u128;
 }
+
+export type ParachainStakingSetOrderedSetBond = Vec<ParachainStakingBond>
 
 export interface ParachainStakingCandidateMetadata extends Struct {
   readonly bond: u128;
@@ -42,6 +44,13 @@ export interface ParachainStakingCollatorStatus extends Enum {
   readonly isLeaving: boolean;
   readonly asLeaving: u32;
   readonly type: 'Active' | 'Idle' | 'Leaving';
+}
+
+export interface CandidateState extends ParachainStakingCandidateMetadata{
+  readonly id: string;
+  readonly topDelegations: Vec<ParachainStakingBond>;
+  readonly bottomDelegations: Vec<ParachainStakingBond>;
+  readonly totalBacking: BN;
 }
 
 export interface ParachainStakingDelegations extends Struct {
@@ -78,33 +87,12 @@ export interface ParachainStakingRoundInfo extends Struct {
   readonly length: u32;
 }
 
-export type ParachainStakingSetOrderedSetBond = Vec<ParachainStakingBond>
-
-export interface ParachainStakingDelegationRequest extends Struct {
-  readonly collator: AccountId20;
-  readonly amount: u128;
-  readonly whenExecutable: u32;
-  readonly action: ParachainStakingDelegationChange;
-}
-
-export interface ParachainStakingDelegationChange extends Enum {
-  readonly isRevoke: boolean;
-  readonly isDecrease: boolean;
-  readonly type: 'Revoke' | 'Decrease';
-}
-
 export interface ParachainStakingDelegator extends Struct {
   readonly id: AccountId20;
   readonly delegations: ParachainStakingSetOrderedSetBond;
   readonly total: u128;
-  readonly requests: ParachainStakingPendingDelegationRequests;
+  readonly less_total: u128;
   readonly status: ParachainStakingDelegatorStatus;
-}
-
-export interface ParachainStakingPendingDelegationRequests extends Struct {
-  readonly revocationsCount: u32;
-  readonly requests: BTreeMap<AccountId20, ParachainStakingDelegationRequest>;
-  readonly lessTotal: u128;
 }
 
 export interface ParachainStakingDelegatorStatus extends Enum {
@@ -112,13 +100,6 @@ export interface ParachainStakingDelegatorStatus extends Enum {
   readonly isLeaving: boolean;
   readonly asLeaving: u32;
   readonly type: 'Active' | 'Leaving';
-}
-
-export interface CandidateState extends ParachainStakingCandidateMetadata{
-  readonly id: string;
-  readonly topDelegations: Vec<ParachainStakingBond>;
-  readonly bottomDelegations: Vec<ParachainStakingBond>;
-  readonly totalBacking: BN;
 }
 
 export interface StakingInfo {
@@ -132,3 +113,18 @@ export interface StakingInfo {
   activeDelegatorsCount: number;
   allDelegatorsCount: number;
 }
+
+export interface ScheduledRequest extends Struct {
+  delegator: AccountId20;
+  whenExecutable: u128;
+  action: DelegationAction;
+}
+
+export interface DelegationAction {
+  isRevoke: boolean;
+  isDecrease: boolean;
+  revoke: u128;
+  decrease: u128
+}
+
+export type ParachainStakingDelegationRequestsScheduledRequest = Vec<ScheduledRequest>
