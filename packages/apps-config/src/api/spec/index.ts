@@ -20,7 +20,6 @@ import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
-import canvas from './canvas';
 import centrifuge from './centrifuge';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -28,6 +27,7 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
 import competitorsClub from './competitors-club';
+import contracts from './contracts';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -156,7 +156,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  canvas,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -166,6 +165,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,

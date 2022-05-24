@@ -234,11 +234,11 @@ export const testParasRococoCommon: EndpointOption[] = [
     teleport: [-1]
   },
   {
-    info: 'rococoCanvas',
+    info: 'rococoContracts',
     paraId: 1002,
-    text: 'Canvas',
+    text: 'Contracts',
     providers: {
-      Parity: 'wss://rococo-canvas-rpc.polkadot.io'
+      Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
     teleport: [-1]
   },
