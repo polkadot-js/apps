@@ -254,12 +254,13 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'polkadex',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7620
     homepage: 'https://polkadex.trade/',
     paraId: 2040,
     text: 'Polkadex',
     providers: {
-      'Polkadex Team': 'wss://mainnet.polkadex.trade/',
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
+      // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
+      // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
     }
   },
   {

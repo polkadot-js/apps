@@ -90,19 +90,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoImbue',
+    paraId: 3017,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://rococo.imbue.network'
+    }
+  },
+  {
     info: 'rococoIntegritee',
     paraId: 3002,
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://rococo.api.integritee.network'
-    }
-  },
-  {
-    info: 'rococoTinker',
-    paraId: 2014,
-    text: 'InvArch Tinkernet',
-    providers: {
-      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
     }
   },
   {
@@ -158,10 +158,18 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
-    paraId: 3001,
+    paraId: 2048,
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://rococo.rpc.robonomics.network'
+    }
+  },
+  {
+    info: 'snowbridge',
+    paraId: 3016,
+    text: 'Snowbridge',
+    providers: {
+      Snowfork: 'wss://rococo-rpc.snowbridge.network'
     }
   },
   {
@@ -186,6 +194,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 't0rn',
     providers: {
       t3rn: 'wss://dev.net.t3rn.io'
+    }
+  },
+  {
+    info: 'rococoTuring',
+    paraId: 2114,
+    text: 'Turing Network (Staging)',
+    providers: {
+      OAK: 'wss://rpc.turing-staging.oak.tech'
     }
   },
   {
@@ -218,11 +234,11 @@ export const testParasRococoCommon: EndpointOption[] = [
     teleport: [-1]
   },
   {
-    info: 'rococoCanvas',
+    info: 'rococoContracts',
     paraId: 1002,
-    text: 'Canvas',
+    text: 'Contracts',
     providers: {
-      Parity: 'wss://rococo-canvas-rpc.polkadot.io'
+      Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
     teleport: [-1]
   },

@@ -149,14 +149,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'integritee',
-    text: 'Integritee Network',
-    providers: {
-      Integritee: 'wss://api.solo.integritee.io',
-      OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
-    }
-  },
-  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
@@ -221,7 +213,8 @@ export const prodChains: EndpointOption[] = [
     info: 'polkadex',
     text: 'Polkadex',
     providers: {
-      'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      'Polkadex Team': 'wss://mainnet.polkadex.trade',
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     }
   },
   {
@@ -300,6 +293,13 @@ export const prodChains: EndpointOption[] = [
     text: 'Swapdex',
     providers: {
       Swapdex: 'wss://ws.swapdex.network'
+    }
+  },
+  {
+    info: 'ternoa-mainnet',
+    text: 'Ternoa Mainnet',
+    providers: {
+      CapsuleCorp: 'wss://mainnet.ternoa.network'
     }
   },
   {

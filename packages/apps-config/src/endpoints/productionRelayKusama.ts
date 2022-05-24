@@ -123,7 +123,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -327,14 +328,6 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
-  },
-  {
     info: 'sakura',
     homepage: 'https://clover.finance/',
     isUnreachable: true,
@@ -401,6 +394,14 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     }
+  },
+  {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
   },
   {
     info: 'turing',
