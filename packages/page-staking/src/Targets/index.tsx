@@ -191,7 +191,7 @@ const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
 
 const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
 
-function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastEra, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targets: { medianComm, validatorIds, validators }, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
