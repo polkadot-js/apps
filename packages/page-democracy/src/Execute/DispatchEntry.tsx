@@ -46,7 +46,6 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
       <td className='links media--1000'>
         <LinkExternal
           data={index}
-          isLogo
           type='referendum'
         />
       </td>

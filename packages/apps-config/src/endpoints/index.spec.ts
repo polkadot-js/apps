@@ -11,7 +11,7 @@ interface Endpoint {
   value: string;
 }
 
-const allEndpoints = createWsEndpoints((k: string, v?: string, options?: { replace: Record<string, string> }) => (options && options.replace && options.replace.host) || v || k, false, false);
+const allEndpoints = createWsEndpoints(undefined, false, false);
 
 describe('WS urls are all valid', (): void => {
   allEndpoints
@@ -62,40 +62,39 @@ describe('urls are sorted', (): void => {
 describe('urls are not duplicated', (): void => {
   let hasDevelopment = false;
   let lastHeader = '';
-  const filtered = allEndpoints.filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
-    hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
+  const map = allEndpoints
+    .filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
+      hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
 
-    return !hasDevelopment && !isDisabled && !isUnreachable;
-  });
-  const map: Record<string, string[]> = {};
-
-  filtered.forEach(({ isHeader, text, value }): void => {
-    if (isHeader) {
-      lastHeader = text as string;
-    } else {
-      const path = `${lastHeader} -> ${text as string}`;
-
-      if (!map[value]) {
-        map[value] = [path];
+      return !hasDevelopment && !isDisabled && !isUnreachable;
+    })
+    .reduce((map, { isHeader, text, value }): Record<string, string[]> => {
+      if (isHeader) {
+        lastHeader = text as string;
       } else {
-        map[value].push(path);
-      }
-    }
-  });
+        const path = `${lastHeader} -> ${text as string}`;
+        const key = value.endsWith('/')
+          ? value.substring(0, value.length - 1)
+          : value;
 
-  it('has no duplicates, e.g. parachain & live', (): void => {
-    expect(
-      Object
-        .entries(map)
-        .filter(([, paths]) => paths.length !== 1)
-    ).toEqual([]);
-  });
+        map[key] ||= [];
+        map[key].push(path);
+      }
+
+      return map;
+    }, {} as Record<string, string[]>);
+
+  Object
+    .entries(map)
+    .forEach(([url, paths]) =>
+      it(url, (): void => {
+        assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
+      })
+    );
 });
 
 describe('endpopints do not contain emojis or all uppercase', (): void => {
   const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
-
-  console.error(allEndpoints);
 
   allEndpoints
     .filter(({ value }) =>
@@ -106,7 +105,7 @@ describe('endpopints do not contain emojis or all uppercase', (): void => {
     .map(({ text, textBy, value }): Endpoint => ({
       name: text as string,
       provider: textBy,
-      value: value
+      value
     }))
     .forEach(({ name, provider }) =>
       it(`${name}:: ${provider}`, (): void => {

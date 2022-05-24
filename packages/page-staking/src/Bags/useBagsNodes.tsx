@@ -3,19 +3,18 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletBagsListListNode } from '@polkadot/types/lookup';
-import type { StashNode } from './types';
+import type { BagMap } from './types';
+
+import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-type Result = Record<string, StashNode[]>;
-
-const multiOptions = {
-  defaultValue: {} as Result,
-  transform: (opts: Option<PalletBagsListListNode>[]): Result =>
+const MULTI_OPTS = {
+  transform: (opts: Option<PalletBagsListListNode>[]): BagMap =>
     opts
       .filter((o) => o.isSome)
       .map((o): PalletBagsListListNode => o.unwrap())
-      .reduce((all: Result, node): Result => {
+      .reduce((all: BagMap, node): BagMap => {
         const id = node.bagUpper.toString();
 
         if (!all[id]) {
@@ -28,10 +27,28 @@ const multiOptions = {
       }, {})
 };
 
-function useBagsNodesImpl (stashIds: string[]): Result {
-  const { api } = useApi();
+function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
+  return Object
+    .entries(curr)
+    .reduce((all: BagMap, [id, nodes]): BagMap => {
+      all[id] = prev && prev[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
+        ? prev[id]
+        : nodes;
 
-  return useCall(stashIds && stashIds.length !== 0 && api.query.bagsList.listNodes.multi, [stashIds], multiOptions) as Result;
+      return all;
+    }, {});
+}
+
+function useBagsNodesImpl (stashIds: string[]): BagMap | undefined {
+  const { api } = useApi();
+  const [result, setResult] = useState<BagMap | undefined>();
+  const query = useCall(api.query.bagsList.listNodes.multi, [stashIds], MULTI_OPTS);
+
+  useEffect((): void => {
+    query && setResult((prev) => merge(prev, query));
+  }, [query]);
+
+  return result;
 }
 
 export default createNamedHook('useBagsNodes', useBagsNodesImpl);

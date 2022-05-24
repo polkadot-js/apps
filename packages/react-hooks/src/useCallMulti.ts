@@ -8,8 +8,10 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
+import { isUndefined } from '@polkadot/util';
+
 import { useApi } from './useApi';
-import { transformIdentity, unsubscribe } from './useCall';
+import { handleError, transformIdentity, unsubscribe } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
 
 interface TrackerRef {
@@ -33,7 +35,6 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
       if (filtered.length) {
         // swap to active mode
         tracker.current.isActive = true;
-
         tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
           // we use the isActive flag here since .subscriber may not be set on immediate callback)
           if (mountedRef.current && tracker.current.isActive) {
@@ -51,11 +52,11 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
                   )
                 );
               } catch (error) {
-                throw new Error(`useCallMulti(...):: ${(error as Error).message}:: ${(error as Error).stack || '<unknown>'}`);
+                handleError(error as Error, tracker);
               }
             }
           }
-        });
+        }).catch((error) => handleError(error as Error, tracker));
       } else {
         tracker.current.subscriber = null;
       }
@@ -68,8 +69,8 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ fn: null, isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
+  const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
+  const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
@@ -89,6 +90,8 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
       }
     }
   }, [api, calls, options, mountedRef]);
+
+  // throwOnError(tracker.current);
 
   return value;
 }

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-components  authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 
 import { Popup } from '@polkadot/react-components';
@@ -38,30 +38,36 @@ describe('Popup Component', () => {
   it('opens and closes', async () => {
     renderPopup();
 
-    await expectPopupToBeClosed();
-    await togglePopup();
-    await expectPopupToBeOpen();
-    await togglePopup();
-    await expectPopupToBeClosed();
+    await waitFor(async () => {
+      await expectPopupToBeClosed();
+      await togglePopup();
+      await expectPopupToBeOpen();
+      await togglePopup();
+      await expectPopupToBeClosed();
+    });
   });
 
   it('closes popup with outside click', async () => {
     renderPopup();
 
-    await expectPopupToBeClosed();
-    await togglePopup();
-    await expectPopupToBeOpen();
-    await clickOutside();
-    await expectPopupToBeClosed();
+    await waitFor(async () => {
+      await expectPopupToBeClosed();
+      await togglePopup();
+      await expectPopupToBeOpen();
+      await clickOutside();
+      await expectPopupToBeClosed();
+    });
   });
 });
 
 async function expectPopupToBeClosed () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByRole('button');
   expect(screen.queryAllByText('Test popup content')).toHaveLength(0);
 }
 
 async function expectPopupToBeOpen () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByText('Test popup content');
 }
 

@@ -25,7 +25,7 @@
   "No open tips": "No open tips",
   "Override the default identity icon display with a specific theme": "Override the default identity icon display with a specific theme",
   "Override the default ss58 prefix for address generation": "Override the default ss58 prefix for address generation",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address",
   "Reset": "Reset",
   "Save": "Save",
   "Save & Reload": "Save & Reload",

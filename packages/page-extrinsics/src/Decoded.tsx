@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Inspect } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -15,11 +16,12 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   extrinsic?: SubmittableExtrinsic<'promise'> | null;
+  isCall: boolean;
   withData?: boolean;
   withHash?: boolean;
 }
 
-function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, string, Inspect | null] {
+function extract (isCall: boolean, extrinsic?: SubmittableExtrinsic<'promise'> | null): [HexString, HexString, Inspect | null] {
   if (!extrinsic) {
     return ['0x', '0x', null];
   }
@@ -30,19 +32,18 @@ function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, 
   return [
     u8aToHex(u8a),
     extrinsic.registry.hash(u8a).toHex(),
-    // 0x410284009a81870b7ba4774b2a7efc31a635ec4042088d97ecbdaaf9552c3e21f74aae5201122fea94623d7aecda9870009506865a666d8a962aa2b58f12d5b512258f1a0aab569d7982bfd616c90d7ccf6960dadb29c5de46d2da73a159f5c6bbd5206f8b85029c00040300429599ba5f521844f2332524dec987f9cfb116a2570f83b2417184af0c74ab130700743ba40b
-    extrinsic.isSigned
-      ? extrinsic.inspect()
-      : extrinsic.method.inspect()
+    isCall
+      ? extrinsic.method.inspect()
+      : extrinsic.inspect()
   ];
 }
 
-function Decoded ({ className, extrinsic, withData = true, withHash = true }: Props): React.ReactElement<Props> | null {
+function Decoded ({ className, extrinsic, isCall, withData = true, withHash = true }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const [hex, hash, inspect] = useMemo(
-    () => extract(extrinsic),
-    [extrinsic]
+    () => extract(isCall, extrinsic),
+    [extrinsic, isCall]
   );
 
   if (!inspect) {
@@ -75,8 +76,9 @@ function Decoded ({ className, extrinsic, withData = true, withHash = true }: Pr
       </Columar.Column>
       <Columar.Column>
         <DecodedInspect
+          hex={hex}
           inspect={inspect}
-          label={t<string>('encoded call details')}
+          label={t<string>('encoding details')}
         />
       </Columar.Column>
     </Columar>

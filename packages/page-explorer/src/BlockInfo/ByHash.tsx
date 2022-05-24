@@ -67,8 +67,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         [formatNumber(getHeader.number.unwrap()), 'start', 1],
         [t('hash'), 'start'],
         [t('parent'), 'start'],
-        [t('extrinsics'), 'start'],
-        [t('state'), 'start'],
+        [t('extrinsics'), 'start media--1000'],
+        [t('state'), 'start media--1100'],
         [undefined, 'media--1200']
       ]
       : EMPTY_HEADER,
@@ -105,8 +105,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
                   ? <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
                   : parentHash
               }</td>
-              <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
-              <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
+              <td className='hash overflow media--1000'>{getHeader.extrinsicsRoot.toHex()}</td>
+              <td className='hash overflow media--1100'>{getHeader.stateRoot.toHex()}</td>
               <td className='media--1200'>
                 <LinkExternal
                   data={value}

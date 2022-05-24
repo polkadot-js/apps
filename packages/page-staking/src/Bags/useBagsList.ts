@@ -1,26 +1,66 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, u64 } from '@polkadot/types';
+import type { Option, StorageKey, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
+import type { BagInfo } from './types';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { useEffect, useState } from 'react';
 
-type Result = [string, u64, PalletBagsListListBag];
+import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
-const multiOptions = {
-  transform: ([[ids], opts]: [[u64[]], Option<PalletBagsListListBag>[]]): Result[] =>
-    ids
-      .map((id, index): [u64, Option<PalletBagsListListBag>] => [id, opts[index]])
+const KEY_OPTS = {
+  transform: (keys: StorageKey<[u64]>[]): BN[] =>
+    keys.map(({ args: [id] }) => id)
+};
+
+const MULTI_OPTS = {
+  transform: ([[ids], opts]: [[BN[]], Option<PalletBagsListListBag>[]]): BagInfo[] => {
+    const sorted = ids
+      .map((id, index): [BN, Option<PalletBagsListListBag>] => [id, opts[index]])
       .filter(([, o]) => o.isSome)
-      .map(([id, o]): Result => [id.toString(), id, o.unwrap()]),
+      .sort(([a], [b]) => b.cmp(a))
+      .map(([bagUpper, o], index): BagInfo => ({
+        bagLower: BN_ZERO,
+        bagUpper,
+        index,
+        info: o.unwrap(),
+        key: bagUpper.toString()
+      }));
+
+    return sorted.map((entry, index) =>
+      (index === (sorted.length - 1))
+        ? entry
+        // We could probably use a .add(BN_ONE) here
+        : { ...entry, bagLower: sorted[index + 1].bagUpper }
+    );
+  },
   withParamsTransform: true
 };
 
-function useBagsListImpl (ids?: u64[]): Result[] | undefined {
-  const { api } = useApi();
+function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
+  return !prev || curr.length !== prev.length
+    ? curr
+    : curr.map((q, i) =>
+      JSON.stringify(q) === JSON.stringify(prev[i])
+        ? prev[i]
+        : q
+    );
+}
 
-  return useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], multiOptions);
+function useBagsListImpl (): BagInfo[] | undefined {
+  const { api } = useApi();
+  const [result, setResult] = useState<BagInfo[] | undefined>();
+  const ids = useMapKeys(api.query.bagsList.listBags, KEY_OPTS);
+  const query = useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], MULTI_OPTS);
+
+  useEffect((): void => {
+    query && setResult((prev) => merge(prev, query));
+  }, [query]);
+
+  return result;
 }
 
 export default createNamedHook('useBagsList', useBagsListImpl);

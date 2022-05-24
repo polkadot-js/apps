@@ -741,7 +741,8 @@ const definitions: OverrideBundleDefinition = {
           assets_to_upload: 'Option<StorageAssets>',
           new_meta: 'Option<Bytes>',
           assets_to_remove: 'BTreeSet<DataObjectId>',
-          enable_comments: 'Option<bool>'
+          enable_comments: 'Option<bool>',
+          auto_issue_nft: 'Option<NftIssuanceParameters>'
         },
         MaxNumber: 'u32',
         IsCensored: 'bool',
@@ -784,41 +785,56 @@ const definitions: OverrideBundleDefinition = {
           reason: 'Hash'
         },
         ModeratorSet: 'BTreeSet<MemberId>',
-        Royalty: 'u64',
-        IsExtended: 'bool',
-        EnglishAuctionDetails: {
-          extension_period: 'u32',
-          auction_duration: 'u32'
-        },
-        OpenAuctionDetails: {
-          bid_lock_duration: 'u32'
-        },
-        AuctionType: {
-          _enum: {
-            English: 'EnglishAuctionDetails',
-            Open: 'OpenAuctionDetails'
-          }
-        },
-        Bid: {
-          bidder: 'MemberId',
-          bidder_account_id: 'GenericAccountId',
-          amount: 'u128',
-          made_at_block: 'u32'
-        },
-        Auction: {
+        Royalty: 'Perbill',
+        EnglishAuctionParams: {
           starting_price: 'u128',
           buy_now_price: 'Option<u128>',
-          auction_type: 'AuctionType',
-          minimal_bid_step: 'u128',
-          last_bid: 'Option<Bid>',
-          starts_at: 'u32',
-          whitelist: 'BTreeSet<MemberId>'
+          whitelist: 'BTreeSet<MemberId>',
+          starts_at: 'Option<u32>',
+          duration: 'u32',
+          extension_period: 'u32',
+          min_bid_step: 'u128'
+        },
+        OpenAuctionParams: {
+          starting_price: 'u128',
+          buy_now_price: 'Option<u128>',
+          starts_at: 'Option<u32>',
+          whitelist: 'BTreeSet<MemberId>',
+          bid_lock_duration: 'u32'
+        },
+        EnglishAuction: {
+          starting_price: 'u128',
+          buy_now_price: 'Option<u128>',
+          whitelist: 'BTreeSet<MemberId>',
+          end: 'u32',
+          start: 'u32',
+          extension_period: 'u32',
+          min_bid_step: 'u128',
+          top_bid: 'Option<EnglishAuctionBid>'
+        },
+        OpenAuction: {
+          starting_price: 'u128',
+          buy_now_price: 'Option<u128>',
+          whitelist: 'BTreeSet<MemberId>',
+          bid_lock_duration: 'u32',
+          auction_id: 'OpenAuctionId',
+          start: 'u32'
+        },
+        OpenAuctionBid: {
+          amount: 'u128',
+          made_at_block: 'u32',
+          auction_id: 'OpenAuctionId'
+        },
+        EnglishAuctionBid: {
+          amount: 'u128',
+          bidder_id: 'MemberId'
         },
         TransactionalStatus: {
           _enum: {
             Idle: 'Null',
             InitiatedOfferToMember: '(MemberId,Option<u128>)',
-            Auction: 'Auction',
+            EnglishAuction: 'EnglishAuction',
+            OpenAuction: 'OpenAuction',
             BuyNow: 'u128'
           }
         },
@@ -831,23 +847,18 @@ const definitions: OverrideBundleDefinition = {
         OwnedNft: {
           owner: 'NftOwner',
           transactional_status: 'TransactionalStatus',
-          creator_royalty: 'Option<Royalty>'
-        },
-        AuctionParams: {
-          auction_type: 'AuctionType',
-          starting_price: 'u128',
-          minimal_bid_step: 'u128',
-          buy_now_price: 'Option<u128>',
-          starts_at: 'Option<u32>',
-          whitelist: 'BTreeSet<MemberId>'
+          creator_royalty: 'Option<Royalty>',
+          open_auctions_nonce: 'OpenAuctionId'
         },
         CurrencyOf: 'u128',
         CurrencyAmount: 'u128',
         InitTransactionalStatus: {
           _enum: {
             Idle: 'Null',
+            BuyNow: 'u128',
             InitiatedOfferToMember: '(MemberId,Option<u128>)',
-            Auction: 'AuctionParams'
+            EnglishAuction: 'EnglishAuctionParams',
+            OpenAuction: 'OpenAuctionParams'
           }
         },
         NftIssuanceParameters: {
@@ -857,6 +868,7 @@ const definitions: OverrideBundleDefinition = {
           init_transactional_status: 'InitTransactionalStatus'
         },
         NftMetadata: 'Vec<u8>',
+        OpenAuctionId: 'u64',
         AccountInfo: 'AccountInfoWithRefCount',
         ValidatorPrefs: 'ValidatorPrefsWithCommission'
       }
