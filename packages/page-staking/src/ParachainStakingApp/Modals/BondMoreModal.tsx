@@ -110,7 +110,6 @@ function BondMoreModal ({ candidateAddress, className = '', delegatorAddress, on
               />
             }
           </Modal.Columns>
-
           {maxTransfer && amount?.gt(maxTransfer) && <MarkError content={'Amount above user balance'} />}
         </div>
       </Modal.Content>

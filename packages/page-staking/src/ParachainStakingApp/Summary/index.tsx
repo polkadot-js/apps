@@ -70,7 +70,6 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
             <FormatBalance value={totalSelectedStaked} />
           </CardSummary>
         )}
-
         <CardSummary
           className='media--1200'
           label={t<string>('inflation')}
