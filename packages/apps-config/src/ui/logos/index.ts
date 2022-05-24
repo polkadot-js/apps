@@ -44,7 +44,7 @@ import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
-import chainRococoCanvas from './chains/rococo-canvas.svg';
+import chainRococoContracts from './chains/rococo-contracts.png';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
@@ -227,13 +227,13 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
   'Calamari Parachain Testnet': nodeCalamari,
-  'Canvas on Rococo': chainRococoCanvas,
   'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
+  'Contracts on Rococo': chainRococoContracts,
   Creditcoin: chainCreditcoin,
   'Creditcoin Testnet': chainCreditcoinTest,
   'Crown Sterling': chainCrownSterling,
@@ -742,10 +742,10 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
-  rococoCanvas: chainRococoCanvas,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
+  rococoContracts: chainRococoContracts,
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
   rococoDali: chainRococoDali,
