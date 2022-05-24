@@ -88,15 +88,15 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
           </Section>
         </SummaryBox>
         <MarkWarning
-        content={t<string>('In order to receive staking rewards, and be exposed with an active validator to slash, a nominator needs to be "active". Compare the below thresholds with your active stake to ensure you are in the correct set between "active" and "intention".')}
-        withIcon={false}
-      >
-        <a
-          href='https://wiki.polkadot.network/docs/learn-nominator'
-          rel='noreferrer'
-          target='_blank'
-        >Learn More</a>
-      </MarkWarning>
+          content={t<string>('In order to receive staking rewards, and be exposed with an active validator to slash, a nominator needs to be "active". Compare the below thresholds with your active stake to ensure you are in the correct set between "active" and "intention".')}
+          withIcon={false}
+        >
+          <a
+            href='https://wiki.polkadot.network/docs/learn-nominator'
+            rel='noreferrer'
+            target='_blank'
+          >Learn More</a>
+        </MarkWarning>
       </Card>
     </>
   );
