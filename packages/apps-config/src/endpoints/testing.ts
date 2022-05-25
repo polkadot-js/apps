@@ -333,6 +333,7 @@ export const testChains: EndpointOption[] = [
     text: 'Moonbase Alpha',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
+      Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }

@@ -255,13 +255,14 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'moonriver',
-    homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+    homepage: 'https://moonbeam.network/networks/moonriver/',
     paraId: 2023,
     text: 'Moonriver',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
