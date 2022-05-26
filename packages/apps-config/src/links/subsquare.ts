@@ -21,6 +21,7 @@ export default {
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
+    external: 'democracy/external',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     tip: 'treasury/tip',
