@@ -515,7 +515,16 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network'
+      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-1',
+    text: 'Subspace Gemini 1',
+    providers: {
+      'North America': 'wss://na.gemini-1a.subspace.network/ws',
+      Europe: 'wss://eu.gemini-1a.subspace.network/ws',
+      Asia: 'wss://apac.gemini-1a.subspace.network/ws'
     }
   },
   {
