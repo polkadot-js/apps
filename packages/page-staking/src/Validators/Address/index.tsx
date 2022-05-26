@@ -90,7 +90,7 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
@@ -163,9 +163,6 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       </td>
       {isMain && (
         <>
-          <td className='number'>
-            {points}
-          </td>
           <td className='number'>
             {lastBlock}
           </td>

@@ -113,7 +113,7 @@ const DEFAULT_PARAS = {};
 function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const { byAuthor, } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const [nameFilter, setNameFilter] = useState<string>('');
 
   // we have a very large list, so we use a loading delay
@@ -152,7 +152,6 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         [t('other stake'), 'expand'],
         [t('own stake'), 'media--1100'],
         [t('commission')],
-        [t('points')],
         [t('last #')],
         [],
         [undefined, 'media--1200']
@@ -205,7 +204,6 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
           lastBlock={byAuthor[address]}
           minCommission={minCommission}
           nominatedBy={nominatedBy?.[address]}
-          points={eraPoints[address]}
           recentlyOnline={recentlyOnline?.[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={infoMap?.[address]}
