@@ -363,6 +363,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
     text: 'OPAL by UNIQUE',
     providers: {
       Unique: 'wss://opal.unique.network'
