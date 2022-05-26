@@ -113,7 +113,7 @@ const DEFAULT_PARAS = {};
 function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { byAuthor, } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const { byAuthor } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const [nameFilter, setNameFilter] = useState<string>('');
 
   // we have a very large list, so we use a loading delay
