@@ -223,6 +223,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'brainstorm',
+    text: 'InvArch Brainstorm Testnet',
+    providers: {
+      'InvArch Team': 'wss://brainstorm.invarch.network/'
+    }
+  },
+  {
     info: 'ipse',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/6242
     text: 'IPSE',
@@ -295,7 +302,8 @@ export const testChains: EndpointOption[] = [
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
+      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
+      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
     }
   },
   {
@@ -325,6 +333,7 @@ export const testChains: EndpointOption[] = [
     text: 'Moonbase Alpha',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
+      Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
@@ -355,6 +364,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
     text: 'OPAL by UNIQUE',
     providers: {
       Unique: 'wss://opal.unique.network'
@@ -466,10 +476,10 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'snowbridge',
-    text: 'Snowbridge',
+    info: 'skyekiwi',
+    text: 'SkyeKiwi Testnet',
     providers: {
-      Snowfork: 'wss://parachain-rpc.snowbridge.network'
+      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
     }
   },
   {
@@ -481,7 +491,6 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'sora-substrate',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7093
     text: 'SORA-staging',
     providers: {
       Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
@@ -517,6 +526,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ternoa-alphanet',
+    text: 'Ternoa Alphanet',
+    providers: {
+      CapsuleCorp: 'wss://alphanet.ternoa.com'
+    }
+  },
+  {
     info: 'ternoa-testnet',
     text: 'Ternoa Testnet',
     providers: {
@@ -539,6 +555,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'unique',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7621
     text: 'Unique',
     providers: {
       Unique: 'wss://testnet2.unique.network'

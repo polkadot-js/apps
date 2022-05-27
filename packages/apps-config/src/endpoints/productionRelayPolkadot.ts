@@ -95,7 +95,6 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'composableFinance',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6721
     homepage: 'https://composable.finance/',
     paraId: 2019,
     text: 'Composable Finance',
@@ -182,12 +181,12 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'litentry',
+    isUnreachable: true,
     homepage: 'https://crowdloan.litentry.com',
     paraId: 2013,
-    isUnreachable: true,
     text: 'Litentry',
     providers: {
-      Litentry: 'wss://parachain.litentry.io'
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io' // https://github.com/polkadot-js/apps/issues/7642
     }
   },
   {
@@ -209,8 +208,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Moonbeam',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
-      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonbeam-rpc.dwellir.com'
+      Blast: 'wss://moonbeam.public.blastapi.io',
+      Dwellir: 'wss://moonbeam-rpc.dwellir.com',
+      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws'
     }
   },
   {
@@ -240,7 +240,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Parallel',
     providers: {
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
-      Parallel: 'wss://rpc.parallel.fi'
+      Parallel: 'wss://rpc.parallel.fi',
+      Dwellir: 'wss://parallel-rpc.dwellir.com'
     }
   },
   {
@@ -254,12 +255,13 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'polkadex',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7620
     homepage: 'https://polkadex.trade/',
     paraId: 2040,
     text: 'Polkadex',
     providers: {
-      'Polkadex Team': 'wss://mainnet.polkadex.trade/',
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
+      // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
+      // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
     }
   },
   {

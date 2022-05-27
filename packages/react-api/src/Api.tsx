@@ -57,6 +57,8 @@ export const DEFAULT_DECIMALS = registry.createType('u32', 12);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
 
+const DISALLOW_EXTENSIONS: string[] = [];
+
 let api: ApiPromise;
 
 export { api };
@@ -118,7 +120,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   ]);
 
   return {
-    injectedAccounts,
+    injectedAccounts: injectedAccounts.filter(({ meta: { source } }) =>
+      !DISALLOW_EXTENSIONS.includes(source)
+    ),
     properties: registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
@@ -198,7 +202,7 @@ function getWellKnownChain (chain = 'polkadot') {
     case 'polkadot':
       return WellKnownChain.polkadot;
     case 'rococo':
-      return WellKnownChain.rococo_v2_1;
+      return WellKnownChain.rococo_v2_2;
     case 'westend':
       return WellKnownChain.westend2;
     default:

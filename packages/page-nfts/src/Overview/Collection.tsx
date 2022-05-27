@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { CollectionInfo } from '../types';
 
 import React from 'react';
@@ -37,8 +38,8 @@ function Collection ({ className, value: { details, id, ipfsData } }: Props): Re
         }
       </td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
-      <td className='string'>{details?.toJSON()?.isFrozen && t('Frozen')}</td>
-      <td className='number'>{details?.instances && formatNumber(details.instances)}</td>
+      <td className='string'>{details && details.isFrozen.isTrue && t('Frozen')}</td>
+      <td className='number'>{details && formatNumber(details.items || (details as unknown as { instances: BN }).instances)}</td>
     </tr>
   );
 }
