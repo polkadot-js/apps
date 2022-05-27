@@ -181,12 +181,11 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'litentry',
-    isUnreachable: true,
     homepage: 'https://crowdloan.litentry.com',
     paraId: 2013,
     text: 'Litentry',
     providers: {
-      Litentry: 'wss://rpc.litentry-parachain.litentry.io' // https://github.com/polkadot-js/apps/issues/7642
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io'
     }
   },
   {
