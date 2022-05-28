@@ -32,6 +32,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'nodle',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7652
     text: 'Arcadia',
     providers: {
       Nodle: 'wss://arcadia1.nodleprotocol.io'
@@ -433,7 +434,7 @@ export const testChains: EndpointOption[] = [
     info: 'pontem',
     text: 'Pontem',
     providers: {
-      Pontem: 'wss://testnet.pontem.network/ws',
+      // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
       OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
     }
   },
