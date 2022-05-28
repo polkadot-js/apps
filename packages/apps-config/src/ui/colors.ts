@@ -53,6 +53,7 @@ const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
+const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
@@ -299,6 +300,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainHydrate,
