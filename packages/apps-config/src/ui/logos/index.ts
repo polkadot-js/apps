@@ -28,6 +28,7 @@ import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
+import chainGM from './chains/gm.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
@@ -257,6 +258,7 @@ export const chainLogos = Object.entries({
   Geminis: chainGeminis,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,

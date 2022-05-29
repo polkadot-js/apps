@@ -90,6 +90,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoGM',
+    paraId: 3019,
+    text: 'GM Parachain',
+    providers: {
+      'GM or Die DAO': 'wss://rococo.gmordie.com'
+    }
+  },
+  {
     info: 'rococoImbue',
     paraId: 3017,
     text: 'Imbue Network',
