@@ -133,13 +133,15 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
                 label={t<string>('threshold')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
-              <Toggle
-                label={t<string>('Submit Aye vote with proposal')}
-                onChange={toggleVote}
-                value={withVote}
-              />
-            </Modal.Columns>
+            {(members.length > 1) && (
+              <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
+                <Toggle
+                  label={t<string>('Submit Aye vote with proposal')}
+                  onChange={toggleVote}
+                  value={withVote}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton
