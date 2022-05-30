@@ -62,13 +62,13 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
         // @ts-ignore Old-type
         : api.tx[modLocation].propose(memberThreshold, proposal);
 
-      return withVote
+      return withVote && (members.length > 1)
         ? api.tx.utility.batch([
           proposeTx,
           api.tx[modLocation].vote(proposal.method.hash, proposalCount, true)
         ])
         : proposeTx;
-    }, [api, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
+    }, [api, members, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
   );
 
   useEffect((): void => {
