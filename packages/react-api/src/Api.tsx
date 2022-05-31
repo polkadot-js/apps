@@ -60,8 +60,9 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 const DISALLOW_EXTENSIONS: string[] = [];
 
 let api: ApiPromise;
+let apiSystem: ApiPromise;
 
-export { api };
+export { api, apiSystem };
 
 function isKeyringLoaded () {
   try {
@@ -216,23 +217,35 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const provider = isLight
-      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
-      : new WsProvider(apiUrl);
+    const providers = [0, 1].map(() =>
+      isLight
+        ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+        : new WsProvider(apiUrl)
+    );
 
     api = new ApiPromise({
-      provider,
+      provider: providers[0],
       registry,
       signer,
       types,
       typesBundle,
       typesChain
     });
+    apiSystem = new ApiPromise({ provider: providers[1] });
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
-      await provider.connect();
+      for (let i = 0; i < providers.length; i++) {
+        await providers[i].connect();
+      }
     }
+
+    // Debug - overall provider stats
+    // setInterval((): void => {
+    //   for (let i = 0; i < providers.length; i++) {
+    //     console.log(i, JSON.stringify(providers[i].stats));
+    //   }
+    // }, 5000);
   } catch (error) {
     onError(error);
   }
@@ -256,7 +269,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   );
   const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiSystem, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
