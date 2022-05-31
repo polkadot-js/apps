@@ -3,6 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
@@ -211,13 +212,12 @@ function getWellKnownChain (chain = 'polkadot') {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const providers = [0, 1].map(() =>
+    const providers = [0, 1].map((): ProviderInterface =>
       isLight
         ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
         : new WsProvider(apiUrl)
@@ -240,12 +240,16 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       }
     }
 
-    // Debug - overall provider stats
-    // setInterval((): void => {
-    //   for (let i = 0; i < providers.length; i++) {
-    //     console.log(i, JSON.stringify(providers[i].stats));
-    //   }
-    // }, 5000);
+    // DEBUG Overall provider stats logs. In a perfect world we would like to
+    // expose this "somewhere", but it is mostly useful on a per-page basis,
+    // instead in some corner where it has no active queries
+    // setInterval(
+    //   () => console.log(JSON.stringify({
+    //     api: api.stats,
+    //     sys: apiSystem.stats
+    //   }, null, 2)),
+    //   5000
+    // );
   } catch (error) {
     onError(error);
   }
