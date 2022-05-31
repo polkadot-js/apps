@@ -12,7 +12,7 @@ function useSystemApiImpl (): ApiPromise | undefined {
   const { apiRelay, apiSystem } = useApi();
   const [apiDefault, setApiDefault] = useState<ApiPromise | undefined>();
 
-  // This syetm API does not use the global ready, so we
+  // This system API does not use the global ready, so we
   // explicitly wait for it here
   useEffect((): void => {
     apiSystem && apiSystem.isReady
