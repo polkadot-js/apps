@@ -1,4 +1,4 @@
-    3627	Jaco                          	Bump API (#7659)
+    3628	Jaco                          	Split apiSystem connection (#7662)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
