@@ -99,12 +99,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'dorafactory',
-    isUnreachable: true,
     homepage: 'https://dorafactory.org/kusama/',
     paraId: 2115,
     text: 'Dora Factory',
     providers: {
-      DORA: 'wss://rpc.dorafactory.org'
+      DORA: 'wss://kusama.dorafactory.org'
     }
   },
   {
