@@ -9,7 +9,7 @@ import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
 function useSystemApiImpl (): ApiPromise | undefined {
-  const { api, apiRelay, apiSystem } = useApi();
+  const { apiRelay, apiSystem } = useApi();
   const [apiDefault, setApiDefault] = useState<ApiPromise | undefined>();
 
   // This syetm API does not use the global ready, so we
@@ -18,7 +18,7 @@ function useSystemApiImpl (): ApiPromise | undefined {
     apiSystem && apiSystem.isReady
       .then(setApiDefault)
       .catch(console.error);
-  }, [api, apiSystem]);
+  }, [apiSystem]);
 
   return useMemo(() => apiRelay || apiDefault, [apiRelay, apiDefault]);
 }
