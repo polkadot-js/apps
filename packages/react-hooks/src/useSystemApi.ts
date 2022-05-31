@@ -9,16 +9,16 @@ import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
 function useSystemApiImpl (): ApiPromise | undefined {
-  const { apiRelay, apiSystem } = useApi();
+  const { api, apiRelay, apiSystem } = useApi();
   const [apiDefault, setApiDefault] = useState<ApiPromise | undefined>();
 
   // This syetm API does not use the global ready, so we
   // explicitly wait for it here
   useEffect((): void => {
-    apiSystem.isReady
+    apiSystem && apiSystem.isReady
       .then(setApiDefault)
       .catch(console.error);
-  }, [apiSystem]);
+  }, [api, apiSystem]);
 
   return useMemo(() => apiRelay || apiDefault, [apiRelay, apiDefault]);
 }
