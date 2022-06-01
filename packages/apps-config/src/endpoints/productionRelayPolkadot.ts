@@ -225,7 +225,6 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
-    isUnreachable: true,
     text: 'OriginTrail Parachain',
     paraId: 2043,
     providers: {
