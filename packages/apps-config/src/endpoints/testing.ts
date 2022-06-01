@@ -523,9 +523,9 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-gemini-1',
     text: 'Subspace Gemini 1',
     providers: {
-      'North America': 'wss://na.gemini-1a.subspace.network/ws',
-      Europe: 'wss://eu.gemini-1a.subspace.network/ws',
-      Asia: 'wss://apac.gemini-1a.subspace.network/ws'
+      'North America': 'wss://na.gemini-1b.subspace.network/ws',
+      Europe: 'wss://eu.gemini-1b.subspace.network/ws',
+      Asia: 'wss://apac.gemini-1b.subspace.network/ws'
     }
   },
   {
