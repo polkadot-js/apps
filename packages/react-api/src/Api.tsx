@@ -3,7 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-import type { ProviderInterface } from '@polkadot/rpc-provider/types';
+import type { ProviderInterface, ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
@@ -108,6 +108,44 @@ function createLink (baseApiUrl: string, isElectron: boolean): (path: string) =>
       ? 'https://polkadot.js.org/apps/'
       : `${window.location.origin}${window.location.pathname}`
     }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
+}
+
+function getStats (...apis: ApiPromise[]): [ProviderStats, number] {
+  const stats = apis.reduce<ProviderStats>((r, api) => {
+    if (api) {
+      const stats = api.stats;
+
+      if (stats) {
+        r.active.requests += stats.active.requests;
+        r.active.subscriptions += stats.active.subscriptions;
+        r.total.bytesRecv += stats.total.bytesRecv;
+        r.total.bytesSent += stats.total.bytesSent;
+        r.total.cached += stats.total.cached;
+        r.total.errors += stats.total.errors;
+        r.total.requests += stats.total.requests;
+        r.total.subscriptions += stats.total.subscriptions;
+        r.total.timeout += stats.total.timeout;
+      }
+    }
+
+    return r;
+  }, {
+    active: {
+      requests: 0,
+      subscriptions: 0
+    },
+    total: {
+      bytesRecv: 0,
+      bytesSent: 0,
+      cached: 0,
+      errors: 0,
+      requests: 0,
+      subscriptions: 0,
+      timeout: 0
+    }
+  });
+
+  return [stats, Date.now()];
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
@@ -239,17 +277,6 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
         await providers[i].connect();
       }
     }
-
-    // DEBUG Overall provider stats logs. In a perfect world we would like to
-    // expose this "somewhere", but it is mostly useful on a per-page basis,
-    // instead in some corner where it has no active queries
-    // setInterval(
-    //   () => console.log(JSON.stringify({
-    //     api: api.stats,
-    //     sys: apiSystem.stats
-    //   }, null, 2)),
-    //   5000
-    // );
   } catch (error) {
     onError(error);
   }
@@ -273,7 +300,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   );
   const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiSystem, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiSystem, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
