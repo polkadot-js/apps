@@ -70,7 +70,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2084,
     text: 'Dolphin',
     providers: {
-      'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
+      'Manta Network': 'wss://ws.rococo.dolphin.engineering'
     }
   },
   {
