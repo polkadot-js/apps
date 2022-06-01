@@ -10,6 +10,7 @@ export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
 export { default as AddressToggle } from './AddressToggle';
+export { default as ApiStats, ApiStatsContext } from './ApiStats';
 export { default as Available } from './Available';
 export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
