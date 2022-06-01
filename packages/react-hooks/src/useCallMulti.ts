@@ -27,20 +27,21 @@ interface CallOptions <T> {
 function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, calls: QueryableStorageMultiArg<'promise'>[], setValue: (value: T) => void, { transform = transformIdentity }: CallOptions<T> = {}): void {
   unsubscribe(tracker);
 
-  setTimeout((): void => {
-    if (mountedRef.current) {
-      const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
-      const filtered = calls.filter((_, index) => included[index]);
+  Promise
+    .resolve()
+    .then((): void => {
+      if (mountedRef.current) {
+        const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
+        const filtered = calls.filter((_, index) => included[index]);
 
-      if (filtered.length) {
-        // swap to active mode
-        tracker.current.isActive = true;
-        tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
-          // we use the isActive flag here since .subscriber may not be set on immediate callback)
-          if (mountedRef.current && tracker.current.isActive) {
-            let valueIndex = -1;
-
+        if (filtered.length) {
+          // swap to active mode
+          tracker.current.isActive = true;
+          tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
+            // we use the isActive flag here since .subscriber may not be set on immediate callback)
             if (mountedRef.current && tracker.current.isActive) {
+              let valueIndex = -1;
+
               try {
                 setValue(
                   transform(
@@ -55,13 +56,13 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
                 handleError(error as Error, tracker);
               }
             }
-          }
-        }).catch((error) => handleError(error as Error, tracker));
-      } else {
-        tracker.current.subscriber = null;
+          }).catch((error) => handleError(error as Error, tracker));
+        } else {
+          tracker.current.subscriber = null;
+        }
       }
-    }
-  }, 0);
+    })
+    .catch(console.error);
 }
 
 // very much copied from useCall
