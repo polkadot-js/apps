@@ -108,38 +108,41 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
   unsubscribe(tracker);
 
-  setTimeout((): void => {
-    if (mountedRef.current) {
-      const canQuery = !!fn && (
-        isMapFn(fn)
-          ? fn.meta.type.asMap.hashers.length === validParams.length
-          : true
-      );
+  Promise
+    .resolve()
+    .then((): void => {
+      if (mountedRef.current) {
+        const canQuery = !!fn && (
+          isMapFn(fn)
+            ? fn.meta.type.asMap.hashers.length === validParams.length
+            : true
+        );
 
-      if (canQuery) {
-        // swap to active mode
-        tracker.current.isActive = true;
-        tracker.current.subscriber = (fn as CallFn)(...params, (value: Codec): void => {
-          // we use the isActive flag here since .subscriber may not be set on immediate callback)
-          if (mountedRef.current && tracker.current.isActive) {
-            try {
-              setValue(
-                withParams
-                  ? [params, transform(value)]
-                  : withParamsTransform
-                    ? transform([params, value])
-                    : transform(value)
-              );
-            } catch (error) {
-              handleError(error as Error, tracker, fn);
+        if (canQuery) {
+          // swap to active mode
+          tracker.current.isActive = true;
+          tracker.current.subscriber = (fn as CallFn)(...params, (value: Codec): void => {
+            // we use the isActive flag here since .subscriber may not be set on immediate callback)
+            if (mountedRef.current && tracker.current.isActive) {
+              try {
+                setValue(
+                  withParams
+                    ? [params, transform(value)]
+                    : withParamsTransform
+                      ? transform([params, value])
+                      : transform(value)
+                );
+              } catch (error) {
+                handleError(error as Error, tracker, fn);
+              }
             }
-          }
-        }).catch((error) => handleError(error as Error, tracker, fn));
-      } else {
-        tracker.current.subscriber = null;
+          }).catch((error) => handleError(error as Error, tracker, fn));
+        } else {
+          tracker.current.subscriber = null;
+        }
       }
-    }
-  }, 0);
+    })
+    .catch(console.error);
 }
 
 export function throwOnError (tracker: Tracker): void {
