@@ -8,7 +8,7 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
-import { isUndefined } from '@polkadot/util';
+import { isUndefined, nextTick } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { handleError, transformIdentity, unsubscribe } from './useCall';
@@ -27,42 +27,39 @@ interface CallOptions <T> {
 function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, calls: QueryableStorageMultiArg<'promise'>[], setValue: (value: T) => void, { transform = transformIdentity }: CallOptions<T> = {}): void {
   unsubscribe(tracker);
 
-  Promise
-    .resolve()
-    .then((): void => {
-      if (mountedRef.current) {
-        const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
-        const filtered = calls.filter((_, index) => included[index]);
+  nextTick((): void => {
+    if (mountedRef.current) {
+      const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
+      const filtered = calls.filter((_, index) => included[index]);
 
-        if (filtered.length) {
-          // swap to active mode
-          tracker.current.isActive = true;
-          tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
-            // we use the isActive flag here since .subscriber may not be set on immediate callback)
-            if (mountedRef.current && tracker.current.isActive) {
-              let valueIndex = -1;
+      if (filtered.length) {
+        // swap to active mode
+        tracker.current.isActive = true;
+        tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
+          // we use the isActive flag here since .subscriber may not be set on immediate callback)
+          if (mountedRef.current && tracker.current.isActive) {
+            let valueIndex = -1;
 
-              try {
-                setValue(
-                  transform(
-                    calls.map((_, index) =>
-                      included[index]
-                        ? value[++valueIndex]
-                        : undefined
-                    )
+            try {
+              setValue(
+                transform(
+                  calls.map((_, index) =>
+                    included[index]
+                      ? value[++valueIndex]
+                      : undefined
                   )
-                );
-              } catch (error) {
-                handleError(error as Error, tracker);
-              }
+                )
+              );
+            } catch (error) {
+              handleError(error as Error, tracker);
             }
-          }).catch((error) => handleError(error as Error, tracker));
-        } else {
-          tracker.current.subscriber = null;
-        }
+          }
+        }).catch((error) => handleError(error as Error, tracker));
+      } else {
+        tracker.current.subscriber = null;
       }
-    })
-    .catch(console.error);
+    }
+  });
 }
 
 // very much copied from useCall
