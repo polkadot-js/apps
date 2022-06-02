@@ -11,7 +11,7 @@ import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
-const transfOPTormSudo = {
+const OPT = {
   transform: (key: AccountId) => key.toString()
 };
 
