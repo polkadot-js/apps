@@ -28,6 +28,7 @@
   "elapsed": "elapsed",
   "epoch": "epoch",
   "era": "era",
+  "errors": "errors",
   "event count": "event count",
   "events": "events",
   "events (last {{num}} blocks)": "events (last {{num}} blocks)",
