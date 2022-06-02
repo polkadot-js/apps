@@ -6,9 +6,10 @@ import type { Stats } from '@polkadot/react-components/ApiStats/types';
 import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { ApiStatsContext, CardSummary, Chart, Spinner, SummaryBox } from '@polkadot/react-components';
+import { ApiStatsContext, CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
+import Chart from '../Latency/Chart';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -30,13 +31,6 @@ interface ChartInfo {
 
 const COLORS_BYTES = ['#00448c', '#008c44', '#acacac'];
 const COLORS_REQUESTS = ['#008c8c', '#00448c', '#8c4400', '#acacac'];
-const OPTIONS = {
-  animation: {
-    duration: 0
-  },
-  aspectRatio: 6,
-  maintainAspectRatio: true
-};
 
 function getPoints (all: Stats[]): ChartInfo {
   const bytesChart: ChartContents = {
@@ -124,26 +118,18 @@ function Api ({ className }: Props): React.ReactElement<Props> {
           <CardSummary label={t<string>('total sub')}>{formatNumber(tSub)}</CardSummary>
         </section>
       </SummaryBox>
-      <div className='container'>
-        <h1>{t<string>('requests & subscriptions')}</h1>
-        <Chart.Line
-          colors={COLORS_REQUESTS}
-          labels={requestsChart.labels}
-          legends={requestsLegend}
-          options={OPTIONS}
-          values={requestsChart.values}
-        />
-      </div>
-      <div className='container'>
-        <h1>{t<string>('bytes')}</h1>
-        <Chart.Line
-          colors={COLORS_BYTES}
-          labels={bytesChart.labels}
-          legends={bytesLegend}
-          options={OPTIONS}
-          values={bytesChart.values}
-        />
-      </div>
+      <Chart
+        colors={COLORS_REQUESTS}
+        legends={requestsLegend}
+        title={t<string>('requests')}
+        value={requestsChart}
+      />
+      <Chart
+        colors={COLORS_BYTES}
+        legends={bytesLegend}
+        title={t<string>('transfer')}
+        value={bytesChart}
+      />
     </div>
   );
 }

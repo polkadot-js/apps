@@ -20,7 +20,7 @@ interface TrackerRef {
 
 interface CallOptions <T> {
   defaultValue?: T;
-  transform?: (value: any) => T;
+  transform?: (value: any, api: ApiPromise) => T;
 }
 
 // subscribe, trying to play nice with the browser threads
@@ -47,7 +47,8 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
                     included[index]
                       ? value[++valueIndex]
                       : undefined
-                  )
+                  ),
+                  api
                 )
               );
             } catch (error) {

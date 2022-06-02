@@ -65,7 +65,7 @@ function createItemsRef (t: TFunction): TabItem[] {
       text: t<string>('Node info')
     },
     {
-      isHidden: true,
+      // isHidden: true,
       name: 'api',
       text: t<string>('API stats')
     }
