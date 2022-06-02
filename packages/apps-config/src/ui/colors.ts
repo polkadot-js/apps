@@ -29,6 +29,7 @@ const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
 const chainBitgreen = '#13F513';
+const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainCompetitorsClub = '#213830';
@@ -52,9 +53,11 @@ const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
+const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
+const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
@@ -108,7 +111,7 @@ const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
-const chainRococoCanvas = '#000000';
+const chainRococoContracts = '#000000';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -138,7 +141,6 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSwapdex = '#E94082';
 const chainT0rn = '#212322';
-const chainTinker = '#161616';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
 const chainUnitv = '#1452F0';
@@ -172,6 +174,7 @@ const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
 const nodeHeiko = '#42d5de';
+const nodeImbue = '#baff36';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
@@ -263,7 +266,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
-  'Canvas on Rococo': chainRococoCanvas,
   Centrifuge: nodeCentrifuge,
   ChainX: chainChainx,
   Clover: chainClover,
@@ -271,6 +273,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Competitors Club': chainCompetitorsClub,
   Composable: chainComposable,
   'Composable Finance': chainComposableFinance,
+  'Contracts on Rococo': chainRococoContracts,
   Creditcoin: chainCreditcoin,
   'Creditcoin Testnet': chainCreditcoinTestnet,
   'Crown Sterling': chainCrownSterling,
@@ -297,6 +300,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainHydrate,
@@ -305,10 +309,11 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
+  'Imbue Testnet': chainImbue,
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
-  'InvArch Tinkernet': chainTinker,
+  'InvArch Brainstorm Testnet': chainBrainstorm,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -425,6 +430,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
   'Turing Network': chainTuring,
+  'Turing Network (Staging)': chainTuring,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
@@ -480,9 +486,10 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
-  'InvArch Tinkernet Node': chainTinker,
+  'InvArch Brainstorm Node': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,

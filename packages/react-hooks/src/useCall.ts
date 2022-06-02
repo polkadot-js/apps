@@ -9,7 +9,7 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
-import { isFunction, isNull, isUndefined } from '@polkadot/util';
+import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
 import { useIsMountedRef } from './useIsMountedRef';
 
@@ -108,7 +108,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
   unsubscribe(tracker);
 
-  setTimeout((): void => {
+  nextTick((): void => {
     if (mountedRef.current) {
       const canQuery = !!fn && (
         isMapFn(fn)
@@ -139,7 +139,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
         tracker.current.subscriber = null;
       }
     }
-  }, 0);
+  });
 }
 
 export function throwOnError (tracker: Tracker): void {

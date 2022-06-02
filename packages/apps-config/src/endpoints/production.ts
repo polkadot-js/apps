@@ -149,14 +149,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'integritee',
-    text: 'Integritee Network',
-    providers: {
-      Integritee: 'wss://api.solo.integritee.io',
-      OnFinality: 'wss://integritee.api.onfinality.io/public-ws'
-    }
-  },
-  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
@@ -205,7 +197,7 @@ export const prodChains: EndpointOption[] = [
     info: 'nodle',
     text: 'Nodle',
     providers: {
-      Nodle: 'wss://main3.nodleprotocol.io',
+      // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
     }
@@ -221,7 +213,8 @@ export const prodChains: EndpointOption[] = [
     info: 'polkadex',
     text: 'Polkadex',
     providers: {
-      'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      'Polkadex Team': 'wss://mainnet.polkadex.trade',
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     }
   },
   {

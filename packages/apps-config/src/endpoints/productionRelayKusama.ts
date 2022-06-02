@@ -99,12 +99,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'dorafactory',
-    isUnreachable: true,
     homepage: 'https://dorafactory.org/kusama/',
     paraId: 2115,
     text: 'Dora Factory',
     providers: {
-      DORA: 'wss://rpc.dorafactory.org'
+      DORA: 'wss://kusama.dorafactory.org'
     }
   },
   {
@@ -123,7 +122,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -254,13 +254,14 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'moonriver',
-    homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+    homepage: 'https://moonbeam.network/networks/moonriver/',
     paraId: 2023,
     text: 'Moonriver',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -325,14 +326,6 @@ export const prodParasKusama: EndpointOption[] = [
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
     }
-  },
-  {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
   },
   {
     info: 'sakura',
@@ -401,6 +394,14 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     }
+  },
+  {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
   },
   {
     info: 'turing',
