@@ -61,9 +61,8 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 const DISALLOW_EXTENSIONS: string[] = [];
 
 let api: ApiPromise;
-let apiSystem: ApiPromise;
 
-export { api, apiSystem };
+export { api };
 
 function isKeyringLoaded () {
   try {
@@ -255,7 +254,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const providers = [0, 1].map((): ProviderInterface =>
+    const providers = [0].map((): ProviderInterface =>
       isLight
         ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
         : new WsProvider(apiUrl)
@@ -269,7 +268,6 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       typesBundle,
       typesChain
     });
-    apiSystem = new ApiPromise({ provider: providers[1] });
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
@@ -300,7 +298,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   );
   const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiSystem, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 

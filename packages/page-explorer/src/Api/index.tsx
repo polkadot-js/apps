@@ -21,10 +21,15 @@ interface ChartContents {
 }
 
 interface ChartInfo {
-  requests: ChartContents;
+  bytesChart: ChartContents;
+  errorsChart: ChartContents;
+  requestsChart: ChartContents;
 }
 
-const COLORS_REQUESTS = ['#008c8c', '#00448c', '#8c0044', '#acacac'];
+// const COLORS_ERRORS = ['#8c0044', '#acacac'];
+
+const COLORS_BYTES = ['#00448c', '#008c44', '#acacac'];
+const COLORS_REQUESTS = ['#008c8c', '#00448c', '#8c4400', '#acacac'];
 const OPTIONS = {
   animation: {
     duration: 0
@@ -34,44 +39,74 @@ const OPTIONS = {
 };
 
 function getPoints (all: Stats[]): ChartInfo {
-  const requests: ChartContents = {
+  const bytesChart: ChartContents = {
+    labels: [],
+    values: [[], [], []]
+  };
+  const errorsChart: ChartContents = {
+    labels: [],
+    values: [[]]
+  };
+  const requestsChart: ChartContents = {
     labels: [],
     values: [[], [], [], []]
   };
 
   const reqBase = all.reduce((a, { stats: { active: { requests, subscriptions } } }) => a + requests + subscriptions, 0);
+  let { bytesRecv: prevRecv, bytesSent: prevSent, errors: prevErrors } = all[0].stats.total;
+  let recvTotal = 0;
 
-  for (let i = 0; i < all.length; i++) {
-    const { stats: { active: { requests: aReq, subscriptions: aSub } }, when } = all[i];
+  for (let i = 1; i < all.length; i++) {
+    const { stats: { active: { requests: aReq, subscriptions: aSub }, total: { bytesRecv, bytesSent, errors } }, when } = all[i];
 
     const time = new Date(when).toLocaleTimeString();
 
-    requests.labels.push(time);
-    requests.values[0].push(aReq + aSub);
-    requests.values[1].push(aReq);
-    requests.values[2].push(aSub);
-    requests.values[3].push(reqBase / all.length);
+    bytesChart.labels.push(time);
+    bytesChart.values[0].push(bytesSent - prevSent);
+    bytesChart.values[1].push(bytesRecv - prevRecv);
+
+    errorsChart.labels.push(time);
+    errorsChart.values[0].push(errors - prevErrors);
+
+    requestsChart.labels.push(time);
+    requestsChart.values[0].push(aReq + aSub);
+    requestsChart.values[1].push(aReq);
+    requestsChart.values[2].push(aSub);
+    requestsChart.values[3].push(reqBase / all.length);
+
+    recvTotal += bytesRecv - prevRecv;
+    prevErrors = errors;
+    prevRecv = bytesRecv;
+    prevSent = bytesSent;
   }
 
-  return { requests };
+  const recvAvg = recvTotal / (all.length - 1);
+
+  for (let i = 1; i < all.length; i++) {
+    bytesChart.values[2].push(recvAvg);
+  }
+
+  return { bytesChart, errorsChart, requestsChart };
 }
 
 function Api ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const stats = useContext(ApiStatsContext);
 
-  const { requestsLegend } = useMemo(
+  const { bytesLegend, requestsLegend } = useMemo(
     () => ({
+      bytesLegend: [t<string>('sent'), t<string>('recv'), t<string>('average')],
+      errorsLegend: [t<string>('errors')],
       requestsLegend: [t<string>('total'), t<string>('requests'), t<string>('subscriptions'), t<string>('average')]
     }), [t]
   );
 
-  const { requests } = useMemo(
+  const { bytesChart, requestsChart } = useMemo(
     () => getPoints(stats),
     [stats]
   );
 
-  if (stats.length <= 2) {
+  if (stats.length <= 3) {
     return <Spinner />;
   }
 
@@ -93,10 +128,20 @@ function Api ({ className }: Props): React.ReactElement<Props> {
         <h1>{t<string>('requests & subscriptions')}</h1>
         <Chart.Line
           colors={COLORS_REQUESTS}
-          labels={requests.labels}
+          labels={requestsChart.labels}
           legends={requestsLegend}
           options={OPTIONS}
-          values={requests.values}
+          values={requestsChart.values}
+        />
+      </div>
+      <div className='container'>
+        <h1>{t<string>('bytes')}</h1>
+        <Chart.Line
+          colors={COLORS_BYTES}
+          labels={bytesChart.labels}
+          legends={bytesLegend}
+          options={OPTIONS}
+          values={bytesChart.values}
         />
       </div>
     </div>

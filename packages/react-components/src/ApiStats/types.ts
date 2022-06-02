@@ -3,14 +3,7 @@
 
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
 
-export interface StatsExtended extends ProviderStats {
-  max: {
-    requests: number;
-    subscriptions: number;
-  };
-}
-
 export interface Stats {
-  stats: StatsExtended;
+  stats: ProviderStats;
   when: number;
 }

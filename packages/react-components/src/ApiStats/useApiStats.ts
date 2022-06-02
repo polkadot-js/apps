@@ -7,11 +7,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
-const MAX_NUM = 100;
+const MAX_NUM = 60; // 5 minutes
 const INTERVAL = 5_000;
 
 function useApiStatsImpl (): Stats[] {
-  const { api, apiSystem, getStats } = useApi();
+  const { api, getStats } = useApi();
   const [stats, setStats] = useState<Stats[]>([]);
   const timerId = useRef<NodeJS.Timeout | null>(null);
 
@@ -19,24 +19,17 @@ function useApiStatsImpl (): Stats[] {
     (): void => {
       timerId.current = null;
 
-      const [stats, when] = getStats(api, apiSystem);
+      const [stats, when] = getStats(api);
 
       setStats((prev): Stats[] => {
-        if (prev.length === 0) {
-          return [{ stats: { ...stats, max: { requests: stats.active.requests, subscriptions: stats.active.subscriptions } }, when }];
-        }
-
-        const last = prev[prev.length - 1].stats;
         const curr = {
-          stats: {
-            ...stats,
-            max: {
-              requests: Math.max(stats.active.requests, last.max.requests),
-              subscriptions: Math.max(stats.active.subscriptions, last.max.subscriptions)
-            }
-          },
+          stats,
           when
         };
+
+        if (prev.length === 0) {
+          return [curr];
+        }
 
         return prev.length === MAX_NUM
           ? prev.concat(curr).slice(-MAX_NUM)
@@ -45,7 +38,7 @@ function useApiStatsImpl (): Stats[] {
 
       timerId.current = setTimeout(() => fireTimer(), INTERVAL);
     },
-    [api, apiSystem, getStats, timerId]
+    [api, getStats, timerId]
   );
 
   useEffect((): () => void => {
