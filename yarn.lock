@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "@acala-network/type-definitions@npm:4.1.1"
+"@acala-network/type-definitions@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "@acala-network/type-definitions@npm:4.1.3"
   dependencies:
-    "@open-web3/orml-type-definitions": ^1.0.2-4
-  checksum: 5ca560938d26640e730ffff068de9ed939d7d4ef12735b99f4c02cadfbcb72b8c38ac5952c7420942046e8ca8cb2cd43773f699e3ec75c7ad94d29ce3b829bd0
+    "@open-web3/orml-type-definitions": ^1.1.4
+  checksum: 7312c276224c3ba6d57e44aacf3205b76815fc00c8a9d31ad293969b6a8c7376057ffb30c1540bf413c6e83717e4e21fb34cd3a50218d48761745884cd7a1648
   languageName: node
   linkType: hard
 
@@ -1413,7 +1413,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.9, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.9, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.18.3
   resolution: "@babel/runtime@npm:7.18.3"
   dependencies:
@@ -1503,21 +1503,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@darwinia/types-known@npm:^2.7.5":
-  version: 2.7.5
-  resolution: "@darwinia/types-known@npm:2.7.5"
-  dependencies:
-    "@babel/runtime": ^7.9.6
-  checksum: d08be47017cba53787224a620c729760632ea03a737e0302074e97fb491232a81e0615495351c04f6f1c6e55b20e5459a3df457bd55711deff0d686c86fb5c5a
+"@darwinia/types-known@npm:2.8.3":
+  version: 2.8.3
+  resolution: "@darwinia/types-known@npm:2.8.3"
+  checksum: ddcd752f85d3afb3abe4c071c5f292c5d8dbca57901ccb80540128ded8682e2219348d1a970c130a437ab2cbaa529b77a8b5098f1e3cdd68124b5ef354c4d360
   languageName: node
   linkType: hard
 
-"@darwinia/types@npm:2.7.5":
-  version: 2.7.5
-  resolution: "@darwinia/types@npm:2.7.5"
-  dependencies:
-    "@darwinia/types-known": ^2.7.5
-  checksum: 4fb9a652d60ddea4571724ccf2c2f5f64286a2c839a595e759f94191b23dbf73d8bed1896c6c4ed3f5705240064ffd56691103df22f4aaaafd0f3d2205aab4ad
+"@darwinia/types@npm:2.8.3":
+  version: 2.8.3
+  resolution: "@darwinia/types@npm:2.8.3"
+  checksum: fe62aab6735c8c9c3ac561012a2e6935fd7b3cb4dd5d54b7ceb80fff31fd65afea085cb791f90329103490b95c6331bdff13efffecbbccf7dea25dc15bfdf131
   languageName: node
   linkType: hard
 
@@ -2593,7 +2589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^1.0.2-4, @open-web3/orml-type-definitions@npm:^1.1.4":
+"@open-web3/orml-type-definitions@npm:^1.1.4":
   version: 1.1.4
   resolution: "@open-web3/orml-type-definitions@npm:1.1.4"
   dependencies:
@@ -2602,12 +2598,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parallel-finance/type-definitions@npm:1.7.1":
-  version: 1.7.1
-  resolution: "@parallel-finance/type-definitions@npm:1.7.1"
+"@parallel-finance/type-definitions@npm:1.7.4":
+  version: 1.7.4
+  resolution: "@parallel-finance/type-definitions@npm:1.7.4"
   dependencies:
     "@open-web3/orml-type-definitions": ^1.1.4
-  checksum: 4678a4d804b753ffd479a3a04c80cb55a0611b5921c75a09f3334588adf6fa39fa65284ac9c80a0592e04bddfc9bc27a3b6c95802b7c28e103a85307e626225b
+  checksum: d17e1ced19e7884ecbfe242ef77ed051d63f1624fd81ed39afdb8fd9db01a0357715481e900bb0439679e4c4edabc4a2e76ca4ec2645738508d90a73653feffa
   languageName: node
   linkType: hard
 
@@ -3009,11 +3005,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": ^4.1.1
+    "@acala-network/type-definitions": ^4.1.3
     "@babel/runtime": ^7.18.3
     "@bifrost-finance/type-definitions": 1.5.0
     "@crustio/type-definitions": 1.3.0
-    "@darwinia/types": 2.7.5
+    "@darwinia/types": 2.8.3
+    "@darwinia/types-known": 2.8.3
     "@digitalnative/type-definitions": 1.1.27
     "@docknetwork/node-types": 0.6.0
     "@edgeware/node-types": 3.6.2-wako
@@ -3023,7 +3020,7 @@ __metadata:
     "@laminar/type-definitions": 0.3.1
     "@mangata-finance/types": ^0.1.5
     "@metaverse-network-sdk/type-definitions": ^0.0.1-13
-    "@parallel-finance/type-definitions": 1.7.1
+    "@parallel-finance/type-definitions": 1.7.4
     "@phala/typedefs": 0.2.30
     "@polkadot/api": ^8.6.3-9
     "@polkadot/api-derive": ^8.6.3-9
@@ -3035,7 +3032,7 @@ __metadata:
     "@snowfork/snowbridge-types": 0.2.7
     "@sora-substrate/type-definitions": 1.9.8
     "@subsocial/definitions": ^0.6.8
-    "@unique-nft/types": 0.5.1
+    "@unique-nft/types": 0.6.0-4
     "@zeitgeistpm/type-defs": 0.5.0
     "@zeroio/type-definitions": 0.0.14
     lodash: ^4.17.21
@@ -5165,13 +5162,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/types@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@unique-nft/types@npm:0.5.1"
+"@unique-nft/types@npm:0.6.0-4":
+  version: 0.6.0-4
+  resolution: "@unique-nft/types@npm:0.6.0-4"
   peerDependencies:
-    "@polkadot/api": ^7.8.1
-    "@polkadot/types": ^7.8.1
-  checksum: 429247db46573792f290f3772f0f63b8da9cb7d282790becd19aff92abd4428fbe41d5dfdee5a897d72bc90fd7307b6a04144bc36c6b0be07a9293a4cf0e238b
+    "@polkadot/api": ^8.6.1
+    "@polkadot/types": ^8.6.1
+  checksum: 2d370f0e9373300fc2327f08f62a3aea5d9276abb639aa9934cb903cfd1cbccfc89cd67bf3358e0da9e1cd25952f537523b054dc005a2ba4ef58f3f342b80fd7
   languageName: node
   linkType: hard
 
