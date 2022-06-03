@@ -5,15 +5,17 @@
   "nav.bounties": "Bounties",
   "nav.calendar": "Event calendar",
   "nav.claims": "Claim Tokens",
+  "nav.collator": "Collators",
   "nav.contracts": "Contracts",
   "nav.council": "Council",
   "nav.democracy": "Democracy",
   "nav.explorer": "Explorer",
   "nav.extrinsics": "Extrinsics",
-  "nav.files": "Files",
+  "nav.files": "Files (IPFS)",
   "nav.gilt": "Gilt",
   "nav.js": "JavaScript",
   "nav.membership": "Membership",
+  "nav.nfts": "NFTs",
   "nav.parachains": "Parachains",
   "nav.poll": "Token poll",
   "nav.rpc": "RPC calls",
@@ -26,5 +28,6 @@
   "nav.tech-comm": "Tech. comm.",
   "nav.teleport": "Teleport",
   "nav.transfer": "Transfer",
-  "nav.treasury": "Treasury"
+  "nav.treasury": "Treasury",
+  "nav.utilities": "Utilities"
 }

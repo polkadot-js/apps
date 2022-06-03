@@ -63,7 +63,10 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
         <Delimiter />
         <ul className='ui--TabsList'>
           {filtered.map((tab, index) => (
-            <li key={index}>
+            <li
+              className={tab.isHidden ? '--hidden' : ''}
+              key={index}
+            >
               <Tab
                 {...tab}
                 basePath={basePath}

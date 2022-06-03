@@ -78,7 +78,10 @@ function Selection ({ className, defaultValue }: Props): React.ReactElement<Prop
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
       />
-      <Decoded extrinsic={extrinsic} />
+      <Decoded
+        extrinsic={extrinsic}
+        isCall
+      />
       {error && !extrinsic && (
         <MarkError content={error} />
       )}

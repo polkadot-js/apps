@@ -24,7 +24,7 @@ const _ledgerConnOptions = settings.availableLedgerConn;
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { chainSS58, isApiReady, isElectron } = useApi();
-  const { isLedgerCapable } = useLedger();
+  const { hasLedgerChain, hasWebUsb } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [state, setSettings] = useState((): SettingsStruct => {
@@ -146,22 +146,34 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={translateLanguages}
         />
       </div>
-      {isLedgerCapable && (
+      {hasLedgerChain && (
         <>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={ledgerConn}
+              defaultValue={
+                hasWebUsb
+                  ? ledgerConn
+                  : ledgerConnOptions[0].value
+              }
               help={t<string>('Manage your connection to Ledger S')}
+              isDisabled={!hasWebUsb}
               label={t<string>('manage hardware connections')}
               onChange={_handleChange('ledgerConn')}
               options={ledgerConnOptions}
             />
           </div>
-          {state.ledgerConn !== 'none' && (
-            <div className='ui--row'>
-              <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
-            </div>
-          )}
+          {hasWebUsb
+            ? state.ledgerConn !== 'none'
+              ? (
+                <div className='ui--row'>
+                  <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
+                </div>
+              )
+              : null
+            : (
+              <MarkWarning content={t<string>('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
+            )
+          }
         </>
       )}
       <Button.Group>
