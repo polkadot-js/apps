@@ -117,6 +117,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'imbue',
+    homepage: 'https://imbue.network',
+    paraId: 2121,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://imbue-kusama.imbue.network'
+    }
+  },
+  {
     info: 'integritee',
     homepage: 'https://integritee.network',
     paraId: 2015,
