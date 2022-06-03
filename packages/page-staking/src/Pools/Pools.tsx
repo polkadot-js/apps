@@ -51,8 +51,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
     [t('state'), 'media--1100'],
     [t('points')],
     [t('claimable'), 'media--1400'],
-    [undefined, 'media--1300'],
-    [undefined, 'media--1200']
+    [undefined, undefined, 3]
   ], [t]);
 
   const poolTypes = useRef([

@@ -36,6 +36,7 @@ export default {
     Kintsugi: 'kintsugi',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
+    Litentry: 'litentry',
     Litmus: 'litmus',
     Moonbase: 'moonbase',
     Moonbeam: 'moonbeam',

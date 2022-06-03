@@ -50,7 +50,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
     const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
 
-    return (proposalToDisplay?.proposal.method === 'proposeCurator')
+    return (proposalToDisplay?.proposal?.method === 'proposeCurator')
       ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
       : null;
   }, [curator, proposals, status]);
