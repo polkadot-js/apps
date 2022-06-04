@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Environment } from '../types';
@@ -12,6 +12,7 @@ const onlyOn = (environment: Environment) => <T extends ComponentType<any>>(comp
     return component;
   }
 
+  // eslint-disable-next-line react/display-name
   return () => null;
 };
 

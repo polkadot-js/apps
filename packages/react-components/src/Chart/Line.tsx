@@ -1,26 +1,30 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { ChartData, ChartOptions } from 'chart.js';
+import type { BN } from '@polkadot/util';
 import type { LineProps } from './types';
 
-import ChartJs from 'chart.js';
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
 
-import { isBn } from '@polkadot/util';
+import { isBn, objectSpread } from '@polkadot/util';
+
+import { alphaColor } from './utils';
 
 interface State {
-  chartData: ChartJs.ChartData;
-  chartOptions: ChartJs.ChartOptions;
+  chartData: ChartData;
+  chartOptions: ChartOptions;
 }
 
 interface Dataset {
   data: number[];
   fill: boolean;
   label: string;
+  lineTension: number;
   backgroundColor: string;
   borderColor: string;
+  cubicInterpolationMode: 'default' | 'linear';
   hoverBackgroundColor: string;
 }
 
@@ -31,25 +35,20 @@ interface Config {
 
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
-const alphaColor = (hexColor: string): string =>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-  ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
-
-const chartOptions = {
-  // no need for the legend, expect the labels contain everything
-  legend: {
-    display: false
+const chartOptions: ChartOptions = {
+  plugins: {
+    legend: {
+      display: false
+    }
   },
   scales: {
-    xAxes: [{
-      ticks: {
-        beginAtZero: true
-      }
-    }]
+    x: {
+      beginAtZero: true
+    }
   }
 };
 
-function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][]): State {
+function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][], options: ChartOptions = {}): State {
   const chartData = values.reduce((chartData, values, index): Config => {
     const color = colors[index] || alphaColor(COLORS[index]);
     const data = values.map((value): number => isBn(value) ? value.toNumber() : value);
@@ -57,10 +56,12 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
     chartData.datasets.push({
       backgroundColor: color,
       borderColor: color,
+      cubicInterpolationMode: 'default',
       data,
       fill: false,
       hoverBackgroundColor: color,
-      label: legends[index]
+      label: legends[index],
+      lineTension: 0.25
     });
 
     return chartData;
@@ -68,21 +69,23 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
 
   return {
     chartData,
-    chartOptions
+    chartOptions: objectSpread({}, chartOptions, options)
   };
 }
 
-function LineChart ({ className, colors, labels, legends, values }: LineProps): React.ReactElement<LineProps> | null {
+function LineChart ({ className, colors, labels, legends, options, values }: LineProps): React.ReactElement<LineProps> | null {
   const { chartData, chartOptions } = useMemo(
-    () => calculateOptions(colors, legends, labels, values),
-    [colors, labels, legends, values]
+    () => calculateOptions(colors, legends, labels, values, options),
+    [colors, labels, legends, options, values]
   );
 
   return (
     <div className={className}>
       <Chart.Line
-        data={chartData}
-        options={chartOptions}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        data={chartData as any}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        options={chartOptions as any}
       />
     </div>
   );

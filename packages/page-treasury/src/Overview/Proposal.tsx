@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
@@ -63,7 +63,6 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
       <td className='links'>
         <LinkExternal
           data={id}
-          isLogo
           type='treasury'
         />
       </td>

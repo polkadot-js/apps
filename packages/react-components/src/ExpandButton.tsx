@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -25,7 +25,7 @@ function ExpandButton ({ className = '', expanded, onClick }: Props): React.Reac
 }
 
 export default React.memo(styled(ExpandButton)`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1.7rem;

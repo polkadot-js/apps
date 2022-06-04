@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { BN } from '@polkadot/util';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -92,7 +92,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const accountsMap = useMemo(() => {
     const ret: Record<string, SortedAccount> = {};
 
-    accountsWithInfo.forEach(function (x) { ret[x.address] = x; });
+    accountsWithInfo.forEach(function (x) {
+      ret[x.address] = x;
+    });
 
     return ret;
   }, [accountsWithInfo]);

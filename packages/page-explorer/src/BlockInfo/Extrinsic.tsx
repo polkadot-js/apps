@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
+import type { ICompact, INumber } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import Event from '../Event';
 import { useTranslation } from '../translate';
@@ -65,6 +65,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
   const { meta, method, section } = useMemo(
     () => value.registry.findMetaCall(value.callIndex),
     [value]
+  );
+
+  const timestamp = useMemo(
+    () => section === 'timestamp' && method === 'set'
+      ? new Date((value.args[0] as ICompact<INumber>).unwrap().toNumber())
+      : undefined,
+    [method, section, value]
   );
 
   const mortality = useMemo(
@@ -136,18 +143,23 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         )}
       </td>
       <td className='top media--1200'>
-        {value.isSigned && (
-          <>
-            <AddressMini value={value.signer} />
-            <div className='explorer--BlockByHash-nonce'>
-              {t<string>('index')} {formatNumber(value.nonce)}
-            </div>
-            <LinkExternal
-              data={value.hash.toHex()}
-              type='extrinsic'
-            />
-          </>
-        )}
+        {value.isSigned
+          ? (
+            <>
+              <AddressMini value={value.signer} />
+              <div className='explorer--BlockByHash-nonce'>
+                {t<string>('index')} {formatNumber(value.nonce)}
+              </div>
+              <LinkExternal
+                data={value.hash.toHex()}
+                type='extrinsic'
+              />
+            </>
+          )
+          : timestamp
+            ? timestamp.toLocaleString()
+            : null
+        }
       </td>
     </tr>
   );

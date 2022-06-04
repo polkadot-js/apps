@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfo } from './types';
@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
 import DayItem from './DayItem';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const sched = useMemo(
     () => scheduled.sort((a, b) => a.dateTime - b.dateTime),
     [scheduled]
@@ -36,7 +38,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
             icon='calendar'
             onClick={_setView}
           />
-          Upcoming Events
+          {t<string>('Upcoming Events')}
         </div>
       </h1>
       <ul className='allEventsWrapper'>

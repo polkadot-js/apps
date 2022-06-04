@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-query authors & contributors
+// Copyright 2017-2022 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
+import type { Codec, IOption } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -46,7 +47,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       let lastHeaders: HeaderExtendedWithMapping[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
-      const isAuthorIds = isFunction(api.query.authorMapping?.authorIds); // TODO-MOONBEAM reevaluate in a month: 07/16/21
+      // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
       const isAuthorMappingWithDeposit = isFunction(api.query.authorMapping?.mappingWithDeposit);
 
       // subscribe to all validators
@@ -60,20 +61,19 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
           const blockNumber = lastHeader.number.unwrap();
           let thisBlockAuthor = '';
 
+          // Check for digest type
+          const hasConsensusDigest = lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1];
+          const hasPreRuntimeDigest = lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isPreRuntime && lastHeader.digest.logs[0].asPreRuntime[1];
+
           if (lastHeader.author) {
             thisBlockAuthor = lastHeader.author.toString();
-          } else if (isAuthorMappingWithDeposit && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
+          } else if (isAuthorMappingWithDeposit && (hasConsensusDigest || hasPreRuntimeDigest)) { // Check for a Digest
             // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
-            thisBlockAuthor = ((await api.query.authorMapping.mappingWithDeposit(lastHeader.digest.logs[0].asConsensus[1])).toHuman() as {
-              account: string;
-              deposit: string;
-            }).account;
-            lastHeader.authorFromMapping = thisBlockAuthor;
-          } else if (isAuthorIds && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
-            // TODO-MOONBEAM reevaluate in a month: 07/16/21
-            // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping (function call may differ according to pallet version)
-            thisBlockAuthor = (await api.query.authorMapping.authorIds(lastHeader.digest.logs[0].asConsensus[1])).toString();
-            lastHeader.authorFromMapping = thisBlockAuthor;
+            const optMap = await api.query.authorMapping.mappingWithDeposit<IOption<{ account: Codec } & Codec>>(hasConsensusDigest ? lastHeader.digest.logs[0].asConsensus[1] : lastHeader.digest.logs[0].asPreRuntime[1]);
+
+            if (optMap.isSome) {
+              lastHeader.authorFromMapping = thisBlockAuthor = optMap.unwrap().account.toString();
+            }
           }
 
           const thisBlockNumber = formatNumber(blockNumber);

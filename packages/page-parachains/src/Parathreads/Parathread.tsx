@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -41,7 +41,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
-      <td className='address media--1100'>{manager && <AddressSmall value={manager} />}</td>
+      <td className='address media--2000'>{manager && <AddressSmall value={manager} />}</td>
       <td className='start together hash media--1500'>{headHex}</td>
       <td className='start'>
         <Lifecycle

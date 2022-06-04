@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveEraRewards, DeriveOwnSlashes, DeriveStakerPoints } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { balanceToNumber } from './util';
@@ -21,8 +20,19 @@ function extractRewards (erasRewards: DeriveEraRewards[] = [], ownSlashes: Deriv
   const slashSet: LineDataEntry = [];
   const rewardSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
-  let avgCount = 0;
-  let total = 0;
+  const [total, avgCount] = erasRewards.reduce(([total, avgCount], { era, eraReward }) => {
+    const points = allPoints.find((points) => points.era.eq(era));
+    const reward = points?.eraPoints.gtn(0)
+      ? balanceToNumber(points.points.mul(eraReward).div(points.eraPoints), divisor)
+      : 0;
+
+    if (reward > 0) {
+      total += reward;
+      avgCount++;
+    }
+
+    return [total, avgCount];
+  }, [0, 0]);
 
   erasRewards.forEach(({ era, eraReward }): void => {
     const points = allPoints.find((points) => points.era.eq(era));
@@ -33,16 +43,13 @@ function extractRewards (erasRewards: DeriveEraRewards[] = [], ownSlashes: Deriv
     const slash = slashed
       ? balanceToNumber(slashed.total, divisor)
       : 0;
-
-    total += reward;
-
-    if (reward > 0) {
-      avgCount++;
-    }
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
 
     labels.push(era.toHuman());
     rewardSet.push(reward);
-    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
+    avgSet.push(avg);
     slashSet.push(slash);
   });
 

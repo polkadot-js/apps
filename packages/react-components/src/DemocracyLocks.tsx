@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { TFunction } from 'i18next';
 import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -51,7 +51,7 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: Partial<DeriveDemocrac
       .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished = false, referendumId, vote }, blocks]): Entry[] => {
         const isCountdown = blocks.gt(BN_ZERO);
         const header = referendumId && vote
-          ? <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}{isDelegated && '/d'}</div>
+          ? <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction?.toString()}{isDelegated && '/d'}</div>
           : <div>{t('Prior locked voting')}</div>;
         const prev = sorted.length ? sorted[sorted.length - 1] : null;
 

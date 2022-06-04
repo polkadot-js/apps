@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -9,6 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { Api } from '@polkadot/react-api';
+import { ApiStats } from '@polkadot/react-components';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 import { settings } from '@polkadot/ui-settings';
@@ -49,15 +50,17 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
             isElectron={isElectron}
             store={store}
           >
-            <BlockAuthors>
-              <Events>
-                <HashRouter>
-                  <WindowDimensions>
-                    <Apps />
-                  </WindowDimensions>
-                </HashRouter>
-              </Events>
-            </BlockAuthors>
+            <ApiStats>
+              <BlockAuthors>
+                <Events>
+                  <HashRouter>
+                    <WindowDimensions>
+                      <Apps />
+                    </WindowDimensions>
+                  </HashRouter>
+                </Events>
+              </BlockAuthors>
+            </ApiStats>
           </Api>
         </Queue>
       </ThemeProvider>

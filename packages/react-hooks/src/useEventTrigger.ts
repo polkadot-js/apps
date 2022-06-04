@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AugmentedEvent } from '@polkadot/api/types';
@@ -12,7 +12,7 @@ import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
 
-type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
+export type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
 interface Result {
   blockHash: string;

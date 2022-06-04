@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
@@ -14,7 +14,7 @@ interface Props {
   hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
-  proposal: Proposal;
+  proposal: Proposal | null;
   type: 'membership' | 'technicalCommittee';
 }
 

@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPrefs } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
 
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_BILLION } from '@polkadot/util';
+import { BN, BN_BILLION } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -20,20 +19,25 @@ function extractPrefs (prefs: DeriveStakerPrefs[] = []): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
-  let avgCount = 0;
-  let total = 0;
-
-  prefs.forEach(({ era, validatorPrefs }): void => {
+  const [total, avgCount] = prefs.reduce(([total, avgCount], { validatorPrefs }) => {
     const comm = validatorPrefs.commission.unwrap().mul(MULT).div(BN_BILLION).toNumber() / 100;
 
-    total += comm;
-    labels.push(era.toHuman());
-
     if (comm !== 0) {
+      total += comm;
       avgCount++;
     }
 
-    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
+    return [total, avgCount];
+  }, [0, 0]);
+
+  prefs.forEach(({ era, validatorPrefs }): void => {
+    const comm = validatorPrefs.commission.unwrap().mul(MULT).div(BN_BILLION).toNumber() / 100;
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
+
+    labels.push(era.toHuman());
+    avgSet.push(avg);
     idxSet.push(comm);
   });
 

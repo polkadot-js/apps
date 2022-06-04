@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-council authors & contributors
+// Copyright 2017-2022 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
@@ -16,7 +16,7 @@ interface Props {
   isDisabled: boolean;
   members: string[];
   prime?: AccountId | null;
-  proposal: Proposal;
+  proposal: Proposal | null;
 }
 
 function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
@@ -70,7 +70,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
             />
             <TxButton
               accountId={accountId}
-              icon='check'
+              icon='check-to-slot'
               isDisabled={isDisabled}
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
@@ -81,7 +81,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
         </Modal>
       )}
       <Button
-        icon='check'
+        icon='check-to-slot'
         isDisabled={isDisabled}
         label={t<string>('Vote')}
         onClick={toggleVoting}

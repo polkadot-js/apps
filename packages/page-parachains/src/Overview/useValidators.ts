@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, CoreAssignment, GroupIndex, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
@@ -30,7 +30,7 @@ function mapValidators (startWith: Record<string, [GroupIndex, ValidatorInfo[]]>
       ...all,
       [id.toString()]: [
         assignment.groupIdx,
-        groups[assignment.groupIdx.toNumber()]
+        (groups[assignment.groupIdx.toNumber()] || [])
           .map((index) => [index, indices[index.toNumber()]])
           .filter(([, a]) => a)
           .map(([indexActive, indexValidator]) => ({

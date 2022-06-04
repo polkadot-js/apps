@@ -1,16 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -44,9 +43,17 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
     );
   }, [api, members]);
 
-  const proposeCuratorProposal = useMemo(() => curatorId && proposeCurator(index, curatorId, fee), [curatorId, fee, index, proposeCurator]);
+  const proposeCuratorProposal = useMemo(
+    () => curatorId && proposeCurator(index, curatorId, fee),
+    [curatorId, fee, index, proposeCurator]
+  );
 
-  const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
+  const isVotingInitiated = useMemo(
+    () => proposals?.filter(({ proposal }) =>
+      proposal && BOUNTY_METHODS.includes(proposal.method)
+    ).length !== 0,
+    [proposals]
+  );
 
   useEffect(() => {
     setIsFeeValid(!!value?.gt(fee));

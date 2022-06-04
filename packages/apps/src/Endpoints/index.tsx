@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -176,7 +176,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _removeApiEndpoint = useCallback(
     (): void => {
-      if (!isSavedCustomEndpoint) return;
+      if (!isSavedCustomEndpoint) {
+        return;
+      }
 
       const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 

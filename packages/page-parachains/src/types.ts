@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
 import type { PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsHrmpHrmpChannel } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 export type ChannelMap = Record<string, [PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeParachainsHrmpHrmpChannel][]>;
 

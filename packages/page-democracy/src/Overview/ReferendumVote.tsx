@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumVote } from '@polkadot/api-derive/types';
@@ -10,6 +10,7 @@ import { AddressMini } from '@polkadot/react-components';
 
 interface Props {
   vote: DeriveReferendumVote;
+  className?: string;
 }
 
 const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];

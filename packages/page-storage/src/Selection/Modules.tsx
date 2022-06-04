@@ -1,22 +1,23 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { Button, Input, InputStorage } from '@polkadot/react-components';
+import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
-import { isHex, isNull, isUndefined } from '@polkadot/util';
+import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -115,12 +116,50 @@ function extractParams (isIterable: boolean, values: RawParams): [RawParams, boo
   return [params, params.length === values.length];
 }
 
-function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isHeadKey: true, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
   const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
   const [{ blockHash, textHash }, setBlockHash] = useState<BlockHash>({ blockHash: null, textHash: '' });
+
+  const startValue = useMemo(
+    () => (
+      api.query.timestamp?.now ||
+      api.query.system?.events ||
+      api.query.substrate.changesTrieConfig
+    ),
+    [api]
+  );
+
+  const [isPartialKey, hexKey, inspect] = useMemo(
+    (): [boolean, string, Inspect | null] => {
+      if (isValid) {
+        try {
+          const [params] = extractParams(isIterable, values);
+          const args = params.map(({ value }) => value);
+          const isPartialKey = args.length !== (
+            key.creator.meta.type.isPlain
+              ? 0
+              : key.creator.meta.type.asMap.hashers.length
+          );
+          const hexKey = isPartialKey && key.creator.iterKey
+            ? key.creator.iterKey(...args).toHex()
+            : u8aToHex(compactStripLength(key.creator(...args))[1]);
+          const inspect = isPartialKey
+            ? null
+            : key.creator.inspect(...args);
+
+          return [isPartialKey, hexKey, inspect];
+        } catch {
+          // ignore
+        }
+      }
+
+      return [false, '0x', null];
+    },
+    [isIterable, isValid, key, values]
+  );
 
   const _onAdd = useCallback(
     (): void => {
@@ -174,11 +213,11 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { creator: { meta, method, section } } = key;
 
   return (
-    <section className='storage--actionrow'>
+    <section className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
-          defaultValue={api.query.timestamp?.now || api.query.system.events}
-          help={meta?.docs.join(' ')}
+          defaultValue={startValue}
+          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />
@@ -196,6 +235,28 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           onChange={_onChangeAt}
           placeholder={t<string>('0x...')}
         />
+        <Columar
+          className='keyColumar'
+          isPadded={false}
+        >
+          <Columar.Column>
+            <Output
+              isDisabled
+              label={isPartialKey
+                ? t<string>('encoded partial key')
+                : t<string>('encoded storage key')
+              }
+              value={hexKey}
+              withCopy
+            />
+          </Columar.Column>
+          <Columar.Column>
+            <DecodeInspect
+              inspect={inspect}
+              label={t<string>('encoded key details')}
+            />
+          </Columar.Column>
+        </Columar>
       </div>
       <div className='storage--actionrow-buttons'>
         <Button
@@ -208,4 +269,12 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Modules);
+export default React.memo(styled(Modules)`
+  .ui--Column:last-child .ui--Labelled {
+    padding-left: 0.5rem;
+
+    label {
+      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
+    }
+  }
+`);

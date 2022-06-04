@@ -1,7 +1,6 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
@@ -16,6 +15,8 @@ import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { useDeriveAccountFlags } from './useDeriveAccountFlags';
+import { useDeriveAccountInfo } from './useDeriveAccountInfo';
 import { useToggle } from './useToggle';
 
 const IS_NONE = {
@@ -42,8 +43,8 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags, [value]);
+  const accountInfo = useDeriveAccountInfo(value);
+  const accountFlags = useDeriveAccountFlags(value);
   const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
   const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
@@ -242,7 +243,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   );
 
   const setTags = useCallback(
-    (tags: string[]): void => setSortedTags(tags.sort()),
+    (tags: string[]) => setSortedTags(tags.sort()),
     []
   );
 
