@@ -42,7 +42,7 @@ import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
 import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
-import chainComposable from './chains/picasso.svg';
+import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoContracts from './chains/rococo-contracts.png';
@@ -634,7 +634,7 @@ export const namedLogos: Record<string, unknown> = {
   clover: nodeClover,
   coinversation: chainCoinversation,
   'competitors-club': chainCompetitorsClub,
-  composableFinance: chainComposableFinance,
+  'composable Finance': chainComposableFinance,
   crab: nodeCrab,
   creditcoin: chainCreditcoin,
   'creditcoin-testnet': chainCreditcoinTest,
@@ -719,7 +719,7 @@ export const namedLogos: Record<string, unknown> = {
   parallel: chainParallel,
   phala: nodePhala,
   phoenix: nodePhoenix,
-  picasso: chainComposable,
+  'Picasso': chainPicasso,
   pichiu: nodePichiu,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
