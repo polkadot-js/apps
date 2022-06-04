@@ -320,10 +320,10 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      Unique: 'wss://quartz.unique.network',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      'Unique US': 'wss://us-ws-quartz.unique.network'
+      OnFinality: 'wss://quartz.api.onfinality.io%2Fpublic-ws',
+      'Unique America': 'wss://us-ws-quartz.unique.network',
+      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     }
   },
   {

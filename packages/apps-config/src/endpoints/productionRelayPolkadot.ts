@@ -288,7 +288,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2037,
     text: 'Unique Network',
     providers: {
-      Unique: 'wss://ws.unique.network/'
+      'Unique America': 'wss://us-ws.unique.network/',
+      'Unique Asia': 'wss://asia-ws.unique.network/',
+      'Unique Europe': 'wss://eu-ws.unique.network/'
     }
   }
 ];
