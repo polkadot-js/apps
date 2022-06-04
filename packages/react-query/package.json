@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.115.3-52",
+  "version": "0.115.3-53",
   "dependencies": {
     "@babel/runtime": "^7.18.3"
   }
