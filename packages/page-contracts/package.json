@@ -14,6 +14,6 @@
   "version": "0.115.3-52",
   "dependencies": {
     "@babel/runtime": "^7.18.3",
-    "@polkadot/api-contract": "^8.6.3-9"
+    "@polkadot/api-contract": "^8.7.1"
   }
 }
