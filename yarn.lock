@@ -2720,7 +2720,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.18.3
     "@polkadot/hw-ledger": ^9.4.1
-    "@polkadot/phishing": ^0.13.61
+    "@polkadot/phishing": ^0.13.62
     "@polkadot/react-components": ^0.116.2-1
     "@polkadot/react-hooks": ^0.116.2-1
     "@polkadot/test-support": 0.116.2-1
@@ -3031,7 +3031,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
     "@sora-substrate/type-definitions": 1.9.8
-    "@subsocial/definitions": ^0.6.8
+    "@subsocial/definitions": ^0.6.10
     "@unique-nft/types": 0.6.0-4
     "@zeitgeistpm/type-defs": 0.5.0
     "@zeroio/type-definitions": 0.0.14
@@ -3053,7 +3053,7 @@ __metadata:
     "@types/react-dom": ^18.0.5
     "@types/tmp": ^0.2.3
     babel-loader: ^8.2.5
-    copy-webpack-plugin: ^10.2.4
+    copy-webpack-plugin: ^11.0.0
     electron-log: ^4.4.7
     electron-updater: ^4.6.5
     html-webpack-plugin: ^5.5.0
@@ -3093,7 +3093,7 @@ __metadata:
     assert: ^2.0.0
     babel-loader: ^8.2.5
     buffer: ^6.0.3
-    copy-webpack-plugin: ^10.2.4
+    copy-webpack-plugin: ^11.0.0
     crypto-browserify: ^3.12.0
     css-loader: ^5.2.7
     empty: ^0.10.1
@@ -3524,7 +3524,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
     testcontainers: ^8.10.1
-    tsconfig-paths: ^3.14.1
+    tsconfig-paths: ^4.0.0
   languageName: unknown
   linkType: soft
 
@@ -4053,13 +4053,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/definitions@npm:^0.6.8":
-  version: 0.6.8
-  resolution: "@subsocial/definitions@npm:0.6.8"
+"@subsocial/definitions@npm:^0.6.10":
+  version: 0.6.10
+  resolution: "@subsocial/definitions@npm:0.6.10"
   dependencies:
     "@polkadot/api": latest
     lodash.camelcase: ^4.3.0
-  checksum: 03d8bea55f19d0fe2f8d8ee8f51a4506e6b550dd33ae5e3734b32906df48405bfac05ea2095d8b41ad3f2caeeb67e87614d67f89ab71ca090f7d579b05e104e0
+  checksum: 5d7fb8b851c3e0395c334abd0b4bf55d47548a521556078c42f9dc4ea6468a02083e580bf2af4518fabc4ab7d1c338d992db4ae49ceccff7b425871b3d1e3f7e
   languageName: node
   linkType: hard
 
@@ -4509,13 +4509,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^28.1.0":
-  version: 28.1.0
-  resolution: "@types/jest@npm:28.1.0"
+"@types/jest@npm:*, @types/jest@npm:^28.1.1":
+  version: 28.1.1
+  resolution: "@types/jest@npm:28.1.1"
   dependencies:
     jest-matcher-utils: ^27.0.0
     pretty-format: ^27.0.0
-  checksum: be4d887b2452e8c1367cd19b23906ba4b64af95e22ca871f81c7af5e945bd39b370e124086356aa9380c4543123b1387448bc2c00a604c6f0a92bc3e4a24e9ce
+  checksum: 0a8b045a7b660372decc807c390d3f99a2b12bb1659a1cd593afe04557f4b7c235b0576a5e35b1577710d20e42759d3d8755eb8bed6edc8733f47007e75a5509
   languageName: node
   linkType: hard
 
@@ -5921,13 +5921,6 @@ __metadata:
   version: 2.1.0
   resolution: "array-union@npm:2.1.0"
   checksum: 5bee12395cba82da674931df6d0fea23c4aa4660cb3b338ced9f828782a65caa232573e6bf3968f23e0c5eb301764a382cef2f128b170a9dc59de0e36c39f98d
-  languageName: node
-  linkType: hard
-
-"array-union@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "array-union@npm:3.0.1"
-  checksum: 47b29f88258e8f37ffb93ddaa327d4308edd950b52943c172b73558afdd3fa74cfd68816ba5aa4b894242cf281fa3c6d0362ae057e4a18bddbaedbe46ebe7112
   languageName: node
   linkType: hard
 
@@ -7734,19 +7727,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-webpack-plugin@npm:^10.2.4":
-  version: 10.2.4
-  resolution: "copy-webpack-plugin@npm:10.2.4"
+"copy-webpack-plugin@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "copy-webpack-plugin@npm:11.0.0"
   dependencies:
-    fast-glob: ^3.2.7
+    fast-glob: ^3.2.11
     glob-parent: ^6.0.1
-    globby: ^12.0.2
+    globby: ^13.1.1
     normalize-path: ^3.0.0
     schema-utils: ^4.0.0
     serialize-javascript: ^6.0.0
   peerDependencies:
     webpack: ^5.1.0
-  checksum: 87f0f4530ab3e58ec06a7c3182028dfd8cc85b045a0d18c4464caafeae1ed1141c2aad6eae37e100a74a72b69dc48c93af358c07038b7a22f490a678c0ab142e
+  checksum: df4f8743f003a29ee7dd3d9b1789998a3a99051c92afb2ba2203d3dacfa696f4e757b275560fafb8f206e520a0aa78af34b990324a0e36c2326cefdeef3ca82e
   languageName: node
   linkType: hard
 
@@ -10032,7 +10025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.9":
   version: 3.2.11
   resolution: "fast-glob@npm:3.2.11"
   dependencies:
@@ -10974,17 +10967,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^12.0.2":
-  version: 12.0.2
-  resolution: "globby@npm:12.0.2"
+"globby@npm:^13.1.1":
+  version: 13.1.1
+  resolution: "globby@npm:13.1.1"
   dependencies:
-    array-union: ^3.0.1
     dir-glob: ^3.0.1
-    fast-glob: ^3.2.7
-    ignore: ^5.1.8
+    fast-glob: ^3.2.11
+    ignore: ^5.2.0
     merge2: ^1.4.1
     slash: ^4.0.0
-  checksum: f474ced866755f48ce7e8a7e11b0a1d90fa1f1c25cf86c245fbf05a862accfba695102a843b6386dbe41fa73c2f9a7e625bf566fa7648d2e1304f58748975e3f
+  checksum: e6c43409c6c31b374fbd1c01a8c1811de52336928be9c697e472d2a89a156c9cbf1fb33863755c0447b4db16485858aa57f16628d66a6b7c7131669c9fbe76cd
   languageName: node
   linkType: hard
 
@@ -11785,7 +11777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.1.1, ignore@npm:^5.1.8, ignore@npm:^5.2.0":
+"ignore@npm:^5.1.1, ignore@npm:^5.2.0":
   version: 5.2.0
   resolution: "ignore@npm:5.2.0"
   checksum: 6b1f926792d614f64c6c83da3a1f9c83f6196c2839aa41e1e32dd7b8d174cef2e329d75caabb62cb61ce9dc432f75e67d07d122a037312db7caa73166a1bdb77
@@ -15879,7 +15871,7 @@ __metadata:
     "@polkadot/dev": ^0.66.34
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
-    "@types/jest": ^28.1.0
+    "@types/jest": ^28.1.1
     "@types/react-beautiful-dnd": ^13.1.2
     "@types/react-copy-to-clipboard": ^5.0.2
     "@types/react-dom": ^18.0.5
@@ -19216,6 +19208,17 @@ resolve@^2.0.0-next.3:
     minimist: ^1.2.6
     strip-bom: ^3.0.0
   checksum: 8afa01c673ebb4782ba53d3a12df97fa837ce524f8ad38ee4e2b2fd57f5ac79abc21c574e9e9eb014d93efe7fe8214001b96233b5c6ea75bd1ea82afe17a4c6d
+  languageName: node
+  linkType: hard
+
+"tsconfig-paths@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "tsconfig-paths@npm:4.0.0"
+  dependencies:
+    json5: ^2.2.1
+    minimist: ^1.2.6
+    strip-bom: ^3.0.0
+  checksum: a8cf746ffe438513a71c70c1bcdee8da7d62ab2af286efbe2728ff55c4d4c92c2aea80a0822982ded6d0a13c7686c24632934d7c0f4f564be9e1b2cdc3d65eea
   languageName: node
   linkType: hard
 
