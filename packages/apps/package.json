@@ -33,7 +33,7 @@
     "assert": "^2.0.0",
     "babel-loader": "^8.2.5",
     "buffer": "^6.0.3",
-    "copy-webpack-plugin": "^10.2.4",
+    "copy-webpack-plugin": "^11.0.0",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^5.2.7",
     "empty": "^0.10.1",
