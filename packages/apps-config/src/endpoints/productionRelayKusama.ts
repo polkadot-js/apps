@@ -49,7 +49,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'bifrost',
     homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
     paraId: 2001,
-    text: 'Bifrost (Kusama)',
+    text: 'Bifrost Kusama',
     providers: {
       'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
       'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',

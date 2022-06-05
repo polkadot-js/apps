@@ -54,7 +54,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'bifrost',
     homepage: 'https://crowdloan.bifrost.app',
     paraId: 2030,
-    text: 'Bifrost',
+    text: 'Bifrost Polkadot',
     providers: {
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
     }
