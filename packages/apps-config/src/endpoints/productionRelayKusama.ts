@@ -356,7 +356,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
       Dwellir: 'wss://shiden-rpc.dwellir.com'
     }
   },
