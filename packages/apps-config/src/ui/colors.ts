@@ -71,7 +71,6 @@ const chainManta = '#2070a6';
 const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
-const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
 const chainOriginTrail = '#FB5DEB';
@@ -367,7 +366,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
-  'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,

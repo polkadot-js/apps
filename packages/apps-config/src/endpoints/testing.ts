@@ -348,14 +348,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'neumann',
-    text: 'Neumann Network',
-    providers: {
-      OAK: 'wss://rpc.testnet.oak.tech',
-      OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
-    }
-  },
-  {
     info: 'nftmart',
     text: 'NFTMart',
     providers: {
