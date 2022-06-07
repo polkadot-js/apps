@@ -157,7 +157,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'HydraDX',
     providers: {
       'Galactic Council': 'wss://rpc-01.hydradx.io',
-      'Dwellir': 'wss://hydradx-rpc.dwellir.com'
+      Dwellir: 'wss://hydradx-rpc.dwellir.com'
     }
   },
   {
