@@ -75,7 +75,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rocfinity',
-    paraId: 2051,
+    paraId: 2021,
     text: 'Efinity',
     providers: {
       Efinity: 'wss://rpc.rococo.efinity.io'
