@@ -88,7 +88,6 @@ const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainMybank = '#282736';
-const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
 const chainOpal = '#3B9C9D';
