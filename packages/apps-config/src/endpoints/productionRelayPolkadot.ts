@@ -52,12 +52,11 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'bifrost',
-    isUnreachable: true,
     homepage: 'https://crowdloan.bifrost.app',
     paraId: 2030,
     text: 'Bifrost',
     providers: {
-      Liebi: 'wss://bifrost-dot.liebi.com/ws'
+      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
     }
   },
   {
@@ -157,7 +156,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     text: 'HydraDX',
     providers: {
-      'Galactic Council': 'wss://rpc-01.hydradx.io'
+      'Galactic Council': 'wss://rpc-01.hydradx.io',
+      Dwellir: 'wss://hydradx-rpc.dwellir.com'
     }
   },
   {

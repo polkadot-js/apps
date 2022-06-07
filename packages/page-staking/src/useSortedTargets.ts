@@ -310,6 +310,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   return {
     counterForNominators,
     counterForValidators,
+    historyDepth,
     inflation,
     maxNominatorsCount,
     maxValidatorsCount,
