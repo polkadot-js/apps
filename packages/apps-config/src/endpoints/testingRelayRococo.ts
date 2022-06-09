@@ -122,6 +122,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMangata',
+    paraId: 2110,
+    text: 'Mangata',
+    providers: {
+      Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
+    }
+  },
+  {
     info: 'rococoMoonsama',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,

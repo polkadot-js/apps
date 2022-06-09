@@ -308,13 +308,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
-    }
-  },
-  {
     info: 'manta',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
     text: 'Manta Testnet',
