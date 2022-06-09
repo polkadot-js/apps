@@ -1379,5 +1379,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}۔ اپنے ای ٹی ایچ ایڈریس کے ساتھ دستخط کریں",
   "{{threshold}}, not passing": "{{threshold}} ، نہیں پار ہورہا",
   "{{threshold}}, passing": "{{threshold}} ، پار ہورہا ہے",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x ووٹنگ بیلنس، نفاذ کے لیئے لاک {{lock}} x کیا گیا ({{period}} دن)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x ووٹنگ بیلنس، نفاذ کے لیئے لاک {{lock}} x کیا گیا ({{period}} دن)"
 }
