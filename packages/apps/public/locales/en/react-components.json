@@ -78,5 +78,5 @@
   "{{eras}} eras remaining": "{{eras}} eras remaining",
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{type}} copied": "{{type}} copied",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)"
 }
