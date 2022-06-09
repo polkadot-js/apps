@@ -16,7 +16,7 @@ interface Result {
   members: string[];
 }
 
-const transformMembers = {
+const OPT = {
   transform: (accounts: AccountId[]) =>
     accounts.map((accountId) => accountId.toString())
 };
@@ -24,7 +24,7 @@ const transformMembers = {
 function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, transformMembers);
+  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, OPT);
 
   return useMemo(
     () => ({

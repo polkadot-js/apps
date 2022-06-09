@@ -74,7 +74,6 @@ import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
-import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import opal from './opal';
@@ -195,6 +194,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
+  'interlay-parachain': interbtc,
   'ipse-node': ipse,
   'joystream-node': joystream,
   'jupiter-prep': jupiter,
@@ -223,7 +223,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  neumann,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,

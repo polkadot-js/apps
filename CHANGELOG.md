@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## 0.116.1 Jun 4, 2022
+
+Contributed:
+
+- SkyeKiwi testnet (Thanks to https://github.com/RoyTimes)
+- Ternoa Testnet & Mainnet (Thanks to https://github.com/markopoloparadox)
+- Turning on Rococo (Thanks to https://github.com/lreesby)
+- SnowBridge on Rococo (Thanks to https://github.com/alistair-singh)
+- Imbue on Rococo (Thanks to https://github.com/samelamin)
+- Imbue on Kusama (Thanks to https://github.com/samelamin)
+- Robonomics paraId on Rococo (Thansk to https://github.com/PavelSheremetev)
+- InvArch Brainnet testnet (Thanks to https://github.com/arrudagates)
+- OnFinality endpoint for Mandala (Thanks to https://github.com/alanchang124)
+- OnFinality endpoint for Integritee (Thanks to https://github.com/mosonyi)
+- Blast endpoint for Moonbeam (Thanks to https://github.com/albertov19)
+- Rename Canvas to Contracts (Thanks to https://github.com/cmichi)
+- Adjust Litentry config (Thanks to https://github.com/Kailai-Wang)
+- Add GM parachain (Thanks to https://github.com/arrudagates)
+- Subsquare links for Kusama (Thanks to https://github.com/wliyongfeng)
+- Add Subspace Gemini (Thanks to https://github.com/nazar-pc)
+- Adjust Doractory for Kusama (Thanks to https://github.com/tinydjp)
+- Dolphin load-balanced endpoints (Thanks to https://github.com/grenade)
+- Enable OriginTrail endpoints on Polkadot (Thanks to https://github.com/NZT48)
+- Updata SORA definitions (Thanks to https://github.com/stefashkaa)
+- Updata Unique endpoints (Thanks to https://github.com/gregzaitsev)
+
+Changes:
+
+- Adjust decoded extrinsic output for unsigned
+- Remove Subwallet from disallow list
+- Adjust key display for disabled InputExtrinsic
+- Adjust duplicate endpoint checks (trailing /)
+- Not Fasttrack voting for members === 1
+- Move Polkadex endpoints
+- Add stats charts for API operations
+- Retrieve Rococo & Westend genesis from `@polkadot/networks`
+- Disable unreachable endpoints
+
+
 ## 0.115.2 May 16, 2022
 
 Changes:

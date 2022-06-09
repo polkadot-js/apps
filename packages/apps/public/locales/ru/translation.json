@@ -1955,7 +1955,6 @@
   "rpc.test.mybank": "",
   "rpc.test.nftmart": "",
   "rpc.test.nodle-arcadia": "",
-  "rpc.test.oak": "",
   "rpc.test.opportunity": "",
   "rpc.test.pangolin": "",
   "rpc.test.pangoro": "",
@@ -1973,8 +1972,6 @@
   "rpc.test.sora-substrate-staging": "",
   "rpc.test.subdao": "",
   "rpc.test.subgame": "",
-  "rpc.test.subspace": "",
-  "rpc.test.subspace.farmnet": "",
   "rpc.test.ternoa-testnet": "",
   "rpc.test.turbulence": "",
   "rpc.test.uniarts": "",
@@ -2215,5 +2212,5 @@
   "{{threshold}}, not passing": "{{threshold}}, не проходит",
   "{{threshold}}, passing": "{{threshold}}, проходит",
   "{{type}} copied": "",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x баланс голосования, заблокировано на {{lock}}x ({{period}} дней)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x баланс голосования, заблокировано на {{lock}}x ({{period}} дней)"
 }

@@ -70,12 +70,12 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2084,
     text: 'Dolphin',
     providers: {
-      'Manta Network': 'wss://anjie.rococo.dolphin.engineering'
+      'Manta Network': 'wss://ws.rococo.dolphin.engineering'
     }
   },
   {
     info: 'rocfinity',
-    paraId: 2051,
+    paraId: 2021,
     text: 'Efinity',
     providers: {
       Efinity: 'wss://rpc.rococo.efinity.io'
@@ -87,6 +87,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Genshiro Rococo Testnet',
     providers: {
       Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
+    }
+  },
+  {
+    info: 'rococoGM',
+    paraId: 3019,
+    text: 'GM Parachain',
+    providers: {
+      'GM or Die DAO': 'wss://rococo.gmordie.com'
     }
   },
   {
@@ -114,6 +122,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMangata',
+    paraId: 2110,
+    text: 'Mangata',
+    providers: {
+      Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
+    }
+  },
+  {
     info: 'rococoMoonsama',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
@@ -133,10 +149,10 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoOriginTrailParachain',
     homepage: 'https://parachain.origintrail.io',
-    paraId: 3005,
+    paraId: 2043,
     text: 'OriginTrail Parachain Testnet',
     providers: {
-      TraceLabs: 'wss://parachain-testnet-loadbalancer.origin-trail.network/'
+      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
     }
   },
   {

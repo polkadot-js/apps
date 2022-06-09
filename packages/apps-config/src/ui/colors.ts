@@ -53,6 +53,7 @@ const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
+const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
@@ -70,7 +71,6 @@ const chainManta = '#2070a6';
 const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
-const chainNeumann = '#A8278C';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
 const chainOriginTrail = '#FB5DEB';
@@ -257,7 +257,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
+  'Bifrost Kusama': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
+  'Bifrost Polkadot': chainRoccoBifrost,
   'Bifrost Stage Testnet': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
   BitgreenRococo: chainBitgreen,
@@ -299,6 +301,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainHydrate,
@@ -363,7 +366,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
-  'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,

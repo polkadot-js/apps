@@ -28,6 +28,7 @@ import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
+import chainGM from './chains/gm.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
@@ -144,7 +145,6 @@ import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
-import oak from './nodes/oak.png';
 import nodeUniqueWestend from './nodes/opal-logo.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodePangolin from './nodes/pangolin.svg';
@@ -221,6 +221,8 @@ export const chainLogos = Object.entries({
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
+  'Bifrost Kusama': nodeBifrost,
+  'Bifrost Polkadot': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
@@ -257,6 +259,7 @@ export const chainLogos = Object.entries({
   Geminis: chainGeminis,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -319,7 +322,6 @@ export const chainLogos = Object.entries({
   'Moonsama Development': chainMoonsamaDevelopment,
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
-  'Neumann Network': oak,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -498,7 +500,6 @@ export const nodeLogos = Object.entries({
   Moonrock: nodeMoonrock,
   'Moonsama Development': chainMoonsamaDevelopment,
   'mybank.network': mybank,
-  'Neumann Network': oak,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -705,7 +706,6 @@ export const namedLogos: Record<string, unknown> = {
   moonrock: nodeMoonrock,
   moonshadow,
   mybank,
-  neumann: oak,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   odyssey: nodeAresGladios,
@@ -767,6 +767,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoLoomNetwork: nodeLoomNetwork,
+  rococoMangata: chainMangata,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
@@ -824,6 +825,7 @@ export const namedLogos: Record<string, unknown> = {
   subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
   'subspace-farmnet': nodeSubspace,
+  'subspace-gemini-1': nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,

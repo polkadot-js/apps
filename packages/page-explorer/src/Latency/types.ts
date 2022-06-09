@@ -28,3 +28,8 @@ export interface Result {
   timeMax: number;
   timeMin: number;
 }
+
+export interface ChartContents {
+  labels: string[];
+  values: number[][];
+}

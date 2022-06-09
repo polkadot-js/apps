@@ -10,20 +10,19 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-function useEraBlocksImpl (era?: BN): BN | undefined {
+function useEraBlocksImpl (historyDepth?: BN, era?: BN): BN | undefined {
   const { api } = useApi();
-  const depth = useCall<BN>(api.query.staking.historyDepth);
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const forcing = useCall<Forcing>(api.query.staking.forceEra);
 
   return useMemo(
-    () => (depth && era && forcing && progress && progress.sessionLength.gt(BN_ONE))
+    () => (historyDepth && era && forcing && progress && progress.sessionLength.gt(BN_ONE))
       ? (
         forcing.isForceAlways
           ? progress.sessionLength
           : progress.eraLength
       ).mul(
-        depth
+        historyDepth
           .sub(progress.activeEra)
           .iadd(era)
           .iadd(BN_ONE)
@@ -33,7 +32,7 @@ function useEraBlocksImpl (era?: BN): BN | undefined {
           : progress.eraProgress
       )
       : undefined,
-    [depth, era, forcing, progress]
+    [era, forcing, historyDepth, progress]
   );
 }
 
