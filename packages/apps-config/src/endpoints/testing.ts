@@ -427,7 +427,6 @@ export const testChains: EndpointOption[] = [
     text: 'Pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
     }
   },
   {
