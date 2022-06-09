@@ -26,7 +26,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
 
   const [bondMin, bondMax, bondPercentage] = useMemo(
     () => [
-      api.consts.treasury.proposalBondMaximum.toString(),
+      api.consts.treasury.proposalBondMinimum.toString(),
       api.consts.treasury.proposalBondMaximum?.isSome
         ? api.consts.treasury.proposalBondMaximum.unwrap().toString()
         : null,
@@ -66,7 +66,10 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               hint={
                 <>
                   <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
-                  <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated as at least {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                  {bondMax
+                    ? <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                    : <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                  }
                 </>
               }
             >
