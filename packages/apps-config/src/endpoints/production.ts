@@ -198,8 +198,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Nodle',
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://nodle.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/nodle'
+      OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
     }
   },
   {
