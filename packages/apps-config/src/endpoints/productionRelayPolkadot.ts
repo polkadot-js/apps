@@ -47,7 +47,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Astar: 'wss://rpc.astar.network',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      Dwellir: 'wss://astar-rpc.dwellir.com'
+      Dwellir: 'wss://astar-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/astar'
     }
   },
   {
@@ -209,7 +210,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
-      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws'
+      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam'
     }
   },
   {
@@ -219,7 +221,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Nodle',
     providers: {
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
-      Dwellir: 'wss://eden-rpc.dwellir.com'
+      Dwellir: 'wss://eden-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/nodle'
     }
   },
   {

@@ -167,7 +167,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Phala: 'wss://khala-api.phala.network/ws',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
-      Dwellir: 'wss://khala-rpc.dwellir.com'
+      Dwellir: 'wss://khala-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/khala'
     }
   },
   {
@@ -270,7 +271,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -354,7 +356,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
       Dwellir: 'wss://shiden-rpc.dwellir.com'
     }
   },

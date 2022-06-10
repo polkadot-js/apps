@@ -328,8 +328,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
     }
   },
   {
@@ -457,7 +457,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
