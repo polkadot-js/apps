@@ -297,6 +297,7 @@
        1	Ravi Kumar                    	Add hi_IN translation (#5420)
        1	Raymond Zhong                 	Add types for beresheet runtime (#5576)
        1	Ricardo Rius                  	Update stable poc types (#3783)
+       1	Rishi Karthikeyan             	Added / Modified Pinknode Endpoints (#7707)
        1	robcxyz                       	Add geometry labs endpoints for polkadot and kusama (#6477)
        1	Robin Syihab                  	Fix typo in ID translation (#5865)
        1	Rocco Musolino                	italian translation typo fix (#3813)
