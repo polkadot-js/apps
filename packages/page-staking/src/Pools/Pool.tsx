@@ -101,7 +101,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
           }
         </td>
       </tr>
-      {info && (
+      {info && isExpanded && (
         <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
           <td colSpan={4}>
             {info.bonded.roles.root.isSome && (
