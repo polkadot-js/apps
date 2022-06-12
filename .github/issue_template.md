@@ -1,6 +1,12 @@
-**Important** For general support, howto, coding and bundling questions, please use [Substrate & Polkadot StackExchange](https://substrate.stackexchange.com/) and get other ecosystem developers involved. This repository's issues are meant for feature requests and bug reports.
+<!--
 
-**Note** Please ensure you have done a search on the existing issues before logging a new request. This saves time on all sides.
+For general support, howto, coding and bundling questions, please use the Substrate & Polkadot StackExchange at https://substrate.stackexchange.com/ and get other ecosystem developers involved. This issues in this repository are meant for the tracking of feature requests and bug reports.
+
+While all issues are looked at non-bug and non-features would take quite a bit longer to get to and may yield less than satisfactory responses in this format.
+
+Additionally, please ensure you have done a search on the existing and closed issues before logging a new request. This saves time on all sides.
+
+-->
 
 
 * **I'm submitting a ...**
