@@ -12,7 +12,14 @@ export function createNodle(t: TFunction, firstOnly: boolean, withSort: boolean)
   return expandEndpoints(t, [
     {
       info: 'nodle',
-      text: t('rpc.nodle-eden', 'Mainnet', { ns: 'apps-config' }),
+      text: t('rpc.nodle-solo', 'Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Nodle: 'wss://nodle.api.onfinality.io/public-ws'
+      }
+    },
+    {
+      info: 'nodle',
+      text: t('rpc.nodle-eden', 'Parachain', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       }
