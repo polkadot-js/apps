@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParaLifecycle } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 import type { QueuedAction } from '../types';
 
 import React from 'react';
@@ -9,7 +9,7 @@ import React from 'react';
 import { SessionToTime } from '@polkadot/react-query';
 
 interface Props {
-  lifecycle: ParaLifecycle | null;
+  lifecycle: PolkadotRuntimeParachainsParasParaLifecycle | null;
   nextAction?: QueuedAction;
 }
 

@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { VoteThreshold } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { approxChanges } from './util';
@@ -16,7 +16,7 @@ interface Result {
   changeNay: BN;
 }
 
-export default function useChangeCalc (threshold: VoteThreshold, votedAye: BN, votedNay: BN, votedTotal: BN): Result {
+function useChangeCalcImpl (threshold: VoteThreshold, votedAye: BN, votedNay: BN, votedTotal: BN): Result {
   const { api } = useApi();
   const sqrtElectorate = useCall<BN>(api.derive.democracy.sqrtElectorate);
   const [result, setResult] = useState<Result>({ changeAye: BN_ZERO, changeNay: BN_ZERO });
@@ -29,3 +29,5 @@ export default function useChangeCalc (threshold: VoteThreshold, votedAye: BN, v
 
   return result;
 }
+
+export default createNamedHook('useChangeCalc', useChangeCalcImpl);

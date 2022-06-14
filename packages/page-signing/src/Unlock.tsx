@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-signing authors & contributors
+// Copyright 2017-2022 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -61,6 +61,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
     <Modal
       className='toolbox--Unlock'
       header={t<string>('Unlock account')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -84,7 +85,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='unlock'
           isBusy={isBusy}

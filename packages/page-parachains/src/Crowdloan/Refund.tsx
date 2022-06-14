@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -34,6 +34,7 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
         <Modal
           className={className}
           header={t<string>('Withdraw from fund')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -46,7 +47,7 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='credit-card'

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -43,6 +43,11 @@ export default React.memo(styled(Spinner)`
     margin-top: 0.5rem;
   }
 
+  img {
+    border: 1px solid transparent;
+    border-radius: 10rem;
+  }
+
   &.variant-cover {
     bottom: 0;
     left: 0;
@@ -53,11 +58,6 @@ export default React.memo(styled(Spinner)`
       border: 1 px solid white;
       margin: 0 auto;
     }
-  }
-
-  img {
-    border: 1px solid transparent;
-    border-radius: 10rem;
   }
 
   .text {

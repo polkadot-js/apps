@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownOption, DropdownOptions } from '../../util/types';
@@ -20,8 +20,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .map((value): DropdownOption => {
       const method = section[value];
       const inputs = method.meta.args
-        .filter((arg): boolean => arg.type.toString() !== 'Origin')
-        .map((arg): string => arg.name.toString())
+        .map((arg) => arg.name.toString())
         .join(', ');
 
       return {
@@ -38,7 +37,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || value).toString()}
+            {(method.meta.docs[0] || value).toString()}
           </div>
         ],
         value

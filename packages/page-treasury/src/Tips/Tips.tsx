@@ -1,9 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Option } from '@polkadot/types';
-import type { OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -23,11 +24,11 @@ interface Props {
   onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
 }
 
-type Tip = [string, OpenTip | OpenTipTo225];
+type Tip = [string, PalletTipsOpenTip | OpenTipTo225];
 
 const TIP_OPTS = { withParams: true };
 
-function extractTips (tipsWithHashes?: [[string[]], Option<OpenTip>[]], inHashes?: string[] | null): Tip[] | undefined {
+function extractTips (tipsWithHashes?: [[string[]], Option<PalletTipsOpenTip>[]], inHashes?: string[] | null): Tip[] | undefined {
   if (!tipsWithHashes || !inHashes) {
     return undefined;
   }
@@ -35,8 +36,8 @@ function extractTips (tipsWithHashes?: [[string[]], Option<OpenTip>[]], inHashes
   const [[hashes], optTips] = tipsWithHashes;
 
   return optTips
-    .map((opt, index): [string, OpenTip | null] => [hashes[index], opt.unwrapOr(null)])
-    .filter((val): val is [string, OpenTip] => inHashes.includes(val[0]) && !!val[1])
+    .map((opt, index): [string, PalletTipsOpenTip | null] => [hashes[index], opt.unwrapOr(null)])
+    .filter((val): val is [string, PalletTipsOpenTip] => inHashes.includes(val[0]) && !!val[1])
     .sort((a, b) =>
       a[1].closes.isNone
         ? b[1].closes.isNone
@@ -53,7 +54,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useBestNumber();
-  const tipsWithHashes = useCall<[[string[]], Option<OpenTip>[]]>(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
+  const tipsWithHashes = useCall<[[string[]], Option<PalletTipsOpenTip>[]]>(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
 
   const tips = useMemo(
     () => extractTips(tipsWithHashes, hashes),

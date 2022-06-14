@@ -1,10 +1,20 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-hooks#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/react-hooks",
   "private": true,
+  "repository": {
+    "directory": "packages/react-hooks",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
-  "version": "0.93.2-0",
-  "license": "Apache-2.0",
+  "version": "0.116.2-30",
   "dependencies": {
-    "@babel/runtime": "^7.14.0"
+    "@babel/runtime": "^7.18.3",
+    "@polkadot/hw-ledger": "^9.4.1",
+    "is-ipfs": "6.0.2"
   }
 }

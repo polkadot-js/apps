@@ -1,17 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
 
-import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { getEnvironment } from '@polkadot/react-api/util';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
 import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
@@ -19,11 +16,12 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
+import { tryCreateAccount } from '../util';
+import CreateAccountInputs from './CreateAccountInputs';
 import CreateConfirmation from './CreateConfirmation';
 import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
-import PasswordInput from './PasswordInput';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -109,9 +107,21 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: PairType): AddressState {
   let address: string | null = null;
   let deriveValidation: DeriveValidationOutput = deriveValidate(seed, seedType, derivePath, pairType);
-  let isSeedValid = seedType === 'raw'
-    ? rawValidate(seed)
-    : mnemonicValidate(seed);
+  let isSeedValid = false;
+
+  if (seedType === 'raw') {
+    isSeedValid = rawValidate(seed);
+  } else {
+    const words = seed.split(' ');
+
+    if (pairType === 'ed25519-ledger' && words.length === 25) {
+      words.pop();
+
+      isSeedValid = mnemonicValidate(words.join(' '));
+    } else {
+      isSeedValid = mnemonicValidate(seed);
+    }
+  }
 
   if (!deriveValidation?.error && isSeedValid) {
     try {
@@ -134,35 +144,11 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   };
 }
 
-export function downloadAccount ({ json, pair }: CreateResult): void {
-  const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
-
-  FileSaver.saveAs(blob, `${pair.address}.json`);
-}
-
 function createAccount (seed: string, derivePath: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
-  // we will fill in all the details below
-  const status = { action: 'create' } as ActionStatus;
+  const commitAccount = () =>
+    keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
 
-  try {
-    const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
-    const { address } = result.pair;
-
-    status.account = address;
-    status.status = 'success';
-    status.message = success;
-
-    InputAddress.setLastValue('account', address);
-
-    if (getEnvironment() === 'web') {
-      downloadAccount(result);
-    }
-  } catch (error) {
-    status.status = 'error';
-    status.message = (error as Error).message;
-  }
-
-  return status;
+  return tryCreateAccount(commitAccount, success);
 }
 
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: CreateProps): React.ReactElement<CreateProps> {
@@ -177,8 +163,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const [{ isNameValid, name }, setName] = useState(() => ({ isNameValid: false, name: '' }));
+  const [{ isPasswordValid, password }, setPassword] = useState(() => ({ isPasswordValid: false, password: '' }));
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
@@ -231,19 +217,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     [derivePath, pairType, seedType]
   );
 
-  const _onChangeName = useCallback(
-    (name: string) => setName({ isNameValid: !!name.trim(), name }),
-    []
+  const _toggleMnemonicSaved = useCallback(
+    () => setIsMnemonicSaved(!isMnemonicSaved),
+    [isMnemonicSaved]
   );
-
-  const _onPasswordChange = useCallback(
-    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
-    []
-  );
-
-  const _toggleMnemonicSaved = () => {
-    setIsMnemonicSaved(!isMnemonicSaved);
-  };
 
   const _onCommit = useCallback(
     (): void => {
@@ -268,6 +245,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     <Modal
       className={className}
       header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -320,8 +298,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             isPadded
             summary={t<string>('Advanced creation options')}
           >
-            {
-              pairType !== 'ethereum' && <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+            {pairType !== 'ethereum' && (
+              <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
@@ -336,7 +314,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   }
                   tabIndex={-1}
                 />
-              </Modal.Columns>}
+              </Modal.Columns>
+            )}
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger
@@ -395,22 +374,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </Modal.Columns>
         </>}
         {step === 2 && <>
-          <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
-            <Input
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              onEnter={_onCommit}
-              placeholder={t<string>('new account')}
-              value={name}
-            />
-          </Modal.Columns>
-          <PasswordInput
-            onChange={_onPasswordChange}
-            onEnter={_onCommit}
-          />
+          <CreateAccountInputs
+            name={{ isNameValid, name }}
+            onCommit={_onCommit}
+            setName={setName}
+            setPassword={setPassword}
+          />;
           <Modal.Columns>
             <ExternalWarning />
           </Modal.Columns>
@@ -428,9 +397,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           />
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {step === 1 &&
           <Button
+            activeOnEnter
             icon='step-forward'
             isDisabled={!isFirstStepValid}
             label={t<string>('Next')}
@@ -445,6 +415,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onClick={prevStep}
             />
             <Button
+              activeOnEnter
               icon='step-forward'
               isDisabled={!isSecondStepValid}
               label={t<string>('Next')}
@@ -460,6 +431,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onClick={prevStep}
             />
             <Button
+              activeOnEnter
               icon='plus'
               isBusy={isBusy}
               label={t<string>('Save')}

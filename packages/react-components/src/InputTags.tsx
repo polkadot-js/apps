@@ -1,8 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useContext } from 'react';
 import store from 'store';
+import styled, { ThemeContext } from 'styled-components';
+
+import { ThemeDef } from '@polkadot/react-components/types';
 
 import Dropdown from './Dropdown';
 
@@ -54,10 +57,12 @@ function onAddTag (value: string): void {
 }
 
 function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+
   return (
     <Dropdown
       allowAdd={allowAdd && !isDisabled}
-      className={className}
+      className={`ui--InputTags ${theme}Theme ${className}`}
       defaultValue={defaultValue}
       help={help}
       isDisabled={isDisabled}
@@ -77,4 +82,28 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDis
   );
 }
 
-export default React.memo(InputTags);
+export default React.memo(styled(InputTags)`
+  && .ui.label {
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: none;
+    color: #fff;
+    display: inline-block;
+    font-size: 0.857rem;
+    font-weight: var(--font-weight-normal);
+    line-height: 1.143rem;
+    margin: 0.125rem 0.125rem;
+    padding: 0.571em 0.857em;
+    position: relative;
+    white-space: nowrap;
+    z-index: 1;
+
+    .delete.icon::before {
+      content: '\u2715';
+    }
+  }
+
+  &&.darkTheme .ui.label {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+`);

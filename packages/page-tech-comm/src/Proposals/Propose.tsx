@@ -1,13 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useModal } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useModal } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -22,7 +22,7 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -32,6 +32,7 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
     new BN(members.length / 2 + 1),
     true
   ]);
+  const modLocation = useCollectiveInstance(type);
 
   const _hasThreshold = useCallback(
     (threshold?: BN | null): boolean =>
@@ -50,6 +51,10 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
     (threshold?: BN): void => setThreshold([threshold || null, _hasThreshold(threshold)]),
     [_hasThreshold]
   );
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -82,17 +87,17 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={onClose}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!hasThreshold || !proposal}
               onStart={onClose}
               params={
-                api.tx[type].propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx[type].propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

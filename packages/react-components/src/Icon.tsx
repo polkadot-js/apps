@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent' | 'white';
+  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent' | 'white' | 'darkGray';
   icon: IconName;
   isPadded?: boolean;
   isSpinning?: boolean;
@@ -24,9 +24,16 @@ interface Props {
 library.add(fas);
 
 function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
-  const extraProps = tooltip
-    ? { 'data-for': tooltip, 'data-testid': icon, 'data-tip': true }
-    : {};
+  const extraProps: Record<string, unknown> = {
+    'data-testid': icon,
+    ...(tooltip
+      ? {
+        'data-for': tooltip,
+        'data-tip': true
+      }
+      : {}
+    )
+  };
 
   return (
     <FontAwesomeIcon
@@ -36,11 +43,14 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
       onClick={onClick}
       size={size}
       spin={isSpinning}
+      tabIndex={-1}
     />
   );
 }
 
 export default React.memo(styled(Icon)`
+  outline: none;
+
   &.isClickable {
     cursor: pointer;
   }
@@ -71,5 +81,9 @@ export default React.memo(styled(Icon)`
 
   &.whiteColor {
     color: white;
+  }
+
+  &.darkGrayColor {
+    color: #8B8B8B;
   }
 `);

@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
@@ -36,6 +36,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
     <Modal
       className={className}
       header={t<string>('Setup account as recoverable')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -46,12 +47,14 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
             value={address}
           />
         </Modal.Columns>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
-            <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
+              <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
+            </>
+          }
+        >
           <InputAddressMulti
             available={availableHelpers}
             availableLabel={t<string>('available social recovery helpers')}
@@ -78,7 +81,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon='share-alt'

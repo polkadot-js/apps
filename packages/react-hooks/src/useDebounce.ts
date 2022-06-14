@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
@@ -7,7 +7,7 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 const DEFAULT_DELAY = 250;
 
-// Debounces inputs
+// FIXE Due to generics, cannot use createNamedHook
 export function useDebounce <T> (value: T, delay?: number): T {
   const mountedRef = useIsMountedRef();
   const [debouncedValue, setDebouncedValue] = useState(value);

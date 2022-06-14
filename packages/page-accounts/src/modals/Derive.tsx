@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -13,7 +13,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { downloadAccount } from './Create';
+import { tryCreateAccount } from '../util';
+import CreateAccountInputs from './CreateAccountInputs';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props {
@@ -54,29 +55,15 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
 }
 
 function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
-  // we will fill in all the details below
-  const status = { action: 'create' } as ActionStatus;
-
-  try {
+  const commitAccount = () => {
     const derived = source.derive(suri);
 
     derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
 
-    const result = keyring.addPair(derived, password || '');
-    const { address } = result.pair;
+    return keyring.addPair(derived, password || '');
+  };
 
-    status.account = address;
-    status.status = 'success';
-    status.message = success;
-
-    downloadAccount(result);
-    InputAddress.setLastValue('account', address);
-  } catch (error) {
-    status.status = 'error';
-    status.message = (error as Error).message;
-  }
-
-  return status;
+  return tryCreateAccount(commitAccount, success);
 }
 
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
@@ -85,16 +72,15 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(() => keyring.getPair(from));
   const [isBusy, setIsBusy] = useState(false);
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
-  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
   const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
-  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
+  const isValid = !!address && !deriveError && isNameValid && isPasswordValid;
 
   useEffect((): void => {
     setIsLocked({ isLocked: source.isLocked, lockedError: null });
@@ -114,21 +100,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       return { address, deriveError };
     });
   }, [debouncedSuri, isLocked, source]);
-
-  const _onChangeName = useCallback(
-    (name: string) => setName({ isNameValid: !!name.trim(), name }),
-    []
-  );
-
-  const _onChangePass = useCallback(
-    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
-    []
-  );
-
-  const _onChangePass2 = useCallback(
-    (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),
-    [password]
-  );
 
   const _onChangeRootPass = useCallback(
     (rootPass: string): void => {
@@ -187,6 +158,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
     <Modal
       className={className}
       header={t<string>('Derive account from pair')}
+      onClose={onClose}
     >
       {address && isConfirmationOpen
         ? (
@@ -230,40 +202,18 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {deriveError && (
                   <MarkError content={deriveError} />
                 )}
-                <Input
-                  className='full'
-                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-                  isError={!isNameValid}
-                  label={t<string>('name')}
-                  onChange={_onChangeName}
-                  onEnter={_onCommit}
-                  placeholder={t<string>('new account')}
-                  value={name}
-                />
-                <Password
-                  className='full'
-                  help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-                  isError={!isPassValid}
-                  label={t<string>('password')}
-                  onChange={_onChangePass}
-                  onEnter={_onCommit}
-                  value={password}
-                />
-                <Password
-                  className='full'
-                  help={t<string>('Verify the password entered above.')}
-                  isError={!isPass2Valid}
-                  label={t<string>('password (repeat)')}
-                  onChange={_onChangePass2}
-                  onEnter={_onCommit}
-                  value={password2}
-                />
+                <CreateAccountInputs
+                  name={{ isNameValid, name }}
+                  onCommit={_onCommit}
+                  setName={setName}
+                  setPassword={setPassword}
+                />;
               </AddressRow>
             )}
           </Modal.Content>
         )
       }
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {isLocked
           ? (
             <Button

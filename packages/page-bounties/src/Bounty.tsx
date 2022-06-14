@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -29,15 +30,12 @@ interface Props {
   className?: string;
   description: string;
   index: BountyIndex;
-  isEven: boolean;
   proposals?: DeriveCollectiveProposal[];
 }
 
-const EMPTY_CELL = '-';
-
-function Bounty ({ bestNumber, bounty, className = '', description, index, isEven, proposals }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, toggleExpanded] = useToggle(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
   const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
@@ -52,19 +50,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
 
     const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
 
-    return (proposalToDisplay?.proposal.method === 'proposeCurator')
+    return (proposalToDisplay?.proposal?.method === 'proposeCurator')
       ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
       : null;
   }, [curator, proposals, status]);
 
-  const handleOnIconClick = useCallback(
-    () => setIsExpanded((isExpanded) => !isExpanded),
-    []
-  );
-
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='number'><h1>{formatNumber(index)}</h1></td>
         <td
           className='description-column'
@@ -75,7 +68,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
           </div>
         </td>
         <td>
-          <BountyStatusView bountyStatus={bountyStatus}/>
+          <BountyStatusView bountyStatus={bountyStatus} />
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
@@ -131,7 +124,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
           <div className='fast-actions-row'>
             <LinkExternal
               data={index}
-              isLogo
               type='bounty'
             />
             <BountyExtraActions
@@ -141,19 +133,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
               proposals={proposals}
               status={status}
             />
-            <div className='table-column-icon'
-              onClick={handleOnIconClick}>
-              <Icon icon={
-                isExpanded
-                  ? 'caret-up'
-                  : 'caret-down'
-              }
-              />
-            </div>
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleExpanded}
+            />
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td colSpan={2}>
           <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
@@ -165,13 +152,21 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
+          {curator && (
+            <div className='label-column-right'>
+              <div className='label'>{t("Curator's fee")}</div>
+              <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
+            </div>
+          )}
           <div className='label-column-right'>
-            <div className='label'>{t("Curator's fee")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
-          </div>
-          <div className='label-column-right'>
-            <div className='label'>{t("Curator's deposit")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+            {curator && !curatorDeposit.isZero() && (
+              <>
+                <div className='label'>{t("Curator's deposit")}</div>
+                <div className='inline-balance'>
+                  <FormatBalance value={curatorDeposit} />
+                </div>
+              </>
+            )}
           </div>
         </td>
         <td />
@@ -199,14 +194,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
 }
 
 export default React.memo(styled(Bounty)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
   .description-column {
     max-width: 200px;
 
@@ -226,24 +213,13 @@ export default React.memo(styled(Bounty)`
     width: 1%;
 
     .fast-actions-row {
-      display: flex;
       align-items: center;
+      display: flex;
       justify-content: flex-end;
 
       & > * + * {
         margin-left: 0.285rem;
       }
-    }
-
-    .table-column-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.7rem;
-      height: 1.7rem;
-      border: 1px solid var(--border-table);
-      border-radius: 4px;
-      cursor: pointer;
     }
   }
 

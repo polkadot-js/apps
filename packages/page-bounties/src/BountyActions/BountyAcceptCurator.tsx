@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
@@ -41,6 +41,7 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
         {isOpen && (
           <Modal
             header={`${t<string>('accept curator role')} - "${truncateTitle(description, 30)}"`}
+            onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
@@ -70,7 +71,7 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
                 />
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={curatorId}
                 icon='check'

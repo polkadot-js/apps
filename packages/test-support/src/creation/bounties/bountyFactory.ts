@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
-import { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import { PalletBountiesBounty } from '@polkadot/types/lookup';
 import { Registry } from '@polkadot/types/types';
 
 export class BountyFactory {
@@ -18,8 +19,8 @@ export class BountyFactory {
   public aBountyIndex = (index = 0): BountyIndex =>
     this.#registry.createType('BountyIndex', index);
 
-  public defaultBounty = (): Bounty =>
-    this.#registry.createType('Bounty');
+  public defaultBounty = (): PalletBountiesBounty =>
+    this.#registry.createType<PalletBountiesBounty>('Bounty');
 
   public aBountyStatus = (status: string): BountyStatus =>
     this.#registry.createType('BountyStatus', status);
@@ -36,9 +37,9 @@ export class BountyFactory {
     throw new Error('Unsupported status');
   };
 
-  public bountyWith = ({ status = 'Proposed', value = 1 } = {}): Bounty =>
-    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) })
+  public bountyWith = ({ status = 'Proposed', value = 1 } = {}): PalletBountiesBounty =>
+    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) });
 
-  public aBounty = ({ fee = balanceOf(10), status = this.aBountyStatus('Proposed'), value = balanceOf(500) }: Partial<Bounty> = {}): Bounty =>
-    this.#registry.createType('Bounty', { fee, status, value });
+  public aBounty = ({ fee = balanceOf(10), status = this.aBountyStatus('Proposed'), value = balanceOf(500) }: Partial<PalletBountiesBounty> = {}): PalletBountiesBounty =>
+    this.#registry.createType<PalletBountiesBounty>('Bounty', { fee, status, value });
 }

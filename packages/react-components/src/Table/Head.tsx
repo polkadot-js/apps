@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -123,6 +123,11 @@ export default React.memo(styled(Head)`
 
     &.start {
       text-align: left;
+    }
+
+    &.balances {
+      text-align: right;
+      padding-right: 2.25rem;
     }
   }
 

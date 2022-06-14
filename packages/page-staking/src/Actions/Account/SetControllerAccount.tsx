@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -29,6 +29,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
   return (
     <Modal
       header={t<string>('Change controller account')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -56,7 +57,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'

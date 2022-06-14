@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
@@ -25,6 +25,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
     <Modal
       className={className}
       header={t<string>('Reserve ParaId')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -51,7 +52,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

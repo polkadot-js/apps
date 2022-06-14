@@ -1,9 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Inflation } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 export type Nominators = Record<string, string[]>;
 
@@ -16,6 +18,8 @@ export interface NominatedBy {
   nominatorId: string;
   submittedIn: EraIndex;
 }
+
+export type NominatedByMap = Record<string, NominatedBy[]>;
 
 export interface Slash {
   accountId: AccountId;
@@ -72,11 +76,19 @@ export type TargetSortBy = keyof ValidatorInfoRank;
 
 export interface SortedTargets {
   avgStaked?: BN;
+  counterForNominators?: BN;
+  counterForValidators?: BN;
   electedIds?: string[];
+  historyDepth?: BN;
   inflation: Inflation;
+  lastEra?: BN;
   lowStaked?: BN;
   medianComm: number;
+  maxNominatorsCount?: BN;
+  maxValidatorsCount?: BN;
   minNominated: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   nominators?: string[];
   nominateIds?: string[];
   totalStaked?: BN;
@@ -84,4 +96,18 @@ export interface SortedTargets {
   validators?: ValidatorInfo[];
   validatorIds?: string[];
   waitingIds?: string[];
+}
+
+export interface PoolAccounts {
+  rewardId: string;
+  stashId: string;
+}
+
+export interface OwnPoolBase {
+  members: Record<string, PalletNominationPoolsPoolMember>;
+  poolId: u32;
+}
+
+export interface OwnPool extends OwnPoolBase, PoolAccounts {
+  // nothing additional, only combined
 }

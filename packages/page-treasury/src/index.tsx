@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useApi, useMembers } from '@polkadot/react-hooks';
+import { useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
@@ -30,7 +30,7 @@ interface TabItem {
 function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useCollectiveMembers('council');
   const tipHashes = useTipHashes();
 
   const items = useMemo(() => [

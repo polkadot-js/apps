@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
@@ -8,7 +9,7 @@ import type { ContractInfo } from '@polkadot/types/interfaces';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Abi, ContractPromise } from '@polkadot/api-contract';
+import { Abi } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -22,6 +23,7 @@ export interface Props {
   contractAbi: Abi;
   isLabelled?: boolean;
   isWatching?: boolean;
+  trigger?: number;
   onSelect?: (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
@@ -43,12 +45,12 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, info: { source }, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, trigger, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
+  const [lastResults, setLastResults] = useState<(ContractCallOutcome | void)[]>([]);
 
   const _onExpander = useCallback(
     (isOpen: boolean): void => {
@@ -57,22 +59,28 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
     [isWatching]
   );
 
+  const _onRefresh = useCallback(
+    (): void => {
+      optInfo && contract && Promise
+        .all(messages.map((m) =>
+          m.isMutating || m.args.length !== 0
+            ? Promise.resolve(undefined)
+            : contract.query[m.method](READ_ADDR, 0, -1).catch(console.error)
+        ))
+        .then(setLastResults)
+        .catch(console.error);
+    },
+    [contract, messages, optInfo]
+  );
+
   useEffect((): void => {
-    isUpdating && optInfo && contract && Promise
-      .all(messages.map((m) =>
-        m.isMutating || m.args.length !== 0
-          ? Promise.resolve(undefined)
-          : contract.query[m.method](READ_ADDR, 0, -1).catch(() => undefined)
-      ))
-      .then(setLastResults)
-      .catch(console.error);
-  }, [contract, isUpdating, isWatching, messages, optInfo]);
+    (isUpdating || trigger) && optInfo && contract && _onRefresh();
+  }, [_onRefresh, contract, isUpdating, optInfo, trigger]);
 
   const _setMessageResult = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (messageIndex: number, result?: ContractCallOutcome): void => {
-      // ignore... for now
-      // setLastResults((all) => all.map((r, index) => index === messageIndex ? result : r));
+      // ignore
     },
     []
   );
@@ -125,7 +133,7 @@ export default React.memo(styled(Messages)`
   &.isLabelled {
     background: var(--bg-input);
     box-sizing: border-box;
-    border: 1px solid rgba(34,36,38,.15);
+    border: 1px solid var(--border-input);
     border-radius: .28571429rem;
     padding: 1rem 1rem 0.5rem;
     width: 100%;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="tucen_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1028 1028" style="enable-background:new 0 0 1028 1028;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:url(#SVGID_2_);}
+</style>
+<title>ziyuan 1</title>
+<circle class="st0" cx="514" cy="514" r="514"/>
+<g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="251.3642" y1="331.0095" x2="776.0202" y2="331.0095">
+		<stop  offset="0" style="stop-color:#2E333B"/>
+		<stop  offset="1" style="stop-color:#575859"/>
+	</linearGradient>
+	<path class="st1" d="M267.1,325.2l283.2-163.5c9.8-5.6,21.8-5.6,31.5,0l178.4,103c15.1,8.7,20.3,28,11.6,43.1
+		c-1.4,2.4-3,4.5-4.9,6.5L706.3,375c-10.1,10.1-25.7,12.2-38.1,5.1l-86.1-49.7c-10-5.7-22.2-5.7-32.2,0L251.4,504.5v-152
+		C251.4,341.3,257.4,330.8,267.1,325.2z"/>
+	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="251.3642" y1="661.7465" x2="776.6142" y2="661.7465">
+		<stop  offset="0" style="stop-color:#2E333B"/>
+		<stop  offset="1" style="stop-color:#575859"/>
+	</linearGradient>
+	<path class="st2" d="M760.9,762.9L581.8,866.3c-9.7,5.6-21.8,5.6-31.5,0L267.1,702.8c-9.8-5.6-15.8-16-15.8-27.3V537.6L397.3,453
+		v138.2c0,11.3,6,21.7,15.8,27.3l137.3,79.2c9.7,5.6,21.8,5.6,31.5,0l86.9-50.1c12.4-7.1,28-5.1,38,5l60.6,60.7
+		c12.3,12.3,12.3,32.3,0,44.6C765.5,759.9,763.3,761.5,760.9,762.9z"/>
+</g>
+</svg>

@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
+import { useProxies } from '../useProxies';
 import BidAdd from './BidAdd';
 import Queues from './Queues';
 import Summary from './Summary';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
+  const proxies = useProxies();
   const { info } = useInfo();
 
   const isDisabled = useMemo(
@@ -29,7 +31,10 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
       />
       <Button.Group>
-        <BidAdd isDisabled={isDisabled} />
+        <BidAdd
+          isDisabled={isDisabled}
+          proxies={proxies}
+        />
       </Button.Group>
       <Queues queueTotals={info?.queueTotals} />
     </div>

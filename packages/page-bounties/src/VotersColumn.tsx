@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -35,7 +35,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
       data-testid={`voters_${option}_${accountId.toString()}`}
       key={accountId.toString()}
     >
-      <AddressSmall value={accountId}/>
+      <AddressSmall value={accountId} />
     </div>),
   [option, votes]);
 

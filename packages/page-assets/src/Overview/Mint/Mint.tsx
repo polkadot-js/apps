@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
@@ -13,9 +13,9 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
-  details: AssetDetails;
-  id: AssetId;
-  metadata: AssetMetadata;
+  details: PalletAssetsAssetDetails;
+  id: BN;
+  metadata: PalletAssetsAssetMetadata;
   onClose: () => void;
 }
 
@@ -39,6 +39,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
     <Modal
       className={className}
       header={t<string>('mint asset')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -77,7 +78,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={issuer}
           icon='plus'

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -14,8 +14,10 @@ function VotingLink ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <a className={className}
-      href='#/council/motions'>
+    <a
+      className={className}
+      href='#/council/motions'
+    >
       {t<string>('Voting')}
     </a>
   );

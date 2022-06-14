@@ -1,21 +1,20 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
+import type { ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { formatNumber, isFunction, isUndefined } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import Messages from '../shared/Messages';
 import { useTranslation } from '../translate';
@@ -35,19 +34,8 @@ function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
 function Contract ({ className, contract, index, links, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useBestNumber();
   const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
-  const [evictAt, setEvictAt] = useState<BlockNumber | null>(null);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
-
-  useEffect((): void => {
-    if (info && isFunction(api.rpc.contracts?.rentProjection)) {
-      api.rpc.contracts
-        .rentProjection(contract.address)
-        .then((value) => setEvictAt(value.unwrapOr(null)))
-        .catch(() => undefined);
-    }
-  }, [api, contract, info]);
 
   const _onCall = useCallback(
     (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) =>
@@ -96,6 +84,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           contractAbi={contract.abi}
           isWatching
           onSelect={_onCall}
+          trigger={links?.length}
           withMessages
         />
       </td>
@@ -120,18 +109,6 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           info
             ? info.type
             : t<string>('Not on-chain')
-        )}
-      </td>
-      <td className='number together media--1100'>
-        {bestNumber && (
-          evictAt
-            ? (
-              <>
-                <BlockToTime value={evictAt.sub(bestNumber)} />
-                #{formatNumber(evictAt)}
-              </>
-            )
-            : t<string>('None')
         )}
       </td>
       <td className='button'>

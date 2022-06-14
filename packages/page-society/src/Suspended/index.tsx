@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, BalanceOf, BidKind } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 
 import React, { useRef } from 'react';
@@ -20,11 +21,11 @@ interface Props {
 interface CandidateSuspend {
   accountId: AccountId;
   balance: BalanceOf;
-  bid: BidKind;
+  bid: PalletSocietyBidKind;
 }
 
-const optExtractCandidates = {
-  transform: (entries: [StorageKey<[AccountId]>, Option<ITuple<[BalanceOf, BidKind]>>][]): CandidateSuspend[] =>
+const OPT_CAN = {
+  transform: (entries: [StorageKey<[AccountId]>, Option<ITuple<[BalanceOf, PalletSocietyBidKind]>>][]): CandidateSuspend[] =>
     entries
       .filter(([{ args: [accountId] }, opt]) => opt.isSome && accountId)
       .map(([{ args: [accountId] }, opt]) => {
@@ -35,7 +36,7 @@ const optExtractCandidates = {
       .sort((a, b) => a.balance.cmp(b.balance))
 };
 
-const optExtractAccounts = {
+const OPT_ACC = {
   transform: (keys: StorageKey<[AccountId]>[]): AccountId[] =>
     keys
       .map(({ args: [accountId] }) => accountId)
@@ -45,8 +46,8 @@ const optExtractAccounts = {
 function Suspended ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const candidates = useCall<CandidateSuspend[]>(api.query.society.suspendedCandidates.entries, undefined, optExtractCandidates);
-  const members = useCall<AccountId[]>(api.query.society.suspendedMembers.keys, undefined, optExtractAccounts);
+  const candidates = useCall<CandidateSuspend[]>(api.query.society.suspendedCandidates.entries, undefined, OPT_CAN);
+  const members = useCall<AccountId[]>(api.query.society.suspendedMembers.keys, undefined, OPT_ACC);
 
   const headerRef = useRef({
     candidates: [

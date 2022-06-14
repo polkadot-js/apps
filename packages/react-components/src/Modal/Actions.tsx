@@ -1,26 +1,28 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionsProps } from './types';
 
 import React from 'react';
-import { Modal as SUIModal } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import Button from '../Button';
-import ButtonCancel from '../ButtonCancel';
 
-function Actions ({ cancelLabel, children, className = '', onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ children, className = '' }: ActionsProps) {
   return (
-    <SUIModal.Actions>
-      <Button.Group className={className}>
-        <ButtonCancel
-          label={cancelLabel}
-          onClick={onCancel}
-        />
+    <div className={className}>
+      <Button.Group>
         {children}
       </Button.Group>
-    </SUIModal.Actions>
+    </div>
   );
 }
 
-export default React.memo(Actions);
+export default React.memo(styled(Actions)`
+  background-color: var(--bg-input);
+  border-radius: 0 0 4px 4px;
+
+  .ui--Button-Group {
+    margin: 1rem 1rem;
+  }
+`);

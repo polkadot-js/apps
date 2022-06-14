@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 
-import { AddressMini, Button } from '@polkadot/react-components';
-import { useMembers } from '@polkadot/react-hooks';
+import { AddressMini, Button, LinkExternal } from '@polkadot/react-components';
+import { useCollectiveMembers } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Fasttrack from './Fasttrack';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 function External ({ className = '', value: { image, imageHash, threshold } }: Props): React.ReactElement<Props> | null {
-  const { isMember, members } = useMembers('technicalCommittee');
+  const { isMember, members } = useCollectiveMembers('technicalCommittee');
 
   return (
     <tr className={className}>
@@ -48,6 +48,12 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
             />
           )}
         </Button.Group>
+      </td>
+      <td className='links media--1000'>
+        <LinkExternal
+          data={imageHash}
+          type='external'
+        />
       </td>
     </tr>
   );

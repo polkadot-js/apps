@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
@@ -25,6 +25,7 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
   return (
     <Modal
       header={`${t<string>('reject curator')} - "${truncateTitle(description, 30)}"`}
+      onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
@@ -39,7 +40,7 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={toggleOpen}>
+      <Modal.Actions>
         <TxButton
           accountId={curatorId}
           icon='times'

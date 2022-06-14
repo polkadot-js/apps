@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
@@ -17,18 +17,22 @@ function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
-  let avgCount = 0;
-  let total = 0;
-
-  points.forEach(({ era, points }): void => {
-    total += points.toNumber();
-    labels.push(era.toHuman());
-
+  const [total, avgCount] = points.reduce(([total, avgCount], { points }) => {
     if (points.gtn(0)) {
+      total += points.toNumber();
       avgCount++;
     }
 
-    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
+    return [total, avgCount];
+  }, [0, 0]);
+
+  points.forEach(({ era, points }): void => {
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
+
+    labels.push(era.toHuman());
+    avgSet.push(avg);
     idxSet.push(points);
   });
 

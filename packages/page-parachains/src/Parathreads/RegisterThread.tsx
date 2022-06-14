@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BalanceOf } from '@polkadot/types/interfaces';
 import type { OwnedId, OwnerInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { compactAddLength } from '@polkadot/util';
+import { BN, compactAddLength } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
@@ -61,6 +60,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
     <Modal
       className={className}
       header={t<string>('Register parathread')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -119,7 +119,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

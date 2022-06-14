@@ -1,8 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { AssetId, TAssetBalance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
@@ -13,9 +12,9 @@ import { useTranslation } from '../translate';
 
 interface Props {
   accountId: string;
-  assetId: AssetId;
+  assetId: BN;
   className?: string;
-  minBalance: TAssetBalance;
+  minBalance: BN;
   siFormat: [number, string];
 }
 
@@ -38,6 +37,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
         <Modal
           className={className}
           header={t<string>('transfer asset')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -86,7 +86,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='paper-plane'

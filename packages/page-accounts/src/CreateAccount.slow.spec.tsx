@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/react-components/i18n';
@@ -15,19 +15,27 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
+function noop (): void {
+  // do nothing
+}
+
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
 
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api store={memoryStore}
-          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+        <Api
+          apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+          isElectron={false}
+          store={memoryStore}
+        >
           <WaitForApi>
             <div>
-              <AccountsApp basePath='/accounts'
-                onStatusChange={() => { /* */
-                }}/>
+              <AccountsApp
+                basePath='/accounts'
+                onStatusChange={noop}
+              />
             </div>
           </WaitForApi>
         </Api>
@@ -36,11 +44,11 @@ const renderAccounts = () => {
   );
 };
 
-describe.only('--SLOW--: Account Create', () => {
+describe('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
@@ -49,7 +57,7 @@ describe.only('--SLOW--: Account Create', () => {
 
     fireEvent.click(hiddenCheckbox);
 
-    const nextStepButton = await findByText('Next', {}, { timeout: 4000 });
+    const nextStepButton = await findByText('Next', {});
 
     fireEvent.click(nextStepButton);
 
@@ -65,11 +73,11 @@ describe.only('--SLOW--: Account Create', () => {
 
     fireEvent.change(passwordInput2, { target: { value: 'password' } });
 
-    const toStep3Button = await findByText('Next', {}, { timeout: 4000 });
+    const toStep3Button = await findByText('Next', {});
 
     fireEvent.click(toStep3Button);
 
-    const createAnAccountButton = await findByText('Save', {}, { timeout: 4000 });
+    const createAnAccountButton = await findByText('Save', {});
 
     fireEvent.click(createAnAccountButton);
 
@@ -81,19 +89,19 @@ describe.only('--SLOW--: Account Create', () => {
   it('gives an error message when entering invalid derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
-    const showAdvancedOptionsButton = await findByText('Advanced creation options', {}, { timeout: 5000 });
+    const showAdvancedOptionsButton = await findByText('Advanced creation options', {});
 
     fireEvent.click(showAdvancedOptionsButton);
 
-    const derivationPathInput = await findByTestId('secret derivation path', {}, { timeout: 5000 });
+    const derivationPathInput = await findByTestId('secret derivation path', {});
 
     fireEvent.change(derivationPathInput, { target: { value: '//abc//' } });
 
-    const errorMsg = await findByText('Unable to match provided value to a secret URI', {}, { timeout: 5000 });
+    const errorMsg = await findByText('Unable to match provided value to a secret URI', {});
 
     expect(errorMsg).toBeTruthy();
   });

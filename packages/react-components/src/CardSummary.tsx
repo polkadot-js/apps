@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { UInt } from '@polkadot/types';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -54,9 +54,13 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
   }
 
   const isTimed = progress && progress.withTime && !isUndefined(progress.total);
+  const testidSuffix = (label ?? '').toString();
 
   return (
-    <article className={className}>
+    <article
+      className={className}
+      data-testid={`card-summary:${testidSuffix}`}
+    >
       <Labelled
         help={help}
         isSmall

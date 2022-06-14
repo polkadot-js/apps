@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -39,57 +39,41 @@ export default React.memo(styled(AvatarItem)`
     align-items: center;
 
     .ui--AvatarItem-icon {
-      width: 2.4rem;
-      height: 2.4rem;
       margin-right: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
 
-      > * {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-      }
+  .ui--AvatarItem-details {
+    .ui--AvatarItem-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .ui--AvatarItem-subtitle {
+      font-weight: var(--font-weight-normal);
+      font-size: 1rem;
+    }
+  }
+
+  &.big {
+    .ui--AvatarItem-icon {
+      width: 3.4rem;
+      height: 3.4rem;
+      margin-right: 0.6rem;
 
       > .ui--Icon {
-        color: white;
-        line-height: 2.4rem;
-        margin-right: 0 !important;
+        font-size: 1.6rem;
+        line-height: 3.4rem;
       }
     }
 
     .ui--AvatarItem-details {
-      flex: 1;
-
-      .ui--AvatarItem-title {
-        font-weight: var(--font-weight-normal);
-        font-size: 1rem;
-      }
-
-      .ui--AvatarItem-subtitle {
-        color: rgba(100, 100, 100, 0.6);
-        font-size: 1rem;
-      }
-    }
-
-    &.big {
-      .ui--AvatarItem-icon {
-        width: 3.4rem;
-        height: 3.4rem;
-        margin-right: 0.6rem;
-
-        > .ui--Icon {
-          font-size: 1.6rem;
-          line-height: 3.4rem;
-        }
-      }
-
-      .ui--AvatarItem-details {
-        .ui--AvatarItem-name {
-          font-size: 1.4rem;
-          line-height: 1.4rem;
-        }
+      .ui--AvatarItem-name {
+        font-size: 1.4rem;
+        line-height: 1.4rem;
       }
     }
   }

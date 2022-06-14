@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -14,7 +14,8 @@ function Description ({ className = '', dataTestId = '', description }: Props): 
   return (
     <div
       className={className}
-      data-testid={dataTestId}>
+      data-testid={dataTestId}
+    >
       {description}
     </div>
   );

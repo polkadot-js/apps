@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Conviction } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { AmountValidateState } from '../Accounts/types';
 
 import React, { useState } from 'react';
@@ -48,15 +48,18 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         ? t<string>('democracy vote delegation')
         : t<string>('delegate democracy vote')
       }
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
-            <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
+              <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
+            </>
+          }
+        >
           <InputAddress
             label={t<string>('delegating account')}
             onChange={setDelegatingAccount}
@@ -100,7 +103,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}

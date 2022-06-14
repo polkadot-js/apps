@@ -3,8 +3,9 @@
   "No active gilt queues found.": "No active gilt queues found.",
   "Overview": "Overview",
   "Submit Bid": "Submit Bid",
-  "The account you want to register the preimage from": "The account you want to register the preimage from",
+  "The account you want to register the bid from": "The account you want to register the bid from",
   "The amount you wish to lock for the duration. It needs to be more than the gilt minimum.": "The amount you wish to lock for the duration. It needs to be more than the gilt minimum.",
+  "The associated proxy to use for this account": "The associated proxy to use for this account",
   "The minimum amount that is allowed as a bid": "The minimum amount that is allowed as a bid",
   "The number of periods this bid is to be freezed for, less than the maximum period": "The number of periods this bid is to be freezed for, less than the maximum period",
   "This account will make the bid for the gilt and pay all associated fees.": "This account will make the bid for the gilt and pay all associated fees.",
@@ -20,9 +21,10 @@
   "participants": "participants",
   "proportion": "proportion",
   "queues": "queues",
-  "send from account": "send from account",
+  "send via proxy": "send via proxy",
   "submit gilt bid": "submit gilt bid",
   "target": "target",
   "transferrable": "transferrable",
+  "use proxied account": "use proxied account",
   "yes": "yes"
 }

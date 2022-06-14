@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -64,7 +64,10 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isAddressValid && isNameValid && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing contract')}>
+    <Modal
+      header={t('Add an existing contract')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -100,7 +103,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

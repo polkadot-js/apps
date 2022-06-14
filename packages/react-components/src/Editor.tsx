@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Something is seriously going wrong here...
@@ -70,7 +70,7 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
 
 export default React.memo(styled(Editor)`
   .codeflask {
-    border: 1px solid rgba(34,36,38,.15);
+    border: 1px solid var(--border-input);
     background: transparent;
   }
 

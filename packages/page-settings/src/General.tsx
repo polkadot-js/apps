@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// Copyright 2017-2022 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
@@ -7,11 +7,10 @@ import type { SettingsStruct } from '@polkadot/ui-settings/types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
-import { all as allNetworks } from '@polkadot/networks';
+import { allNetworks } from '@polkadot/networks';
 import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
 import { useApi, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
-import { isUndefined } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
@@ -20,12 +19,12 @@ interface Props {
   className?: string;
 }
 
-const ledgerConnOptions = settings.availableLedgerConn;
+const _ledgerConnOptions = settings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isApiReady } = useApi();
-  const { isLedgerCapable } = useLedger();
+  const { chainSS58, isApiReady, isElectron } = useApi();
+  const { hasLedgerChain, hasWebUsb } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [state, setSettings] = useState((): SettingsStruct => {
@@ -33,6 +32,11 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
     return { ...values, uiTheme: values.uiTheme === 'dark' ? 'dark' : 'light' };
   });
+
+  const ledgerConnOptions = useMemo(
+    () => _ledgerConnOptions.filter(({ value }) => !isElectron || value !== 'webusb'),
+    [isElectron]
+  );
 
   const iconOptions = useMemo(
     () => settings.availableIcons
@@ -43,27 +47,21 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const prefixOptions = useMemo(
     (): (Option | React.ReactNode)[] => {
-      let ss58Format = api.registry.chainSS58;
-
-      if (isUndefined(ss58Format)) {
-        ss58Format = 42;
-      }
-
-      const network = allNetworks.find(({ prefix }) => prefix === ss58Format);
+      const network = allNetworks.find(({ prefix }) => prefix === chainSS58);
 
       return createSs58(t).map((o) =>
         createOption(o, ['default'], 'empty', (
           o.value === -1
             ? isApiReady
               ? network
-                ? ` (${network.displayName}, ${ss58Format || 0})`
-                : ` (${ss58Format || 0})`
+                ? ` (${network.displayName}, ${chainSS58 || 0})`
+                : ` (${chainSS58 || 0})`
               : undefined
             : ` (${o.value})`
         ))
       );
     },
-    [api, isApiReady, t]
+    [chainSS58, isApiReady, t]
   );
 
   const themeOptions = useMemo(
@@ -148,22 +146,34 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={translateLanguages}
         />
       </div>
-      {isLedgerCapable && (
+      {hasLedgerChain && (
         <>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={ledgerConn}
+              defaultValue={
+                hasWebUsb
+                  ? ledgerConn
+                  : ledgerConnOptions[0].value
+              }
               help={t<string>('Manage your connection to Ledger S')}
+              isDisabled={!hasWebUsb}
               label={t<string>('manage hardware connections')}
               onChange={_handleChange('ledgerConn')}
               options={ledgerConnOptions}
             />
           </div>
-          {state.ledgerConn !== 'none' && (
-            <div className='ui--row'>
-              <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
-            </div>
-          )}
+          {hasWebUsb
+            ? state.ledgerConn !== 'none'
+              ? (
+                <div className='ui--row'>
+                  <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
+                </div>
+              )
+              : null
+            : (
+              <MarkWarning content={t<string>('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
+            )
+          }
         </>
       )}
       <Button.Group>

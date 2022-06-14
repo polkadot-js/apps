@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
 
-import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
+import { BN, BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -88,6 +87,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
     <Modal
       className={className}
       header={t<string>('Propose parachain')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -163,7 +163,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
           </Button.Group>
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

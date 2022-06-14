@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { OwnedId } from '../types';
 
 import React from 'react';
@@ -20,7 +20,7 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
-const transformId = {
+const OPT_NEXT = {
   transform: (nextId: ParaId) =>
     nextId.isZero()
       ? LOWEST_PUBLIC_ID
@@ -32,7 +32,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
   const [isReserveOpen, toggleReserveOpen] = useToggle();
-  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], transformId);
+  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], OPT_NEXT);
 
   return (
     <Button.Group className={className}>

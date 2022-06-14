@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '../types';
@@ -123,69 +123,8 @@ export default (_theme: ThemeDef): string => `
     z-index: 1;
   }
 
-  .ui.modal {
-    background: var(--bg-page);
-    box-shadow: none;
-    color: var(--color-text);
-    font: var(--font-sans);
-
-    > .actions,
-    > .content {
-      background: transparent;
-    }
-
-    > .actions {
-      border-top: none;
-      text-align: right;
-      padding: 0 1rem !important;
-    }
-
-    /* approx h1, color, size, font */
-    > .header:not(.ui) {
-      background: transparent;
-      border-bottom: none;
-      color: var(--color-summary);
-      font: var(--font-sans);
-      font-size: 1.75rem;
-      font-weight: var(--font-weight-normal);
-      line-height: 1.25rem;
-      padding: 0.75rem 1.5rem 0;
-      text-transform: lowercase;
-
-      > label {
-        margin-top: 0.5rem;
-      }
-
-      > h1 {
-        line-height: 1;
-      }
-    }
-
-    .description {
-      margin: 1.5em 0;
-      font-weight: var(--font-weight-normal);
-    }
-  }
-
   .ui.page.modals.transition.visible {
     display: flex !important;
-  }
-
-  .ui.popup {
-    background: var(--bg-menu);
-    color: var(--color-text);
-
-    .ui.text.menu .item {
-      color: var(--color-text) !important;
-
-      &.disabled {
-        opacity: 0.3;
-      }
-    }
-
-    &&::before {
-      background: var(--bg-menu);
-    }
   }
 
   .ui.secondary.vertical.menu > .item {

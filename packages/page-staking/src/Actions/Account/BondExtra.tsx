@@ -1,17 +1,16 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AmountValidateState } from '../types';
 
-import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
@@ -55,8 +54,8 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
 
   return (
     <Modal
-      className='staking--BondExtra'
       header= {t<string>('Bond more funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -73,8 +72,8 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
               autoFocus
               defaultValue={startBalance}
               help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-              isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
-              label={t<string>('additional bonded funds')}
+              isError={!!amountError?.error || !maxAdditional || maxAdditional.isZero()}
+              label={t<string>('additional funds to bond')}
               labelExtra={
                 <BalanceFree
                   label={<span className='label'>{t<string>('balance')}</span>}
@@ -93,7 +92,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           </Modal.Columns>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'

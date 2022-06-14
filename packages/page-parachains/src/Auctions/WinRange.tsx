@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 import type { AuctionInfo, WinnerData } from '../types';
 
 import React from 'react';
@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   auctionInfo: AuctionInfo;
-  blockNumber: BN;
+  blockNumber?: BN;
   className?: string;
   isFirst: boolean;
   isLatest: boolean;
@@ -30,7 +30,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
         {isFirst && (
           <h1>{isLatest
             ? t<string>('latest')
-            : <>#{formatNumber(blockNumber.isZero() ? auctionInfo.endBlock : blockNumber)}</>
+            : <>#{formatNumber((!blockNumber || blockNumber.isZero()) ? auctionInfo.endBlock : blockNumber)}</>
           }</h1>
         )}
       </td>

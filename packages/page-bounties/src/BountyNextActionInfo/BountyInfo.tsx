@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '@polkadot/react-components/types';
@@ -21,7 +21,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
     <div className={className}>
       {type === 'warning' && (
         <div className='info-icon'>
-          <Icon icon={'exclamation-triangle'}/>
+          <Icon icon={'exclamation-triangle'} />
         </div>
       )}
       <div className='description'>

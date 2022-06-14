@@ -1,21 +1,11 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import { genshiro } from '@equilab/definitions';
 
-import { createCustomAccount } from './equilibrium';
-
-export const u64FromCurrency = (currency: string): number => {
-  const buf = Buffer.from(currency.toLowerCase());
-  const size = buf.length;
-
-  return buf.reduce(
-    (val, digit, i) => val + Math.pow(256, size - 1 - i) * digit,
-    0
-  );
-};
+import { createCustomAccount, u64FromCurrency } from './equilibrium';
 
 const definitions: OverrideBundleDefinition = {
   derives: {

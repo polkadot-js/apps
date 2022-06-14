@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Network } from './types';
@@ -25,7 +25,11 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 
   const _selectUrl = useCallback(
-    () => setApiUrl(name, providers[Math.floor(Math.random() * providers.length)].url),
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
     [name, providers, setApiUrl]
   );
 

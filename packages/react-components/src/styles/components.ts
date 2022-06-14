@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '../types';
@@ -114,5 +114,28 @@ export default (_theme: ThemeDef): string => `
     text-align: center;
     z-index: 1002;
     max-width: 300px;
+
+
+    &.accounts-badge {
+      background-color: var(--bg-menu) !important;
+      color: var(--color-text) !important;
+      box-shadow: 0 2px 4px 0 rgb(34 36 38 / 12%), 0 2px 10px 0 rgb(34 36 38 / 15%);
+      z-index: 999;
+
+      &.place-top::after {
+        border-top-color: var(--bg-menu) !important;
+      }
+
+      &.place-right::after {
+        border-right-color: var(--bg-menu) !important;
+      }
+
+    a {
+      color: #3BBEFF;
+
+      &.purpleColor {
+        color: #E6007A;
+      }
+    }
   }
 `;

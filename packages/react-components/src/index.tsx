@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export * from '@polkadot/react-qr';
@@ -10,6 +10,7 @@ export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
 export { default as AddressToggle } from './AddressToggle';
+export { default as ApiStats, ApiStatsContext } from './ApiStats';
 export { default as Available } from './Available';
 export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
@@ -37,14 +38,17 @@ export { default as Editor } from './Editor';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Event } from './Event';
 export { default as Expander } from './Expander';
+export { default as ExpanderScroll } from './ExpanderScroll';
 export { default as Extrinsic } from './Extrinsic';
 export { default as FilterOverlay } from './FilterOverlay';
+export { default as Flag } from './Flag';
 export { default as Forget } from './Forget';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';
 export { default as IconLink } from './IconLink';
 export { default as IdentityIcon } from './IdentityIcon';
 export { default as InfoForInput } from './InfoForInput';
+export { default as Inspect } from './Inspect';
 export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
 export { default as InputAddressMulti } from './InputAddressMulti';
@@ -96,5 +100,8 @@ export { default as TxButton } from './TxButton';
 export { default as VoteAccount } from './VoteAccount';
 export { default as VoteValue } from './VoteValue';
 export { default as TextArea } from './TextArea';
+export { default as ExpandButton } from './ExpandButton';
+export { default as SortDropdown } from './SortDropdown';
+export { default as FilterInput } from './FilterInput';
 
 export { default as media } from './media';

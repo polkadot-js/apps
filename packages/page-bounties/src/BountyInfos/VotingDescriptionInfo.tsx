@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -35,7 +35,7 @@ function VotingDescriptionInfo ({ className, proposal, status }: Props): React.R
       data-testid='voting-description'
     >
       {bestProposalName && votingDescriptions.current[bestProposalName] &&
-        <LabelHelp help={votingDescriptions.current[bestProposalName]}/>
+        <LabelHelp help={votingDescriptions.current[bestProposalName]} />
       }
     </div>
   );

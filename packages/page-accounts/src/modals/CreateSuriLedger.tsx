@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import networks from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 import { Dropdown, MarkError, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -15,7 +15,7 @@ interface Props {
   seedType: string;
 }
 
-const ledgerNets = networks.filter(({ hasLedgerSupport }) => hasLedgerSupport);
+const ledgerNets = selectableNetworks.filter(({ hasLedgerSupport }) => hasLedgerSupport);
 
 function CreateSuriLedger ({ className, onChange, seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

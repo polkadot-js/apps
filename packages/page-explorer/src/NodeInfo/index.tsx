@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2022 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Info } from './types';
@@ -65,6 +65,7 @@ function NodeInfo (): React.ReactElement {
         blockNumber={info.blockNumber}
         label={t<string>('pending extrinsics')}
         value={info.extrinsics}
+        withLink
       />
     </>
   );

@@ -1,15 +1,21 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components';
 
+interface Option {
+  isDisabled?: boolean;
+  text: string;
+  value: number;
+}
+
 interface Props {
   className?: string;
   onChange: (index: number) => void;
-  options: { isDisabled?: boolean, text: string, value: number }[];
+  options: (Option | null | false)[];
   value: number;
 }
 
@@ -45,13 +51,18 @@ function ToggleIndex ({ index, isDisabled, isSelected, onChange, text }: ToggleP
 const ToggleIndexMemo = React.memo(ToggleIndex);
 
 function ToggleGroup ({ className = '', onChange, options, value }: Props): React.ReactElement<Props> | null {
-  if (!options.length || !options[0].value) {
+  const available = useMemo(
+    () => options.filter((o): o is Option => !!o),
+    [options]
+  );
+
+  if (!available.length || !available[0].value) {
     return null;
   }
 
   return (
     <div className={`ui--ToggleGroup ${className}`}>
-      {options.map(({ isDisabled, text }, index): React.ReactNode => (
+      {available.map(({ isDisabled, text }, index): React.ReactNode => (
         <ToggleIndexMemo
           index={index}
           isDisabled={isDisabled}

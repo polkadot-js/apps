@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BondInfo } from './partials/types';
@@ -35,12 +35,13 @@ function NewStash (): React.ReactElement {
       {isVisible && (
         <Modal
           header={t<string>('Bonding Preferences')}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
             <BondPartial onChange={setBondInfo} />
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <TxButton
               accountId={stashId}
               extrinsic={bondTx}

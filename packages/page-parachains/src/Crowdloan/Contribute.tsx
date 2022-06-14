@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
@@ -72,6 +72,7 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
         <Modal
           className={className}
           header={t<string>('Contribute to fund')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -125,7 +126,7 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

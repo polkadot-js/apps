@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Location } from 'history';
@@ -63,7 +63,10 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
         <Delimiter />
         <ul className='ui--TabsList'>
           {filtered.map((tab, index) => (
-            <li key={index}>
+            <li
+              className={tab.isHidden ? '--hidden' : ''}
+              key={index}
+            >
               <Tab
                 {...tab}
                 basePath={basePath}

@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { AuctionInfo, OwnedId, OwnerInfo, Winning } from '../types';
 
 import React, { useMemo, useState } from 'react';
@@ -83,6 +83,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
         <Modal
           className={className}
           header={t<string>('Place bid')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -103,7 +104,8 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
                 <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
                 <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
-            }>
+            }
+            >
               <InputBalance
                 autoFocus
                 isError={isAmountError}
@@ -119,7 +121,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

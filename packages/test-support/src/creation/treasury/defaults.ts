@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/test-support authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { balanceOf } from '../balance';
 
 export const defaultTreasury = {
-  burn: new BN(1),
-  spendPeriod: new BN(0),
+  burn: BN_ONE,
+  spendPeriod: BN_ZERO,
   value: balanceOf(1)
 };

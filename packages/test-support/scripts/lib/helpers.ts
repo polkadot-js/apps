@@ -1,7 +1,5 @@
-// Copyright 2017-2021 @polkadot/test-support authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -10,6 +8,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { charlieSigner, daveSigner, eveSigner, ferdieSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
 import { Hash } from '@polkadot/types/interfaces';
+import { BN } from '@polkadot/util';
 
 import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
 
