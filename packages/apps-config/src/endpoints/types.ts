@@ -17,7 +17,7 @@ export interface EndpointOption {
   providers: Record<string, string>;
   summary?: string;
   teleport?: number[];
-  text: React.ReactNode;
+  text: string;
 }
 
 export interface LinkOption extends Option {

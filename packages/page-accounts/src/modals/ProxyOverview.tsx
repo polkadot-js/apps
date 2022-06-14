@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BatchOptions } from '@polkadot/react-hooks/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -42,8 +43,7 @@ interface PrevProxyProps extends ValueProps {
   onRemove: (accountId: AccountId, type: NodeRuntimeProxyType, index: number) => void;
 }
 
-const optTxBatch = { isBatchAll: true };
-
+const BATCH_OPTS: BatchOptions = { type: 'all' };
 const EMPTY_EXISTING: [PalletProxyProxyDefinition[], BN] = [[], BN_ZERO];
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
@@ -170,7 +170,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
   const [added, setAdded] = useState<PrevProxy[]>([]);
-  const extrinsics = useTxBatch(txs, optTxBatch);
+  const extrinsics = useTxBatch(txs, BATCH_OPTS);
 
   const reservedAmount = useMemo(
     () => api.consts.proxy.proxyDepositFactor

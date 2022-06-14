@@ -4,12 +4,14 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import ajuna from './ajuna';
 import altair from './altair';
 import apron from './apron';
 import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
 import automata from './automata';
+import bajun from './bajun';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -18,7 +20,6 @@ import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
-import canvas from './canvas';
 import centrifuge from './centrifuge';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -26,6 +27,7 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
 import competitorsClub from './competitors-club';
+import contracts from './contracts';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -35,7 +37,6 @@ import datahighwayParachain from './datahighway';
 import dockMainnet from './dock-mainnet';
 import dockTestnet from './dock-testnet';
 import dotmog from './dotmog';
-import dusty from './dusty';
 import eave from './eave';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
@@ -51,9 +52,11 @@ import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
+import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
+import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import khala from './khala';
@@ -65,12 +68,12 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
-import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import opal from './opal';
@@ -104,8 +107,11 @@ import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
+import swapdex from './swapdex';
+import t0rn from './t0rn';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
+import turing from './turing';
 import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
@@ -127,25 +133,28 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
+  'Genshiro Rococo Testnet': genshiro,
   Pangolin: pangolin,
   Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
+  ajuna,
   altair,
   apron,
   'ares-gladios': aresGladios,
-  'ares-parachain': aresParachain,
+  'ares-mars': aresParachain,
+  'ares-odyssey': aresParachain,
   asgard: bifrostAsgard,
   astar,
-  automata: automata,
+  automata,
+  bajun,
   basilisk,
   beresheet,
-  bifrost: bifrost,
+  bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  canvas,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -155,10 +164,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
-  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
@@ -167,13 +176,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-pos-main-runtime': dockMainnet,
   'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
-  dusty4: dusty,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
-  galital: galital,
+  galital,
   'galital-collator': galitalParachain,
   gamepower,
   'hack-hydra-dx': hydrate,
@@ -182,12 +190,16 @@ const spec: Record<string, OverrideBundleDefinition> = {
   heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
+  imbue,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
+  'interlay-parachain': interbtc,
   'ipse-node': ipse,
+  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  kerria: parallel,
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
@@ -199,6 +211,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  mangata,
+  'mangata-parachain': mangata,
   'manta-node': manta,
   'mashnet-node': kilt,
   mathchain,
@@ -209,13 +223,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  neumann,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
-  opal: opal,
+  opal,
   opportunity,
   'origintrail-parachain': origintrail,
   parallel,
@@ -228,7 +241,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh,
   'pontem-node': pontem,
   prism,
-  quartz: quartz,
+  quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,
@@ -247,16 +260,20 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
+  swapdex,
+  t0rn,
   ternoa,
   trustbase,
+  turing,
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,
+  vanilla: parallel,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,
-  zeitgeist: zeitgeist
+  zeitgeist
 };
 
 export default spec;

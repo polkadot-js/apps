@@ -42,7 +42,12 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
   const approveBountyProposal = useRef(approveBounty(index));
   const closeBountyProposal = useRef(closeBounty(index));
 
-  const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
+  const isVotingInitiated = useMemo(
+    () => proposals?.filter(({ proposal }) =>
+      proposal && BOUNTY_METHODS.includes(proposal.method)
+    ).length !== 0,
+    [proposals]
+  );
 
   return isMember && !isVotingInitiated && councilMod
     ? (

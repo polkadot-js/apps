@@ -19,10 +19,15 @@ function Event ({ className = '', value: { event } }: Props): React.ReactElement
       summary={`${event.section}.${event.method}`}
       summaryMeta={event.meta}
     >
-      <EventDisplay
-        className='details'
-        value={event}
-      />
+      {event.data.length
+        ? (
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        )
+        : null
+      }
     </Expander>
   );
 }

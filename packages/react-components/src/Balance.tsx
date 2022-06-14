@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { Balance, FormatBalance } from '@polkadot/react-query';
+import { BalanceFree, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 export interface RenderProps {
@@ -63,7 +63,7 @@ function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
   return balance
     ? <>{renderProvided({ className, label, value: balance })}</>
     : (
-      <Balance
+      <BalanceFree
         className={`ui--Balance ${className}`}
         label={label}
         params={params}

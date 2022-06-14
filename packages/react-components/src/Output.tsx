@@ -37,9 +37,9 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
       labelExtra={labelExtra}
       withLabel={withLabel}
     >
-      <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? ' disabled' : ''}`}>
-        {isTrimmed && value && (value.length > 256)
-          ? `${value.substr(0, 96)}…${value.substr(-96)}`
+      <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
+        {isTrimmed && value && (value.length > 512)
+          ? `${value.substr(0, 256)}…${value.substr(-256)}`
           : value
         }
         {children}
@@ -52,6 +52,12 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
 }
 
 export default React.memo(styled(Output)`
+  .ui.selection.dropdown.ui--output.isDisabled {
+    background: transparent;
+    border-style: dashed;
+    opacity: 1;
+  }
+
   pre {
     margin: 0;
     overflow: hidden;

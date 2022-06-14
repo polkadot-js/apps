@@ -12,6 +12,7 @@ const onlyOn = (environment: Environment) => <T extends ComponentType<any>>(comp
     return component;
   }
 
+  // eslint-disable-next-line react/display-name
   return () => null;
 };
 

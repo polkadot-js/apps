@@ -6,15 +6,20 @@ import type { Hash } from '@polkadot/types/interfaces';
 
 import { createNamedHook, useApi, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
 
-function extractHashes (keys: StorageKey<[Hash]>[]): string[] {
-  return keys.map(({ args: [hash] }) => hash.toHex());
-}
+const OPT = {
+  transform: (keys: StorageKey<[Hash]>[]): string[] =>
+    keys.map(({ args: [hash] }) => hash.toHex())
+};
 
 function useTipHashesImpl (): string[] | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.tips?.NewTip, api.events.tips?.TipClosed, api.events.tips?.TipRetracted]);
+  const trigger = useEventTrigger([
+    api.events.tips?.NewTip,
+    api.events.tips?.TipClosed,
+    api.events.tips?.TipRetracted
+  ]);
 
-  return useMapKeys((api.query.tips || api.query.treasury)?.tips, { at: trigger.blockHash, transform: extractHashes });
+  return useMapKeys((api.query.tips || api.query.treasury)?.tips, OPT, trigger.blockHash);
 }
 
 export default createNamedHook('useTipHashes', useTipHashesImpl);

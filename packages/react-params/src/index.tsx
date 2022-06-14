@@ -50,13 +50,15 @@ class Params extends React.PureComponent<Props, State> {
     return {
       params,
       values: params.reduce(
-        (result: RawParams, param, index): RawParams => [
-          ...result,
-          values && values[index]
-            ? values[index]
-            : createValue(registry, param)
-        ],
-        []
+        (result: RawParams, param, index): RawParams => {
+          result.push(
+            values && values[index]
+              ? values[index]
+              : createValue(registry, param)
+          );
+
+          return result;
+        }, []
       )
     };
   }
@@ -153,4 +155,4 @@ class Params extends React.PureComponent<Props, State> {
   };
 }
 
-export default translate(Params);
+export default translate<React.ComponentType<Props>>(Params);
