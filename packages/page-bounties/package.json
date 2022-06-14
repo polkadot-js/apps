@@ -11,12 +11,12 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.116.2-32",
+  "version": "0.116.2-33",
   "dependencies": {
     "@babel/runtime": "^7.18.3",
-    "@polkadot/react-components": "^0.116.2-32"
+    "@polkadot/react-components": "^0.116.2-33"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.116.2-32"
+    "@polkadot/test-support": "0.116.2-33"
   }
 }
