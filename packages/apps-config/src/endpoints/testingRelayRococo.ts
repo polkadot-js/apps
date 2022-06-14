@@ -166,7 +166,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoKilt',
-    paraId: 2015,
+    paraId: 2086,
     text: 'RILT',
     providers: {
       'KILT Protocol': 'wss://rococo.kilt.io'
