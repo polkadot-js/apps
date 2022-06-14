@@ -384,7 +384,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Parami PC2': chainParami,
   Phala: chainPhala,
   PHOENIX: chainPhoenix,
-  'Picasso': chainPicasso,
+  Picasso: chainPicasso,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
