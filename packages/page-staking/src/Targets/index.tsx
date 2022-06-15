@@ -61,7 +61,7 @@ const CLASSES: Record<string, string> = {
   rankBondOwn: 'media--900'
 };
 const MAX_CAP_PERCENT = 100; // 75 if only using numNominators
-const MAX_COMM_PERCENT = 20; // -1 for median
+const MAX_COMM_PERCENT = 10; // -1 for median
 const MAX_DAYS = 7;
 const SORT_KEYS = ['rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
@@ -94,7 +94,7 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
       (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
       (!withoutComm || (
         MAX_COMM_PERCENT > 0
-          ? (commissionPer < MAX_COMM_PERCENT)
+          ? (commissionPer <= MAX_COMM_PERCENT)
           : (!medianComm || (commissionPer <= medianComm)))
       ) &&
       (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).div(BN_HUNDRED).gten(nomCount))
@@ -142,13 +142,15 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
   // Use slice to create new array, so that sorting triggers component render
   return validators
     .slice(0)
-    .sort((a, b) => sortFromMax
-      ? a[sortBy] - b[sortBy]
-      : b[sortBy] - a[sortBy]
+    .sort((a, b) =>
+      sortFromMax
+        ? a[sortBy] - b[sortBy]
+        : b[sortBy] - a[sortBy]
     )
-    .sort((a, b) => a.isFavorite === b.isFavorite
-      ? 0
-      : (a.isFavorite ? -1 : 1)
+    .sort((a, b) =>
+      a.isFavorite === b.isFavorite
+        ? 0
+        : (a.isFavorite ? -1 : 1)
     );
 }
 
@@ -318,8 +320,8 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           className='staking--buttonToggle'
           label={
             MAX_COMM_PERCENT > 0
-              ? t<string>('comm. < {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
-              : t<string>('comm. < median')
+              ? t<string>('comm. <= {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t<string>('comm. <= median')
           }
           onChange={setToggle.withoutComm}
           value={toggles.withoutComm}
@@ -356,6 +358,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const displayList = isQueryFiltered
     ? validators
     : sorted;
+  const canSelect = selected.length < maxNominations;
 
   return (
     <div className={className}>
@@ -389,7 +392,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         {displayList && displayList.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
-            canSelect={selected.length < maxNominations}
+            canSelect={canSelect}
             filterName={nameFilter}
             info={info}
             isNominated={myNominees.includes(info.key)}

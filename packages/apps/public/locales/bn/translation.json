@@ -1378,6 +1378,6 @@
   "{{step}}. Sign with your ETH address": "{{step}}। আপনার ETH ঠিকানা দিয়ে সাইন করুন",
   "{{threshold}}, not passing": "{{threshold}}, পেরিয়ে যাচ্ছে না",
   "{{threshold}}, passing": "{{threshold}}, পেরিয়ে যাচ্ছে",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x ভোটিং ব্যালেন্স, আইনসিদ্ধ ({{period}} দিন) জন্য লক {{lock}}x করা হয়েছে",
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x ভোটিং ব্যালেন্স, আইনসিদ্ধ ({{period}} দিন) জন্য লক {{lock}}x করা হয়েছে",
   "~s": "এক্সটেনশনসমূহ"
 }

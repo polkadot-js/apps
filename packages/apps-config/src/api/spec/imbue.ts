@@ -3,15 +3,15 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-// structs need to be in order
-/* eslint-disable sort-keys */
-
 const definitions: OverrideBundleDefinition = {
   types: [
     {
       // on all versions
       minmax: [0, undefined],
-      types: {}
+      types: {
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress'
+      }
     }
   ]
 };

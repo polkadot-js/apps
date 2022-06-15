@@ -9,11 +9,13 @@ type Result = Record<string, DeriveHasIdentity>;
 
 const OPT_CALL = {
   transform: ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> => {
-    return validatorIds.reduce((result: Record<string, DeriveHasIdentity>, validatorId, index): Record<string, DeriveHasIdentity> => {
-      result[validatorId] = hasIdentities[index];
+    const result: Record<string, DeriveHasIdentity> = {};
 
-      return result;
-    }, {});
+    for (let i = 0; i < validatorIds.length; i++) {
+      result[validatorIds[i]] = hasIdentities[i];
+    }
+
+    return result;
   },
   withParamsTransform: true
 };

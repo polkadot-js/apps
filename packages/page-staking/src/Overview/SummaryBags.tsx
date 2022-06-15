@@ -6,12 +6,13 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo } from 'react';
 
 import { Card, CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useCall } from '@polkadot/react-hooks';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { formatNumber } from '@polkadot/util';
 
 import useBagsList from '../Bags/useBagsList';
 import useBagsNodes from '../Bags/useBagsNodes';
+import useQueryModule from '../Bags/useQueryModule';
 import { useTranslation } from '../translate';
 import { Section, Title } from './index';
 import SpinnerWrap from './SpinnerWrap';
@@ -22,7 +23,7 @@ interface Props {
 
 function SummaryBags ({ ownStashes }: Props) {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const mod = useQueryModule();
   const stashIds = useMemo(
     () => ownStashes
       ? ownStashes.map(({ stashId }) => stashId)
@@ -31,7 +32,7 @@ function SummaryBags ({ ownStashes }: Props) {
   );
   const mapOwn = useBagsNodes(stashIds);
   const bags = useBagsList();
-  const total = useCall<BN>(api.query.bagsList.counterForListNodes);
+  const total = useCall<BN>(mod.counterForListNodes);
 
   return (
     <Card>

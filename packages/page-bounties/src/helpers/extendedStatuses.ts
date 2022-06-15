@@ -20,17 +20,17 @@ function validMethods (status: BountyStatus): string[] {
 }
 
 function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], method: string | undefined): DeriveCollectiveProposal | undefined {
-  return bountyProposals.find(({ proposal }) => proposal.method === method);
+  return bountyProposals.find(({ proposal }) => proposal && proposal.method === method);
 }
 
 function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
-  const methods = bountyProposals.map(({ proposal }) => proposal.method);
+  const methods = bountyProposals.map(({ proposal }) => proposal && proposal.method);
 
   return validMethods(status).find((method) => methods.includes(method));
 }
 
 export function proposalNameToDisplay (bountyProposal: DeriveCollectiveProposal, status: BountyStatus): string | undefined {
-  if (bountyProposal.proposal.method !== 'unassignCurator') {
+  if (bountyProposal.proposal && bountyProposal.proposal.method !== 'unassignCurator') {
     return bountyProposal.proposal.method;
   }
 
