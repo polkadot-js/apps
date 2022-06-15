@@ -53,9 +53,11 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Number of electing nominators.')}
               label={t<string>('electing')}
             >
-              <SpinnerWrap check={nominatorMaxElectingCount}>
-                {formatNumber(nominatorMaxElectingCount)}
-              </SpinnerWrap>
+              {nominatorMaxElectingCount === null
+                ? <>-</>
+                : <SpinnerWrap check={nominatorMaxElectingCount}>
+                  {formatNumber(nominatorMaxElectingCount)}
+                </SpinnerWrap>}
             </CardSummary>
           </Section>
           <Section>
