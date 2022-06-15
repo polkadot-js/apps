@@ -252,6 +252,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'pioneer-runtime': bitcountryPioneer,
   polymesh_mainnet: polymeshMainnet,
   polymesh_testnet: polymeshTestnet,
+  polymesh_dev: polymeshTestnet,
   'pontem-node': pontem,
   prism,
   quartz,
