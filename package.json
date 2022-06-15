@@ -64,12 +64,18 @@
     "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^page- ^react- ^apps-electron",
     "test:all": "polkadot-dev-run-test --env browser ^chainEndpoints ^chainTypes",
     "test:one": "polkadot-dev-run-test --env browser",
-    "test:skipped": "echo 'tests skipped'"
+    "test:skipped": "echo 'tests skipped'",
+    "wrangler:build": "yarn run build:www && cd packages/apps && npx wrangler build",
+    "wrangler:preview": "yarn run build:www && cd packages/apps && npx wrangler preview",
+    "wrangler:staging:publish": "yarn run build:www && cd packages/apps && npx wrangler publish --env staging",
+    "wrangler:testnet:publish": "yarn run build:www && cd packages/apps && npx wrangler publish --env testnet",
+    "wrangler:mainnet:publish": "yarn run build:www && cd packages/apps && npx wrangler publish --env mainnet"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^2.1.0",
     "@polkadot/dev": "^0.72.15",
+    "@cloudflare/wrangler": "^1.10.3",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.3",
