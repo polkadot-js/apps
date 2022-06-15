@@ -26,7 +26,6 @@ import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
 import Address from './Address.js';
 import Qr from './Qr.js';
 import SignFields from './SignFields.js';
-import Tip from './Tip.js';
 import Transaction from './Transaction.js';
 import { useTranslation } from './translate.js';
 import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
@@ -207,7 +206,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
-  const [tip, setTip] = useState<BN | undefined>();
+  const [tip] = useState<BN | undefined>();
   const [initialIsQueueSubmit] = useState(isQueueSubmit);
 
   useEffect((): void => {
@@ -387,9 +386,6 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                   passwordError={passwordError}
                   requestAddress={requestAddress}
                 />
-                {!currentItem.payload && (
-                  <Tip onChange={setTip} />
-                )}
                 {!isSubmit && (
                   <SignFields
                     address={senderInfo.signAddress}
