@@ -20,7 +20,10 @@ const definitions: OverrideBundleDefinition = {
         Ratio: 'FixedU128',
         EcdsaSignature: '[u8; 65]',
         EvmAddress: 'H160',
-        EthereumTxHash: 'H256'
+        EthereumTxHash: 'H256',
+        BridgeNetworks: {
+          _enum: ['BSC', 'Ethereum', 'CloverPara']
+        }
       }
     }
   ]

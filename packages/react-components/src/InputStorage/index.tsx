@@ -11,8 +11,7 @@ import React, { useCallback, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import keyOptions from './options/key';
-import sectionOptions from './options/section';
+import { keyOptions, sectionOptions } from './options';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 

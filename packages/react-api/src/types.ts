@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-
-import { ApiPromise } from '@polkadot/api';
+import type { ProviderStats } from '@polkadot/rpc-provider/types';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -18,6 +18,7 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  chainSS58: number;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
@@ -35,7 +36,9 @@ export interface ApiProps extends ApiState {
   apiError: string | null;
   apiRelay: ApiPromise | null;
   apiUrl?: string;
+  createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
+  getStats: (...apis: ApiPromise[]) => [ProviderStats, number];
   isApiConnected: boolean;
   isApiInitialized: boolean;
   isElectron: boolean;

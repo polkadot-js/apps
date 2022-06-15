@@ -7,23 +7,24 @@ import type { PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/type
 
 import { createNamedHook, useApi, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
 
-function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParachainsParasParaLifecycle>][]): ParaId[] {
-  return entries
-    .map(([{ args: [paraId] }, optValue]): ParaId | null => {
-      const value = optValue.unwrapOr(null);
+const OPT_ENTRIES = {
+  transform: (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParachainsParasParaLifecycle>][]): ParaId[] =>
+    entries
+      .map(([{ args: [paraId] }, optValue]): ParaId | null => {
+        const value = optValue.unwrapOr(null);
 
-      return value && (
-        value.isParathread ||
-        value.isUpgradingParathread ||
-        value.isOffboardingParathread ||
-        value.isOnboarding
-      )
-        ? paraId
-        : null;
-    })
-    .filter((paraId): paraId is ParaId => !!paraId)
-    .sort((a, b) => a.cmp(b));
-}
+        return value && (
+          value.isParathread ||
+          value.isUpgradingParathread ||
+          value.isOffboardingParathread ||
+          value.isOnboarding
+        )
+          ? paraId
+          : null;
+      })
+      .filter((paraId): paraId is ParaId => !!paraId)
+      .sort((a, b) => a.cmp(b))
+};
 
 function useUpomingIdsImpl (): ParaId[] | undefined {
   const { api } = useApi();
@@ -32,10 +33,7 @@ function useUpomingIdsImpl (): ParaId[] | undefined {
     api.events.registrar.Registered
   ]);
 
-  return useMapEntries(api.query.paras.paraLifecycles, {
-    at: trigger.blockHash,
-    transform: extractIds
-  });
+  return useMapEntries(api.query.paras.paraLifecycles, OPT_ENTRIES, trigger.blockHash);
 }
 
 export default createNamedHook('useUpomingIds', useUpomingIdsImpl);

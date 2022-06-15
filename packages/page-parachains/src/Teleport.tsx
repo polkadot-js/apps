@@ -4,12 +4,10 @@
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
-import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
-import { getTeleportWeight } from '@polkadot/apps-config';
 import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
@@ -23,7 +21,6 @@ interface Props {
 
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
-const XCM_FNS = ['limitedTeleportAssets', 'teleportAssets'];
 
 function createOption ({ info, paraId, text }: LinkOption): Option {
   return {
@@ -52,15 +49,11 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
   const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
 
-  const [destWeight, call] = useMemo(
-    (): [number, SubmittableExtrinsicFunction<'promise'>] => {
-      const m = XCM_LOC.filter((x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f])))[0];
-      const f = XCM_FNS.filter((f) => isFunction(api.tx[m][f]))[0];
+  const call = useMemo(
+    (): SubmittableExtrinsicFunction<'promise'> => {
+      const m = XCM_LOC.filter((x) => api.tx[x] && isFunction(api.tx[x].limitedTeleportAssets))[0];
 
-      return [
-        getTeleportWeight(api),
-        api.tx[m][f]
-      ];
+      return api.tx[m].limitedTeleportAssets;
     },
     [api]
   );
@@ -82,32 +75,54 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const destApi = useApiUrl(url);
 
   const params = useMemo(
-    () => {
-      // From Polkadot runtime 9110 (no destination weight)
-      // Get first item, it should have V0, V1, ...
-      const firstType = api.createType<XcmVersionedMultiLocation>(call.meta.args[0].type.toString());
-      const isCurrent = firstType.defKeys.includes('V1');
-
-      const dst = isParaTeleport
-        ? { X1: 'Parent' }
-        : { X1: { ParaChain: recipientParaId } };
-      const acc = { X1: { AccountId32: { id: api.createType('AccountId32', recipientId).toHex(), network: 'Any' } } };
-      const ass = isParaTeleport
-        ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
-        // forgo id - 'Here' for 9100, 'Null' for 9110 (both is the default enum value)
-        : [{ ConcreteFungible: { amount } }];
-
-      return isCurrent
-        ? call.meta.args.length === 5
-          // with weight
-          ? call.method === 'limitedTeleportAssets'
-            ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, { Unlimited: null }]
-            : [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
-          // without weight
-          : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
-        : [dst, acc, ass, destWeight];
-    },
-    [api, amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
+    () => [
+      {
+        V1: isParaTeleport
+          ? {
+            interior: 'Here',
+            parents: 1
+          }
+          : {
+            interior: {
+              X1: {
+                ParaChain: recipientParaId
+              }
+            },
+            parents: 0
+          }
+      },
+      {
+        V1: {
+          interior: {
+            X1: {
+              AccountId32: {
+                id: api.createType('AccountId32', recipientId).toHex(),
+                network: 'Any'
+              }
+            }
+          },
+          parents: 0
+        }
+      },
+      {
+        V1: [{
+          fun: {
+            Fungible: amount
+          },
+          id: {
+            Concrete: {
+              interior: 'Here',
+              parents: isParaTeleport
+                ? 1
+                : 0
+            }
+          }
+        }]
+      },
+      0,
+      { Unlimited: null }
+    ],
+    [api, amount, isParaTeleport, recipientId, recipientParaId]
   );
 
   const hasAvailable = !!amount;
@@ -168,15 +183,17 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             onChange={setAmount}
           />
           {destApi
-            ? (
-              <>
-                <InputBalance
-                  defaultValue={destApi.consts.balances.existentialDeposit}
-                  isDisabled
-                  label={t<string>('destination existential deposit')}
-                />
-              </>
-            )
+            ? destApi.consts.balances
+              ? (
+                <>
+                  <InputBalance
+                    defaultValue={destApi.consts.balances.existentialDeposit}
+                    isDisabled
+                    label={t<string>('destination existential deposit')}
+                  />
+                </>
+              )
+              : null
             : (
               <Spinner
                 label={t<string>('Retrieving destination chain fees')}

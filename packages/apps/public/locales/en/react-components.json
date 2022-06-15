@@ -6,7 +6,6 @@
   "Confirm code removal": "Confirm code removal",
   "Confirm contract removal": "Confirm contract removal",
   "Details": "Details",
-  "Dismiss all notifications": "Dismiss all notifications",
   "Forget": "Forget",
   "No execution details available for this proposal": "No execution details available for this proposal",
   "Positive number": "Positive number",
@@ -22,6 +21,7 @@
   "This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.": "This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.",
   "Unbonding {{value}}": "Unbonding {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. Please supply all the details below when logging an issue, it may help in tracing the cause.": "Uncaught error. Something went wrong with the query and rendering of this component. Please supply all the details below when logging an issue, it may help in tracing the cause.",
+  "Valid number": "Valid number",
   "View this externally": "View this externally",
   "Withdraw these unbonded funds": "Withdraw these unbonded funds",
   "You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.": "You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.",
@@ -41,6 +41,7 @@
   "extrinsic hash": "extrinsic hash",
   "filter by name, address, or account index": "filter by name, address, or account index",
   "lifetime": "lifetime",
+  "link": "link",
   "lock expired": "lock expired",
   "locked": "locked",
   "no tags": "no tags",
@@ -77,5 +78,5 @@
   "{{eras}} eras remaining": "{{eras}} eras remaining",
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{type}} copied": "{{type}} copied",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)"
 }

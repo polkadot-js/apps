@@ -3,11 +3,11 @@
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Ledger } from '@polkadot/hw-ledger';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
-import type { Ledger } from '@polkadot/ui-keyring';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
@@ -124,6 +124,9 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
       api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
       tx.paymentInfo(multiRoot)
     ]);
+
+    console.log('multisig max weight=', weight.toString());
+
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
     let timepoint: Timepoint | null = null;

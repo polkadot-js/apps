@@ -93,7 +93,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
             : t<string>('Ended')
         }
       </td>
-      <td className='address media--1400'><AddressMini value={depositor} /></td>
+      <td className='address media--2000'><AddressMini value={depositor} /></td>
       <td className='all number together media--1200'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
@@ -159,7 +159,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
             accountId={depositor}
             className='media--1400'
             icon='times'
-            isDisabled={!isDepositor}
+            isDisabled={!(isDepositor || hasEnded)}
             label={
               isEnded
                 ? t<string>('Close')

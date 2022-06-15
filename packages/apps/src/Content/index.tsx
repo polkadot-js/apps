@@ -22,9 +22,7 @@ interface Props {
 
 const NOT_FOUND: Route = {
   Component: NotFound,
-  display: {
-    needsApi: undefined
-  },
+  display: {},
   group: 'settings',
   icon: 'times',
   isIgnored: false,
@@ -35,25 +33,29 @@ const NOT_FOUND: Route = {
 function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
-  const { api, isApiConnected, isApiReady } = useApi();
+  const { api, isApiConnected, isApiReady, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi, needsApiInstances }, icon, name, text } = useMemo(
+  const { Component, display: { needsApi, needsApiCheck, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
-      return createRoutes(t).find((route) => !!(route && app.startsWith(route.name))) || NOT_FOUND;
+      return createRoutes(t).find((r) =>
+        r &&
+        app.startsWith(r.name) &&
+        (isDevelopment || !r.display.isDevelopment)
+      ) || NOT_FOUND;
     },
-    [location, t]
+    [isDevelopment, location, t]
   );
 
   const missingApis = useMemo(
     () => needsApi
       ? isApiReady && isApiConnected
-        ? findMissingApis(api, needsApi, needsApiInstances)
+        ? findMissingApis(api, needsApi, needsApiInstances, needsApiCheck)
         : null
       : [],
-    [api, isApiConnected, isApiReady, needsApi, needsApiInstances]
+    [api, isApiConnected, isApiReady, needsApi, needsApiCheck, needsApiInstances]
   );
 
   return (

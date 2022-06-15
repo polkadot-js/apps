@@ -20,9 +20,9 @@ export function proposalFactory (api: ApiPromise): ProposalFactory {
       hash: aHash(),
       proposal: registry.createType('Proposal', extrinsic),
       votes: registry.createType('Votes', {
-        ayes: ayes,
+        ayes,
         index: 0,
-        nays: nays,
+        nays,
         threshold: 4
       })
     })

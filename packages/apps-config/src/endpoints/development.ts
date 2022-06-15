@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
@@ -40,7 +40,9 @@ export function createCustom (t: TFunction): LinkOption[] {
 export function createOwn (t: TFunction): LinkOption[] {
   try {
     // this may not be available, e.g. when running via script
-    const storedItems = localStorage?.getItem(CUSTOM_ENDPOINT_KEY);
+    const storedItems = typeof localStorage === 'object' && typeof localStorage.getItem === 'function'
+      ? localStorage.getItem(CUSTOM_ENDPOINT_KEY)
+      : null;
 
     if (storedItems) {
       const items = JSON.parse(storedItems) as string[];

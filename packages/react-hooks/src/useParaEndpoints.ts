@@ -23,7 +23,9 @@ function extractRelayEndpoints (genesisHash: string): LinkOption[] {
 function extractParaEndpoints (allEndpoints: LinkOption[], paraId: BN | number): LinkOption[] {
   const numId = bnToBn(paraId).toNumber();
 
-  return allEndpoints.filter(({ paraId }) => paraId === numId);
+  return allEndpoints.filter(({ paraId }) =>
+    paraId === numId
+  );
 }
 
 function useRelayEndpointsImpl (): LinkOption[] {

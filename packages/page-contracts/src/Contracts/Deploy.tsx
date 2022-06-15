@@ -86,7 +86,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
               ? salt
               : null,
             storageDepositLimit: null,
-            value
+            value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
         } catch (error) {
           return null;
@@ -172,14 +172,16 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
           </>
         )}
-        <InputBalance
-          help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
-          isError={!isValueValid}
-          isZeroable={hasStorageDeposit}
-          label={t<string>('value')}
-          onChange={setValue}
-          value={value}
-        />
+        {contractAbi?.constructors[constructorIndex].isPayable && (
+          <InputBalance
+            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+            isError={!isValueValid}
+            isZeroable={hasStorageDeposit}
+            label={t<string>('value')}
+            onChange={setValue}
+            value={value}
+          />
+        )}
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}

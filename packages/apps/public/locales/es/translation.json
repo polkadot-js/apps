@@ -295,7 +295,7 @@
   "Positive number between 1 and {{memberCount}}": "Número positivo entre 1 y {{memberCount}}",
   "Positive number greater than or equal to {{nextFreeId}}": "Número positivo mayor o igual a {{nextFreeId}}",
   "Pre-sale ethereum address": "Dirección de Ethereum de la preventa",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "El prefijo indica el formato de la dirección ss58 en esta red, es un número entre 0 ~ 255 que describe el formato preciso de los bytes de la dirección",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "El prefijo indica el formato de la dirección ss58 en esta red, es un número entre 0 ~ 255 que describe el formato preciso de los bytes de la dirección",
   "Preimage": "Preimagen",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "Presente el código QR que contiene la firma a la UI. Una vez escaneado, será presentado para su procesamiento y ejecución en cadena.",
   "Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.": "La propuesta puede ser la aprobación o el rechazo de este gasto. Una vez aprobada, el cambio se aplica ya sea quitando la propuesta o programando el pago.",
@@ -1118,5 +1118,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. Firme con su dirección de ETH",
   "{{threshold}}, not passing": "{{threshold}},  no pasará",
   "{{threshold}}, passing": "{{threshold}},  de aprobación",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x saldo de votos, bloqueado por {{lock}}x sentencia ({{period}} días."
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x saldo de votos, bloqueado por {{lock}}x sentencia ({{period}} días."
 }
