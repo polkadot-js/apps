@@ -342,6 +342,16 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
 
   const inflation = useInflation(baseInfo?.totalStaked);
 
+  const curEra = useCall<Option<u32>>(api.query.staking.currentEra);
+
+  const getStakers = useMemo(() => async (currentEra: u32) => {
+    setStakers(await api.query.staking.erasStakers.entries(currentEra));
+  }, [api.query.staking.erasStakers]);
+
+  curEra && getStakers(curEra?.unwrap());
+
+  const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
+
   return useMemo(
     (): SortedTargets => ({
       counterForNominators,
@@ -354,46 +364,20 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
       minNominated: BN_ZERO,
       minNominatorBond,
       minValidatorBond,
+      nominatorActiveCount,
+      nominatorElectingCount,
+      nominatorMaxElectingCount,
+      nominatorMinActiveThreshold,
+      validatorActiveCount,
+      validatorMinActiveThreshold,
       ...(
         inflation && inflation.stakedReturn
           ? addReturns(inflation, baseInfo)
           : baseInfo
       )
     }),
-    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
+    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, nominatorActiveCount, nominatorElectingCount, nominatorMaxElectingCount, nominatorMinActiveThreshold, validatorActiveCount, validatorMinActiveThreshold]
   );
-<<<<<<< HEAD
-
-  const curEra = useCall<Option<u32>>(api.query.staking.currentEra);
-
-  const getStakers = useMemo(() => async (currentEra: u32) => {
-    setStakers(await api.query.staking.erasStakers.entries(currentEra));
-  }, [api.query.staking.erasStakers]);
-
-  curEra && getStakers(curEra?.unwrap());
-
-  const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
-
-  return {
-    counterForNominators,
-    counterForValidators,
-    inflation,
-    maxNominatorsCount,
-    maxValidatorsCount,
-    medianComm: 0,
-    minNominated: BN_ZERO,
-    minNominatorBond,
-    minValidatorBond,
-    ...partial,
-    nominatorActiveCount,
-    nominatorElectingCount,
-    nominatorMaxElectingCount,
-    nominatorMinActiveThreshold,
-    validatorActiveCount,
-    validatorMinActiveThreshold
-  };
-=======
->>>>>>> 151c4cd75b6eb68ac275d90fd17f98b28b6e57a7
 }
 
 export default createNamedHook('useSortedTargets', useSortedTargetsImpl);
