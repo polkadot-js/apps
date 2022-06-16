@@ -3034,7 +3034,7 @@ __metadata:
     "@sora-substrate/type-definitions": 1.9.8
     "@subsocial/definitions": ^0.6.10
     "@unique-nft/opal-testnet-types": 0.5.2
-    "@unique-nft/quartz-mainnet-types": 0.5.1
+    "@unique-nft/quartz-mainnet-types": 0.5.2
     "@unique-nft/unique-mainnet-types": 0.6.1
     "@zeitgeistpm/type-defs": 0.5.0
     "@zeroio/type-definitions": 0.0.14
@@ -5154,13 +5154,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/quartz-mainnet-types@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@unique-nft/quartz-mainnet-types@npm:0.5.1"
+"@unique-nft/quartz-mainnet-types@npm:0.5.2":
+  version: 0.5.2
+  resolution: "@unique-nft/quartz-mainnet-types@npm:0.5.2"
   peerDependencies:
-    "@polkadot/api": ^7.8.1
-    "@polkadot/types": ^7.8.1
-  checksum: d6064e784bfe8e00e2019ac234bf04fd39ca9c48df572f209cb58a58ebf8d2ad3c21f7e021b138dd8637819e5c8c755782d840282d565b4b8dbc1dc8df5f6817
+    "@polkadot/api": ^8.6.2
+    "@polkadot/types": ^8.6.2
+  checksum: cc6d44a639115308c6ec5ed22c7307654ac45620ec8df426b3be9afd1b6882b71768e93ceed0c5d56ad5ca3f691c40805b09aa7b3524f030774592f959749ae0
   languageName: node
   linkType: hard
 

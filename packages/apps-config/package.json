@@ -41,7 +41,7 @@
     "@sora-substrate/type-definitions": "1.9.8",
     "@subsocial/definitions": "^0.6.10",
     "@unique-nft/opal-testnet-types": "0.5.2",
-    "@unique-nft/quartz-mainnet-types": "0.5.1",
+    "@unique-nft/quartz-mainnet-types": "0.5.2",
     "@unique-nft/unique-mainnet-types": "0.6.1",
     "@zeitgeistpm/type-defs": "0.5.0",
     "@zeroio/type-definitions": "0.0.14",
