@@ -115,6 +115,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHelixstreet from './nodes/helixstreet.png';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
@@ -261,6 +262,7 @@ export const chainLogos = Object.entries({
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'GM Rococo Parachain': chainGM,
+  Helixstreet: nodeHelixstreet,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -759,6 +761,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
+  rococoHelixstreet: nodeHelixstreet,
   rococoIdavoll: nodeIdavoll,
   rococoImbue: nodeImbue,
   rococoIntegritee: nodeIntegritee,
