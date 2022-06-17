@@ -472,6 +472,7 @@ export const nodeLogos = Object.entries({
   Geminis: chainGeminis,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  Helixstreet: nodeHelixstreet,
   'Idavoll Node': nodeIdavoll,
   'Imbue Node': nodeImbue,
   'Integritee Collator': nodeIntegritee,
