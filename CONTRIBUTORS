@@ -246,6 +246,7 @@
        1	hapham                        	Add parachain Lavender by SingNetwork (#6067)
        1	Harjyot Singh                 	Update translation.json (#3570)
        1	Harry Liu                     	Update README.md (#1437)
+       1	helixstreet                   	Update testingRelayRococo.ts / helixstreet ParaID 3025 ( formerly Arctic) (#7746)
        1	Ian He                        	add onfinality endpoint for polkadot and kusama (#4070)
        1	igorgogo                      	Add Spanner (#6058)
        1	Jake Naviasky                 	Bump edgeware types version for new testnet. (#3825)
