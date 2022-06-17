@@ -15,7 +15,6 @@ import { ROCOCO_GENESIS } from '../api/constants';
 //
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
- 
   {
     info: 'rococoBajun',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
