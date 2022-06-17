@@ -92,7 +92,6 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'helixstreet',
-    isUnreachable: true, 
     paraId: 3025,
     text: 'Helixstreet',
     providers: {
