@@ -3033,7 +3033,9 @@ __metadata:
     "@snowfork/snowbridge-types": 0.2.7
     "@sora-substrate/type-definitions": 1.9.8
     "@subsocial/definitions": ^0.6.10
-    "@unique-nft/types": 0.6.0-4
+    "@unique-nft/opal-testnet-types": 0.5.2
+    "@unique-nft/quartz-mainnet-types": 0.5.2
+    "@unique-nft/unique-mainnet-types": 0.6.1
     "@zeitgeistpm/type-defs": 0.5.0
     "@zeroio/type-definitions": 0.0.14
     lodash: ^4.17.21
@@ -5142,13 +5144,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/types@npm:0.6.0-4":
-  version: 0.6.0-4
-  resolution: "@unique-nft/types@npm:0.6.0-4"
+"@unique-nft/opal-testnet-types@npm:0.5.2":
+  version: 0.5.2
+  resolution: "@unique-nft/opal-testnet-types@npm:0.5.2"
   peerDependencies:
-    "@polkadot/api": ^8.6.1
-    "@polkadot/types": ^8.6.1
-  checksum: 2d370f0e9373300fc2327f08f62a3aea5d9276abb639aa9934cb903cfd1cbccfc89cd67bf3358e0da9e1cd25952f537523b054dc005a2ba4ef58f3f342b80fd7
+    "@polkadot/api": ^8.6.2
+    "@polkadot/types": ^8.6.2
+  checksum: 03a64e3a7c8f30a50681fed2224b5aef45b130096b7cfab3b635b169e390b0c7e64fe1c398d4d905489c28dfc1c9d1d167d753691a712b887c9bc1ff2cfd2ca6
+  languageName: node
+  linkType: hard
+
+"@unique-nft/quartz-mainnet-types@npm:0.5.2":
+  version: 0.5.2
+  resolution: "@unique-nft/quartz-mainnet-types@npm:0.5.2"
+  peerDependencies:
+    "@polkadot/api": ^8.6.2
+    "@polkadot/types": ^8.6.2
+  checksum: cc6d44a639115308c6ec5ed22c7307654ac45620ec8df426b3be9afd1b6882b71768e93ceed0c5d56ad5ca3f691c40805b09aa7b3524f030774592f959749ae0
+  languageName: node
+  linkType: hard
+
+"@unique-nft/unique-mainnet-types@npm:0.6.1":
+  version: 0.6.1
+  resolution: "@unique-nft/unique-mainnet-types@npm:0.6.1"
+  peerDependencies:
+    "@polkadot/api": ^8.6.2
+    "@polkadot/types": ^8.6.2
+  checksum: d1f1399eb8d89705944814db85b7b85b84a7c561515a3024afc28984bdd340b0946c7b4f183fbfb79f11a34aed49edede8175760a0c3963a0ef12343037c54b2
   languageName: node
   linkType: hard
 
