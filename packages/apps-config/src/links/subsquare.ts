@@ -13,7 +13,6 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
-    'Polkadex Main Network': 'polkadex',
     Polkadot: 'polkadot',
     kintsugi: 'kintsugi'
   },
