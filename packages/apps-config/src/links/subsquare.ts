@@ -10,9 +10,9 @@ export default {
     Acala: 'acala',
     Bifrost: 'bifrost',
     'Darwinia Crab': 'crab',
+    Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
-    Interlay: 'interlay',
     Kusama: 'kusama',
     Polkadot: 'polkadot',
     kintsugi: 'kintsugi'
