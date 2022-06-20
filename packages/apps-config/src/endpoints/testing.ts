@@ -596,8 +596,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7753
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }
