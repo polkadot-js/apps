@@ -115,6 +115,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHelixstreet from './nodes/helixstreet.png';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
@@ -261,6 +262,7 @@ export const chainLogos = Object.entries({
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'GM Rococo Parachain': chainGM,
+  helixstreet: nodeHelixstreet,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -470,6 +472,7 @@ export const nodeLogos = Object.entries({
   Geminis: chainGeminis,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  Helixstreet: nodeHelixstreet,
   'Idavoll Node': nodeIdavoll,
   'Imbue Node': nodeImbue,
   'Integritee Collator': nodeIntegritee,
@@ -758,6 +761,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoEncointer: nodeEncointer,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
+  rococoHelixstreet: nodeHelixstreet,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoImbue: nodeImbue,
@@ -834,8 +838,8 @@ export const namedLogos: Record<string, unknown> = {
   swapdex: nodeSwapdex,
   t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
+  ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
-  'ternoa-mainnet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,

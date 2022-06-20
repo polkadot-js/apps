@@ -249,6 +249,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'jupiter',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
       Patract: 'wss://ws.jupiter-poa.patract.cn'
@@ -595,7 +596,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }

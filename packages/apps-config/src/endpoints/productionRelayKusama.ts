@@ -283,8 +283,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Parallel Heiko',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      Parallel: 'wss://heiko-rpc.parallel.fi',
-      Dwellir: 'wss://heiko-rpc.dwellir.com'
+      Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
   {

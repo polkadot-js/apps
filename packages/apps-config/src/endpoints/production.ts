@@ -296,8 +296,8 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'ternoa-mainnet',
-    text: 'Ternoa Mainnet',
+    info: 'ternoa',
+    text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     }
