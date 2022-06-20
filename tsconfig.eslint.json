@@ -4,9 +4,6 @@
     "build/**/*",
     "**/build/**/*"
   ],
-  "include": [
-    "**/src/cjs/**/*"
-  ],
   "compilerOptions": {
     "baseUrl": "./packages",
     "composite": false
