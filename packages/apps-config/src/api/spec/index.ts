@@ -1,10 +1,6 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Some packages may include type augmentation, ensure that we get the
-// defaults in first so we highlight the issues in the packages themselves
-import '@polkadot/api-augment';
-
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';

@@ -31,7 +31,6 @@
     "@parallel-finance/type-definitions": "1.7.7",
     "@phala/typedefs": "0.2.30",
     "@polkadot/api": "^8.9.1",
-    "@polkadot/api-augment": "^8.9.1",
     "@polkadot/api-derive": "^8.9.1",
     "@polkadot/networks": "^9.5.1",
     "@polkadot/types": "^8.9.1",
