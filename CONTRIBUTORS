@@ -1,4 +1,4 @@
-    3669	Jaco                          	Bump deps (#7759)
+    3670	Jaco                          	Alternative solution for external libs augmentation (#7760)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
