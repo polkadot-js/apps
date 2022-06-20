@@ -117,6 +117,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'gm',
+    homepage: 'https://gmordie.com',
+    paraId: 2123
+    text: 'GM Parachain'
+    providers: {
+      GMorDieDAO: 'wss://kusama.gmordie.com'
+    }
+  },
+  {
     info: 'imbue',
     homepage: 'https://imbue.network',
     paraId: 2121,

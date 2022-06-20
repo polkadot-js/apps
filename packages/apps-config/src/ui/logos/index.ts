@@ -670,6 +670,7 @@ export const namedLogos: Record<string, unknown> = {
   geek: nodeGeek,
   geminis: chainGeminis,
   genshiro: chainGenshiro,
+  gm: chainGM,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   heiko: chainParallel,
