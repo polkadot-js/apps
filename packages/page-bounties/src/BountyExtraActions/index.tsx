@@ -49,8 +49,19 @@ function Index ({ bestNumber, className, description, index, proposals, status }
     UnassignCurator: t('Unassign curator')
   });
 
-  const existingCloseBountyProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'closeBounty'), [proposals]);
-  const existingUnassignCuratorProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'unassignCurator'), [proposals]);
+  const existingCloseBountyProposal = useMemo(
+    () => proposals?.find(({ proposal }) =>
+      proposal && proposal.method === 'closeBounty'
+    ),
+    [proposals]
+  );
+
+  const existingUnassignCuratorProposal = useMemo(
+    () => proposals?.find(({ proposal }) =>
+      proposal && proposal.method === 'unassignCurator'
+    ),
+    [proposals]
+  );
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;

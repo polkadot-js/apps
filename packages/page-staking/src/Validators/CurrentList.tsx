@@ -71,7 +71,13 @@ function filterAccounts (isOwn: boolean, accounts: string[] = [], ownStashIds: s
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
-  return accounts.map((a) => a.toString());
+  const result = new Array<string>(accounts.length);
+
+  for (let i = 0; i < accounts.length; i++) {
+    result[i] = accounts[i].toString();
+  }
+
+  return result;
 }
 
 function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | undefined, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
@@ -88,6 +94,18 @@ function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | u
       filterAccounts(isOwn, next, ownStashIds, [], favorites, allElected)
     )
   };
+}
+
+function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
+  const result: Record<string, ValidatorInfo> = {};
+
+  for (let i = 0; i < infos.length; i++) {
+    const info = infos[i];
+
+    result[info.key] = info;
+  }
+
+  return result;
 }
 
 const DEFAULT_PARAS = {};
@@ -116,11 +134,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   );
 
   const infoMap = useMemo(
-    () => targets.validators && targets.validators.reduce<Record<string, ValidatorInfo>>((result, info) => {
-      result[info.key] = info;
-
-      return result;
-    }, {}),
+    () => targets.validators && mapValidators(targets.validators),
     [targets]
   );
 

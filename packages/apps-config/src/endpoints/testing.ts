@@ -249,6 +249,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'jupiter',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
       Patract: 'wss://ws.jupiter-poa.patract.cn'
@@ -308,13 +309,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
-    }
-  },
-  {
     info: 'manta',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
     text: 'Manta Testnet',
@@ -335,8 +329,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
     }
   },
   {
@@ -345,14 +339,6 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       MYBANK: 'wss://mybank.network/substrate'
-    }
-  },
-  {
-    info: 'neumann',
-    text: 'Neumann Network',
-    providers: {
-      OAK: 'wss://rpc.testnet.oak.tech',
-      OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
     }
   },
   {
@@ -435,7 +421,6 @@ export const testChains: EndpointOption[] = [
     text: 'Pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
     }
   },
   {
@@ -473,7 +458,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
@@ -516,7 +502,16 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network'
+      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-1',
+    text: 'Subspace Gemini 1',
+    providers: {
+      'North America': 'wss://na.gemini-1b.subspace.network/ws',
+      Europe: 'wss://eu.gemini-1b.subspace.network/ws',
+      Asia: 'wss://apac.gemini-1b.subspace.network/ws'
     }
   },
   {
@@ -601,7 +596,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }

@@ -199,7 +199,6 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
     }
   },
   {
@@ -214,7 +213,8 @@ export const prodChains: EndpointOption[] = [
     text: 'Polkadex',
     providers: {
       'Polkadex Team': 'wss://mainnet.polkadex.trade',
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/polkadex'
     }
   },
   {
@@ -296,8 +296,8 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'ternoa-mainnet',
-    text: 'Ternoa Mainnet',
+    info: 'ternoa',
+    text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     }

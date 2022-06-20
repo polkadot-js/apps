@@ -129,7 +129,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'targets',
       text: t<string>('Targets')
     },
-    hasStashes && isFunction(api.query.bagsList?.counterForListNodes) && {
+    hasStashes && isFunction((api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
       name: 'bags',
       text: t<string>('Bags')
     },
@@ -163,6 +163,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         </Route>
         <Route path={pathRef.current.payout}>
           <Payouts
+            historyDepth={targets.historyDepth}
             isInElection={isInElection}
             ownPools={ownPools}
             ownValidators={ownValidators}

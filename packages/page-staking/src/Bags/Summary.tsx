@@ -7,10 +7,11 @@ import type { BagMap } from './types';
 import React, { useMemo } from 'react';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useCall } from '@polkadot/react-hooks';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useQueryModule from './useQueryModule';
 
 interface Props {
   bags?: unknown[];
@@ -20,8 +21,8 @@ interface Props {
 
 function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const total = useCall<BN>(api.query.bagsList.counterForListNodes);
+  const mod = useQueryModule();
+  const total = useCall<BN>(mod.counterForListNodes);
 
   const myCount = useMemo(
     () => mapOwn && Object.values(mapOwn).reduce((count, n) => count + n.length, 0),
