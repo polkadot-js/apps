@@ -119,8 +119,8 @@ export const prodParasKusama: EndpointOption[] = [
   {
     info: 'gm',
     homepage: 'https://gmordie.com',
-    paraId: 2123
-    text: 'GM Parachain'
+    paraId: 2123,
+    text: 'GM Parachain',
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com'
     }
