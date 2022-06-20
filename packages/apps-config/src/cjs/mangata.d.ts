@@ -3,6 +3,6 @@
 
 import { OverrideBundleDefinition } from '@polkadot/types/types';
 
-declare module './mangata-finance-types.js' {
+declare module './mangata.js' {
   export const typesBundleForPolkadotApps: OverrideBundleDefinition;
 }
