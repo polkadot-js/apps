@@ -283,8 +283,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Parallel Heiko',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      Parallel: 'wss://heiko-rpc.parallel.fi',
-      Dwellir: 'wss://heiko-rpc.dwellir.com'
+      Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
   {
@@ -322,7 +321,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      OnFinality: 'wss://quartz.api.onfinality.io%2Fpublic-ws',
+      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
@@ -372,6 +371,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'sora_ksm',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7721
     homepage: 'https://sora.org/',
     paraId: 2011,
     text: 'SORA Kusama Parachain',

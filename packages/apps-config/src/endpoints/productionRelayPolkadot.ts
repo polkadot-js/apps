@@ -157,7 +157,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     text: 'HydraDX',
     providers: {
-      'Galactic Council': 'wss://rpc-01.hydradx.io'
+      'Galactic Council': 'wss://rpc-01.hydradx.io',
+      Dwellir: 'wss://hydradx-rpc.dwellir.com'
     }
   },
   {
@@ -240,8 +241,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Parallel',
     providers: {
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
-      Parallel: 'wss://rpc.parallel.fi',
-      Dwellir: 'wss://parallel-rpc.dwellir.com'
+      Parallel: 'wss://rpc.parallel.fi'
     }
   },
   {

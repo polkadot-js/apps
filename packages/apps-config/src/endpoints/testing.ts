@@ -308,13 +308,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
-    }
-  },
-  {
     info: 'manta',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
     text: 'Manta Testnet',
@@ -427,7 +420,6 @@ export const testChains: EndpointOption[] = [
     text: 'Pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
     }
   },
   {
@@ -465,8 +457,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      // Pinknode: 'wss://public-rpc.pinknode.io/shibuya' // https://github.com/polkadot-js/apps/issues/7747
     }
   },
   {
@@ -603,6 +595,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7753
     text: 'Zero',
     providers: {
       ZERO: 'wss://alphaville.zero.io'

@@ -27,7 +27,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: BN): { text: s
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
-      text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
+      text: t<string>('{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)', {
         replace: {
           lock,
           period: (
