@@ -194,6 +194,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
+  'interlay-parachain': interbtc,
   'ipse-node': ipse,
   'joystream-node': joystream,
   'jupiter-prep': jupiter,

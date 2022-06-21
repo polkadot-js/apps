@@ -1125,5 +1125,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. Assine com seu endereço ETH",
   "{{threshold}}, not passing": "{{threshold}}, não passando",
   "{{threshold}}, passing": "{{threshold}}, passando",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x saldo de votos, bloqueado por {{lock}} x promulgação ({{period}} dias)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x saldo de votos, bloqueado por {{lock}} x promulgação ({{period}} dias)"
 }

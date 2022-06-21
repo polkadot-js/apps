@@ -1527,5 +1527,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. Signer avec l'adresse Ethereum",
   "{{threshold}}, not passing": "{{seuil} }, ne dépassant pas",
   "{{threshold}}, passing": "{{seuil}}, passant",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x solde de vote, verrouillé pendant {{lock}} x décret ({{period}} jours)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x solde de vote, verrouillé pendant {{lock}} x décret ({{period}} jours)"
 }
