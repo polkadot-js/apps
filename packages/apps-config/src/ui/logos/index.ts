@@ -845,7 +845,7 @@ export const namedLogos: Record<string, unknown> = {
   ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
-  tinkernet: chainTinker,
+  tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
   turing: chainTuring,
