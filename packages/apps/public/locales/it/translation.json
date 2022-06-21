@@ -1804,9 +1804,9 @@
   "rpc.rococo.bajun": "",
   "rpc.rococo.bifrost": "",
   "rpc.rococo.bitcountry": "",
-  "rpc.rococo.canvas": "",
   "rpc.rococo.chainx": "",
   "rpc.rococo.clover": "",
+  "rpc.rococo.contracts": "",
   "rpc.rococo.crab": "",
   "rpc.rococo.crust": "",
   "rpc.rococo.darwinia": "",
@@ -1876,7 +1876,6 @@
   "rpc.test.mybank": "",
   "rpc.test.nftmart": "",
   "rpc.test.nodle-arcadia": "",
-  "rpc.test.oak": "",
   "rpc.test.opportunity": "",
   "rpc.test.pangolin": "",
   "rpc.test.phala": "",
@@ -2136,5 +2135,5 @@
   "{{threshold}}, not passing": "{{threshold}}, respinta",
   "{{threshold}}, passing": "{{threshold}}, approvato",
   "{{type}} copied": "{{type}} copiato",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x moltiplicatore di voto, fondi bloccati per {{lock}}x = {{period}} giorni"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x moltiplicatore di voto, fondi bloccati per {{lock}}x = {{period}} giorni"
 }

@@ -3,7 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
-import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
+import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,31 +25,49 @@ interface Props {
   value?: string | null;
 }
 
+interface State {
+  events?: KeyedEvent[];
+  getBlock?: SignedBlock;
+  getHeader?: HeaderExtended;
+  runtimeVersion?: RuntimeVersionPartial;
+}
+
 const EMPTY_HEADER = [['...', 'start', 6]];
 
-function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
-  return [
-    events.map((record, index) => ({
+function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[]], SignedBlock, HeaderExtended?]): State {
+  return {
+    events: events.map((record, index) => ({
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
       record
     })),
     getBlock,
-    getHeader
-  ];
+    getHeader,
+    runtimeVersion
+  };
 }
 
 function BlockByHash ({ className = '', error, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const [[events, getBlock, getHeader], setState] = useState<[KeyedEvent[]?, SignedBlock?, HeaderExtended?]>([]);
+  const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
   const [myError, setError] = useState<Error | null | undefined>(error);
+
+  const isVersionCurrent = useMemo(
+    () => !!runtimeVersion && api.runtimeVersion.specName.eq(runtimeVersion.specName) && api.runtimeVersion.specVersion.eq(runtimeVersion.specVersion),
+    [api, runtimeVersion]
+  );
 
   useEffect((): void => {
     value && Promise
       .all([
-        api.query.system.events.at(value),
+        api.at(value).then((apiAt) =>
+          Promise.all([
+            Promise.resolve(apiAt.runtimeVersion),
+            apiAt.query.system.events()
+          ])
+        ),
         api.rpc.chain.getBlock(value),
         api.derive.chain.getHeader(value)
       ])
@@ -69,10 +87,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         [t('parent'), 'start'],
         [t('extrinsics'), 'start media--1000'],
         [t('state'), 'start media--1100'],
-        [undefined, 'media--1200']
+        [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1200']
       ]
       : EMPTY_HEADER,
-    [getHeader, t]
+    [getHeader, runtimeVersion, t]
   );
 
   const blockNumber = getHeader?.number.unwrap();
@@ -123,6 +141,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             blockNumber={blockNumber}
             events={events}
             value={getBlock.block.extrinsics}
+            withLink={isVersionCurrent}
           />
           <Columar>
             <Columar.Column>

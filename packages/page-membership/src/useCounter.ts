@@ -5,13 +5,13 @@ import type { Hash } from '@polkadot/types/interfaces';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-const transformCounter = {
+const OPT = {
   transform: (proposals: Hash[]) => proposals.length
 };
 
 function useCounterImpl (): number {
   const { api, isApiReady } = useApi();
-  const counter = useCall<number>(isApiReady && api.query.membership?.proposals, undefined, transformCounter) || 0;
+  const counter = useCall<number>(isApiReady && api.query.membership?.proposals, undefined, OPT) || 0;
 
   return counter;
 }

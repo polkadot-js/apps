@@ -8,6 +8,8 @@ interface SortOption {
   isUnreachable?: boolean;
 }
 
+let dummyId = 0;
+
 function sortNoop (): number {
   return 0;
 }
@@ -41,20 +43,25 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
 }
 
 function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+  const hasProviders = Object.keys(providers).length !== 0;
   const base = {
     genesisHash,
     homepage,
     info,
     isChild,
     isDisabled,
-    isUnreachable,
+    isUnreachable: isUnreachable || !hasProviders,
     paraId,
     teleport,
     text
   };
 
   const result = Object
-    .entries(providers)
+    .entries(
+      hasProviders
+        ? providers
+        : { Placeholder: `wss://${++dummyId}` }
+    )
     .filter((_, index) => !firstOnly || index === 0)
     .map(([host, value], index): LinkOption => ({
       ...base,

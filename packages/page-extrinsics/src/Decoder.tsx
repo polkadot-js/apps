@@ -29,6 +29,7 @@ interface ExtrinsicInfo {
   extrinsicError: string | null;
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
   extrinsicHex: string | null;
+  extrinsicKey: string;
   isCall: boolean;
 }
 
@@ -38,6 +39,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicError: null,
   extrinsicFn: null,
   extrinsicHex: null,
+  extrinsicKey: 'none',
   isCall: true
 };
 
@@ -46,7 +48,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
+  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, extrinsicKey, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
 
   const _setExtrinsicHex = useCallback(
     (hex: string): void => {
@@ -68,12 +70,13 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
         const extrinsicFn = api.tx[section][method];
+        const extrinsicKey = extrinsicCall.callIndex.toString();
 
         if (!decoded) {
           decoded = extrinsicFn(...extrinsicCall.args);
         }
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex, isCall });
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex, extrinsicKey, isCall });
         setLast({ call: extrinsicCall, fn: extrinsicFn, hex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
@@ -100,6 +103,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
           <InputExtrinsic
             defaultValue={extrinsicFn}
             isDisabled
+            key={`extrinsicKey:${extrinsicKey}`}
             label={t<string>('decoded call')}
           />
           <CallDisplay

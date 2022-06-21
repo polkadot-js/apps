@@ -49,7 +49,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'bifrost',
     homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
     paraId: 2001,
-    text: 'Bifrost (Kusama)',
+    text: 'Bifrost',
     providers: {
       'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
       'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
@@ -99,12 +99,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'dorafactory',
-    isUnreachable: true,
     homepage: 'https://dorafactory.org/kusama/',
     paraId: 2115,
     text: 'Dora Factory',
     providers: {
-      DORA: 'wss://rpc.dorafactory.org'
+      DORA: 'wss://kusama.dorafactory.org'
     }
   },
   {
@@ -118,12 +117,22 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'imbue',
+    homepage: 'https://imbue.network',
+    paraId: 2121,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://imbue-kusama.imbue.network'
+    }
+  },
+  {
     info: 'integritee',
     homepage: 'https://integritee.network',
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -158,7 +167,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Phala: 'wss://khala-api.phala.network/ws',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
-      Dwellir: 'wss://khala-rpc.dwellir.com'
+      Dwellir: 'wss://khala-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/khala'
     }
   },
   {
@@ -254,13 +264,15 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'moonriver',
-    homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+    homepage: 'https://moonbeam.network/networks/moonriver/',
     paraId: 2023,
     text: 'Moonriver',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
+      Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -271,8 +283,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Parallel Heiko',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      Parallel: 'wss://heiko-rpc.parallel.fi',
-      Dwellir: 'wss://heiko-rpc.dwellir.com'
+      Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
   {
@@ -310,10 +321,10 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      Unique: 'wss://quartz.unique.network',
       OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      'Unique US': 'wss://us-ws-quartz.unique.network'
+      'Unique America': 'wss://us-ws-quartz.unique.network',
+      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     }
   },
   {
@@ -325,14 +336,6 @@ export const prodParasKusama: EndpointOption[] = [
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
     }
-  },
-  {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
   },
   {
     info: 'sakura',
@@ -352,7 +355,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
       Dwellir: 'wss://shiden-rpc.dwellir.com'
     }
   },
@@ -368,6 +371,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'sora_ksm',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7721
     homepage: 'https://sora.org/',
     paraId: 2011,
     text: 'SORA Kusama Parachain',
@@ -401,6 +405,14 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     }
+  },
+  {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
   },
   {
     info: 'turing',

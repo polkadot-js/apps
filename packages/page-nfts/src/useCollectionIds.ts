@@ -7,7 +7,7 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
-const keyOptions = {
+const OPT_KEYS = {
   transform: (keys: StorageKey<[u32]>[]): u32[] =>
     keys
       .map(({ args: [id] }) => id)
@@ -31,7 +31,7 @@ function filter (records: EventRecord[]): Changes<u32> {
 
 function useCollectionIdsImpl (): u32[] {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.uniques.class, keyOptions);
+  const startValue = useMapKeys(api.query.uniques.class, OPT_KEYS);
 
   return useEventChanges([
     api.events.uniques.Created,

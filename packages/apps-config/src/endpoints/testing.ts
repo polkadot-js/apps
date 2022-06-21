@@ -32,6 +32,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'nodle',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7652
     text: 'Arcadia',
     providers: {
       Nodle: 'wss://arcadia1.nodleprotocol.io'
@@ -226,7 +227,7 @@ export const testChains: EndpointOption[] = [
     info: 'brainstorm',
     text: 'InvArch Brainstorm Testnet',
     providers: {
-      'InvArch Team': 'ws://localhost:9944' // Placeholder, will be changed before merge
+      'InvArch Team': 'wss://brainstorm.invarch.network/'
     }
   },
   {
@@ -248,6 +249,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'jupiter',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
       Patract: 'wss://ws.jupiter-poa.patract.cn'
@@ -302,14 +304,8 @@ export const testChains: EndpointOption[] = [
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
-    }
-  },
-  {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
+      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
+      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
     }
   },
   {
@@ -332,8 +328,9 @@ export const testChains: EndpointOption[] = [
     text: 'Moonbase Alpha',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
+      Blast: 'wss://moonbase-alpha.public.blastapi.io',
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
     }
   },
   {
@@ -342,14 +339,6 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       MYBANK: 'wss://mybank.network/substrate'
-    }
-  },
-  {
-    info: 'neumann',
-    text: 'Neumann Network',
-    providers: {
-      OAK: 'wss://rpc.testnet.oak.tech',
-      OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
     }
   },
   {
@@ -362,6 +351,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
     text: 'OPAL by UNIQUE',
     providers: {
       Unique: 'wss://opal.unique.network'
@@ -430,8 +420,7 @@ export const testChains: EndpointOption[] = [
     info: 'pontem',
     text: 'Pontem',
     providers: {
-      Pontem: 'wss://testnet.pontem.network/ws',
-      OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
+      // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
     }
   },
   {
@@ -469,7 +458,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
@@ -477,13 +467,6 @@ export const testChains: EndpointOption[] = [
     text: 'SkyeKiwi Testnet',
     providers: {
       SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
-    }
-  },
-  {
-    info: 'snowbridge',
-    text: 'Snowbridge',
-    providers: {
-      Snowfork: 'wss://parachain-rpc.snowbridge.network'
     }
   },
   {
@@ -519,7 +502,16 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network'
+      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-1',
+    text: 'Subspace Gemini 1',
+    providers: {
+      'North America': 'wss://na.gemini-1b.subspace.network/ws',
+      Europe: 'wss://eu.gemini-1b.subspace.network/ws',
+      Asia: 'wss://apac.gemini-1b.subspace.network/ws'
     }
   },
   {
@@ -559,6 +551,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'unique',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7621
     text: 'Unique',
     providers: {
       Unique: 'wss://testnet2.unique.network'
@@ -603,7 +596,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }

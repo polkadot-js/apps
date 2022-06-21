@@ -9,7 +9,7 @@ import type { Detail, Result } from './types';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
@@ -114,7 +114,7 @@ async function getNext (api: ApiPromise, { block: { number: start } }: Detail, {
   return getBlocks(api, blockNumbers);
 }
 
-export default function useLatency (): Result {
+function useLatencyImpl (): Result {
   const { api } = useApi();
   const [details, setDetails] = useState<Detail[]>([]);
   const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks, []);
@@ -178,3 +178,5 @@ export default function useLatency (): Result {
     };
   }, [details]);
 }
+
+export default createNamedHook('useLatency', useLatencyImpl);
