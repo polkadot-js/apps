@@ -3,6 +3,4 @@
 
 import { OverrideBundleDefinition } from '@polkadot/types/types';
 
-declare module './mangata.js' {
-  export const typesBundleForPolkadotApps: OverrideBundleDefinition;
-}
+declare const typesBundleForPolkadotApps: OverrideBundleDefinition;
