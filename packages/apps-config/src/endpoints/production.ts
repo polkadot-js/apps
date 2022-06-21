@@ -193,14 +193,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'nodle',
-      text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
-      providers: {
-        Nodle: 'wss://main3.nodleprotocol.io'
-        // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
-      }
-    },
-    {
       info: 'plasm',
       text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
