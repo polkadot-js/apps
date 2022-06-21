@@ -398,21 +398,21 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    info: 'tanganika',
-    homepage: 'https://www.datahighway.com/',
-    paraId: 2116,
-    text: 'Tanganika',
-    providers: {
-      DataHighway: 'wss://tanganika.datahighway.com'
-    }
-  },
-  {
     info: 'tinker',
     homepage: 'https://invarch.network/tinkernet',
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network'
+    }
+  },
+  {
+    info: 'tanganika',
+    homepage: 'https://www.datahighway.com/',
+    paraId: 2116,
+    text: 'Tanganika',
+    providers: {
+      DataHighway: 'wss://tanganika.datahighway.com'
     }
   },
   {
