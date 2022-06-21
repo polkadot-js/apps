@@ -1,4 +1,4 @@
-    3671	Jaco                          	Disable unreachable endpoints (#7768)
+    3672	Jaco                          	Adjust rankOverall display (#7774)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
@@ -322,6 +322,7 @@
        1	Subsocial                     	Specify the custom types for Subsocial parachain (#5009)
        1	tarrball                      	Grammar fix in staking tooltip (#6727)
        1	Tore19                        	Added Stafi Network logos & endpoints (#3683)
+       1	Vadim                         	fix overflow issue in extensions table (#7767)
        1	valentunn                     	Fix Kusama name in ru translation (#7498)
        1	Vedhavyas Singareddi          	enable subscan external link for centrifuge (#4307)
        1	Vlad Proshchavaiev            	Add Subsocial into apps-config (#3523)
