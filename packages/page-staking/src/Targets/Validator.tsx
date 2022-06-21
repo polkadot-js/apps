@@ -112,7 +112,7 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
           />
         )}
       </td>
-      <td className='number'>{formatNumber(rankOverall)}</td>
+      <td className='number'>{rankOverall !== 0 && formatNumber(rankOverall)}</td>
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
