@@ -455,7 +455,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-      Dwellir: 'wss://statemine-rpc.dwellir.com'
+      Dwellir: 'wss://statemine-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/statemine'
     },
     teleport: [-1]
   },
@@ -482,8 +483,8 @@ export const prodRelayKusama: EndpointOption = {
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
+    Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: [1000, 1001],
