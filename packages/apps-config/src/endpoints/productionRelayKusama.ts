@@ -136,6 +136,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'tinker',
+    homepage: 'https://invarch.network/tinkernet',
+    paraId: 2125,
+    text: 'InvArch Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://tinker.invarch.network'
+    }
+  },
+  {
     info: 'kabocha',
     homepage: 'https://kabocha.network',
     paraId: 2113,
@@ -395,15 +404,6 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'SubsocialX',
     providers: {
       Dappforce: 'wss://para.subsocial.network'
-    }
-  },
-  {
-    info: 'tinker',
-    homepage: 'https://invarch.network/tinkernet',
-    paraId: 2125,
-    text: 'InvArch Tinkernet',
-    providers: {
-      'InvArch Team': 'wss://tinker.invarch.network'
     }
   },
   {
