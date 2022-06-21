@@ -82,6 +82,7 @@ const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
+const chainLogion = 'rgb(21, 38, 101)';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#030408';
@@ -504,6 +505,8 @@ export const nodeColors = Object.entries({
   'Kylin Parachain Collator': nodeKylin,
   'Listen Network': chainListen,
   'Litentry node': nodeLitentry,
+  'logion Collator': chainLogion,
+  'Logion Node': chainLogion,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,

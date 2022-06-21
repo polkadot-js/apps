@@ -164,6 +164,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'logion',
+    text: 'logion Standalone',
+    providers: {
+      Logion: 'wss://rpc01.logion.network'
+    }
+  },
+  {
     info: 'mathchain',
     text: 'MathChain',
     providers: {

@@ -36,6 +36,7 @@ import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainListen from './chains/listen.png';
+import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainOpal from './chains/opal-logo.png';
@@ -497,6 +498,8 @@ export const nodeLogos = Object.entries({
   'Laminar Node': nodeLaminar,
   'Listen Network': chainListen,
   'Litentry node': nodeLitentry,
+  'logion Collator': chainLogion,
+  'Logion Node': chainLogion,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -700,6 +703,7 @@ export const namedLogos: Record<string, unknown> = {
   listen: chainListen,
   litentry: nodeLitentry,
   litmus: nodeLitmus,
+  logion: chainLogion,
   loomNetwork: nodeLoomNetwork,
   mangata: chainMangata,
   manta: nodeManta,
