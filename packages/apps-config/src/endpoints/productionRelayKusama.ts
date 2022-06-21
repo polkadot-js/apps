@@ -407,6 +407,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'tinker',
+    homepage: 'https://invarch.network/tinkernet',
+    paraId: 2125,
+    text: 'InvArch Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://tinker.invarch.network',
+    }
+  },
+  {
     info: 'trustbase',
     isUnreachable: true, // no providers (yet)
     homepage: 'https://trustbase.network/',
