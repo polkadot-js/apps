@@ -412,7 +412,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
-      'InvArch Team': 'wss://tinker.invarch.network',
+      'InvArch Team': 'wss://tinker.invarch.network'
     }
   },
   {
