@@ -240,6 +240,7 @@
        1	gabriel klawitter             	CI: add file for substrate-ui and substrate-ui-light domains (#767)
        1	George Angelopoulos           	typo fix (#5704)
        1	Georgi Zlatarev               	Dolphin parachain on Rococo (#7401)
+       1	Gérard Dethier                	Add logion networks. (#7777)
        1	Gerawork Aynekulu             	Update RILT paraId (#7736)
        1	goldsteinsveta                	Style bug fix: Balances asset selector (#6668)
        1	Guenit                        	remove apron config `isDisabled` flag (#5151)
