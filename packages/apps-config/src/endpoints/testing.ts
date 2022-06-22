@@ -300,6 +300,20 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'logion',
+    text: 'logion Parachain Testnet',
+    providers: {
+      Logion: 'wss://chimay.logion.network'
+    }
+  },
+  {
+    info: 'logion',
+    text: 'logion Standalone Testnet',
+    providers: {
+      Logion: 'wss://test-rpc01.logion.network'
+    }
+  },
+  {
     info: 'acala',
     text: 'Mandala',
     providers: {
