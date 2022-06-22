@@ -57,6 +57,7 @@ import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
+import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
@@ -274,6 +275,7 @@ export const chainLogos = Object.entries({
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
+  'InvArch Tinker Network': chainTinker,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -479,6 +481,7 @@ export const nodeLogos = Object.entries({
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
   'InvArch Brainstorm Node': chainBrainstorm,
+  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
@@ -842,6 +845,7 @@ export const namedLogos: Record<string, unknown> = {
   ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
+  tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
   turing: chainTuring,

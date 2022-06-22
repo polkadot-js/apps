@@ -133,6 +133,7 @@ const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainSwapdex = '#E94082';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
+const chainTinker = '#161616';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
@@ -317,6 +318,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
+  'InvArch Tinker Network': chainTinker,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -493,6 +495,7 @@ export const nodeColors = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   'InvArch Brainstorm Node': chainBrainstorm,
+  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
