@@ -288,13 +288,14 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
   ], OPT_MULTI);
+
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
   const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
   const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
   const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string>('');
-  const [nominatorMaxElectingCount, setNominatorMaxElectingCount] = useState<u32 | null>();
+  const [nominatorMaxElectingCount, setNominatorMaxElectingCount] = useState<u32>();
   const [nominatorElectingCount, setNominatorElectingCount] = useState<number | undefined>();
   const [nominatorActiveCount, setNominatorActiveCount] = useState<number | undefined>();
   const [validatorActiveCount, setValidatorActiveCount] = useState<number | undefined>();
@@ -323,7 +324,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
 
       nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
 
-      setNominatorMaxElectingCount(api.consts.electionProviderMultiPhase?.maxElectingVoters || null);
+      setNominatorMaxElectingCount(api.consts.electionProviderMultiPhase?.maxElectingVoters);
 
       setNominatorElectingCount(assignments.size);
       setNominatorActiveCount(assignments.size);

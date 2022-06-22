@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { Card, CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,6 +25,10 @@ function SummaryValidators ({ targets:
     validatorMinActiveThreshold,
     waitingIds } }: Props) {
   const { t } = useTranslation();
+  const { api } = useApi();
+
+  const maxValidatorDefined = !!api.query.staking.maxValidatorsCount;
+  const minValidatorBondDefined = !!api.query.staking.minValidatorBond;
 
   return (
     <Card withBottomMargin>
@@ -34,9 +39,11 @@ function SummaryValidators ({ targets:
             help={t<string>('Maximum number of validator intentions.')}
             label={t<string>('max intention')}
           >
-            <SpinnerWrap check={maxValidatorsCount}>
-              {maxValidatorsCount?.toNumber()}
-            </SpinnerWrap>
+            {maxValidatorDefined
+              ? <SpinnerWrap check={maxValidatorsCount}>
+                {maxValidatorsCount?.toNumber()}
+              </SpinnerWrap>
+              : '-'}
           </CardSummary>
         </Section>
         <Section>
@@ -66,12 +73,14 @@ function SummaryValidators ({ targets:
             help={t<string>('Threshold stake among intended validators.')}
             label={t<string>('intention thrs')}
           >
-            <SpinnerWrap check={minValidatorBond}>
-              <FormatBalance
-                value={minValidatorBond}
-                withSi
-              />
-            </SpinnerWrap>
+            {minValidatorBondDefined
+              ? <SpinnerWrap check={minValidatorBond}>
+                <FormatBalance
+                  value={minValidatorBond}
+                  withSi
+                />
+              </SpinnerWrap>
+              : '-'}
           </CardSummary>
         </Section>
         <Section>

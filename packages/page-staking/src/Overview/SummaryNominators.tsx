@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { Card, CardSummary, MarkWarning, SummaryBox } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -23,6 +24,12 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
   nominatorMinActiveThreshold } }: Props) {
   const { t } = useTranslation();
 
+  const { api } = useApi();
+
+  const maxElectingVotersDefined = !!api.consts.electionProviderMultiPhase?.maxElectingVoters;
+  const maxNominatorDefined = !!api.query.staking.maxNominatorsCount;
+  const minNominatorBondDefined = !!api.query.staking.minNominatorBond;
+
   return (
     <>
       <Card withBottomMargin>
@@ -33,9 +40,11 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Maximum number of nominator intentions.')}
               label={t<string>('maximum')}
             >
-              <SpinnerWrap check={maxNominatorsCount}>
-                {formatNumber(maxNominatorsCount?.toNumber())}
-              </SpinnerWrap>
+              {maxNominatorDefined
+                ? <SpinnerWrap check={maxNominatorsCount}>
+                  {formatNumber(maxNominatorsCount?.toNumber())}
+                </SpinnerWrap>
+                : '-'}
             </CardSummary>
           </Section>
           <Section>
@@ -43,11 +52,11 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Number of electing nominators.')}
               label={t<string>('electing')}
             >
-              {nominatorMaxElectingCount === null
-                ? <>-</>
-                : <SpinnerWrap check={nominatorMaxElectingCount}>
+              {maxElectingVotersDefined
+                ? <SpinnerWrap check={nominatorMaxElectingCount}>
                   {formatNumber(nominatorMaxElectingCount)}
-                </SpinnerWrap>}
+                </SpinnerWrap>
+                : '-'}
             </CardSummary>
           </Section>
           <Section>
@@ -67,12 +76,14 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Threshold stake to intend nomination.')}
               label={t<string>('intention thrs')}
             >
-              <SpinnerWrap check={minNominatorBond}>
-                <FormatBalance
-                  value={minNominatorBond}
-                  withSi
-                />
-              </SpinnerWrap>
+              {minNominatorBondDefined
+                ? <SpinnerWrap check={minNominatorBond}>
+                  <FormatBalance
+                    value={minNominatorBond}
+                    withSi
+                  />
+                </SpinnerWrap>
+                : '-'}
             </CardSummary>
           </Section>
           <Section>
