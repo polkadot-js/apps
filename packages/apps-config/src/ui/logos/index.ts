@@ -39,6 +39,7 @@ import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
+import chainMyriad from './chains/myriad.svg';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
 import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
@@ -328,6 +329,7 @@ export const chainLogos = Object.entries({
   'Moonsama Development': chainMoonsamaDevelopment,
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
+  Myriad: chainMyriad,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -720,6 +722,7 @@ export const namedLogos: Record<string, unknown> = {
   moonrock: nodeMoonrock,
   moonshadow,
   mybank,
+  myriad: chainMyriad,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   odyssey: nodeAresGladios,
