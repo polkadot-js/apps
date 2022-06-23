@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Arcadia, Beresheet, ...
     {
+      info: 'arctic',
+      text: t('rpc.test.arctic', 'Arctic', { ns: 'apps-config' }),
+      providers: {
+        Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      }
+    },
+    {
       info: 'ajuna',
       text: t('rpc.test.ajuna', 'Ajuna Testnet', { ns: 'apps-config' }),
       providers: {
