@@ -16,6 +16,14 @@ import { ROCOCO_GENESIS } from '../api/constants';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'arctic',
+    paraId: 3025,
+    text: "Arctic",
+    providers: {
+      Arctic: 'wss://arctic-rpc-parachain.icenetwork.io:9944'
+    }
+  },
+  {
     info: 'rococoBajun',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
