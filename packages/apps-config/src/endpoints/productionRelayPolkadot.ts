@@ -306,7 +306,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Dwellir: 'wss://statemint-rpc.dwellir.com'
+      Dwellir: 'wss://statemint-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/statemint'
     }
   }
 ];
@@ -320,8 +321,8 @@ export const prodRelayPolkadot: EndpointOption = {
     Parity: 'wss://rpc.polkadot.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
+    Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: [1000],
