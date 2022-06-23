@@ -57,9 +57,9 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The deposit will be locked for the lifetime of the proposal.')}>
               <InputBalance
+                defaultValue={deposit || api.consts.democracy.minimumDeposit}
                 isDisabled
                 label={t<string>('deposit required')}
-                value={deposit || api.consts.democracy.minimumDeposit}
               />
             </Modal.Columns>
           </Modal.Content>

@@ -16,22 +16,24 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chainAcala = '#645AFF';
-const chainAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
+const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
+const chainBajun = '#161212';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
+const chainBitgreen = '#13F513';
+const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainCompetitorsClub = '#213830';
-const chainComposable = '#FF8500';
-const chainComposableFinance = '#861660';
+const chainComposableFinance = '#C90E8A';
 const chainCrab = '#7C30DD';
 const chainCreditcoin = '#2D353F';
 const chainCreditcoinTestnet = '#00DF83';
@@ -41,6 +43,7 @@ const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainDali = '#000000';
 const chainDolphin = '#000000';
 const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
@@ -48,40 +51,24 @@ const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
 const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
+const chainGalois = '#000000';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
+const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
+const chainIdavoll = '#ff43ff';
+const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
+const chainJupiter = '#7143ff';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
-const chainMinix = '#5152f7';
-const chainManta = '#2070a6';
-const chainMangata = '#030408';
-const chainMoonrock = '#3d1d5a';
-const chainMoonsama = '#000000';
-const chainNeumann = '#A8278C';
-const chainNFTMart = '#815287';
-const chainNodle = '#1ab394';
-const chainPangolin = '#5744ff';
-const chainPangoro = '#5745de';
-const chainParallel = '#ef18ac';
-const chainParami = '#ee06e2';
-const chainPhala = '#c6fa4c';
-const chainPhoenix = '#d42181';
-const chainPlasm = '#2096F3';
-const chainPolkadex = '#7C30DD';
-const chainPolkadot = '#e6007a';
-const chainPolkaFoundry = '#ff527c';
-const chainPolkaSmith = '#0DDDFB';
-const chainPontem = '#A92FAC';
-const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKico = '#29B58D';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
@@ -95,16 +82,40 @@ const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
+const chainLogion = 'rgb(21, 38, 101)';
+const chainMinix = '#5152f7';
+const chainManta = '#2070a6';
+const chainMangata = '#030408';
+const chainMoonrock = '#3d1d5a';
+const chainMoonsama = '#000000';
 const chainMybank = '#282736';
+const chainNFTMart = '#815287';
+const chainNodle = '#1ab394';
 const chainOpal = '#3B9C9D';
+const chainOriginTrail = '#FB5DEB';
+const chainOriginTrailTestnet = '#0C0C0C';
+const chainPangolin = '#5744ff';
+const chainPangoro = '#5745de';
+const chainParallel = '#ef18ac';
+const chainParami = '#ee06e2';
+const chainPicasso = '#000000';
 const chainPichiu = '#ed007e';
+const chainPhala = '#c6fa4c';
+const chainPhoenix = '#d42181';
+const chainPlasm = '#2096F3';
+const chainPolkadex = '#7C30DD';
+const chainPolkadot = '#e6007a';
+const chainPolkaFoundry = '#ff527c';
+const chainPolkaSmith = '#0DDDFB';
+const chainPontem = '#A92FAC';
+const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
 const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
-const chainRococoCanvas = '#000000';
+const chainRococoContracts = '#000000';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -116,39 +127,40 @@ const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
+const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
 const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
-const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
-const chainWestend = '#da68a7';
-const chainWhala = '#03f3f3';
-const chainGalois = '#000000';
-const chainZero = '#000000';
-const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const chainJupiter = '#7143ff';
-const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
-const chainUnique = '#40BCFF';
-const chainIdavoll = '#ff43ff';
-const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSwapdex = '#E94082';
+const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTinker = '#161616';
+const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
+const chainT0rn = '#212322';
+const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
+const chainUnique = '#40BCFF';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
+const chainVirto = '#063970';
 const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
+const chainWestend = '#da68a7';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
+const chainWhala = '#03f3f3';
+const chainZero = '#000000';
+const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 // based on node name
 // alphabetical
-const nodeAjuna = 'linear-gradient(135deg, #0e0c14, #12203b, #1f3451)';
+const nodeAjuna = '#161212';
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
 const nodeAutomata = '#EC7032';
 const nodeAutomataContextFree = '#EC7032';
 const nodeBasilisk = '#9eec1b';
+const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCentrifuge = '#fcc367';
@@ -164,6 +176,7 @@ const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
 const nodeHeiko = '#42d5de';
+const nodeImbue = '#baff36';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJoystream = '#4038FF';
@@ -185,7 +198,6 @@ const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
 const nodeOpportunity = '#6143bc';
-const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
 const nodeParallel = '#ef18ac';
@@ -243,31 +255,36 @@ export const chainColors: Record<string, string> = Object.entries({
   Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
+  'Bajun Testnet': chainBajun,
   'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
+  'Bifrost Kusama': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
+  'Bifrost Polkadot': chainRoccoBifrost,
   'Bifrost Stage Testnet': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  BitgreenRococo: chainBitgreen,
   'Calamari Parachain': chainCalamari,
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
-  'Canvas on Rococo': chainRococoCanvas,
   Centrifuge: nodeCentrifuge,
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
-  Composable: chainComposable,
   'Composable Finance': chainComposableFinance,
+  'Contracts on Rococo': chainRococoContracts,
   Creditcoin: chainCreditcoin,
   'Creditcoin Testnet': chainCreditcoinTestnet,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  'Dali Rococo': chainDali,
+  'Dali Westend': chainDali,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
@@ -288,6 +305,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
+  'GM Rococo Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainHydrate,
@@ -296,10 +314,12 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
+  'Imbue Testnet': chainImbue,
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
-  'InvArch Tinkernet': chainTinker,
+  'InvArch Brainstorm Testnet': chainBrainstorm,
+  'InvArch Tinker Network': chainTinker,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -351,15 +371,14 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
-  'Neumann Network': chainNeumann,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
   'Opal Node': chainOpal,
-  'OriginTrail Parachain': nodeOriginTrail,
-  'OriginTrail Parachain Testnet': nodeOriginTrail,
+  'OriginTrail Parachain': chainOriginTrail,
+  'OriginTrail Parachain Testnet': chainOriginTrailTestnet,
   Pangolin: chainPangolin,
   'Pangolin Parachain': chainPangolin,
   Pangoro: chainPangoro,
@@ -368,6 +387,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Parami PC2': chainParami,
   Phala: chainPhala,
   PHOENIX: chainPhoenix,
+  Picasso: chainPicasso,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
@@ -392,6 +412,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Sherpax: chainSherpax,
   'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
+  'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
@@ -409,15 +430,18 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Staging': nodeSubGame,
   Subspace: nodeSubspace,
   swapdex: chainSwapdex,
+  t0rn: chainT0rn,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
   'Turing Network': chainTuring,
+  'Turing Network (Staging)': chainTuring,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
+  VirtoRococo: chainVirto,
   'VLN PC': chainVln,
   Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
@@ -443,6 +467,7 @@ export const nodeColors = Object.entries({
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomataContextFree,
   'Automata Node': nodeAutomata,
+  'Bajun Node': nodeBajun,
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
@@ -450,6 +475,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'Circuit Collator': chainT0rn,
   Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
@@ -466,8 +492,10 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
+  'InvArch Brainstorm Node': chainBrainstorm,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Joystream Node': nodeJoystream,
@@ -480,6 +508,8 @@ export const nodeColors = Object.entries({
   'Kylin Parachain Collator': nodeKylin,
   'Listen Network': chainListen,
   'Litentry node': nodeLitentry,
+  'logion Collator': chainLogion,
+  'Logion Node': chainLogion,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
@@ -490,7 +520,6 @@ export const nodeColors = Object.entries({
   'nodle chain node': nodeNodle,
   'Opal Node': nodeOpal,
   'Opportunity Standalone Testnet': nodeOpportunity,
-  'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   'Pangolin Parachain': nodePangolin,
   Pangoro: nodePangoro,

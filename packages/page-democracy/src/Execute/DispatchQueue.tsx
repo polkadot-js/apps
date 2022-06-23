@@ -22,7 +22,10 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
   const filtered = useMemo(
-    () => bestNumber && queued && queued.filter(({ at }) => at.gte(bestNumber)),
+    () => bestNumber && queued &&
+      queued
+        .filter(({ at }) => at.gte(bestNumber))
+        .sort((a, b) => a.at.cmp(b.at)),
     [bestNumber, queued]
   );
 

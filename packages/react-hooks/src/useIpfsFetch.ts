@@ -11,6 +11,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useIsMountedRef } from './useIsMountedRef';
 
+interface Options <T> extends CallOptions<T> {
+  transform?: (value: any) => T
+}
+
 function isCid (cid: string): boolean {
   return !!cid && (isIPFS.cid(cid) || isIPFS.base32cid(cid.toLowerCase()));
 }
@@ -41,20 +45,20 @@ async function fetchIpfsData <T> (ipfsHashes: string[]): Promise<Map<string, T>>
   return result;
 }
 
-function postProcessData <T> (ipfsData: Map<string, T>, options?: CallOptions<T>) {
-  if (!options?.transform) {
+function postProcessData <T> (ipfsData: Map<string, T>, { transform }: Options<T> = {}) {
+  if (!transform) {
     return ipfsData;
   }
 
   for (const [key, value] of ipfsData.entries()) {
-    ipfsData.set(key, options?.transform(value));
+    ipfsData.set(key, transform(value));
   }
 
   return ipfsData;
 }
 
 // FIXME This is generic, we cannot really use createNamedHook
-export function useIpfsFetch <T> (hashes: string[] | undefined, options?: CallOptions<T>): Map<string, T> | undefined {
+export function useIpfsFetch <T> (hashes: string[] | undefined, options?: Options<T>): Map<string, T> | undefined {
   const mountedRef = useIsMountedRef();
   const [value, setValue] = useState<Map<string, T> | undefined>();
 

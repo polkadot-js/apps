@@ -8,6 +8,8 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
+import { isUndefined, nextTick } from '@polkadot/util';
+
 import { useApi } from './useApi';
 import { handleError, transformIdentity, unsubscribe } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -18,14 +20,14 @@ interface TrackerRef {
 
 interface CallOptions <T> {
   defaultValue?: T;
-  transform?: (value: any) => T;
+  transform?: (value: any, api: ApiPromise) => T;
 }
 
 // subscribe, trying to play nice with the browser threads
 function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, calls: QueryableStorageMultiArg<'promise'>[], setValue: (value: T) => void, { transform = transformIdentity }: CallOptions<T> = {}): void {
   unsubscribe(tracker);
 
-  setTimeout((): void => {
+  nextTick((): void => {
     if (mountedRef.current) {
       const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
       const filtered = calls.filter((_, index) => included[index]);
@@ -38,20 +40,19 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
           if (mountedRef.current && tracker.current.isActive) {
             let valueIndex = -1;
 
-            if (mountedRef.current && tracker.current.isActive) {
-              try {
-                setValue(
-                  transform(
-                    calls.map((_, index) =>
-                      included[index]
-                        ? value[++valueIndex]
-                        : undefined
-                    )
-                  )
-                );
-              } catch (error) {
-                handleError(error as Error, tracker);
-              }
+            try {
+              setValue(
+                transform(
+                  calls.map((_, index) =>
+                    included[index]
+                      ? value[++valueIndex]
+                      : undefined
+                  ),
+                  api
+                )
+              );
+            } catch (error) {
+              handleError(error as Error, tracker);
             }
           }
         }).catch((error) => handleError(error as Error, tracker));
@@ -59,7 +60,7 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
         tracker.current.subscriber = null;
       }
     }
-  }, 0);
+  });
 }
 
 // very much copied from useCall
@@ -68,7 +69,7 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
-  const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
+  const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

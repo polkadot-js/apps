@@ -3,6 +3,8 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
+import logionDefault from '@logion/node-api/dist/interfaces/definitions';
+
 // structs need to be in order
 /* eslint-disable sort-keys */
 
@@ -11,7 +13,9 @@ const definitions: OverrideBundleDefinition = {
     {
       // on all versions
       minmax: [0, undefined],
-      types: {}
+      types: {
+        ...logionDefault.types
+      }
     }
   ]
 };

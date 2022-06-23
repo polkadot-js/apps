@@ -4,37 +4,29 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useAmountError from './useAmountError';
 
 interface Props {
   className?: string;
-  id: BN;
   isDisabled?: boolean;
+  ownAccounts?: string[];
   params: Params;
+  poolId: BN;
 }
 
-function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorBond } }: Props): React.ReactElement<Props> | null {
+function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
-
-  const minAmount = useMemo(
-    () => minJoinBond && minNominatorBond && bnMax(minJoinBond, minNominatorBond),
-    [minJoinBond, minNominatorBond]
-  );
-
-  const isAmountError = useMemo(
-    () => !amount || !minAmount || amount.lt(minAmount),
-    [amount, minAmount]
-  );
+  const isAmountError = useAmountError(accountId, amount, minMemberBond);
 
   if (isDisabled) {
     return null;
@@ -44,7 +36,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
     <>
       <Button
         icon='plus'
-        isDisabled={!minAmount}
+        isDisabled={!minMemberBond}
         label={t<string>('Join')}
         onClick={toggleOpen}
       />
@@ -58,16 +50,18 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account that is to join the pool.')}>
               <InputAddress
+                filter={ownAccounts}
                 label={t<string>('join pool from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
+                withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set the the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
-                defaultValue={minAmount}
+                defaultValue={minMemberBond}
                 isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}
@@ -81,7 +75,7 @@ function Join ({ className, id, isDisabled, params: { minJoinBond, minNominatorB
               isDisabled={!accountId || isAmountError}
               label={t<string>('Join')}
               onStart={toggleOpen}
-              params={[amount, id]}
+              params={[amount, poolId]}
               tx={api.tx.nominationPools.join}
             />
           </Modal.Actions>

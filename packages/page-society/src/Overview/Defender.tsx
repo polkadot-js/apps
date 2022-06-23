@@ -21,7 +21,7 @@ interface Props {
   ownMembers: string[];
 }
 
-const transformVotes = {
+const OPT_VOTES = {
   transform: (members: DeriveSocietyMember[]): VoteType[] =>
     members
       .filter(({ vote }): boolean => !!vote)
@@ -31,7 +31,7 @@ const transformVotes = {
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.derive.society.members, undefined, transformVotes);
+  const votes = useCall<VoteType[]>(api.derive.society.members, undefined, OPT_VOTES);
 
   const headerRef = useRef([
     [t('defender'), 'start'],

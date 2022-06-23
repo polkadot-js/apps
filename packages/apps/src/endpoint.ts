@@ -18,17 +18,21 @@ function hasEndpoint (api: ApiPromise, endpoint: string, needsApiInstances: bool
 }
 
 export function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[], needsApiInstances = false, needsApiCheck?: (api: ApiPromise) => boolean): (string | string[])[] {
-  if (needsApiCheck && !needsApiCheck(api)) {
-    return ['needsApiCheck'];
-  } else if (!needsApi) {
+  if (!needsApi) {
     return [];
   }
 
-  return needsApi.filter((endpoint: string | string[]): boolean => {
+  const missing = needsApi.filter((endpoint: string | string[]): boolean => {
     const hasApi = Array.isArray(endpoint)
       ? endpoint.reduce((hasApi, endpoint) => hasApi || hasEndpoint(api, endpoint, needsApiInstances), false)
       : hasEndpoint(api, endpoint, needsApiInstances);
 
     return !hasApi;
   });
+
+  if (!missing.length && needsApiCheck && !needsApiCheck(api)) {
+    return ['needsApiCheck'];
+  }
+
+  return missing;
 }
