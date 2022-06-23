@@ -17,7 +17,7 @@ import { ROCOCO_GENESIS } from '../api/constants';
 export const testParasRococo: EndpointOption[] = [
   {
     info: 'arctic',
-    paraId: 3025,
+    paraId: 3015,
     text: "Arctic",
     providers: {
       Arctic: 'wss://arctic-rpc-parachain.icenetwork.io:9944'
