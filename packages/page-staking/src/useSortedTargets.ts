@@ -131,11 +131,11 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       ? [exposure.own.unwrap(), exposure.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
 
-    if (bondTotal.isZero()) {
+    const skipRewards = bondTotal.isZero();
+
+    if (skipRewards) {
       bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
-
-    const skipRewards = bondTotal.isZero();
 
     // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
     const minNominated = (exposure.others || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
