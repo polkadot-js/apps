@@ -89,6 +89,7 @@ const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainMybank = '#282736';
+const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
 const chainOpal = '#3B9C9D';
@@ -516,6 +517,7 @@ export const nodeColors = Object.entries({
   MathChain: nodeMathChain,
   'Moonsama Development': chainMoonsama,
   'mybank.network node': nodeMybank,
+  Myriad: chainMyriad,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
