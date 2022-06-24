@@ -252,6 +252,7 @@
        1	Harry Liu                     	Update README.md (#1437)
        1	Ian He                        	add onfinality endpoint for polkadot and kusama (#4070)
        1	igorgogo                      	Add Spanner (#6058)
+       1	imam hermawan                 	add myriad endpoint (#7792)
        1	Jake Naviasky                 	Bump edgeware types version for new testnet. (#3825)
        1	Jamie Cheng                   	Fix an important translation error in Chinese (#3938)
        1	Jeff Reiner                   	adding in Wiki link to sidebar (#556)
