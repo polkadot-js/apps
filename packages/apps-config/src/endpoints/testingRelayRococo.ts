@@ -18,7 +18,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'arctic',
     paraId: 3015,
-    text: "Arctic",
+    text: 'Arctic',
     providers: {
       Arctic: 'wss://arctic-rococo-rpc.icenetwork.io'
     }
