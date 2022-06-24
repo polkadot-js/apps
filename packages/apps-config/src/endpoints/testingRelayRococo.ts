@@ -81,15 +81,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rococoGM',
-    isUnreachable: true,
-    paraId: 3019,
-    text: 'GM Parachain',
-    providers: {
-      // 'GM or Die DAO': 'wss://rococo.gmordie.com' // https://github.com/polkadot-js/apps/issues/7716
-    }
-  },
-  {
     info: 'helixstreet',
     paraId: 3025,
     text: 'Helixstreet',
