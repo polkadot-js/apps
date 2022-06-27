@@ -224,6 +224,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jaz',
+    text: 'Artio Testnet',
+    providers: {
+      Jaz: 'wss://ws0.jaz.network'
+    }
+  },
+  {
     info: 'brainstorm',
     text: 'InvArch Brainstorm Testnet',
     providers: {
