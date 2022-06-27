@@ -11,19 +11,19 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.116.2-66-x",
+  "version": "0.116.2-67-x",
   "dependencies": {
     "@babel/runtime": "^7.18.3",
     "@polkadot/hw-ledger": "^9.6.2",
     "@polkadot/phishing": "^0.14.4",
-    "@polkadot/react-components": "^0.116.2-66-x",
-    "@polkadot/react-hooks": "^0.116.2-66-x",
+    "@polkadot/react-components": "^0.116.2-67-x",
+    "@polkadot/react-hooks": "^0.116.2-67-x",
     "@polkadot/util": "^9.6.2",
     "@polkadot/vanitygen": "^0.51.12",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.116.2-66-x"
+    "@polkadot/test-support": "0.116.2-67-x"
   }
 }
