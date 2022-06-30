@@ -12,7 +12,7 @@ import { sanitize } from '../util';
 import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
-import chainAmplitude from './chains/amplitud.svg';
+import chainAmplitude from './chains/amplitude.svg';
 import chainAstar from './chains/astar.png';
 import chainBitgreen from './chains/bitgreen.png';
 import chainBrainstorm from './chains/brainstorm.png';
