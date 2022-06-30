@@ -27,7 +27,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'amplitude',
-    homepage: 'https://pendulumchain.org/',
+    homepage: 'https://pendulumchain.org/amplitude',
     paraId: 2124,
     text: 'Amplitude',
     isUnreachable: true,
