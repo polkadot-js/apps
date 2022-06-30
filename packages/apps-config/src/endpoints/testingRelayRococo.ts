@@ -142,7 +142,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2026,
     text: 'Nodle',
     providers: {
-      OnFinality: 'wss://node-6913072722034561024.lh.onfinality.io/ws?apikey=84d77e2e-3793-4785-8908-5096cffea77a'
+      OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
     }
   },
   {
