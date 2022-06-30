@@ -19,11 +19,11 @@ function Results ({ results }: Props): React.ReactElement<Props> | null {
 
   return (
     <section className='runtime--Results'>
-      {results.map(({ def: { method, section }, error, id, result }): React.ReactNode => (
+      {results.map(({ def: { method, section, type }, error, id, result }): React.ReactNode => (
         <Output
           isError={!!error}
           key={id}
-          label={`${id}: ${section}.${method}`}
+          label={`${id}: ${section}.${method}: ${type}`}
           value={
             error
               ? error.message
