@@ -26,6 +26,14 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'amplitude',
+    homepage: 'https://pendulumchain.org/amplitude',
+    paraId: 2124,
+    text: 'Amplitude',
+    isUnreachable: true,
+    providers: {} // Working on making this live ASAP
+  },
+  {
     info: 'bajun',
     homepage: 'https://ajuna.io',
     paraId: 2119,
