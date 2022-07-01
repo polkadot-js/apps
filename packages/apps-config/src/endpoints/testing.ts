@@ -53,6 +53,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jaz',
+    text: 'Artio Testnet',
+    providers: {
+      Jaz: 'wss://ws0.jaz.network'
+    }
+  },
+  {
     info: 'automata-contextfree',
     text: 'Automata ContextFree',
     providers: {
@@ -221,13 +228,6 @@ export const testChains: EndpointOption[] = [
     text: 'Interlay Testnet',
     providers: {
       Interlay: 'wss://api-testnet.interlay.io/parachain/'
-    }
-  },
-  {
-    info: 'jaz',
-    text: 'Artio Testnet',
-    providers: {
-      Jaz: 'wss://ws0.jaz.network'
     }
   },
   {
