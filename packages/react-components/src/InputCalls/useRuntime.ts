@@ -11,7 +11,7 @@ import { createNamedHook, useApi } from '@polkadot/react-hooks';
 function getAllCalls (api: ApiPromise): [Record<string, Record<string, DefinitionCallNamed>>, DefinitionCallNamed | null] {
   const result: Record<string, Record<string, DefinitionCallNamed>> = {};
   let defValue: DefinitionCallNamed | null = null;
-  const sections = Object.entries(api.runtime);
+  const sections = Object.entries(api.call);
 
   for (let i = 0; i < sections.length; i++) {
     const [section, methodsObj] = sections[i];

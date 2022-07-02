@@ -25,7 +25,7 @@ function RuntimeApp (): React.ReactElement {
 
   const onSubmit = useCallback(
     (def: DefinitionCallNamed, values: RawParam[]): void => {
-      api.runtime[def.section][def.method](...values.map(({ value }) => value))
+      api.call[def.section][def.method](...values.map(({ value }) => value))
         .then((result) => addResult({ def, id: ++id, result }))
         .catch((e): void => {
           addResult({ def, error: e as Error, id: ++id });
