@@ -8,14 +8,20 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
+function getEntries <T> (obj: Record<string, T>): [string, T][] {
+  return Object
+    .entries(obj)
+    .sort(([a], [b]) => a.localeCompare(b));
+}
+
 function getAllCalls (api: ApiPromise): [Record<string, Record<string, DefinitionCallNamed>>, DefinitionCallNamed | null] {
   const result: Record<string, Record<string, DefinitionCallNamed>> = {};
   let defValue: DefinitionCallNamed | null = null;
-  const sections = Object.entries(api.call).sort(([a], [b]) => a.localeCompare(b));
+  const sections = getEntries(api.call);
 
   for (let i = 0; i < sections.length; i++) {
     const [section, methodsObj] = sections[i];
-    const methods = Object.entries(methodsObj).sort(([a], [b]) => a.localeCompare(b));
+    const methods = getEntries(methodsObj);
 
     for (let j = 0; j < methods.length; j++) {
       const [method, { meta }] = methods[j] as unknown as [string, { meta: DefinitionCallNamed }];
