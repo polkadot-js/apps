@@ -3,42 +3,38 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import type { DefinitionRpcExt } from '@polkadot/types/types';
+import type { DefinitionCallNamed } from '@polkadot/types/types';
 import type { DropdownOptions } from '../util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-
-import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
-import useRpcs from './useRpcs';
+import useRuntime from './useRuntime';
 
 interface Props {
   className?: string;
-  defaultValue: DefinitionRpcExt;
   help?: React.ReactNode;
   label: React.ReactNode;
-  onChange?: (value: DefinitionRpcExt) => void;
+  onChange?: (value: DefinitionCallNamed) => void;
   withLabel?: boolean;
 }
 
-function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const rpcs = useRpcs();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, rpcs, defaultValue.section));
-  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
-  const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
+function InputCalls ({ className, help, label, onChange, withLabel }: Props): React.ReactElement<Props> | null {
+  const [defs, defaultValue] = useRuntime();
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(defs));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(defs, defaultValue && defaultValue.section));
+  const [value, setValue] = useState<DefinitionCallNamed | null>(() => defaultValue);
 
   useEffect((): void => {
-    onChange && onChange(value);
+    value && onChange && onChange(value);
   }, [onChange, value]);
 
   const _onMethodChange = useCallback(
-    (newValue: DefinitionRpcExt): void => {
+    (newValue: DefinitionCallNamed): void => {
       if (value !== newValue) {
         // set via callback since the method is a function itself
         setValue(() => newValue);
@@ -49,15 +45,19 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
 
   const _onSectionChange = useCallback(
     (newSection: string): void => {
-      if (newSection !== value.section) {
-        const optionsMethod = methodOptions(api, rpcs, newSection);
+      if (value && newSection !== value.section) {
+        const optionsMethod = methodOptions(defs, newSection);
 
         setOptionsMethod(optionsMethod);
-        _onMethodChange(rpcs[newSection][optionsMethod[0].value]);
+        _onMethodChange(defs[newSection][optionsMethod[0].value]);
       }
     },
-    [_onMethodChange, api, rpcs, value]
+    [_onMethodChange, defs, value]
   );
+
+  if (!value) {
+    return null;
+  }
 
   return (
     <LinkedWrapper
@@ -74,6 +74,7 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
       />
       <SelectMethod
         className='large'
+        defs={defs}
         onChange={_onMethodChange}
         options={optionsMethod}
         value={value}
@@ -82,4 +83,4 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
   );
 }
 
-export default React.memo(InputRpc);
+export default React.memo(InputCalls);
