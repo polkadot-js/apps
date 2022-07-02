@@ -19,6 +19,7 @@ const chainAcala = '#645AFF';
 const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
+const chainAmplitude = '#5DEFA7';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainAutomata = '#EC7032';
@@ -180,6 +181,7 @@ const nodeHeiko = '#42d5de';
 const nodeImbue = '#baff36';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
+const nodeJaz = '#121212';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
 const nodeKabocha = '#f53485';
@@ -249,6 +251,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
+  Amplitude: chainAmplitude,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
   'Ares Odyssey': nodeOdyssey,
@@ -500,6 +503,7 @@ export const nodeColors = Object.entries({
   'InvArch Brainstorm Node': chainBrainstorm,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
+  'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
   KICO: chainKico,

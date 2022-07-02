@@ -53,6 +53,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jaz',
+    text: 'Artio Testnet',
+    providers: {
+      Jaz: 'wss://ws0.jaz.network'
+    }
+  },
+  {
     info: 'automata-contextfree',
     text: 'Automata ContextFree',
     providers: {

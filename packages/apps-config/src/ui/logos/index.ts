@@ -12,6 +12,7 @@ import { sanitize } from '../util';
 import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
+import chainAmplitude from './chains/amplitude.svg';
 import chainAstar from './chains/astar.png';
 import chainBitgreen from './chains/bitgreen.png';
 import chainBrainstorm from './chains/brainstorm.png';
@@ -125,6 +126,7 @@ import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
+import nodeJaz from './nodes/jaz.png';
 import nodeJoystream from './nodes/joystream.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKabocha from './nodes/kabocha.svg';
@@ -215,6 +217,7 @@ export const chainLogos = Object.entries({
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
+  Amplitude: chainAmplitude,
   'Apron PC1': nodeApron,
   Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
@@ -421,6 +424,7 @@ export const chainLogos = Object.entries({
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
   'Ajuna Node': nodeAjuna,
+  Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   Arctic: nodeArctic,
@@ -488,6 +492,7 @@ export const nodeLogos = Object.entries({
   'InvArch Brainstorm Node': chainBrainstorm,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
+  'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
   Kerria: nodeParallel,
@@ -629,6 +634,7 @@ export const namedLogos: Record<string, unknown> = {
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
+  amplitude: chainAmplitude,
   arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
   astar: chainAstar,
@@ -691,6 +697,7 @@ export const namedLogos: Record<string, unknown> = {
   interbtc: nodeInterBTC,
   interlay: chainInterlay,
   ipse: nodeIpse,
+  jaz: nodeJaz,
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
   kabocha: nodeKabocha,
