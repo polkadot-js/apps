@@ -1,4 +1,4 @@
-    3679	Jaco                          	Allow for pre-set Enum changes (#7803)
+    3680	Jaco                          	Bump deps (w/ polkadot) (#7816)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
