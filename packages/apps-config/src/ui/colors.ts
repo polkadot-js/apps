@@ -105,7 +105,6 @@ const chainPicasso = '#000000';
 const chainPichiu = '#ed007e';
 const chainPhala = '#c6fa4c';
 const chainPhoenix = '#d42181';
-const chainPlasm = '#2096F3';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
@@ -396,8 +395,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Picasso: chainPicasso,
   'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
-  Plasm: chainPlasm,
-  'Plasm PC2': chainPlasm,
   PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   Polkadot: chainPolkadot,
