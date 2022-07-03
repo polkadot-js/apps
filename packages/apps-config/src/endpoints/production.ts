@@ -216,13 +216,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'plasm',
-    text: 'Plasm',
-    providers: {
-      'Stake Technologies': 'wss://rpc.plasmnet.io/'
-    }
-  },
-  {
     info: 'polkadex',
     text: 'Polkadex',
     providers: {

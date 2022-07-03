@@ -162,7 +162,6 @@ import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
 import nodePichiu from './nodes/pichiu.png';
 import nodePioneerNetwork from './nodes/pioneer.png';
-import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -545,9 +544,6 @@ export const nodeLogos = Object.entries({
   'PHOENIX Node': nodePhoenix,
   'Pichiu Node': nodePichiu,
   'Pioneer Network Collator Node': nodePioneerNetwork,
-  Plasm: nodePlasm,
-  'Plasm Node': nodePlasm,
-  'Plasm Parachain Collator': nodePlasm,
   'Polkadex Node': nodePolkadex,
   'polkadot-js': nodePolkadotJs,
   'PolkaFoundry Node': nodePolkaFoundry,
@@ -746,7 +742,6 @@ export const namedLogos: Record<string, unknown> = {
   phoenix: nodePhoenix,
   picasso: chainPicasso,
   pichiu: nodePichiu,
-  plasm: nodePlasm,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
@@ -806,7 +801,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
-  rococoPlasm: nodePlasm,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoSingLavender: nodeSingLavender,

@@ -87,7 +87,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import pichiu from './pichiu';
-import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -241,7 +240,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  plasm,
   polymesh,
   'pontem-node': pontem,
   prism,
