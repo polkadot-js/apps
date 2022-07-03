@@ -1,10 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
-import type { LinkOption } from './types';
+import type { EndpointOption } from './types';
 
-import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -14,15 +12,13 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createStaging (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
-  return expandEndpoints(t, [
-    // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
-    {
-      info: 'Amber Glow',
-      text: t('rpc.test.cord', 'Cord v2', { ns: 'apps-config' }),
-      providers: {
-        'Dhiway': 'wss://staging.cord.network'
-      }
-    },
-     ], firstOnly, withSort);
-}
+export const testChains: EndpointOption[] = [
+  {
+    info: 'Cord v2',
+    text: 'Cord Network v2',
+    providers: {
+      'Dhiway': 'wss://staging.cord.network'
+    }
+  },
+];
+

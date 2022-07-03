@@ -107,7 +107,7 @@ const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
-const chainRococoContracts = '#000000';
+// const chainRococoContracts = '#000000';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -273,12 +273,12 @@ export const chainColors: Record<string, string> = Object.entries({
   Clover: chainClover,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
-  Composable: chainComposable,
-  'Composable Finance': chainComposableFinance,
-  'Contracts on Rococo': chainRococoContracts,
-  Creditcoin: chainCreditcoin,
-  'Creditcoin Testnet': chainCreditcoinTestnet,
-  'Crown Sterling': chainCrownSterling,
+  // Composable: chainComposable,
+  // 'Composable Finance': chainComposableFinance,
+  // 'Contracts on Rococo': chainRococoContracts,
+  // Creditcoin: chainCreditcoin,
+  // 'Creditcoin Testnet': chainCreditcoinTestnet,
+  // 'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
