@@ -99,12 +99,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'dorafactory',
-    isUnreachable: true,
     homepage: 'https://dorafactory.org/kusama/',
     paraId: 2115,
     text: 'Dora Factory',
     providers: {
-      DORA: 'wss://rpc.dorafactory.org'
+      DORA: 'wss://kusama.dorafactory.org'
     }
   },
   {
@@ -118,12 +117,22 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'imbue',
+    homepage: 'https://imbue.network',
+    paraId: 2121,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://imbue-kusama.imbue.network'
+    }
+  },
+  {
     info: 'integritee',
     homepage: 'https://integritee.network',
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -254,13 +263,14 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'moonriver',
-    homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+    homepage: 'https://moonbeam.network/networks/moonriver/',
     paraId: 2023,
     text: 'Moonriver',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -310,10 +320,10 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      Unique: 'wss://quartz.unique.network',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      'Unique US': 'wss://us-ws-quartz.unique.network'
+      OnFinality: 'wss://quartz.api.onfinality.io%2Fpublic-ws',
+      'Unique America': 'wss://us-ws-quartz.unique.network',
+      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     }
   },
   {
@@ -325,14 +335,6 @@ export const prodParasKusama: EndpointOption[] = [
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
     }
-  },
-  {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
   },
   {
     info: 'sakura',
@@ -401,6 +403,14 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     }
+  },
+  {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
   },
   {
     info: 'turing',

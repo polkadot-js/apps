@@ -193,7 +193,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       parentCache.set(cacheAddr, identity.parent.toString());
     }
 
-    if (isFunction(api.query.identity?.identityOf)) {
+    if (api && isFunction(api.query.identity?.identityOf)) {
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)

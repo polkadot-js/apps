@@ -21,7 +21,6 @@ import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
-import canvas from './canvas';
 import centrifuge from './centrifuge';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -29,6 +28,7 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
 import competitorsClub from './competitors-club';
+import contracts from './contracts';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -53,6 +53,7 @@ import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
+import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
@@ -162,7 +163,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  canvas,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -172,6 +172,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
@@ -197,6 +198,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
+  imbue,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,

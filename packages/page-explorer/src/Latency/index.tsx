@@ -1,24 +1,20 @@
 // Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Detail } from './types';
+import type { ChartContents, Detail } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { CardSummary, Chart, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Chart from './Chart';
 import useLatency from './useLatency';
 
 interface Props {
   className?: string;
-}
-
-interface ChartContents {
-  labels: string[];
-  values: number[][];
 }
 
 interface ChartInfo {
@@ -33,13 +29,6 @@ const COLORS_TIMES = ['#8c8c00', '#acacac'];
 const COLORS_BLOCKS = ['#008c8c', '#acacac'];
 const COLORS_EVENTS = ['#00448c', '#8c0044', '#acacac'];
 const COLORS_TXS = ['#448c00', '#acacac'];
-const OPTIONS = {
-  animation: {
-    duration: 0
-  },
-  aspectRatio: 6,
-  maintainAspectRatio: true
-};
 
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const blocks: ChartContents = {
@@ -144,46 +133,30 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
         </section>
         <CardSummary label={t<string>('last')}>{formatTime(blockLast, 1)}</CardSummary>
       </SummaryBox>
-      <div className='container'>
-        <h1>{t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}</h1>
-        <Chart.Line
-          colors={COLORS_TIMES}
-          labels={times.labels}
-          legends={timesLegend}
-          options={OPTIONS}
-          values={times.values}
-        />
-      </div>
-      <div className='container'>
-        <h1>{t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}</h1>
-        <Chart.Line
-          colors={COLORS_BLOCKS}
-          labels={blocks.labels}
-          legends={blocksLegend}
-          options={OPTIONS}
-          values={blocks.values}
-        />
-      </div>
-      <div className='container'>
-        <h1>{t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}</h1>
-        <Chart.Line
-          colors={COLORS_TXS}
-          labels={extrinsics.labels}
-          legends={extrinsicsLegend}
-          options={OPTIONS}
-          values={extrinsics.values}
-        />
-      </div>
-      <div className='container'>
-        <h1>{t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}</h1>
-        <Chart.Line
-          colors={COLORS_EVENTS}
-          labels={events.labels}
-          legends={eventsLegend}
-          options={OPTIONS}
-          values={events.values}
-        />
-      </div>
+      <Chart
+        colors={COLORS_TIMES}
+        legends={timesLegend}
+        title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
+        value={times}
+      />
+      <Chart
+        colors={COLORS_BLOCKS}
+        legends={blocksLegend}
+        title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
+        value={blocks}
+      />
+      <Chart
+        colors={COLORS_TXS}
+        legends={extrinsicsLegend}
+        title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
+        value={extrinsics}
+      />
+      <Chart
+        colors={COLORS_EVENTS}
+        legends={eventsLegend}
+        title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
+        value={events}
+      />
     </div>
   );
 }
