@@ -319,6 +319,7 @@
        1	Shaun Wang                    	Fix spelling: Javascript -> JavaScript. (#4698)
        1	Shawn-Eng-888                 	Update testing.ts (#7788)
        1	Shunfan Zhou                  	Re-enable Phala (PoC 5) Testnet (#7462)
+       1	Shunsuke Watanabe             	Remove Plasm (#7819)
        1	SimonKraus                    	fix(staking): fix typo (#4926)
        1	Skedley                       	KILT types definition repo (#5132)
        1	Song Zhou                     	add SkyeKiwi testnet (#7597)
