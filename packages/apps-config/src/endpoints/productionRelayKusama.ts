@@ -317,7 +317,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'heiko',
     homepage: 'https://parallel.fi',
     paraId: 2126,
-    text: 'Parallel Heiko Crowdloan 2',
+    text: 'Heiko Crowdloan 2',
     providers: {
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
       Parallel: 'wss://heiko-rpc.parallel.fi'
