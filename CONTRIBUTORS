@@ -214,6 +214,7 @@
        1	BoBin                         	Add subscan rococo extra link (#4439)
        1	Bobo                          	type def update (#6612)
        1	Bojian Ho                     	Added fantour network config (#5764)
+       1	Boyquotes                     	Fix FR translation (#7817)
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
        1	Carl                          	chore: add bounty and update network list in Subscan config (#7394)
        1	Carl                          	Update Subscan link config (#6194)
