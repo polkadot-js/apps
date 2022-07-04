@@ -24,7 +24,7 @@ interface Options {
 }
 
 interface Initial {
-  initialEnum: string | null;
+  initialEnum: string | undefined | null;
   initialParams: RawParam[] | undefined | null;
 }
 
@@ -46,13 +46,13 @@ function getOptions (registry: Registry, type: TypeDef): Options {
   };
 }
 
-function getInitial (defaultValue: RawParam): Initial {
+function getInitial (defaultValue: RawParam, options: Option[]): Initial {
   return {
     initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
         : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-      : null,
+      : options[0] && options[0].value,
     initialParams: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? [{ isValid: true, value: defaultValue.value.inner }]
@@ -73,7 +73,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
   const [{ options, subTypes }] = useState<Options>(() => getOptions(registry, type));
   const [current, setCurrent] = useState<ParamDef[] | null>(() => getCurrent(registry, type, defaultValue, subTypes));
-  const [{ initialEnum, initialParams }, setInitial] = useState<Initial>(() => getInitial(defaultValue));
+  const [{ initialEnum, initialParams }, setInitial] = useState<Initial>(() => getInitial(defaultValue, options));
 
   const _onChange = useCallback(
     (value: string): void => {
