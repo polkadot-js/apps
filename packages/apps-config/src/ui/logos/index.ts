@@ -66,6 +66,7 @@ import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
+import extensionTalisman from './extensions/talisman.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
 import externalDotScanner from './external/dotscanner.png';
@@ -879,7 +880,8 @@ export const namedLogos: Record<string, unknown> = {
 
 // extension logos
 export const extensionLogos: Record<string, unknown> = {
-  'polkadot-js': extensionPolkadotJs
+  'polkadot-js': extensionPolkadotJs,
+  talisman: extensionTalisman
 };
 
 // external logos, i.e. for explorers

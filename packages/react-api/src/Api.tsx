@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { Injected, InjectedExtension, InjectedExtensionInfo } from '@polkadot/extension-inject/types';
 import type { ProviderInterface, ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -13,8 +13,8 @@ import store from 'store';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { appName, ethereumChains, supportedExtensionsNames, typesBundle, typesChain } from '@polkadot/apps-config';
+import { InjectedWindow } from '@polkadot/extension-inject/types';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
@@ -46,7 +46,6 @@ interface InjectedAccountExt {
 }
 
 interface ChainData {
-  injectedAccounts: InjectedAccountExt[];
   properties: ChainProperties;
   systemChain: string;
   systemChainType: ChainType;
@@ -81,24 +80,64 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+async function getInjectedAccounts (extensions: InjectedExtension[]): Promise<InjectedAccountExt[]> {
+  const promisedAccounts = extensions.map((extension) => extension.accounts.get());
+
   try {
-    await injectedPromise;
+    const fetchedAccounts = await Promise.all(promisedAccounts);
 
-    const accounts = await web3Accounts();
+    let whenCreated = 0;
 
-    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
-      address,
-      meta: objectSpread({}, meta, {
-        name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
-        whenCreated
-      })
-    }));
+    return extensions.flatMap((extension, index) => (
+      fetchedAccounts[index].map((fetchedAccount) => (
+        {
+          address: fetchedAccount.address,
+          meta: {
+            name: `${fetchedAccount.name || 'unknown'} (${extension.name})`,
+            source: extension.name,
+            whenCreated: whenCreated++
+          }
+        }
+      ))
+    ));
   } catch (error) {
     console.error('web3Accounts', error);
 
     return [];
   }
+}
+
+async function getExtensions (): Promise<InjectedExtension[]> {
+  const injectedWindow = window as Window & InjectedWindow;
+  const promisedExtensions: Promise<Injected>[] = [];
+  let enabledExtensions: Injected[] = [];
+  const extensionsInfo: InjectedExtensionInfo[] = [];
+  const extensionsWithInfo: InjectedExtension[] = [];
+
+  const supportedExtensions = supportedExtensionsNames().filter((supportedExtension) => !DISALLOW_EXTENSIONS.includes(supportedExtension));
+  const storageData = localStorage.getItem('enabledExtensions');
+  const storedEnabledExtensions: string[] | null = storageData !== null ? JSON.parse(storageData) as string[] : null;
+
+  Object.keys(injectedWindow.injectedWeb3).forEach((extensionName) => {
+    if (storedEnabledExtensions !== null && storedEnabledExtensions.includes(extensionName) && supportedExtensions.includes(extensionName)) {
+      promisedExtensions.push(injectedWindow.injectedWeb3[extensionName].enable(appName));
+      extensionsInfo.push({ name: extensionName, version: injectedWindow.injectedWeb3[extensionName].version });
+    }
+  });
+
+  try {
+    enabledExtensions = await Promise.all(promisedExtensions);
+  } catch (error) {
+    console.error('getExtensions', error);
+
+    return [];
+  }
+
+  enabledExtensions.forEach((enabledExtension: Injected, index) => {
+    extensionsWithInfo.push({ ...enabledExtension, ...extensionsInfo[index] });
+  });
+
+  return extensionsWithInfo;
 }
 
 function createLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
@@ -147,21 +186,17 @@ function getStats (...apis: ApiPromise[]): [ProviderStats, number] {
   return [stats, Date.now()];
 }
 
-async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
+async function retrieve (api: ApiPromise): Promise<ChainData> {
+  const [systemChain, systemChainType, systemName, systemVersion] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
-    api.rpc.system.version(),
-    getInjectedAccounts(injectedPromise)
+    api.rpc.system.version()
   ]);
 
   return {
-    injectedAccounts: injectedAccounts.filter(({ meta: { source } }) =>
-      !DISALLOW_EXTENSIONS.includes(source)
-    ),
     properties: registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
@@ -174,10 +209,10 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, injectedAccounts: InjectedAccountExt[]): Promise<ApiState> {
   registry.register(types);
 
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const { properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
   const ss58Format = settings.prefix === -1
     ? chainSS58
@@ -318,16 +353,22 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         api.on('connected', () => setIsApiConnected(true));
         api.on('disconnected', () => setIsApiConnected(false));
         api.on('error', onError);
-        api.on('ready', (): void => {
-          const injectedPromise = web3Enable('polkadot-js/apps');
+        api.on('ready', async (): Promise<void> => {
+          let extensions: InjectedExtension[] = [];
+          let injectedAccounts: InjectedAccountExt[] = [];
 
-          injectedPromise
-            .then(setExtensions)
-            .catch(console.error);
+          try {
+            extensions = await getExtensions();
+            setExtensions(extensions);
 
-          loadOnReady(api, apiEndpoint, injectedPromise, store, types)
-            .then(setState)
-            .catch(onError);
+            injectedAccounts = await getInjectedAccounts(extensions);
+
+            const apiState = await loadOnReady(api, apiEndpoint, store, types, injectedAccounts);
+
+            setState(apiState);
+          } catch (error) {
+            return onError(error);
+          }
         });
 
         setIsApiInitialized(true);

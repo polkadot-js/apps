@@ -17,6 +17,7 @@ import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
+import ConnectButton from './ConnectButton';
 import Grouping from './Grouping';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
@@ -138,6 +139,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
                 routes={routes}
               />
             ))}
+            <ConnectButton />
           </ul>
         </div>
         <div className='menuSection media--1200'>

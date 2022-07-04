@@ -176,6 +176,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     li {
       color:  ${getContrast(uiHighlight)};
     }
+    li a {
+      color:  ${getContrast(uiHighlight)} !important;
+    }
   }
 
   .highlight--hover-bg:hover {

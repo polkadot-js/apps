@@ -3,7 +3,10 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "lib": [
+      "es2019"
+    ]
   },
   "references": []
 }
