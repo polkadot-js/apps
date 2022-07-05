@@ -98,7 +98,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoImbue',
-    paraId: 3017,
+    paraId: 2121,
     text: 'Imbue Network',
     providers: {
       'Imbue Network': 'wss://rococo.imbue.network'
