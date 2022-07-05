@@ -9,6 +9,8 @@ export const ethereumChains = [
   'moonbeam',
   'moonriver',
   'moonshadow',
+  'alt-producer',
+  'flash-layer',
   'armonia-eva',
   'armonia-wall-e'
 ];
