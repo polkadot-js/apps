@@ -83,6 +83,7 @@ const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const chainLitentryRococo = '#0a6a08';
 const chainLitmus = '#6822fb';
 const chainLogion = 'rgb(21, 38, 101)';
 const chainMinix = '#5152f7';
@@ -354,7 +355,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Lego: chainTotem,
   'Listen Network': chainListen,
   Litentry: chainLitentry,
-  'Litentry-rococo': chainLitentry,
+  'Litentry-rococo': chainLitentryRococo,
   Litmus: chainLitmus,
   'Mangata Kusama Mainnet': chainMangata,
   'Mangata Public Testnet': chainMangata,
