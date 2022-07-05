@@ -84,7 +84,6 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Manta Network': 'wss://ws.calamari.systems/',
       OnFinality: 'wss://calamari.api.onfinality.io/public-ws',
-      Dwellir: 'wss://calamari-rpc.dwellir.com'
     }
   },
   {

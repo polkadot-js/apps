@@ -68,7 +68,6 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws',
-      Dwellir: 'wss://centrifuge-rpc.dwellir.com'
     }
   },
   {
