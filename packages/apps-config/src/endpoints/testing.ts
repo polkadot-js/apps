@@ -371,10 +371,13 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
+    isDisabled: false,
     text: 'OPAL by UNIQUE',
     providers: {
-      Unique: 'wss://opal.unique.network'
+      'Geo Load Balancer': 'wss://ws-opal.unique.network',
+      Europe: 'wss://eu-ws-opal.unique.network',
+      'North America': 'wss://us-ws-opal.unique.network',
+      Asia: 'wss://asia-ws-opal.unique.network'
     }
   },
   {
