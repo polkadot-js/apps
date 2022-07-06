@@ -314,7 +314,7 @@ export const chainColors: Record<string, string> = Object.entries({
   hanonycash: chainHanonycash,
   HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
-  'HydraDX Snakenet': chainSnakenet,
+  'HydraDX Snakenet': chainHydrate,
   'HydraDX Snakenet Gen2': chainHydrate,
   'HydraDX Snakenet Gen3': chainHydrate,
   Idavoll: chainIdavoll,
