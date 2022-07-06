@@ -375,9 +375,9 @@ export const testChains: EndpointOption[] = [
     text: 'OPAL by UNIQUE',
     providers: {
       'Geo Load Balancer': 'wss://ws-opal.unique.network',
-      'Europe': 'wss://eu-ws-opal.unique.network',
+      Europe: 'wss://eu-ws-opal.unique.network',
       'North America': 'wss://us-ws-opal.unique.network',
-      'Asia': 'wss://asia-ws-opal.unique.network',
+      Asia: 'wss://asia-ws-opal.unique.network'
     }
   },
   {
