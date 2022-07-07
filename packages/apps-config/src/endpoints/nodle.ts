@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
@@ -21,7 +21,7 @@ export function createNodle(t: TFunction, firstOnly: boolean, withSort: boolean)
       info: 'nodle',
       text: t('rpc.nodle-paradis', 'Testnet', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://node-6913072722034561024.lh.onfinality.io/ws?apikey=84d77e2e-3793-4785-8908-5096cffea77a'
+        Nodle: 'wss://nodle-paradis.api.onfinality.io/public-ws'
       }
     }
   ], firstOnly, withSort);
