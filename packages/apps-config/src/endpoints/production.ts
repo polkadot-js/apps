@@ -140,15 +140,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'snakenet',
-    text: 'HydraDX',
-    providers: {
-      HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-      'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-      Archives: 'wss://archive.snakenet.hydradx.io'
-    }
-  },
-  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
