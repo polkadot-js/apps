@@ -9,6 +9,7 @@ import { createCustom, createDev, createOwn } from './development';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production';
 import { testChains, testRelayRococo, testRelayWestend } from './testing';
 import { expandEndpoints } from './util';
+import { createNodle } from './nodle';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 export * from './production';
@@ -17,6 +18,15 @@ export * from './testing';
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
     ...createCustom(t),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc/.header.nodle', 'Nodle', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createNodle(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,

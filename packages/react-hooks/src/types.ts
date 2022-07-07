@@ -13,7 +13,7 @@ export type CallParam = any;
 
 export type CallParams = [] | CallParam[];
 
-export interface CallOptions <T> {
+export interface CallOptions<T> {
   defaultValue?: T;
   paramMap?: (params: any) => CallParams;
   transform?: (value: any, api: ApiPromise) => T;
@@ -27,7 +27,7 @@ export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef
 
 export type TxSource<T extends TxDefs> = [T, boolean];
 
-export type CollectiveType = 'council' | 'membership' | 'technicalCommittee';
+export type CollectiveType = 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee';
 
 export interface ModalState {
   isOpen: boolean;
