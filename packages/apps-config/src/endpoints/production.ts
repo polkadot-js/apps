@@ -212,7 +212,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Polkadex Team': 'wss://mainnet.polkadex.trade',
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/polkadex'
+     // Pinknode: 'wss://public-rpc.pinknode.io/polkadex'
     }
   },
   {
