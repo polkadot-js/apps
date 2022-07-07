@@ -170,13 +170,6 @@ export const hostedByPinknode: EndpointOption[] = [
     }
   },
   {
-    info: 'polkadex',
-    text: 'Polkadex',
-    providers: {
-      Pinknode: 'wss://public-rpc.pinknode.io/polkadex'
-    }
-  },
-  {
     info: 'genshiro',
     text: 'Genshiro',
     providers: {
