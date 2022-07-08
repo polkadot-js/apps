@@ -164,7 +164,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'integritee',
     homepage: 'https://integritee.network',
     paraId: 2039,
-    text: 'Integritee Network',
+    text: 'Integritee Shell on Polkadot',
     providers: {
       Integritee: 'wss://polkadot.api.integritee.network'
     }
