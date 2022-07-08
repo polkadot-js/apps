@@ -185,7 +185,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2013,
     text: 'Litentry',
     providers: {
-      Litentry: 'wss://rpc.litentry-parachain.litentry.io'
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io',
+      Dwellir: 'wss://litentry-rpc.dwellir.com'
     }
   },
   {
