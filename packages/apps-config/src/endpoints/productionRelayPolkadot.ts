@@ -161,6 +161,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'integritee',
+    homepage: 'https://integritee.network',
+    paraId: 2039,
+    text: 'Integritee Network',
+    providers: {
+      Integritee: 'wss://polkadot.api.integritee.network'
+    }
+  },
+  {
     info: 'interlay',
     homepage: 'https://interlay.io/',
     paraId: 2032,
