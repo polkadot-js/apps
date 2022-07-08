@@ -105,7 +105,8 @@ export const prodChains: EndpointOption[] = [
     text: 'Edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
+      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
+      Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
   {
