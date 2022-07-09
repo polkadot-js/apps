@@ -318,7 +318,7 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://parallel.fi',
     paraId: 2126,
     isUnreachable: true,
-    text: 'Heiko Crowdloan 2',
+    text: 'Parallel Heiko 2',
     providers: {}
   },
   {
