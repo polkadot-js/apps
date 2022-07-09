@@ -15,6 +15,7 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
+  "type": "module",
   "version": "0.116.2-92-x",
   "workspaces": [
     "packages/*"
@@ -36,8 +37,8 @@
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ghpages && yarn build:release:ipfs",
     "build:robohash": "node scripts/robohash.cjs",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn webpack --config webpack.config.cjs",
-    "ci:chainEndpoints": "NODE_OPTIONS=--max_old_space_size=8192 polkadot-dev-run-test --runInBand packages/apps-config/src/ci/chainEndpoints",
-    "ci:chainTypes": "NODE_OPTIONS=--max_old_space_size=8192 polkadot-dev-run-test --runInBand packages/apps-config/src/ci/chainTypes",
+    "ci:chainEndpoints": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --config ./jest-ci.config.cjs --runInBand --detectOpenHandles packages/apps-config/src/ci/chainEndpoints",
+    "ci:chainTypes": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --config ./jest-ci.config.cjs --runInBand --detectOpenHandles packages/apps-config/src/ci/chainTypes",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
