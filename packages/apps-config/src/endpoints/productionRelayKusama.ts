@@ -313,6 +313,14 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'heiko',
+    homepage: 'https://parallel.fi',
+    paraId: 2126,
+    isUnreachable: true,
+    text: 'Parallel Heiko 2',
+    providers: {}
+  },
+  {
     info: 'picasso',
     homepage: 'https://picasso.composable.finance/',
     paraId: 2087,
