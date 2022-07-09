@@ -11,7 +11,7 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.116.2-93-x",
+  "version": "0.116.2-94-x",
   "dependencies": {
     "@babel/runtime": "^7.18.6",
     "@polkadot/api": "^8.12.1",
