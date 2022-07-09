@@ -685,6 +685,7 @@ export const namedLogos: Record<string, unknown> = {
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   heiko: chainParallel,
+  heiko2: chainParallel,
   helixstreet: nodeHelixstreet,
   hydra: chainSnakenet,
   idavoll: nodeIdavoll,
