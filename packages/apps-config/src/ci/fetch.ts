@@ -3,6 +3,9 @@
 
 import { fetch } from '@polkadot/x-fetch';
 
+// this is also in @polkadot/phishing - we may want to expose it
+// inside x-fetch at some point in the future...
+
 // a fetch with a 2s timeout
 async function fetchWithTimeout (url: string, timeout = 2000): Promise<Response> {
   const controller = new AbortController();
@@ -29,10 +32,10 @@ async function fetchWithTimeout (url: string, timeout = 2000): Promise<Response>
   }
 }
 
-export function fetchJson <T> (url: string, timeout = 2000): Promise<T> {
+export function fetchJson <T> (url: string, timeout?: number): Promise<T> {
   return fetchWithTimeout(url, timeout).then<T>((r) => r.json());
 }
 
-export function fetchText (url: string, timeout = 2000): Promise<string> {
+export function fetchText (url: string, timeout?: number): Promise<string> {
   return fetchWithTimeout(url, timeout).then((r) => r.text());
 }
