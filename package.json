@@ -17,6 +17,9 @@
   "sideEffects": false,
   "type": "module",
   "version": "0.116.2-97-x",
+  "versions": {
+    "npm": "0.116.1"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -65,7 +68,7 @@
     "@babel/runtime": "^7.18.6",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.1.26",
-    "@polkadot/dev": "^0.67.65",
+    "@polkadot/dev": "^0.67.73",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^28.1.4",
