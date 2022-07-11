@@ -252,6 +252,7 @@ export const chainLogos = Object.entries({
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
   'Darwinia PC2': nodeDarwinia,
+  'Darwinia Parachain': nodeDarwinia,
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
