@@ -14,6 +14,7 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Phala: 'phala',
     Polkadot: 'polkadot',
     kintsugi: 'kintsugi'
   },
