@@ -3078,7 +3078,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.18.6
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.67.65
+    "@polkadot/dev": ^0.67.73
     "@polkadot/react-components": ^0.116.2-97-x
     "@types/react-dom": ^18.0.5
     "@types/tmp": ^0.2.3
@@ -3112,7 +3112,7 @@ __metadata:
     "@babel/runtime": ^7.18.6
     "@polkadot/apps-config": ^0.116.2-97-x
     "@polkadot/apps-routing": ^0.116.2-97-x
-    "@polkadot/dev": ^0.67.65
+    "@polkadot/dev": ^0.67.73
     "@polkadot/react-api": ^0.116.2-97-x
     "@polkadot/react-components": ^0.116.2-97-x
     "@polkadot/react-hooks": ^0.116.2-97-x
@@ -3147,9 +3147,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.65":
-  version: 0.67.65
-  resolution: "@polkadot/dev@npm:0.67.65"
+"@polkadot/dev@npm:^0.67.73":
+  version: 0.67.73
+  resolution: "@polkadot/dev@npm:0.67.73"
   dependencies:
     "@babel/cli": ^7.18.6
     "@babel/core": ^7.18.6
@@ -3211,7 +3211,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     rimraf: ^3.0.2
-    rollup: ^2.75.7
+    rollup: ^2.76.0
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.7.4
     yargs: ^17.5.1
@@ -3238,7 +3238,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 918f3b8257bada7cef38c4499573376c1119973cba5c5c673b2877671dceb23f2e7ed8cd2c9a70ee31d90056c43c1db2180abe595cdaf5c95fdecf7a863c1acf
+  checksum: 01afdfab153b4c86832389fb806cc3b0a338e6125ca6280ffbcad39758a6fcad5005161c21f922788dd4ec8a320ca7b7c7f5862c00c141170c0d7a554caf8ed7
   languageName: node
   linkType: hard
 
@@ -15972,7 +15972,7 @@ __metadata:
     "@babel/runtime": ^7.18.6
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.26
-    "@polkadot/dev": ^0.67.65
+    "@polkadot/dev": ^0.67.73
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^28.1.4
@@ -17493,9 +17493,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.75.7":
-  version: 2.75.7
-  resolution: "rollup@npm:2.75.7"
+"rollup@npm:^2.76.0":
+  version: 2.76.0
+  resolution: "rollup@npm:2.76.0"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -17503,7 +17503,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: a6331d46b01062b184efdcb42ce12caf2e1575f989963944534b02f5855f6f3bc239ed0c1a18893572d7695af6d83166f3aef59dbd0365084e1531cb67824674
+  checksum: 58293e1c63c11d4afcfcf619601d5c5136dd3d0c9d3bd6a0b6141fede32027edc1eb53873bbb9a9c1e95e86c67f6ad66185720031b6eadf325972174d1d8fbcb
   languageName: node
   linkType: hard
 
