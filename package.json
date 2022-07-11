@@ -16,9 +16,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.116.2-97-x",
+  "version": "0.116.2-98-x",
   "versions": {
-    "npm": "0.116.1"
+    "npm": "0.116.1",
+    "git": "0.116.2-98-x"
   },
   "workspaces": [
     "packages/*"
