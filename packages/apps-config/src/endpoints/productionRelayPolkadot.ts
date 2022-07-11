@@ -114,10 +114,19 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'darwinia',
+    homepage: 'https://darwinia.network/',
+    paraId: 2046,
+    text: 'Darwinia',
+    providers: {
+      Darwinia: 'wss://parachain-rpc.darwinia.network'
+    }
+  },
+  {
+    info: 'darwinia',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
     paraId: 2003,
-    text: 'Darwinia',
+    text: 'Darwinia Para Backup',
     providers: {
       Darwinia: 'wss://parachain-rpc.darwinia.network'
     }

@@ -251,6 +251,7 @@ export const chainLogos = Object.entries({
   'Crust PC1': nodeCrust,
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
+  'Darwinia Parachain': nodeDarwinia,
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
