@@ -137,7 +137,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2021,
     text: 'Efinity',
     providers: {
-      Enjin: 'wss://rpc.efinity.io'
+      Efinity: 'wss://rpc.efinity.io'
     }
   },
   {
