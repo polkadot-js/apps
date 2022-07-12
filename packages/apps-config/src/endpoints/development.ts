@@ -73,18 +73,6 @@ export function createOwn (t: TFunction): LinkOption[] {
   return [];
 }
 
-// export function defaultDevNode (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
-//   return expandEndpoints(t, [
-//     {
-//       dnslink: 'Development',
-//       info: 'Development',
-//       text: t('rpc.dev.local', 'Dev. Node', { ns: 'apps-config' }),
-//       providers: {
-//         'Local Node': 'ws://127.0.0.1:9944'
-//       }
-//     }
-//   ], firstOnly, withSort);
-// }
 
 export function createDev (t: TFunction): LinkOption[] {
   return [

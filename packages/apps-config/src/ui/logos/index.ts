@@ -9,12 +9,11 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
-import chainCord from './chains/cord-v2-staging.svg';
-import chainRoyalBlue from './chains/cord-studio.svg';
-import chainIndianTeal from './chains/cord-teal.svg';
-import chainCordDev from './chains/cord-dev.svg';
-// import chainCordLocal from './chains/cord-dev.svg';
-import chainCordStaging from './chains/cord-v2-staging.svg';
+import chainCordUnknown from './chains/CORD-Unknown.png';
+import chainCord from './chains/CORD-Logo.png';
+import chainRoyalBlue from './chains/cd-studio.png';
+import chainCordDev from './chains/cd-dev.png';
+import chainCordStaging from './chains/cd-test.png';
 import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
@@ -219,13 +218,16 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
-  'Development': chainCordDev,
-  'Dev. Node': chainCordDev,
-  'Local Node': chainCordDev,
-  'Staging': chainCordStaging,
-  'Amber Glow': chainCordStaging,
-  'Royal Blue': chainRoyalBlue,
-  'Indian Teal': chainIndianTeal,
+  'Development': chainCord,
+  'Dev. Node': chainCord,
+  'Local Node': chainCord,
+  'Staging': chainCord,
+  'Amber Glow': chainCord,
+  'Royal Blue': chainCord,
+  'CORD Staging Testnet': chainCord,
+  'Custom': chainCord,
+  'Custom environment': chainCord,
+  'Unknown': chainCord,
   'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
@@ -646,16 +648,17 @@ export const specLogos = Object.entries({
 export const namedLogos: Record<string, unknown> = {
   cord: chainCord,
   'Development': chainCordDev,
-  'Dev. Node': chainCordDev,
+  'Dev. Node': chainCordUnknown,
   'local': chainCordDev,
-  'Local Node': chainCordDev,
+  'Local Node': chainCordUnknown,
   'Staging': chainCordStaging,
+  'CORD Staging Testnet': chainCordStaging,
   'Amber Glow': chainCordStaging,
   'Amber Glow (v2)': chainCordStaging,
   'Royal Blue (Studio)': chainRoyalBlue,
   'Royal Blue': chainRoyalBlue,
-  'Indian Teal': chainIndianTeal,
-  empty: emptyLogo,
+  'Custom': chainCordUnknown,
+  empty: chainCordUnknown,
   acala: chainAcala,
   ajuna: nodeAjuna,
   aleph: chainAleph,
@@ -924,7 +927,7 @@ export const externalLogos: Record<string, unknown> = {
 
 // empty logos
 export const emptyLogos: Record<string, unknown> = {
-  empty: emptyLogo
+  empty: chainCordUnknown
 };
 
 // preload all

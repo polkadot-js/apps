@@ -10,7 +10,7 @@ import { sanitize } from './util';
 // the actual RPC node it is corrected to (system.name RPC)
 
 // defaults
-const emptyColor = '#333333';
+const emptyColor = '#6e44ff';
 
 // based on chain name
 // alphabetical
@@ -34,7 +34,10 @@ const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainCompetitorsClub = '#213830';
-const chainCord = '##333333';
+const chainCordStudio = '#0066d4';
+const chainCordTesting = '#ff7602';
+const chainCordDev = '#6e44ff';
+const chainCord = '#6e44ff';//#2D65F6';//'#233058' '#333333';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -164,7 +167,7 @@ const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
-const nodeCord = '#333333';
+// const nodesCord = '#333333';
 const nodeCentrifuge = '#fcc367';
 const nodeCoinversation = '#e6017a';
 const nodeCompetitorsClub = '#213830';
@@ -278,18 +281,13 @@ export const chainColors: Record<string, string> = Object.entries({
   Centrifuge: nodeCentrifuge,
   ChainX: chainChainx,
   cord: chainCord,
-  // 'CORD Development': chainCord,
-  // 'CORD Local Testnet': chainCord,
-  // 'CORD Staging Testnet': chainCord,
+  'Royal Blue': chainCordStudio,
+  'CORD Staging Testnet': chainCordTesting,
+  'Dev. Node': chainCordDev,
+  'Local Node': chainCordDev,
   Clover: chainClover,
   Coinversation: chainCoinversation,
   'Competitors Club': chainCompetitorsClub,
-  // Composable: chainComposable,
-  // 'Composable Finance': chainComposableFinance,
-  // 'Contracts on Rococo': chainRococoContracts,
-  // Creditcoin: chainCreditcoin,
-  // 'Creditcoin Testnet': chainCreditcoinTestnet,
-  // 'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
@@ -482,10 +480,8 @@ export const nodeColors = Object.entries({
   'Bifrost Stage Testnet': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
   'Canvas Node': nodeCanvas,
-   cord: nodeCord,
-  // 'CORD Development': nodeCord,
-  // 'CORD Local Testnet': nodeCord,
-  // 'CORD Staging Testnet': nodeCord,
+  'Dev. Node': chainCordDev,
+  //  cord: nodeCord,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   'Circuit Collator': chainT0rn,
