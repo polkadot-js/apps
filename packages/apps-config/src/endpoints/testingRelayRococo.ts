@@ -16,6 +16,14 @@ import { ROCOCO_GENESIS } from '../api/constants';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'arctic',
+    paraId: 3015,
+    text: 'Arctic',
+    providers: {
+      Arctic: 'wss://arctic-rococo-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'rococoBajun',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
@@ -65,28 +73,11 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rocfinity',
-    paraId: 2021,
-    text: 'Efinity',
-    providers: {
-      Efinity: 'wss://rpc.rococo.efinity.io'
-    }
-  },
-  {
     info: 'rococoGenshiro',
     paraId: 2024,
     text: 'Genshiro Rococo Testnet',
     providers: {
       Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
-    }
-  },
-  {
-    info: 'rococoGM',
-    isUnreachable: true,
-    paraId: 3019,
-    text: 'GM Parachain',
-    providers: {
-      // 'GM or Die DAO': 'wss://rococo.gmordie.com' // https://github.com/polkadot-js/apps/issues/7716
     }
   },
   {
@@ -99,7 +90,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoImbue',
-    paraId: 3017,
+    paraId: 2121,
     text: 'Imbue Network',
     providers: {
       'Imbue Network': 'wss://rococo.imbue.network'
@@ -143,7 +134,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2026,
     text: 'Nodle',
     providers: {
-      OnFinality: 'wss://node-6913072722034561024.lh.onfinality.io/ws?apikey=84d77e2e-3793-4785-8908-5096cffea77a'
+      OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
     }
   },
   {
@@ -178,6 +169,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://rococo.rpc.robonomics.network'
+    }
+  },
+  {
+    info: 'rocfinity',
+    paraId: 2021,
+    text: 'Rocfinity',
+    providers: {
+      Efinity: 'wss://rpc.rococo.efinity.io'
     }
   },
   {

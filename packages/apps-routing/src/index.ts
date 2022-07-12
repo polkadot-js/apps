@@ -24,6 +24,7 @@ import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
 import rpc from './rpc';
+import runtime from './runtime';
 import settings from './settings';
 import signing from './signing';
 import society from './society';
@@ -63,6 +64,7 @@ export default function create (t: TFunction): Routes {
     storage(t),
     extrinsics(t),
     rpc(t),
+    runtime(t),
     signing(t),
     sudo(t),
     files(t),

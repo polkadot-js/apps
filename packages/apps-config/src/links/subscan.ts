@@ -49,7 +49,6 @@ export default {
     'Parallel Heiko': 'parallel-heiko',
     Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
-    Plasm: 'plasm',
     Polkadex: 'polkadex',
     Polkadot: 'polkadot',
     Polymesh: 'polymesh',
