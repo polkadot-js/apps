@@ -370,14 +370,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'omnibtc',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
-    text: 'OmniBTC',
-    providers: {
-      OmniBTC: 'wss://omnibtc.io/ws'
-    }
-  },
-  {
     info: 'opal',
     isDisabled: false,
     text: 'OPAL by UNIQUE',
