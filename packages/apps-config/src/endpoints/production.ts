@@ -210,7 +210,9 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'ominibtc',
     text: 'OminiBTC',
-    providers: {}
+    providers: {
+      OmniBTC: 'wss://omnibtc.io/ws'
+    }
   },
   {
     info: 'polkadex',
