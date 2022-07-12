@@ -176,7 +176,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2021,
     text: 'Rocfinity',
     providers: {
-      Enjin: 'wss://rpc.rococo.efinity.io'
+      Efinity: 'wss://rpc.rococo.efinity.io'
     }
   },
   {
