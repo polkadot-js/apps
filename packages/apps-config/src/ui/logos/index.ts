@@ -86,6 +86,7 @@ import nodeApron from './nodes/apron.png';
 import nodeArctic from './nodes/arctic.png';
 import nodeAres from './nodes/ares.png';
 import nodeAresGladios from './nodes/ares-gladios.svg';
+import nodeAresOdyssey from './nodes/ares-odyssey.svg';
 import nodeAresMars from './nodes/ares-mars.png';
 import nodeAstar from './nodes/astar.png';
 import nodeAutomata from './nodes/automata.png';
@@ -222,6 +223,7 @@ export const chainLogos = Object.entries({
   'Apron PC1': nodeApron,
   Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
+  'Ares Odyssey': nodeAresOdyssey,
   'Ares PC1': nodeAres,
   Astar: chainAstar,
   Automata: nodeAutomata,
@@ -339,7 +341,7 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
-  Odyssey: nodeAresGladios,
+  Odyssey: nodeAresOdyssey,
   OmniBTC: chainOmniBTC,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
@@ -432,6 +434,7 @@ export const nodeLogos = Object.entries({
   'Apron Parachain Collator': nodeApron,
   Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
+  'Ares Odyssey': nodeAresOdyssey,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
   Astar: nodeAstar,
@@ -638,6 +641,7 @@ export const namedLogos: Record<string, unknown> = {
   amplitude: chainAmplitude,
   arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
+  'Ares Odyssey': nodeAresOdyssey,
   astar: chainAstar,
   automata: nodeAutomata,
   'automata-contextfree': nodeAutomata,
@@ -736,7 +740,7 @@ export const namedLogos: Record<string, unknown> = {
   myriad: chainMyriad,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
-  odyssey: nodeAresGladios,
+  odyssey: nodeAresOdyssey,
   omnibtc: nodeOmniBTC,
   opal: nodeUniqueWestend,
   opportunity: nodeOpportunity,
