@@ -1117,5 +1117,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}.अपने ETH पते के साथ साइन इन करें",
   "{{threshold}}, not passing": "{{threshold}},  पास नहीं होगा",
   "{{threshold}}, passing": "{{threshold}},  पासिंग",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x वोट बैलेंस, {{lock}} द्वारा लॉक किया गया x स्टेटमेंट ( {period}} दिन।"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x वोट बैलेंस, {{lock}} द्वारा लॉक किया गया x स्टेटमेंट ( {period}} दिन।"
 }

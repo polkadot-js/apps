@@ -11,7 +11,9 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
+import { isFunction } from '@polkadot/util';
 
+import Api from './Api';
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
 import Latency from './Latency';
@@ -27,6 +29,7 @@ interface Props {
 
 function createPathRef (basePath: string): Record<string, string | string[]> {
   return {
+    api: `${basePath}/api`,
     forks: `${basePath}/forks`,
     latency: `${basePath}/latency`,
     node: `${basePath}/node`,
@@ -60,6 +63,11 @@ function createItemsRef (t: TFunction): TabItem[] {
     {
       name: 'node',
       text: t<string>('Node info')
+    },
+    {
+      // isHidden: true,
+      name: 'api',
+      text: t<string>('API stats')
     }
   ];
 }
@@ -71,7 +79,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { eventCount, events } = useContext(EventsContext);
   const itemsRef = useRef(createItemsRef(t));
   const pathRef = useRef(createPathRef(basePath));
-  const hidden = useState(() => api.query.babe ? [] : ['forks']);
+  const hidden = useState(() => isFunction(api.query.babe?.authorities) ? [] : ['forks']);
 
   return (
     <main className={className}>
@@ -81,6 +89,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={itemsRef.current}
       />
       <Switch>
+        <Route path={pathRef.current.api}><Api /></Route>
         <Route path={pathRef.current.forks}><Forks /></Route>
         <Route path={pathRef.current.latency}><Latency /></Route>
         <Route path={pathRef.current.query}><BlockInfo /></Route>

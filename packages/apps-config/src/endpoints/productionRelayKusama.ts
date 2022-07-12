@@ -26,8 +26,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'amplitude',
+    homepage: 'https://pendulumchain.org/amplitude',
+    paraId: 2124,
+    text: 'Amplitude',
+    isUnreachable: true,
+    providers: {} // Working on making this live ASAP
+  },
+  {
     info: 'bajun',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7480
     homepage: 'https://ajuna.io',
     paraId: 2119,
     text: 'Bajun Network',
@@ -50,7 +57,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'bifrost',
     homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
     paraId: 2001,
-    text: 'Bifrost (Kusama)',
+    text: 'Bifrost',
     providers: {
       'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
       'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
@@ -76,8 +83,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Calamari',
     providers: {
       'Manta Network': 'wss://ws.calamari.systems/',
-      OnFinality: 'wss://calamari.api.onfinality.io/public-ws',
-      Dwellir: 'wss://calamari-rpc.dwellir.com'
+      OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
     }
   },
   {
@@ -100,12 +106,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'dorafactory',
-    isUnreachable: true,
     homepage: 'https://dorafactory.org/kusama/',
     paraId: 2115,
     text: 'Dora Factory',
     providers: {
-      DORA: 'wss://rpc.dorafactory.org'
+      DORA: 'wss://kusama.dorafactory.org'
     }
   },
   {
@@ -119,12 +124,41 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'gm',
+    isUnreachable: true,
+    homepage: 'https://gmordie.com',
+    paraId: 2123,
+    text: 'GM Parachain',
+    providers: {
+      GMorDieDAO: 'wss://kusama.gmordie.com'
+    }
+  },
+  {
+    info: 'imbue',
+    homepage: 'https://imbue.network',
+    paraId: 2121,
+    text: 'Imbue Network',
+    providers: {
+      'Imbue Network': 'wss://imbue-kusama.imbue.network'
+    }
+  },
+  {
     info: 'integritee',
     homepage: 'https://integritee.network',
     paraId: 2015,
     text: 'Integritee Network',
     providers: {
-      Integritee: 'wss://kusama.api.integritee.network'
+      Integritee: 'wss://kusama.api.integritee.network',
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
+    }
+  },
+  {
+    info: 'tinker',
+    homepage: 'https://invarch.network/tinkernet',
+    paraId: 2125,
+    text: 'InvArch Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://tinker.invarch.network'
     }
   },
   {
@@ -159,7 +193,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Phala: 'wss://khala-api.phala.network/ws',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
-      Dwellir: 'wss://khala-rpc.dwellir.com'
+      Dwellir: 'wss://khala-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/khala'
     }
   },
   {
@@ -236,12 +271,12 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'mangata',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7295
     homepage: 'https://mangata.finance',
     paraId: 2110,
     text: 'Mangata',
     providers: {
-      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
+      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
+      OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
     }
   },
   {
@@ -255,13 +290,15 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'moonriver',
-    homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+    homepage: 'https://moonbeam.network/networks/moonriver/',
     paraId: 2023,
     text: 'Moonriver',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
+      Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -274,6 +311,14 @@ export const prodParasKusama: EndpointOption[] = [
       OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
+  },
+  {
+    info: 'heiko',
+    homepage: 'https://parallel.fi',
+    paraId: 2126,
+    isUnreachable: true,
+    text: 'Parallel Heiko 2',
+    providers: {}
   },
   {
     info: 'picasso',
@@ -310,10 +355,10 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      Unique: 'wss://quartz.unique.network',
       OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      'Unique US': 'wss://us-ws-quartz.unique.network'
+      'Unique America': 'wss://us-ws-quartz.unique.network',
+      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     }
   },
   {
@@ -325,14 +370,6 @@ export const prodParasKusama: EndpointOption[] = [
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
     }
-  },
-  {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
-    homepage: 'https://trustbase.network/',
-    paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
   },
   {
     info: 'sakura',
@@ -352,7 +389,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
       Dwellir: 'wss://shiden-rpc.dwellir.com'
     }
   },
@@ -368,6 +405,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'sora_ksm',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7721
     homepage: 'https://sora.org/',
     paraId: 2011,
     text: 'SORA Kusama Parachain',
@@ -403,13 +441,22 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'trustbase',
+    isUnreachable: true, // no providers (yet)
+    homepage: 'https://trustbase.network/',
+    paraId: 2078,
+    text: 'TrustBase',
+    providers: {}
+  },
+  {
     info: 'turing',
     homepage: 'https://oak.tech',
     paraId: 2114,
     text: 'Turing Network',
     providers: {
       OAK: 'wss://rpc.turing.oak.tech',
-      OnFinality: 'wss://turing.api.onfinality.io/public-ws'
+      OnFinality: 'wss://turing.api.onfinality.io/public-ws',
+      Dwellir: 'wss://turing-rpc.dwellir.com'
     }
   },
   {
@@ -428,7 +475,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Zeitgeist',
     providers: {
       ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
-      Dwellir: 'wss://zeitgeist-rpc.dwellir.com'
+      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
   }
 ];
@@ -441,7 +489,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-      Dwellir: 'wss://statemine-rpc.dwellir.com'
+      Dwellir: 'wss://statemine-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/statemine'
     },
     teleport: [-1]
   },
@@ -467,9 +516,9 @@ export const prodRelayKusama: EndpointOption = {
     Parity: 'wss://kusama-rpc.polkadot.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
-    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
+    RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
+    Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: [1000, 1001],

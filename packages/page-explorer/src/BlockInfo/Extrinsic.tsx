@@ -3,6 +3,7 @@
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
+import type { ICompact, INumber } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -20,6 +21,7 @@ interface Props {
   index: number;
   maxBlockWeight?: Weight;
   value: Extrinsic;
+  withLink: boolean;
 }
 
 const BN_TEN_THOUSAND = new BN(10_000);
@@ -58,12 +60,26 @@ function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?
   ];
 }
 
-function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBlockWeight, value }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const link = useMemo(
+    () => withLink
+      ? `#/extrinsics/decode/${value.toHex()}`
+      : null,
+    [value, withLink]
+  );
 
   const { meta, method, section } = useMemo(
     () => value.registry.findMetaCall(value.callIndex),
     [value]
+  );
+
+  const timestamp = useMemo(
+    () => section === 'timestamp' && method === 'set'
+      ? new Date((value.args[0] as ICompact<INumber>).unwrap().toNumber())
+      : undefined,
+    [method, section, value]
   );
 
   const mortality = useMemo(
@@ -113,6 +129,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             withSignature
           />
         </Expander>
+        {link && (
+          <a
+            className='isDecoded'
+            href={link}
+            rel='noreferrer'
+          >{link}</a>
+        )}
       </td>
       <td
         className='top media--1000'
@@ -135,18 +158,23 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         )}
       </td>
       <td className='top media--1200'>
-        {value.isSigned && (
-          <>
-            <AddressMini value={value.signer} />
-            <div className='explorer--BlockByHash-nonce'>
-              {t<string>('index')} {formatNumber(value.nonce)}
-            </div>
-            <LinkExternal
-              data={value.hash.toHex()}
-              type='extrinsic'
-            />
-          </>
-        )}
+        {value.isSigned
+          ? (
+            <>
+              <AddressMini value={value.signer} />
+              <div className='explorer--BlockByHash-nonce'>
+                {t<string>('index')} {formatNumber(value.nonce)}
+              </div>
+              <LinkExternal
+                data={value.hash.toHex()}
+                type='extrinsic'
+              />
+            </>
+          )
+          : timestamp
+            ? timestamp.toLocaleString()
+            : null
+        }
       </td>
     </tr>
   );
@@ -168,5 +196,13 @@ export default React.memo(styled(ExtrinsicDisplay)`
   .explorer--BlockByHash-unsigned {
     opacity: 0.6;
     font-weight: var(--font-weight-normal);
+  }
+
+  a.isDecoded {
+    display: block;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `);

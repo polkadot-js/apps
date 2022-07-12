@@ -14,13 +14,13 @@ import useParamDefs from './useParamDefs';
 
 function getInitialValues ({ value }: RawParam): RawParam[] {
   return value instanceof Tuple
-    ? value.map((value) => ({ isValid: true, value: value as unknown }))
+    ? value.map((value: unknown) => ({ isValid: true, value }))
     : value as RawParam[];
 }
 
 function TupleDisplay (props: Props): React.ReactElement<Props> {
-  const params = useParamDefs(props.registry, props.type);
-  const { className = '', defaultValue, isDisabled, label, onChange, overrides, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, label, onChange, overrides, registry, type, withLabel } = props;
+  const params = useParamDefs(registry, type);
   const [values] = useState<RawParam[]>(() => getInitialValues(defaultValue));
 
   const _onChangeParams = useCallback(
@@ -48,7 +48,7 @@ function TupleDisplay (props: Props): React.ReactElement<Props> {
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}
-        registry={props.registry}
+        registry={registry}
         values={values}
       />
     </div>
