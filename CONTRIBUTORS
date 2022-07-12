@@ -1,4 +1,4 @@
-    3691	Jaco                          	Bump dev, gh-pages fix (#7861)
+    3692	Jaco                          	Fix for ipfsUIpload imports (#7862)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
