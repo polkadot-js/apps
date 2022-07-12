@@ -244,6 +244,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'omnibtc',
+    isUnreachable: true,
+    homepage: 'https://www.omnibtc.finance',
+    text: 'OmniBTC',
+    paraId: 2053,
+    providers: {
+      OmniBTC: 'wss://omnibtc.io/ws'
+    }
+  },
+  {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
     text: 'OriginTrail Parachain',
