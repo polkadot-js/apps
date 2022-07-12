@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.117.2 Jun 12, 2022
+
+Changes:
+
+- Fixes for release to gh-pages & ipfs
+
+
 ## 0.117.1 Jun 12, 2022
 
 Contributed:
