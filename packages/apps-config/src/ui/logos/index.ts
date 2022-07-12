@@ -41,6 +41,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
+import chainOmniBTC from './chains/ominibtc.svg';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
 import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
@@ -152,6 +153,7 @@ import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
+import nodeOmniBTC from './nodes/ominibtc.svg';
 import nodeUniqueWestend from './nodes/opal-logo.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodePangolin from './nodes/pangolin.svg';
@@ -338,6 +340,7 @@ export const chainLogos = Object.entries({
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   Odyssey: nodeAresGladios,
+  OmniBTC: chainOmniBTC,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
   'OriginTrail Parachain Testnet': chainOriginTrailTestnet,
@@ -526,6 +529,7 @@ export const nodeLogos = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   'node-template': nodeSubstrate,
   'Nodle Chain Node': nodeNodle,
+  OmniBTC: nodeOmniBTC,
   'Opal Node': nodeUniqueWestend,
   'Opportunity Standalone Testnet': nodeOpportunity,
   Pangolin: nodePangolin,
@@ -733,6 +737,7 @@ export const namedLogos: Record<string, unknown> = {
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   odyssey: nodeAresGladios,
+  omnibtc: nodeOmniBTC,
   opal: nodeUniqueWestend,
   opportunity: nodeOpportunity,
   'origintrail-parachain': chainOriginTrail,

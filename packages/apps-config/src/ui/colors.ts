@@ -95,6 +95,7 @@ const chainMybank = '#282736';
 const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
+const chainOmniBTC = '#6759E9';
 const chainOpal = '#3B9C9D';
 const chainOriginTrail = '#FB5DEB';
 const chainOriginTrailTestnet = '#0C0C0C';
@@ -201,6 +202,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
+const nodeOmniBTC = '#6759E9';
 const nodeOpportunity = '#6143bc';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
@@ -382,6 +384,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
+  OmniBTC: chainOmniBTC,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
   'OriginTrail Parachain Testnet': chainOriginTrailTestnet,
@@ -525,6 +528,7 @@ export const nodeColors = Object.entries({
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
+  OmniBTC: nodeOmniBTC,
   'Opal Node': nodeOpal,
   'Opportunity Standalone Testnet': nodeOpportunity,
   Pangolin: nodePangolin,
