@@ -208,6 +208,11 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ominibtc',
+    text: 'OminiBTC',
+    providers: {}
+  },
+  {
     info: 'polkadex',
     text: 'Polkadex',
     providers: {
