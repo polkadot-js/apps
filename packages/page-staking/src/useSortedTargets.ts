@@ -28,7 +28,7 @@ interface MultiResult {
   maxNominatorsCount?: BN;
   maxValidatorsCount?: BN;
   minNominatorBond?: BN;
-  minValidatorBond?: BN;
+  minValidatorBond?: BN | undefined;
   totalIssuance?: BN;
 }
 
@@ -293,8 +293,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
   const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
-  const [stakersTotal, setStakersTotal] = useState<BN | undefined>();
-  const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string>('');
+  const [stakersTotal, setStakersTotal] = useState<BN | undefined>(undefined);
+  const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string | undefined>();
   const [nominatorMaxElectingCount, setNominatorMaxElectingCount] = useState<u32>();
   const [nominatorElectingCount, setNominatorElectingCount] = useState<number | undefined>();
   const [nominatorActiveCount, setNominatorActiveCount] = useState<number | undefined>();
@@ -351,7 +351,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
 
   curEra && getStakers(curEra?.unwrap());
 
-  const validatorMinActiveThreshold = stakersTotal ? b(stakersTotal, api) : '';
+  const validatorMinActiveThreshold = stakersTotal !== undefined ? b(stakersTotal, api) : undefined;
 
   return useMemo(
     (): SortedTargets => ({

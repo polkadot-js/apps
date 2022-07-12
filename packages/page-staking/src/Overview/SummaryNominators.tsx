@@ -27,8 +27,10 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
   const { api } = useApi();
 
   const maxElectingVotersDefined = !!api.consts.electionProviderMultiPhase?.maxElectingVoters;
-  const maxNominatorDefined = !!api.query.staking.maxNominatorsCount;
-  const minNominatorBondDefined = !!api.query.staking.minNominatorBond;
+  const maxNominatorDefined = !!api.query.staking.maxNominatorsCount && maxNominatorsCount !== undefined;
+  const minNominatorBondDefined = !!api.query.staking.minNominatorBond && minNominatorBond !== undefined;
+  const nominatorMinActiveThresholdDefined = !!api.query.staking.erasStakers && nominatorMinActiveThreshold !== undefined;
+  const nominatorActiveCountDefined = !!api.query.erasStakers && nominatorActiveCount !== undefined;
 
   return (
     <>
@@ -64,9 +66,11 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Number of nominators backing active validators in the current era.')}
               label={t<string>('active')}
             >
-              <SpinnerWrap check={nominatorActiveCount}>
-                {formatNumber(nominatorActiveCount)}
-              </SpinnerWrap>
+              {nominatorActiveCountDefined
+                ? <SpinnerWrap check={nominatorActiveCount}>
+                  {formatNumber(nominatorActiveCount)}
+                </SpinnerWrap>
+                : '-'}
             </CardSummary>
           </Section>
         </SummaryBox>
@@ -91,9 +95,11 @@ function SummaryNominators ({ targets: { maxNominatorsCount,
               help={t<string>('Minimum threshold stake among active nominators.')}
               label={t<string>('min active thrs')}
             >
-              <SpinnerWrap check={nominatorMinActiveThreshold}>
-                {nominatorMinActiveThreshold}
-              </SpinnerWrap>
+              {nominatorMinActiveThresholdDefined
+                ? <SpinnerWrap check={nominatorMinActiveThreshold}>
+                  {nominatorMinActiveThreshold}
+                </SpinnerWrap>
+                : '-'}
             </CardSummary>
           </Section>
           <Section>

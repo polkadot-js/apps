@@ -27,8 +27,10 @@ function SummaryValidators ({ targets:
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const maxValidatorDefined = !!api.query.staking.maxValidatorsCount;
-  const minValidatorBondDefined = !!api.query.staking.minValidatorBond;
+  const maxValidatorDefined = !!api.query.staking.maxValidatorsCount && maxValidatorsCount !== undefined;
+  const minValidatorBondDefined = !!api.query.staking.minValidatorBond && minValidatorBond !== undefined;
+  const validatorMinActiveThresholdDefined = !!api.query.staking.erasStakers && validatorMinActiveThreshold !== undefined;
+  const validatorActiveCountDefined = !!api.query.staking.erasStakers && validatorActiveCount !== undefined;
 
   return (
     <Card withBottomMargin>
@@ -61,9 +63,11 @@ function SummaryValidators ({ targets:
             help={t<string>('Count of active validators.')}
             label={t<string>('active')}
           >
-            <SpinnerWrap check={validatorActiveCount}>
-              {validatorActiveCount}
-            </SpinnerWrap>
+            {validatorActiveCountDefined
+              ? <SpinnerWrap check={validatorActiveCount}>
+                {validatorActiveCount}
+              </SpinnerWrap>
+              : '-'}
           </CardSummary>
         </Section>
       </SummaryBox>
@@ -88,9 +92,11 @@ function SummaryValidators ({ targets:
             help={t<string>('Minimum threshold stake among active validators.')}
             label={t<string>('min active thrs')}
           >
-            <SpinnerWrap check={validatorMinActiveThreshold}>
-              {validatorMinActiveThreshold}
-            </SpinnerWrap>
+            {validatorMinActiveThresholdDefined
+              ? <SpinnerWrap check={validatorMinActiveThreshold}>
+                {validatorMinActiveThreshold}
+              </SpinnerWrap>
+              : '-'}
           </CardSummary>
         </Section>
         <Section>

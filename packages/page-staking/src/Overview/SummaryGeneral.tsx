@@ -46,6 +46,15 @@ totalStaked } }: Props) {
     [totalIssuance, totalStaked]
   );
 
+  const returnsCheck: string = useMemo(
+    () => {
+      if (totalIssuance && stakedReturn > 0 && Number.isFinite(stakedReturn)) {
+        return (stakedReturn.toFixed(1) + '%');
+      }
+
+      return '0%';
+    }, [totalIssuance, stakedReturn]);
+
   return (
     <Card withBottomMargin>
       <SummaryBox>
@@ -85,11 +94,7 @@ totalStaked } }: Props) {
             >{inflation.toFixed(1)}%</SpinnerWrap>
           </CardSummary>
           <CardSummary label={t<string>('returns')}>
-            <SpinnerWrap
-              check={totalIssuance && (stakedReturn > 0) && Number.isFinite(stakedReturn)}
-            >
-              {stakedReturn.toFixed(1)}%
-            </SpinnerWrap>
+            {returnsCheck}
           </CardSummary>
         </Section>
       </SummaryBox>
