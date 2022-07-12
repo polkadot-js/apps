@@ -6,7 +6,6 @@ require('./substrate-connect');
 
 const nodeCrypto = require('crypto');
 const { configure } = require('@testing-library/dom');
-const { fetch } = require('@polkadot/x-fetch/node');
 
 CSS = {
   supports () {
@@ -19,7 +18,5 @@ window.crypto = {
     return nodeCrypto.randomFillSync(buffer);
   }
 };
-
-global.fetch = fetch;
 
 configure({ asyncUtilTimeout: 10000 });

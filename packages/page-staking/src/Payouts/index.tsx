@@ -23,6 +23,7 @@ import Validator from './Validator';
 
 interface Props {
   className?: string;
+  historyDepth?: BN;
   isInElection?: boolean;
   ownPools?: OwnPool[];
   ownValidators: StakerState[];
@@ -158,14 +159,13 @@ function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN 
   return eraSelection;
 }
 
-function Payouts ({ className = '', isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
+function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
   const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
-  const historyDepth = useCall<BN>(api.query.staking.historyDepth);
   const blockTime = useBlockInterval();
 
   const poolStashes = useMemo(
@@ -268,6 +268,7 @@ function Payouts ({ className = '', isInElection, ownPools, ownValidators }: Pro
       >
         {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
+            historyDepth={historyDepth}
             key={payout.stashId}
             payout={payout}
           />
@@ -281,6 +282,7 @@ function Payouts ({ className = '', isInElection, ownPools, ownValidators }: Pro
         >
           {!isLoadingRewards && validators.filter(({ available }) => !available.isZero()).map((payout): React.ReactNode => (
             <Validator
+              historyDepth={historyDepth}
               isDisabled={isInElection}
               key={payout.validatorId}
               payout={payout}

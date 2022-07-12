@@ -241,6 +241,8 @@
   "comm.": "comm.",
   "comm. < median": "comm. < median",
   "comm. < {{maxComm}}%": "comm. < {{maxComm}}%",
+  "comm. <= median": "comm. <= median",
+  "comm. <= {{maxComm}}%": "comm. <= {{maxComm}}%",
   "commission": "commission",
   "controller": "controller",
   "controller account": "controller account",

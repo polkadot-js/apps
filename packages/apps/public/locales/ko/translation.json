@@ -1284,7 +1284,6 @@
   "rpc.pangolin": "팬고린",
   "rpc.pangoro": "판고로",
   "rpc.phala": "팔라 PoC-3",
-  "rpc.plasm": "플라즈마",
   "rpc.polkadot.parity": "폴카닷",
   "rpc.polkadot.w3f": "폴카닷",
   "rpc.pontem": "다리",
@@ -1293,7 +1292,6 @@
   "rpc.rococo.contracts": "캔버스",
   "rpc.rococo.darwinia": "다위니아 PC2",
   "rpc.rococo.laminar": "격동 PC1",
-  "rpc.rococo.plasm": "플라즈마 PC1",
   "rpc.rococo.robonomics": "로보노믹스  PC1",
   "rpc.rococo.subsocial": "섭소셜 PC1",
   "rpc.rococo.tick": "틱",
@@ -1483,5 +1481,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. 이더리움 계정으로 서명하세요.",
   "{{threshold}}, not passing": "{{threshold}}, 통과되지 않았습니다",
   "{{threshold}}, passing": "{{threshold}}, 통과되었습니다",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x 투표 발란스, 잠금 {{lock}}x제정 ({{period}} days)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x 투표 발란스, 잠금 {{lock}}x제정 ({{period}} days)"
 }
