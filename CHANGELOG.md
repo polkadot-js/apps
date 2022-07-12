@@ -56,6 +56,7 @@ Contributed:
 - Dwellir endpoints for tentry & Edgeware (Thanks to https://github.com/Ank4n)
 - Support for Heiko crowdloan 2 (Thanks to https://github.com/GopherJ)
 - Update Darwinia parachain (Thanks to https://github.com/JayJay1024)
+- Add OmniBTC paraId to Polkadot (Thanks to https://github.com/wbh1328551759)
 
 Changes:
 
