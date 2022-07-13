@@ -188,19 +188,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rococoSora',
-    paraId: 2011,
-    text: 'SORA Rococo Parachain',
-    providers: {
-      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
-    }
-  },
-  {
     info: 'rococoSubsocial',
     paraId: 2100,
     text: 'SoonsocialX',
     providers: {
       DappForce: 'wss://rco-para.subsocial.network'
+    }
+  },
+  {
+    info: 'rococoSora',
+    paraId: 2011,
+    text: 'SORA Rococo Parachain',
+    providers: {
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
   },
   {
