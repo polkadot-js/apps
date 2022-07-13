@@ -405,7 +405,6 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'sora_ksm',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7721
     homepage: 'https://sora.org/',
     paraId: 2011,
     text: 'SORA Kusama Parachain',
