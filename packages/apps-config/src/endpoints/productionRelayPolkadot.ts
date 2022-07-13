@@ -313,6 +313,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'kylin',
+    homepage: 'https://kylin.network/',
+    paraId: 2052,
+    text: 'Kylin',
+    providers: {
+      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
+    }
+  },
+  {
     info: 'unique',
     homepage: 'https://unique.network/',
     paraId: 2037,
@@ -321,15 +330,6 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Unique America': 'wss://us-ws.unique.network/',
       'Unique Asia': 'wss://asia-ws.unique.network/',
       'Unique Europe': 'wss://eu-ws.unique.network/'
-    }
-  },
-  {
-    info: 'kylin',
-    homepage: 'https://kylin.network/',
-    paraId: 2052,
-    text: 'Kylin',
-    providers: {
-      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
     }
   }
 ];
