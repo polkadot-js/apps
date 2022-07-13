@@ -39,7 +39,7 @@
     "@polkadot/x-fetch": "^10.0.2",
     "@polymathnetwork/polymesh-types": "0.0.2",
     "@snowfork/snowbridge-types": "0.2.7",
-    "@sora-substrate/type-definitions": "1.9.13",
+    "@sora-substrate/type-definitions": "1.9.17",
     "@subsocial/definitions": "^0.6.11",
     "@unique-nft/opal-testnet-types": "0.5.2",
     "@unique-nft/quartz-mainnet-types": "0.5.2",
