@@ -90,7 +90,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
               isUnsigned
               label={t<string>('Send Transaction')}
               onStart={toggleModalView}
-              params={[method, signer.ss58, callSignature]}
+              params={[method, signer.ss58, callSignature, signer.nonce]}
               tx={api.tx.ethCall.call}
               withSpinner
             />
