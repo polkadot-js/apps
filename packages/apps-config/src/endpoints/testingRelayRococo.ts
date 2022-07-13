@@ -73,14 +73,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rocfinity',
-    paraId: 2021,
-    text: 'Efinity',
-    providers: {
-      Efinity: 'wss://rpc.rococo.efinity.io'
-    }
-  },
-  {
     info: 'rococoGenshiro',
     paraId: 2024,
     text: 'Genshiro Rococo Testnet',
@@ -177,6 +169,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://rococo.rpc.robonomics.network'
+    }
+  },
+  {
+    info: 'rocfinity',
+    paraId: 2021,
+    text: 'Rocfinity',
+    providers: {
+      Efinity: 'wss://rpc.rococo.efinity.io'
     }
   },
   {
