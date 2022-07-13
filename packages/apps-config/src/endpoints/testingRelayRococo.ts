@@ -204,6 +204,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoSora',
+    paraId: 2011,
+    text: 'SORA Rococo Parachain',
+    providers: {
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
+    }
+  },
+  {
     info: 'rococoSpreehafen',
     paraId: 2116,
     text: 'Spreehafen',

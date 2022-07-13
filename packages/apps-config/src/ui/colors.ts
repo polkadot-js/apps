@@ -421,6 +421,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
+  'SORA Rococo': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
