@@ -380,6 +380,7 @@ export const chainLogos = Object.entries({
   soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
   'SORA Kusama': nodeSora,
+  'SORA Rococo': nodeSora,
   Spanner: chainSpanner,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
