@@ -192,7 +192,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2011,
     text: 'SORA Rococo Parachain',
     providers: {
-      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
   },
   {
