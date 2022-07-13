@@ -24,6 +24,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'Ares Odyssey',
+    text: 'Ares Odyssey',
+    providers: {
+      'Ares Protocol': 'wss://odyssey.aresprotocol.io'
+    }
+  },
+  {
     info: 'automata',
     text: 'Automata',
     providers: {
