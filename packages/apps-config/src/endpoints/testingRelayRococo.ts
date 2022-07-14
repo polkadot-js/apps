@@ -142,9 +142,7 @@ export const testParasRococo: EndpointOption[] = [
     homepage: 'https://www.my-oli.com/en/',
     paraId: 4023,
     text: 'OLI Parachain',
-    providers: {
-      
-    }
+    providers: {}
   },
   {
     info: 'rococoOriginTrailParachain',
