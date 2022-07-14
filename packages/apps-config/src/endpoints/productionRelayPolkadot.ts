@@ -198,6 +198,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'kylin',
+    homepage: 'https://kylin.network/',
+    paraId: 2052,
+    text: 'Kylin',
+    providers: {
+      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
+    }
+  },
+  {
     info: 'litentry',
     homepage: 'https://crowdloan.litentry.com',
     paraId: 2013,
@@ -310,15 +319,6 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'SubGame Gamma',
     providers: {
       SubGame: 'wss://gamma.subgame.org/'
-    }
-  },
-  {
-    info: 'kylin',
-    homepage: 'https://kylin.network/',
-    paraId: 2052,
-    text: 'Kylin',
-    providers: {
-      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
     }
   },
   {
