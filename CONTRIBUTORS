@@ -214,6 +214,7 @@
        1	Andrew Jones                  	Fix upload and deploy contract(s) after rename (#1346)
        1	ashkuc                        	Update UniqueNetwork definitions (#7744)
        1	Aten Jin                      	add altlayer's ethereum chain to `ethereumChains` (#7826)
+       1	Bart200c                      	add kylin network (#7865)
        1	benjichat                     	Dwellir is removing support for Parallel and Parallel Heiko RPC endpoints (#7745)
        1	Bill Laboon                   	Add explanation that Docker port is 80 (#1480)
        1	BoBin                         	Add subscan rococo extra link (#4439)
