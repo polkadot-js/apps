@@ -4,13 +4,13 @@
 import type { Option, StorageKey } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
-import type { ITuple } from '@polkadot/types/types';
+import type { INumber, ITuple } from '@polkadot/types/types';
 import type { Campaign, Campaigns } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
-import { BN, BN_ZERO, u8aConcat } from '@polkadot/util';
+import { BN, BN_ZERO, u8aConcat, u8aEq } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 import { CROWD_PREFIX } from './constants';
@@ -25,12 +25,12 @@ const EMPTY: Campaigns = {
 
 const EMPTY_U8A = new Uint8Array(32);
 
-function createAddress (paraId: ParaId): Uint8Array {
-  return u8aConcat(CROWD_PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32);
+function createAddress (id: INumber): Uint8Array {
+  return u8aConcat(CROWD_PREFIX, id.toU8a(), EMPTY_U8A).subarray(0, 32);
 }
 
-function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
-  return accountId.eq(createAddress(paraId));
+function hasCrowdloadPrefix (accountId: AccountId): boolean {
+  return u8aEq(accountId.slice(0, CROWD_PREFIX.length), CROWD_PREFIX);
 }
 
 function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
@@ -111,7 +111,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
   };
 }
 
-const optFundMulti = {
+const OPT_FUNDS_MULTI = {
   transform: ([[paraIds], optFunds]: [[ParaId[]], Option<PolkadotRuntimeCommonCrowdloanFundInfo>[]]): Campaign[] =>
     paraIds
       .map((paraId, i): [ParaId, PolkadotRuntimeCommonCrowdloanFundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
@@ -135,19 +135,19 @@ const optFundMulti = {
   withParamsTransform: true
 };
 
-const optLeaseMulti = {
+const OPT_LEASE = {
   transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaId[] =>
-    paraIds.filter((paraId, i) =>
+    paraIds.filter((_, i) =>
       leases[i]
         .map((o) => o.unwrapOr(null))
         .filter((v): v is ITuple<[AccountId, BalanceOf]> => !!v)
-        .filter(([accountId]) => isCrowdloadAccount(paraId, accountId))
+        .filter(([accountId]) => hasCrowdloadPrefix(accountId))
         .length !== 0
     ),
   withParamsTransform: true
 };
 
-const fundOpts = {
+const OPT_FUNDS = {
   transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
     keys.map(({ args: [paraId] }) => paraId)
 };
@@ -157,9 +157,9 @@ function useFundsImpl (): Campaigns {
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, fundOpts, trigger.blockHash);
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
-  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, OPT_FUNDS, trigger.blockHash);
+  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUNDS_MULTI);
+  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // here we manually add the actual ending status and calculate the totals

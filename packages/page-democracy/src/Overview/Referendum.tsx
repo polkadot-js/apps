@@ -7,7 +7,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
+import { Badge, Button, Icon, LinkExternal, Progress } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
@@ -50,6 +50,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+  const totalCalculated = votedAye.add(votedNay);
 
   const [percentages, { hasVoted, hasVotedAye }] = useMemo(
     (): [Percentages | null, VoteType] => {
@@ -106,9 +107,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
-            {percentages.aye && (
-              <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
-            )}
           </>
         )}
       </td>
@@ -143,6 +141,12 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           votes={allNay}
         />
       </td>
+      <td className='media--1000 middle chart'>
+        <Progress
+          total={totalCalculated}
+          value={votedAye}
+        />
+      </td>
       <td className='button'>
         <Button.Group>
           {!image?.proposal && (
@@ -163,7 +167,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
       <td className='links media--1000'>
         <LinkExternal
           data={index}
-          isLogo
           type='referendum'
         />
       </td>
@@ -172,11 +175,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 }
 
 export default React.memo(styled(Referendum)`
-  .democracy--Referendum-results {
-    margin-bottom: 1em;
+  td.chart {
+    padding: 0.5rem 0;
 
-    &.chart {
-      text-align: center;
+    .ui--Progress {
+      display: inline-block;
     }
   }
 `);

@@ -411,7 +411,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "Angka positif lebih besar dari atau sama dengan {{nextFreeId}}",
   "Potential dispatch of referendum {{id}} (if passed)": "Potensi pengiriman referendum {{id}} (jika lolos)",
   "Pre-sale ethereum address": "Alamat pre-sale ethereum",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "Awalan menunjukkan format alamat ss58 di jaringan ini, ini adalah angka antara 0 ~ 255 yang menjelaskan format yang tepat dari byte alamat",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "Awalan menunjukkan format alamat ss58 di jaringan ini, ini adalah angka antara 0 ~ 255 yang menjelaskan format yang tepat dari byte alamat",
   "Preimage": "Preimage",
   "Preparing QR for signing": "Mempersiapkan QR untuk penandatanganan",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "Sajikan kode QR yang berisi tanda tangan ke UI. Setelah dipindai, itu akan dikirim untuk pemrosesan dan eksekusi on-chain.",
@@ -1453,5 +1453,5 @@
   "{{s}} s": "{{s}} detik",
   "{{threshold}}, not passing": "{{threshold}}, tidak melewati",
   "{{threshold}}, passing": "{{threshold}}, melewati",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x memilih saldo, terkunci untuk {{lock}}x berlaku ({{period}} hari)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x memilih saldo, terkunci untuk {{lock}}x berlaku ({{period}} hari)"
 }

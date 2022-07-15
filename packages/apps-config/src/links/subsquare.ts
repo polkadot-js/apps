@@ -9,9 +9,14 @@ export default {
   chains: {
     Acala: 'acala',
     Bifrost: 'bifrost',
+    'Darwinia Crab': 'crab',
+    Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
-    Kintsugi: 'kintsugi'
+    Kusama: 'kusama',
+    Phala: 'phala',
+    Polkadot: 'polkadot',
+    kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subsquare.io/${path}/${data.toString()}`,
@@ -20,6 +25,7 @@ export default {
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
+    external: 'democracy/external',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     tip: 'treasury/tip',

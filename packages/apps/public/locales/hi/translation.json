@@ -294,7 +294,7 @@
   "Positive number between 1 and {{memberCount}}": " 1 और {{memberCount}} के बीच सकारात्मक संख्या ",
   "Positive number greater than or equal to {{nextFreeId}}": " {{nextFreeId}} से अधिक या बराबर सकारात्मक संख्या",
   "Pre-sale ethereum address": "प्री-सेल एथोरम पता",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "उपसर्ग इस नेटवर्क पर ss58 पते के प्रारूप को इंगित करता है, यह 0 ~ 255 के बीच एक संख्या है जो पते के बाइट के सटीक प्रारूप का वर्णन करता है",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "उपसर्ग इस नेटवर्क पर ss58 पते के प्रारूप को इंगित करता है, यह 0 ~ 255 के बीच एक संख्या है जो पते के बाइट के सटीक प्रारूप का वर्णन करता है",
   "Preimage": "प्रीइमेज",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "यूआई को हस्ताक्षर युक्त क्यूआर कोड प्रस्तुत करें। एक बार स्कैन होने के बाद, इसे एक श्रृंखला पर प्रसंस्करण और निष्पादन के लिए प्रस्तुत किया जाएगा।",
   "Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.": "प्रस्ताव इस खर्च की मंजूरी या अस्वीकृति हो सकती है । एक बार मंजूरी मिलने के बाद, परिवर्तन या तो प्रस्ताव को हटाकर या भुगतान का समय निर्धारित करके लागू किया जाता है ।",
@@ -1117,5 +1117,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}.अपने ETH पते के साथ साइन इन करें",
   "{{threshold}}, not passing": "{{threshold}},  पास नहीं होगा",
   "{{threshold}}, passing": "{{threshold}},  पासिंग",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x वोट बैलेंस, {{lock}} द्वारा लॉक किया गया x स्टेटमेंट ( {period}} दिन।"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x वोट बैलेंस, {{lock}} द्वारा लॉक किया गया x स्टेटमेंट ( {period}} दिन।"
 }

@@ -21,6 +21,7 @@ interface HeaderExtended extends Header {
 
 interface Solution extends Struct {
   readonly public_key: AccountId32;
+  readonly reward_address: AccountId32;
 }
 
 interface SubPreDigest extends Struct {
@@ -35,9 +36,14 @@ function extractAuthor (
   const preRuntimes = digest.logs.filter(
     (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
   );
+
+  if (!preRuntimes || preRuntimes.length === 0) {
+    return undefined;
+  }
+
   const { solution }: SubPreDigest = api.registry.createType('SubPreDigest', preRuntimes[0].asPreRuntime[1]);
 
-  return solution.public_key;
+  return solution.reward_address;
 }
 
 function createHeaderExtended (
@@ -109,7 +115,8 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Solution: {
-          public_key: 'AccountId32'
+          public_key: 'AccountId32',
+          reward_address: 'AccountId32'
         },
         SubPreDigest: {
           slot: 'u64',

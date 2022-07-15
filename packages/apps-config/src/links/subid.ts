@@ -23,7 +23,7 @@ export default {
     Subsocial: 'subsocial'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
-    `https://sub.id/#/${data.toString()}`,
+    `https://sub.id/${data.toString()}`,
   isActive: true,
   logo: externalLogos.subid as string,
   paths: {

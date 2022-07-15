@@ -52,7 +52,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
 
   const extrinsic = useMemo(
     (): SubmittableExtrinsic<'promise'> | null => {
-      if (!modLocation || !proposal || !proposalCount) {
+      if (!modLocation || !proposal || !proposalCount || !api.tx.utility) {
         return null;
       }
 
@@ -62,13 +62,13 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
         // @ts-ignore Old-type
         : api.tx[modLocation].propose(memberThreshold, proposal);
 
-      return withVote
+      return withVote && (members.length > 1)
         ? api.tx.utility.batch([
           proposeTx,
           api.tx[modLocation].vote(proposal.method.hash, proposalCount, true)
         ])
         : proposeTx;
-    }, [api, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
+    }, [api, members, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
   );
 
   useEffect((): void => {
@@ -82,7 +82,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
     });
   }, [api, delayBlocks, imageHash, members, votingBlocks]);
 
-  if (!modLocation) {
+  if (!modLocation || !api.tx.utility) {
     return null;
   }
 
@@ -133,13 +133,15 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
                 label={t<string>('threshold')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
-              <Toggle
-                label={t<string>('Submit Aye vote with proposal')}
-                onChange={toggleVote}
-                value={withVote}
-              />
-            </Modal.Columns>
+            {(members.length > 1) && (
+              <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
+                <Toggle
+                  label={t<string>('Submit Aye vote with proposal')}
+                  onChange={toggleVote}
+                  value={withVote}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton

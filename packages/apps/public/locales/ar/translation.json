@@ -360,7 +360,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "{{الرقم الموجب أكبر من أو يساوي {{التعريف الحرالقادم",
   "Potential dispatch of referendum {{id}} (if passed)": "(إمكانية إرسال الإستفتاء(إذا تم قبوله {{id}}",
   "Pre-sale ethereum address": "عنوان إيثيريوم مسبق البيع",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "البادئة تشير إلى فورمة عنوان إس إس58 في هذه الشبكة، هو رقم بين 0 ~ 255 يصف الفورما الدقيقة لوحدات بايت العنوان",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "البادئة تشير إلى فورمة عنوان إس إس58 في هذه الشبكة، هو رقم بين 0 ~ 255 يصف الفورما الدقيقة لوحدات بايت العنوان",
   "Preimage": "الصورة الأولية",
   "Preparing QR for signing": "إعداد ريال قطري للتوقيع",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": ".تقديم رمز الاستجابة السريعة الذي يحتوي على التوقيع إلى ىواجهة المستخدم. بمجرد فحصه ، سيتم تقديمه للمعالجة والتنفيذ على السلسلة",
@@ -1299,5 +1299,5 @@
   "{{step}}. Sign with your ETH address": "{{قم بتسجيل الدخول باستخدام عنوان إيثيريوم الخاص بك {{خطوة",
   "{{threshold}}, not passing": "سقف}}، لا يتم  تمريره}}",
   "{{threshold}}, passing": "سقف}}،   يتم  تمريره}}",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "({{قفل}} (تاريخ إصدار {{أيام}}x رصيد التصويت، مقفل لـ x  {{قيمة }}"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "({{قفل}} (تاريخ إصدار {{أيام}}x رصيد التصويت، مقفل لـ x  {{قيمة }}"
 }
