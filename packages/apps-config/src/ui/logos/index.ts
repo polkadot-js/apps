@@ -41,6 +41,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
+import chainOLI from './chains/oli.png';
 import chainOmniBTC from './chains/ominibtc.svg';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
@@ -342,6 +343,7 @@ export const chainLogos = Object.entries({
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   Odyssey: nodeAresOdyssey,
+  'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
