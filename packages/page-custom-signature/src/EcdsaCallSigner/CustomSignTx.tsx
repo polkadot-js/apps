@@ -13,6 +13,7 @@ import { u8aToHex } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import { EcdsaAddressFormat } from '../types';
 import { useMetaMask } from '../useMetaMask';
+import { getPayload } from '../utils';
 
 interface Props {
   // the ss58 encoded address of the sender
@@ -40,11 +41,17 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
     }, []
   );
 
+  const fetchNetworkPrefix = useCallback(
+    async (): Promise<number> => {
+      const rawNetworkPrefix = await api?.rpc.net.version();
+
+      return Number(rawNetworkPrefix.toString());
+    }, [api?.rpc.net]
+  );
+
   const _onClickSignCall = useCallback(async () => {
     if (method) {
       setIsBusy(true);
-      // fixme: the call serialization method is different from what the chain is expecting, which will spit a `Bad Signature` error
-      const callPayload = u8aToHex(method.toU8a(true).slice(1));
 
       try {
         // reset the error message if it already exists
@@ -52,6 +59,10 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
           setErrorMessage(undefined);
         }
 
+        const networkPrefix = await fetchNetworkPrefix();
+        const callPayload = u8aToHex(
+          getPayload(method, signer.nonce, networkPrefix)
+        );
         const callSig = await requestSignature(callPayload, signer.ethereum);
 
         setCallSignature(callSig);
@@ -66,7 +77,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
         setIsBusy(false);
       }
     }
-  }, [errorMessage, method, isModalOpen, requestSignature, signer, toggleModalView]);
+  }, [errorMessage, method, isModalOpen, requestSignature, signer, toggleModalView, fetchNetworkPrefix]);
 
   // transaction confirmation modal
   const TransactionModal = useCallback(() => {

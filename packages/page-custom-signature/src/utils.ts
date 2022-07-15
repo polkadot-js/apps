@@ -1,9 +1,13 @@
 // Copyright 2017-2022 @polkadot/app-custom-signature authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+
 import * as ethUtils from 'ethereumjs-util';
+import { keccakFromArray } from 'ethereumjs-util';
 import { publicKeyConvert } from 'secp256k1';
 
+import { TypeRegistry, u16 } from '@polkadot/types';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a, encodeAddress, isEthereumAddress } from '@polkadot/util-crypto';
 
@@ -69,4 +73,27 @@ export const recoverPublicKeyFromSig = (address: string, msgString: string, rpcS
   const compressedKey = publicKeyConvert(Buffer.from(prefixedPubKey, 'hex'), true);
 
   return u8aToHex(compressedKey);
+};
+
+export const getPayload = (
+  method: SubmittableExtrinsic<'promise'>,
+  nonce: number,
+  networkPrefix: number
+): Uint8Array => {
+  const methodPayload: Uint8Array = method.toU8a(true).slice(1);
+  // eslint-disable-next-line new-cap
+  const prefix = new u16(new TypeRegistry(), networkPrefix);
+  let payload = new Uint8Array(0);
+
+  const registry = new TypeRegistry();
+  const u32Nonce = registry.createType('u32', nonce);
+  const payloadLength = prefix.byteLength() + u32Nonce.byteLength() + methodPayload.byteLength;
+
+  payload = new Uint8Array(payloadLength);
+  payload.set(prefix.toU8a(), 0);
+  payload.set(u32Nonce.toU8a(), prefix.byteLength());
+  payload.set(methodPayload, prefix.byteLength() + u32Nonce.byteLength());
+  const buffer = keccakFromArray(Array.from(payload));
+
+  return new Uint8Array(buffer);
 };
