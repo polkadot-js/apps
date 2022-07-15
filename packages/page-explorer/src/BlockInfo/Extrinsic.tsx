@@ -17,7 +17,7 @@ import { useTranslation } from '../translate';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   index: number;
   maxBlockWeight?: Weight;
   value: Extrinsic;
@@ -36,11 +36,13 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
   return null;
 }
 
-function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
-  const filtered = events.filter(({ record: { phase } }) =>
-    phase.isApplyExtrinsic &&
-    phase.asApplyExtrinsic.eq(index)
-  );
+function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
+  const filtered = events
+    ? events.filter(({ record: { phase } }) =>
+      phase.isApplyExtrinsic &&
+      phase.asApplyExtrinsic.eq(index)
+    )
+    : [];
   const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
     section === 'system' &&
     ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)

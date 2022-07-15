@@ -14,12 +14,12 @@ import { BN, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   maxBlockWeight?: Weight;
   signedBlock?: SignedBlock;
 }
 
-function extractEventDetails (events?: KeyedEvent[]): [BN?, BN?, BN?] {
+function extractEventDetails (events?: KeyedEvent[] | null): [BN?, BN?, BN?] {
   return events
     ? events.reduce(([deposits, transfers, weight], { record: { event: { data, method, section } } }) => [
       section === 'balances' && method === 'Deposit'

@@ -15,7 +15,7 @@ import ExtrinsicDisplay from './Extrinsic';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
   withLink: boolean;
