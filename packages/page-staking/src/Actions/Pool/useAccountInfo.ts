@@ -11,18 +11,12 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO, bnMax } from '@polkadot/util';
 
+import { isPrevMember, isPrevPool } from './is';
+
 const OPT_DEL = {
   transform: (opt: Option<PalletNominationPoolsPoolMember>): PalletNominationPoolsPoolMember | PalletNominationPoolsPoolMemberV0 | null =>
     opt.unwrapOr(null)
 };
-
-function isPrevMember (member?: PalletNominationPoolsPoolMember | PalletNominationPoolsPoolMemberV0 | null): member is PalletNominationPoolsPoolMemberV0 {
-  return !!(member && (member as PalletNominationPoolsPoolMemberV0).rewardPoolTotalEarnings);
-}
-
-function isPrevPool (pool?: PalletNominationPoolsRewardPool | PalletNominationPoolsRewardPoolV0 | null): pool is PalletNominationPoolsRewardPoolV0 {
-  return !!(pool && (pool as PalletNominationPoolsRewardPoolV0).totalEarnings);
-}
 
 function createInfoPrev (member: PalletNominationPoolsPoolMemberV0, rewardPool: PalletNominationPoolsRewardPoolV0, poolPoints: BN, currentBalance: BN): AccountInfo {
   const lastTotalEarnings = rewardPool.totalEarnings;
