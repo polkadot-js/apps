@@ -43,6 +43,10 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
       (
         !['paraInclusion', 'parasInclusion', 'inclusion'].includes(section) ||
         !['CandidateBacked', 'CandidateIncluded'].includes(method)
+      ) &&
+      (
+        !['relayChainInfo'].includes(section) ||
+        !['CurrentBlockNumbers'].includes(method)
       )
     )
     .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {

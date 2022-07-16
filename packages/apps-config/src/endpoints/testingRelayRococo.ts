@@ -138,6 +138,13 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoOLIParachain',
+    homepage: 'https://www.my-oli.com/en/',
+    paraId: 4023,
+    text: 'OLI Parachain',
+    providers: {}
+  },
+  {
     info: 'rococoOriginTrailParachain',
     homepage: 'https://parachain.origintrail.io',
     paraId: 2043,
@@ -193,6 +200,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'SoonsocialX',
     providers: {
       DappForce: 'wss://rco-para.subsocial.network'
+    }
+  },
+  {
+    info: 'rococoSora',
+    paraId: 2011,
+    text: 'SORA Rococo Parachain',
+    providers: {
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
   },
   {

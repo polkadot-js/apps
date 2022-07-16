@@ -35,7 +35,7 @@ const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainCompetitorsClub = '#213830';
 const chainComposableFinance = '#C90E8A';
-const chainCrab = '#7C30DD';
+const chainCrab = '#512DBC';
 const chainCreditcoin = '#2D353F';
 const chainCreditcoinTestnet = '#00DF83';
 const chainCrownSterling = '#13264b';
@@ -43,7 +43,7 @@ const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
-const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainDarwinia = '#FF0083';
 const chainDali = '#000000';
 const chainDolphin = '#000000';
 const chainDorafactory = '#FF761C';
@@ -94,12 +94,13 @@ const chainMybank = '#282736';
 const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
+const chainOLI = '#8CC63F';
 const chainOmniBTC = '#6759E9';
 const chainOpal = '#3B9C9D';
 const chainOriginTrail = '#FB5DEB';
 const chainOriginTrailTestnet = '#0C0C0C';
-const chainPangolin = '#5744ff';
-const chainPangoro = '#5745de';
+const chainPangolin = '#4B30DD';
+const chainPangoro = '#4B30DD';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
 const chainPicasso = '#000000';
@@ -119,7 +120,7 @@ const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
 const chainRococoContracts = '#000000';
-const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainRoccoDarwinia = '#FF0083';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
 const chainRococoLaminar = '#004FFF';
@@ -203,8 +204,8 @@ const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
 const nodeOmniBTC = '#6759E9';
 const nodeOpportunity = '#6143bc';
-const nodePangolin = '#5744ff';
-const nodePangoro = '#5745de';
+const nodePangolin = '#4B30DD';
+const nodePangoro = '#4B30DD';
 const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
 const nodePichiu = '#ed007e';
@@ -291,9 +292,11 @@ export const chainColors: Record<string, string> = Object.entries({
   'Crust PC1': chainCrust,
   'Dali Rococo': chainDali,
   'Dali Westend': chainDali,
+  Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
+  'Darwinia Parachain': chainDarwinia,
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
@@ -382,6 +385,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
+  'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
@@ -419,6 +423,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
+  'SORA Rococo': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
