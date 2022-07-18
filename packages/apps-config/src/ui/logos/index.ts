@@ -99,6 +99,7 @@ import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
+import nodeChainOLI from './nodes/oli.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
 import nodeCompetitorsClub from './nodes/competitors-club.png';
@@ -243,6 +244,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Testnet': nodeCalamari,
   'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
+  ChainOLI: chainOLI,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
@@ -343,7 +345,6 @@ export const chainLogos = Object.entries({
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   Odyssey: nodeAresOdyssey,
-  'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
   'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,
@@ -456,6 +457,7 @@ export const nodeLogos = Object.entries({
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  ChainOLI: nodeChainOLI,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
   Coinversation: nodeCoinversation,
@@ -658,6 +660,7 @@ export const namedLogos: Record<string, unknown> = {
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
+  chainoli: nodeChainOLI,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
   clover: nodeClover,
