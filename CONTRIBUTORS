@@ -212,6 +212,7 @@
        1	Alistair Singh                	Add Rococo Snowbridge (#7630)
        1	Anakorn Tata Kyavatanakij     	fix SummaryBar (#1981)
        1	Andrew Jones                  	Fix upload and deploy contract(s) after rename (#1346)
+       1	Anthony Lazam                 	Add new RPC for common parachain (#7882)
        1	ashkuc                        	Update UniqueNetwork definitions (#7744)
        1	Aten Jin                      	add altlayer's ethereum chain to `ethereumChains` (#7826)
        1	Bart200c                      	add kylin network (#7865)
