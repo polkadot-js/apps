@@ -7,6 +7,7 @@ import type { DropdownOptions } from '../../util/types';
 export default function createOptions (runtime: Record<string, Record<string, DefinitionCallNamed>>): DropdownOptions {
   return Object
     .keys(runtime)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .filter((s) => Object.keys(runtime[s]).length !== 0)
     .map((value): { text: string; value: string } => ({
