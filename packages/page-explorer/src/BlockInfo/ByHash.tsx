@@ -26,7 +26,7 @@ interface Props {
 }
 
 interface State {
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   getBlock?: SignedBlock;
   getHeader?: HeaderExtended;
   runtimeVersion?: RuntimeVersionPartial;
@@ -34,9 +34,9 @@ interface State {
 
 const EMPTY_HEADER = [['...', 'start', 6]];
 
-function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[]], SignedBlock, HeaderExtended?]): State {
+function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
   return {
-    events: events.map((record, index) => ({
+    events: events && events.map((record, index) => ({
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
       record
@@ -52,7 +52,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
-  const [myError, setError] = useState<Error | null | undefined>(error);
+  const [blkError, setBlkError] = useState<Error | null | undefined>(error);
+  const [evtError, setEvtError] = useState<Error | null | undefined>();
 
   const isVersionCurrent = useMemo(
     () => !!runtimeVersion && api.runtimeVersion.specName.eq(runtimeVersion.specName) && api.runtimeVersion.specVersion.eq(runtimeVersion.specVersion),
@@ -62,12 +63,20 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   useEffect((): void => {
     value && Promise
       .all([
-        api.at(value).then((apiAt) =>
-          Promise.all([
-            Promise.resolve(apiAt.runtimeVersion),
-            apiAt.query.system.events()
-          ])
-        ),
+        api
+          .at(value)
+          .then((apiAt) =>
+            Promise.all([
+              Promise.resolve(apiAt.runtimeVersion),
+              apiAt.query.system
+                .events()
+                .catch((error: Error) => {
+                  mountedRef.current && setEvtError(error);
+
+                  return null;
+                })
+            ])
+          ),
         api.rpc.chain.getBlock(value),
         api.derive.chain.getHeader(value)
       ])
@@ -75,7 +84,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         mountedRef.current && setState(transformResult(result));
       })
       .catch((error: Error): void => {
-        mountedRef.current && setError(error);
+        mountedRef.current && setBlkError(error);
       });
   }, [api, mountedRef, value]);
 
@@ -108,8 +117,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         header={header}
         isFixed
       >
-        {myError
-          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: myError.message } })}</td></tr>
+        {blkError
+          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } })}</td></tr>
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
@@ -146,8 +155,9 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
           <Columar>
             <Columar.Column>
               <Events
+                error={evtError}
                 eventClassName='explorer--BlockByHash-block'
-                events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
+                events={events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
                 label={t<string>('system events')}
               />
             </Columar.Column>

@@ -1,13 +1,28 @@
 # CHANGELOG
 
-## 0.117.2 Jun 12, 2022
+## 0.117.3 Jul 14, 2022
+
+Contributed:
+
+- Adjust Darwinia UI (Thanks to https://github.com/JayJay1024)
+- Add Rococo & Kusama SORA parachain info (Thanks to https://github.com/stefashkaa)
+- Add Live Netwok Odyssey (Thanks to https://github.com/jiyilanzhou)
+- Update Rocfinity name (Thanks to https://github.com/leonardocustodio)
+
+Changes:
+
+- Top level package.json adjustment for Electron packaging
+- Filter `relayinInfo.CurrentBlockNumbers` from global events list
+
+
+## 0.117.2 Jul 12, 2022
 
 Changes:
 
 - Fixes for release to gh-pages & ipfs
 
 
-## 0.117.1 Jun 12, 2022
+## 0.117.1 Jul 12, 2022
 
 Contributed:
 
