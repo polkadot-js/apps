@@ -386,6 +386,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
   Odyssey: nodeOdyssey,
+  'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
   'Opal Node': chainOpal,
   'OriginTrail Parachain': chainOriginTrail,

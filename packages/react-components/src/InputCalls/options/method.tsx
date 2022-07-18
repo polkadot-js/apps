@@ -19,6 +19,7 @@ export default function createOptions (runtime: Record<string, Record<string, De
 
   return Object
     .keys(runtime[sectionName])
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((m) => section[m])
     .map(({ description, method, params }): DropdownOption => {
