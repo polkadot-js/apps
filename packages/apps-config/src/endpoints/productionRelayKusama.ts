@@ -39,7 +39,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2119,
     text: 'Bajun Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.bajun.network'
+      'AjunaNetwork 0': 'wss://rpc-parachain.bajun.network',
+      'AjunaNetowrk 1': 'wss://rpc-parachain-1.bajun.network',
     }
   },
   {
