@@ -19,6 +19,7 @@ export function keyOptions (api: ApiPromise, sectionName: string): DropdownOptio
 
   return Object
     .keys(section)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((value): DropdownOption => {
       const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
