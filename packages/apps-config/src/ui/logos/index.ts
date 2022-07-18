@@ -41,7 +41,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
-import chainOLI from './chains/oli.png';
+import chainOLI from './chains/oli.svg';
 import chainOmniBTC from './chains/omnibtc.svg';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
@@ -98,6 +98,7 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeChainOLI from './nodes/oli.svg';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
@@ -243,6 +244,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Testnet': nodeCalamari,
   'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
+  ChainOLI: chainOLI,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
@@ -456,6 +458,7 @@ export const nodeLogos = Object.entries({
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  ChainOLI: nodeChainOLI,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
   Coinversation: nodeCoinversation,
@@ -658,6 +661,7 @@ export const namedLogos: Record<string, unknown> = {
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
+  chainoli: nodeChainOLI,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
   clover: nodeClover,
