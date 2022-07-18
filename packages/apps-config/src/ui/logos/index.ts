@@ -41,7 +41,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
-import chainOLI from './chains/oli.png';
+import chainOLI from './chains/oli.svg';
 import chainOmniBTC from './chains/ominibtc.svg';
 import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
