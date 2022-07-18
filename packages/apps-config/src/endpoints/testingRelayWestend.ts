@@ -124,6 +124,15 @@ export const testParasWestendCommon: EndpointOption[] = [
       Dwellir: 'wss://westmint-rpc.dwellir.com'
     },
     teleport: [-1]
+  },
+  {
+    info: 'westendCollectives',
+    paraId: 1002,
+    text: 'Westend Collectives',
+    providers: {
+      Parity: 'wss://westend-collectives-rpc.polkadot.io'
+    },
+    teleport: [-1]
   }
 ];
 
@@ -140,7 +149,7 @@ export const testRelayWestend: EndpointOption = {
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     'light client': 'light://substrate-connect/westend'
   },
-  teleport: [1000],
+  teleport: [1000, 1002],
   linked: [
     ...testParasWestendCommon,
     ...testParasWestend
