@@ -64,7 +64,7 @@ export const prodChains: EndpointOption[] = [
     info: 'creditcoin',
     text: 'Creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     }
   },
   {
