@@ -20,7 +20,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'dock-pos-mainnet',
       text: t('rpc.dock-pos-mainnet', 'Dock PoS Mainnet', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://mainnet-val1.dock.io'
+        'Dock Association': 'wss://mainnet-node.dock.io/'
       }
     },
   ]);
