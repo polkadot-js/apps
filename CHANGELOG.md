@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 0.118.1 Jul 19, 2022
 
 Contributed:
 
@@ -8,7 +8,7 @@ Contributed:
 - Add OLI parachain (Thanks to https://github.com/m-yahya)
 - Update OmniBTC logo (Thanks to https://github.com/wbh1328551759)
 - Westend collective common-good parachain (Thanks to https://github.com/lazam)
-- Update Signural to v2 links (Thanks to https://github.com/abzen)
+- Update Singular to v2 links (Thanks to https://github.com/abzen)
 
 Changes:
 
