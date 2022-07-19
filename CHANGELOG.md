@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add Kylin network (Thanks to https://github.com/Bart200c)
+- Add OLI parachain (Thanks to https://github.com/m-yahya)
+- Update OmniBTC logo (Thanks to https://github.com/wbh1328551759)
+- Westend collective common-good parachain (Thanks to https://github.com/lazam)
+- Update Signural to v2 links (Thanks to https://github.com/abzen)
+
+Changes:
+
+- Always use author from chain derive (remove apps-specific detection logic)
+- Don't fail full block display in explorer on undecodable events
+- Bump 3rd party dependencies
+- Filter sections/methods for internal attributes
+- Silence build-step i18n scanner output
+
+
 ## 0.117.3 Jul 14, 2022
 
 Contributed:
