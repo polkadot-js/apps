@@ -251,6 +251,7 @@ export const chainLogos = Object.entries({
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
   'Contracts on Rococo': chainRococoContracts,
+  'Crab Parachain': nodeCrab,
   Creditcoin: chainCreditcoin,
   'Creditcoin Testnet': chainCreditcoinTest,
   'Crown Sterling': chainCrownSterling,
