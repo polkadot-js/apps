@@ -477,6 +477,15 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
+  },
+  {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io',
+    }
   }
 ];
 
