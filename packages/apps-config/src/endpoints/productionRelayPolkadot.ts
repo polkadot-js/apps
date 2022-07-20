@@ -213,6 +213,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'nodle',
+    homepage: 'https://www.nodle.com/',
+    paraId: 2026,
+    text: 'Nodle',
+    providers: {
+      OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
+    }
+  },
+  {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
     text: 'OriginTrail Parachain',

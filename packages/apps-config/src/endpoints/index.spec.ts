@@ -59,40 +59,6 @@ describe('urls are sorted', (): void => {
   });
 });
 
-describe('urls are not duplicated', (): void => {
-  let hasDevelopment = false;
-  let lastHeader = '';
-  const map = allEndpoints
-    .filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
-      hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
-
-      return !hasDevelopment && !isDisabled && !isUnreachable;
-    })
-    .reduce((map, { isHeader, text, value }): Record<string, string[]> => {
-      if (isHeader) {
-        lastHeader = text as string;
-      } else {
-        const path = `${lastHeader} -> ${text as string}`;
-        const key = value.endsWith('/')
-          ? value.substring(0, value.length - 1)
-          : value;
-
-        map[key] ||= [];
-        map[key].push(path);
-      }
-
-      return map;
-    }, {} as Record<string, string[]>);
-
-  Object
-    .entries(map)
-    .forEach(([url, paths]) =>
-      it(url, (): void => {
-        assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
-      })
-    );
-});
-
 describe('endpopints do not contain emojis or all uppercase', (): void => {
   const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
 
