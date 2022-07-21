@@ -2,7 +2,7 @@
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
-      45	pan                           	update bifrost link on subscan (#7761)
+      46	pan                           	register Bifrost to Rococo (#7894)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
