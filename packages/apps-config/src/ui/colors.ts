@@ -269,6 +269,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
+  'Bifrost K Rococo': chainRoccoBifrost,
   'Bifrost Kusama': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bifrost Polkadot': chainRoccoBifrost,
