@@ -483,6 +483,7 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://icenetwork.io/snow',
     paraId: 2129,
     text: 'Snow Network',
+    isUnreachable: true,
     providers: {
       IceNetwork: 'wss://snow-rpc.icenetwork.io',
     }
