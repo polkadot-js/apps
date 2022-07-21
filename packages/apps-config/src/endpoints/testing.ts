@@ -110,7 +110,7 @@ export const testChains: EndpointOption[] = [
     info: 'creditcoin-testnet',
     text: 'Creditcoin Testnet',
     providers: {
-      'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
     }
   },
   {
