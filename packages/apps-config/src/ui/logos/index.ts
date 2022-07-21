@@ -234,6 +234,7 @@ export const chainLogos = Object.entries({
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
+  'Bifrost K Rococo': nodeBifrost,
   'Bifrost Kusama': nodeBifrost,
   'Bifrost Polkadot': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
