@@ -382,6 +382,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SkyeKiwi: chainSkyeKiwi,
+  'Snow Kusama': nodeSnow,
   soonsocial: nodeSoonsocial,
   soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
@@ -425,7 +426,6 @@ export const chainLogos = Object.entries({
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
-  'Snow Kusama': nodeSnow,
   'zcloak poc1': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
@@ -579,6 +579,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
+  'Snow': nodeSnow,
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
@@ -620,7 +621,6 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
-  'Snow': nodeSnow,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
