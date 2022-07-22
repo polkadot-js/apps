@@ -203,7 +203,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2052,
     text: 'Kylin',
     providers: {
-      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
+      'Kylin Network': 'wss://polkadot.kylin-node.co.uk',
+      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws'
     }
   },
   {
