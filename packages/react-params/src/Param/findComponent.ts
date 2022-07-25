@@ -149,31 +149,24 @@ export default function findComponent (registry: Registry, def: TypeDef, overrid
   let Component = findOne(def.lookupName) || findOne(type);
 
   if (!Component) {
-    let error: string | null = null;
-
     try {
       const instance = registry.createType(type as 'u32');
       const raw = getTypeDef(instance.toRawType());
 
-      Component = findOne(raw.lookupName || raw.type);
+      Component = findOne(raw.lookupName || raw.type) || findOne(fromDef(raw));
 
       if (Component) {
         return Component;
       } else if (isBn(instance)) {
         return Amount;
-      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec].includes(raw.info)) {
-        return findComponent(registry, raw, overrides);
-      } else if (raw.info === TypeDefInfo.VecFixed && (raw.sub as TypeDef).type !== 'u8') {
-        return findComponent(registry, raw, overrides);
       }
     } catch (e) {
-      error = (e as Error).message;
+      console.error(`params: findComponent: ${(e as Error).message}`);
     }
 
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      error && console.error(`params: findComponent: ${error}`);
       console.info(`params: findComponent: No pre-defined component for type ${type} from ${TypeDefInfo[def.info]}: ${JSON.stringify(def)}`);
     }
   }
