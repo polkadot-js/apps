@@ -2761,6 +2761,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-alliance@workspace:packages/page-alliance":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-alliance@workspace:packages/page-alliance"
+  dependencies:
+    "@babel/runtime": ^7.18.9
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-assets@workspace:packages/page-assets":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-assets@workspace:packages/page-assets"
