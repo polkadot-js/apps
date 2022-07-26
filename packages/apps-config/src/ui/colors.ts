@@ -469,7 +469,7 @@ export const chainColors: Record<string, string> = Object.entries({
   WILT: chainKilt,
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
-  'ZERO.IO': chainZero  
+  'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
@@ -583,7 +583,7 @@ export const nodeColors = Object.entries({
   'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
-  'Zenlink Collator': nodeZenlink  
+  'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
   [sanitize(node)]: color

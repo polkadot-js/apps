@@ -427,7 +427,7 @@ export const chainLogos = Object.entries({
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
-  'zcloak poc1': nodeZCloak  
+  'zcloak poc1': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
@@ -622,7 +622,7 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
-  'Zenlink Collator': nodeZenlink  
+  'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
   [sanitize(node)]: logo
