@@ -212,6 +212,7 @@ import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 import emptyLogo from './empty.svg';
+import nodeCESS from './nodes/cess.png';
 // last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
@@ -425,7 +426,8 @@ export const chainLogos = Object.entries({
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
-  'zcloak poc1': nodeZCloak
+  'zcloak poc1': nodeZCloak,
+  'CESS Testnet':nodeCESS
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
@@ -619,7 +621,8 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
-  'Zenlink Collator': nodeZenlink
+  'Zenlink Collator': nodeZenlink,
+  'CESS Testnet': nodeCESS
 }).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
   [sanitize(node)]: logo
@@ -896,7 +899,8 @@ export const namedLogos: Record<string, unknown> = {
   whala: nodeWhala,
   zCloak: nodeZCloak,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero
+  zero: nodeZero,
+  cess: nodeCESS
 };
 
 // extension logos
