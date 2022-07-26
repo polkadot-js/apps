@@ -98,6 +98,7 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCESS from './nodes/cess.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
@@ -212,7 +213,6 @@ import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 import emptyLogo from './empty.svg';
-import nodeCESS from './nodes/cess.png';
 // last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
