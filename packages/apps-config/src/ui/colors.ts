@@ -281,6 +281,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
   Centrifuge: nodeCentrifuge,
+  'CESS Testnet': chainCESS,
   ChainOLI: chainOLI,
   ChainX: chainChainx,
   Clover: chainClover,
@@ -468,8 +469,7 @@ export const chainColors: Record<string, string> = Object.entries({
   WILT: chainKilt,
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
-  'ZERO.IO': chainZero,
-  'CESS Testnet': chainCESS
+  'ZERO.IO': chainZero  
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
@@ -491,6 +491,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   'Circuit Collator': chainT0rn,
   Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,
@@ -582,8 +583,7 @@ export const nodeColors = Object.entries({
   'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
-  'Zenlink Collator': nodeZenlink,
-  'CESS Testnet': nodeCESS
+  'Zenlink Collator': nodeZenlink  
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
   [sanitize(node)]: color
