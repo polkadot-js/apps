@@ -89,6 +89,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'cess-testnet',
+    text: 'CESS Testnet',
+    providers: {
+      CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
+    }
+  },
+  {
     info: 'clover',
     isDisabled: true, // Cannot construct unknown type BridgeNetworks
     text: 'Clover',
