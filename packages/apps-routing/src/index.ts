@@ -6,6 +6,7 @@ import type { Routes } from './types';
 
 import accounts from './accounts';
 import addresses from './addresses';
+import alliance from './alliance';
 import assets from './assets';
 import bounties from './bounties';
 import calendar from './calendar';
@@ -54,6 +55,7 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     techcomm(t),
     membership(t),
+    alliance(t),
     parachains(t),
     gilt(t),
     assets(t),
