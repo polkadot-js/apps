@@ -98,6 +98,7 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCESS from './nodes/cess.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
@@ -245,6 +246,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Testnet': nodeCalamari,
   'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   ChainOLI: chainOLI,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
@@ -460,6 +462,7 @@ export const nodeLogos = Object.entries({
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   ChainOLI: nodeChainOLI,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
@@ -663,6 +666,7 @@ export const namedLogos: Record<string, unknown> = {
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
+  cess: nodeCESS,
   chainoli: nodeChainOLI,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
