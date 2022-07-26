@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 0.119.1 Jul 26, 2022
+
+Contributed:
+
+- Add OnFinality endpoint for Kylin (Thanks to https://github.com/banananeko)
+- Update creditcoin endpoints (Thanks to https://github.com/jfrank-summit)
+- Register Bifrost on Rococo (Thanks to https://github.com/awesomepan)
+- Upadta Darwinia Crab parachain settings (Thanks to https://github.com/JayJay1024)
+
+Changes:
+
+- Adjust param component with additional deep inspection
+
+
 ## 0.118.1 Jul 19, 2022
 
 Contributed:
