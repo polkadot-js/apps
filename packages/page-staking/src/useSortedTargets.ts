@@ -10,7 +10,7 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
-import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -199,19 +199,15 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
 }
 
 function addReturns (inflation: Inflation, baseInfo: Partial<SortedTargets>): Partial<SortedTargets> {
-  const avgStaked = baseInfo.avgStaked;
   const validators = baseInfo.validators;
 
   if (!validators) {
     return baseInfo;
   }
 
-  avgStaked && !avgStaked.isZero() && validators.forEach((v): void => {
+  validators.forEach((v): void => {
     if (!v.skipRewards && v.withReturns) {
-      const adjusted = avgStaked.mul(BN_HUNDRED).imuln(inflation.stakedReturn).div(v.bondTotal);
-
-      // in some cases, we may have overflows... protect against those
-      v.stakedReturn = (adjusted.gt(BN_MAX_INTEGER) ? BN_MAX_INTEGER : adjusted).toNumber() / BN_HUNDRED.toNumber();
+      v.stakedReturn = inflation.stakedReturn;
       v.stakedReturnCmp = v.stakedReturn * (100 - v.commissionPer) / 100;
     }
   });
