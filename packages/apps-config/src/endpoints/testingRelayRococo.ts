@@ -65,6 +65,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoCrust',
+    paraId: 2012,
+    text: 'Crust Testnet',
+    providers: {
+      Crust: 'wss://rpc-shadow.crust.network/'
+    }
+  },
+  {
     info: 'rococoDali',
     paraId: 2087,
     text: 'Dali',
