@@ -14,3 +14,8 @@ export interface MemberInfo {
   deposit?: BN | null;
   isUpForKicking: boolean;
 }
+
+export interface Unscrupelous {
+  accounts: string[];
+  websites: string[];
+}

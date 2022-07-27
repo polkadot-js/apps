@@ -1,25 +1,22 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Member as MemberType } from '../types';
+
 import React, { useRef } from 'react';
 
-import { Button, Table } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Table } from '@polkadot/react-components';
 
-import Join from './Join';
+import { useTranslation } from '../translate';
 import Member from './Member';
-import Summary from './Summary';
-import { useTranslation } from './translate';
-import useMembers from './useMembers';
 
 interface Props {
   className?: string;
+  members?: MemberType[];
 }
 
-function Members ({ className }: Props): React.ReactElement<Props> {
+function Members ({ className, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isJoinOpen, toggleJoin] = useToggle();
-  const members = useMembers();
 
   const hdrRef = useRef([
     [t<string>('members'), 'start', 2],
@@ -30,21 +27,6 @@ function Members ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <Summary />
-      <Button.Group>
-        <Button
-          icon='add'
-          isDisabled={!members}
-          label={t<string>('Join')}
-          onClick={toggleJoin}
-        />
-        {members && isJoinOpen && (
-          <Join
-            members={members}
-            onClose={toggleJoin}
-          />
-        )}
-      </Button.Group>
       <Table
         empty={members && t<string>('No members')}
         header={hdrRef.current}
