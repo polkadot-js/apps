@@ -100,7 +100,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2105,
     text: 'Darwinia Crab Parachain',
     providers: {
-      Crab: 'wss://crab-parachain-rpc.darwinia.network/'
+      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
     }
   },
   {
