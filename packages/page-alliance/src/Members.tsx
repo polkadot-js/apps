@@ -3,8 +3,10 @@
 
 import React, { useRef } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
+import Join from './Join';
 import Member from './Member';
 import Summary from './Summary';
 import { useTranslation } from './translate';
@@ -14,8 +16,9 @@ interface Props {
   className?: string;
 }
 
-function Collators ({ className }: Props): React.ReactElement<Props> {
+function Members ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isJoinOpen, toggleJoin] = useToggle();
   const members = useMembers();
 
   const hdrRef = useRef([
@@ -26,6 +29,20 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary />
+      <Button.Group>
+        <Button
+          icon='add'
+          isDisabled={!members}
+          label={t<string>('Join')}
+          onClick={toggleJoin}
+        />
+        {members && isJoinOpen && (
+          <Join
+            members={members}
+            onClose={toggleJoin}
+          />
+        )}
+      </Button.Group>
       <Table
         empty={members && t<string>('No members')}
         header={hdrRef.current}
@@ -41,4 +58,4 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Collators);
+export default React.memo(Members);
