@@ -5,5 +5,5 @@ import type { PalletAllianceMemberRole } from '@polkadot/types/lookup';
 
 export interface Member {
   accountId: string;
-  role: PalletAllianceMemberRole;
+  role: PalletAllianceMemberRole['type'];
 }

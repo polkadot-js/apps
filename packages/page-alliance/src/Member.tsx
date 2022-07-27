@@ -20,7 +20,7 @@ function Member ({ className, info: { accountId, role } }: Props): React.ReactEl
         <AddressSmall value={accountId} />
       </td>
       <td className='number'>
-        {role.type}
+        {role}
       </td>
     </tr>
   );
