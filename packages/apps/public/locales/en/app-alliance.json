@@ -1,16 +1,21 @@
 {
   "Join": "Join",
   "Join alliance": "Join alliance",
+  "No accounts": "No accounts",
   "No members": "No members",
+  "No websites": "No websites",
   "Overview": "Overview",
   "Retire": "Retire",
   "Select the account you wish to join with": "Select the account you wish to join with",
   "The bond will be reserved for the duration of your alliance membership.": "The bond will be reserved for the duration of your alliance membership.",
   "The deposit that is reserved": "The deposit that is reserved",
   "This account will be submitted to join the aliance. It will be allocated one of the alliance roles upon joining, starting with Ally.": "This account will be submitted to join the aliance. It will be allocated one of the alliance roles upon joining, starting with Ally.",
+  "Unscrupelous": "Unscrupelous",
+  "accounts": "accounts",
   "alliance account": "alliance account",
   "alliance deposit": "alliance deposit",
   "deposit": "deposit",
   "members": "members",
-  "role": "role"
+  "role": "role",
+  "websites": "websites"
 }
