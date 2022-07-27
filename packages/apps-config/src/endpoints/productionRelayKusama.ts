@@ -49,7 +49,6 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Basilisk',
     providers: {
       HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
-      OnFinality: 'wss://basilisk.api.onfinality.io/public-ws',
       Dwellir: 'wss://basilisk-rpc.dwellir.com'
     }
   },
