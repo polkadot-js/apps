@@ -23,7 +23,9 @@ function Members ({ className }: Props): React.ReactElement<Props> {
 
   const hdrRef = useRef([
     [t<string>('members'), 'start', 2],
-    [t<string>('role'), 'number']
+    [t<string>('deposit'), 'number'],
+    [t<string>('role'), 'number'],
+    []
   ]);
 
   return (
