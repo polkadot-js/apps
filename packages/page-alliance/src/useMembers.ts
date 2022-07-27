@@ -4,18 +4,28 @@
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { Member } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 const ROLES = <const> ['Founder', 'Fellow', 'Ally'];
 
-function addMembers (all: Member[], role: Member['role'], accountIds: AccountId32[] = []): Member[] {
-  for (let i = 0; i < accountIds.length; i++) {
-    all.push({
-      accountId: accountIds[i].toString(),
-      role
-    });
+function addMembers (prev: Member[] = [], query: AccountId32[][]): Member[] {
+  const all: Member[] = [];
+
+  for (let i = 0; i < ROLES.length; i++) {
+    const role = ROLES[i];
+    const accountIds = query[i];
+
+    for (let j = 0; j < accountIds.length; j++) {
+      const accountId = accountIds[j].toString();
+      const existing = prev.find((p) => p.accountId === accountId && p.role === role);
+
+      all.push(existing || {
+        accountId,
+        role
+      });
+    }
   }
 
   return all;
@@ -23,25 +33,19 @@ function addMembers (all: Member[], role: Member['role'], accountIds: AccountId3
 
 function useMembersImpl (): Member[] | undefined {
   const { api } = useApi();
+  const [state, setState] = useState<Member[] | undefined>();
   const query = useCallMulti<AccountId32[][]>([
     [api.query.alliance.members, ROLES[0]],
     [api.query.alliance.members, ROLES[1]],
     [api.query.alliance.members, ROLES[2]]
   ]);
 
-  return useMemo((): Member[] | undefined => {
-    if (query && query.length === ROLES.length) {
-      const all: Member[] = [];
-
-      for (let i = 0; i < ROLES.length; i++) {
-        addMembers(all, ROLES[i], query[i]);
-      }
-
-      return all;
-    }
-
-    return undefined;
+  useEffect((): void => {
+    query && query.length === ROLES.length &&
+      setState((prev) => addMembers(prev, query));
   }, [query]);
+
+  return state;
 }
 
-export default createNamedHook('useMembersImpl', useMembersImpl);
+export default createNamedHook('useMembers', useMembersImpl);
