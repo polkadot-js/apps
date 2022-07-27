@@ -1,22 +1,23 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member } from './types';
+import type { Member, Unscrupelous } from '../types';
 
 import React, { useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
   members: Member[];
   onClose: () => void;
+  unscrupelous: Unscrupelous;
 }
 
-function Join ({ className, members, onClose }: Props): React.ReactElement<Props> {
+function Join ({ className, members, onClose, unscrupelous: { accounts } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -27,9 +28,12 @@ function Join ({ className, members, onClose }: Props): React.ReactElement<Props
       allAccounts.filter((a) =>
         !members.some(({ accountId }) =>
           accountId === a
+        ) &&
+        !accounts.some((accountId) =>
+          accountId === a
         )
       ),
-    [allAccounts, members]
+    [accounts, allAccounts, members]
   );
 
   return (

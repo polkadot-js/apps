@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType } from './types';
+import type { Member as MemberType } from '../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
@@ -9,8 +9,8 @@ import { AddressSmall, Badge, Menu, Popup, StatusContext } from '@polkadot/react
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from './translate';
-import useMemberInfo from './useMemberInfo';
+import { useTranslation } from '../translate';
+import useMemberInfo from '../useMemberInfo';
 
 interface Props {
   className?: string;
