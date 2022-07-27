@@ -13,17 +13,17 @@ function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
   const upForKicking = useCall<bool>(api.query.alliance.upForKicking, [accountId]);
   const depositOf = useCall<Option<UInt>>(api.query.alliance.depositOf, [accountId]);
 
-  return useMemo((): MemberInfo | undefined => {
-    if (upForKicking && depositOf) {
-      return {
-        accountId,
-        deposit: depositOf.unwrapOr(null),
-        isUpForKicking: upForKicking.isTrue
-      };
-    }
-
-    return undefined;
-  }, [accountId, upForKicking, depositOf]);
+  return useMemo(
+    (): MemberInfo | undefined =>
+      upForKicking && depositOf
+        ? {
+          accountId,
+          deposit: depositOf.unwrapOr(null),
+          isUpForKicking: upForKicking.isTrue
+        }
+        : undefined,
+    [accountId, upForKicking, depositOf]
+  );
 }
 
 export default createNamedHook('useMemberInfo', useMemberInfoImpl);

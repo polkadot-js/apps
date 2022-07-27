@@ -10,7 +10,7 @@ import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 const ROLES = <const> ['Founder', 'Fellow', 'Ally'];
 
-function addMembers (prev: Member[] = [], query: AccountId32[][]): Member[] {
+function addMembers (prev: Member[], query: AccountId32[][]): Member[] {
   const all: Member[] = [];
 
   for (let i = 0; i < ROLES.length; i++) {
@@ -19,7 +19,10 @@ function addMembers (prev: Member[] = [], query: AccountId32[][]): Member[] {
 
     for (let j = 0; j < accountIds.length; j++) {
       const accountId = accountIds[j].toString();
-      const existing = prev.find((p) => p.accountId === accountId && p.role === role);
+      const existing = prev.find((p) =>
+        p.accountId === accountId &&
+        p.role === role
+      );
 
       all.push(existing || {
         accountId,
@@ -42,7 +45,7 @@ function useMembersImpl (): Member[] | undefined {
 
   useEffect((): void => {
     query && query.length === ROLES.length &&
-      setState((prev) => addMembers(prev, query));
+      setState((prev = []) => addMembers(prev, query));
   }, [query]);
 
   return state;
