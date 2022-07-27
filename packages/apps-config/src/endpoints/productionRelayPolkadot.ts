@@ -116,9 +116,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'darwinia',
     homepage: 'https://darwinia.network/',
     paraId: 2046,
-    text: 'Darwinia',
+    text: 'Darwinia Parachain',
     providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
@@ -128,7 +128,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2003,
     text: 'Darwinia Para Backup',
     providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
