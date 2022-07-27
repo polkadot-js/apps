@@ -89,6 +89,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'Eggnet',
+    paraId: 4006,
+    text: 'Eggnet Parachain',
+    providers: {
+      Webb: 'wss://rococo1.webb.tools'
+    }
+  },
+  {
     info: 'rococoGenshiro',
     paraId: 2024,
     text: 'Genshiro Rococo Testnet',
