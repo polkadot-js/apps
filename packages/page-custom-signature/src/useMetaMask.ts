@@ -33,7 +33,9 @@ export function useMetaMask (): UseMetaMask {
 
   useEffect(() => {
     // clear error message if the component is unmounted
-    return () => { timeout.current && clearTimeout(timeout.current); };
+    return () => {
+      timeout.current && clearTimeout(timeout.current);
+    };
   }, []);
 
   const requestAccounts = useCallback(async () => {
