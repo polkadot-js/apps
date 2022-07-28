@@ -16,15 +16,6 @@ import { WESTEND_GENESIS } from '../api/constants';
 // IMPORTANT: Alphabetical based on text
 export const testParasWestend: EndpointOption[] = [
   {
-    info: 'basilisk',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6422
-    paraId: 2097,
-    text: 'Basilisk Egg',
-    providers: {
-      HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
-    }
-  },
-  {
     info: 'charcoal',
     paraId: 2086,
     text: 'Charcoal',

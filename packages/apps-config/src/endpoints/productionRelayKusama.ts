@@ -44,11 +44,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'basilisk',
-    homepage: 'https://bsx.fi',
+    homepage: 'https://app.basilisk.cloud',
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
+      Basilisk: 'wss://rpc.basilisk.cloud',
       Dwellir: 'wss://basilisk-rpc.dwellir.com'
     }
   },
