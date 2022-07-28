@@ -26,16 +26,17 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ defaultThreshold, defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
+// TODO We probably want to pull this from config
+const DEFAULT_THRESHOLD = 1 / 2;
+
+function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
-    defaultThreshold
-      ? new BN(members.length * defaultThreshold + 1)
-      : new BN(members.length / 2 + 1),
+    new BN(members.length * defaultThreshold + 1),
     true
   ]);
   const modLocation = useCollectiveInstance(type);
