@@ -24,6 +24,9 @@ interface Props {
   className?: string;
 }
 
+// TODO Make configurable
+const DEFAULT_THRESHOLD = 2 / 3;
+
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -73,6 +76,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/motions`}>
           <Motions
             defaultProposal={api.tx.alliance.addUnscrupulousItems}
+            defaultThreshold={DEFAULT_THRESHOLD}
             filter={motionFilter}
             isMember={isVoter}
             members={voters}

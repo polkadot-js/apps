@@ -15,10 +15,11 @@ import Propose from './Propose';
 
 interface Props extends ComponentProps {
   defaultProposal?: SubmittableExtrinsicFunction<'promise'>;
+  defaultThreshold?: number;
   filter?: (section: string, method?: string) => boolean;
 }
 
-function Proposals ({ className = '', defaultProposal, filter, isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', defaultProposal, defaultThreshold, filter, isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -34,6 +35,7 @@ function Proposals ({ className = '', defaultProposal, filter, isMember, members
     <div className={className}>
       <Button.Group>
         <Propose
+          defaultThreshold={defaultThreshold}
           defaultValue={defaultProposal}
           filter={filter}
           isMember={isMember}

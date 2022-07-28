@@ -13,6 +13,7 @@ import { BN } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  defaultThreshold?: number;
   defaultValue?: SubmittableExtrinsicFunction<'promise'>;
   filter?: (section: string, method?: string) => boolean;
   isMember: boolean;
@@ -25,14 +26,16 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
+function Propose ({ defaultThreshold, defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
-    new BN(members.length / 2 + 1),
+    defaultThreshold
+      ? new BN(members.length * defaultThreshold + 1)
+      : new BN(members.length / 2 + 1),
     true
   ]);
   const modLocation = useCollectiveInstance(type);
