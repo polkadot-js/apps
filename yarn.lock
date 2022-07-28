@@ -2766,7 +2766,6 @@ __metadata:
   resolution: "@polkadot/app-alliance@workspace:packages/page-alliance"
   dependencies:
     "@babel/runtime": ^7.18.9
-    multiformats: ^9.7.1
   languageName: unknown
   linkType: soft
 
@@ -3467,6 +3466,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.18.9
     "@polkadot/react-components": ^0.118.2-22-x
+    multiformats: ^9.7.1
   languageName: unknown
   linkType: soft
 
