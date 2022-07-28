@@ -14,6 +14,7 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Call from './Call';
+import Cid from './Cid';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import DispatchResult from './DispatchResult';
@@ -53,6 +54,7 @@ const componentDef: TypeToComponent[] = [
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
   { c: Call, t: ['Call', 'Proposal'] },
+  { c: Cid, t: ['PalletAllianceCid'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: DISPATCH_ERROR },
   { c: DispatchResult, t: ['DispatchResult', 'Result<Null, SpRuntimeDispatchError>'] },
