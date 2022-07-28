@@ -32,7 +32,8 @@ const OPT_ANN = {
   transform: (cids: PalletAllianceCid[]): Announcement[] =>
     cids.map((cid) => ({
       cid,
-      ipfs: createIpfs(cid)
+      ipfs: createIpfs(cid),
+      key: cid.toHex()
     }))
 };
 

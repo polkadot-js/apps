@@ -32,7 +32,7 @@ function Announcements ({ accouncements, className }: Props): React.ReactElement
       >
         {accouncements && accouncements.map((a) => (
           <Accouncement
-            key={a.cid.hash_.toHex()}
+            key={a.key}
             value={a}
           />
         ))}

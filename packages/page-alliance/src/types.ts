@@ -23,4 +23,5 @@ export interface Unscrupelous {
 export interface Announcement {
   cid: PalletAllianceCid;
   ipfs: string;
+  key: string;
 }
