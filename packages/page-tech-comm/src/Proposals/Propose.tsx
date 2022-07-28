@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { CollectiveType } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useState } from 'react';
 
@@ -14,7 +15,7 @@ import { useTranslation } from '../translate';
 interface Props {
   isMember: boolean;
   members: string[];
-  type: 'membership' | 'technicalCommittee';
+  type: CollectiveType;
 }
 
 interface ProposalState {

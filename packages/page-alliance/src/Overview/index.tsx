@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { Member as MemberType, Rule, Unscrupelous } from '../types';
 
 import React from 'react';
@@ -17,12 +18,13 @@ interface Props {
   className?: string;
   isVoter?: boolean;
   members?: MemberType[];
+  prime?: AccountId | null;
   rule?: Rule;
   unscrupelous?: Unscrupelous;
   voters?: string[];
 }
 
-function Overview ({ className, members, rule, unscrupelous }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, prime, rule, unscrupelous, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
 
@@ -47,7 +49,11 @@ function Overview ({ className, members, rule, unscrupelous }: Props): React.Rea
           />
         )}
       </Button.Group>
-      <Members members={members} />
+      <Members
+        members={members}
+        prime={prime}
+        voters={voters}
+      />
     </div>
   );
 }

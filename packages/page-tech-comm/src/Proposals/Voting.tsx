@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CollectiveType } from '@polkadot/react-hooks/types';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -17,7 +18,7 @@ interface Props {
   members: string[];
   prime?: AccountId | null;
   proposalId: BN | number;
-  type: 'membership' | 'technicalCommittee';
+  type: CollectiveType;
 }
 
 function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
