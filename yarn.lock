@@ -2766,6 +2766,7 @@ __metadata:
   resolution: "@polkadot/app-alliance@workspace:packages/page-alliance"
   dependencies:
     "@babel/runtime": ^7.18.9
+    multiformats: ^9.7.1
   languageName: unknown
   linkType: soft
 
@@ -14832,6 +14833,13 @@ __metadata:
   version: 9.6.4
   resolution: "multiformats@npm:9.6.4"
   checksum: b3b8e481112379d6f3aace199a06e6974dfe3ed4e2100a0effe19fef936ba31704382356df6278a3922b5cb47fcfefe3e5bc54e5bebef35272e3503bad3c62ba
+  languageName: node
+  linkType: hard
+
+"multiformats@npm:^9.7.1":
+  version: 9.7.1
+  resolution: "multiformats@npm:9.7.1"
+  checksum: 9193a4b55573dc88053a357e5f9562696d7cc47669e5ce5d7e147e3db1ec3f793567d7943c7e20271af9acd1e48c1679d0dfe932094333b16ed7f9f2ccf9197f
   languageName: node
   linkType: hard
 

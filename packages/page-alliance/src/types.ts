@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletAllianceMemberRole } from '@polkadot/types/lookup';
+import type { PalletAllianceCid, PalletAllianceMemberRole } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface Member {
@@ -18,4 +18,9 @@ export interface MemberInfo {
 export interface Unscrupelous {
   accounts: string[];
   websites: string[];
+}
+
+export interface Announcement {
+  cid: PalletAllianceCid;
+  ipfs: string;
 }
