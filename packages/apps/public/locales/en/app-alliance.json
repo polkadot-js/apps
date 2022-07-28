@@ -1,7 +1,9 @@
 {
+  "Announcements": "Announcements",
   "Join": "Join",
   "Join alliance": "Join alliance",
   "No accounts": "No accounts",
+  "No annoucements": "No annoucements",
   "No members": "No members",
   "No websites": "No websites",
   "Overview": "Overview",
@@ -14,8 +16,11 @@
   "accounts": "accounts",
   "alliance account": "alliance account",
   "alliance deposit": "alliance deposit",
+  "annoucements": "annoucements",
+  "codec": "codec",
   "deposit": "deposit",
   "members": "members",
   "role": "role",
+  "version": "version",
   "websites": "websites"
 }
