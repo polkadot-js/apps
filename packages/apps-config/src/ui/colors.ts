@@ -297,6 +297,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  'Crust Testnet': chainCrust,
   'Dali Rococo': chainDali,
   'Dali Westend': chainDali,
   Darwinia: chainDarwinia,
