@@ -6,15 +6,16 @@ import type { Props } from '../types';
 import React, { useCallback, useState } from 'react';
 
 import { Input } from '@polkadot/react-components';
+import { isCodec } from '@polkadot/util';
 
 import { fromIpfsCid } from '../util';
 import Bare from './Bare';
 import Struct from './Struct';
 
 function Cid (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue, isDisabled, isError, label, onChange, registry, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, isError, label, onChange, withLabel } = props;
   const [isValid, setIsValid] = useState(false);
-  const [isStruct] = useState<boolean>(() => isDisabled || !defaultValue || defaultValue.value instanceof registry.createClass('PalletAllianceCid'));
+  const [isStruct] = useState<boolean>(() => isDisabled || !defaultValue || isCodec(defaultValue.value));
 
   const _onChange = useCallback(
     (_value: string): void => {
