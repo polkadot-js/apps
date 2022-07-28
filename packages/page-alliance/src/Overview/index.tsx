@@ -15,9 +15,11 @@ import Summary from './Summary';
 
 interface Props {
   className?: string;
+  isVoter?: boolean;
   members?: MemberType[];
   rule?: Rule;
   unscrupelous?: Unscrupelous;
+  voters?: string[];
 }
 
 function Overview ({ className, members, rule, unscrupelous }: Props): React.ReactElement<Props> {

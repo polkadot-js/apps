@@ -24,7 +24,7 @@ const OPT = {
 function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, OPT);
+  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective as 'council']?.members, undefined, OPT);
 
   return useMemo(
     () => ({

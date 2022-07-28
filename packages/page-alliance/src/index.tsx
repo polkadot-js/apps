@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
+import { useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Announcements from './Announcements';
 import Overview from './Overview';
@@ -22,6 +23,7 @@ interface Props {
 
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isMember: isVoter, members: voters } = useCollectiveMembers('allianceMotion');
   const accouncements = useAnnoucements();
   const members = useMembers();
   const rule = useRule();
@@ -58,9 +60,11 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         </Route>
         <Route>
           <Overview
+            isVoter={isVoter}
             members={members}
             rule={rule}
             unscrupelous={unscrupelous}
+            voters={voters}
           />
         </Route>
       </Switch>
