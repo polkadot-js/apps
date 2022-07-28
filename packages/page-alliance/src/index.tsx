@@ -6,9 +6,12 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
+import Announcements from './Announcements';
 import Overview from './Overview';
 import { useTranslation } from './translate';
 import Unscrupelous from './Unscrupelous';
+import useAnnoucements from './useAnnoucements';
+import useMembers from './useMembers';
 import useUnscrupelous from './useUnscrupelous';
 
 interface Props {
@@ -18,6 +21,8 @@ interface Props {
 
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const accouncements = useAnnoucements();
+  const members = useMembers();
   const unscrupelous = useUnscrupelous();
 
   const itemsRef = useRef([
@@ -25,6 +30,10 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
       isRoot: true,
       name: 'overview',
       text: t<string>('Overview')
+    },
+    {
+      name: 'announcements',
+      text: t<string>('Announcements')
     },
     {
       name: 'unscrupelous',
@@ -39,11 +48,17 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={itemsRef.current}
       />
       <Switch>
+        <Route path={`${basePath}/announcements`}>
+          <Announcements accouncements={accouncements} />
+        </Route>
         <Route path={`${basePath}/unscrupelous`}>
           <Unscrupelous unscrupelous={unscrupelous} />
         </Route>
         <Route>
-          <Overview unscrupelous={unscrupelous} />
+          <Overview
+            members={members}
+            unscrupelous={unscrupelous}
+          />
         </Route>
       </Switch>
     </main>
