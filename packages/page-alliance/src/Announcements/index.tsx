@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Announcement as AnnouncementType } from '../types';
+import type { Cid } from '../types';
 
 import React, { useRef } from 'react';
 
@@ -11,7 +11,7 @@ import { useTranslation } from '../translate';
 import Accouncement from './Accouncement';
 
 interface Props {
-  accouncements?: AnnouncementType[];
+  accouncements?: Cid[];
   className?: string;
 }
 

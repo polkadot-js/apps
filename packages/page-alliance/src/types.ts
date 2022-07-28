@@ -20,7 +20,7 @@ export interface Unscrupelous {
   websites: string[];
 }
 
-export interface Announcement {
+export interface Cid {
   cid: PalletAllianceCid;
   ipfs: string;
   key: string;

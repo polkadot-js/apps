@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
-import type { Announcement } from './types';
+import type { Cid } from './types';
 
 import { CID } from 'multiformats/cid';
 
@@ -29,7 +29,7 @@ function createIpfs (cid: PalletAllianceCid): string {
 }
 
 const OPT_ANN = {
-  transform: (cids: PalletAllianceCid[]): Announcement[] =>
+  transform: (cids: PalletAllianceCid[]): Cid[] =>
     cids.map((cid) => ({
       cid,
       ipfs: createIpfs(cid),
@@ -37,10 +37,10 @@ const OPT_ANN = {
     }))
 };
 
-function useAnnouncementsImpl (): Announcement[] | undefined {
+function useAnnouncementsImpl (): Cid[] | undefined {
   const { api } = useApi();
 
-  return useCall<Announcement[]>(api.query.alliance.announcements, [], OPT_ANN);
+  return useCall<Cid[]>(api.query.alliance.announcements, [], OPT_ANN);
 }
 
 export default createNamedHook('useAnnouncements', useAnnouncementsImpl);
