@@ -65,6 +65,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoCrust',
+    paraId: 2012,
+    text: 'Crust Testnet',
+    providers: {
+      Crust: 'wss://rococo-csm.crustcode.com/'
+    }
+  },
+  {
     info: 'rococoDali',
     paraId: 2087,
     text: 'Dali',
@@ -232,6 +240,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Spreehafen',
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
+    }
+  },
+  {
+    info: 'rococoSubzero',
+    paraId: 4040,
+    text: 'Subzero',
+    providers: {
+      ZERO: 'wss://staging.para.sub.zero.io'
     }
   },
   {

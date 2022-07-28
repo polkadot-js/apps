@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from '@polkadot/react-hooks/types';
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
@@ -16,7 +16,7 @@ interface Props {
   hash: Hash | string;
   isMember: boolean;
   members: string[];
-  prime?: AccountId | null;
+  prime?: string | null;
   proposalId: BN | number;
   type: CollectiveType;
 }
@@ -46,7 +46,7 @@ function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): R
               filter={members}
               onChange={setAccountId}
             />
-            {(accountId === prime?.toString()) && (
+            {accountId === prime && (
               <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>

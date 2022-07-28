@@ -3,7 +3,7 @@
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { CollectiveType } from '@polkadot/react-hooks/types';
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
@@ -21,7 +21,7 @@ interface Props {
   imageHash: Hash;
   isMember: boolean;
   members: string[];
-  prime?: AccountId | null;
+  prime?: string | null;
   type: CollectiveType;
 }
 
