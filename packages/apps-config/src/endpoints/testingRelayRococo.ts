@@ -69,7 +69,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2012,
     text: 'Crust Testnet',
     providers: {
-      Crust: 'wss://rpc-shadow.crust.network/'
+      Crust: 'wss://rococo-csm.crustcode.com/'
     }
   },
   {
