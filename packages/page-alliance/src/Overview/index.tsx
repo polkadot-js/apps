@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType, Unscrupelous } from '../types';
+import type { Member as MemberType, Rule, Unscrupelous } from '../types';
 
 import React from 'react';
 
@@ -16,16 +16,20 @@ import Summary from './Summary';
 interface Props {
   className?: string;
   members?: MemberType[];
+  rule?: Rule;
   unscrupelous?: Unscrupelous;
 }
 
-function Overview ({ className, members, unscrupelous }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, rule, unscrupelous }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
 
   return (
     <div className={className}>
-      <Summary />
+      <Summary
+        members={members}
+        rule={rule}
+      />
       <Button.Group>
         <Button
           icon='add'

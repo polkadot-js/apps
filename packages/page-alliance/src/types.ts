@@ -4,6 +4,12 @@
 import type { PalletAllianceCid, PalletAllianceMemberRole } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
+export interface Cid {
+  cid: PalletAllianceCid;
+  ipfs: string | null;
+  key: string;
+}
+
 export interface Member {
   accountId: string;
   role: PalletAllianceMemberRole['type'];
@@ -15,13 +21,12 @@ export interface MemberInfo {
   isUpForKicking: boolean;
 }
 
+export interface Rule {
+  cid: Cid | null;
+  hasRule: boolean;
+}
+
 export interface Unscrupelous {
   accounts: string[];
   websites: string[];
-}
-
-export interface Cid {
-  cid: PalletAllianceCid;
-  ipfs: string;
-  key: string;
 }
