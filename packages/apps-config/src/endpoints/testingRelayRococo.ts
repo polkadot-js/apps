@@ -235,6 +235,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoSubzero',
+    paraId: 4040,
+    text: 'Subzero',
+    providers: {
+      ZERO: 'wss://staging.para.sub.zero.io'
+    }
+  },
+  {
     info: 't0rn',
     paraId: 3333,
     text: 't0rn',
