@@ -20,7 +20,10 @@
   "codec": "codec",
   "deposit": "deposit",
   "members": "members",
+  "no": "no",
   "role": "role",
+  "rule": "rule",
   "version": "version",
-  "websites": "websites"
+  "websites": "websites",
+  "yes": "yes"
 }
