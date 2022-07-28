@@ -15,7 +15,13 @@ function Website ({ className, value: { cid: { codec, version }, ipfs } }: Props
   return (
     <tr className={className}>
       <td className='start all'>
-        {ipfs}
+        {ipfs && (
+          <a
+            href={`https://ipfs.io/ipfs/${ipfs}`}
+            rel='noopener noreferrer'
+            target='_blank'
+          >{ipfs}</a>
+        )}
       </td>
       <td className='number'>
         {version.type}
