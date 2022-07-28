@@ -27,7 +27,7 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
       header={headerRef.current}
     >
       {members?.map((accountId): React.ReactNode => (
-        <tr key={accountId.toString()}>
+        <tr key={accountId}>
           <td className='address'>
             <AddressSmall value={accountId} />
           </td>
