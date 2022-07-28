@@ -3,23 +3,23 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
-import type { Cid } from './types';
+import type { Rule } from './types';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import { createCid } from './util';
 
 const OPT_RULE = {
-  transform: (opt: Option<PalletAllianceCid>): Cid | null =>
+  transform: (opt: Option<PalletAllianceCid>): Rule =>
     opt.isSome
-      ? createCid(opt.unwrap())
-      : null
+      ? { cid: createCid(opt.unwrap()), hasRule: true }
+      : { cid: null, hasRule: false }
 };
 
-function useRuleImpl (): Cid | null | undefined {
+function useRuleImpl (): Rule | undefined {
   const { api } = useApi();
 
-  return useCall<Cid | null>(api.query.alliance.rule, [], OPT_RULE);
+  return useCall<Rule>(api.query.alliance.rule, [], OPT_RULE);
 }
 
 export default createNamedHook('useRule', useRuleImpl);
