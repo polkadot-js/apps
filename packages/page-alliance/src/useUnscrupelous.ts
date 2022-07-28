@@ -5,26 +5,33 @@ import type { Bytes } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { Unscrupelous } from './types';
 
-import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
+import { useMemo } from 'react';
+
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function mapString (all: { toString: () => string }[]): string[] {
   return all.map((a) => a.toString());
 }
 
-const OPT_MULTI = {
-  transform: ([accounts, websites]: [AccountId32[], Bytes[]]): Unscrupelous => ({
-    accounts: mapString(accounts),
-    websites: mapString(websites.filter((b) => b.isAscii))
-  })
+const OPT_ACC = {
+  transform: (accounts: AccountId32[]): string[] =>
+    mapString(accounts)
+};
+
+const OPT_WEB = {
+  transform: (websites: Bytes[]): string[] =>
+    mapString(websites.filter((b) => b.isAscii))
 };
 
 function useUnscrupelousImpl (): Unscrupelous | undefined {
   const { api } = useApi();
+  const accounts = useCall<string[]>(api.query.alliance.unscrupulousAccounts, [], OPT_ACC);
+  const websites = useCall<string[]>(api.query.alliance.unscrupulousWebsites, [], OPT_WEB);
 
-  return useCallMulti([
-    api.query.alliance.unscrupulousAccounts,
-    api.query.alliance.unscrupulousWebsites
-  ], OPT_MULTI);
+  return useMemo(
+    () => accounts && websites && ({ accounts, websites }),
+    [accounts, websites]
+  );
 }
 
 export default createNamedHook('useUnscrupelous', useUnscrupelousImpl);
