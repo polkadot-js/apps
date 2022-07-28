@@ -3,7 +3,7 @@
 
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Motions from '@polkadot/app-tech-comm/Proposals';
@@ -35,6 +35,11 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
   const rule = useRule();
   const unscrupelous = useUnscrupelous();
 
+  const motionFilter = useCallback(
+    (section: string) => section === 'alliance',
+    []
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -42,18 +47,18 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Overview')
     },
     {
-      name: 'announcements',
-      text: t<string>('Announcements')
-    },
-    {
       name: 'motions',
       text: t<string>('Motions ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+    },
+    {
+      name: 'announcements',
+      text: t<string>('Announcements ({{count}})', { replace: { count: (accouncements && accouncements.length) || 0 } })
     },
     {
       name: 'unscrupelous',
       text: t<string>('Unscrupelous')
     }
-  ], [proposalHashes, t]);
+  ], [accouncements, proposalHashes, t]);
 
   return (
     <main className={className}>
@@ -67,6 +72,8 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         </Route>
         <Route path={`${basePath}/motions`}>
           <Motions
+            defaultProposal={api.tx.alliance.addUnscrupulousItems}
+            filter={motionFilter}
             isMember={isVoter}
             members={voters}
             prime={prime}
