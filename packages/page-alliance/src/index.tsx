@@ -11,6 +11,7 @@ import Overview from './Overview';
 import { useTranslation } from './translate';
 import Unscrupelous from './Unscrupelous';
 import useAnnoucements from './useAnnoucements';
+import useMembers from './useMembers';
 import useUnscrupelous from './useUnscrupelous';
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const accouncements = useAnnoucements();
+  const members = useMembers();
   const unscrupelous = useUnscrupelous();
 
   const itemsRef = useRef([
@@ -53,7 +55,10 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Unscrupelous unscrupelous={unscrupelous} />
         </Route>
         <Route>
-          <Overview unscrupelous={unscrupelous} />
+          <Overview
+            members={members}
+            unscrupelous={unscrupelous}
+          />
         </Route>
       </Switch>
     </main>

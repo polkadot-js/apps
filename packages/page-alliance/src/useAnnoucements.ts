@@ -4,37 +4,13 @@
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
 import type { Cid } from './types';
 
-import { CID } from 'multiformats/cid';
-
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { u8aToBn } from '@polkadot/util';
 
-function createIpfs (cid: PalletAllianceCid): string {
-  try {
-    const { codec, hash_: { code, digest }, version } = cid;
-
-    return CID
-      .create(version.index as 0, codec.toNumber(), {
-        bytes: digest.subarray(4),
-        code: code.toNumber(),
-        digest: digest.toU8a(true),
-        size: u8aToBn(digest.subarray(0, 4)).toNumber()
-      })
-      .toString();
-  } catch (error) {
-    console.error(`createIpfs: ${(error as Error).message}::`, cid.toHuman());
-
-    return '';
-  }
-}
+import { createCid } from './util';
 
 const OPT_ANN = {
   transform: (cids: PalletAllianceCid[]): Cid[] =>
-    cids.map((cid) => ({
-      cid,
-      ipfs: createIpfs(cid),
-      key: cid.toHex()
-    }))
+    cids.map(createCid)
 };
 
 function useAnnouncementsImpl (): Cid[] | undefined {

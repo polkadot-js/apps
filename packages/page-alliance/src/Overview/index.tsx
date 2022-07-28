@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Unscrupelous } from '../types';
+import type { Member as MemberType, Unscrupelous } from '../types';
 
 import React from 'react';
 
@@ -9,20 +9,19 @@ import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import useMembers from '../useMembers';
 import Join from './Join';
 import Members from './Members';
 import Summary from './Summary';
 
 interface Props {
   className?: string;
+  members?: MemberType[];
   unscrupelous?: Unscrupelous;
 }
 
-function Overview ({ className, unscrupelous }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, unscrupelous }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
-  const members = useMembers();
 
   return (
     <div className={className}>
