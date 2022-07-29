@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { Member as MemberType, Rule, Unscrupelous } from '../types';
 
 import React from 'react';
@@ -18,7 +17,7 @@ interface Props {
   className?: string;
   isVoter?: boolean;
   members?: MemberType[];
-  prime?: AccountId | null;
+  prime?: string | null;
   rule?: Rule;
   unscrupelous?: Unscrupelous;
   voters?: string[];

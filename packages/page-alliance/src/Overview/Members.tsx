@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { Member as MemberType } from '../types';
 
 import React, { useRef } from 'react';
@@ -14,7 +13,7 @@ import Member from './Member';
 interface Props {
   className?: string;
   members?: MemberType[];
-  prime?: AccountId | null;
+  prime?: string | null;
   voters?: string[];
 }
 
@@ -37,7 +36,7 @@ function Members ({ className, members, prime, voters }: Props): React.ReactElem
         {members && members.map((m) => (
           <Member
             info={m}
-            isPrime={!!prime && prime.eq(m.accountId)}
+            isPrime={prime === m.accountId}
             isVoter={!!voters && voters.includes(m.accountId)}
             key={m.accountId}
           />
