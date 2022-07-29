@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletAllianceCid } from '@polkadot/types/lookup';
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -8,13 +9,19 @@ import React, { useCallback, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 import { isCodec } from '@polkadot/util';
 
-import { fromIpfsCid } from '../util';
+import { fromIpfsCid, toIpfsCid } from '../util';
 import Bare from './Bare';
+import Static from './Static';
 import Struct from './Struct';
 
 function Cid (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, withLabel } = props;
   const [isValid, setIsValid] = useState(false);
+  const [ipfsCid] = useState<string | null>(() =>
+    isDisabled && defaultValue && isCodec(defaultValue.value)
+      ? toIpfsCid(defaultValue.value as PalletAllianceCid)
+      : null
+  );
   const [isStruct] = useState<boolean>(() => isDisabled || !defaultValue || isCodec(defaultValue.value));
 
   const _onChange = useCallback(
@@ -31,7 +38,20 @@ function Cid (props: Props): React.ReactElement<Props> {
     [onChange]
   );
 
-  if (isStruct) {
+  if (ipfsCid) {
+    return (
+      <Static {...props}>
+        <Input
+          className='full'
+          isDisabled
+          label='ipfs'
+          type='text'
+          value={ipfsCid}
+          withLabel={withLabel}
+        />
+      </Static>
+    );
+  } else if (isStruct) {
     return <Struct {...props} />;
   }
 
