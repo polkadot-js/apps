@@ -84,7 +84,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
         } else if (matchedPrefixes.length <= 5) {
           return `Found ${matchedPrefixes.length} matches: ` +
             matchedPrefixes
-              .map(([_, [palletName, palletCall]]) => `${palletName}.${palletCall}`)
+              .map((value) => value[1])
               .join(', ');
         } else {
           return `Found ${matchedPrefixes.length} matches`;
