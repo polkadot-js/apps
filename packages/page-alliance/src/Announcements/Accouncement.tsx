@@ -3,21 +3,26 @@
 
 import type { Cid } from '../types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface Props {
   className?: string;
   value: Cid;
 }
 
-function Website ({ className, value: { cid: { codec, version }, ipfs } }: Props): React.ReactElement<Props> {
-  // TODO IPFS link
+function Website ({ className, value: { cid: { codec, hash_: { code }, version }, ipfs } }: Props): React.ReactElement<Props> {
+  const url = useMemo(
+    // () => ipfs && `https://cloudflare-ipfs.com/ipfs/${ipfs}`
+    () => ipfs && `https://ipfs.io/ipfs/${ipfs}`,
+    [ipfs]
+  );
+
   return (
     <tr className={className}>
       <td className='start all'>
-        {ipfs && (
+        {url && (
           <a
-            href={`https://ipfs.io/ipfs/${ipfs}`}
+            href={url}
             rel='noopener noreferrer'
             target='_blank'
           >{ipfs}</a>
@@ -27,7 +32,10 @@ function Website ({ className, value: { cid: { codec, version }, ipfs } }: Props
         {version.type}
       </td>
       <td className='number'>
-        {codec.toString()}
+        0x{codec.toString(16)}
+      </td>
+      <td className='number'>
+        0x{code.toString(16)}
       </td>
     </tr>
   );
