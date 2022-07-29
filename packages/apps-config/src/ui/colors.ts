@@ -22,6 +22,7 @@ const chainAltair = '#ffb700';
 const chainAmplitude = '#5DEFA7';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
+const chainEggnet = '#0099ff';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBajun = '#161212';
@@ -155,6 +156,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
+const chainCESS = '#2269a9';
 // based on node name
 // alphabetical
 const nodeAjuna = '#161212';
@@ -163,7 +165,7 @@ const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
 const nodeAutomata = '#EC7032';
 const nodeAutomataContextFree = '#EC7032';
-const nodeBasilisk = '#9eec1b';
+const nodeBasilisk = '#49E49F';
 const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -234,6 +236,7 @@ const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
 const nodeZCloak = 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)';
+const nodeCESS = '#2269a9';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -279,6 +282,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
   Centrifuge: nodeCentrifuge,
+  'CESS Testnet': chainCESS,
   ChainOLI: chainOLI,
   ChainX: chainChainx,
   Clover: chainClover,
@@ -293,6 +297,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  'Crust Testnet': chainCrust,
   'Dali Rococo': chainDali,
   'Dali Westend': chainDali,
   Darwinia: chainDarwinia,
@@ -308,6 +313,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
+  'Egg Rococo': chainEggnet,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
@@ -442,6 +448,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   Subspace: nodeSubspace,
+  Subzero: chainZero,
   swapdex: chainSwapdex,
   t0rn: chainT0rn,
   Tick: chainRoccoTick,
@@ -488,6 +495,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   'Circuit Collator': chainT0rn,
   Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,

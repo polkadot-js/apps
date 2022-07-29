@@ -68,6 +68,7 @@ import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
+import chainEggnet from './chains/webb.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -98,6 +99,7 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCESS from './nodes/cess.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
@@ -245,6 +247,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Testnet': nodeCalamari,
   'Catalyst Testnet': nodeCentrifuge,
   Centrifuge: nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   ChainOLI: chainOLI,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
@@ -258,6 +261,7 @@ export const chainLogos = Object.entries({
   'Crown Sterling': chainCrownSterling,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
+  'Crust Testnet': nodeCrustParachain,
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
   'Darwinia Parachain': nodeDarwinia,
@@ -268,6 +272,7 @@ export const chainLogos = Object.entries({
   'Dolphin Testnet': nodeDolphin,
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
+  'Egg Rococo': chainEggnet,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -401,6 +406,7 @@ export const chainLogos = Object.entries({
   subsocial: nodeSubsocial,
   subsocialX: nodeSubsocialX,
   subspace: nodeSubspace,
+  Subzero: nodeZero,
   swapdex: nodeSwapdex,
   t0rn: chainT0rn,
   Tick: chainRococoTick,
@@ -460,6 +466,7 @@ export const nodeLogos = Object.entries({
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'CESS Testnet': nodeCESS,
   ChainOLI: nodeChainOLI,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
@@ -470,6 +477,7 @@ export const nodeLogos = Object.entries({
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
+  'Crust Testnet': nodeCrustParachain,
   darwinia: nodeDarwinia,
   'darwinia crab': nodeCrab,
   'darwinia parachain': nodeDarwinia,
@@ -630,6 +638,7 @@ export const specLogos = Object.entries({
   shell: nodeShell,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
+  turing: chainTuring,
   westmint: nodeStatemine
 }).reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
   ...logos,
@@ -663,6 +672,7 @@ export const namedLogos: Record<string, unknown> = {
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
+  cess: nodeCESS,
   chainoli: nodeChainOLI,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
@@ -676,6 +686,7 @@ export const namedLogos: Record<string, unknown> = {
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
+  'Crust Testnet': nodeCrustParachain,
   crustParachain: nodeCrustParachain,
   'Dali Testnet (Rococo Relay)': chainRococoDali,
   DaliTestnet: nodeDaliTestnet,
@@ -689,6 +700,7 @@ export const namedLogos: Record<string, unknown> = {
   eave: nodeEave,
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,
+  Eggnet: chainEggnet,
   empty: emptyLogo,
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
@@ -708,8 +720,8 @@ export const namedLogos: Record<string, unknown> = {
   idavoll: nodeIdavoll,
   imbue: nodeImbue,
   integritee: nodeIntegritee,
-  interbtc: nodeInterBTC,
   interlay: chainInterlay,
+  'interlay-testnet': chainInterlay,
   ipse: nodeIpse,
   jaz: nodeJaz,
   joystream: nodeJoystream,
@@ -722,6 +734,7 @@ export const namedLogos: Record<string, unknown> = {
   kico: chainKico,
   kilt: nodeKilt,
   kintsugi: chainKintsugi,
+  'kintsugi-testnet': chainKintsugi,
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
@@ -829,6 +842,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSoonsocialX,
+  rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,

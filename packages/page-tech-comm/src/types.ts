@@ -1,12 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 
 export interface ComponentProps {
   className?: string;
   isMember: boolean;
-  prime?: AccountId | null;
+  prime?: string | null;
   proposalHashes?: Hash[];
   members: string[];
   type: 'membership' | 'technicalCommittee';

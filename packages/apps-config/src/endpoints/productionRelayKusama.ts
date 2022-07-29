@@ -44,12 +44,11 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'basilisk',
-    homepage: 'https://bsx.fi',
+    homepage: 'https://app.basilisk.cloud',
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
-      OnFinality: 'wss://basilisk.api.onfinality.io/public-ws',
+      Basilisk: 'wss://rpc.basilisk.cloud',
       Dwellir: 'wss://basilisk-rpc.dwellir.com'
     }
   },
@@ -101,7 +100,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2105,
     text: 'Darwinia Crab Parachain',
     providers: {
-      Crab: 'wss://crab-parachain-rpc.darwinia.network/'
+      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
     }
   },
   {

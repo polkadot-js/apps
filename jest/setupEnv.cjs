@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 require('@testing-library/jest-dom');
-require('./substrate-connect');
 
 const nodeCrypto = require('crypto');
 const { configure } = require('@testing-library/dom');
