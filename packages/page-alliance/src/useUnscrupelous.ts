@@ -29,7 +29,7 @@ function useUnscrupelousImpl (): Unscrupelous | undefined {
   const websites = useCall<string[]>(api.query.alliance.unscrupulousWebsites, [], OPT_WEB);
 
   return useMemo(
-    () => accounts && websites && ({ accounts, websites }),
+    () => accounts && websites && { accounts, websites },
     [accounts, websites]
   );
 }
