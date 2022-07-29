@@ -3,7 +3,9 @@
 
 import type { Cid } from '../types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
+
+import { useIpfsLink } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
@@ -11,21 +13,17 @@ interface Props {
 }
 
 function Website ({ className, value: { cid: { codec, hash_: { code }, version }, ipfs } }: Props): React.ReactElement<Props> {
-  const url = useMemo(
-    // () => ipfs && `https://cloudflare-ipfs.com/ipfs/${ipfs}`
-    () => ipfs && `https://ipfs.io/ipfs/${ipfs}`,
-    [ipfs]
-  );
+  const ipfsLink = useIpfsLink(ipfs);
 
   return (
     <tr className={className}>
       <td className='start all'>
-        {url && (
+        {ipfsLink && (
           <a
-            href={url}
+            href={ipfsLink.ipfsUrl}
             rel='noopener noreferrer'
             target='_blank'
-          >{ipfs}</a>
+          >{ipfsLink.ipfsHash}</a>
         )}
       </td>
       <td className='number'>
