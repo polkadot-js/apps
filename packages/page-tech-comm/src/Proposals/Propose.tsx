@@ -36,7 +36,7 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
-    new BN(Math.min(members.length, Math.ceil(members.length * defaultThreshold))),
+    new BN(Math.min(members.length, (members.length * defaultThreshold) + 1)),
     true
   ]);
   const modLocation = useCollectiveInstance(type);

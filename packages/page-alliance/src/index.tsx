@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -30,9 +30,8 @@ const DEFAULT_THRESHOLD = 2 / 3;
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const prime = useCall<AccountId | null>(api.derive.allianceMotion.prime);
-  const proposalHashes = useCall<Hash[]>(api.derive.allianceMotion.proposalHashes);
-  const { isMember: isVoter, members: voters } = useCollectiveMembers('allianceMotion');
+  const proposalHashes = useCall<Hash[]>(api.derive.alliance.proposalHashes);
+  const { isMember: isVoter, members: voters, prime } = useCollectiveMembers('alliance');
   const accouncements = useAnnoucements();
   const members = useMembers();
   const rule = useRule();
@@ -82,7 +81,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
             members={voters}
             prime={prime}
             proposalHashes={proposalHashes}
-            type='allianceMotion'
+            type='alliance'
           />
         </Route>
         <Route path={`${basePath}/unscrupelous`}>
