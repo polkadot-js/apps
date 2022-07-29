@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Unscrupelous as UnscrupelousType } from '../types';
+import type { Unscrupulous as UnscrupulousType } from '../types';
 
 import React, { useRef } from 'react';
 
@@ -13,10 +13,10 @@ import Website from './Website';
 
 interface Props {
   className?: string;
-  unscrupelous?: UnscrupelousType;
+  unscrupulous?: UnscrupulousType;
 }
 
-function Unscrupelous ({ className, unscrupelous }: Props): React.ReactElement<Props> {
+function Unscrupulous ({ className, unscrupulous }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const accRef = useRef([
@@ -30,10 +30,10 @@ function Unscrupelous ({ className, unscrupelous }: Props): React.ReactElement<P
   return (
     <div className={className}>
       <Table
-        empty={unscrupelous && unscrupelous.accounts && t<string>('No accounts')}
+        empty={unscrupulous && unscrupulous.accounts && t<string>('No accounts')}
         header={accRef.current}
       >
-        {unscrupelous && unscrupelous.accounts.map((m) => (
+        {unscrupulous && unscrupulous.accounts.map((m) => (
           <Account
             key={m}
             value={m}
@@ -41,10 +41,10 @@ function Unscrupelous ({ className, unscrupelous }: Props): React.ReactElement<P
         ))}
       </Table>
       <Table
-        empty={unscrupelous && unscrupelous.websites && t<string>('No websites')}
+        empty={unscrupulous && unscrupulous.websites && t<string>('No websites')}
         header={webRef.current}
       >
-        {unscrupelous && unscrupelous.websites.map((m) => (
+        {unscrupulous && unscrupulous.websites.map((m) => (
           <Website
             key={m}
             value={m}
@@ -55,4 +55,4 @@ function Unscrupelous ({ className, unscrupelous }: Props): React.ReactElement<P
   );
 }
 
-export default React.memo(Unscrupelous);
+export default React.memo(Unscrupulous);

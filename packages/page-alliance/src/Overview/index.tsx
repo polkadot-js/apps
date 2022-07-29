@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType, Rule, Unscrupelous } from '../types';
+import type { Member as MemberType, Rule, Unscrupulous } from '../types';
 
 import React from 'react';
 
@@ -19,11 +19,11 @@ interface Props {
   members?: MemberType[];
   prime?: string | null;
   rule?: Rule;
-  unscrupelous?: Unscrupelous;
+  unscrupulous?: Unscrupulous;
   voters?: string[];
 }
 
-function Overview ({ className, members, prime, rule, unscrupelous, voters }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, prime, rule, unscrupulous, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
 
@@ -36,15 +36,15 @@ function Overview ({ className, members, prime, rule, unscrupelous, voters }: Pr
       <Button.Group>
         <Button
           icon='add'
-          isDisabled={!members || !unscrupelous}
+          isDisabled={!members || !unscrupulous}
           label={t<string>('Join')}
           onClick={toggleJoin}
         />
-        {members && unscrupelous && isJoinOpen && (
+        {members && unscrupulous && isJoinOpen && (
           <Join
             members={members}
             onClose={toggleJoin}
-            unscrupelous={unscrupelous}
+            unscrupulous={unscrupulous}
           />
         )}
       </Button.Group>

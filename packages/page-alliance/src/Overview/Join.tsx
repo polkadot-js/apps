@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member, Unscrupelous } from '../types';
+import type { Member, Unscrupulous } from '../types';
 
 import React, { useMemo, useState } from 'react';
 
@@ -14,10 +14,10 @@ interface Props {
   className?: string;
   members: Member[];
   onClose: () => void;
-  unscrupelous: Unscrupelous;
+  unscrupulous: Unscrupulous;
 }
 
-function Join ({ className, members, onClose, unscrupelous: { accounts } }: Props): React.ReactElement<Props> {
+function Join ({ className, members, onClose, unscrupulous: { accounts } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
