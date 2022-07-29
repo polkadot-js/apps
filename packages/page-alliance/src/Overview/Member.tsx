@@ -5,7 +5,7 @@ import type { Member as MemberType } from '../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Badge, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -41,19 +41,17 @@ function Member ({ className, info: { accountId, role }, isPrime, isVoter }: Pro
 
   return (
     <tr className={className}>
-      <td className='badge'>
-        {info && info.isUpForKicking && (
-          <Badge
-            color='red'
-            icon='ban'
-          />
-        )}
-      </td>
-      <td className='address all'>
+      <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td>
-        {(isPrime && (
+      <td className='all'>
+        {(info && info.isUpForKicking && (
+          <Tag
+            color='red'
+            hover={t<string>('Up for kicking')}
+            label={t<string>('kicking')}
+          />
+        )) || (isPrime && (
           <Tag
             color='green'
             hover={t<string>('Current prime member, default voting')}

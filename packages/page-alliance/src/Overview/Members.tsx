@@ -22,7 +22,7 @@ function Members ({ className, members, prime, voters }: Props): React.ReactElem
   const { t } = useTranslation();
 
   const hdrRef = useRef([
-    [t<string>('members'), 'start', 3],
+    [t<string>('members'), 'start', 2],
     [t<string>('deposit'), 'number'],
     [t<string>('role'), 'number'],
     []
