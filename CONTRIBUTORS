@@ -1,4 +1,4 @@
-    3717	Jaco                          	Only support contracts with storageDepositLimit (#7907)
+    3718	Jaco                          	Introduce alliance motions (#7925)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
