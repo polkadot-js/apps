@@ -117,7 +117,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   );
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || (!message.isMutating && !message.isPayable));
+  const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
     <Modal
