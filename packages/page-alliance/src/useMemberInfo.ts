@@ -8,24 +8,17 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-function transform (accountId: string, depositOf: Option<UInt>, upForKicking: bool): MemberInfo {
-  return {
-    accountId,
-    deposit: depositOf.unwrapOr(null),
-    isUpForKicking: upForKicking.isTrue
-  };
-}
-
 function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
   const { api } = useApi();
   const upForKicking = useCall<bool>(api.query.alliance.upForKicking, [accountId]);
   const depositOf = useCall<Option<UInt>>(api.query.alliance.depositOf, [accountId]);
 
   return useMemo(
-    (): MemberInfo | undefined =>
-      upForKicking && depositOf
-        ? transform(accountId, depositOf, upForKicking)
-        : undefined,
+    () => upForKicking && depositOf && {
+      accountId,
+      deposit: depositOf.unwrapOr(null),
+      isUpForKicking: upForKicking.isTrue
+    },
     [accountId, upForKicking, depositOf]
   );
 }

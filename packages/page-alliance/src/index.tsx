@@ -1,11 +1,14 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
+import type { Hash } from '@polkadot/types/interfaces';
+
+import React, { useCallback, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
+import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
-import { useCollectiveMembers } from '@polkadot/react-hooks';
+import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Announcements from './Announcements';
 import Overview from './Overview';
@@ -21,39 +24,65 @@ interface Props {
   className?: string;
 }
 
+// TODO Make configurable
+const DEFAULT_THRESHOLD = 2 / 3;
+
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isMember: isVoter, members: voters } = useCollectiveMembers('allianceMotion');
+  const { api } = useApi();
+  const proposalHashes = useCall<Hash[]>(api.derive.alliance.proposalHashes);
+  const { isMember: isVoter, members: voters, prime } = useCollectiveMembers('alliance');
   const accouncements = useAnnoucements();
   const members = useMembers();
   const rule = useRule();
   const unscrupelous = useUnscrupelous();
 
-  const itemsRef = useRef([
+  const motionFilter = useCallback(
+    (section: string) => section === 'alliance',
+    []
+  );
+
+  const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
       text: t<string>('Overview')
     },
     {
+      name: 'motions',
+      text: t<string>('Motions ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+    },
+    {
       name: 'announcements',
-      text: t<string>('Announcements')
+      text: t<string>('Announcements ({{count}})', { replace: { count: (accouncements && accouncements.length) || 0 } })
     },
     {
       name: 'unscrupelous',
       text: t<string>('Unscrupelous')
     }
-  ]);
+  ], [accouncements, proposalHashes, t]);
 
   return (
     <main className={className}>
       <Tabs
         basePath={basePath}
-        items={itemsRef.current}
+        items={items}
       />
       <Switch>
         <Route path={`${basePath}/announcements`}>
           <Announcements accouncements={accouncements} />
+        </Route>
+        <Route path={`${basePath}/motions`}>
+          <Motions
+            defaultProposal={api.tx.alliance.addUnscrupulousItems}
+            defaultThreshold={DEFAULT_THRESHOLD}
+            filter={motionFilter}
+            isMember={isVoter}
+            members={voters}
+            prime={prime}
+            proposalHashes={proposalHashes}
+            type='alliance'
+          />
         </Route>
         <Route path={`${basePath}/unscrupelous`}>
           <Unscrupelous unscrupelous={unscrupelous} />
@@ -62,6 +91,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Overview
             isVoter={isVoter}
             members={members}
+            prime={prime}
             rule={rule}
             unscrupelous={unscrupelous}
             voters={voters}

@@ -5,7 +5,7 @@ import type { Member as MemberType } from '../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
-import { AddressSmall, Badge, Menu, Popup, StatusContext } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -15,9 +15,11 @@ import useMemberInfo from '../useMemberInfo';
 interface Props {
   className?: string;
   info: MemberType;
+  isPrime: boolean;
+  isVoter: boolean;
 }
 
-function Member ({ className, info: { accountId, role } }: Props): React.ReactElement<Props> {
+function Member ({ className, info: { accountId, role }, isPrime, isVoter }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -39,16 +41,29 @@ function Member ({ className, info: { accountId, role } }: Props): React.ReactEl
 
   return (
     <tr className={className}>
-      <td className='badge'>
-        {info && info.isUpForKicking && (
-          <Badge
-            color='red'
-            icon='ban'
-          />
-        )}
-      </td>
-      <td className='address all'>
+      <td className='address'>
         <AddressSmall value={accountId} />
+      </td>
+      <td className='all'>
+        {(info && info.isUpForKicking && (
+          <Tag
+            color='red'
+            hover={t<string>('Up for kicking')}
+            label={t<string>('kicking')}
+          />
+        )) || (isPrime && (
+          <Tag
+            color='green'
+            hover={t<string>('Current prime member, default voting')}
+            label={t<string>('prime voter')}
+          />
+        )) || (isVoter && (
+          <Tag
+            color='green'
+            hover={t<string>('Allowed to vote on motions')}
+            label={t<string>('voter')}
+          />
+        ))}
       </td>
       <td className='number'>
         {info && info.deposit && (

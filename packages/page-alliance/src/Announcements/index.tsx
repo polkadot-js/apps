@@ -21,7 +21,8 @@ function Announcements ({ accouncements, className }: Props): React.ReactElement
   const annRef = useRef([
     [t<string>('annoucements'), 'start'],
     [t<string>('version'), 'number'],
-    [t<string>('codec'), 'number']
+    [t<string>('codec'), 'number'],
+    [t<string>('code'), 'number']
   ]);
 
   return (

@@ -6,11 +6,11 @@ import type { Member } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 const ROLES = <const> ['Founder', 'Fellow', 'Ally'];
 
-function addMembers (prev: Member[], query: AccountId32[][]): Member[] {
+function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
   const all: Member[] = [];
 
   for (let i = 0; i < ROLES.length; i++) {
@@ -37,16 +37,14 @@ function addMembers (prev: Member[], query: AccountId32[][]): Member[] {
 function useMembersImpl (): Member[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<Member[] | undefined>();
-  const query = useCallMulti<AccountId32[][]>([
-    [api.query.alliance.members, ROLES[0]],
-    [api.query.alliance.members, ROLES[1]],
-    [api.query.alliance.members, ROLES[2]]
-  ]);
+  const role0 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[0]]);
+  const role1 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[1]]);
+  const role2 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[2]]);
 
   useEffect((): void => {
-    query && query.length === ROLES.length &&
-      setState((prev = []) => addMembers(prev, query));
-  }, [query]);
+    role0 && role1 && role2 &&
+      setState((prev = []) => addMembers(prev, role0, role1, role2));
+  }, [role0, role1, role2]);
 
   return state;
 }

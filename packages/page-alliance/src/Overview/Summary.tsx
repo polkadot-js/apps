@@ -6,6 +6,7 @@ import type { Member as MemberType, Rule } from '../types';
 import React from 'react';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { useIpfsLink } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -18,14 +19,22 @@ interface Props {
 
 function Summary ({ className, members, rule }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const ipfsLink = useIpfsLink(rule && rule.cid && rule.cid.ipfs);
 
-  // TODO Turn rule into IPFS link
   return (
     <SummaryBox className={className}>
       <CardSummary label={t<string>('rule')}>
         {rule
           ? rule.hasRule
-            ? t<string>('yes')
+            ? ipfsLink
+              ? (
+                <a
+                  href={ipfsLink.ipfsUrl}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >{ipfsLink.ipfsShort}</a>
+              )
+              : t<string>('yes')
             : t<string>('no')
           : <Spinner />
         }
