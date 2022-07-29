@@ -13,11 +13,11 @@ import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 import Announcements from './Announcements';
 import Overview from './Overview';
 import { useTranslation } from './translate';
-import Unscrupelous from './Unscrupelous';
+import Unscrupulous from './Unscrupulous';
 import useAnnoucements from './useAnnoucements';
 import useMembers from './useMembers';
 import useRule from './useRule';
-import useUnscrupelous from './useUnscrupelous';
+import useUnscrupulous from './useUnscrupulous';
 
 interface Props {
   basePath: string;
@@ -35,7 +35,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
   const accouncements = useAnnoucements();
   const members = useMembers();
   const rule = useRule();
-  const unscrupelous = useUnscrupelous();
+  const unscrupulous = useUnscrupulous();
 
   const motionFilter = useCallback(
     (section: string) => section === 'alliance',
@@ -57,8 +57,8 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Announcements ({{count}})', { replace: { count: (accouncements && accouncements.length) || 0 } })
     },
     {
-      name: 'unscrupelous',
-      text: t<string>('Unscrupelous')
+      name: 'unscrupulous',
+      text: t<string>('Unscrupulous')
     }
   ], [accouncements, proposalHashes, t]);
 
@@ -84,8 +84,8 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
             type='alliance'
           />
         </Route>
-        <Route path={`${basePath}/unscrupelous`}>
-          <Unscrupelous unscrupelous={unscrupelous} />
+        <Route path={`${basePath}/unscrupulous`}>
+          <Unscrupulous unscrupulous={unscrupulous} />
         </Route>
         <Route>
           <Overview
@@ -93,7 +93,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
             members={members}
             prime={prime}
             rule={rule}
-            unscrupelous={unscrupelous}
+            unscrupulous={unscrupulous}
             voters={voters}
           />
         </Route>

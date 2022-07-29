@@ -26,7 +26,7 @@ export interface Rule {
   hasRule: boolean;
 }
 
-export interface Unscrupelous {
+export interface Unscrupulous {
   accounts: string[];
   websites: string[];
 }

@@ -3,7 +3,7 @@
 
 import type { Bytes } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { Unscrupelous } from './types';
+import type { Unscrupulous } from './types';
 
 import { useMemo } from 'react';
 
@@ -23,7 +23,7 @@ const OPT_WEB = {
     mapString(websites.filter((b) => b.isAscii))
 };
 
-function useUnscrupelousImpl (): Unscrupelous | undefined {
+function useUnscrupulousImpl (): Unscrupulous | undefined {
   const { api } = useApi();
   const accounts = useCall<string[]>(api.query.alliance.unscrupulousAccounts, [], OPT_ACC);
   const websites = useCall<string[]>(api.query.alliance.unscrupulousWebsites, [], OPT_WEB);
@@ -34,4 +34,4 @@ function useUnscrupelousImpl (): Unscrupelous | undefined {
   );
 }
 
-export default createNamedHook('useUnscrupelous', useUnscrupelousImpl);
+export default createNamedHook('useUnscrupulous', useUnscrupulousImpl);
