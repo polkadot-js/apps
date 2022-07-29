@@ -13,7 +13,7 @@ function needsApiCheck (api: ApiPromise): boolean {
     // needs storageDepositLimit
     return assertReturn(api.tx.contracts.instantiateWithCode.meta.args.length === 6, 'Invalid args');
   } catch (error) {
-    console.warn('Unable to create referendum vote transaction, disabling democracy route');
+    console.warn('Contract interface does not support storageDepositLimit, disabling route');
 
     return false;
   }
