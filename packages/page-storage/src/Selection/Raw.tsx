@@ -62,9 +62,6 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
             return [keyPrefixValue, `${palletName}.${palletCall}`];
           });
       });
-
-      console.log(allStoragePrefixesNotFlattened);
-
       return allStoragePrefixesNotFlattened.flat();
     },
     [api]
