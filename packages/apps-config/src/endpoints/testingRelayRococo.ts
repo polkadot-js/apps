@@ -24,6 +24,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoAmplitude',
+    paraId: 2124,
+    text: 'Amplitude',
+    providers: {
+      PendulumChain: 'wss://pencol-roc-00.pendulumchain.tech'
+    }
+  },
+  {
     info: 'rococoBajun',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,

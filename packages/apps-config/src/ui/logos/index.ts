@@ -423,7 +423,7 @@ export const chainLogos = Object.entries({
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
   'Ajuna Node': nodeAjuna,
-  'Amplitude': chainAmplitude,
+  Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   Arctic: nodeArctic,
@@ -759,6 +759,7 @@ export const namedLogos: Record<string, unknown> = {
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
+  rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBajun: nodeBajun,
