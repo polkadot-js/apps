@@ -13,9 +13,11 @@ import Member from './Member';
 interface Props {
   className?: string;
   members?: MemberType[];
+  prime?: string | null;
+  voters?: string[];
 }
 
-function Members ({ className, members }: Props): React.ReactElement<Props> {
+function Members ({ className, members, prime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const hdrRef = useRef([
@@ -34,6 +36,8 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
         {members && members.map((m) => (
           <Member
             info={m}
+            isPrime={prime === m.accountId}
+            isVoter={!!voters && voters.includes(m.accountId)}
             key={m.accountId}
           />
         ))}

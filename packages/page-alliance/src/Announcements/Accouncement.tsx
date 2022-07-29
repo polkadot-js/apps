@@ -5,23 +5,35 @@ import type { Cid } from '../types';
 
 import React from 'react';
 
+import { useIpfsLink } from '@polkadot/react-hooks';
+
 interface Props {
   className?: string;
   value: Cid;
 }
 
-function Website ({ className, value: { cid: { codec, version }, ipfs } }: Props): React.ReactElement<Props> {
-  // TODO IPFS link
+function Website ({ className, value: { cid: { codec, hash_: { code }, version }, ipfs } }: Props): React.ReactElement<Props> {
+  const ipfsLink = useIpfsLink(ipfs);
+
   return (
     <tr className={className}>
       <td className='start all'>
-        {ipfs}
+        {ipfsLink && (
+          <a
+            href={ipfsLink.ipfsUrl}
+            rel='noopener noreferrer'
+            target='_blank'
+          >{ipfsLink.ipfsHash}</a>
+        )}
       </td>
       <td className='number'>
         {version.type}
       </td>
       <td className='number'>
-        {codec.toString()}
+        0x{codec.toString(16)}
+      </td>
+      <td className='number'>
+        0x{code.toString(16)}
       </td>
     </tr>
   );

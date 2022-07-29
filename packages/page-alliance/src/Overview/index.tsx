@@ -17,12 +17,13 @@ interface Props {
   className?: string;
   isVoter?: boolean;
   members?: MemberType[];
+  prime?: string | null;
   rule?: Rule;
   unscrupelous?: Unscrupelous;
   voters?: string[];
 }
 
-function Overview ({ className, members, rule, unscrupelous }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, prime, rule, unscrupelous, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
 
@@ -47,7 +48,11 @@ function Overview ({ className, members, rule, unscrupelous }: Props): React.Rea
           />
         )}
       </Button.Group>
-      <Members members={members} />
+      <Members
+        members={members}
+        prime={prime}
+        voters={voters}
+      />
     </div>
   );
 }
