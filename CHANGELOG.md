@@ -18,6 +18,7 @@ Contributed:
 - Adjust Basilisk UI components (Thanks to https://github.com/lumir-mrkva)
 - Split Interlay & Kintsugi testnets (Thanks to https://github.com/gregdhill)
 - Add Dwellir endpoint for Efininity (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Acala & Karura (Thanks to https://github.com/Maharacha)
 - Add Crust, Litmus, Turing to Subsquare links (Thanks to https://github.com/wliyongfeng)
 
 Changes:
