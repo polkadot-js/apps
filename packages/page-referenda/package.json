@@ -1,11 +1,11 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-referendums#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-referenda#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/app-referendums",
+  "name": "@polkadot/app-referenda",
   "private": true,
   "repository": {
-    "directory": "packages/page-referendums",
+    "directory": "packages/page-referenda",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
