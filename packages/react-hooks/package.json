@@ -14,7 +14,7 @@
   "version": "0.118.2-32-x",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
-    "@polkadot/hw-ledger": "^10.1.1",
+    "@polkadot/hw-ledger": "^10.1.2",
     "is-ipfs": "6.0.2"
   }
 }
