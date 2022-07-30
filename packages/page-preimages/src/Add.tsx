@@ -36,13 +36,15 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic<'promise'>)?.method.toHex() || '';
-    const storageFee = api.consts.democracy.preimageByteDeposit.mul(
-      encodedProposal
-        ? new BN((encodedProposal.length - 2) / 2)
-        : BN_ZERO
-    );
 
-    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
+    // we currently don't have a constant exposed, or rather, maybe somwhere else...
+    // const storageFee = api.consts.democracy.preimageByteDeposit.mul(
+    //   encodedProposal
+    //     ? new BN((encodedProposal.length - 2) / 2)
+    //     : BN_ZERO
+    // );
+
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee: BN_ZERO });
   }, [api, proposal]);
 
   const isMatched = imageHash
@@ -93,14 +95,16 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
                 value={encodedHash}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
-              <InputBalance
-                defaultValue={storageFee}
-                help={t<string>('The amount reserved to store this image')}
-                isDisabled
-                label={t<string>('calculated storage fee')}
-              />
-            </Modal.Columns>
+            {!storageFee.isZero() && (
+              <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
+                <InputBalance
+                  defaultValue={storageFee}
+                  help={t<string>('The amount reserved to store this image')}
+                  isDisabled
+                  label={t<string>('calculated storage fee')}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton
