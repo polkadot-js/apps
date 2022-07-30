@@ -18,6 +18,7 @@
   "app-nfts.json",
   "app-parachains.json",
   "app-poll.json",
+  "app-preimages.json",
   "app-rpc.json",
   "app-runtime.json",
   "app-settings.json",
