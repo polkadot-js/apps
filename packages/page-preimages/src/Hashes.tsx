@@ -23,7 +23,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const hashes = useHashes();
 
   const headerRef = useRef([
-    [t('hashes'), 'start'],
+    [t('preimages'), 'start', 2],
     [t('size')],
     [t('status')]
   ]);
