@@ -1,17 +1,32 @@
 # CHANGELOG
 
-## 0.119.1 Jul 26, 2022
+## master
 
 Contributed:
 
+- Fixes for alliance unscrupulous (Thanks to https://github.com/joepetrowski)
 - Add OnFinality endpoint for Kylin (Thanks to https://github.com/banananeko)
 - Update creditcoin endpoints (Thanks to https://github.com/jfrank-summit)
 - Register Bifrost on Rococo (Thanks to https://github.com/awesomepan)
-- Upadta Darwinia Crab parachain settings (Thanks to https://github.com/JayJay1024)
+- Update Darwinia Crab parachain settings (Thanks to https://github.com/JayJay1024)
+- Add CESS testnet (Thanks to https://github.com/swowk)
+- Remove OnFalinaty endpoint for Basilisk (Thanks to https://github.com/banananeko)
+- Add Eggnet Rococo parachain (Thanks to https://github.com/1xstj)
+- Fix Turing logo display (Thanks to https://github.com/imstar15)
+- Add Subzero Rococo parachain (Thanks to https://github.com/vasylenko-yevhen)
+- Add Crust Rococo parachain (Thanks to https://github.com/mmyyrroonn)
+- Adjust Basilisk UI components (Thanks to https://github.com/lumir-mrkva)
+- Split Interlay & Kintsugi testnets (Thanks to https://github.com/gregdhill)
+- Add Dwellir endpoint for Efininity (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Acala & Karura (Thanks to https://github.com/Maharacha)
+- Add Crust, Litmus, Turing to Subsquare links (Thanks to https://github.com/wliyongfeng)
 
 Changes:
 
+- Add support for Alliance pallet
+- Only support contracts where `storageDepositLimit` is available
 - Adjust param component with additional deep inspection
+- Exclude `transactionPayment.TransactionFeePaid` from global events list
 
 
 ## 0.118.1 Jul 19, 2022
