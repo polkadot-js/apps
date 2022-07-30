@@ -37,6 +37,7 @@ import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
 import utilities from './utilities';
+import whitelist from './whitelist';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -56,6 +57,7 @@ export default function create (t: TFunction): Routes {
     techcomm(t),
     membership(t),
     alliance(t),
+    whitelist(t),
     parachains(t),
     gilt(t),
     assets(t),
