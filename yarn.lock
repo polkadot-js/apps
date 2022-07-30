@@ -2945,9 +2945,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-referendums@workspace:packages/page-referendums":
+"@polkadot/app-referenda@workspace:packages/page-referenda":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-referendums@workspace:packages/page-referendums"
+  resolution: "@polkadot/app-referenda@workspace:packages/page-referenda"
   dependencies:
     "@babel/runtime": ^7.18.9
   languageName: unknown
@@ -3057,6 +3057,14 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.18.9
     "@polkadot/react-components": ^0.119.2-0-x
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/app-whitelist@workspace:packages/page-whitelist":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-whitelist@workspace:packages/page-whitelist"
+  dependencies:
+    "@babel/runtime": ^7.18.9
   languageName: unknown
   linkType: soft
 

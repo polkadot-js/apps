@@ -17,7 +17,7 @@ export interface Changes<T extends Codec> {
   removed?: T[];
 }
 
-function interleave <T extends Codec> (existing: T[], { added = [], removed = [] }: Changes<T>): T[] {
+function interleave <T extends Codec> (existing: T[] = [], { added = [], removed = [] }: Changes<T>): T[] {
   if (!added.length && !removed.length) {
     return existing;
   }
@@ -45,8 +45,8 @@ function interleave <T extends Codec> (existing: T[], { added = [], removed = []
     .map(([, v]) => v);
 }
 
-export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[]) => Changes<T>, startValue?: T[]): T[] {
-  const [state, setState] = useState<T[]>([]);
+export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[]) => Changes<T>, startValue?: T[]): T[] | undefined {
+  const [state, setState] = useState<T[] | undefined>();
   const { blockHash, events } = useEventTrigger(checks);
 
   // when startValue changes, we do a full refresh
