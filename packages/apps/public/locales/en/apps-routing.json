@@ -31,5 +31,6 @@
   "nav.teleport": "Teleport",
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
-  "nav.utilities": "Utilities"
+  "nav.utilities": "Utilities",
+  "nav.whitelist": "Whitelist"
 }
