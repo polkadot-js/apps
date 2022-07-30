@@ -24,6 +24,7 @@ import membership from './membership';
 import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
+import preimages from './preimages';
 import rpc from './rpc';
 import runtime from './runtime';
 import settings from './settings';
@@ -57,6 +58,7 @@ export default function create (t: TFunction): Routes {
     techcomm(t),
     membership(t),
     alliance(t),
+    preimages(t),
     whitelist(t),
     parachains(t),
     gilt(t),
