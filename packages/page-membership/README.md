@@ -1,1 +1,1 @@
-# @polkadot/app-council
+# @polkadot/app-membership
