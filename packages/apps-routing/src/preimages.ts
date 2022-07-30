@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-whitelist';
+import Component from '@polkadot/app-preimages';
 
 export default function create (t: TFunction): Route {
   return {
@@ -12,12 +12,15 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.whitelist.removeWhitelistedCall'
+        'tx.preimage.notePreimage',
+        // only enable when we have referenda (or ranked would be applicable as
+        // well, we basically want to disable on all Gov1 chains)
+        'tx.referenda.submit'
       ]
     },
     group: 'governance',
-    icon: 'list-check',
-    name: 'whitelist',
-    text: t('nav.whitelist', 'Whitelist', { ns: 'apps-routing' })
+    icon: 'panorama',
+    name: 'preimages',
+    text: t('nav.preimages', 'Preimages', { ns: 'apps-routing' })
   };
 }
