@@ -8,9 +8,9 @@ import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 
 import Add from './Add';
-import Hash from './Hash';
+import Preimage from './Preimage';
 import { useTranslation } from './translate';
-import useHashes from './useHashes';
+import usePreimages from './usePreimages';
 
 interface Props {
   className?: string;
@@ -20,7 +20,7 @@ interface Props {
 
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const hashes = useHashes();
+  const hashes = usePreimages();
 
   const headerRef = useRef([
     [t('preimages'), 'start', 2],
@@ -39,7 +39,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         header={headerRef.current}
       >
         {hashes && hashes.map((h) => (
-          <Hash
+          <Preimage
             key={h}
             value={h}
           />
