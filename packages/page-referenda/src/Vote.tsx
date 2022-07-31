@@ -15,12 +15,13 @@ import { useTranslation } from './translate';
 interface Props {
   id: BN;
   isMember: boolean;
+  isVoteBasic: boolean;
   members?: string[];
   palletVote: PalletVote;
   preimage: Preimage;
 }
 
-function Voting ({ id, isMember, members, palletVote, preimage: { proposal } }: Props): React.ReactElement<Props> | null {
+function Voting ({ id, isMember, isVoteBasic, members, palletVote, preimage: { proposal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -54,26 +55,28 @@ function Voting ({ id, isMember, members, palletVote, preimage: { proposal } }: 
                 onChange={setAccountId}
               />
             </Modal.Columns>
-            <Modal.Columns
-              hint={
-                <>
-                  <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                  <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
-                </>
-              }
-            >
-              <VoteValue
-                accountId={accountId}
-                autoFocus
-                onChange={setBalance}
-              />
-              <ConvictionDropdown
-                help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
-                label={t<string>('conviction')}
-                onChange={setConviction}
-                value={conviction}
-              />
-            </Modal.Columns>
+            {!isVoteBasic && (
+              <Modal.Columns
+                hint={
+                  <>
+                    <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                    <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                  </>
+                }
+              >
+                <VoteValue
+                  accountId={accountId}
+                  autoFocus
+                  onChange={setBalance}
+                />
+                <ConvictionDropdown
+                  help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
+                  label={t<string>('conviction')}
+                  onChange={setConviction}
+                  value={conviction}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton
@@ -83,7 +86,9 @@ function Voting ({ id, isMember, members, palletVote, preimage: { proposal } }: 
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={
-                [id, { Standard: { balance, vote: { aye: false, conviction } } }]
+                isVoteBasic
+                  ? [id, false]
+                  : [id, { Standard: { balance, vote: { aye: false, conviction } } }]
               }
               tx={api.tx[palletVote].vote}
             />
@@ -94,7 +99,9 @@ function Voting ({ id, isMember, members, palletVote, preimage: { proposal } }: 
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={
-                [id, { Standard: { balance, vote: { aye: true, conviction } } }]
+                isVoteBasic
+                  ? [id, true]
+                  : [id, { Standard: { balance, vote: { aye: true, conviction } } }]
               }
               tx={api.tx[palletVote].vote}
             />

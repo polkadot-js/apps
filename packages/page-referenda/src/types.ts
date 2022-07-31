@@ -13,11 +13,12 @@ export interface Referendum {
 export interface ReferendumProps {
   className?: string;
   isMember: boolean;
+  isVoteBasic: boolean;
   members?: string[];
   palletVote: PalletVote;
   value: Referendum;
 }
 
-export type PalletReferenda = 'referenda';
+export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda';
 
-export type PalletVote = 'convictionVoting';
+export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
