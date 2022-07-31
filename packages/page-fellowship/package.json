@@ -1,11 +1,11 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-ranked-collective#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-fellowship#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/app-ranked-collective",
+  "name": "@polkadot/app-fellowship",
   "private": true,
   "repository": {
-    "directory": "packages/page-ranked-collective",
+    "directory": "packages/page-fellowship",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },

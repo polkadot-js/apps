@@ -30,7 +30,7 @@ function expandOngoing (info: Referendum['info']): Expanded {
   };
 }
 
-function Ongoing ({ isMember, members, palletVote, value: { id, info } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, isVoteBasic, members, palletVote, value: { id, info } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, shortHash, tallyTotal } = useMemo(
     () => expandOngoing(info),
@@ -67,6 +67,7 @@ function Ongoing ({ isMember, members, palletVote, value: { id, info } }: Props)
           <Vote
             id={id}
             isMember={isMember}
+            isVoteBasic={isVoteBasic}
             members={members}
             palletVote={palletVote}
             preimage={preimage}

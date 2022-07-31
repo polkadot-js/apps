@@ -14,12 +14,13 @@ import useReferenda from './useReferenda';
 
 interface Props {
   className?: string;
+  isVoteBasic: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
 }
 
-function Referenda ({ className, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
+function Referenda ({ className, isVoteBasic, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const referenda = useReferenda(palletReferenda);
@@ -44,6 +45,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
         {referenda && referenda.map((r) => (
           <Referendum
             isMember={isMember}
+            isVoteBasic={isVoteBasic}
             key={r.key}
             members={members}
             palletVote={palletVote}
