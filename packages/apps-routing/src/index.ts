@@ -25,6 +25,7 @@ import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
 import preimages from './preimages';
+import referenda from './referenda';
 import rpc from './rpc';
 import runtime from './runtime';
 import settings from './settings';
@@ -52,6 +53,7 @@ export default function create (t: TFunction): Routes {
     staking(t),
     collator(t),
     democracy(t),
+    referenda(t),
     council(t),
     treasury(t),
     bounties(t),

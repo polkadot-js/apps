@@ -30,7 +30,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
   return { added, removed };
 }
 
-function useHashesImpl (): HexString[] | undefined {
+function usePreimagesImpl (): HexString[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.preimage.statusFor, OPT_HASH);
   const hashes = useEventChanges([
@@ -44,4 +44,4 @@ function useHashesImpl (): HexString[] | undefined {
   );
 }
 
-export default createNamedHook('useHashes', useHashesImpl);
+export default createNamedHook('usePreimages', usePreimagesImpl);
