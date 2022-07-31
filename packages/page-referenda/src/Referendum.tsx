@@ -24,7 +24,10 @@ function Referendum ({ className, isMember, members, palletVote, value: { id, in
         <h1>{formatNumber(id)}</h1>
       </td>
       <td>
-        {/* <pre>{JSON.stringify(info.toHuman(), null, 2)}</pre> */}
+        <textarea
+          rows={8}
+          style={{ width: 512 }}
+        >{JSON.stringify(info.toHuman(), null, 2)}</textarea>
       </td>
       {info.type === 'Ongoing'
         ? (
