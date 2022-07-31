@@ -26,22 +26,25 @@ function Ongoing ({ id, info, isMember, members, palletVote }: Props): React.Rea
     () => info.asOngoing,
     [info]
   );
-  const tallyTotal = useMemo(
-    () => tally.ayes.add(tally.nays),
-    [tally]
+  const [tallyTotal, textHash] = useMemo(
+    () => [tally.ayes.add(tally.nays), proposalHash.toHex()],
+    [proposalHash, tally]
   );
   const preimage = usePreimage(proposalHash);
 
   return (
     <>
       <td className='all'>
-        {preimage && preimage.proposal && (
-          <CallExpander
-            labelHash={t<string>('preimage')}
-            value={preimage.proposal}
-            withHash
-          />
-        )}
+        {preimage && preimage.proposal
+          ? (
+            <CallExpander
+              labelHash={t<string>('preimage')}
+              value={preimage.proposal}
+              withHash
+            />
+          )
+          : t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })
+        }
       </td>
       <td className='middle chart'>
         <Progress
