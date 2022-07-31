@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Hashes from './Hashes';
+import Preimages from './Preimages';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -30,7 +30,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={tabsRef.current}
       />
-      <Hashes />
+      <Preimages />
     </main>
   );
 }
