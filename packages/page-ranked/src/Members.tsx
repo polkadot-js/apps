@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Member as MemberType } from './types';
+
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -10,13 +12,14 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  members?: string[];
+  members?: MemberType[];
 }
 
 function Members ({ className, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
-    [t('members'), 'start']
+    [t('members'), 'start'],
+    [t('rank'), 'number']
   ]);
 
   return (
@@ -27,8 +30,8 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
     >
       {members && members.map((a): React.ReactNode => (
         <Member
-          address={a}
-          key={a}
+          key={a.accountId}
+          value={a}
         />
       ))}
     </Table>

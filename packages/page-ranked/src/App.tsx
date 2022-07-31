@@ -11,7 +11,7 @@ import { Tabs } from '@polkadot/react-components';
 
 import Members from './Members';
 import { useTranslation } from './translate';
-import useMemberIds from './useMemberIds';
+import useMembers from './useMembers';
 
 interface Props {
   basePath: string;
@@ -22,7 +22,7 @@ interface Props {
 
 function App ({ basePath, className, palletColl, palletPoll }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const members = useMemberIds(palletColl);
+  const members = useMembers(palletColl);
 
   const tabsRef = useRef([
     {
@@ -46,13 +46,13 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
         <Route path={`${basePath}/referenda`}>
           <Referenda
             isVoteBasic
-            members={members}
+            members={members && members.memberIds}
             palletReferenda={palletPoll}
             palletVote={palletColl}
           />
         </Route>
         <Route>
-          <Members members={members} />
+          <Members members={members && members.members} />
         </Route>
       </Switch>
     </main>

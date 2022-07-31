@@ -6,8 +6,6 @@ import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
 import type { PalletColl } from './types';
 
-import { useMemo } from 'react';
-
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
 const OPT_ID = {
@@ -30,18 +28,14 @@ function filter (records: EventRecord[]): Changes<AccountId32> {
   return { added, removed };
 }
 
-function useMemberIdsImpl (collective: PalletColl): string[] | undefined {
+function useMemberIdsImpl (collective: PalletColl): AccountId32[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query[collective].members, OPT_ID);
-  const accountIds = useEventChanges([
+
+  return useEventChanges([
     api.events[collective].MemberAdded,
     api.events[collective].MemberRemoved
   ], filter, startValue);
-
-  return useMemo(
-    () => accountIds && accountIds.map((a) => a.toString()),
-    [accountIds]
-  );
 }
 
 export default createNamedHook('useMemberIds', useMemberIdsImpl);
