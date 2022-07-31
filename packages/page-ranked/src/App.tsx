@@ -9,7 +9,9 @@ import { Route, Switch } from 'react-router';
 import Referenda from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
 
+import Members from './Members';
 import { useTranslation } from './translate';
+import useMemberIds from './useMemberIds';
 
 interface Props {
   basePath: string;
@@ -20,6 +22,7 @@ interface Props {
 
 function App ({ basePath, className, palletColl, palletPoll }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const members = useMemberIds(palletColl);
 
   const tabsRef = useRef([
     {
@@ -43,12 +46,13 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
         <Route path={`${basePath}/referenda`}>
           <Referenda
             isVoteBasic
+            members={members}
             palletReferenda={palletPoll}
             palletVote={palletColl}
           />
         </Route>
         <Route>
-          <div>ranked app {palletColl} {palletPoll}</div>
+          <Members members={members} />
         </Route>
       </Switch>
     </main>
