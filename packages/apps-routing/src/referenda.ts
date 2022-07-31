@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
 import Component from '@polkadot/app-referenda';
+import useCounter from '@polkadot/app-referenda/useCounter';
 
 export default function create (t: TFunction): Route {
   return {
@@ -18,6 +19,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'person-booth',
     name: 'referenda',
-    text: t('nav.referenda', 'Referenda', { ns: 'apps-routing' })
+    text: t('nav.referenda', 'Referenda', { ns: 'apps-routing' }),
+    useCounter
   };
 }

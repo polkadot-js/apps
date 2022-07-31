@@ -3,7 +3,7 @@
 
 import type { PalletColl, PalletPoll } from './types';
 
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Referenda from '@polkadot/app-referenda/Referenda';
@@ -12,6 +12,7 @@ import { Tabs } from '@polkadot/react-components';
 import Members from './Members';
 import { useTranslation } from './translate';
 import useMembers from './useMembers';
+import useRefCounter from './useRefCounter';
 
 interface Props {
   basePath: string;
@@ -23,24 +24,28 @@ interface Props {
 function App ({ basePath, className, palletColl, palletPoll }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const members = useMembers(palletColl);
+  const refCount = useRefCounter(palletPoll);
 
-  const tabsRef = useRef([
-    {
-      isRoot: true,
-      name: 'overview',
-      text: t<string>('Overview')
-    },
-    {
-      name: 'referenda',
-      text: t<string>('Referenda')
-    }
-  ]);
+  const tabs = useMemo(
+    () => [
+      {
+        isRoot: true,
+        name: 'overview',
+        text: t<string>('Overview')
+      },
+      {
+        name: 'referenda',
+        text: t<string>('Referenda ({{count}})', { replace: { count: refCount || 0 } })
+      }
+    ],
+    [refCount, t]
+  );
 
   return (
     <main className={className}>
       <Tabs
         basePath={basePath}
-        items={tabsRef.current}
+        items={tabs}
       />
       <Switch>
         <Route path={`${basePath}/referenda`}>
