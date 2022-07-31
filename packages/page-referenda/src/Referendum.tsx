@@ -1,25 +1,29 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletVote, Referendum as ReferendumType } from './types';
+import type { ReferendumProps as Props } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { formatNumber } from '@polkadot/util';
 
-import Ongoing from './Ongoing';
+import Ongoing from './RefOngoing';
+import Other from './RefOther';
 
-interface Props {
-  className?: string;
-  isMember: boolean;
-  members?: string[];
-  palletVote: PalletVote;
-  value: ReferendumType;
-}
+const Components: Record<string, React.ComponentType<Props>> = {
+  Ongoing
+};
 
-function Referendum ({ className, isMember, members, palletVote, value: { id, info } }: Props): React.ReactElement<Props> {
+function Referendum (props: Props): React.ReactElement<Props> {
+  const { className, value: { id, info } } = props;
+
+  const Component = useMemo(
+    () => Components[info.type] || Other,
+    [info]
+  );
+
   return (
-    <tr className={ className }>
+    <tr className={className}>
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
@@ -29,23 +33,7 @@ function Referendum ({ className, isMember, members, palletVote, value: { id, in
           style={{ width: 512 }}
         >{JSON.stringify(info.toHuman(), null, 2)}</textarea>
       </td>
-      {info.type === 'Ongoing'
-        ? (
-          <Ongoing
-            id={id}
-            info={info}
-            isMember={isMember}
-            members={members}
-            palletVote={palletVote}
-          />
-        )
-        : (
-          <td
-            className='number'
-            colSpan={3}
-          >{info.type}</td>
-        )
-      }
+      <Component {...props} />
     </tr>
   );
 }

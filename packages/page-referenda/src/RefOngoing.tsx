@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletVote, Referendum as ReferendumType } from './types';
+import type { Referendum, ReferendumProps as Props } from './types';
 
 import React, { useMemo } from 'react';
 
@@ -12,23 +12,27 @@ import { CallExpander, Progress } from '@polkadot/react-components';
 import { useTranslation } from './translate';
 import Vote from './Vote';
 
-interface Props {
-  id: BN;
-  info: ReferendumType['info'];
-  isMember: boolean;
-  members?: string[];
-  palletVote: PalletVote;
+interface Expanded {
+  ongoing: Referendum['info']['asOngoing'];
+  tallyTotal: BN;
+  shortHash: string;
 }
 
-function Ongoing ({ id, info, isMember, members, palletVote }: Props): React.ReactElement<Props> {
+function expandOngoing (info: Referendum['info']): Expanded {
+  const ongoing = info.asOngoing;
+
+  return {
+    ongoing,
+    shortHash: ongoing.proposalHash.toHex(),
+    tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
+  };
+}
+
+function Ongoing ({ isMember, members, palletVote, value: { id, info } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { proposalHash, tally } = useMemo(
-    () => info.asOngoing,
+  const { ongoing: { proposalHash, tally }, shortHash, tallyTotal } = useMemo(
+    () => expandOngoing(info),
     [info]
-  );
-  const [tallyTotal, textHash] = useMemo(
-    () => [tally.ayes.add(tally.nays), proposalHash.toHex()],
-    [proposalHash, tally]
   );
   const preimage = usePreimage(proposalHash);
 
@@ -43,7 +47,7 @@ function Ongoing ({ id, info, isMember, members, palletVote }: Props): React.Rea
               withHash
             />
           )
-          : t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })
+          : t('preimage {{hash}}', { replace: { hash: `${shortHash.slice(0, 8)}…${shortHash.slice(-8)}` } })
         }
       </td>
       <td className='middle chart'>

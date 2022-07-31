@@ -10,6 +10,14 @@ export interface Referendum {
   key: string;
 }
 
+export interface ReferendumProps {
+  className?: string;
+  isMember: boolean;
+  members?: string[];
+  palletVote: PalletVote;
+  value: Referendum;
+}
+
 export type PalletReferenda = 'referenda';
 
 export type PalletVote = 'convictionVoting';
