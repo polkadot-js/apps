@@ -2864,6 +2864,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-fellowship@workspace:packages/page-fellowship":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-fellowship@workspace:packages/page-fellowship"
+  dependencies:
+    "@babel/runtime": ^7.18.9
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-files@workspace:packages/page-files":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-files@workspace:packages/page-files"
@@ -2937,9 +2945,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-ranked-collective@workspace:packages/page-ranked-collective":
+"@polkadot/app-ranked@workspace:packages/page-ranked":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-ranked-collective@workspace:packages/page-ranked-collective"
+  resolution: "@polkadot/app-ranked@workspace:packages/page-ranked"
   dependencies:
     "@babel/runtime": ^7.18.9
   languageName: unknown
