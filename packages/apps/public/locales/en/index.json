@@ -19,6 +19,7 @@
   "app-parachains.json",
   "app-poll.json",
   "app-preimages.json",
+  "app-referenda.json",
   "app-rpc.json",
   "app-runtime.json",
   "app-settings.json",
