@@ -20,10 +20,11 @@ interface Expanded {
 
 function expandOngoing (info: Referendum['info']): Expanded {
   const ongoing = info.asOngoing;
+  const hexHash = ongoing.proposalHash.toHex();
 
   return {
     ongoing,
-    shortHash: ongoing.proposalHash.toHex(),
+    shortHash: `${hexHash.slice(0, 8)}…${hexHash.slice(-6)}`,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
   };
 }
@@ -47,7 +48,7 @@ function Ongoing ({ isMember, members, palletVote, value: { id, info } }: Props)
               withHash
             />
           )
-          : t('preimage {{hash}}', { replace: { hash: `${shortHash.slice(0, 8)}…${shortHash.slice(-8)}` } })
+          : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
       </td>
       <td className='middle chart'>
