@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import useIds from './useIds';
+import useReferendaIds from './useReferendaIds';
 
 const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
 
@@ -64,7 +64,7 @@ const OPT_MULTI = {
 
 function useReferendaImpl (palletReferenda: PalletReferenda): Referendum[] | undefined {
   const { api } = useApi();
-  const ids = useIds(palletReferenda);
+  const ids = useReferendaIds(palletReferenda);
   const referenda = useCall(ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
