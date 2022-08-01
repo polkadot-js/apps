@@ -9,6 +9,7 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Member from './Member';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -23,18 +24,21 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <Table
-      className={className}
-      empty={members && t<string>('No members found')}
-      header={headerRef.current}
-    >
-      {members && members.map((a): React.ReactNode => (
-        <Member
-          key={a.accountId}
-          value={a}
-        />
-      ))}
-    </Table>
+    <div className={className}>
+      <Summary members={members} />
+      <Table
+        className={className}
+        empty={members && t<string>('No members found')}
+        header={headerRef.current}
+      >
+        {members && members.map((a): React.ReactNode => (
+          <Member
+            key={a.accountId}
+            value={a}
+          />
+        ))}
+      </Table>
+    </div>
   );
 }
 
