@@ -18,7 +18,7 @@ interface Props {
 const MAX_REASON_LEN = 256;
 const MIN_REASON_LEN = 5;
 
-function TipCreate ({ members }: Props): React.ReactElement<Props> {
+function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -39,6 +39,10 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
   );
   const hasValue = !!value && value.gt(BN_ZERO);
   const hasReason = !!reason && (reason.length >= MIN_REASON_LEN) && (reason.length <= maxReasonLen);
+
+  if (!(api.tx.tips.tipNew || api.tx.treasury.tipNew)) {
+    return null;
+  }
 
   return (
     <>

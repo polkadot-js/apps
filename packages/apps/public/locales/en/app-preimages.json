@@ -11,6 +11,7 @@
   "This account will pay the fees for the preimage, based on the size thereof.": "This account will pay the fees for the preimage, based on the size thereof.",
   "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.": "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.",
   "calculated storage fee": "calculated storage fee",
+  "count": "count",
   "preimage hash": "preimage hash",
   "preimages": "preimages",
   "proposal": "proposal",

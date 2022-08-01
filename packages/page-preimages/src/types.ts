@@ -6,6 +6,7 @@ import type { Call } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 
 export interface Preimage {
+  count: number;
   bytes: Bytes | null;
   proposal: Call | null;
   status: PalletPreimageRequestStatus | null;

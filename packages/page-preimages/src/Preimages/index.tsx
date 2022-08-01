@@ -1,15 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 
-import Hash from './Hash';
-import { useTranslation } from './translate';
-import useHashes from './useHashes';
+import { useTranslation } from '../translate';
+import usePreimages from '../usePreimages';
+import Add from './Add';
+import Preimage from './Preimage';
 
 interface Props {
   className?: string;
@@ -19,21 +20,27 @@ interface Props {
 
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const hashes = useHashes();
+  const hashes = usePreimages();
 
   const headerRef = useRef([
-    [t('hashes'), 'start']
+    [t('preimages'), 'start', 2],
+    [t('size')],
+    [t('status')],
+    [t('count')]
   ]);
 
   return (
     <div className={className}>
+      <Button.Group>
+        <Add />
+      </Button.Group>
       <Table
         className={className}
-        empty={hashes && t<string>('No call hashes found')}
+        empty={hashes && t<string>('No hashes found')}
         header={headerRef.current}
       >
         {hashes && hashes.map((h) => (
-          <Hash
+          <Preimage
             key={h}
             value={h}
           />

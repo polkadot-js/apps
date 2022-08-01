@@ -11,7 +11,6 @@
   "No approved proposals": "No approved proposals",
   "No open tips": "No open tips",
   "No pending proposals": "No pending proposals",
-  "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.": "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.",
   "Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.": "Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.",
   "Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.": "Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.",
   "Overview": "Overview",
