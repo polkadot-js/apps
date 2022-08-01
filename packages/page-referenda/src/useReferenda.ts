@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletReferendaReferendumInfoConvictionVotingTally } from '@polkadot/types/lookup';
+import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda, Referendum } from './types';
 
@@ -13,6 +13,10 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import useReferendaIds from './useReferendaIds';
 
 const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
+
+function isConvictionVote (info: Referendum['info']): info is PalletReferendaReferendumInfoConvictionVotingTally {
+  return info.isOngoing && !(info as PalletReferendaReferendumInfoRankedCollectiveTally).asOngoing.tally.bareAyes && !!(info as PalletReferendaReferendumInfoConvictionVotingTally).asOngoing.tally.support;
+}
 
 function sortOngoing (a: Referendum, b: Referendum): number {
   return a.info.asOngoing.track.cmp(b.info.asOngoing.track) || a.id.cmp(b.id);
@@ -34,17 +38,18 @@ function sortOther (a: Referendum, b: Referendum): number {
 }
 
 const OPT_MULTI = {
-  transform: ([[ids], all]: [[BN[]], Option<PalletReferendaReferendumInfoConvictionVotingTally>[]]) =>
+  transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) =>
     all
       .map((o, i) =>
         o.isSome
           ? [ids[i], o.unwrap()]
           : null
       )
-      .filter((r): r is [BN, PalletReferendaReferendumInfoConvictionVotingTally] => !!r)
+      .filter((r): r is [BN, Referendum['info']] => !!r)
       .map(([id, info]): Referendum => ({
         id,
         info,
+        isConvictionVote: isConvictionVote(info),
         key: id.toString()
       }))
       .sort((a, b) =>

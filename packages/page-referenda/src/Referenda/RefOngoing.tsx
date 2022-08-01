@@ -12,6 +12,7 @@ import { CallExpander, Progress } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Deposit from './Deposit';
 import Vote from './Vote';
+import Votes from './Votes';
 
 interface Expanded {
   ongoing: Referendum['info']['asOngoing'];
@@ -30,7 +31,7 @@ function expandOngoing (info: Referendum['info']): Expanded {
   };
 }
 
-function Ongoing ({ isMember, isVoteBasic, members, palletVote, value: { id, info } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, members, palletVote, value: { id, info, isConvictionVote } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, shortHash, tallyTotal } = useMemo(
     () => expandOngoing(info),
@@ -56,6 +57,12 @@ function Ongoing ({ isMember, isVoteBasic, members, palletVote, value: { id, inf
         decision={decisionDeposit}
         submit={submissionDeposit}
       />
+      <Votes
+        id={id}
+        isConvictionVote={isConvictionVote}
+        palletVote={palletVote}
+        tally={tally}
+      />
       <td className='middle chart'>
         <Progress
           total={tallyTotal}
@@ -66,8 +73,8 @@ function Ongoing ({ isMember, isVoteBasic, members, palletVote, value: { id, inf
         {preimage && (
           <Vote
             id={id}
+            isConvictionVote={isConvictionVote}
             isMember={isMember}
-            isVoteBasic={isVoteBasic}
             members={members}
             palletVote={palletVote}
             preimage={preimage}

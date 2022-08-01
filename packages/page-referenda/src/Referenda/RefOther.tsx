@@ -9,7 +9,7 @@ function RefOther ({ value: { info: { type } } }: Props): React.ReactElement<Pro
   return (
     <td
       className='number'
-      colSpan={3}
+      colSpan={5}
     >
       {type}
     </td>

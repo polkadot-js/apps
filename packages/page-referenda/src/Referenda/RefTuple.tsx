@@ -54,7 +54,10 @@ function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
         decision={decision}
         submit={submit}
       />
-      <td className='number'>
+      <td
+        className='number'
+        colSpan={2}
+      >
         {when && (
           when.toUTCString()
         )}
