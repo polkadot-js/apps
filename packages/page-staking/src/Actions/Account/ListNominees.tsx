@@ -82,7 +82,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       {renOver && (
         <ExpanderScroll
           className='stakeOver'
-          help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: api.consts.staking?.maxNominatorRewardedPerValidator?.toString() })}
+          help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: { max: api.consts.staking?.maxNominatorRewardedPerValidator?.toString() } })}
           renderChildren={renOver[1]}
           summary={t<string>('Oversubscribed nominations ({{count}})', { replace: { count: renOver[0] } })}
         />
