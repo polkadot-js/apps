@@ -50,7 +50,6 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
       <Switch>
         <Route path={`${basePath}/referenda`}>
           <Referenda
-            isVoteBasic
             members={members && members.memberIds}
             palletReferenda={palletPoll}
             palletVote={palletColl}
