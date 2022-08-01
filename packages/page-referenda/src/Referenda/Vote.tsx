@@ -3,14 +3,14 @@
 
 import type { Preimage } from '@polkadot/app-preimages/types';
 import type { BN } from '@polkadot/util';
-import type { PalletVote } from './types';
+import type { PalletVote } from '../types';
 
 import React, { useState } from 'react';
 
 import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   id: BN;

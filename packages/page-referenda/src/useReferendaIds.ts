@@ -29,7 +29,7 @@ function filter (records: EventRecord[]): Changes<u32> {
   return { added, removed };
 }
 
-function useIdsImpl (palletReferenda: PalletReferenda): BN[] | undefined {
+function useReferendaIdsImpl (palletReferenda: PalletReferenda): BN[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query[palletReferenda].referendumInfoFor, OPT_ID);
 
@@ -38,4 +38,4 @@ function useIdsImpl (palletReferenda: PalletReferenda): BN[] | undefined {
   ], filter, startValue);
 }
 
-export default createNamedHook('useIds', useIdsImpl);
+export default createNamedHook('useReferendaIds', useReferendaIdsImpl);

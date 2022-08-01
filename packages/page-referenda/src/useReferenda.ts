@@ -10,15 +10,12 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import useIds from './useIds';
+import useReferendaIds from './useReferendaIds';
 
 const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
 
 function sortOngoing (a: Referendum, b: Referendum): number {
-  const ona = a.info.asOngoing;
-  const onb = b.info.asOngoing;
-
-  return ona.track.cmp(onb.track) || a.id.cmp(b.id);
+  return a.info.asOngoing.track.cmp(b.info.asOngoing.track) || a.id.cmp(b.id);
 }
 
 function sortOther (a: Referendum, b: Referendum): number {
@@ -64,7 +61,7 @@ const OPT_MULTI = {
 
 function useReferendaImpl (palletReferenda: PalletReferenda): Referendum[] | undefined {
   const { api } = useApi();
-  const ids = useIds(palletReferenda);
+  const ids = useReferendaIds(palletReferenda);
   const referenda = useCall(ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(

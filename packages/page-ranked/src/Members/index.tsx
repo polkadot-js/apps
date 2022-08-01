@@ -1,14 +1,14 @@
 // Copyright 2017-2022 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType } from './types';
+import type { Member as MemberType } from '../types';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Member from './Member';
-import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

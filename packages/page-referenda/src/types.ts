@@ -4,6 +4,10 @@
 import type { PalletReferendaReferendumInfoConvictionVotingTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
+export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda';
+
+export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
+
 export interface Referendum {
   id: BN;
   info: PalletReferendaReferendumInfoConvictionVotingTally;
@@ -19,6 +23,7 @@ export interface ReferendumProps {
   value: Referendum;
 }
 
-export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda';
-
-export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
+export interface Summary {
+  deciding?: BN;
+  refCount?: BN;
+}

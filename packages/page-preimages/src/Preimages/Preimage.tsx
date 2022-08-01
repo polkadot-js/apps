@@ -8,8 +8,8 @@ import React from 'react';
 import { CallExpander } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import usePreimage from './usePreimage';
+import { useTranslation } from '../translate';
+import usePreimage from '../usePreimage';
 
 interface Props {
   className?: string;
@@ -22,9 +22,7 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
 
   return (
     <tr className={ className }>
-      <td>
-        {value}
-      </td>
+      <td>{value}</td>
       <td className='all'>
         {info && info.proposal && (
           <CallExpander
@@ -38,6 +36,9 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
       </td>
       <td className='number'>
         {info && info.status && info.status.type}
+      </td>
+      <td className='number'>
+        {info && info.count !== 0 && formatNumber(info.count)}
       </td>
     </tr>
   );

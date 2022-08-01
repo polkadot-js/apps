@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Referendum, ReferendumProps as Props } from './types';
+import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
 import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Deposit from './Deposit';
-import { useTranslation } from './translate';
 import Vote from './Vote';
 
 interface Expanded {
