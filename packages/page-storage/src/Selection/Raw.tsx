@@ -12,22 +12,22 @@ import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+const MaxNumberOfAllowedSearchHits = 5;
+
 function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ isValid,
-    key,
-    keyAsBytes }, setValue] = useState<{ isValid: boolean; keyAsBytes: Uint8Array; key: string }>(() => ({
+  const [{ isValid, key, keyString }, setValue] = useState<{ isValid: boolean; key: Uint8Array; keyString: string }>(() => ({
     isValid: false,
-    key: '',
-    keyAsBytes: new Uint8Array([])
+    key: new Uint8Array([]),
+    keyString: ''
   }));
 
   const _onAdd = useCallback(
     (): void => {
-      isValid && onAdd({ isConst: false, key: keyAsBytes });
+      isValid && onAdd({ isConst: false, key });
     },
-    [isValid, keyAsBytes, onAdd]
+    [isValid, key, onAdd]
   );
 
   const _onChangeKey = useCallback(
@@ -36,8 +36,8 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
 
       setValue({
         isValid: u8a.length !== 0,
-        key,
-        keyAsBytes: compactAddLength(u8a)
+        key: compactAddLength(u8a),
+        keyString: key
       });
     },
     []
@@ -46,10 +46,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const allStoragePrefixes = useMemo(
     () => {
       const palletNames = Object
-        .keys(api.query)
-        .map((value): string => (
-          value
-        ));
+        .keys(api.query);
       const allStoragePrefixesNotFlattened = palletNames.map((palletName) => {
         const pallet = api.query[palletName];
 
@@ -70,28 +67,28 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
 
   const decodedKey = useMemo(
     (): string => {
-      if (isValid) {
-        const matchedPrefixes = allStoragePrefixes.filter(([keyPrefix, _]) => {
-          return keyPrefix.includes(key);
-        });
-
-        if (matchedPrefixes.length === 0) {
-          return 'unknown';
-        } else if (matchedPrefixes.length === 1) {
-          return matchedPrefixes[0][1];
-        } else if (matchedPrefixes.length <= 5) {
-          return `Found ${matchedPrefixes.length} matches: ` +
-            matchedPrefixes
-              .map((value) => value[1])
-              .join(', ');
-        } else {
-          return `Found ${matchedPrefixes.length} matches`;
-        }
+      if (!isValid) {
+        return '<unknown>';
       }
 
-      return 'unknown';
+      const matchedPrefixes = allStoragePrefixes.filter(([keyPrefix, _]) => {
+        return keyPrefix.includes(keyString);
+      });
+
+      if (matchedPrefixes.length === 0) {
+        return 'unknown';
+      } else if (matchedPrefixes.length === 1) {
+        return matchedPrefixes[0][1];
+      } else if (matchedPrefixes.length <= MaxNumberOfAllowedSearchHits) {
+        return `Found ${matchedPrefixes.length} matches: ` +
+          matchedPrefixes
+            .map((value) => value[1])
+            .join(', ');
+      } else {
+        return `Found ${matchedPrefixes.length} matches`;
+      }
     },
-    [isValid, key, allStoragePrefixes]
+    [isValid, keyString, allStoragePrefixes]
   );
 
   return (
@@ -116,7 +113,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
       <section>
         <div className='storage--actionrow-decoded'>
           <Output
-            isDisabled
+            isDisabled={true}
             label={t<string>('Decoded pallet name and call')}
             value={decodedKey}
             withCopy
