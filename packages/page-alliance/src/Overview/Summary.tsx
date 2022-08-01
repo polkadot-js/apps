@@ -36,13 +36,13 @@ function Summary ({ className, members, rule }: Props): React.ReactElement<Props
               )
               : t<string>('yes')
             : t<string>('no')
-          : <Spinner />
+          : <Spinner noLabel />
         }
       </CardSummary>
       <CardSummary label={t<string>('members')}>
         {members
           ? formatNumber(members.length)
-          : <Spinner />
+          : <Spinner noLabel />
         }
       </CardSummary>
     </SummaryBox>

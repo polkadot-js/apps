@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
-import type { Referendum, ReferendumProps as Props } from './types';
+import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
@@ -54,7 +54,10 @@ function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
         decision={decision}
         submit={submit}
       />
-      <td className='number'>
+      <td
+        className='number'
+        colSpan={2}
+      >
         {when && (
           when.toUTCString()
         )}

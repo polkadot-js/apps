@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType } from './types';
+import type { Member as MemberType } from '../types';
 
 import React from 'react';
 

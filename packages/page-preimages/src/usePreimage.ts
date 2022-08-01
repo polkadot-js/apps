@@ -12,8 +12,10 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-function createResult (api: ApiPromise, preimage: Option<Bytes>, status: Option<PalletPreimageRequestStatus>): Preimage {
+function createResult (api: ApiPromise, preimage: Option<Bytes>, optStatus: Option<PalletPreimageRequestStatus>): Preimage {
   const bytes = preimage.unwrapOr(null);
+  const status = optStatus.unwrapOr(null);
+  let count = 0;
   let proposal: Call | null = null;
 
   if (bytes) {
@@ -24,10 +26,15 @@ function createResult (api: ApiPromise, preimage: Option<Bytes>, status: Option<
     }
   }
 
+  if (status && status.isRequested) {
+    count = status.asRequested.toNumber();
+  }
+
   return {
     bytes,
+    count,
     proposal,
-    status: status.unwrapOr(null)
+    status
   };
 }
 

@@ -1,29 +1,31 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferenda, PalletVote } from './types';
+import type { PalletReferenda, PalletVote } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate';
+import useReferenda from '../useReferenda';
+import useSummary from '../useSummary';
 import Referendum from './Referendum';
-import { useTranslation } from './translate';
-import useReferenda from './useReferenda';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
-  isVoteBasic: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
 }
 
-function Referenda ({ className, isVoteBasic, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
+function Referenda ({ className, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const referenda = useReferenda(palletReferenda);
+  const summary = useSummary(palletReferenda);
 
   const isMember = useMemo(
     () => !members || allAccounts.some((a) => members.includes(a)),
@@ -37,6 +39,7 @@ function Referenda ({ className, isVoteBasic, members, palletReferenda, palletVo
 
   return (
     <div className={className}>
+      <Summary summary={summary} />
       <Table
         className={className}
         empty={referenda && t<string>('No referendums found')}
@@ -45,7 +48,6 @@ function Referenda ({ className, isVoteBasic, members, palletReferenda, palletVo
         {referenda && referenda.map((r) => (
           <Referendum
             isMember={isMember}
-            isVoteBasic={isVoteBasic}
             key={r.key}
             members={members}
             palletVote={palletVote}

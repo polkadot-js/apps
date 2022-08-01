@@ -3,25 +3,25 @@
 
 import type { Preimage } from '@polkadot/app-preimages/types';
 import type { BN } from '@polkadot/util';
-import type { PalletVote } from './types';
+import type { PalletVote } from '../types';
 
 import React, { useState } from 'react';
 
 import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   id: BN;
+  isConvictionVote: boolean;
   isMember: boolean;
-  isVoteBasic: boolean;
   members?: string[];
   palletVote: PalletVote;
   preimage: Preimage;
 }
 
-function Voting ({ id, isMember, isVoteBasic, members, palletVote, preimage: { proposal } }: Props): React.ReactElement<Props> | null {
+function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage: { proposal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -55,7 +55,7 @@ function Voting ({ id, isMember, isVoteBasic, members, palletVote, preimage: { p
                 onChange={setAccountId}
               />
             </Modal.Columns>
-            {!isVoteBasic && (
+            {isConvictionVote && (
               <Modal.Columns
                 hint={
                   <>
@@ -86,9 +86,9 @@ function Voting ({ id, isMember, isVoteBasic, members, palletVote, preimage: { p
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={
-                isVoteBasic
-                  ? [id, false]
-                  : [id, { Standard: { balance, vote: { aye: false, conviction } } }]
+                isConvictionVote
+                  ? [id, { Standard: { balance, vote: { aye: false, conviction } } }]
+                  : [id, false]
               }
               tx={api.tx[palletVote].vote}
             />
@@ -99,9 +99,9 @@ function Voting ({ id, isMember, isVoteBasic, members, palletVote, preimage: { p
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={
-                isVoteBasic
-                  ? [id, true]
-                  : [id, { Standard: { balance, vote: { aye: true, conviction } } }]
+                isConvictionVote
+                  ? [id, { Standard: { balance, vote: { aye: true, conviction } } }]
+                  : [id, true]
               }
               tx={api.tx[palletVote].vote}
             />
