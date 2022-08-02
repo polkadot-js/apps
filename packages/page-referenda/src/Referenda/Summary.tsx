@@ -15,17 +15,25 @@ interface Props {
   summary: SummaryType;
 }
 
-function Summary ({ className, summary: { refCount } }: Props): React.ReactElement<Props> {
+function Summary ({ className, summary: { refActive, refCount } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('total')}>
-        {refCount === undefined
-          ? <Spinner noLabel />
-          : formatNumber(refCount)
-        }
-      </CardSummary>
+      <section>
+        <CardSummary label={t<string>('active')}>
+          {refActive === undefined
+            ? <Spinner noLabel />
+            : formatNumber(refActive)
+          }
+        </CardSummary>
+        <CardSummary label={t<string>('total')}>
+          {refCount === undefined
+            ? <Spinner noLabel />
+            : formatNumber(refCount)
+          }
+        </CardSummary>
+      </section>
     </SummaryBox>
   );
 }

@@ -11,7 +11,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Announcements from './Announcements';
-import Overview from './Overview';
+import Members from './Members';
 import { useTranslation } from './translate';
 import Unscrupulous from './Unscrupulous';
 import useAnnoucements from './useAnnoucements';
@@ -88,7 +88,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Unscrupulous unscrupulous={unscrupulous} />
         </Route>
         <Route>
-          <Overview
+          <Members
             isVoter={isVoter}
             members={members}
             prime={prime}

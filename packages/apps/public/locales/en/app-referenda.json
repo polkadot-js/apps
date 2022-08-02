@@ -14,6 +14,7 @@
   "Vote Aye": "Vote Aye",
   "Vote Nay": "Vote Nay",
   "Vote on proposal": "Vote on proposal",
+  "active": "active",
   "conviction": "conviction",
   "preimage": "preimage",
   "preimage {{shortHash}}": "preimage {{shortHash}}",
