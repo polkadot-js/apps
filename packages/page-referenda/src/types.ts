@@ -25,5 +25,6 @@ export interface ReferendumProps {
 
 export interface Summary {
   deciding?: BN;
+  refActive?: number;
   refCount?: BN;
 }

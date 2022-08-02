@@ -25,7 +25,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const referenda = useReferenda(palletReferenda);
-  const summary = useSummary(palletReferenda);
+  const summary = useSummary(palletReferenda, referenda);
 
   const isMember = useMemo(
     () => !members || allAccounts.some((a) => members.includes(a)),

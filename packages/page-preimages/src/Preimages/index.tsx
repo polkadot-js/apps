@@ -11,6 +11,7 @@ import { useTranslation } from '../translate';
 import usePreimages from '../usePreimages';
 import Add from './Add';
 import Preimage from './Preimage';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -31,6 +32,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
+      <Summary hashes={hashes} />
       <Button.Group>
         <Add />
       </Button.Group>

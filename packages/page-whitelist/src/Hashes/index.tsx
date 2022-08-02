@@ -10,6 +10,7 @@ import { Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import useHashes from '../useHashes';
 import Hash from './Hash';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -27,6 +28,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
+      <Summary hashes={hashes} />
       <Table
         className={className}
         empty={hashes && t<string>('No call hashes found')}
