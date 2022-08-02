@@ -33,7 +33,7 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
           />
         )}
       </td>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
       <td className='number'>

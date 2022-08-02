@@ -12,6 +12,7 @@
   "nav.democracy": "Democracy",
   "nav.explorer": "Explorer",
   "nav.extrinsics": "Extrinsics",
+  "nav.fellowship": "Fellowship",
   "nav.files": "Files (IPFS)",
   "nav.gilt": "Gilt",
   "nav.js": "JavaScript",
@@ -19,6 +20,9 @@
   "nav.nfts": "NFTs",
   "nav.parachains": "Parachains",
   "nav.poll": "Token poll",
+  "nav.preimages": "Preimages",
+  "nav.ranked": "Ranked collective",
+  "nav.referenda": "Referenda",
   "nav.rpc": "RPC calls",
   "nav.runtime": "Runtime calls",
   "nav.settings": "Settings",
@@ -31,5 +35,6 @@
   "nav.teleport": "Teleport",
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
-  "nav.utilities": "Utilities"
+  "nav.utilities": "Utilities",
+  "nav.whitelist": "Whitelist"
 }

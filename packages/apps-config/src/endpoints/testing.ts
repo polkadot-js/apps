@@ -231,7 +231,7 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'interbtc',
+    info: 'interlay-testnet',
     text: 'Interlay Testnet',
     providers: {
       Interlay: 'wss://api-testnet.interlay.io/parachain/'
@@ -289,6 +289,13 @@ export const testChains: EndpointOption[] = [
     text: 'KILT Peregrine',
     providers: {
       'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
+    }
+  },
+  {
+    info: 'kintsugi-testnet',
+    text: 'Kintsugi Testnet',
+    providers: {
+      Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain'
     }
   },
   {

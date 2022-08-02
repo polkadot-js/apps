@@ -26,8 +26,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
-      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      Dwellir: 'wss://acala-rpc.dwellir.com'
+      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
     }
   },
   {
@@ -114,21 +113,21 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'darwinia',
-    homepage: 'https://darwinia.network/',
-    paraId: 2046,
-    text: 'Darwinia',
-    providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
-    }
-  },
-  {
-    info: 'darwinia',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
     paraId: 2003,
     text: 'Darwinia Para Backup',
     providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
+    }
+  },
+  {
+    info: 'darwinia',
+    homepage: 'https://darwinia.network/',
+    paraId: 2046,
+    text: 'Darwinia Parachain',
+    providers: {
+      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
@@ -137,7 +136,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2021,
     text: 'Efinity',
     providers: {
-      Efinity: 'wss://rpc.efinity.io'
+      Efinity: 'wss://rpc.efinity.io',
+      Dwellir: 'wss://efinity-rpc.dwellir.com'
     }
   },
   {

@@ -1,31 +1,34 @@
 // Copyright 2017-2022 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Member as MemberType } from '../types';
+
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Member from './Member';
-import Summary from './Summary';
-import { useTranslation } from './translate';
-import useMembers from './useMembers';
 
 interface Props {
   className?: string;
+  members?: MemberType[];
+  prime?: string | null;
+  voters?: string[];
 }
 
-function Collators ({ className }: Props): React.ReactElement<Props> {
+function Members ({ className, members, prime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const members = useMembers();
 
   const hdrRef = useRef([
     [t<string>('members'), 'start', 2],
-    [t<string>('role'), 'number']
+    [t<string>('deposit'), 'number'],
+    [t<string>('role'), 'number'],
+    []
   ]);
 
   return (
     <div className={className}>
-      <Summary />
       <Table
         empty={members && t<string>('No members')}
         header={hdrRef.current}
@@ -33,6 +36,8 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
         {members && members.map((m) => (
           <Member
             info={m}
+            isPrime={prime === m.accountId}
+            isVoter={!!voters && voters.includes(m.accountId)}
             key={m.accountId}
           />
         ))}
@@ -41,4 +46,4 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Collators);
+export default React.memo(Members);

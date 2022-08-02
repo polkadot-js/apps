@@ -1,26 +1,26 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2022 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType } from './types';
+import type { Member as MemberType } from '../types';
 
 import React from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
+import { formatNumber } from '@polkadot/util';
 
 interface Props {
   className?: string;
-  info: MemberType;
+  value: MemberType;
 }
 
-function Member ({ className, info: { accountId, role } }: Props): React.ReactElement<Props> {
+function Member ({ className, value: { accountId, info } }: Props): React.ReactElement<Props> {
   return (
     <tr className={className}>
-      <td className='badge' />
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
       <td className='number'>
-        {role.type}
+        {formatNumber(info.rank)}
       </td>
     </tr>
   );

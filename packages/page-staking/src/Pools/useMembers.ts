@@ -90,7 +90,7 @@ function useMembersImpl (): MembersMap | undefined {
   const ids = useEventChanges([
     api.events.nominationPools.Bonded
   ], filterEvents, EMPTY_START);
-  const additions = useCall(ids.length !== 0 && api.query.nominationPools.poolMembers.multi, [ids], OPT_MULTI);
+  const additions = useCall(ids && ids.length !== 0 && api.query.nominationPools.poolMembers.multi, [ids], OPT_MULTI);
 
   // initial entries
   useEffect((): void => {

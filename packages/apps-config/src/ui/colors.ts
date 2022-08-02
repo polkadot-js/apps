@@ -22,6 +22,7 @@ const chainAltair = '#ffb700';
 const chainAmplitude = '#5DEFA7';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
+const chainEggnet = '#0099ff';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBajun = '#161212';
@@ -164,7 +165,7 @@ const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
 const nodeAutomata = '#EC7032';
 const nodeAutomataContextFree = '#EC7032';
-const nodeBasilisk = '#9eec1b';
+const nodeBasilisk = '#49E49F';
 const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -296,6 +297,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  'Crust Testnet': chainCrust,
   'Dali Rococo': chainDali,
   'Dali Westend': chainDali,
   Darwinia: chainDarwinia,
@@ -311,6 +313,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
+  'Egg Rococo': chainEggnet,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
@@ -445,6 +448,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   Subspace: nodeSubspace,
+  Subzero: chainZero,
   swapdex: chainSwapdex,
   t0rn: chainT0rn,
   Tick: chainRoccoTick,

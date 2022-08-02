@@ -37,7 +37,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
   const modLocation = useCollectiveInstance('council');
 
-  const threshold = Math.ceil((members.length || 0) * getProposalThreshold(api));
+  const threshold = Math.min(members.length, Math.ceil((members.length || 0) * getProposalThreshold(api)));
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),

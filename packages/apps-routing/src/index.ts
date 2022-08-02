@@ -17,6 +17,7 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import fellowship from './fellowship';
 import files from './files';
 import gilt from './gilt';
 import js from './js';
@@ -24,6 +25,9 @@ import membership from './membership';
 import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
+import preimages from './preimages';
+import ranked from './ranked';
+import referenda from './referenda';
 import rpc from './rpc';
 import runtime from './runtime';
 import settings from './settings';
@@ -37,6 +41,7 @@ import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
 import utilities from './utilities';
+import whitelist from './whitelist';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -50,12 +55,17 @@ export default function create (t: TFunction): Routes {
     staking(t),
     collator(t),
     democracy(t),
+    referenda(t),
     council(t),
     treasury(t),
     bounties(t),
     techcomm(t),
     membership(t),
     alliance(t),
+    fellowship(t),
+    ranked(t),
+    preimages(t),
+    whitelist(t),
     parachains(t),
     gilt(t),
     assets(t),
