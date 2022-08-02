@@ -3,14 +3,14 @@
 
 import type { Member as MemberType, Rule, Unscrupulous } from '../types';
 
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { Button } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Join from './Join';
-import Members from './Members';
+import Member from './Member';
 import Summary from './Summary';
 
 interface Props {
@@ -26,6 +26,13 @@ interface Props {
 function Overview ({ className, members, prime, rule, unscrupulous, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
+
+  const hdrRef = useRef([
+    [t<string>('members'), 'start', 2],
+    [t<string>('deposit'), 'number'],
+    [t<string>('role'), 'number'],
+    []
+  ]);
 
   return (
     <div className={className}>
@@ -48,11 +55,19 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
           />
         )}
       </Button.Group>
-      <Members
-        members={members}
-        prime={prime}
-        voters={voters}
-      />
+      <Table
+        empty={members && t<string>('No members')}
+        header={hdrRef.current}
+      >
+        {members && members.map((m) => (
+          <Member
+            info={m}
+            isPrime={prime === m.accountId}
+            isVoter={!!voters && voters.includes(m.accountId)}
+            key={m.accountId}
+          />
+        ))}
+      </Table>
     </div>
   );
 }
