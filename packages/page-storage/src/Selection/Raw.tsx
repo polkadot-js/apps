@@ -72,7 +72,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
       }
 
       const matchedPrefixes = allStoragePrefixes.filter(([keyPrefix, _]) => {
-        return keyPrefix.includes(keyString);
+        return keyPrefix.includes(keyString) || keyString.includes(keyPrefix);
       });
 
       if (matchedPrefixes.length === 0) {
