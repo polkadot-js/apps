@@ -452,7 +452,6 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Turing Network',
     providers: {
       OAK: 'wss://rpc.turing.oak.tech',
-      OnFinality: 'wss://turing.api.onfinality.io/public-ws',
       Dwellir: 'wss://turing-rpc.dwellir.com'
     }
   },
