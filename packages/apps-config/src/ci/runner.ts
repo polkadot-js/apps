@@ -6,7 +6,7 @@ import fs from 'fs';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { assert, isError, isString } from '@polkadot/util';
 
-import { typesBundle, typesChain } from '../api';
+import { typesBundle } from '../api';
 import { createWsEndpoints } from '../endpoints';
 import { fetchJson } from './fetch';
 
@@ -41,8 +41,7 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
         provider,
         throwOnConnect: true,
         throwOnUnknown: false,
-        typesBundle,
-        typesChain
+        typesBundle
       });
 
       setTimeout((): void => {
