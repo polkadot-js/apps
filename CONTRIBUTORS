@@ -1,4 +1,4 @@
-    3732	Jaco                          	Handle error on invalid proxy account (#7953)
+    3733	Jaco                          	Remove typesChain overrides (#7956)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
