@@ -32044,10 +32044,10 @@ export const typesBundle = {
             "params": [
               {
                 "name": "id",
-                "type": "PublicKeyStorageKey"
+                "type": "BBSPlusPublicKeyStorageKey"
               }
             ],
-            "type": "Option<BbsPlusPublicKeyWithParams>"
+            "type": "Option<BBSPlusPublicKeyWithParams>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -32057,7 +32057,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<u32, BbsPlusParameters>"
+            "type": "BTreeMap<IncId, BBSPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -32067,17 +32067,17 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<u32, BbsPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "PublicKeyStorageKey"
+                "type": "AccumPublicKeyStorageKey"
               }
             ],
-            "type": "Option<AccumulatorPublicKeyWithParams>"
+            "type": "Option<AccumPublicKeyWithParams>"
           },
           "accumulatorWithPublicKeyAndParams": {
             "description": "Return Accumulator public key with params",
@@ -32087,7 +32087,7 @@ export const typesBundle = {
                 "type": "AccumulatorId"
               }
             ],
-            "type": "Option<(Vec<u8>, Option<AccumulatorPublicKeyWithParams>)>"
+            "type": "Option<(Vec<u8>, Option<AccumPublicKeyWithParams>)>"
           },
           "didDetails": {
             "description": "Get all keys, controllers and service endpoints of the DID",
@@ -32098,11 +32098,47 @@ export const typesBundle = {
               },
               {
                 "name": "params",
-                "type": "Option<u8>",
+                "type": "u8",
                 "isOptional": true
               }
             ],
             "type": "Option<AggregatedDidDetailsResponse>"
+          },
+          "didListDetails": {
+            "description": "Get all keys, controllers and service endpoints of the DID",
+            "params": [
+              {
+                "name": "dids",
+                "type": "Vec<Did>"
+              },
+              {
+                "name": "params",
+                "type": "u8",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<Option<AggregatedDidDetailsResponse>>"
+          }
+        },
+        "staking_rewards": {
+          "yearlyEmission": {
+            "description": "",
+            "params": [
+              {
+                "name": "total_staked",
+                "type": "Balance"
+              },
+              {
+                "name": "total_issuance",
+                "type": "Balance"
+              }
+            ],
+            "type": "Balance"
+          },
+          "maxYearlyEmission": {
+            "description": "",
+            "params": [],
+            "type": "Balance"
           }
         }
       }
@@ -32455,10 +32491,10 @@ export const typesBundle = {
             "params": [
               {
                 "name": "id",
-                "type": "PublicKeyStorageKey"
+                "type": "BBSPlusPublicKeyStorageKey"
               }
             ],
-            "type": "Option<BbsPlusPublicKeyWithParams>"
+            "type": "Option<BBSPlusPublicKeyWithParams>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -32468,7 +32504,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<u32, BbsPlusParameters>"
+            "type": "BTreeMap<IncId, BBSPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -32478,17 +32514,17 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<u32, BbsPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "PublicKeyStorageKey"
+                "type": "AccumPublicKeyStorageKey"
               }
             ],
-            "type": "Option<AccumulatorPublicKeyWithParams>"
+            "type": "Option<AccumPublicKeyWithParams>"
           },
           "accumulatorWithPublicKeyAndParams": {
             "description": "Return Accumulator public key with params",
@@ -32498,7 +32534,7 @@ export const typesBundle = {
                 "type": "AccumulatorId"
               }
             ],
-            "type": "Option<(Vec<u8>, Option<AccumulatorPublicKeyWithParams>)>"
+            "type": "Option<(Vec<u8>, Option<AccumPublicKeyWithParams>)>"
           },
           "didDetails": {
             "description": "Get all keys, controllers and service endpoints of the DID",
@@ -32509,11 +32545,47 @@ export const typesBundle = {
               },
               {
                 "name": "params",
-                "type": "Option<u8>",
+                "type": "u8",
                 "isOptional": true
               }
             ],
             "type": "Option<AggregatedDidDetailsResponse>"
+          },
+          "didListDetails": {
+            "description": "Get all keys, controllers and service endpoints of the DID",
+            "params": [
+              {
+                "name": "dids",
+                "type": "Vec<Did>"
+              },
+              {
+                "name": "params",
+                "type": "u8",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<Option<AggregatedDidDetailsResponse>>"
+          }
+        },
+        "staking_rewards": {
+          "yearlyEmission": {
+            "description": "",
+            "params": [
+              {
+                "name": "total_staked",
+                "type": "Balance"
+              },
+              {
+                "name": "total_issuance",
+                "type": "Balance"
+              }
+            ],
+            "type": "Balance"
+          },
+          "maxYearlyEmission": {
+            "description": "",
+            "params": [],
+            "type": "Balance"
           }
         }
       }
@@ -44654,13 +44726,19 @@ export const typesBundle = {
             "CollectionItemId": "Hash",
             "CollectionItem": {
               "description": "Vec<u8>",
-              "files": "Vec<CollectionItemFile<Hash>>"
+              "files": "Vec<CollectionItemFile<Hash>>",
+              "token": "Option<CollectionItemToken>",
+              "restricted_delivery": "bool"
             },
             "CollectionItemFile": {
               "name": "Vec<u8>",
               "content_type": "Vec<u8>",
               "fileSize": "u32",
               "hash": "Hash"
+            },
+            "CollectionItemToken": {
+              "token_type": "Vec<u8>",
+              "token_id": "Vec<u8>"
             },
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
@@ -61857,11 +61935,13 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "redirectFinishedLoadRequests",
-                "type": "Option<bool>"
+                "type": "bool",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -61884,7 +61964,8 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -61907,7 +61988,8 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -61930,7 +62012,8 @@ export const typesBundle = {
               },
               {
                 "name": "statusFilter",
-                "type": "Option<RequestStatus>"
+                "type": "RequestStatus",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -61949,7 +62032,8 @@ export const typesBundle = {
             "params": [
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -61969,7 +62053,7 @@ export const typesBundle = {
             "description": "Check if the account needs migration",
             "params": [
               {
-                "name": "iroha_address",
+                "name": "irohaAddress",
                 "type": "String"
               },
               {
@@ -62110,7 +62194,7 @@ export const typesBundle = {
             "description": "Get claimable rewards",
             "params": [
               {
-                "name": "eth_address",
+                "name": "ethAddress",
                 "type": "EthAddress"
               },
               {
@@ -62292,6 +62376,55 @@ export const typesBundle = {
             "method": "crowdloanLease",
             "section": "vestedRewards"
           }
+        },
+        "leafProvider": {
+          "latestDigest": {
+            "description": "Get leaf provider logs.",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "AuxiliaryDigest",
+            "isSubscription": false,
+            "jsonrpc": "leafProvider_latestDigest",
+            "method": "latestDigest",
+            "section": "leafProvider"
+          }
+        },
+        "basicChannel": {
+          "commitment": {
+            "description": "Get basic channel messages.",
+            "params": [
+              {
+                "name": "commitmentHash",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<Vec<BasicChannelMessage>>",
+            "isSubscription": false,
+            "jsonrpc": "basicChannel_commitment",
+            "method": "commitment",
+            "section": "basicChannel"
+          }
+        },
+        "intentivizedChannel": {
+          "commitment": {
+            "description": "Get intentivized channel messages.",
+            "params": [
+              {
+                "name": "commitmentHash",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<Vec<IntentivizedChannelMessage>>",
+            "isSubscription": false,
+            "jsonrpc": "intentivizedChannel_commitment",
+            "method": "commitment",
+            "section": "intentivizedChannel"
+          }
         }
       },
       "types": [
@@ -62359,16 +62492,10 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
-            "OrmlCurrencyId": "u8",
             "PoolInfo": {
-              "totalShares": "Share",
-              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
-            },
-            "CompactBalance": "Compact<Balance>",
-            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "CompactBalance",
-              "totalWithdrawnRewards": "CompactBalance"
+              "totalRewards": "Compact<Balance>",
+              "totalWithdrawnRewards": "Compact<Balance>"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
@@ -62376,30 +62503,30 @@ export const typesBundle = {
               "balance": "Balance"
             },
             "AssetInfo": {
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "symbol": "AssetSymbolStr",
               "name": "AssetNameStr",
               "precision": "u8",
-              "is_mintable": "bool"
+              "isMintable": "bool"
             },
             "AssetSymbolStr": "String",
             "AssetNameStr": "String",
             "AssetRecord": "Null",
             "VotingInfo": {
-              "voting_option": "u32",
-              "number_of_votes": "Balance",
-              "ceres_withdrawn": "bool"
+              "votingOption": "u32",
+              "numberOfVotes": "Balance",
+              "ceresWithdrawn": "bool"
             },
             "PollInfo": {
-              "number_of_options": "u32",
-              "poll_start_timestamp": "Moment",
-              "poll_end_timestamp": "Moment"
+              "numberOfOptions": "u32",
+              "pollStartTimestamp": "Moment",
+              "pollEndTimestamp": "Moment"
             },
             "LockInfo": {
-              "pool_tokens": "Balance",
-              "unlocking_timestamp": "Moment",
-              "asset_a": "AssetId",
-              "asset_b": "AssetId"
+              "poolTokens": "Balance",
+              "unlockingTimestamp": "Moment",
+              "assetA": "AssetId",
+              "assetB": "AssetId"
             },
             "StakingInfo": {
               "deposited": "Balance",
@@ -62407,76 +62534,76 @@ export const typesBundle = {
             },
             "TokenLockInfo": {
               "tokens": "Balance",
-              "unlocking_timestamp": "Moment",
-              "asset_id": "AssetId"
+              "unlockingTimestamp": "Moment",
+              "assetId": "AssetId"
             },
             "ContributorsVesting": {
-              "first_release_percent": "Balance",
-              "vesting_period": "Moment",
-              "vesting_percent": "Balance"
+              "firstReleasePercent": "Balance",
+              "vestingPeriod": "Moment",
+              "vestingPercent": "Balance"
             },
             "TeamVesting": {
-              "team_vesting_total_tokens": "Balance",
-              "team_vesting_first_release_percent": "Balance",
-              "team_vesting_period": "Moment",
-              "team_vesting_percent": "Balance"
+              "teamVestingTotalTokens": "Balance",
+              "teamVestingFirstReleasePercent": "Balance",
+              "teamVestingPeriod": "Moment",
+              "teamVestingPercent": "Balance"
             },
             "ContributionInfo": {
-              "funds_contributed": "Balance",
-              "tokens_bought": "Balance",
-              "tokens_claimed": "Balance",
-              "claiming_finished": "bool",
-              "number_of_claims": "u32"
+              "fundsContributed": "Balance",
+              "tokensBought": "Balance",
+              "tokensClaimed": "Balance",
+              "claimingFinished": "bool",
+              "numberOfClaims": "u32"
             },
             "ILOInfo": {
-              "ilo_organizer": "AccountId",
-              "tokens_for_ilo": "Balance",
-              "tokens_for_liquidity": "Balance",
-              "ilo_price": "Balance",
-              "soft_cap": "Balance",
-              "hard_cap": "Balance",
-              "min_contribution": "Balance",
-              "max_contribution": "Balance",
-              "refund_type": "bool",
-              "liquidity_percent": "Balance",
-              "listing_price": "Balance",
-              "lockup_days": "u32",
-              "start_timestamp": "Moment",
-              "end_timestamp": "Moment",
-              "contributors_vesting": "ContributorsVesting",
-              "team_vesting": "TeamVesting",
-              "sold_tokens": "Balance",
-              "funds_raised": "Balance",
+              "iloOrganizer": "AccountId",
+              "tokensForIlo": "Balance",
+              "tokensForLiquidity": "Balance",
+              "iloPrice": "Balance",
+              "softCap": "Balance",
+              "hardCap": "Balance",
+              "minContribution": "Balance",
+              "maxContribution": "Balance",
+              "refundType": "bool",
+              "liquidityPercent": "Balance",
+              "listingPrice": "Balance",
+              "lockupDays": "u32",
+              "startTimestamp": "Moment",
+              "endTimestamp": "Moment",
+              "contributorsVesting": "ContributorsVesting",
+              "teamVesting": "TeamVesting",
+              "soldTokens": "Balance",
+              "fundsRaised": "Balance",
               "succeeded": "bool",
               "failed": "bool",
-              "lp_tokens": "Balance",
-              "claimed_lp_tokens": "bool",
-              "finish_timestamp": "Moment"
+              "lpTokens": "Balance",
+              "claimedLpTokens": "bool",
+              "finishTimestamp": "Moment"
             },
             "PoolData": {
               "multiplier": "u32",
-              "deposit_fee": "Balance",
-              "is_core": "bool",
-              "is_farm": "bool",
-              "total_tokens_in_pool": "Balance",
+              "depositFee": "Balance",
+              "isCore": "bool",
+              "isFarm": "bool",
+              "totalTokensInPool": "Balance",
               "rewards": "Balance",
-              "rewards_to_be_distributed": "Balance",
-              "is_removed": "bool"
+              "rewardsToBeDistributed": "Balance",
+              "isRemoved": "bool"
             },
             "TokenInfo": {
-              "farms_total_multiplier": "u32",
-              "staking_total_multiplier": "u32",
-              "token_per_block": "Balance",
-              "farms_allocation": "Balance",
-              "staking_allocation": "Balance",
-              "team_allocation": "Balance",
-              "team_account": "AccountId"
+              "farmsTotalMultiplier": "u32",
+              "stakingTotalMultiplier": "u32",
+              "tokenPerBlock": "Balance",
+              "farmsAllocation": "Balance",
+              "stakingAllocation": "Balance",
+              "teamAllocation": "Balance",
+              "teamAccount": "AccountId"
             },
             "UserInfo": {
-              "pool_asset": "AssetId",
-              "reward_asset": "AssetId",
-              "is_farm": "bool",
-              "pooled_tokens": "Balance",
+              "poolAsset": "AssetId",
+              "rewardAsset": "AssetId",
+              "isFarm": "bool",
+              "pooledTokens": "Balance",
               "rewards": "Balance"
             },
             "MultiChainHeight": {
@@ -62490,9 +62617,9 @@ export const typesBundle = {
               "index": "u32"
             },
             "EthPeersSync": {
-              "is_bridge_ready": "bool",
-              "is_xor_ready": "bool",
-              "is_val_ready": "bool"
+              "isBridgeReady": "bool",
+              "isXorReady": "bool",
+              "isValReady": "bool"
             },
             "BridgeStatus": {
               "_enum": [
@@ -62563,27 +62690,27 @@ export const typesBundle = {
             "OutgoingTransfer": {
               "from": "AccountId",
               "to": "EthAddress",
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "amount": "Balance",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingTransferEncoded": {
-              "currency_id": "CurrencyIdEncoded",
+              "currencyId": "CurrencyIdEncoded",
               "amount": "U256",
               "to": "EthAddress",
               "from": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddAsset": {
               "author": "AccountId",
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "supply": "Balance",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddAssetEncoded": {
@@ -62591,100 +62718,100 @@ export const typesBundle = {
               "symbol": "String",
               "decimal": "u8",
               "supply": "U256",
-              "sidechain_asset_id": "FixedBytes",
+              "sidechainAssetId": "FixedBytes",
               "hash": "H256",
-              "network_id": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddToken": {
               "author": "AccountId",
-              "token_address": "EthAddress",
+              "tokenAddress": "EthAddress",
               "ticker": "String",
               "name": "String",
               "decimals": "u8",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddTokenEncoded": {
-              "token_address": "EthAddress",
+              "tokenAddress": "EthAddress",
               "ticker": "String",
               "name": "String",
               "decimals": "u8",
               "hash": "H256",
-              "network_id": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddPeer": {
               "author": "AccountId",
-              "peer_address": "EthAddress",
-              "peer_account_id": "AccountId",
+              "peerAddress": "EthAddress",
+              "peerAccountId": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddPeerCompat": {
               "author": "AccountId",
-              "peer_address": "EthAddress",
-              "peer_account_id": "AccountId",
+              "peerAddress": "EthAddress",
+              "peerAccountId": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddPeerEncoded": {
-              "peer_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "peerAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingRemovePeer": {
               "author": "AccountId",
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingRemovePeerCompat": {
               "author": "AccountId",
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingRemovePeerEncoded": {
-              "peer_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "peerAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingPrepareForMigration": {
               "author": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingPrepareForMigrationEncoded": {
-              "this_contract_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "thisContractAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingMigrate": {
               "author": "AccountId",
-              "new_contract_address": "EthAddress",
-              "erc20_native_tokens": "Vec<EthAddress>",
+              "newContractAddress": "EthAddress",
+              "erc20NativeTokens": "Vec<EthAddress>",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingMigrateEncoded": {
-              "this_contract_address": "EthAddress",
-              "tx_hash": "H256",
-              "new_contract_address": "EthAddress",
-              "erc20_native_tokens": "Vec<EthAddress>",
-              "network_id": "H256",
+              "thisContractAddress": "EthAddress",
+              "txHash": "H256",
+              "newContractAddress": "EthAddress",
+              "erc20NativeTokens": "Vec<EthAddress>",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingRequest": {
@@ -62712,81 +62839,81 @@ export const typesBundle = {
             "IncomingTransfer": {
               "from": "EthAddress",
               "to": "AccountId",
-              "asset_id": "AssetId",
-              "asset_kind": "AssetKind",
+              "assetId": "AssetId",
+              "assetKind": "AssetKind",
               "amount": "Balance",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingAddToken": {
-              "token_address": "EthAddress",
-              "asset_id": "AssetId",
+              "tokenAddress": "EthAddress",
+              "assetId": "AssetId",
               "precision": "BalancePrecision",
               "symbol": "AssetSymbol",
               "name": "AssetName",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingChangePeers": {
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "added": "bool",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingChangePeersCompat": {
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "added": "bool",
               "contract": "ChangePeersContract",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingCancelOutgoingRequest": {
-              "outgoing_request": "OutgoingRequest",
-              "outgoing_request_hash": "H256",
-              "initial_request_hash": "H256",
-              "tx_input": "Vec<u8>",
+              "outgoingRequest": "OutgoingRequest",
+              "outgoingRequestHash": "H256",
+              "initialRequestHash": "H256",
+              "txInput": "Vec<u8>",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingMarkAsDoneRequest": {
-              "outgoing_request_hash": "H256",
-              "initial_request_hash": "H256",
+              "outgoingRequestHash": "H256",
+              "initialRequestHash": "H256",
               "author": "AccountId",
-              "at_height": "u64",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingPrepareForMigration": {
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingMigrate": {
-              "new_contract_address": "EthAddress",
+              "newContractAddress": "EthAddress",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingRequest": {
               "_enum": {
@@ -62804,14 +62931,14 @@ export const typesBundle = {
               "hash": "H256",
               "timepoint": "BridgeTimepoint",
               "kind": "IncomingTransactionRequestKind",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "LoadIncomingMetaRequest": {
               "author": "AccountId",
               "hash": "H256",
               "timepoint": "BridgeTimepoint",
               "kind": "IncomingMetaRequestKind",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "LoadIncomingRequest": {
               "_enum": {
@@ -62839,14 +62966,14 @@ export const typesBundle = {
               "weight": "Balance"
             },
             "PendingMultisigAccount": {
-              "approving_accounts": "Vec<AccountId>",
-              "migrate_at": "Option<BlockNumber>"
+              "approvingAccounts": "Vec<AccountId>",
+              "migrateAt": "Option<BlockNumber>"
             },
             "LPSwapOutcomeInfo": {
               "amount": "Balance",
               "fee": "Balance",
               "rewards": "Vec<LPRewardsInfo>",
-              "amount_without_impact": "Balance"
+              "amountWithoutImpact": "Balance"
             },
             "LPRewardsInfo": {
               "amount": "Balance",
@@ -62854,8 +62981,8 @@ export const typesBundle = {
               "reason": "RewardReason"
             },
             "LiquiditySourceIdOf": {
-              "dex_id": "DEXId",
-              "liquidity_source_index": "LiquiditySourceType"
+              "dexId": "DEXId",
+              "liquiditySourceIndex": "LiquiditySourceType"
             },
             "AssetIdOf": "AssetId",
             "Amount": "i128",
@@ -62868,21 +62995,21 @@ export const typesBundle = {
             "DEXId": "u32",
             "DEXIdOf": "DEXId",
             "DEXInfo": {
-              "base_asset_id": "AssetId",
-              "default_fee": "BasisPoints",
-              "default_protocol_fee": "BasisPoints"
+              "baseAssetId": "AssetId",
+              "defaultFee": "BasisPoints",
+              "defaultProtocolFee": "BasisPoints"
             },
             "BalancePrecision": "u8",
             "AssetSymbol": "Vec<u8>",
             "AssetName": "Vec<u8>",
             "AssetId32": "[u8; 32]",
             "SwapWithDesiredInput": {
-              "desired_amount_in": "Balance",
-              "min_amount_out": "Balance"
+              "desiredAmountIn": "Balance",
+              "minAmountOut": "Balance"
             },
             "SwapWithDesiredOutput": {
-              "desired_amount_out": "Balance",
-              "max_amount_in": "Balance"
+              "desiredAmountOut": "Balance",
+              "maxAmountIn": "Balance"
             },
             "SwapAmount": {
               "_enum": {
@@ -62891,10 +63018,10 @@ export const typesBundle = {
               }
             },
             "QuoteWithDesiredInput": {
-              "desired_amount_in": "Balance"
+              "desiredAmountIn": "Balance"
             },
             "QuoteWithDesiredOutput": {
-              "desired_amount_out": "Balance"
+              "desiredAmountOut": "Balance"
             },
             "QuoteAmount": {
               "_enum": {
@@ -62938,8 +63065,8 @@ export const typesBundle = {
               "fee": "Balance"
             },
             "TradingPair": {
-              "base_asset_id": "AssetId",
-              "target_asset_id": "AssetId"
+              "baseAssetId": "AssetId",
+              "targetAssetId": "AssetId"
             },
             "PermissionId": "u32",
             "HolderId": "AccountId",
@@ -62975,11 +63102,11 @@ export const typesBundle = {
             "MultiCurrencyBalanceOf": "MultiCurrencyBalance",
             "Duration": "Null",
             "PostDispatchInfo": {
-              "actual_weight": "Option<Weight>",
-              "pays_fee": "Pays"
+              "actualWeight": "Option<Weight>",
+              "paysFee": "Pays"
             },
             "DispatchErrorWithPostInfoTPostDispatchInfo": {
-              "post_info": "PostDispatchInfo",
+              "postInfo": "PostDispatchInfo",
               "error": "DispatchError"
             },
             "DispatchResultWithPostInfo": "Result<PostDispatchInfo, DispatchErrorWithPostInfoTPostDispatchInfo>",
@@ -63001,10 +63128,10 @@ export const typesBundle = {
               "id": "Vec<u8>",
               "address": "Vec<u8>",
               "contribution": "Fixed",
-              "xor_reward": "Fixed",
-              "val_reward": "Fixed",
-              "pswap_reward": "Fixed",
-              "xstusd_reward": "Fixed",
+              "xorReward": "Fixed",
+              "valReward": "Fixed",
+              "pswapReward": "Fixed",
+              "xstusdReward": "Fixed",
               "percent": "Fixed"
             },
             "PredefinedAssetId": {
@@ -63022,12 +63149,12 @@ export const typesBundle = {
             },
             "RewardInfo": {
               "limit": "Balance",
-              "total_available": "Balance",
+              "totalAvailable": "Balance",
               "rewards": "BTreeMap<RewardReason, Balance>"
             },
             "TechTradingPair": {
-              "base_asset_id": "TechAssetId",
-              "target_asset_id": "TechAssetId"
+              "baseAssetId": "TechAssetId",
+              "targetAssetId": "TechAssetId"
             },
             "TechAssetId": {
               "_enum": {
@@ -63052,11 +63179,11 @@ export const typesBundle = {
               }
             },
             "PriceInfo": {
-              "price_failures": "u32",
-              "spot_prices": "Vec<Balance>",
-              "average_price": "Balance",
-              "needs_update": "bool",
-              "last_spot_price": "Balance"
+              "priceFailures": "u32",
+              "spotPrices": "Vec<Balance>",
+              "averagePrice": "Balance",
+              "needsUpdate": "bool",
+              "lastSpotPrice": "Balance"
             },
             "ContentSource": "Text",
             "Description": "Text",
@@ -63065,9 +63192,37 @@ export const typesBundle = {
             },
             "TP": "TradingPair",
             "CrowdloanLease": {
-              "start_block": "String",
-              "total_days": "String",
-              "blocks_per_day": "String"
+              "startBlock": "String",
+              "totalDays": "String",
+              "blocksPerDay": "String"
+            },
+            "AuxiliaryDigest": {
+              "logs": "Vec<AuxiliaryDigestItem>"
+            },
+            "AuxiliaryDigestItem": {
+              "_enum": {
+                "Commitment": "(EthNetworkId, ChannelId, H256)"
+              }
+            },
+            "EthNetworkId": "U256",
+            "ChannelId": {
+              "_enum": {
+                "Basic": null,
+                "Incentivized": null
+              }
+            },
+            "BasicChannelMessage": {
+              "networkId": "EthNetworkId",
+              "target": "H160",
+              "nonce": "u64",
+              "payload": "Vec<u8>"
+            },
+            "IntentivizedChannelMessage": {
+              "networkId": "EthNetworkId",
+              "target": "H160",
+              "nonce": "u64",
+              "fee": "U256",
+              "payload": "Vec<u8>"
             },
             "Address": "AccountId",
             "LookupSource": "AccountId",
@@ -63407,11 +63562,13 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "redirectFinishedLoadRequests",
-                "type": "Option<bool>"
+                "type": "bool",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -63434,7 +63591,8 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -63457,7 +63615,8 @@ export const typesBundle = {
               },
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -63480,7 +63639,8 @@ export const typesBundle = {
               },
               {
                 "name": "statusFilter",
-                "type": "Option<RequestStatus>"
+                "type": "RequestStatus",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -63499,7 +63659,8 @@ export const typesBundle = {
             "params": [
               {
                 "name": "networkId",
-                "type": "Option<BridgeNetworkId>"
+                "type": "BridgeNetworkId",
+                "isOptional": true
               },
               {
                 "name": "at",
@@ -63519,7 +63680,7 @@ export const typesBundle = {
             "description": "Check if the account needs migration",
             "params": [
               {
-                "name": "iroha_address",
+                "name": "irohaAddress",
                 "type": "String"
               },
               {
@@ -63660,7 +63821,7 @@ export const typesBundle = {
             "description": "Get claimable rewards",
             "params": [
               {
-                "name": "eth_address",
+                "name": "ethAddress",
                 "type": "EthAddress"
               },
               {
@@ -63842,6 +64003,55 @@ export const typesBundle = {
             "method": "crowdloanLease",
             "section": "vestedRewards"
           }
+        },
+        "leafProvider": {
+          "latestDigest": {
+            "description": "Get leaf provider logs.",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "AuxiliaryDigest",
+            "isSubscription": false,
+            "jsonrpc": "leafProvider_latestDigest",
+            "method": "latestDigest",
+            "section": "leafProvider"
+          }
+        },
+        "basicChannel": {
+          "commitment": {
+            "description": "Get basic channel messages.",
+            "params": [
+              {
+                "name": "commitmentHash",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<Vec<BasicChannelMessage>>",
+            "isSubscription": false,
+            "jsonrpc": "basicChannel_commitment",
+            "method": "commitment",
+            "section": "basicChannel"
+          }
+        },
+        "intentivizedChannel": {
+          "commitment": {
+            "description": "Get intentivized channel messages.",
+            "params": [
+              {
+                "name": "commitmentHash",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<Vec<IntentivizedChannelMessage>>",
+            "isSubscription": false,
+            "jsonrpc": "intentivizedChannel_commitment",
+            "method": "commitment",
+            "section": "intentivizedChannel"
+          }
         }
       },
       "types": [
@@ -63909,16 +64119,10 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
-            "OrmlCurrencyId": "u8",
             "PoolInfo": {
-              "totalShares": "Share",
-              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
-            },
-            "CompactBalance": "Compact<Balance>",
-            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "CompactBalance",
-              "totalWithdrawnRewards": "CompactBalance"
+              "totalRewards": "Compact<Balance>",
+              "totalWithdrawnRewards": "Compact<Balance>"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
@@ -63926,30 +64130,30 @@ export const typesBundle = {
               "balance": "Balance"
             },
             "AssetInfo": {
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "symbol": "AssetSymbolStr",
               "name": "AssetNameStr",
               "precision": "u8",
-              "is_mintable": "bool"
+              "isMintable": "bool"
             },
             "AssetSymbolStr": "String",
             "AssetNameStr": "String",
             "AssetRecord": "Null",
             "VotingInfo": {
-              "voting_option": "u32",
-              "number_of_votes": "Balance",
-              "ceres_withdrawn": "bool"
+              "votingOption": "u32",
+              "numberOfVotes": "Balance",
+              "ceresWithdrawn": "bool"
             },
             "PollInfo": {
-              "number_of_options": "u32",
-              "poll_start_timestamp": "Moment",
-              "poll_end_timestamp": "Moment"
+              "numberOfOptions": "u32",
+              "pollStartTimestamp": "Moment",
+              "pollEndTimestamp": "Moment"
             },
             "LockInfo": {
-              "pool_tokens": "Balance",
-              "unlocking_timestamp": "Moment",
-              "asset_a": "AssetId",
-              "asset_b": "AssetId"
+              "poolTokens": "Balance",
+              "unlockingTimestamp": "Moment",
+              "assetA": "AssetId",
+              "assetB": "AssetId"
             },
             "StakingInfo": {
               "deposited": "Balance",
@@ -63957,76 +64161,76 @@ export const typesBundle = {
             },
             "TokenLockInfo": {
               "tokens": "Balance",
-              "unlocking_timestamp": "Moment",
-              "asset_id": "AssetId"
+              "unlockingTimestamp": "Moment",
+              "assetId": "AssetId"
             },
             "ContributorsVesting": {
-              "first_release_percent": "Balance",
-              "vesting_period": "Moment",
-              "vesting_percent": "Balance"
+              "firstReleasePercent": "Balance",
+              "vestingPeriod": "Moment",
+              "vestingPercent": "Balance"
             },
             "TeamVesting": {
-              "team_vesting_total_tokens": "Balance",
-              "team_vesting_first_release_percent": "Balance",
-              "team_vesting_period": "Moment",
-              "team_vesting_percent": "Balance"
+              "teamVestingTotalTokens": "Balance",
+              "teamVestingFirstReleasePercent": "Balance",
+              "teamVestingPeriod": "Moment",
+              "teamVestingPercent": "Balance"
             },
             "ContributionInfo": {
-              "funds_contributed": "Balance",
-              "tokens_bought": "Balance",
-              "tokens_claimed": "Balance",
-              "claiming_finished": "bool",
-              "number_of_claims": "u32"
+              "fundsContributed": "Balance",
+              "tokensBought": "Balance",
+              "tokensClaimed": "Balance",
+              "claimingFinished": "bool",
+              "numberOfClaims": "u32"
             },
             "ILOInfo": {
-              "ilo_organizer": "AccountId",
-              "tokens_for_ilo": "Balance",
-              "tokens_for_liquidity": "Balance",
-              "ilo_price": "Balance",
-              "soft_cap": "Balance",
-              "hard_cap": "Balance",
-              "min_contribution": "Balance",
-              "max_contribution": "Balance",
-              "refund_type": "bool",
-              "liquidity_percent": "Balance",
-              "listing_price": "Balance",
-              "lockup_days": "u32",
-              "start_timestamp": "Moment",
-              "end_timestamp": "Moment",
-              "contributors_vesting": "ContributorsVesting",
-              "team_vesting": "TeamVesting",
-              "sold_tokens": "Balance",
-              "funds_raised": "Balance",
+              "iloOrganizer": "AccountId",
+              "tokensForIlo": "Balance",
+              "tokensForLiquidity": "Balance",
+              "iloPrice": "Balance",
+              "softCap": "Balance",
+              "hardCap": "Balance",
+              "minContribution": "Balance",
+              "maxContribution": "Balance",
+              "refundType": "bool",
+              "liquidityPercent": "Balance",
+              "listingPrice": "Balance",
+              "lockupDays": "u32",
+              "startTimestamp": "Moment",
+              "endTimestamp": "Moment",
+              "contributorsVesting": "ContributorsVesting",
+              "teamVesting": "TeamVesting",
+              "soldTokens": "Balance",
+              "fundsRaised": "Balance",
               "succeeded": "bool",
               "failed": "bool",
-              "lp_tokens": "Balance",
-              "claimed_lp_tokens": "bool",
-              "finish_timestamp": "Moment"
+              "lpTokens": "Balance",
+              "claimedLpTokens": "bool",
+              "finishTimestamp": "Moment"
             },
             "PoolData": {
               "multiplier": "u32",
-              "deposit_fee": "Balance",
-              "is_core": "bool",
-              "is_farm": "bool",
-              "total_tokens_in_pool": "Balance",
+              "depositFee": "Balance",
+              "isCore": "bool",
+              "isFarm": "bool",
+              "totalTokensInPool": "Balance",
               "rewards": "Balance",
-              "rewards_to_be_distributed": "Balance",
-              "is_removed": "bool"
+              "rewardsToBeDistributed": "Balance",
+              "isRemoved": "bool"
             },
             "TokenInfo": {
-              "farms_total_multiplier": "u32",
-              "staking_total_multiplier": "u32",
-              "token_per_block": "Balance",
-              "farms_allocation": "Balance",
-              "staking_allocation": "Balance",
-              "team_allocation": "Balance",
-              "team_account": "AccountId"
+              "farmsTotalMultiplier": "u32",
+              "stakingTotalMultiplier": "u32",
+              "tokenPerBlock": "Balance",
+              "farmsAllocation": "Balance",
+              "stakingAllocation": "Balance",
+              "teamAllocation": "Balance",
+              "teamAccount": "AccountId"
             },
             "UserInfo": {
-              "pool_asset": "AssetId",
-              "reward_asset": "AssetId",
-              "is_farm": "bool",
-              "pooled_tokens": "Balance",
+              "poolAsset": "AssetId",
+              "rewardAsset": "AssetId",
+              "isFarm": "bool",
+              "pooledTokens": "Balance",
               "rewards": "Balance"
             },
             "MultiChainHeight": {
@@ -64040,9 +64244,9 @@ export const typesBundle = {
               "index": "u32"
             },
             "EthPeersSync": {
-              "is_bridge_ready": "bool",
-              "is_xor_ready": "bool",
-              "is_val_ready": "bool"
+              "isBridgeReady": "bool",
+              "isXorReady": "bool",
+              "isValReady": "bool"
             },
             "BridgeStatus": {
               "_enum": [
@@ -64113,27 +64317,27 @@ export const typesBundle = {
             "OutgoingTransfer": {
               "from": "AccountId",
               "to": "EthAddress",
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "amount": "Balance",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingTransferEncoded": {
-              "currency_id": "CurrencyIdEncoded",
+              "currencyId": "CurrencyIdEncoded",
               "amount": "U256",
               "to": "EthAddress",
               "from": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddAsset": {
               "author": "AccountId",
-              "asset_id": "AssetId",
+              "assetId": "AssetId",
               "supply": "Balance",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddAssetEncoded": {
@@ -64141,100 +64345,100 @@ export const typesBundle = {
               "symbol": "String",
               "decimal": "u8",
               "supply": "U256",
-              "sidechain_asset_id": "FixedBytes",
+              "sidechainAssetId": "FixedBytes",
               "hash": "H256",
-              "network_id": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddToken": {
               "author": "AccountId",
-              "token_address": "EthAddress",
+              "tokenAddress": "EthAddress",
               "ticker": "String",
               "name": "String",
               "decimals": "u8",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddTokenEncoded": {
-              "token_address": "EthAddress",
+              "tokenAddress": "EthAddress",
               "ticker": "String",
               "name": "String",
               "decimals": "u8",
               "hash": "H256",
-              "network_id": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingAddPeer": {
               "author": "AccountId",
-              "peer_address": "EthAddress",
-              "peer_account_id": "AccountId",
+              "peerAddress": "EthAddress",
+              "peerAccountId": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddPeerCompat": {
               "author": "AccountId",
-              "peer_address": "EthAddress",
-              "peer_account_id": "AccountId",
+              "peerAddress": "EthAddress",
+              "peerAccountId": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingAddPeerEncoded": {
-              "peer_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "peerAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingRemovePeer": {
               "author": "AccountId",
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingRemovePeerCompat": {
               "author": "AccountId",
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingRemovePeerEncoded": {
-              "peer_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "peerAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingPrepareForMigration": {
               "author": "AccountId",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingPrepareForMigrationEncoded": {
-              "this_contract_address": "EthAddress",
-              "tx_hash": "H256",
-              "network_id": "H256",
+              "thisContractAddress": "EthAddress",
+              "txHash": "H256",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingMigrate": {
               "author": "AccountId",
-              "new_contract_address": "EthAddress",
-              "erc20_native_tokens": "Vec<EthAddress>",
+              "newContractAddress": "EthAddress",
+              "erc20NativeTokens": "Vec<EthAddress>",
               "nonce": "Index",
-              "network_id": "BridgeNetworkId",
+              "networkId": "BridgeNetworkId",
               "timepoint": "BridgeTimepoint"
             },
             "OutgoingMigrateEncoded": {
-              "this_contract_address": "EthAddress",
-              "tx_hash": "H256",
-              "new_contract_address": "EthAddress",
-              "erc20_native_tokens": "Vec<EthAddress>",
-              "network_id": "H256",
+              "thisContractAddress": "EthAddress",
+              "txHash": "H256",
+              "newContractAddress": "EthAddress",
+              "erc20NativeTokens": "Vec<EthAddress>",
+              "networkId": "H256",
               "raw": "Vec<u8>"
             },
             "OutgoingRequest": {
@@ -64262,81 +64466,81 @@ export const typesBundle = {
             "IncomingTransfer": {
               "from": "EthAddress",
               "to": "AccountId",
-              "asset_id": "AssetId",
-              "asset_kind": "AssetKind",
+              "assetId": "AssetId",
+              "assetKind": "AssetKind",
               "amount": "Balance",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingAddToken": {
-              "token_address": "EthAddress",
-              "asset_id": "AssetId",
+              "tokenAddress": "EthAddress",
+              "assetId": "AssetId",
               "precision": "BalancePrecision",
               "symbol": "AssetSymbol",
               "name": "AssetName",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingChangePeers": {
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "added": "bool",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingChangePeersCompat": {
-              "peer_account_id": "AccountId",
-              "peer_address": "EthAddress",
+              "peerAccountId": "AccountId",
+              "peerAddress": "EthAddress",
               "added": "bool",
               "contract": "ChangePeersContract",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingCancelOutgoingRequest": {
-              "outgoing_request": "OutgoingRequest",
-              "outgoing_request_hash": "H256",
-              "initial_request_hash": "H256",
-              "tx_input": "Vec<u8>",
+              "outgoingRequest": "OutgoingRequest",
+              "outgoingRequestHash": "H256",
+              "initialRequestHash": "H256",
+              "txInput": "Vec<u8>",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingMarkAsDoneRequest": {
-              "outgoing_request_hash": "H256",
-              "initial_request_hash": "H256",
+              "outgoingRequestHash": "H256",
+              "initialRequestHash": "H256",
               "author": "AccountId",
-              "at_height": "u64",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingPrepareForMigration": {
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingMigrate": {
-              "new_contract_address": "EthAddress",
+              "newContractAddress": "EthAddress",
               "author": "AccountId",
-              "tx_hash": "H256",
-              "at_height": "u64",
+              "txHash": "H256",
+              "atHeight": "u64",
               "timepoint": "BridgeTimepoint",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "IncomingRequest": {
               "_enum": {
@@ -64354,14 +64558,14 @@ export const typesBundle = {
               "hash": "H256",
               "timepoint": "BridgeTimepoint",
               "kind": "IncomingTransactionRequestKind",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "LoadIncomingMetaRequest": {
               "author": "AccountId",
               "hash": "H256",
               "timepoint": "BridgeTimepoint",
               "kind": "IncomingMetaRequestKind",
-              "network_id": "BridgeNetworkId"
+              "networkId": "BridgeNetworkId"
             },
             "LoadIncomingRequest": {
               "_enum": {
@@ -64389,14 +64593,14 @@ export const typesBundle = {
               "weight": "Balance"
             },
             "PendingMultisigAccount": {
-              "approving_accounts": "Vec<AccountId>",
-              "migrate_at": "Option<BlockNumber>"
+              "approvingAccounts": "Vec<AccountId>",
+              "migrateAt": "Option<BlockNumber>"
             },
             "LPSwapOutcomeInfo": {
               "amount": "Balance",
               "fee": "Balance",
               "rewards": "Vec<LPRewardsInfo>",
-              "amount_without_impact": "Balance"
+              "amountWithoutImpact": "Balance"
             },
             "LPRewardsInfo": {
               "amount": "Balance",
@@ -64404,8 +64608,8 @@ export const typesBundle = {
               "reason": "RewardReason"
             },
             "LiquiditySourceIdOf": {
-              "dex_id": "DEXId",
-              "liquidity_source_index": "LiquiditySourceType"
+              "dexId": "DEXId",
+              "liquiditySourceIndex": "LiquiditySourceType"
             },
             "AssetIdOf": "AssetId",
             "Amount": "i128",
@@ -64418,21 +64622,21 @@ export const typesBundle = {
             "DEXId": "u32",
             "DEXIdOf": "DEXId",
             "DEXInfo": {
-              "base_asset_id": "AssetId",
-              "default_fee": "BasisPoints",
-              "default_protocol_fee": "BasisPoints"
+              "baseAssetId": "AssetId",
+              "defaultFee": "BasisPoints",
+              "defaultProtocolFee": "BasisPoints"
             },
             "BalancePrecision": "u8",
             "AssetSymbol": "Vec<u8>",
             "AssetName": "Vec<u8>",
             "AssetId32": "[u8; 32]",
             "SwapWithDesiredInput": {
-              "desired_amount_in": "Balance",
-              "min_amount_out": "Balance"
+              "desiredAmountIn": "Balance",
+              "minAmountOut": "Balance"
             },
             "SwapWithDesiredOutput": {
-              "desired_amount_out": "Balance",
-              "max_amount_in": "Balance"
+              "desiredAmountOut": "Balance",
+              "maxAmountIn": "Balance"
             },
             "SwapAmount": {
               "_enum": {
@@ -64441,10 +64645,10 @@ export const typesBundle = {
               }
             },
             "QuoteWithDesiredInput": {
-              "desired_amount_in": "Balance"
+              "desiredAmountIn": "Balance"
             },
             "QuoteWithDesiredOutput": {
-              "desired_amount_out": "Balance"
+              "desiredAmountOut": "Balance"
             },
             "QuoteAmount": {
               "_enum": {
@@ -64488,8 +64692,8 @@ export const typesBundle = {
               "fee": "Balance"
             },
             "TradingPair": {
-              "base_asset_id": "AssetId",
-              "target_asset_id": "AssetId"
+              "baseAssetId": "AssetId",
+              "targetAssetId": "AssetId"
             },
             "PermissionId": "u32",
             "HolderId": "AccountId",
@@ -64525,11 +64729,11 @@ export const typesBundle = {
             "MultiCurrencyBalanceOf": "MultiCurrencyBalance",
             "Duration": "Null",
             "PostDispatchInfo": {
-              "actual_weight": "Option<Weight>",
-              "pays_fee": "Pays"
+              "actualWeight": "Option<Weight>",
+              "paysFee": "Pays"
             },
             "DispatchErrorWithPostInfoTPostDispatchInfo": {
-              "post_info": "PostDispatchInfo",
+              "postInfo": "PostDispatchInfo",
               "error": "DispatchError"
             },
             "DispatchResultWithPostInfo": "Result<PostDispatchInfo, DispatchErrorWithPostInfoTPostDispatchInfo>",
@@ -64551,10 +64755,10 @@ export const typesBundle = {
               "id": "Vec<u8>",
               "address": "Vec<u8>",
               "contribution": "Fixed",
-              "xor_reward": "Fixed",
-              "val_reward": "Fixed",
-              "pswap_reward": "Fixed",
-              "xstusd_reward": "Fixed",
+              "xorReward": "Fixed",
+              "valReward": "Fixed",
+              "pswapReward": "Fixed",
+              "xstusdReward": "Fixed",
               "percent": "Fixed"
             },
             "PredefinedAssetId": {
@@ -64572,12 +64776,12 @@ export const typesBundle = {
             },
             "RewardInfo": {
               "limit": "Balance",
-              "total_available": "Balance",
+              "totalAvailable": "Balance",
               "rewards": "BTreeMap<RewardReason, Balance>"
             },
             "TechTradingPair": {
-              "base_asset_id": "TechAssetId",
-              "target_asset_id": "TechAssetId"
+              "baseAssetId": "TechAssetId",
+              "targetAssetId": "TechAssetId"
             },
             "TechAssetId": {
               "_enum": {
@@ -64602,11 +64806,11 @@ export const typesBundle = {
               }
             },
             "PriceInfo": {
-              "price_failures": "u32",
-              "spot_prices": "Vec<Balance>",
-              "average_price": "Balance",
-              "needs_update": "bool",
-              "last_spot_price": "Balance"
+              "priceFailures": "u32",
+              "spotPrices": "Vec<Balance>",
+              "averagePrice": "Balance",
+              "needsUpdate": "bool",
+              "lastSpotPrice": "Balance"
             },
             "ContentSource": "Text",
             "Description": "Text",
@@ -64615,9 +64819,37 @@ export const typesBundle = {
             },
             "TP": "TradingPair",
             "CrowdloanLease": {
-              "start_block": "String",
-              "total_days": "String",
-              "blocks_per_day": "String"
+              "startBlock": "String",
+              "totalDays": "String",
+              "blocksPerDay": "String"
+            },
+            "AuxiliaryDigest": {
+              "logs": "Vec<AuxiliaryDigestItem>"
+            },
+            "AuxiliaryDigestItem": {
+              "_enum": {
+                "Commitment": "(EthNetworkId, ChannelId, H256)"
+              }
+            },
+            "EthNetworkId": "U256",
+            "ChannelId": {
+              "_enum": {
+                "Basic": null,
+                "Incentivized": null
+              }
+            },
+            "BasicChannelMessage": {
+              "networkId": "EthNetworkId",
+              "target": "H160",
+              "nonce": "u64",
+              "payload": "Vec<u8>"
+            },
+            "IntentivizedChannelMessage": {
+              "networkId": "EthNetworkId",
+              "target": "H160",
+              "nonce": "u64",
+              "fee": "U256",
+              "payload": "Vec<u8>"
             },
             "Address": "AccountId",
             "LookupSource": "AccountId",
@@ -68038,7 +68270,7 @@ export const typesBundle = {
               "status": "MarketStatus",
               "report": "Option<Report>",
               "resolvedOutcome": "Option<OutcomeReport>",
-              "mdm": "MarketDisputeMechanism"
+              "disputeMechanism": "MarketDisputeMechanism"
             },
             "ScoringRule": {
               "_enum": [
@@ -68152,7 +68384,9 @@ export const typesBundle = {
               "_enum": [
                 "Active",
                 "CollectingSubsidy",
-                "Stale"
+                "Closed",
+                "Clean",
+                "Initialized"
               ]
             },
             "SubsidyUntil": {
