@@ -4,7 +4,6 @@
 import React from 'react';
 
 import Main from './App';
-import useCounter from './useCounter';
 
 export { default as useCounter } from './useCounter';
 
@@ -14,15 +13,12 @@ interface Props {
 }
 
 function App ({ basePath, className }: Props): React.ReactElement<Props> {
-  const refCount = useCounter();
-
   return (
     <Main
       basePath={basePath}
       className={className}
       palletColl='rankedCollective'
       palletPoll='rankedPolls'
-      refCount={refCount}
     />
   );
 }
