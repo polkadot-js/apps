@@ -8,4 +8,4 @@ function useCounterImpl (): number {
   return useCounterNamed('fellowshipReferenda');
 }
 
-export default createNamedHook('fellowshipReferenda', useCounterImpl);
+export default createNamedHook('useCounter', useCounterImpl);
