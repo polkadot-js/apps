@@ -12,19 +12,18 @@ import { Tabs } from '@polkadot/react-components';
 import Members from './Members';
 import { useTranslation } from './translate';
 import useMembers from './useMembers';
-import useRefCounter from './useRefCounter';
 
 interface Props {
   basePath: string;
   className?: string;
   palletColl: PalletColl;
   palletPoll: PalletPoll;
+  refCount: number;
 }
 
-function App ({ basePath, className, palletColl, palletPoll }: Props): React.ReactElement<Props> {
+function App ({ basePath, className, palletColl, palletPoll, refCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const members = useMembers(palletColl);
-  const refCount = useRefCounter(palletPoll);
 
   const tabs = useMemo(
     () => [
