@@ -297,6 +297,7 @@
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
        1	Mickaël Canu                  	fix error on validator word (#7110)
+       1	Mike James Li                 	Remove Bit Country RPC node (#7961)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
