@@ -45,8 +45,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Astar',
     providers: {
       Astar: 'wss://rpc.astar.network',
-      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+      Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
+      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar'
     }
   },
