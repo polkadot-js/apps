@@ -72,7 +72,6 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2096,
     text: 'Bit.Country Pioneer',
     providers: {
-      'Bit.Country': 'wss://pioneer-1-rpc.bit.country',
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     }
   },
