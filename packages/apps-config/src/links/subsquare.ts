@@ -9,9 +9,13 @@ export default {
   chains: {
     Acala: 'acala',
     Bifrost: 'bifrost',
+    'Darwinia Crab': 'crab',
+    Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Phala: 'phala',
+    Polkadot: 'polkadot',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>

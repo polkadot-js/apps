@@ -1,6 +1,5 @@
 build/
-build-cjs/
-build-esm/
+build-*/
 coverage/
 node_modules/
 tmp/
@@ -21,5 +20,6 @@ tsconfig.*buildinfo
 yarn-debug.log*
 yarn-error.log*
 .idea/
+.log
 env-config.js
 NOTES.md

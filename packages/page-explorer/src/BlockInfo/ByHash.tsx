@@ -3,7 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
-import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
+import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,31 +25,58 @@ interface Props {
   value?: string | null;
 }
 
+interface State {
+  events?: KeyedEvent[] | null;
+  getBlock?: SignedBlock;
+  getHeader?: HeaderExtended;
+  runtimeVersion?: RuntimeVersionPartial;
+}
+
 const EMPTY_HEADER = [['...', 'start', 6]];
 
-function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
-  return [
-    events.map((record, index) => ({
+function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
+  return {
+    events: events && events.map((record, index) => ({
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
       record
     })),
     getBlock,
-    getHeader
-  ];
+    getHeader,
+    runtimeVersion
+  };
 }
 
 function BlockByHash ({ className = '', error, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const [[events, getBlock, getHeader], setState] = useState<[KeyedEvent[]?, SignedBlock?, HeaderExtended?]>([]);
-  const [myError, setError] = useState<Error | null | undefined>(error);
+  const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
+  const [blkError, setBlkError] = useState<Error | null | undefined>(error);
+  const [evtError, setEvtError] = useState<Error | null | undefined>();
+
+  const isVersionCurrent = useMemo(
+    () => !!runtimeVersion && api.runtimeVersion.specName.eq(runtimeVersion.specName) && api.runtimeVersion.specVersion.eq(runtimeVersion.specVersion),
+    [api, runtimeVersion]
+  );
 
   useEffect((): void => {
     value && Promise
       .all([
-        api.query.system.events.at(value),
+        api
+          .at(value)
+          .then((apiAt) =>
+            Promise.all([
+              Promise.resolve(apiAt.runtimeVersion),
+              apiAt.query.system
+                .events()
+                .catch((error: Error) => {
+                  mountedRef.current && setEvtError(error);
+
+                  return null;
+                })
+            ])
+          ),
         api.rpc.chain.getBlock(value),
         api.derive.chain.getHeader(value)
       ])
@@ -57,7 +84,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         mountedRef.current && setState(transformResult(result));
       })
       .catch((error: Error): void => {
-        mountedRef.current && setError(error);
+        mountedRef.current && setBlkError(error);
       });
   }, [api, mountedRef, value]);
 
@@ -69,10 +96,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         [t('parent'), 'start'],
         [t('extrinsics'), 'start media--1000'],
         [t('state'), 'start media--1100'],
-        [undefined, 'media--1200']
+        [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1200']
       ]
       : EMPTY_HEADER,
-    [getHeader, t]
+    [getHeader, runtimeVersion, t]
   );
 
   const blockNumber = getHeader?.number.unwrap();
@@ -90,8 +117,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         header={header}
         isFixed
       >
-        {myError
-          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: myError.message } })}</td></tr>
+        {blkError
+          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } })}</td></tr>
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
@@ -123,12 +150,14 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             blockNumber={blockNumber}
             events={events}
             value={getBlock.block.extrinsics}
+            withLink={isVersionCurrent}
           />
           <Columar>
             <Columar.Column>
               <Events
+                error={evtError}
                 eventClassName='explorer--BlockByHash-block'
-                events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
+                events={events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
                 label={t<string>('system events')}
               />
             </Columar.Column>

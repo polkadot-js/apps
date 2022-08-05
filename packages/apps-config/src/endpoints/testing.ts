@@ -53,6 +53,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jaz',
+    text: 'Artio Testnet',
+    providers: {
+      Jaz: 'wss://ws0.jaz.network'
+    }
+  },
+  {
     info: 'automata-contextfree',
     text: 'Automata ContextFree',
     providers: {
@@ -249,6 +256,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'jupiter',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
       Patract: 'wss://ws.jupiter-poa.patract.cn'
@@ -299,19 +307,25 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'logion',
+    text: 'logion Parachain Testnet',
+    providers: {
+      Logion: 'wss://chimay.logion.network'
+    }
+  },
+  {
+    info: 'logion',
+    text: 'logion Standalone Testnet',
+    providers: {
+      Logion: 'wss://test-rpc01.logion.network'
+    }
+  },
+  {
     info: 'acala',
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
       OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
     }
   },
   {
@@ -335,8 +349,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
     }
   },
   {
@@ -345,14 +359,6 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       MYBANK: 'wss://mybank.network/substrate'
-    }
-  },
-  {
-    info: 'neumann',
-    text: 'Neumann Network',
-    providers: {
-      OAK: 'wss://rpc.testnet.oak.tech',
-      OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
     }
   },
   {
@@ -365,10 +371,13 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
+    isDisabled: false,
     text: 'OPAL by UNIQUE',
     providers: {
-      Unique: 'wss://opal.unique.network'
+      'Geo Load Balancer': 'wss://ws-opal.unique.network',
+      Europe: 'wss://eu-ws-opal.unique.network',
+      'North America': 'wss://us-ws-opal.unique.network',
+      Asia: 'wss://asia-ws-opal.unique.network'
     }
   },
   {
@@ -435,7 +444,6 @@ export const testChains: EndpointOption[] = [
     text: 'Pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://pontem-testnet.api.onfinality.io/public-ws'
     }
   },
   {
@@ -473,7 +481,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
@@ -610,7 +619,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }

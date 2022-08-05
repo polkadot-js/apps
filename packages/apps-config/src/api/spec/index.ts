@@ -68,13 +68,14 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import logion from './logion';
+import logionParachain from './logion-parachain';
 import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
-import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import opal from './opal';
@@ -86,7 +87,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import pichiu from './pichiu';
-import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -195,6 +195,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
+  'interlay-parachain': interbtc,
   'ipse-node': ipse,
   'joystream-node': joystream,
   'jupiter-prep': jupiter,
@@ -211,6 +212,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  logion,
+  'logion-parachain': logionParachain,
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
@@ -223,7 +226,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  neumann,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
@@ -238,7 +240,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  plasm,
   polymesh,
   'pontem-node': pontem,
   prism,

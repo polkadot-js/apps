@@ -17,11 +17,10 @@ import { ROCOCO_GENESIS } from '../api/constants';
 export const testParasRococo: EndpointOption[] = [
   {
     info: 'arctic',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7420
-    paraId: 3025,
+    paraId: 3015,
     text: 'Arctic',
     providers: {
-      Arctic: 'wss://arctic-rpc-parachain.icenetwork.io:9944'
+      Arctic: 'wss://arctic-rococo-rpc.icenetwork.io'
     }
   },
   {
@@ -74,14 +73,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rocfinity',
-    paraId: 2051,
-    text: 'Efinity',
-    providers: {
-      Efinity: 'wss://rpc.rococo.efinity.io'
-    }
-  },
-  {
     info: 'rococoGenshiro',
     paraId: 2024,
     text: 'Genshiro Rococo Testnet',
@@ -90,16 +81,16 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rococoGM',
-    paraId: 3019,
-    text: 'GM Parachain',
+    info: 'helixstreet',
+    paraId: 3025,
+    text: 'Helixstreet',
     providers: {
-      'GM or Die DAO': 'wss://rococo.gmordie.com'
+      Helixstreet: 'wss://rpc-rococo.helixstreet.io'
     }
   },
   {
     info: 'rococoImbue',
-    paraId: 3017,
+    paraId: 2121,
     text: 'Imbue Network',
     providers: {
       'Imbue Network': 'wss://rococo.imbue.network'
@@ -122,6 +113,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMangata',
+    paraId: 2110,
+    text: 'Mangata',
+    providers: {
+      Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
+    }
+  },
+  {
     info: 'rococoMoonsama',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
@@ -137,6 +136,13 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
     }
+  },
+  {
+    info: 'chainoli',
+    homepage: 'https://www.my-oli.com/en/',
+    paraId: 4023,
+    text: 'OLI Parachain',
+    providers: {}
   },
   {
     info: 'rococoOriginTrailParachain',
@@ -157,7 +163,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoKilt',
-    paraId: 2015,
+    paraId: 2086,
     text: 'RILT',
     providers: {
       'KILT Protocol': 'wss://rococo.kilt.io'
@@ -170,6 +176,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://rococo.rpc.robonomics.network'
+    }
+  },
+  {
+    info: 'rocfinity',
+    paraId: 2021,
+    text: 'Rocfinity',
+    providers: {
+      Efinity: 'wss://rpc.rococo.efinity.io'
     }
   },
   {
@@ -186,6 +200,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'SoonsocialX',
     providers: {
       DappForce: 'wss://rco-para.subsocial.network'
+    }
+  },
+  {
+    info: 'rococoSora',
+    paraId: 2011,
+    text: 'SORA Rococo Parachain',
+    providers: {
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
   },
   {

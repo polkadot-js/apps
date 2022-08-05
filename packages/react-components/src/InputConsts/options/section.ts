@@ -8,6 +8,7 @@ import { ApiPromise } from '@polkadot/api';
 export default function createOptions (api: ApiPromise): DropdownOptions {
   return Object
     .keys(api.consts)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .filter((name): number => Object.keys(api.consts[name]).length)
     .map((name): { text: string; value: string } => ({
