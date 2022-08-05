@@ -13,9 +13,7 @@ export function useCounterNamed (palletReferenda: PalletReferenda): number {
   const refs = useReferenda(palletReferenda);
 
   return useMemo(
-    () => refs
-      ? refs.filter(({ info }) => info.isOngoing).length
-      : 0,
+    () => (refs && refs.filter(({ info }) => info.isOngoing).length) || 0,
     [refs]
   );
 }

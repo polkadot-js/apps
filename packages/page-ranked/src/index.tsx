@@ -5,6 +5,8 @@ import React from 'react';
 
 import Main from './App';
 
+export { default as useCounter } from './useCounter';
+
 interface Props {
   basePath: string;
   className?: string;
