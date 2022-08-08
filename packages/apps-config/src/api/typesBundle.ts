@@ -34267,12 +34267,11 @@ export const typesBundle = {
         {
           "minmax": [
             0,
-            100
+            null
           ],
           "types": {
             "BalanceWrapper": {
-              "currencyId": "CurrencyId",
-              "amount": "i128"
+              "amount": "String"
             },
             "CurrencyId": {
               "_enum": {
@@ -34443,22 +34442,6 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
-          }
-        },
-        "relay": {
-          "isTransactionInvalid": {
-            "description": "Determine if the RawTx is invalid for the specified VaultId",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "raw_tx",
-                "type": "Vec<u8>"
-              }
-            ],
-            "type": "void"
           }
         },
         "replace": {
@@ -34619,12 +34602,11 @@ export const typesBundle = {
         {
           "minmax": [
             0,
-            100
+            null
           ],
           "types": {
             "BalanceWrapper": {
-              "currencyId": "CurrencyId",
-              "amount": "i128"
+              "amount": "String"
             },
             "CurrencyId": {
               "_enum": {
@@ -34795,22 +34777,6 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
-          }
-        },
-        "relay": {
-          "isTransactionInvalid": {
-            "description": "Determine if the RawTx is invalid for the specified VaultId",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "raw_tx",
-                "type": "Vec<u8>"
-              }
-            ],
-            "type": "void"
           }
         },
         "replace": {
@@ -34971,12 +34937,11 @@ export const typesBundle = {
         {
           "minmax": [
             0,
-            100
+            null
           ],
           "types": {
             "BalanceWrapper": {
-              "currencyId": "CurrencyId",
-              "amount": "i128"
+              "amount": "String"
             },
             "CurrencyId": {
               "_enum": {
@@ -35147,22 +35112,6 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
-          }
-        },
-        "relay": {
-          "isTransactionInvalid": {
-            "description": "Determine if the RawTx is invalid for the specified VaultId",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "raw_tx",
-                "type": "Vec<u8>"
-              }
-            ],
-            "type": "void"
           }
         },
         "replace": {
@@ -43209,12 +43158,11 @@ export const typesBundle = {
         {
           "minmax": [
             0,
-            100
+            null
           ],
           "types": {
             "BalanceWrapper": {
-              "currencyId": "CurrencyId",
-              "amount": "i128"
+              "amount": "String"
             },
             "CurrencyId": {
               "_enum": {
@@ -43385,22 +43333,6 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
-          }
-        },
-        "relay": {
-          "isTransactionInvalid": {
-            "description": "Determine if the RawTx is invalid for the specified VaultId",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "raw_tx",
-                "type": "Vec<u8>"
-              }
-            ],
-            "type": "void"
           }
         },
         "replace": {

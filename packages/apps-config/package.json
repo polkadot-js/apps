@@ -23,7 +23,7 @@
     "@docknetwork/node-types": "0.10.0",
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.4.12",
-    "@interlay/interbtc-types": "1.7.0",
+    "@interlay/interbtc-types": "1.8.0",
     "@kiltprotocol/type-definitions": "0.1.23",
     "@laminar/type-definitions": "0.3.1",
     "@logion/node-api": "0.4.0-5",

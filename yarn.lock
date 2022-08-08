@@ -1958,10 +1958,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@interlay/interbtc-types@npm:1.7.0"
-  checksum: 940a4a38b4623c05098e4594dc4ad897d365eddbae53bf7431d0d91fb9a6f6cd3b573e0613eed5f74c9edb2480f3611964f5628f47bb2b748809a48b9ebb287b
+"@interlay/interbtc-types@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@interlay/interbtc-types@npm:1.8.0"
+  checksum: 625589ba72a42d66aad529dd0800c423c65bf6a49f4449909ee8e6be2190cb946953fc43f340cdcbe0915a11c2f025f14043a97a99cc5d8c2ae098dacc41e5d6
   languageName: node
   linkType: hard
 
@@ -3119,7 +3119,7 @@ __metadata:
     "@docknetwork/node-types": 0.10.0
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.12
-    "@interlay/interbtc-types": 1.7.0
+    "@interlay/interbtc-types": 1.8.0
     "@kiltprotocol/type-definitions": 0.1.23
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.4.0-5
