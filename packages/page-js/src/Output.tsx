@@ -16,28 +16,48 @@ interface Props {
 
 const format = (value: unknown): string => {
   if (isError(value)) {
-    return value.stack ? value.stack : value.toString();
+    return value.stack
+      ? value.stack
+      : value.toString();
   } else if (isUndefined(value)) {
     return 'undefined';
   } else if (isNull(value)) {
     return 'null';
   } else if (Array.isArray(value)) {
-    return `[${value.map((value): string => format(value)).join(', ')}]`;
+    return `[${value.map(format).join(', ')}]`;
   } else if (value instanceof Map) {
-    return `{${[...value.entries()].map(([key, value]): string => (key as string) + ': ' + format(value)).join(', ')}}`;
+    return `{${[...value.entries()]
+      .map(([k, v]) => `${(k as string).toString()}: ${format(v)}`)
+      .join(', ')}}`;
   }
 
+  // This _could_ fail as well, hence the catch below
   return (value as string).toString();
 };
 
-const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
-  <div
-    className={`js--Log ${type}`}
-    key={index}
-  >
-    {args.map((arg): string => format(arg)).join(' ')}
-  </div>
-);
+const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => {
+  try {
+    return (
+      <div
+        className={`js--Log ${type}`}
+        key={index}
+      >
+        {args.map(format).join(' ')}
+      </div>
+    );
+  } catch (error) {
+    // e.g. this would hit here -
+    // console.log(api.createType('ProxyType').__proto__)
+    return (
+      <div
+        className={`js--Log ${type} error`}
+        key={index}
+      >
+        Internal error: {(error as Error).stack || (error as Error).message}
+      </div>
+    );
+  }
+};
 
 function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
