@@ -34089,7 +34089,8 @@ export const typesBundle = {
             },
             "ContributionStrategy": {
               "_enum": [
-                "XCM"
+                "XCM",
+                "XCMPROXY"
               ]
             },
             "ChildStorageKind": {
@@ -36752,7 +36753,8 @@ export const typesBundle = {
             },
             "ContributionStrategy": {
               "_enum": [
-                "XCM"
+                "XCM",
+                "XCMPROXY"
               ]
             },
             "ChildStorageKind": {
@@ -58430,7 +58432,8 @@ export const typesBundle = {
             },
             "ContributionStrategy": {
               "_enum": [
-                "XCM"
+                "XCM",
+                "XCMPROXY"
               ]
             },
             "ChildStorageKind": {
@@ -68035,7 +68038,8 @@ export const typesBundle = {
             },
             "ContributionStrategy": {
               "_enum": [
-                "XCM"
+                "XCM",
+                "XCMPROXY"
               ]
             },
             "ChildStorageKind": {
