@@ -2760,7 +2760,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.18.9
     "@polkadot/hw-ledger": ^10.1.3
-    "@polkadot/phishing": ^0.18.2
+    "@polkadot/phishing": ^0.18.4
     "@polkadot/react-components": ^0.119.2-22-x
     "@polkadot/react-hooks": ^0.119.2-22-x
     "@polkadot/test-support": 0.119.2-22-x
@@ -3148,7 +3148,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.67.88
+    "@polkadot/dev": ^0.67.89
     "@polkadot/react-components": ^0.119.2-22-x
     "@types/react-dom": ^18.0.6
     "@types/tmp": ^0.2.3
@@ -3182,7 +3182,7 @@ __metadata:
     "@babel/runtime": ^7.18.9
     "@polkadot/apps-config": ^0.119.2-22-x
     "@polkadot/apps-routing": ^0.119.2-22-x
-    "@polkadot/dev": ^0.67.88
+    "@polkadot/dev": ^0.67.89
     "@polkadot/react-api": ^0.119.2-22-x
     "@polkadot/react-components": ^0.119.2-22-x
     "@polkadot/react-hooks": ^0.119.2-22-x
@@ -3217,9 +3217,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.88":
-  version: 0.67.88
-  resolution: "@polkadot/dev@npm:0.67.88"
+"@polkadot/dev@npm:^0.67.89":
+  version: 0.67.89
+  resolution: "@polkadot/dev@npm:0.67.89"
   dependencies:
     "@babel/cli": ^7.18.10
     "@babel/core": ^7.18.10
@@ -3308,7 +3308,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: c7aa38e12009677df7a385fd5d86b4753e14b27b2a9fd8e44e25c376e6155fbfcde7d51f626f804ae605a995a7e9740eb31fda8c4de79a8347d4d2fda2326ce2
+  checksum: dcdb286b5e5ae6fa56760f545f92547a13eaf8745df54e28386efe80b69adc756ca9354a08751069fb75d8d767dfcdd3c2282eacc8a86ebc1722bb8d034e3d92
   languageName: node
   linkType: hard
 
@@ -3415,15 +3415,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/phishing@npm:^0.18.2":
-  version: 0.18.2
-  resolution: "@polkadot/phishing@npm:0.18.2"
+"@polkadot/phishing@npm:^0.18.4":
+  version: 0.18.4
+  resolution: "@polkadot/phishing@npm:0.18.4"
   dependencies:
     "@babel/runtime": ^7.18.9
-    "@polkadot/util": ^10.1.2
-    "@polkadot/util-crypto": ^10.1.2
-    "@polkadot/x-fetch": ^10.1.2
-  checksum: b27bc79705b1c25b464cc97bb62c96c21adfedca8723a4df786ae72c590a2ca91518ef63507ee5f73ee1d5efd6aa2637dcc2febfcb2023f271064a9ff6a03b6b
+    "@polkadot/util": ^10.1.3
+    "@polkadot/util-crypto": ^10.1.3
+    "@polkadot/x-fetch": ^10.1.3
+  checksum: 28c5b3b92007658fbc16aa8cad7101cc559b2763b43b7ca7b88d5964222438bc24871b0371bd6692785e76d1da4e97b704c6f28d030262d73676135e2e6512f5
   languageName: node
   linkType: hard
 
@@ -3894,7 +3894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-fetch@npm:^10.1.2, @polkadot/x-fetch@npm:^10.1.3":
+"@polkadot/x-fetch@npm:^10.1.3":
   version: 10.1.3
   resolution: "@polkadot/x-fetch@npm:10.1.3"
   dependencies:
@@ -16042,7 +16042,7 @@ __metadata:
     "@babel/runtime": ^7.18.9
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.26
-    "@polkadot/dev": ^0.67.88
+    "@polkadot/dev": ^0.67.89
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^28.1.6
