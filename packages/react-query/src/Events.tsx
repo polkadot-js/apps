@@ -51,15 +51,12 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
       (
         !['relayChainInfo'].includes(section) ||
         !['CurrentBlockNumbers'].includes(method)
-      ) &&
-      (
-        !['balances', 'builderTreasury'].includes(section) ||
-        !['Deposit', 'Withdraw'].includes(method)
-      ) &&
-      (
-        !['balances', 'foundationTreasury'].includes(section) ||
-        !['Deposit', 'Withdraw'].includes(method)
       )
+      // &&
+      // (
+      //   !['balances', 'anchorTreasury'].includes(section) ||
+      //   !['Deposit', 'Withdraw'].includes(method)
+      // )
     )
     .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {
       const prev = combined.find(({ record: { event: { method, section } } }) =>

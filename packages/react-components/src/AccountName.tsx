@@ -65,9 +65,8 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
 
 const MATCHERS: AddrMatcher[] = [
   createAllMatcher('modlpy/socie', 'Society'),
-  createAllMatcher('modlpy/trsry', 'Council Treasury'),
-  createAllMatcher('modlpy/buldr', 'Builder Treasury'),
-  createAllMatcher('modlpy/fndtn', 'Foundation Treasury'),
+  createAllMatcher('modlpy/trsry', 'Treasury'),
+  createAllMatcher('modlpy/anchr', 'Anchor'),
   createNumMatcher('modlpy/cfund', 'Crowdloan'),
 
   // Substrate master

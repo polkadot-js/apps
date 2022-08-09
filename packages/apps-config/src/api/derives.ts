@@ -3,16 +3,16 @@
 
 import type { OverrideBundleDefinition, OverrideBundleType } from '@polkadot/types/types';
 
-import equilibrium from './spec/equilibrium';
-import genshiro from './spec/genshiro';
-import interbtc from './spec/interbtc';
-import subspace from './spec/subspace';
+// import equilibrium from './spec/equilibrium';
+// import genshiro from './spec/genshiro';
+// import interbtc from './spec/interbtc';
+// import subspace from './spec/subspace';
 
 const mapping: [OverrideBundleDefinition, string[]][] = [
-  [equilibrium, ['Equilibrium']],
-  [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
-  [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain']],
-  [subspace, ['subspace']]
+  // [equilibrium, ['Equilibrium']],
+  // [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
+  // [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain']],
+  // [subspace, ['subspace']]
 ];
 
 export function applyDerives (typesBundle: OverrideBundleType): OverrideBundleType {

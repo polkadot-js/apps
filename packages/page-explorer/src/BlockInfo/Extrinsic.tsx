@@ -42,7 +42,7 @@ function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeig
       phase.isApplyExtrinsic &&
       phase.asApplyExtrinsic.eq(index) &&
       !['treasury'].includes(section) &&
-      !['networkTreasury'].includes(section)
+      !['anchorTreasury'].includes(section)
     )
     : [];
   const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
