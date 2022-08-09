@@ -22,5 +22,4 @@ export const testChains: EndpointOption[] = [
         'Cord Network': 'wss://staging.cord.network'
       }
     },
-
 ];

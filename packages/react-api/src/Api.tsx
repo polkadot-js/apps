@@ -265,7 +265,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       registry,
       signer,
       types,
-      typesBundle,
+      typesBundle
     });
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960

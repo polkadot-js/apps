@@ -1,13 +1,96 @@
 # CHANGELOG
 
-## 0.117.2 Jun 12, 2022
+## 0.120.1 Aug 8, 2022
+
+Contributed:
+
+- Update i18n for nominee list (Thanks to https://github.com/Nick-1979)
+- Remove OnFinality endpoint for Calamari (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Turnin (Thanks to https://github.com/irsal)
+- Add Dwellir endpoint for Bajun (Thanks to https://github.com/Maharacha)
+- Added Shiden/Astar endpoint (Thanks to https://github.com/shunsukew)
+- Remove Bit Country RPC node (Thanks to https://github.com/mikejamesli)
+- Add Web3 Games RPC node (Thanks to https://github.com/Zombieliu)
+
+Changes:
+
+- Built `typesBundle` statically (no explicit 3rd party dependencies)
+- Add support for Gov2 apps (referanda, preimages, whitelist, ranked collective)
+- Correctly handle errors on invalid proxy account selection
+- Handle JS apps error logs where logging itself fails
+
+
+## 0.119.1 Jul 30, 2022
+
+Contributed:
+
+- Fixes for alliance unscrupulous (Thanks to https://github.com/joepetrowski)
+- Add OnFinality endpoint for Kylin (Thanks to https://github.com/banananeko)
+- Update creditcoin endpoints (Thanks to https://github.com/jfrank-summit)
+- Register Bifrost on Rococo (Thanks to https://github.com/awesomepan)
+- Update Darwinia Crab parachain settings (Thanks to https://github.com/JayJay1024)
+- Add CESS testnet (Thanks to https://github.com/swowk)
+- Remove OnFalinaty endpoint for Basilisk (Thanks to https://github.com/banananeko)
+- Add Eggnet Rococo parachain (Thanks to https://github.com/1xstj)
+- Fix Turing logo display (Thanks to https://github.com/imstar15)
+- Add Subzero Rococo parachain (Thanks to https://github.com/vasylenko-yevhen)
+- Add Crust Rococo parachain (Thanks to https://github.com/mmyyrroonn)
+- Adjust Basilisk UI components (Thanks to https://github.com/lumir-mrkva)
+- Split Interlay & Kintsugi testnets (Thanks to https://github.com/gregdhill)
+- Add Dwellir endpoint for Efininity (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Acala & Karura (Thanks to https://github.com/Maharacha)
+- Add Crust, Litmus, Turing to Subsquare links (Thanks to https://github.com/wliyongfeng)
+
+Changes:
+
+- Add support for Alliance pallet
+- Only support contracts where `storageDepositLimit` is available
+- Adjust param component with additional deep inspection
+- Exclude `transactionPayment.TransactionFeePaid` from global events list
+
+
+## 0.118.1 Jul 19, 2022
+
+Contributed:
+
+- Add Kylin network (Thanks to https://github.com/Bart200c)
+- Add OLI parachain (Thanks to https://github.com/m-yahya)
+- Update OmniBTC logo (Thanks to https://github.com/wbh1328551759)
+- Westend collective common-good parachain (Thanks to https://github.com/lazam)
+- Update Singular to v2 links (Thanks to https://github.com/abzen)
+
+Changes:
+
+- Always use author from chain derive (remove apps-specific detection logic)
+- Don't fail full block display in explorer on undecodable events
+- Bump 3rd party dependencies
+- Filter sections/methods for internal attributes
+- Silence build-step i18n scanner output
+
+
+## 0.117.3 Jul 14, 2022
+
+Contributed:
+
+- Adjust Darwinia UI (Thanks to https://github.com/JayJay1024)
+- Add Rococo & Kusama SORA parachain info (Thanks to https://github.com/stefashkaa)
+- Add Live Netwok Odyssey (Thanks to https://github.com/jiyilanzhou)
+- Update Rocfinity name (Thanks to https://github.com/leonardocustodio)
+
+Changes:
+
+- Top level package.json adjustment for Electron packaging
+- Filter `relayinInfo.CurrentBlockNumbers` from global events list
+
+
+## 0.117.2 Jul 12, 2022
 
 Changes:
 
 - Fixes for release to gh-pages & ipfs
 
 
-## 0.117.1 Jun 12, 2022
+## 0.117.1 Jul 12, 2022
 
 Contributed:
 

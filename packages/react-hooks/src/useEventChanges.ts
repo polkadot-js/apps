@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
@@ -10,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 import { isFunction } from '@polkadot/util';
 
+import { useApi } from './useApi';
 import { useEventTrigger } from './useEventTrigger';
 
 export interface Changes<T extends Codec> {
@@ -17,7 +19,7 @@ export interface Changes<T extends Codec> {
   removed?: T[];
 }
 
-function interleave <T extends Codec> (existing: T[], { added = [], removed = [] }: Changes<T>): T[] {
+function interleave <T extends Codec> (existing: T[] = [], { added = [], removed = [] }: Changes<T>): T[] {
   if (!added.length && !removed.length) {
     return existing;
   }
@@ -45,8 +47,9 @@ function interleave <T extends Codec> (existing: T[], { added = [], removed = []
     .map(([, v]) => v);
 }
 
-export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[]) => Changes<T>, startValue?: T[]): T[] {
-  const [state, setState] = useState<T[]>([]);
+export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise) => Changes<T>, startValue?: T[]): T[] | undefined {
+  const { api } = useApi();
+  const [state, setState] = useState<T[] | undefined>();
   const { blockHash, events } = useEventTrigger(checks);
 
   // when startValue changes, we do a full refresh
@@ -56,8 +59,8 @@ export function useEventChanges <T extends Codec> (checks: EventCheck[], filter:
 
   // add/remove any additional items detected (only when actual events occur)
   useEffect((): void => {
-    blockHash && setState((prev) => interleave(prev, filter(events)));
-  }, [blockHash, events, filter]);
+    blockHash && setState((prev) => interleave(prev, filter(events, api)));
+  }, [api, blockHash, events, filter]);
 
   return state;
 }
