@@ -34,7 +34,7 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
     let isOk = true;
 
     try {
-      assert(json.Answer, `No DNS entry for ${host}`);
+      assert(json && json.Answer, `No DNS entry for ${host}`);
 
       provider = new WsProvider(ws, false);
       api = new ApiPromise({

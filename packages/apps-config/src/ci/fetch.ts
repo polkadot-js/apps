@@ -3,39 +3,42 @@
 
 import { fetch } from '@polkadot/x-fetch';
 
-// this is also in @polkadot/phishing - we may want to expose it
-// inside x-fetch at some point in the future...
-
-// a fetch with a 2s timeout
-async function fetchWithTimeout (url: string, timeout = 2000): Promise<Response> {
+function fetchWithTimeout (url: string, timeout = 2000): Promise<Response | null> {
   const controller = new AbortController();
-  let isAborted = false;
-  const id = setTimeout((): void => {
-    console.log(`Timeout on ${url}`);
+  let id: null | ReturnType<typeof setTimeout> = null;
 
-    isAborted = true;
-    controller.abort();
-  }, timeout);
+  // This is a weird mess, however we seem to have issues with Jest & hanging connections
+  // in the case where things are (possibly) aborted. So we just swallow/log everything
+  // and return null in the cases where things don't quite go as planned
+  return Promise
+    .race([
+      fetch(url, { signal: controller.signal }).catch((error): null => {
+        console.error(error);
 
-  try {
-    const response = await fetch(url, { signal: controller.signal });
+        return null;
+      }),
+      new Promise<null>((resolve): void => {
+        id = setTimeout((): void => {
+          id = null;
+          controller.abort();
 
-    clearTimeout(id);
+          resolve(null);
+        }, timeout);
+      })
+    ])
+    .then((response): Response | null => {
+      if (id) {
+        clearTimeout(id);
+      }
 
-    return response;
-  } catch (error) {
-    if (!isAborted) {
-      clearTimeout(id);
-    }
-
-    throw error;
-  }
+      return response;
+    });
 }
 
-export function fetchJson <T> (url: string, timeout?: number): Promise<T> {
-  return fetchWithTimeout(url, timeout).then<T>((r) => r.json());
+export function fetchJson <T> (url: string, timeout?: number): Promise<T | null> {
+  return fetchWithTimeout(url, timeout).then<T | null>((r) => r && r.json());
 }
 
-export function fetchText (url: string, timeout?: number): Promise<string> {
-  return fetchWithTimeout(url, timeout).then((r) => r.text());
+export function fetchText (url: string, timeout?: number): Promise<string | null> {
+  return fetchWithTimeout(url, timeout).then((r) => r && r.text());
 }
