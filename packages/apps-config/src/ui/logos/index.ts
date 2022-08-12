@@ -96,7 +96,7 @@ import nodeBajun from './nodes/bajun.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
-import nodeBitCountry from './nodes/bitcountry.svg';
+import nodeBitCountry from './nodes/pioneer.png';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
