@@ -789,6 +789,7 @@ export const namedLogos: Record<string, unknown> = {
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
+  rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBajun: nodeBajun,
