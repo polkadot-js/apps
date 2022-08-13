@@ -69,7 +69,7 @@ import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
 import chainEggnet from './chains/webb.png';
-import chainWestendColl from './chains/westend-collectives.gif';
+import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
