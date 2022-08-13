@@ -69,6 +69,7 @@ import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
 import chainEggnet from './chains/webb.png';
+import chainWestendColl from './chains/westend-collectives.gif';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -427,6 +428,7 @@ export const chainLogos = Object.entries({
   Wapex: nodeTotem,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
+  'Westend Collectives': chainWestendColl,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -904,6 +906,7 @@ export const namedLogos: Record<string, unknown> = {
   wapex: nodeTotem,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendCollectives: chainWestendColl,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
