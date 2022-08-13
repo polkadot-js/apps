@@ -99,7 +99,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'Eggnet',
     paraId: 4006,
-    text: 'Eggnet Parachain',
+    text: 'Eggnet',
     providers: {
       Webb: 'wss://rococo1.webb.tools'
     }
@@ -107,7 +107,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoGenshiro',
     paraId: 2024,
-    text: 'Genshiro Rococo Testnet',
+    text: 'Genshiro Testnet',
     providers: {
       Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
     }
@@ -173,14 +173,14 @@ export const testParasRococo: EndpointOption[] = [
     info: 'chainoli',
     homepage: 'https://www.my-oli.com/en/',
     paraId: 4023,
-    text: 'OLI Parachain',
+    text: 'OLI',
     providers: {}
   },
   {
     info: 'rococoOriginTrailParachain',
     homepage: 'https://parachain.origintrail.io',
     paraId: 2043,
-    text: 'OriginTrail Parachain Testnet',
+    text: 'OriginTrail Testnet',
     providers: {
       TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
     }
@@ -188,7 +188,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoPangolin',
     paraId: 2105,
-    text: 'Pangolin Parachain',
+    text: 'Pangolin',
     providers: {
       'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
     }
@@ -237,7 +237,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoSora',
     paraId: 2011,
-    text: 'SORA Rococo Parachain',
+    text: 'SORA',
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
