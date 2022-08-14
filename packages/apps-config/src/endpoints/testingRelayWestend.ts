@@ -119,7 +119,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   {
     info: 'westendCollectives',
     paraId: 1002,
-    text: 'Collectives',
+    text: 'Westend Collectives',
     providers: {
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },

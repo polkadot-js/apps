@@ -97,7 +97,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'crab',
     homepage: 'https://crab.network',
     paraId: 2105,
-    text: 'Darwinia Crab',
+    text: 'Darwinia Crab Parachain',
     providers: {
       'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
     }
@@ -123,9 +123,10 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'gm',
+    isUnreachable: true,
     homepage: 'https://gmordie.com',
     paraId: 2123,
-    text: 'GM',
+    text: 'GM Parachain',
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com'
     }
@@ -404,7 +405,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
-    text: 'SORA',
+    text: 'SORA Kusama Parachain',
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
     }

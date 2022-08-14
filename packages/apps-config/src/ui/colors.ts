@@ -20,7 +20,6 @@ const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainAmplitude = '#5DEFA7';
-const chainAmplitudeRococo = '#5DEFA7';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainEggnet = '#0099ff';
@@ -259,7 +258,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   Amplitude: chainAmplitude,
-  'Amplitude Testnet': chainAmplitudeRococo,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
   'Ares Odyssey': nodeOdyssey,

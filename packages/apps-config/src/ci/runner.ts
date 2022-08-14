@@ -34,7 +34,7 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
     let isOk = true;
 
     try {
-      assert(json && json.Answer, `No DNS entry for ${host}`);
+      assert(json.Answer, `No DNS entry for ${host}`);
 
       provider = new WsProvider(ws, false);
       api = new ApiPromise({
@@ -111,7 +111,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
         ws: value
       }))
       .filter((v): v is Endpoint => !!v.ws)
-  )('$name @ $ws', async ({ name, ws }): Promise<void> => {
+  )('%name @ %$ws', async ({ name, ws }): Promise<void> => {
     expect(await checker(name, ws)).toBe(true);
   });
 }

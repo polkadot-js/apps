@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import { ChainImg } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
 import Url from './Url';
 
 interface Props {
@@ -19,8 +18,7 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isUnreachable, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
@@ -52,21 +50,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
           logo={icon === 'local' ? 'empty' : (icon || 'empty')}
           withoutHl
         />
-        <div className='endpointValue'>
-          <div>{name}</div>
-          {isSelected && (isRelay || !!paraId) && (
-            <div className='endpointExtra'>
-              {isRelay
-                ? t<string>('Relay chain')
-                : paraId && paraId < 1000
-                  ? t<string>('{{relay}} System', { replace: { relay } })
-                  : paraId && paraId < 2000
-                    ? t<string>('{{relay}} Common', { replace: { relay } })
-                    : t<string>('{{relay}} Parachain', { replace: { relay } })
-              }
-            </div>
-          )}
-        </div>
+        <div className='endpointValue'>{name}</div>
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
@@ -110,13 +94,6 @@ export default React.memo(styled(NetworkDisplay)`
 
     &+.endpointProvider {
       margin-top: -0.125rem;
-    }
-
-    .endpointValue {
-      .endpointExtra {
-        font-size: 0.75rem;
-        opacity: 0.8;
-      }
     }
   }
 `);
