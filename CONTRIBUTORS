@@ -1,4 +1,4 @@
-    3748	Jaco                          	Add Webpack sri plugin (#7991)
+    3749	Jaco                          	Disable unreachable endpoints (#7992)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
