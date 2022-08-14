@@ -7,8 +7,11 @@ export interface Network {
   icon?: string;
   isChild?: boolean;
   isLightClient?: boolean;
+  isRelay?: boolean;
   isUnreachable?: boolean;
   name: string;
+  nameRelay?: string;
+  paraId?: number;
   providers: {
     name: string;
     url: string;
