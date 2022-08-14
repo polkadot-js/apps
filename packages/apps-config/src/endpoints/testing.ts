@@ -69,6 +69,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'edgeware',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Beresheet',
     providers: {
       'Commonwealth Labs': 'wss://beresheet.edgewa.re'
@@ -396,7 +397,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opportunity',
-    isDisabled: false,
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Opportunity',
     providers: {
       'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
@@ -470,6 +471,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'realis',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Realis.Network',
     providers: {
       'Realis.Network': 'wss://rpc.realis.network/'
@@ -530,6 +532,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'subgame',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'SubGame Staging',
     providers: {
       SubGame: 'wss://staging.subgame.org'
