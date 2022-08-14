@@ -3220,6 +3220,7 @@ __metadata:
     webpack-cli: ^4.10.0
     webpack-dev-server: ^4.10.0
     webpack-merge: ^5.8.0
+    webpack-subresource-integrity: ^5.1.0
   languageName: unknown
   linkType: soft
 
@@ -19594,6 +19595,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"typed-assert@npm:^1.0.8":
+  version: 1.0.9
+  resolution: "typed-assert@npm:1.0.9"
+  checksum: 79351bd3ea184a552bf55a77bd3012f128741c841ed718d054c5abbbc8925362aa033ae2cdcc79e1f445a15112447c8a95a08ddf7ff8aeb04f805e92187f77c1
+  languageName: node
+  linkType: hard
+
 "typed-styles@npm:^0.0.7":
   version: 0.0.7
   resolution: "typed-styles@npm:0.0.7"
@@ -20728,6 +20736,21 @@ resolve@^2.0.0-next.3:
   version: 3.2.3
   resolution: "webpack-sources@npm:3.2.3"
   checksum: 989e401b9fe3536529e2a99dac8c1bdc50e3a0a2c8669cbafad31271eadd994bc9405f88a3039cd2e29db5e6d9d0926ceb7a1a4e7409ece021fe79c37d9c4607
+  languageName: node
+  linkType: hard
+
+"webpack-subresource-integrity@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "webpack-subresource-integrity@npm:5.1.0"
+  dependencies:
+    typed-assert: ^1.0.8
+  peerDependencies:
+    html-webpack-plugin: ">= 5.0.0-beta.1 < 6"
+    webpack: ^5.12.0
+  peerDependenciesMeta:
+    html-webpack-plugin:
+      optional: true
+  checksum: 827c2c1170f52eaec9d68728d4c3910be5451253ffb24e7dbab35c48acc69c4b4ed6dcea2c29bd62b4cb4569c00eafa4e95d8aa00305656fe9c2a6aeb5415e1e
   languageName: node
   linkType: hard
 
