@@ -410,6 +410,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     );
 
     if (democracyLocks && (democracyLocks.length !== 0)) {
+      // referendum locks
       allItems.push(
         <React.Fragment key={8}>
           <Label label={t<string>('democracy')} />
@@ -419,6 +420,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         </React.Fragment>
       );
     } else if (votingOf && votingOf.isDirect) {
+      // delegation locks
       const { prior: [unlockAt, balance] } = votingOf.asDirect;
 
       balance.gt(BN_ZERO) && unlockAt.gt(BN_ZERO) && allItems.push(
