@@ -123,7 +123,6 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'gm',
-    isUnreachable: true,
     homepage: 'https://gmordie.com',
     paraId: 2123,
     text: 'GM',
