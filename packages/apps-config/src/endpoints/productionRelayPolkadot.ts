@@ -114,19 +114,19 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'darwinia',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
-    paraId: 2046,
-    text: 'Darwinia',
+    paraId: 2003,
+    text: 'Darwinia Para Backup',
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
     info: 'darwinia',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
-    paraId: 2003,
-    text: 'Darwinia Backup',
+    paraId: 2046,
+    text: 'Darwinia Parachain',
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
@@ -267,7 +267,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
-    text: 'OriginTrail',
+    text: 'OriginTrail Parachain',
     paraId: 2043,
     providers: {
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'

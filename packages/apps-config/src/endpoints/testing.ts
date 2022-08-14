@@ -322,7 +322,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'logion',
-    text: 'logion Para Testnet',
+    text: 'logion Parachain Testnet',
     providers: {
       Logion: 'wss://chimay.logion.network'
     }

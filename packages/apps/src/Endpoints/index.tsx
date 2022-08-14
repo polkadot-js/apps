@@ -56,10 +56,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
-          isRelay: !!e.genesisHash,
           name: e.text as string,
-          nameRelay: e.textRelay as string,
-          paraId: e.paraId,
           providers: [prov]
         });
       }
