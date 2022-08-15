@@ -13,6 +13,7 @@
   "type": "module",
   "version": "0.120.2-13-x",
   "dependencies": {
-    "@babel/runtime": "^7.18.9"
+    "@babel/runtime": "^7.18.9",
+    "@darwinia/types": "^2.8.9"
   }
 }

@@ -9,6 +9,7 @@ import React from 'react';
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';
+import { useTranslation } from './translate';
 
 export interface Props {
   bonded?: BN | BN[];
@@ -16,17 +17,19 @@ export interface Props {
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   withLabel?: boolean;
+  isDarwiniaPower?: boolean;
 }
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
-  const { bonded, className = '', label, params } = props;
+  const { bonded, className = '', label, params, isDarwiniaPower } = props;
+  const { t } = useTranslation();
 
   if (!params) {
     return null;
   }
 
   return bonded
-    ? <>{renderProvided({ className, label, value: bonded })}</>
+    ? <>{renderProvided({ className, label, value: bonded, isDarwiniaPower, powerUnit: t('power', 'power') })}</>
     : (
       <Bonded
         className={`ui--Bonded ${className}`}

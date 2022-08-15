@@ -25,6 +25,7 @@ interface Props {
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
+  isDarwiniaPower?: boolean;
 }
 
 // for million, 2 * 3-grouping + comma
@@ -74,7 +75,7 @@ function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [num
   return createElement(prefix, postfix, unitPost, labelPost, isShort);
 }
 
-function FormatBalance ({ children, className = '', format, formatIndex, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', format, formatIndex, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi, isDarwiniaPower }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -92,7 +93,9 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
         data-testid='balance-summary'
       >{
           valueFormatted
-            ? splitFormat(valueFormatted, labelPost, isShort)
+            ? isDarwiniaPower
+              ? <><span style={{textTransform: "capitalize"}}>{valueFormatted}</span></>
+              : splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'
                 ? <>{t<string>('everything')}{labelPost || ''}</>

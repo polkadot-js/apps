@@ -8,11 +8,15 @@ import React from 'react';
 
 import { BalanceFree, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
+import {formatDarwiniaPower} from "@polkadot/app-staking/Query/util";
+import { useTranslation } from './translate';
 
 export interface RenderProps {
   className?: string;
   label?: React.ReactNode;
   value?: BN | BN[];
+  isDarwiniaPower?: boolean;
+  powerUnit?: string;
 }
 
 export interface Props {
@@ -23,7 +27,7 @@ export interface Props {
   withLabel?: boolean;
 }
 
-export function renderProvided ({ className = '', label, value }: RenderProps): React.ReactNode {
+export function renderProvided ({ className = '', label, value, isDarwiniaPower, powerUnit }: RenderProps): React.ReactNode {
   let others: undefined | React.ReactNode;
 
   if (Array.isArray(value)) {
@@ -44,7 +48,9 @@ export function renderProvided ({ className = '', label, value }: RenderProps): 
     <FormatBalance
       className={`ui--Balance ${className}`}
       label={label}
-      value={Array.isArray(value) ? value[0] : value}
+      value={isDarwiniaPower ? undefined : Array.isArray(value) ? value[0] : value}
+      valueFormatted={isDarwiniaPower ? formatDarwiniaPower(value as BN, powerUnit) : undefined}
+      isDarwiniaPower={isDarwiniaPower}
     >
       {others && (
         <span>&nbsp;(+{others})</span>
@@ -55,13 +61,14 @@ export function renderProvided ({ className = '', label, value }: RenderProps): 
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
   const { balance, className = '', label, params } = props;
+  const { t } = useTranslation();
 
   if (!params) {
     return null;
   }
 
   return balance
-    ? <>{renderProvided({ className, label, value: balance })}</>
+    ? <>{renderProvided({ className, label, value: balance, powerUnit: t('power', 'power') })}</>
     : (
       <BalanceFree
         className={`ui--Balance ${className}`}

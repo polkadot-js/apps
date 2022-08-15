@@ -3,7 +3,8 @@
 
 import type { DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { SlashingSpans, ValidatorPrefs, Exposure } from '@polkadot/types/interfaces';
+import { Exposure as DarwiniaExposure } from '@darwinia/types';
 import type { BN } from '@polkadot/util';
 import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
 import type { NominatorValue } from './types';
@@ -21,6 +22,8 @@ import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
 import StakeOther from './StakeOther';
 import Status from './Status';
+import { formatDarwiniaPower } from "@polkadot/app-staking/Query/util";
+import { useTranslation } from "@polkadot/app-staking/translate";
 
 interface Props {
   address: string;
@@ -43,6 +46,7 @@ interface Props {
 
 interface StakingState {
   isChilled?: boolean;
+  isDarwiniaPower?: boolean;
   commission?: string;
   nominators: NominatorValue[];
   stakeTotal?: BN;
@@ -55,14 +59,27 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
+  let isDarwiniaPower: boolean = false;
 
-  if (exposure && exposure.total) {
-    nominators = exposure.others.map(({ value, who }) => ({
+
+  if (exposure && exposure.has('ownRingBalance')) {
+    const darwiniaExposure = exposure as DarwiniaExposure;
+    nominators = darwiniaExposure.others.map(({ power, who }) => ({
+      nominatorId: who.toString(),
+      value: power
+    }));
+    stakeTotal = darwiniaExposure.totalPower || BN_ZERO;
+    stakeOwn = darwiniaExposure.ownPower || BN_ZERO;
+    stakeOther = stakeTotal.sub(stakeOwn);
+    isDarwiniaPower = true;
+  } else if (exposure && exposure.has('total')) {
+    const polkadotExposure = exposure as Exposure;
+    nominators = polkadotExposure.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()
     }));
-    stakeTotal = exposure.total?.unwrap() || BN_ZERO;
-    stakeOwn = exposure.own.unwrap();
+    stakeTotal = polkadotExposure.total?.unwrap() || BN_ZERO;
+    stakeOwn = polkadotExposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
   }
 
@@ -74,7 +91,8 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
     nominators,
     stakeOther,
     stakeOwn,
-    stakeTotal
+    stakeTotal,
+    isDarwiniaPower
   };
 }
 
@@ -92,9 +110,10 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
 
 function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
+  const { t } = useTranslation();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
-  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
+  const { commission, isChilled, nominators, stakeOther, stakeOwn, isDarwiniaPower } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
       : { nominators: [] },
@@ -142,6 +161,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           <StakeOther
             nominators={nominators}
             stakeOther={stakeOther}
+            isDarwiniaPower={isDarwiniaPower}
           />
         )
         : (
@@ -154,7 +174,10 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       {isMain && (
         <td className='number media--1100'>
           {stakeOwn?.gtn(0) && (
-            <FormatBalance value={stakeOwn} />
+            <FormatBalance
+              valueFormatted={isDarwiniaPower ? formatDarwiniaPower(stakeOwn, t('power', 'power')) : undefined}
+              isDarwiniaPower = {isDarwiniaPower}
+              value={isDarwiniaPower? undefined :stakeOwn} />
           )}
         </td>
       )}
