@@ -210,6 +210,7 @@
        2	Yashiro                       	Add crust mainnet endpoint (#5929)
        2	Yuri Gii                      	update singular url to singular v2 (#7888)
        2	zhenfei                       	updating `Manta Network` parachain ID (#5149)
+       1	0xrust                        	Add snow to kusama endpoint option array (#7893)
        1	1xstj                         	add eggnet to rococo (#7918)
        1	abhath-labs                   	Add Bitgreen parachain to Rococo (#7441)
        1	Adam                          	new edeware logo and color (#6249)
