@@ -401,6 +401,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
