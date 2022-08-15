@@ -579,7 +579,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
-  'Snow': nodeSnow,
+  Snow: nodeSnow,
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
