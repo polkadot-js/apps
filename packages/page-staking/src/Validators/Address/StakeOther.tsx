@@ -5,12 +5,12 @@ import type { NominatorValue } from './types';
 
 import React, { useMemo } from 'react';
 
+import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
+import { useTranslation } from '@polkadot/app-staking/translate';
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
-import { formatDarwiniaPower } from "@polkadot/app-staking/Query/util";
-import { useTranslation } from "@polkadot/app-staking/translate";
 
 interface Props {
   stakeOther?: BN;
@@ -25,9 +25,9 @@ function extractFunction (all: NominatorValue[], isDarwiniaPower: boolean | unde
       () => all.map(({ nominatorId, value }): React.ReactNode =>
         <AddressMini
           bonded={value}
+          isDarwiniaPower={isDarwiniaPower}
           key={nominatorId}
           value={nominatorId}
-          isDarwiniaPower={isDarwiniaPower}
           withBonded
         />
       )
@@ -61,7 +61,7 @@ function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], i
   return [extractFunction(rewarded, isDarwiniaPower), rewardedTotal, extractFunction(unrewarded, isDarwiniaPower), unrewardedTotal];
 }
 
-function StakeOther ({ nominators, stakeOther, isDarwiniaPower }: Props): React.ReactElement<Props> {
+function StakeOther ({ isDarwiniaPower, nominators, stakeOther }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
 
@@ -78,10 +78,10 @@ function StakeOther ({ nominators, stakeOther, isDarwiniaPower }: Props): React.
             renderChildren={rewarded[1]}
             summary={
               <FormatBalance
-                labelPost={` (${rewarded[0]})`}
-                valueFormatted={isDarwiniaPower ? formatDarwiniaPower(rewardedTotal, t('power', 'power')) : undefined}
                 isDarwiniaPower = {isDarwiniaPower}
+                labelPost={` (${rewarded[0]})`}
                 value={isDarwiniaPower ? undefined : rewardedTotal}
+                valueFormatted={isDarwiniaPower ? formatDarwiniaPower(rewardedTotal, t('power', 'power')) : undefined}
               />
             }
           />

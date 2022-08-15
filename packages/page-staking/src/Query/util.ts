@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import { BigNumber } from "bignumber.js";
+
+import { BigNumber } from 'bignumber.js';
 
 import { BN_THOUSAND, BN_ZERO, isBn, isFunction } from '@polkadot/util';
 
@@ -21,8 +22,11 @@ export function balanceToNumber (amount: BN | ToBN = BN_ZERO, divisor: BN): numb
 }
 
 export const formatDarwiniaPower = (power: BN| undefined, unit?: string): string => {
-  if(!power) {
-    return ''
+  if (!power) {
+    return '';
   }
-  return `${new BigNumber(power.toString()).toFormat(0)} ${unit}`;
-}
+
+  const powerUnit = unit || '';
+
+  return `${new BigNumber(power.toString()).toFormat(0)} ${powerUnit}`;
+};

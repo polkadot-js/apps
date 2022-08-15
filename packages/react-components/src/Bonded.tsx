@@ -21,7 +21,7 @@ export interface Props {
 }
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
-  const { bonded, className = '', label, params, isDarwiniaPower } = props;
+  const { bonded, className = '', isDarwiniaPower, label, params } = props;
   const { t } = useTranslation();
 
   if (!params) {
@@ -29,7 +29,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
   }
 
   return bonded
-    ? <>{renderProvided({ className, label, value: bonded, isDarwiniaPower, powerUnit: t('power', 'power') })}</>
+    ? <>{renderProvided({ className, isDarwiniaPower, label, powerUnit: t('power', 'power'), value: bonded })}</>
     : (
       <Bonded
         className={`ui--Bonded ${className}`}

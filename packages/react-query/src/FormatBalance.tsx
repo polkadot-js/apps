@@ -75,7 +75,7 @@ function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [num
   return createElement(prefix, postfix, unitPost, labelPost, isShort);
 }
 
-function FormatBalance ({ children, className = '', format, formatIndex, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi, isDarwiniaPower }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', format, formatIndex, isDarwiniaPower, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -94,7 +94,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
       >{
           valueFormatted
             ? isDarwiniaPower
-              ? <><span style={{textTransform: "capitalize"}}>{valueFormatted}</span></>
+              ? <><span style={{ textTransform: 'capitalize' }}>{valueFormatted}</span></>
               : splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'

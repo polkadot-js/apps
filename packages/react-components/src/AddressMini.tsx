@@ -41,7 +41,7 @@ interface Props {
   isDarwiniaPower?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, nameExtra, onNameClick, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true, isDarwiniaPower = false }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isDarwiniaPower = false, isHighlight, isPadded = true, label, labelBalance, nameExtra, onNameClick, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -91,9 +91,9 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
         {withBonded && (
           <BondedDisplay
             bonded={bonded}
+            isDarwiniaPower={isDarwiniaPower}
             label=''
             params={value}
-            isDarwiniaPower={isDarwiniaPower}
           />
         )}
         {withLockedVote && (

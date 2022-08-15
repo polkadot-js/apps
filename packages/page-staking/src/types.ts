@@ -6,6 +6,7 @@ import type { u32 } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+
 import { Exposure as DarwiniaExposure } from '@darwinia/types';
 
 export type Nominators = Record<string, string[]>;
