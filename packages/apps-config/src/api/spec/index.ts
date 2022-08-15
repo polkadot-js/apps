@@ -226,7 +226,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  nft: unique,
+  unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
