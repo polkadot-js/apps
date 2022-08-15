@@ -11,7 +11,7 @@ import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { formatBalance, isFunction } from '@polkadot/util';
+import { formatBalance, isFunction, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -33,7 +33,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
 
   useEffect((): void => {
     accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           extrinsic
             .paymentInfo(accountId)
@@ -42,7 +42,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
         } catch (error) {
           console.error(error);
         }
-      }, 0);
+      });
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo || !extrinsic) {

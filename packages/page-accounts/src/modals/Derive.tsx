@@ -10,6 +10,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password, StatusContext } from '@polkadot/react-components';
 import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+import { nextTick } from '@polkadot/util';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -112,7 +113,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const _onUnlock = useCallback(
     (): void => {
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           source.decodePkcs8(rootPass);
           setIsLocked({ isLocked: source.isLocked, lockedError: null });
@@ -122,7 +123,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         }
 
         setIsBusy(false);
-      }, 0);
+      });
     },
     [rootPass, source]
   );
@@ -134,13 +135,13 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
         queueAction(status);
         setIsBusy(false);
         onClose();
-      }, 0);
+      });
     },
     [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t]
   );
