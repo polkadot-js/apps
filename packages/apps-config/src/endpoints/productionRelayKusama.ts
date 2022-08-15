@@ -404,6 +404,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
@@ -476,16 +486,6 @@ export const prodParasKusama: EndpointOption[] = [
       ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'snow',
-    homepage: 'https://icenetwork.io/snow',
-    paraId: 2129,
-    text: 'Snow Network',
-    isUnreachable: true,
-    providers: {
-      IceNetwork: 'wss://snow-rpc.icenetwork.io',
     }
   }
 ];
