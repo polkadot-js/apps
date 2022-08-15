@@ -116,7 +116,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'darwinia',
     homepage: 'https://darwinia.network/',
     paraId: 2046,
-    text: 'Darwinia',
+    text: 'Darwinia Parachain',
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
