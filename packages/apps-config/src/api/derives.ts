@@ -11,7 +11,7 @@ import subspace from './spec/subspace';
 const mapping: [OverrideBundleDefinition, string[]][] = [
   [equilibrium, ['Equilibrium']],
   [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
-  [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain']],
+  [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain', 'testnet-kintsugi', 'testnet-interlay']],
   [subspace, ['subspace']]
 ];
 
