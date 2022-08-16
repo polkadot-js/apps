@@ -231,6 +231,7 @@
        1	Bojian Ho                     	Added fantour network config (#5764)
        1	Boyquotes                     	Fix FR translation (#7817)
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
+       1	Brendon Votteler              	feat: add derives mapping and spec records for testnet-interlay and testnet-kintsugi (#8000)
        1	Carl                          	chore: add bounty and update network list in Subscan config (#7394)
        1	Carl                          	Update Subscan link config (#6194)
        1	CCBro                         	add `armonia-eva` and `armonia-wall-e` for ethereumChains (#7732)
