@@ -23,8 +23,8 @@ export default {
     Subsocial: 'subsocial'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
-    `https://sub.id/#/${data.toString()}`,
-  isActive: false, // https://github.com/polkadot-js/apps/issues/7485
+    `https://sub.id/${data.toString()}`,
+  isActive: true,
   logo: externalLogos.subid as string,
   paths: {
     address: 'account'

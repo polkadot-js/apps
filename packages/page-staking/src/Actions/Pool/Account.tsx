@@ -5,6 +5,7 @@ import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-deriv
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
+import type { PalletNominationPoolsPoolMemberV0 } from './types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
@@ -41,7 +42,7 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsPoolMember): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
+function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsPoolMemberV0 | PalletNominationPoolsPoolMember): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
   const unlocking: DeriveUnlocking[] = [];
   const redeemable = new BN(0);
 

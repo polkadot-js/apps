@@ -1,0 +1,18 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-fellowship#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-fellowship",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-fellowship",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.119.2-11-x",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9"
+  }
+}

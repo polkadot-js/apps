@@ -1851,7 +1851,6 @@
   "rpc.prod.neatcoin": "",
   "rpc.prod.nftmart": "",
   "rpc.prod.nodle-main": "",
-  "rpc.prod.plasm": "",
   "rpc.prod.polkadex": "",
   "rpc.prod.polymesh": "",
   "rpc.prod.riochain": "",
@@ -1898,7 +1897,6 @@
   "rpc.rococo.parami": "",
   "rpc.rococo.phala": "",
   "rpc.rococo.phoenix": "",
-  "rpc.rococo.plasm": "",
   "rpc.rococo.polkafoundry": "",
   "rpc.rococo.prism": "",
   "rpc.rococo.robonomics": "",
@@ -2210,5 +2208,5 @@
   "{{threshold}}, not passing": "{{threshold}}, не проходит",
   "{{threshold}}, passing": "{{threshold}}, проходит",
   "{{type}} copied": "",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x баланс голосования, заблокировано на {{lock}}x ({{period}} дней)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x баланс голосования, заблокировано на {{lock}}x ({{period}} дней)"
 }

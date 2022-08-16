@@ -3,7 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { unique } from '@unique-nft/types/definitions';
+import { unique } from '@unique-nft/opal-testnet-types/definitions';
 
 export default {
   rpc: { unique: unique.rpc }

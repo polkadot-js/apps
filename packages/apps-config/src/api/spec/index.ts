@@ -68,6 +68,8 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import logion from './logion';
+import logionParachain from './logion-parachain';
 import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
@@ -85,7 +87,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import pichiu from './pichiu';
-import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -211,6 +212,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  logion,
+  'logion-parachain': logionParachain,
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
@@ -237,7 +240,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  plasm,
   polymesh,
   'pontem-node': pontem,
   prism,

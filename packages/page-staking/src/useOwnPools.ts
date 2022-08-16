@@ -12,10 +12,12 @@ import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-h
 import { createAccounts } from './usePoolAccounts';
 
 const OPT_MULTI = {
-  transform: ([[ids], opts]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] =>
-    ids.reduce((pools: OwnPoolBase[], accountId, index): OwnPoolBase[] => {
-      if (opts[index].isSome) {
-        const member = opts[index].unwrap();
+  transform: ([[ids], opts]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] => {
+    const pools: OwnPoolBase[] = [];
+
+    for (let i = 0; i < ids.length; i++) {
+      if (opts[i].isSome) {
+        const member = opts[i].unwrap();
         let entry = pools.find(({ poolId }) => poolId.eq(member.poolId));
 
         if (!entry) {
@@ -24,11 +26,12 @@ const OPT_MULTI = {
           pools.push(entry);
         }
 
-        entry.members[accountId] = member;
+        entry.members[ids[i]] = member;
       }
+    }
 
-      return pools;
-    }, []),
+    return pools;
+  },
   withParamsTransform: true
 };
 

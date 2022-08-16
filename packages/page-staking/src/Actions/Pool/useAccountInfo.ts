@@ -4,19 +4,21 @@
 import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { AccountInfo } from './types';
+import type { AccountInfo, PalletNominationPoolsPoolMemberV0, PalletNominationPoolsRewardPoolV0 } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO, bnMax } from '@polkadot/util';
 
+import { isPrevMember, isPrevPool } from './is';
+
 const OPT_DEL = {
-  transform: (opt: Option<PalletNominationPoolsPoolMember>): PalletNominationPoolsPoolMember | null =>
+  transform: (opt: Option<PalletNominationPoolsPoolMember>): PalletNominationPoolsPoolMember | PalletNominationPoolsPoolMemberV0 | null =>
     opt.unwrapOr(null)
 };
 
-function createInfo (member: PalletNominationPoolsPoolMember, rewardPool: PalletNominationPoolsRewardPool, poolPoints: BN, currentBalance: BN): AccountInfo {
+function createInfoPrev (member: PalletNominationPoolsPoolMemberV0, rewardPool: PalletNominationPoolsRewardPoolV0, poolPoints: BN, currentBalance: BN): AccountInfo {
   const lastTotalEarnings = rewardPool.totalEarnings;
   const currTotalEarnings = bnMax(BN_ZERO, currentBalance.sub(rewardPool.balance)).add(rewardPool.totalEarnings);
   const newEarnings = bnMax(BN_ZERO, currTotalEarnings.sub(lastTotalEarnings));
@@ -38,7 +40,13 @@ function useAccountInfoImpl (accountId: string, rewardPool: PalletNominationPool
   const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   return useMemo(
-    () => member && createInfo(member, rewardPool, poolPoints, rewardClaimable),
+    () => isPrevPool(rewardPool)
+      ? member && (
+        isPrevMember(member)
+          ? createInfoPrev(member, rewardPool, poolPoints, rewardClaimable)
+          : null
+      )
+      : null,
     [member, poolPoints, rewardPool, rewardClaimable]
   );
 }

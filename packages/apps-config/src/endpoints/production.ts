@@ -24,6 +24,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'Ares Odyssey',
+    text: 'Ares Odyssey',
+    providers: {
+      'Ares Protocol': 'wss://odyssey.aresprotocol.io'
+    }
+  },
+  {
     info: 'automata',
     text: 'Automata',
     providers: {
@@ -57,7 +64,7 @@ export const prodChains: EndpointOption[] = [
     info: 'creditcoin',
     text: 'Creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     }
   },
   {
@@ -105,7 +112,8 @@ export const prodChains: EndpointOption[] = [
     text: 'Edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
+      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
+      Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
   {
@@ -140,15 +148,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'snakenet',
-    text: 'HydraDX',
-    providers: {
-      HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-      'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-      Archives: 'wss://archive.snakenet.hydradx.io'
-    }
-  },
-  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
@@ -161,6 +160,13 @@ export const prodChains: EndpointOption[] = [
     text: 'Kusari',
     providers: {
       Swapdex: 'wss://ws.kusari.network'
+    }
+  },
+  {
+    info: 'logion',
+    text: 'logion Standalone',
+    providers: {
+      Logion: 'wss://rpc01.logion.network'
     }
   },
   {
@@ -177,6 +183,13 @@ export const prodChains: EndpointOption[] = [
     text: 'MiniX',
     providers: {
       ChainX: 'wss://minichain-mainnet.coming.chat/ws'
+    }
+  },
+  {
+    info: 'myriad',
+    text: 'Myriad',
+    providers: {
+      Myriad: 'wss://ws-rpc.myriad.social'
     }
   },
   {
@@ -199,14 +212,6 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    }
-  },
-  {
-    info: 'plasm',
-    text: 'Plasm',
-    providers: {
-      'Stake Technologies': 'wss://rpc.plasmnet.io/'
     }
   },
   {
@@ -253,7 +258,7 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-      Soramitsu: 'wss://ws.alb.sora.org',
+      // Soramitsu: 'wss://ws.alb.sora.org', // https://github.com/polkadot-js/apps/issues/7786
       OnFinality: 'wss://sora.api.onfinality.io/public-ws'
       // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
     }
@@ -296,8 +301,8 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'ternoa-mainnet',
-    text: 'Ternoa Mainnet',
+    info: 'ternoa',
+    text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     }

@@ -27,5 +27,5 @@ module.exports = {
   testTimeout: 90000,
   // NOTE: While we can remove @polkadot/etc. react-markdown still has issues with Jest 28
   // ... TL;DR We still end up with a massive list here
-  transformIgnorePatterns: ['/node_modules/(?!react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-|hast-to-|space-separated-tokens|comma-separated-tokens|rehype-raw|hastscript|web-namespaces|zwitch|html-void-elements|multiformats|uint8arrays)']
+  transformIgnorePatterns: ['/node_modules/(?!react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-|hast-to-|space-separated-tokens|comma-separated-tokens|rehype-raw|hastscript|web-namespaces|zwitch|html-void-elements|multiformats|is-ipfs|uint8arrays)']
 };

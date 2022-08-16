@@ -1,7 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { CollectiveType } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useState } from 'react';
 
@@ -12,9 +13,12 @@ import { BN } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  defaultThreshold?: number;
+  defaultValue?: SubmittableExtrinsicFunction<'promise'>;
+  filter?: (section: string, method?: string) => boolean;
   isMember: boolean;
   members: string[];
-  type: 'membership' | 'technicalCommittee';
+  type: CollectiveType;
 }
 
 interface ProposalState {
@@ -22,14 +26,17 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> | null {
+// TODO We probably want to pull this from config
+const DEFAULT_THRESHOLD = 1 / 2;
+
+function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
-    new BN(members.length / 2 + 1),
+    new BN(Math.min(members.length, (members.length * defaultThreshold) + 1)),
     true
   ]);
   const modLocation = useCollectiveInstance(type);
@@ -82,7 +89,8 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
               value={threshold || undefined}
             />
             <Extrinsic
-              defaultValue={apiDefaultTxSudo}
+              defaultValue={defaultValue || apiDefaultTxSudo}
+              filter={filter}
               label={t<string>('proposal')}
               onChange={_onChangeExtrinsic}
             />

@@ -53,6 +53,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jaz',
+    text: 'Artio Testnet',
+    providers: {
+      Jaz: 'wss://ws0.jaz.network'
+    }
+  },
+  {
     info: 'automata-contextfree',
     text: 'Automata ContextFree',
     providers: {
@@ -82,6 +89,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'cess-testnet',
+    text: 'CESS Testnet',
+    providers: {
+      CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
+    }
+  },
+  {
     info: 'clover',
     isDisabled: true, // Cannot construct unknown type BridgeNetworks
     text: 'Clover',
@@ -103,7 +117,7 @@ export const testChains: EndpointOption[] = [
     info: 'creditcoin-testnet',
     text: 'Creditcoin Testnet',
     providers: {
-      'Creditcoin Foundation': 'wss://testnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
     }
   },
   {
@@ -217,7 +231,7 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'interbtc',
+    info: 'interlay-testnet',
     text: 'Interlay Testnet',
     providers: {
       Interlay: 'wss://api-testnet.interlay.io/parachain/'
@@ -249,6 +263,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'jupiter',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
       Patract: 'wss://ws.jupiter-poa.patract.cn'
@@ -277,6 +292,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'kintsugi-testnet',
+    text: 'Kintsugi Testnet',
+    providers: {
+      Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain'
+    }
+  },
+  {
     info: 'klugdossier',
     text: 'Klug Dossier',
     providers: {
@@ -299,19 +321,25 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'logion',
+    text: 'logion Parachain Testnet',
+    providers: {
+      Logion: 'wss://chimay.logion.network'
+    }
+  },
+  {
+    info: 'logion',
+    text: 'logion Standalone Testnet',
+    providers: {
+      Logion: 'wss://test-rpc01.logion.network'
+    }
+  },
+  {
     info: 'acala',
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
       OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'mangata',
-    text: 'Mangata',
-    providers: {
-      Mangata: 'wss://v4-prod-collator-01.mangatafinance.cloud'
     }
   },
   {
@@ -335,8 +363,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
     }
   },
   {
@@ -357,10 +385,13 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opal',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7638
+    isDisabled: false,
     text: 'OPAL by UNIQUE',
     providers: {
-      Unique: 'wss://opal.unique.network'
+      'Geo Load Balancer': 'wss://ws-opal.unique.network',
+      Europe: 'wss://eu-ws-opal.unique.network',
+      'North America': 'wss://us-ws-opal.unique.network',
+      Asia: 'wss://asia-ws-opal.unique.network'
     }
   },
   {
@@ -464,7 +495,8 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com',
+      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
@@ -601,7 +633,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zero',
-    text: 'Zero',
+    text: 'Zero Alphaville',
     providers: {
       ZERO: 'wss://alphaville.zero.io'
     }

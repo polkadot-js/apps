@@ -17,7 +17,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-type PrevProxy = [AccountId, NodeRuntimeProxyType];
+type PrevProxy = [AccountId | null, NodeRuntimeProxyType];
 
 interface Props {
   className?: string;
@@ -66,7 +66,9 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
   const { t } = useTranslation();
 
   const _onRemove = useCallback(
-    () => onRemove(accountId, type, index),
+    (): void => {
+      accountId && onRemove(accountId, type, index);
+    },
     [accountId, index, onRemove, type]
   );
 
@@ -121,12 +123,13 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
     >
       <div className='input-column'>
         <InputAddress
+          isError={!accountId}
           label={t<string>('proxy account')}
           onChange={_onChangeAccount}
           type='account'
           value={accountId}
         />
-        {accountId.eq(proxiedAccount) && (
+        {accountId && accountId.eq(proxiedAccount) && (
           <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
@@ -183,7 +186,9 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
 
   useEffect((): void => {
     setBatchAdded(
-      added.map(([newAccount, newType]) => createAddProxy(api, newAccount, newType))
+      added
+        .filter((f): f is [AccountId, NodeRuntimeProxyType] => !!f[0])
+        .map(([newAccount, newType]) => createAddProxy(api, newAccount, newType))
     );
   }, [api, added]);
 
@@ -222,7 +227,9 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     (index: number, address: string | null) => setAdded((prevState) => {
       const newState = [...prevState];
 
-      newState[index][0] = api.createType('AccountId', address);
+      newState[index][0] = address
+        ? api.createType('AccountId', address)
+        : null;
 
       return newState;
     }),
@@ -241,7 +248,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     [api]
   );
 
-  const isSameAdd = added.some(([accountId]) => accountId.eq(proxiedAccount));
+  const isSameAdd = added.some(([accountId]) => accountId && accountId.eq(proxiedAccount));
 
   return (
     <Modal

@@ -17,10 +17,11 @@ import { useTranslation } from '../translate';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   index: number;
   maxBlockWeight?: Weight;
   value: Extrinsic;
+  withLink: boolean;
 }
 
 const BN_TEN_THOUSAND = new BN(10_000);
@@ -35,11 +36,13 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
   return null;
 }
 
-function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
-  const filtered = events.filter(({ record: { phase } }) =>
-    phase.isApplyExtrinsic &&
-    phase.asApplyExtrinsic.eq(index)
-  );
+function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
+  const filtered = events
+    ? events.filter(({ record: { phase } }) =>
+      phase.isApplyExtrinsic &&
+      phase.asApplyExtrinsic.eq(index)
+    )
+    : [];
   const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
     section === 'system' &&
     ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
@@ -59,8 +62,15 @@ function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?
   ];
 }
 
-function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBlockWeight, value }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const link = useMemo(
+    () => withLink
+      ? `#/extrinsics/decode/${value.toHex()}`
+      : null,
+    [value, withLink]
+  );
 
   const { meta, method, section } = useMemo(
     () => value.registry.findMetaCall(value.callIndex),
@@ -121,6 +131,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             withSignature
           />
         </Expander>
+        {link && (
+          <a
+            className='isDecoded'
+            href={link}
+            rel='noreferrer'
+          >{link}</a>
+        )}
       </td>
       <td
         className='top media--1000'
@@ -181,5 +198,13 @@ export default React.memo(styled(ExtrinsicDisplay)`
   .explorer--BlockByHash-unsigned {
     opacity: 0.6;
     font-weight: var(--font-weight-normal);
+  }
+
+  a.isDecoded {
+    display: block;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `);

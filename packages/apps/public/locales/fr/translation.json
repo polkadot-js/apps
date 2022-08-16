@@ -519,7 +519,7 @@
   "Set Session Key": "Définir la clé de session",
   "Set Subs": "Définir des sous-identité",
   "Set controller": "Définir le contrôleur",
-  "Set nominees": "Définir les désgnés",
+  "Set nominees": "Définir les désignés",
   "Set on-chain identity": "Définir l'identité sur la chaîne de blocs",
   "Set on-chain sub-identities": "Définir les sous-identités sur la chaîne de blocs",
   "Set reward destination": "Définir la destination de la récompense",
@@ -1321,7 +1321,6 @@
   "rpc.pangolin": "Pangolin",
   "rpc.pangoro": "Pangoro",
   "rpc.phala": "Phala PoC-3",
-  "rpc.plasm": "Plasm",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.w3f": "Polkadot",
   "rpc.polymesh": "Polymesh",
@@ -1334,7 +1333,6 @@
   "rpc.rococo.darwinia": "Darwinia PC2",
   "rpc.rococo.laminar": "Turbulence PC1",
   "rpc.rococo.mathchain": "MathChain PC1",
-  "rpc.rococo.plasm": "Plasm PC1",
   "rpc.rococo.robonomics": "Robonomics PC1",
   "rpc.rococo.tick": "Tick",
   "rpc.rococo.track": "Track",
@@ -1527,5 +1525,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. Signer avec l'adresse Ethereum",
   "{{threshold}}, not passing": "{{seuil} }, ne dépassant pas",
   "{{threshold}}, passing": "{{seuil}}, passant",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x solde de vote, verrouillé pendant {{lock}} x décret ({{period}} jours)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x solde de vote, verrouillé pendant {{lock}} x décret ({{period}} jours)"
 }
