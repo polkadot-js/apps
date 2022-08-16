@@ -264,6 +264,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   swapdex,
   t0rn,
   ternoa,
+  'testnet-interlay': interbtc,
+  'testnet-kintsugi': interbtc,
   trustbase,
   turing,
   uart,
