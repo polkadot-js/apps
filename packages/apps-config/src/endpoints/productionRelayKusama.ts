@@ -30,8 +30,9 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://pendulumchain.org/amplitude',
     paraId: 2124,
     text: 'Amplitude',
-    isUnreachable: true,
-    providers: {} // Working on making this live ASAP
+    providers: {
+      PendulumChain: 'wss://pencol-kus-01.pendulumchain.tech'
+    } // Working on making this live ASAP
   },
   {
     info: 'bajun',
