@@ -401,6 +401,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
@@ -411,6 +421,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'subgame',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7982
     homepage: 'http://subgame.org/',
     paraId: 2018,
     text: 'SubGame Gamma',
@@ -469,7 +480,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2101,
     text: 'Zeitgeist',
     providers: {
-      ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+      // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
