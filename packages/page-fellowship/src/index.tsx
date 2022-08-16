@@ -5,6 +5,8 @@ import React from 'react';
 
 import Main from '@polkadot/app-ranked/App';
 
+export { default as useCounter } from './useCounter';
+
 interface Props {
   basePath: string;
   className?: string;

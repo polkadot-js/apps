@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-ranked';
+import Component, { useCounter } from '@polkadot/app-ranked';
 
 export default function create (t: TFunction): Route {
   return {
@@ -19,6 +19,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'people-arrows',
     name: 'ranked',
-    text: t('nav.ranked', 'Ranked collective', { ns: 'apps-routing' })
+    text: t('nav.ranked', 'Ranked collective', { ns: 'apps-routing' }),
+    useCounter
   };
 }

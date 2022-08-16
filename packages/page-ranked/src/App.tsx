@@ -6,13 +6,12 @@ import type { PalletColl, PalletPoll } from './types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
-import Referenda from '@polkadot/app-referenda/Referenda';
+import Referenda, { useCounter } from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
 
 import Members from './Members';
 import { useTranslation } from './translate';
 import useMembers from './useMembers';
-import useRefCounter from './useRefCounter';
 
 interface Props {
   basePath: string;
@@ -24,7 +23,7 @@ interface Props {
 function App ({ basePath, className, palletColl, palletPoll }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const members = useMembers(palletColl);
-  const refCount = useRefCounter(palletPoll);
+  const refCount = useCounter(palletPoll);
 
   const tabs = useMemo(
     () => [

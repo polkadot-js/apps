@@ -69,6 +69,7 @@ import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
 import chainEggnet from './chains/webb.png';
+import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -96,7 +97,7 @@ import nodeBajun from './nodes/bajun.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
-import nodeBitCountry from './nodes/bitcountry.svg';
+import nodeBitCountry from './nodes/bitcountry.png';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -186,6 +187,7 @@ import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
+import nodeSnow from './nodes/snow.png';
 import nodeSoonsocial from './nodes/soonsocial.png';
 import nodeSoonsocialX from './nodes/soonsocialX.png';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -387,6 +389,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SkyeKiwi: chainSkyeKiwi,
+  'Snow Kusama': nodeSnow,
   soonsocial: nodeSoonsocial,
   soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
@@ -427,6 +430,7 @@ export const chainLogos = Object.entries({
   Wapex: nodeTotem,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
+  'Westend Collectives': chainWestendColl,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -586,6 +590,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
+  Snow: nodeSnow,
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
@@ -789,6 +794,7 @@ export const namedLogos: Record<string, unknown> = {
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
+  rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBajun: nodeBajun,
@@ -903,6 +909,7 @@ export const namedLogos: Record<string, unknown> = {
   wapex: nodeTotem,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendCollectives: chainWestendColl,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,

@@ -65,9 +65,9 @@ const OPT_MULTI = {
 };
 
 function useReferendaImpl (palletReferenda: PalletReferenda): Referendum[] | undefined {
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const ids = useReferendaIds(palletReferenda);
-  const referenda = useCall(ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
+  const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
     () => ids && ids.length === 0

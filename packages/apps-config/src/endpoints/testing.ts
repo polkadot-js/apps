@@ -69,6 +69,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'edgeware',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Beresheet',
     providers: {
       'Commonwealth Labs': 'wss://beresheet.edgewa.re'
@@ -322,7 +323,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'logion',
-    text: 'logion Parachain Testnet',
+    text: 'logion Para Testnet',
     providers: {
       Logion: 'wss://chimay.logion.network'
     }
@@ -396,7 +397,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opportunity',
-    isDisabled: false,
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Opportunity',
     providers: {
       'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
@@ -470,6 +471,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'realis',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'Realis.Network',
     providers: {
       'Realis.Network': 'wss://rpc.realis.network/'
@@ -530,6 +532,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'subgame',
+    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7982
     text: 'SubGame Staging',
     providers: {
       SubGame: 'wss://staging.subgame.org'
@@ -613,7 +616,9 @@ export const testChains: EndpointOption[] = [
     info: 'web3games',
     text: 'Web3Games',
     providers: {
-      Web3Games: 'wss://testnet.web3games.org'
+      'Web3Games Foundation 0': 'wss://testnet-rpc-0.web3games.org',
+      'Web3Games Foundation 1': 'wss://testnet-rpc-1.web3games.org',
+      'Web3Games Foundation 2': 'wss://testnet-rpc-2.web3games.org'
     }
   },
   {

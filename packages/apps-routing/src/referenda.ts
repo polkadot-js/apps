@@ -4,8 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-referenda';
-import useCounter from '@polkadot/app-referenda/useCounter';
+import Component, { useCounter } from '@polkadot/app-referenda';
 
 export default function create (t: TFunction): Route {
   return {

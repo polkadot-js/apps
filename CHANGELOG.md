@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.120.1 Aug 8, 2022
+
+Contributed:
+
+- Update i18n for nominee list (Thanks to https://github.com/Nick-1979)
+- Remove OnFinality endpoint for Calamari (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Turnin (Thanks to https://github.com/irsal)
+- Add Dwellir endpoint for Bajun (Thanks to https://github.com/Maharacha)
+- Added Shiden/Astar endpoint (Thanks to https://github.com/shunsukew)
+- Remove Bit Country RPC node (Thanks to https://github.com/mikejamesli)
+- Add Web3 Games RPC node (Thanks to https://github.com/Zombieliu)
+
+Changes:
+
+- Built `typesBundle` statically (no explicit 3rd party dependencies)
+- Add support for Gov2 apps (referanda, preimages, whitelist, ranked collective)
+- Correctly handle errors on invalid proxy account selection
+- Handle JS apps error logs where logging itself fails
+
+
 ## 0.119.1 Jul 30, 2022
 
 Contributed:

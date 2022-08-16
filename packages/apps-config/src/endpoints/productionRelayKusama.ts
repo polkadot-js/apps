@@ -30,8 +30,9 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://pendulumchain.org/amplitude',
     paraId: 2124,
     text: 'Amplitude',
-    isUnreachable: true,
-    providers: {} // Working on making this live ASAP
+    providers: {
+      PendulumChain: 'wss://pencol-kus-01.pendulumchain.tech'
+    } // Working on making this live ASAP
   },
   {
     info: 'bajun',
@@ -39,7 +40,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2119,
     text: 'Bajun Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.bajun.network'
+      AjunaNetwork: 'wss://rpc-parachain.bajun.network',
+      Dwellir: 'wss://bajun-rpc.dwellir.com'
     }
   },
   {
@@ -71,7 +73,6 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2096,
     text: 'Bit.Country Pioneer',
     providers: {
-      'Bit.Country': 'wss://pioneer-1-rpc.bit.country',
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     }
   },
@@ -97,7 +98,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'crab',
     homepage: 'https://crab.network',
     paraId: 2105,
-    text: 'Darwinia Crab Parachain',
+    text: 'Darwinia Crab',
     providers: {
       'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
     }
@@ -123,10 +124,9 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     info: 'gm',
-    isUnreachable: true,
     homepage: 'https://gmordie.com',
     paraId: 2123,
-    text: 'GM Parachain',
+    text: 'GM',
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com'
     }
@@ -385,9 +385,10 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Shiden',
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
+      Blast: 'wss://shiden.public.blastapi.io',
+      Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
-      Dwellir: 'wss://shiden-rpc.dwellir.com'
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden'
     }
   },
   {
@@ -401,16 +402,27 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
-    text: 'SORA Kusama Parachain',
+    text: 'SORA',
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
     }
   },
   {
     info: 'subgame',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7982
     homepage: 'http://subgame.org/',
     paraId: 2018,
     text: 'SubGame Gamma',
@@ -451,7 +463,6 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Turing Network',
     providers: {
       OAK: 'wss://rpc.turing.oak.tech',
-      OnFinality: 'wss://turing.api.onfinality.io/public-ws',
       Dwellir: 'wss://turing-rpc.dwellir.com'
     }
   },
@@ -470,7 +481,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2101,
     text: 'Zeitgeist',
     providers: {
-      ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
+      // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }

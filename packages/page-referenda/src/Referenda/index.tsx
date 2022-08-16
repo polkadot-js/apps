@@ -14,6 +14,8 @@ import useSummary from '../useSummary';
 import Referendum from './Referendum';
 import Summary from './Summary';
 
+export { useCounterNamed as useCounter } from '../useCounter';
+
 interface Props {
   className?: string;
   members?: string[];

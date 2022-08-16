@@ -45,8 +45,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Astar',
     providers: {
       Astar: 'wss://rpc.astar.network',
-      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+      Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
+      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar'
     }
   },
@@ -113,19 +114,19 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'darwinia',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
-    paraId: 2003,
-    text: 'Darwinia Para Backup',
+    paraId: 2046,
+    text: 'Darwinia',
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
     info: 'darwinia',
+    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
-    paraId: 2046,
-    text: 'Darwinia Parachain',
+    paraId: 2003,
+    text: 'Darwinia Backup',
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
@@ -267,7 +268,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
-    text: 'OriginTrail Parachain',
+    text: 'OriginTrail',
     paraId: 2043,
     providers: {
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
