@@ -7212,7 +7212,8 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         }
       ]
@@ -7595,7 +7596,8 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         }
       ]
