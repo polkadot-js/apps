@@ -129,7 +129,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'GM',
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com',
-      "bLd Nodes": 'wss://ws.gm.bldnodes.org'
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org'
     }
   },
   {
