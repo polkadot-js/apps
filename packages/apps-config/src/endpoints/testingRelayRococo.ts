@@ -290,7 +290,15 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Zeitggeist: 'wss://roc.zeitgeist.pm'
     }
-  }
+  },
+  {
+    info: 'bright-fork',
+    paraId: 4058,
+    text: 'bright-fork',
+    providers: {
+      BrightFork: ''
+    }
+  },
 ];
 
 export const testParasRococoCommon: EndpointOption[] = [
