@@ -15,6 +15,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
@@ -312,6 +313,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
 
   // initial initialization
   useEffect((): void => {
+    rpcNetwork.setApiUrl(apiUrl);
     createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
       .then((types): void => {
         api.on('connected', () => setIsApiConnected(true));

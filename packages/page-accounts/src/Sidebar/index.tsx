@@ -23,6 +23,8 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
     []
   );
 
+  console.log('isDarwiniaPower sidebar======🔥');
+
   return (
     <AccountSidebarToggle.Provider value={setAddress}>
       {children}

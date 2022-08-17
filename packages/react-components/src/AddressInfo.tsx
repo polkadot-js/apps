@@ -226,6 +226,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
+  console.log('balancesAll========🚒', balancesAll);
+
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
       <Label label={withLabel ? t<string>('total') : ''} />
@@ -469,6 +471,8 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
   if (!bestNumber || !balanceDisplay) {
     return [null];
   }
+
+  console.log('stakingInfo=========🔥', stakingInfo);
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());

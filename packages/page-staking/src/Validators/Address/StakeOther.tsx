@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 
 import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
 import { useTranslation } from '@polkadot/app-staking/translate';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -15,17 +16,15 @@ import { BN, BN_ZERO } from '@polkadot/util';
 interface Props {
   stakeOther?: BN;
   nominators: NominatorValue[];
-  isDarwiniaPower?: boolean;
 }
 
-function extractFunction (all: NominatorValue[], isDarwiniaPower: boolean | undefined): null | [number, () => React.ReactNode[]] {
+function extractFunction (all: NominatorValue[]): null | [number, () => React.ReactNode[]] {
   return all.length
     ? [
       all.length,
       () => all.map(({ nominatorId, value }): React.ReactNode =>
         <AddressMini
           bonded={value}
-          isDarwiniaPower={isDarwiniaPower}
           key={nominatorId}
           value={nominatorId}
           withBonded
@@ -45,11 +44,11 @@ function sumValue (all: { value: BN }[]): BN {
   return total;
 }
 
-function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], isDarwiniaPower: boolean | undefined, stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
   const sorted = nominators.sort((a, b) => b.value.cmp(a.value));
 
   if (!maxPaid || maxPaid.gtn(sorted.length)) {
-    return [extractFunction(sorted, isDarwiniaPower), stakeOther || BN_ZERO, null, BN_ZERO];
+    return [extractFunction(sorted), stakeOther || BN_ZERO, null, BN_ZERO];
   }
 
   const max = maxPaid.toNumber();
@@ -58,16 +57,17 @@ function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], i
   const unrewarded = sorted.slice(max);
   const unrewardedTotal = sumValue(unrewarded);
 
-  return [extractFunction(rewarded, isDarwiniaPower), rewardedTotal, extractFunction(unrewarded, isDarwiniaPower), unrewardedTotal];
+  return [extractFunction(rewarded), rewardedTotal, extractFunction(unrewarded), unrewardedTotal];
 }
 
-function StakeOther ({ isDarwiniaPower, nominators, stakeOther }: Props): React.ReactElement<Props> {
+function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
+  const isDarwiniaPower = rpcNetwork.isDarwinia();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
-    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator, nominators, isDarwiniaPower, stakeOther),
-    [api, nominators, stakeOther, isDarwiniaPower]
+    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator, nominators, stakeOther),
+    [api, nominators, stakeOther]
   );
 
   return (

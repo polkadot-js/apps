@@ -6,6 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';
@@ -17,12 +18,12 @@ export interface Props {
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   withLabel?: boolean;
-  isDarwiniaPower?: boolean;
 }
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
-  const { bonded, className = '', isDarwiniaPower, label, params } = props;
+  const { bonded, className = '', label, params } = props;
   const { t } = useTranslation();
+  const isDarwiniaPower = rpcNetwork.isDarwinia();
 
   if (!params) {
     return null;

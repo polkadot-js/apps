@@ -14,6 +14,7 @@ import React, { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
 import { useTranslation } from '@polkadot/app-staking/translate';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo } from '@polkadot/react-hooks';
@@ -46,7 +47,6 @@ interface Props {
 
 interface StakingState {
   isChilled?: boolean;
-  isDarwiniaPower?: boolean;
   commission?: string;
   nominators: NominatorValue[];
   stakeTotal?: BN;
@@ -59,7 +59,6 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
-  let isDarwiniaPower = false;
 
   if (exposure && exposure.has('ownRingBalance')) {
     const darwiniaExposure = exposure as DarwiniaExposure;
@@ -71,7 +70,6 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
     stakeTotal = darwiniaExposure.totalPower || BN_ZERO;
     stakeOwn = darwiniaExposure.ownPower || BN_ZERO;
     stakeOther = stakeTotal.sub(stakeOwn);
-    isDarwiniaPower = true;
   } else if (exposure && exposure.has('total')) {
     const polkadotExposure = exposure as Exposure;
 
@@ -89,7 +87,6 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
   return {
     commission: commission?.toHuman(),
     isChilled: commission && minCommission && commission.isZero() && commission.lt(minCommission),
-    isDarwiniaPower,
     nominators,
     stakeOther,
     stakeOwn,
@@ -113,8 +110,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const { api } = useApi();
   const { t } = useTranslation();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
+  const isDarwiniaPower = rpcNetwork.isDarwinia();
 
-  const { commission, isChilled, isDarwiniaPower, nominators, stakeOther, stakeOwn } = useMemo(
+  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
       : { nominators: [] },
@@ -160,7 +158,6 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       {isMain
         ? (
           <StakeOther
-            isDarwiniaPower={isDarwiniaPower}
             nominators={nominators}
             stakeOther={stakeOther}
           />
