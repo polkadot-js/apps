@@ -47,7 +47,7 @@
     "@zeitgeistpm/type-defs": "0.7.0",
     "@zeroio/type-definitions": "0.0.14",
     "lodash": "^4.17.21",
-    "moonbeam-types-bundle": "2.0.7",
+    "moonbeam-types-bundle": "2.0.8",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.5.6"
   }
