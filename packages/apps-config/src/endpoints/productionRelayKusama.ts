@@ -30,8 +30,9 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://pendulumchain.org/amplitude',
     paraId: 2124,
     text: 'Amplitude',
-    isUnreachable: true,
-    providers: {} // Working on making this live ASAP
+    providers: {
+      PendulumChain: 'wss://pencol-kus-01.pendulumchain.tech'
+    } // Working on making this live ASAP
   },
   {
     info: 'bajun',
@@ -127,7 +128,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2123,
     text: 'GM',
     providers: {
-      GMorDieDAO: 'wss://kusama.gmordie.com'
+      GMorDieDAO: 'wss://kusama.gmordie.com',
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org'
     }
   },
   {
@@ -398,6 +400,16 @@ export const prodParasKusama: EndpointOption[] = [
     isUnreachable: true,
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network'
+    }
+  },
+  {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
     }
   },
   {

@@ -10,7 +10,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.120.2-13-x",
+  "version": "0.120.2-20-x",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "^4.1.5",
@@ -22,7 +22,7 @@
     "@digitalnative/type-definitions": "1.1.27",
     "@docknetwork/node-types": "0.10.0",
     "@edgeware/node-types": "3.6.2-wako",
-    "@equilab/definitions": "1.4.12",
+    "@equilab/definitions": "1.4.13",
     "@interlay/interbtc-types": "1.8.0",
     "@kiltprotocol/type-definitions": "0.1.23",
     "@laminar/type-definitions": "0.3.1",
