@@ -23,6 +23,9 @@ import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
 import { useTranslation } from './translate';
+import { rpcNetwork } from "@polkadot/react-api/util/getEnvironment";
+import { DarwiniaStakingStructsStakingLedger } from "./types";
+import { formatBalance as balanceFormatter } from './util/formatBalance';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -45,6 +48,12 @@ export interface CryptoActiveType {
 export interface ValidatorPrefsType {
   unstakeThreshold?: boolean;
   validatorPayment?: boolean;
+}
+
+
+interface DarwiniaBalance {
+  locked: string;
+  bonded: string;
 }
 
 interface Props {
@@ -225,8 +234,22 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
 function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
+  const isDarwinia = rpcNetwork.isDarwinia();
+  let darwiniaBalance: DarwiniaBalance | undefined = undefined;
 
-  console.log('balancesAll========🚒', balancesAll);
+  if(isDarwinia && stakingInfo) {
+    const stakingLedger = stakingInfo.stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+    if (stakingLedger.activeDepositRing) {
+      const locked = stakingLedger.activeDepositRing.toBn();
+      const allStakingRing = (stakingLedger.active || stakingLedger.activeRing).toBn();
+      const bondedRing = allStakingRing.sub(locked);
+
+      darwiniaBalance = {
+        locked: balanceFormatter(locked),
+        bonded: balanceFormatter(bondedRing)
+      }
+    }
+  }
 
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
@@ -306,7 +329,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
   const allReserves = (deriveBalances?.namedReserves || []).reduce<PalletBalancesReserveData[]>((t, r) => t.concat(...r), []);
   const hasNamedReserves = !!allReserves && allReserves.length !== 0;
 
-  balanceDisplay.locked && balancesAll && (isAllLocked || deriveBalances.lockedBalance?.gtn(0)) && allItems.push(
+  !isDarwinia && balanceDisplay.locked && balancesAll && (isAllLocked || deriveBalances.lockedBalance?.gtn(0)) && allItems.push(
     <React.Fragment key={3}>
       <Label label={t<string>('locked')} />
       <FormatBalance
@@ -332,6 +355,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           </>
         }
         value={isAllLocked ? 'all' : deriveBalances.lockedBalance}
+      />
+    </React.Fragment>
+  );
+
+  /* Darwinia locked rings will be rendered here */
+  isDarwinia && balanceDisplay.locked && darwiniaBalance && darwiniaBalance.locked && allItems.push(
+    <React.Fragment key={3}>
+      <Label label={t<string>('locked')} />
+      <FormatBalance
+        className='result'
+        isDarwinia={true}
+        valueFormatted={darwiniaBalance.locked}
+        labelPost={<IconVoid />}
       />
     </React.Fragment>
   );
@@ -366,7 +402,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       />
     </React.Fragment>
   );
-  balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && allItems.push(
+
+  !isDarwinia && balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && allItems.push(
     <React.Fragment key={5}>
       <Label label={t<string>('bonded')} />
       <FormatBalance
@@ -388,6 +425,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       </FormatBalance>
     </React.Fragment>
   );
+
+  isDarwinia && balanceDisplay.bonded && darwiniaBalance && darwiniaBalance.bonded && allItems.push(
+    <React.Fragment key={5}>
+      <Label label={t<string>('bonded')} />
+      <FormatBalance
+        className='result'
+        isDarwinia={true}
+        valueFormatted={darwiniaBalance.bonded}
+        labelPost={<IconVoid />}
+      />
+    </React.Fragment>
+  );
+
   balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && allItems.push(
     <React.Fragment key={6}>
       <Label label={t<string>('redeemable')} />
@@ -471,8 +521,6 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
   if (!bestNumber || !balanceDisplay) {
     return [null];
   }
-
-  console.log('stakingInfo=========🔥', stakingInfo);
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());

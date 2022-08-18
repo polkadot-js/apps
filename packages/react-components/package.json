@@ -14,6 +14,7 @@
   "version": "0.120.2-20-x",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "@darwinia/types": "^2.8.9",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -26,6 +27,7 @@
     "@polkadot/ui-settings": "^2.9.5",
     "@polkadot/util": "^10.1.4",
     "@polkadot/util-crypto": "^10.1.4",
+    "bignumber.js": "^9.1.0",
     "chart.js": "^3.9.1",
     "codeflask": "^1.4.1",
     "i18next": "^21.9.0",

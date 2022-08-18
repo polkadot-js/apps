@@ -25,7 +25,7 @@ interface Props {
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
-  isDarwiniaPower?: boolean;
+  isDarwinia?: boolean;
 }
 
 // for million, 2 * 3-grouping + comma
@@ -59,6 +59,35 @@ function splitFormat (value: string, label?: LabelPost, isShort?: boolean): Reac
   return createElement(prefix, postfix, unit, label, isShort);
 }
 
+const splitFormatDarwiniaBalance = (balance: string, darwiniaToken: string, labelPost?: LabelPost) => {
+  const [prefix, postfix] = balance.split('.');
+
+  const processUnit = (amount: string) => {
+    const [balanceAmount, unit] = amount.split(' ');
+    let balanceUnit: string
+    if(unit) {
+      balanceUnit = unit;
+    } else {
+      balanceUnit = darwiniaToken;
+    }
+    return {
+      balanceAmount,
+      balanceUnit
+    }
+  }
+
+  if(postfix) {
+    // it has decimal, check if it has its own unit
+    const { balanceAmount: decimal,balanceUnit } = processUnit(postfix);
+    return <>{prefix}{'.'}<span className='ui--FormatBalance-postfix'>{decimal}</span>{' '}<span className={'ui--FormatBalance-unit'}>{balanceUnit}</span>{labelPost}</>;
+  }
+
+  // it has no decimal, process it accordingly
+  const { balanceAmount,balanceUnit } = processUnit(prefix);
+
+  return <>{balanceAmount}{' '}{balanceUnit}{labelPost}</>
+}
+
 function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
@@ -75,13 +104,18 @@ function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [num
   return createElement(prefix, postfix, unitPost, labelPost, isShort);
 }
 
-function FormatBalance ({ children, className = '', format, formatIndex, isDarwiniaPower, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', format, formatIndex, isDarwinia, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
   const formatInfo = useMemo(
     () => format || getFormat(api.registry, formatIndex),
     [api, format, formatIndex]
+  );
+
+  const [, darwiniaToken] = useMemo(
+    () => getFormat(api.registry, 0),
+    [api]
   );
 
   // labelPost here looks messy, however we ensure we have one less text node
@@ -93,8 +127,8 @@ function FormatBalance ({ children, className = '', format, formatIndex, isDarwi
         data-testid='balance-summary'
       >{
           valueFormatted
-            ? isDarwiniaPower
-              ? <><span style={{ textTransform: 'capitalize' }}>{valueFormatted}</span></>
+            ? isDarwinia
+              ? splitFormatDarwiniaBalance(valueFormatted, darwiniaToken, labelPost)
               : splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'

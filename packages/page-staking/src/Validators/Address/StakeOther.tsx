@@ -78,7 +78,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
             renderChildren={rewarded[1]}
             summary={
               <FormatBalance
-                isDarwiniaPower = {isDarwiniaPower}
+                isDarwinia = {isDarwiniaPower}
                 labelPost={` (${rewarded[0]})`}
                 value={isDarwiniaPower ? undefined : rewardedTotal}
                 valueFormatted={isDarwiniaPower ? formatDarwiniaPower(rewardedTotal, t('power', 'power')) : undefined}

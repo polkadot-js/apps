@@ -27,6 +27,8 @@ export const formatDarwiniaPower = (power: BN| undefined, unit?: string): string
   }
 
   const powerUnit = unit || '';
+  const firstLetter = powerUnit.substring(0,1).toUpperCase();
+  const capitalizedUnit = `${firstLetter}${powerUnit.substring(1,powerUnit.length)}`;
 
-  return `${new BigNumber(power.toString()).toFormat(0)} ${powerUnit}`;
+  return `${new BigNumber(power.toString()).toFormat(0)} ${capitalizedUnit}`;
 };
