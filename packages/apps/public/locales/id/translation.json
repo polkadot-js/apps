@@ -1453,5 +1453,5 @@
   "{{s}} s": "{{s}} detik",
   "{{threshold}}, not passing": "{{threshold}}, tidak melewati",
   "{{threshold}}, passing": "{{threshold}}, melewati",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x memilih saldo, terkunci untuk {{lock}}x berlaku ({{period}} hari)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x memilih saldo, terkunci untuk {{lock}}x berlaku ({{period}} hari)"
 }

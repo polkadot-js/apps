@@ -14,7 +14,7 @@ interface Props {
   hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
-  proposal: Proposal;
+  proposal: Proposal | null;
 }
 
 function Close ({ hasFailed, hash, idNumber, proposal }: Props): React.ReactElement<Props> | null {

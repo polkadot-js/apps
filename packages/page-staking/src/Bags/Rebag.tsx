@@ -38,7 +38,7 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
   );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const changes = useMemo(
-    () => selectedIds.map((stashId) => api.tx.bagsList.rebag(stashId)),
+    () => selectedIds.map((s) => (api.tx.bagsList || api.tx.voterList).rebag(s)),
     [api, selectedIds]
   );
   const tx = useTxBatch(changes);

@@ -24,7 +24,8 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
     [t('external'), 'start'],
     [t('proposer'), 'address'],
     [t('locked')],
-    []
+    [],
+    [undefined, 'media--1000']
   ]);
 
   return (

@@ -31,26 +31,32 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
   return result;
 }
 
-function useOwnStashesImpl (): [string, IsInKeyring][] | undefined {
-  const { allAccounts, hasAccounts } = useAccounts();
+function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | undefined {
+  const { allAccounts } = useAccounts();
   const { api } = useApi();
-  const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi, [allAccounts]);
-  const ownLedger = useCall<Option<StakingLedger>[]>(hasAccounts && api.query.staking?.ledger.multi, [allAccounts]);
+
+  const ids = useMemo(
+    () => allAccounts.concat(additional || []),
+    [allAccounts, additional]
+  );
+
+  const ownBonded = useCall<Option<AccountId>[]>(ids.length !== 0 && api.query.staking?.bonded.multi, [ids]);
+  const ownLedger = useCall<Option<StakingLedger>[]>(ids.length !== 0 && api.query.staking?.ledger.multi, [ids]);
 
   return useMemo(
-    () => hasAccounts
+    () => ids.length
       ? ownBonded && ownLedger
-        ? getStashes(allAccounts, ownBonded, ownLedger)
+        ? getStashes(ids, ownBonded, ownLedger)
         : undefined
       : [],
-    [allAccounts, hasAccounts, ownBonded, ownLedger]
+    [ids, ownBonded, ownLedger]
   );
 }
 
 export const useOwnStashes = createNamedHook('useOwnStashes', useOwnStashesImpl);
 
-function useOwnStashIdsImpl (): string[] | undefined {
-  const ownStashes = useOwnStashes();
+function useOwnStashIdsImpl (additional?: string[]): string[] | undefined {
+  const ownStashes = useOwnStashes(additional);
 
   return useMemo(
     () => ownStashes

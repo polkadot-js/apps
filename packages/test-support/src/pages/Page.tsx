@@ -120,69 +120,74 @@ export abstract class Page {
     });
 
     const noop = () => Promise.resolve(() => { /**/ });
-    const mockApi: ApiProps = {
-      api: {
-        consts: {
-          babe: {
-            expectedBlockTime: new BN(1)
-          },
-          democracy: {
-            enactmentPeriod: new BN(1)
-          },
-          proxy: {
-            proxyDepositBase: new BN(1),
-            proxyDepositFactor: new BN(1)
-          }
+    const api = {
+      consts: {
+        babe: {
+          expectedBlockTime: new BN(1)
         },
-        createType: () => ({
-          defKeys: []
-        }),
-        derive: {
-          accounts: {
-            info: noop
-          },
-          balances: {
-            all: noop
-          },
-          chain: {
-            bestNumber: noop
-          },
-          democracy: {
-            locks: noop
-          },
-          staking: {
-            account: noop
-          }
+        democracy: {
+          enactmentPeriod: new BN(1)
         },
-        genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
-        query: {
-          democracy: {
-            votingOf: noop
-          },
-          identity: {
-            identityOf: noop
-          }
-        },
-        registry: {
-          chainDecimals: [12],
-          chainTokens: ['Unit'],
-          lookup: {
-            names: []
-          }
-        },
-        tx: {
-          council: {},
-          democracy: {
-            delegate: noop
-          },
-          multisig: {
-            approveAsMulti: Object.assign(noop, { meta: { args: [] } })
-          },
-          proxy: {
-            removeProxies: noop
-          },
-          utility: noop
+        proxy: {
+          proxyDepositBase: new BN(1),
+          proxyDepositFactor: new BN(1)
         }
+      },
+      createType: () => ({
+        defKeys: []
+      }),
+      derive: {
+        accounts: {
+          info: noop
+        },
+        balances: {
+          all: noop
+        },
+        chain: {
+          bestNumber: noop
+        },
+        democracy: {
+          locks: noop
+        },
+        staking: {
+          account: noop
+        }
+      },
+      genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
+      query: {
+        democracy: {
+          votingOf: noop
+        },
+        identity: {
+          identityOf: noop
+        }
+      },
+      registry: {
+        chainDecimals: [12],
+        chainTokens: ['Unit'],
+        lookup: {
+          names: []
+        }
+      },
+      tx: {
+        council: {},
+        democracy: {
+          delegate: noop
+        },
+        multisig: {
+          approveAsMulti: Object.assign(noop, { meta: { args: [] } })
+        },
+        proxy: {
+          removeProxies: noop
+        },
+        utility: noop
+      }
+    };
+    const mockApi: ApiProps = {
+      api,
+      apiSystem: {
+        ...api,
+        isReady: Promise.resolve(api)
       },
       systemName: 'substrate'
     } as unknown as ApiProps;

@@ -21,13 +21,22 @@ function needsApiCheck (api: ApiPromise): boolean {
     );
 
     assert(total.eq(BN_ONE) && own.eq(BN_ONE) && who.eq(TEST_ADDR) && value.eq(BN_ONE), 'Needs a known Exposure type');
-
-    return true;
-  } catch (error) {
-    console.warn('Unable to create PalletStakingIndividualExposure type, disabling staking route');
+  } catch {
+    console.warn('Unable to create known-shape Exposure type, disabling staking route');
 
     return false;
   }
+
+  try {
+    // we need to be able to bond
+    api.tx.staking.bond(TEST_ADDR, BN_ONE, { Account: TEST_ADDR });
+  } catch {
+    console.warn('Unable to create staking bond transaction, disabling staking route');
+
+    return false;
+  }
+
+  return true;
 }
 
 export default function create (t: TFunction): Route {
@@ -35,7 +44,8 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        ['tx.staking.bond']
+        'query.staking.erasStakers',
+        'tx.staking.bond'
       ],
       needsApiCheck
     },

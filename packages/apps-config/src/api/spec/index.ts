@@ -11,6 +11,7 @@ import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
 import automata from './automata';
+import bajun from './bajun';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -19,7 +20,6 @@ import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
-import canvas from './canvas';
 import centrifuge from './centrifuge';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -27,6 +27,7 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
 import competitorsClub from './competitors-club';
+import contracts from './contracts';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -51,6 +52,7 @@ import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
+import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
@@ -66,13 +68,14 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import logion from './logion';
+import logionParachain from './logion-parachain';
 import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
-import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import opal from './opal';
@@ -84,7 +87,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import pichiu from './pichiu';
-import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -147,13 +149,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   asgard: bifrostAsgard,
   astar,
   automata,
+  bajun,
   basilisk,
   beresheet,
   bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  canvas,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -163,6 +165,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
@@ -188,9 +191,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
+  imbue,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
+  'interlay-parachain': interbtc,
   'ipse-node': ipse,
   'joystream-node': joystream,
   'jupiter-prep': jupiter,
@@ -207,6 +212,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  logion,
+  'logion-parachain': logionParachain,
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
@@ -219,8 +226,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  neumann,
-  nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -234,7 +239,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  plasm,
   polymesh,
   'pontem-node': pontem,
   prism,
@@ -263,6 +267,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   trustbase,
   turing,
   uart,
+  unique,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,

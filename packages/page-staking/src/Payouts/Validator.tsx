@@ -16,6 +16,7 @@ import { createErasString } from './util';
 
 interface Props {
   className?: string;
+  historyDepth?: BN;
   isDisabled?: boolean;
   payout: PayoutValidator;
 }
@@ -44,7 +45,7 @@ function extractState (payout: PayoutValidator): State {
   return { eraStr, nominators, numNominators: Object.keys(nominators).length, oldestEra: payout.eras[0]?.era };
 }
 
-function Validator ({ className = '', isDisabled, payout }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', historyDepth, isDisabled, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const { eraStr, nominators, numNominators, oldestEra } = useMemo(
@@ -52,7 +53,7 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
     [payout]
   );
 
-  const eraBlocks = useEraBlocks(oldestEra);
+  const eraBlocks = useEraBlocks(historyDepth, oldestEra);
 
   return (
     <tr className={className}>

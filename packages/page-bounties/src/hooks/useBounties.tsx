@@ -1,77 +1,98 @@
 // Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+
+import { useMemo } from 'react';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
-import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
-export type BountyApi = {
+interface BountyApiTxs {
   acceptCurator: SubmittableExtrinsicFunction<'promise'>;
   approveBounty: SubmittableExtrinsicFunction<'promise'>;
   awardBounty: SubmittableExtrinsicFunction<'promise'>;
-  bestNumber?: BlockNumber,
-  bounties?: DeriveBounties,
-  bountyCuratorDeposit: BN,
-  bountyDepositBase: BN,
-  bountyIndex?: BN,
-  bountyUpdatePeriod?: BN,
-  bountyValueMinimum: BN,
   claimBounty: SubmittableExtrinsicFunction<'promise'>;
   closeBounty: SubmittableExtrinsicFunction<'promise'>;
-  dataDepositPerByte: BN,
   extendBountyExpiry: SubmittableExtrinsicFunction<'promise'>;
-  maximumReasonLength: number,
   proposeBounty: SubmittableExtrinsicFunction<'promise'>;
   proposeCurator: SubmittableExtrinsicFunction<'promise'>;
   unassignCurator: SubmittableExtrinsicFunction<'promise'>;
-};
+}
+
+interface BountyApiConstants {
+  bountyCuratorDeposit: BN;
+  bountyDepositBase: BN;
+  bountyUpdatePeriod?: BN;
+  bountyValueMinimum: BN;
+  dataDepositPerByte: BN;
+  maximumReasonLength: number;
+}
+
+interface BountyApiStatics extends BountyApiConstants, BountyApiTxs {
+  // nothing additional
+}
+
+export interface BountyApi extends BountyApiStatics {
+  bestNumber?: BN;
+  bounties?: DeriveBounties;
+  bountyCount?: BN;
+  childCount?: BN;
+}
+
+function getStatics (api: ApiPromise): BountyApiStatics {
+  const constsBase = api.consts.bounties || api.consts.treasury;
+  const txBase = api.tx.bounties || api.tx.treasury;
+
+  return {
+    // constants
+    bountyCuratorDeposit: (constsBase.bountyCuratorDeposit as (BN & Codec)) || BN_ZERO,
+    bountyDepositBase: constsBase.bountyDepositBase,
+    bountyUpdatePeriod: constsBase.bountyUpdatePeriod,
+    bountyValueMinimum: constsBase.bountyValueMinimum,
+    dataDepositPerByte: constsBase.dataDepositPerByte,
+    maximumReasonLength: constsBase.maximumReasonLength.toNumber(),
+
+    // extrinsics
+    // eslint-disable-next-line sort-keys
+    acceptCurator: txBase.acceptCurator,
+    approveBounty: txBase.approveBounty,
+    awardBounty: txBase.awardBounty,
+    claimBounty: txBase.claimBounty,
+    closeBounty: txBase.closeBounty,
+    extendBountyExpiry: txBase.extendBountyExpiry,
+    proposeBounty: txBase.proposeBounty,
+    proposeCurator: txBase.proposeCurator,
+    unassignCurator: txBase.unassignCurator
+  };
+}
 
 function useBountiesImpl (): BountyApi {
   const { api } = useApi();
   const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
-  const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
+  const bountyCount = useCall<BN>((api.query.bounties || api.query.treasury).bountyCount);
+  const childCount = useCall<BN>(api.query.childBounties?.childBountyCount);
   const bestNumber = useBestNumber();
-  const constsBase = api.consts.bounties || api.consts.treasury;
-  const bountyCuratorDeposit = (constsBase.bountyCuratorDeposit as BalanceOf || { toBn: () => BN_ZERO }).toBn();
-  const bountyDepositBase = (constsBase.bountyDepositBase as BalanceOf).toBn();
-  const bountyValueMinimum = (constsBase.bountyValueMinimum as BalanceOf).toBn();
-  const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
-  const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
-  const bountyUpdatePeriod = constsBase.bountyUpdatePeriod;
-  const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
-  const proposeCurator = (api.tx.bounties || api.tx.treasury).proposeCurator;
-  const claimBounty = (api.tx.bounties || api.tx.treasury).claimBounty;
-  const acceptCurator = (api.tx.bounties || api.tx.treasury).acceptCurator;
-  const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
-  const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
-  const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
-  const unassignCurator = (api.tx.bounties || api.tx.treasury).unassignCurator;
-  const awardBounty = (api.tx.bounties || api.tx.treasury).awardBounty;
 
-  return {
-    acceptCurator,
-    approveBounty,
-    awardBounty,
-    bestNumber,
-    bounties,
-    bountyCuratorDeposit,
-    bountyDepositBase,
-    bountyIndex,
-    bountyUpdatePeriod,
-    bountyValueMinimum,
-    claimBounty,
-    closeBounty,
-    dataDepositPerByte,
-    extendBountyExpiry,
-    maximumReasonLength,
-    proposeBounty,
-    proposeCurator,
-    unassignCurator
-  };
+  const statics = useMemo(
+    () => getStatics(api),
+    [api]
+  );
+
+  return useMemo(
+    (): BountyApi => ({
+      ...statics,
+      bestNumber,
+      bounties,
+      bountyCount,
+      childCount
+    }),
+    [bestNumber, bounties, bountyCount, childCount, statics]
+  );
 }
 
 export const useBounties = createNamedHook('useBounties', useBountiesImpl);

@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
@@ -15,7 +16,7 @@ export type CallParams = [] | CallParam[];
 export interface CallOptions <T> {
   defaultValue?: T;
   paramMap?: (params: any) => CallParams;
-  transform?: (value: any) => T;
+  transform?: (value: any, api: ApiPromise) => T;
   withParams?: boolean;
   withParamsTransform?: boolean;
 }
@@ -26,7 +27,7 @@ export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef
 
 export type TxSource<T extends TxDefs> = [T, boolean];
 
-export type CollectiveType = 'council' | 'membership' | 'technicalCommittee';
+export type CollectiveType = 'alliance' | 'council' | 'membership' | 'technicalCommittee';
 
 export interface ModalState {
   isOpen: boolean;

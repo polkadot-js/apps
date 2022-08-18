@@ -3,8 +3,7 @@
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { Option } from '@polkadot/types';
-import type { SlashingSpans, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 import type { SortedTargets } from '../../types';
 import type { Slash } from '../types';
 
@@ -12,11 +11,12 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Checkbox, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
+import useSlashingSpans from '../useSlashingSpans';
 import BondExtra from './BondExtra';
 import InjectKeys from './InjectKeys';
 import KickNominees from './KickNominees';
@@ -31,20 +31,18 @@ import Validate from './Validate';
 import WarnBond from './WarnBond';
 
 interface Props {
-  allSlashes?: [BN, UnappliedSlash[]][];
+  allSlashes?: [BN, PalletStakingUnappliedSlash[]][];
   className?: string;
   isDisabled?: boolean;
-  isSelectable: boolean;
   info: StakerState;
   minCommission?: BN;
   next?: string[];
-  onSelect: (stashId: string, controllerId: string, isSelected: boolean) => void;
   stashId: string;
   targets: SortedTargets;
   validators?: string[];
 }
 
-function extractSlashes (stashId: string, allSlashes: [BN, UnappliedSlash[]][] = []): Slash[] {
+function extractSlashes (stashId: string, allSlashes: [BN, PalletStakingUnappliedSlash[]][] = []): Slash[] {
   return allSlashes
     .map(([era, all]) => ({
       era,
@@ -55,23 +53,16 @@ function extractSlashes (stashId: string, allSlashes: [BN, UnappliedSlash[]][] =
     .filter(({ slashes }) => slashes.length);
 }
 
-const transformSpan = {
-  transform: (optSpans: Option<SlashingSpans>): number =>
-    optSpans.isNone
-      ? 0
-      : optSpans.unwrap().prior.length + 1
-};
-
 function useStashCalls (api: ApiPromise, stashId: string) {
   const params = useMemo(() => [stashId], [stashId]);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances?.all, params);
-  const spanCount = useCall<number>(api.query.staking.slashingSpans, params, transformSpan);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, params);
+  const spanCount = useSlashingSpans(stashId);
 
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, isSelectable, minCommission, onSelect, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, minCommission, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -87,29 +78,20 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
 
-  const _onSelect = useCallback(
-    (isSelected: boolean) => controllerId && onSelect(stashId, controllerId, isSelected),
-    [controllerId, stashId, onSelect]
-  );
-
-  const [isSelected, , setSelected] = useToggle(false, _onSelect);
-
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
     [allSlashes, stashId]
   );
 
   const withdrawFunds = useCallback(
-    () => {
-      queueExtrinsic({
-        accountId: controllerId,
-        extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
-          ? api.tx.staking.withdrawUnbonded(spanCount || 0)
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
-          : api.tx.staking.withdrawUnbonded()
-      });
-    },
+    () => queueExtrinsic({
+      accountId: controllerId,
+      extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
+        ? api.tx.staking.withdrawUnbonded(spanCount)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+        : api.tx.staking.withdrawUnbonded()
+    }),
     [api, controllerId, queueExtrinsic, spanCount]
   );
 
@@ -375,14 +357,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               }
             />
           </>
-        )}
-      </td>
-      <td className='--hidden'>
-        {isSelectable && controllerId && (
-          <Checkbox
-            onChange={setSelected}
-            value={isSelected}
-          />
         )}
       </td>
     </tr>

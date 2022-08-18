@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { PalletUniquesInstanceMetadata } from '@polkadot/types/lookup';
+import type { PalletUniquesItemMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface ItemSupportedIpfsData {
@@ -14,6 +14,6 @@ export interface ItemInfo {
   account: AccountId,
   id: BN;
   key: string;
-  metadata: PalletUniquesInstanceMetadata | null;
+  metadata: PalletUniquesItemMetadata | null;
   ipfsData: ItemSupportedIpfsData | null;
 }

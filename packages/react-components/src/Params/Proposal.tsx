@@ -3,14 +3,19 @@
 
 import type { Props, RawParam } from '@polkadot/react-params/types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
+import { extractInitial } from './Call';
 import ExtrinsicDisplay from './Extrinsic';
 
-function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ProposalDisplay ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTxSudo } = useApi();
+
+  const [{ initialArgs, initialValue }] = useState(
+    () => extractInitial(api, apiDefaultTxSudo, defaultValue)
+  );
 
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {
@@ -31,7 +36,8 @@ function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange
   return (
     <ExtrinsicDisplay
       className={className}
-      defaultValue={apiDefaultTxSudo}
+      defaultArgs={initialArgs}
+      defaultValue={initialValue}
       isDisabled={isDisabled}
       isError={isError}
       isPrivate

@@ -1,0 +1,18 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-whitelist#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-whitelist",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-whitelist",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.120.2-15-x",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9"
+  }
+}

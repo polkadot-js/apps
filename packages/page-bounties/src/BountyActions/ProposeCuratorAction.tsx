@@ -43,9 +43,17 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
     );
   }, [api, members]);
 
-  const proposeCuratorProposal = useMemo(() => curatorId && proposeCurator(index, curatorId, fee), [curatorId, fee, index, proposeCurator]);
+  const proposeCuratorProposal = useMemo(
+    () => curatorId && proposeCurator(index, curatorId, fee),
+    [curatorId, fee, index, proposeCurator]
+  );
 
-  const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
+  const isVotingInitiated = useMemo(
+    () => proposals?.filter(({ proposal }) =>
+      proposal && BOUNTY_METHODS.includes(proposal.method)
+    ).length !== 0,
+    [proposals]
+  );
 
   useEffect(() => {
     setIsFeeValid(!!value?.gt(fee));

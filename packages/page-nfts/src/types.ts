@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { PalletUniquesClassDetails, PalletUniquesClassMetadata } from '@polkadot/types/lookup';
+import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export interface CollectionSupportedIpfsData {
@@ -11,20 +11,20 @@ export interface CollectionSupportedIpfsData {
 }
 
 export interface CollectionInfo {
-  details: PalletUniquesClassDetails | null;
+  details: PalletUniquesCollectionDetails | null;
   id: BN;
   isAdminMe: boolean;
   isIssuerMe: boolean;
   isFreezerMe: boolean;
   isOwnerMe: boolean;
   key: string;
-  metadata: PalletUniquesClassMetadata | null;
+  metadata: PalletUniquesCollectionMetadata | null;
   ipfsData: CollectionSupportedIpfsData | null;
 }
 
 export interface CollectionInfoComplete extends CollectionInfo {
-  details: PalletUniquesClassDetails;
-  metadata: PalletUniquesClassMetadata;
+  details: PalletUniquesCollectionDetails;
+  metadata: PalletUniquesCollectionMetadata;
 }
 
 export interface AccountItem {

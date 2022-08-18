@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Inspect } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -15,11 +16,12 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   extrinsic?: SubmittableExtrinsic<'promise'> | null;
+  isCall: boolean;
   withData?: boolean;
   withHash?: boolean;
 }
 
-function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, string, Inspect | null] {
+function extract (isCall: boolean, extrinsic?: SubmittableExtrinsic<'promise'> | null): [HexString, HexString, Inspect | null] {
   if (!extrinsic) {
     return ['0x', '0x', null];
   }
@@ -30,18 +32,18 @@ function extract (extrinsic?: SubmittableExtrinsic<'promise'> | null): [string, 
   return [
     u8aToHex(u8a),
     extrinsic.registry.hash(u8a).toHex(),
-    extrinsic.isSigned
-      ? extrinsic.inspect()
-      : extrinsic.method.inspect()
+    isCall
+      ? extrinsic.method.inspect()
+      : extrinsic.inspect()
   ];
 }
 
-function Decoded ({ className, extrinsic, withData = true, withHash = true }: Props): React.ReactElement<Props> | null {
+function Decoded ({ className, extrinsic, isCall, withData = true, withHash = true }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const [hex, hash, inspect] = useMemo(
-    () => extract(extrinsic),
-    [extrinsic]
+    () => extract(isCall, extrinsic),
+    [extrinsic, isCall]
   );
 
   if (!inspect) {
@@ -74,8 +76,9 @@ function Decoded ({ className, extrinsic, withData = true, withHash = true }: Pr
       </Columar.Column>
       <Columar.Column>
         <DecodedInspect
+          hex={hex}
           inspect={inspect}
-          label={t<string>('encoded call details')}
+          label={t<string>('encoding details')}
         />
       </Columar.Column>
     </Columar>

@@ -16,7 +16,7 @@ interface Props {
   isDisabled: boolean;
   members: string[];
   prime?: AccountId | null;
-  proposal: Proposal;
+  proposal: Proposal | null;
 }
 
 function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {

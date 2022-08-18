@@ -61,7 +61,6 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
       <section className='ui--LinkSection'>
         <LinkExternal
           data={address}
-          isLogo
           isSidebar
           type='address'
         />

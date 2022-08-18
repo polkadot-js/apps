@@ -63,7 +63,7 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
               isDisabled={isLoading}
               label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
               params={[stashInfo.jump]}
-              tx={api.tx.bagsList.putInFrontOf}
+              tx={(api.tx.bagsList || api.tx.voterList).putInFrontOf}
             />
           )
           : null

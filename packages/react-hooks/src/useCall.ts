@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
@@ -9,8 +10,9 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
-import { isFunction, isNull, isUndefined } from '@polkadot/util';
+import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
+import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
 
 type VoidFn = () => void;
@@ -103,12 +105,12 @@ export function unsubscribe (tracker: TrackerRef): void {
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: any) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
+function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: any) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
   const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
 
-  setTimeout((): void => {
+  nextTick((): void => {
     if (mountedRef.current) {
       const canQuery = !!fn && (
         isMapFn(fn)
@@ -125,10 +127,10 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
             try {
               setValue(
                 withParams
-                  ? [params, transform(value)]
+                  ? [params, transform(value, api)]
                   : withParamsTransform
-                    ? transform([params, value])
-                    : transform(value)
+                    ? transform([params, value], api)
+                    : transform(value, api)
               );
             } catch (error) {
               handleError(error as Error, tracker, fn);
@@ -139,7 +141,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
         tracker.current.subscriber = null;
       }
     }
-  }, 0);
+  });
 }
 
 export function throwOnError (tracker: Tracker): void {
@@ -158,6 +160,7 @@ export function throwOnError (tracker: Tracker): void {
 // FIXME The typings here need some serious TLC
 // FIXME This is generic, we cannot really use createNamedHook
 export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
+  const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
   const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
@@ -177,10 +180,10 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
         tracker.current.fn = fn;
         tracker.current.serialized = serialized;
 
-        subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);
+        subscribe(api, mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
-  }, [fn, options, mountedRef, params]);
+  }, [api, fn, options, mountedRef, params]);
 
   // throwOnError(tracker.current);
 

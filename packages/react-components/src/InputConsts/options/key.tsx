@@ -18,6 +18,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
 
   return Object
     .keys(section)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((value): DropdownOption => {
       const method = (section[value] as ConstantCodec);

@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { CopyButton, IdentityIcon, Input } from '@polkadot/react-components';
-import { compactAddLength, hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -70,17 +70,21 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
 function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
-    value
-      ? isDisabled && isU8a(value) && isAscii(value)
-        ? u8aToString(value)
-        : isHex(value)
-          ? value
-          : u8aToHex(value as Uint8Array)
-      : undefined
+    (): string | undefined => {
+      if (value) {
+        const u8a = u8aToU8a(value as Uint8Array);
+
+        return isAscii(u8a)
+          ? u8aToString(u8a)
+          : u8aToHex(u8a);
+      }
+
+      return undefined;
+    }
   );
   const [{ isAddress, isValid, lastValue }, setValidity] = useState<Validity>(() => ({
     isAddress: false,
-    isValid: isHex(defaultValue)
+    isValid: isHex(defaultValue) || isAscii(defaultValue)
   }));
 
   const _onChange = useCallback(

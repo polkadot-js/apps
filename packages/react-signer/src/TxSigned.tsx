@@ -124,6 +124,9 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
       api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
       tx.paymentInfo(multiRoot)
     ]);
+
+    console.log('multisig max weight=', weight.toString());
+
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
     let timepoint: Timepoint | null = null;

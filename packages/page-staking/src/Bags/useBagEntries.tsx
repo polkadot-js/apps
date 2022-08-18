@@ -7,7 +7,9 @@ import type { PalletBagsListListNode } from '@polkadot/types/lookup';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
+
+import useQueryModule from './useQueryModule';
 
 interface Result {
   isCompleted: boolean;
@@ -18,9 +20,9 @@ const EMPTY: [AccountId32 | null, Result] = [null, { isCompleted: false, list: [
 const EMPTY_LIST: AccountId32[] = [];
 
 function useBagEntriesImpl (headId: AccountId32 | null, trigger: number): [boolean, AccountId32[]] {
-  const { api } = useApi();
+  const mod = useQueryModule();
   const [[currId, { isCompleted, list }], setCurrent] = useState<[AccountId32 | null, Result]>(EMPTY);
-  const node = useCall<Option<PalletBagsListListNode>>(!!currId && api.query.bagsList.listNodes, [currId]);
+  const node = useCall<Option<PalletBagsListListNode>>(!!currId && mod.listNodes, [currId]);
 
   useEffect(
     () => setCurrent(

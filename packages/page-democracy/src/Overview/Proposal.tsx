@@ -77,7 +77,6 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       <td className='links media--1000'>
         <LinkExternal
           data={index}
-          isLogo
           type='proposal'
         />
       </td>

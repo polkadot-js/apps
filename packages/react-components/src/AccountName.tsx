@@ -62,8 +62,12 @@ const MATCHERS: AddrMatcher[] = [
   createAllMatcher('modlpy/socie', 'Society'),
   createAllMatcher('modlpy/trsry', 'Treasury'),
   createNumMatcher('modlpy/cfund', 'Crowdloan'),
+  // Substrate master
   createNumMatcher('modlpy/npols\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/npols\x01', 'Pool', 'Reward'),
+  // Westend
+  createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
+  createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
   createNumMatcher('para', 'Parachain')
 ];
 
@@ -181,7 +185,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       parentCache.set(cacheAddr, identity.parent.toString());
     }
 
-    if (isFunction(api.query.identity?.identityOf)) {
+    if (api && isFunction(api.query.identity?.identityOf)) {
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)

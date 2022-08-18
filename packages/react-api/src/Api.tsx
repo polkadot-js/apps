@@ -3,6 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { ProviderInterface, ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
@@ -12,7 +13,7 @@ import store from 'store';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
+import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -57,6 +58,8 @@ export const DEFAULT_DECIMALS = registry.createType('u32', 12);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
 
+const DISALLOW_EXTENSIONS: string[] = [];
+
 let api: ApiPromise;
 
 export { api };
@@ -98,6 +101,52 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
+function createLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
+  return (path: string, apiUrl?: string): string =>
+    `${isElectron
+      ? 'https://polkadot.js.org/apps/'
+      : `${window.location.origin}${window.location.pathname}`
+    }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
+}
+
+function getStats (...apis: ApiPromise[]): [ProviderStats, number] {
+  const stats = apis.reduce<ProviderStats>((r, api) => {
+    if (api) {
+      const stats = api.stats;
+
+      if (stats) {
+        r.active.requests += stats.active.requests;
+        r.active.subscriptions += stats.active.subscriptions;
+        r.total.bytesRecv += stats.total.bytesRecv;
+        r.total.bytesSent += stats.total.bytesSent;
+        r.total.cached += stats.total.cached;
+        r.total.errors += stats.total.errors;
+        r.total.requests += stats.total.requests;
+        r.total.subscriptions += stats.total.subscriptions;
+        r.total.timeout += stats.total.timeout;
+      }
+    }
+
+    return r;
+  }, {
+    active: {
+      requests: 0,
+      subscriptions: 0
+    },
+    total: {
+      bytesRecv: 0,
+      bytesSent: 0,
+      cached: 0,
+      errors: 0,
+      requests: 0,
+      subscriptions: 0,
+      timeout: 0
+    }
+  });
+
+  return [stats, Date.now()];
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
@@ -110,7 +159,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   ]);
 
   return {
-    injectedAccounts,
+    injectedAccounts: injectedAccounts.filter(({ meta: { source } }) =>
+      !DISALLOW_EXTENSIONS.includes(source)
+    ),
     properties: registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
@@ -190,7 +241,7 @@ function getWellKnownChain (chain = 'polkadot') {
     case 'polkadot':
       return WellKnownChain.polkadot;
     case 'rococo':
-      return WellKnownChain.rococo_v2_1;
+      return WellKnownChain.rococo_v2_2;
     case 'westend':
       return WellKnownChain.westend2;
     default:
@@ -198,28 +249,30 @@ function getWellKnownChain (chain = 'polkadot') {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const provider = isLight
-      ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
-      : new WsProvider(apiUrl);
+    const providers = [0].map((): ProviderInterface =>
+      isLight
+        ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+        : new WsProvider(apiUrl)
+    );
 
     api = new ApiPromise({
-      provider,
+      provider: providers[0],
       registry,
       signer,
       types,
-      typesBundle,
-      typesChain
+      typesBundle
     });
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
-      await provider.connect();
+      for (let i = 0; i < providers.length; i++) {
+        await providers[i].connect();
+      }
     }
   } catch (error) {
     onError(error);
@@ -244,7 +297,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   );
   const apiRelay = useApiUrl(relayUrls);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 

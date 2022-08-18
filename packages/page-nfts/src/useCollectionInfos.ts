@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { PalletUniquesClassDetails, PalletUniquesClassMetadata } from '@polkadot/types/lookup';
+import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { CollectionInfo } from './types';
 
@@ -51,7 +51,7 @@ function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   return allAccounts.some((a) => a === address);
 }
 
-function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUniquesClassDetails>, metadata: PalletUniquesClassMetadata): CollectionInfo {
+function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUniquesCollectionDetails>, metadata: Option<PalletUniquesCollectionMetadata>): CollectionInfo {
   const details = optDetails.unwrapOr(null);
 
   return {
@@ -68,31 +68,33 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
     id,
     ipfsData: null,
     key: id.toString(),
-    metadata: metadata.isEmpty
-      ? null
-      : metadata
+    metadata: metadata.unwrapOr(null)
   };
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): CollectionInfo => {
-  const ipfsHash = collectionInfo.metadata?.toHuman()?.data?.toString() || '';
+  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toString();
 
   return {
     ...collectionInfo,
-    ipfsData: ipfsData.has(ipfsHash) ? ipfsData.get(ipfsHash) as CollectionSupportedIpfsData | null : null
+    ipfsData: (ipfsHash && ipfsData.has(ipfsHash) && ipfsData.get(ipfsHash)) || null
   };
 };
 
 function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], PalletUniquesClassMetadata[]]>(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletUniquesClassDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
+  const metadata = useCall<[[BN[]], Option<PalletUniquesCollectionMetadata>[]]>(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletUniquesCollectionDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(
     () => metadata && metadata[1].length
-      ? metadata[1].map((m) => m.toHuman()?.data?.toString() || '')
+      ? metadata[1].map((o) =>
+        o.isSome
+          ? o.unwrap().data.toString()
+          : ''
+      )
       : [],
     [metadata]
   );

@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CollectiveType } from '@polkadot/react-hooks/types';
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
@@ -14,8 +15,8 @@ interface Props {
   hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
-  proposal: Proposal;
-  type: 'membership' | 'technicalCommittee';
+  proposal: Proposal | null;
+  type: CollectiveType;
 }
 
 function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.ReactElement<Props> | null {

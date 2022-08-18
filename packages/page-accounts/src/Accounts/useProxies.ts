@@ -3,7 +3,7 @@
 
 import type { Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
-import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
+import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
@@ -16,7 +16,7 @@ interface Proxy {
   address: string;
   delay: BN;
   isOwned: boolean;
-  type: NodeRuntimeProxyType;
+  type: KitchensinkRuntimeProxyType;
 }
 
 interface State {
@@ -31,7 +31,7 @@ const EMPTY_STATE: State = {
   proxies: []
 };
 
-function createProxy (allAccounts: string[], delegate: AccountId, type: NodeRuntimeProxyType, delay = BN_ZERO): Proxy {
+function createProxy (allAccounts: string[], delegate: AccountId, type: KitchensinkRuntimeProxyType, delay = BN_ZERO): Proxy {
   const address = delegate.toString();
 
   return {
@@ -53,13 +53,13 @@ function useProxiesImpl (address?: string | null): State {
 
     address && api.query.proxy &&
       api.query.proxy
-        .proxies<ITuple<[Vec<ITuple<[AccountId, NodeRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
+        .proxies<ITuple<[Vec<ITuple<[AccountId, KitchensinkRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
           const proxies = api.tx.proxy.addProxy.meta.args.length === 3
             ? (_proxies as PalletProxyProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
               createProxy(allAccounts, delegate, proxyType, delay)
             )
-            : (_proxies as [AccountId, NodeRuntimeProxyType][]).map(([delegate, proxyType]) =>
+            : (_proxies as [AccountId, KitchensinkRuntimeProxyType][]).map(([delegate, proxyType]) =>
               createProxy(allAccounts, delegate, proxyType)
             );
           const owned = proxies.filter(({ isOwned }) => isOwned);

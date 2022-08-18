@@ -42,6 +42,8 @@ const EMPTY_STATE: State = {
   rewardCount: 0
 };
 
+const OPT_REWARDS = { withParams: true };
+
 function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][]]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
@@ -99,14 +101,14 @@ function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], era
   };
 }
 
-function useOwnEraRewardsImpl (maxEras?: number, ownValidators?: StakerState[]): State {
+function useOwnEraRewardsImpl (maxEras?: number, ownValidators?: StakerState[], additional?: string[]): State {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const stashIds = useOwnStashIds();
+  const stashIds = useOwnStashIds(additional);
   const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric);
   const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>(EMPTY_FILTERED);
   const [state, setState] = useState<State>(EMPTY_STATE);
-  const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
+  const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], OPT_REWARDS);
   const erasPoints = useCall<DeriveEraPoints[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasPoints, [filteredEras, false]);
   const erasRewards = useCall<DeriveEraRewards[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasRewards, [filteredEras, false]);
 

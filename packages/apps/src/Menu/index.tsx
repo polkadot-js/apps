@@ -42,7 +42,7 @@ function createExternals (t: TFunction): ItemRoute[] {
   ];
 }
 
-function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsApiCheck, needsApiInstances, needsSudo, needsTeleport }: Route['display']): boolean {
+function checkVisible ({ api, isApiConnected, isApiReady, isDevelopment: isApiDevelopment }: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean, { isDevelopment, isHidden, needsAccounts, needsApi, needsApiCheck, needsApiInstances, needsSudo, needsTeleport }: Route['display']): boolean {
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -54,6 +54,8 @@ function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, allowTelep
   } else if (needsSudo && !hasSudo) {
     return false;
   } else if (needsTeleport && !allowTeleport) {
+    return false;
+  } else if (!isApiDevelopment && isDevelopment) {
     return false;
   }
 

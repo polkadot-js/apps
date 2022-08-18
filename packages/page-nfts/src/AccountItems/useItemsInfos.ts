@@ -1,7 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletUniquesInstanceMetadata } from '@polkadot/types/lookup';
+import type { Option } from '@polkadot/types';
+import type { PalletUniquesItemMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { AccountItem } from '../types';
 import type { ItemInfo, ItemSupportedIpfsData } from './types';
@@ -35,7 +36,7 @@ const IPFS_FETCH_OPTIONS = {
   }
 };
 
-function extractInfo ([, itemId]: [BN, BN], metadata: PalletUniquesInstanceMetadata, accountItems: AccountItem[]): ItemInfo {
+function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMetadata>, accountItems: AccountItem[]): ItemInfo {
   const { accountId } = accountItems.find(({ itemId: _itemId }) => _itemId.eq(itemId)) as AccountItem;
 
   return {
@@ -43,18 +44,16 @@ function extractInfo ([, itemId]: [BN, BN], metadata: PalletUniquesInstanceMetad
     id: itemId,
     ipfsData: null,
     key: itemId.toString(),
-    metadata: metadata.isEmpty
-      ? null
-      : metadata
+    metadata: metadata.unwrapOr(null)
   };
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (itemInfo: ItemInfo): ItemInfo => {
-  const ipfsHash = itemInfo.metadata?.toHuman()?.data?.toString() || '';
+  const ipfsHash = itemInfo.metadata && itemInfo.metadata.data.toString();
 
   return {
     ...itemInfo,
-    ipfsData: ipfsData.has(ipfsHash) ? ipfsData.get(ipfsHash) as ItemSupportedIpfsData | null : null
+    ipfsData: (ipfsHash && ipfsData.has(ipfsHash) && ipfsData.get(ipfsHash)) || null
   };
 };
 
@@ -67,11 +66,15 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     [accountItems]
   );
 
-  const metadata = useCall<[[[BN, BN][]], PalletUniquesInstanceMetadata[]]>(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
+  const metadata = useCall<[[[BN, BN][]], Option<PalletUniquesItemMetadata>[]]>(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
 
   const ipfsHashes = useMemo((): string[] | undefined => {
     if (metadata && metadata[1].length) {
-      return metadata[1].map((metadataItem) => metadataItem.toHuman()?.data?.toString() || '');
+      return metadata[1].map((o) =>
+        o.isSome
+          ? o.unwrap().data.toString()
+          : ''
+      );
     }
 
     return undefined;

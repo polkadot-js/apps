@@ -10,6 +10,7 @@ export interface TabItem {
   count?: number;
   hasParams?: boolean;
   isExact?: boolean;
+  isHidden?: boolean;
   isRoot?: boolean;
   name: string;
   text: React.ReactNode;

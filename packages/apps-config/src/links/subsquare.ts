@@ -9,8 +9,16 @@ export default {
   chains: {
     Acala: 'acala',
     Bifrost: 'bifrost',
+    Crust: 'crust',
+    'Darwinia Crab': 'crab',
+    Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
+    Kusama: 'kusama',
+    Litmus: 'litmus',
+    Phala: 'phala',
+    Polkadot: 'polkadot',
+    'Turing Network': 'turing',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
@@ -20,6 +28,7 @@ export default {
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
+    external: 'democracy/external',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     tip: 'treasury/tip',

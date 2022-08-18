@@ -24,8 +24,14 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const [value, setValue] = useState<BN | undefined>();
   const hasValue = value?.gtn(0);
 
-  const bondPercentage = useMemo(
-    () => `${api.consts.treasury.proposalBond.mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`,
+  const [bondMin, bondMax, bondPercentage] = useMemo(
+    () => [
+      api.consts.treasury.proposalBondMinimum.toString(),
+      api.consts.treasury.proposalBondMaximum?.isSome
+        ? api.consts.treasury.proposalBondMaximum.unwrap().toString()
+        : null,
+      `${api.consts.treasury.proposalBond.mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`
+    ],
     [api]
   );
 
@@ -60,7 +66,10 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               hint={
                 <>
                   <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
-                  <p>{t<string>('Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.', { replace: { bondPercentage } })}</p>
+                  {bondMax
+                    ? <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                    : <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                  }
                 </>
               }
             >
@@ -77,11 +86,19 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
                 {bondPercentage}
               </Static>
               <InputBalance
-                defaultValue={api.consts.treasury.proposalBondMinimum.toString()}
+                defaultValue={bondMin}
                 help={t<string>('The minimum amount that will be bonded')}
                 isDisabled
                 label={t<string>('minimum bond')}
               />
+              {bondMax && (
+                <InputBalance
+                  defaultValue={bondMax}
+                  help={t<string>('The maximum amount that will be bonded')}
+                  isDisabled
+                  label={t<string>('maximum bond')}
+                />
+              )}
               <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
             </Modal.Columns>
           </Modal.Content>

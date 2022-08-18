@@ -8,8 +8,10 @@ import type { BagInfo } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
+
+import useQueryModule from './useQueryModule';
 
 const KEY_OPTS = {
   transform: (keys: StorageKey<[u64]>[]): BN[] =>
@@ -51,10 +53,10 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
 }
 
 function useBagsListImpl (): BagInfo[] | undefined {
-  const { api } = useApi();
+  const mod = useQueryModule();
   const [result, setResult] = useState<BagInfo[] | undefined>();
-  const ids = useMapKeys(api.query.bagsList.listBags, KEY_OPTS);
-  const query = useCall(ids && ids.length !== 0 && api.query.bagsList.listBags.multi, [ids], MULTI_OPTS);
+  const ids = useMapKeys(mod.listBags, KEY_OPTS);
+  const query = useCall(ids && ids.length !== 0 && mod.listBags.multi, [ids], MULTI_OPTS);
 
   useEffect((): void => {
     query && setResult((prev) => merge(prev, query));

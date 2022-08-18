@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
+import type { TabItem } from '@polkadot/react-components/Tabs/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types';
 
@@ -13,21 +15,35 @@ import Decoder from './Decoder';
 import Submission from './Submission';
 import { useTranslation } from './translate';
 
-function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
+function createPathRef (basePath: string): Record<string, string | string[]> {
+  return {
+    decode: [
+      `${basePath}/decode/:encoded`,
+      `${basePath}/decode`
+    ]
+  };
+}
 
-  const itemsRef = useRef([
+function createItemsRef (t: TFunction): TabItem[] {
+  return [
     {
       isRoot: true,
       name: 'create',
       text: t<string>('Submission')
     },
     {
+      hasParams: true,
       name: 'decode',
       text: t<string>('Decode')
     }
-  ]);
+  ];
+}
+
+function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
+  const itemsRef = useRef(createItemsRef(t));
+  const pathRef = useRef(createPathRef(basePath));
 
   return (
     <main className='extrinsics--App'>
@@ -36,8 +52,11 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Switch>
-        <Route path={`${basePath}/decode`}>
-          <Decoder setLast={setDecoded} />
+        <Route path={pathRef.current.decode}>
+          <Decoder
+            defaultValue={decoded && decoded.hex}
+            setLast={setDecoded}
+          />
         </Route>
         <Route>
           <Submission defaultValue={decoded} />

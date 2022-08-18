@@ -11,14 +11,14 @@ import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
-const transformSudo = {
+const OPT = {
   transform: (key: AccountId) => key.toString()
 };
 
 function useSudoImpl (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);
+  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, OPT);
   const [hasSudoKey, setHasSudoKey] = useState(false);
 
   useEffect((): void => {
