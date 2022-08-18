@@ -26,7 +26,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
-      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
+      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
+      Dwellir: 'wss://acala-rpc.dwellir.com'
     }
   },
   {

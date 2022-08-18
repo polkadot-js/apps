@@ -181,7 +181,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://karura.polkawallet.io',
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+      Dwellir: 'wss://karura-rpc.dwellir.com'
     }
   },
   {
