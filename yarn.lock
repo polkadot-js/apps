@@ -3142,7 +3142,7 @@ __metadata:
     "@zeitgeistpm/type-defs": 0.7.0
     "@zeroio/type-definitions": 0.0.14
     lodash: ^4.17.21
-    moonbeam-types-bundle: 2.0.7
+    moonbeam-types-bundle: 2.0.8
     pontem-types-bundle: 1.0.15
     rxjs: ^7.5.6
   languageName: unknown
@@ -14859,13 +14859,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:2.0.7":
-  version: 2.0.7
-  resolution: "moonbeam-types-bundle@npm:2.0.7"
+"moonbeam-types-bundle@npm:2.0.8":
+  version: 2.0.8
+  resolution: "moonbeam-types-bundle@npm:2.0.8"
   dependencies:
-    "@polkadot/api": ^8.8.2
+    "@polkadot/api": ^9.2.1
     typescript: ^4.7.4
-  checksum: 32930c627e01d33aca542899f81dd8bbe6313c22ea0c3f0d81e0714238bcf5c354fb446420ca1d97703add84f612c591af5b5565df37560ee196698d1e962185
+  checksum: 86678927ea905d2699024cdadb2beb69074efdf5e9ac88682593374ebb1dcd885870231659d5095ccf09f44f243a3b4249ca1ac4981f4bf2cce470f6ea616299
   languageName: node
   linkType: hard
 
