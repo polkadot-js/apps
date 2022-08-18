@@ -269,6 +269,7 @@
        1	hapham                        	Add parachain Lavender by SingNetwork (#6067)
        1	Harjyot Singh                 	Update translation.json (#3570)
        1	Harry Liu                     	Update README.md (#1437)
+       1	Henry                         	Bump moonbeam-types-bundle version in apps-config to fix some missing types (#8008)
        1	Ian He                        	add onfinality endpoint for polkadot and kusama (#4070)
        1	igorgogo                      	Add Spanner (#6058)
        1	imam hermawan                 	add myriad endpoint (#7792)

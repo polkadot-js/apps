@@ -48324,7 +48324,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -48334,39 +48334,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -48393,7 +48368,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -48409,7 +48386,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -48426,6 +48405,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48492,6 +48473,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48599,6 +48582,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48707,6 +48692,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48832,6 +48819,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48981,6 +48970,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49135,6 +49126,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49309,6 +49302,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49484,6 +49479,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49710,6 +49707,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50040,7 +50039,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -50050,39 +50049,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -50109,7 +50083,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -50125,7 +50101,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -50142,6 +50120,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50208,6 +50188,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50315,6 +50297,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50423,6 +50407,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50548,6 +50534,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50697,6 +50685,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50851,6 +50841,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51025,6 +51017,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51200,6 +51194,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51426,6 +51422,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51756,7 +51754,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -51766,39 +51764,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -51825,7 +51798,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -51841,7 +51816,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -51858,6 +51835,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51924,6 +51903,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52031,6 +52012,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52139,6 +52122,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52264,6 +52249,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52413,6 +52400,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52567,6 +52556,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52741,6 +52732,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52916,6 +52909,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53142,6 +53137,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53472,7 +53469,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -53482,39 +53479,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -53541,7 +53513,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -53557,7 +53531,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -53574,6 +53550,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53640,6 +53618,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53747,6 +53727,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53855,6 +53837,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53980,6 +53964,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54129,6 +54115,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54283,6 +54271,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54457,6 +54447,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54632,6 +54624,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54858,6 +54852,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55411,7 +55407,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -55421,39 +55417,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -55480,7 +55451,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -55496,7 +55469,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -55513,6 +55488,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55579,6 +55556,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55686,6 +55665,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55794,6 +55775,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55919,6 +55902,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56068,6 +56053,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56222,6 +56209,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56396,6 +56385,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56571,6 +56562,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56797,6 +56790,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
