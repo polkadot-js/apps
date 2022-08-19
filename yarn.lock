@@ -7654,13 +7654,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.2.0":
-  version: 6.2.1
-  resolution: "commander@npm:6.2.1"
-  checksum: d7090410c0de6bc5c67d3ca41c41760d6d268f3c799e530aafb73b7437d1826bbf0d2a3edac33f8b57cc9887b4a986dce307fa5557e109be40eadb7c43b21742
-  languageName: node
-  linkType: hard
-
 "commander@npm:^7.0.0, commander@npm:^7.2.0":
   version: 7.2.0
   resolution: "commander@npm:7.2.0"
@@ -7672,6 +7665,13 @@ __metadata:
   version: 8.3.0
   resolution: "commander@npm:8.3.0"
   checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
+  languageName: node
+  linkType: hard
+
+"commander@npm:^9.0.0":
+  version: 9.4.0
+  resolution: "commander@npm:9.4.0"
+  checksum: a322de584a6ccd1ea83c24f6a660e52d16ffbe2613fcfbb8d2cc68bc9dec637492456d754fe8bb5b039ad843ed8e04fb0b107e581a75f62cde9e1a0ab1546e09
   languageName: node
   linkType: hard
 
@@ -9267,10 +9267,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ensure-array@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "ensure-array@npm:1.0.0"
-  checksum: d071cd8c5a33fc6d3006db2c9abf12b0245b92045f0fd49d80e306566e94515a7e63dd9979c95365d9556c9f53395c0f747270ee6afd1950549692c507b92b88
+"ensure-type@npm:^1.5.0":
+  version: 1.5.1
+  resolution: "ensure-type@npm:1.5.1"
+  checksum: 98d190440ef8f5c78ae00dcfdc07efc46020e9fedeaba485cd29ed7505f3e674a2551919c20095c5bb1a3da9fe73ad4a344771d7a268d608ee9b575fd054c69d
   languageName: node
   linkType: hard
 
@@ -11936,9 +11936,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-scanner@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "i18next-scanner@npm:3.3.0"
+"i18next-scanner@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "i18next-scanner@npm:4.0.0"
   dependencies:
     acorn: ^8.0.4
     acorn-dynamic-import: ^4.0.0
@@ -11947,9 +11947,9 @@ __metadata:
     acorn-walk: ^8.0.0
     chalk: ^4.1.0
     clone-deep: ^4.0.0
-    commander: ^6.2.0
+    commander: ^9.0.0
     deepmerge: ^4.0.0
-    ensure-array: ^1.0.0
+    ensure-type: ^1.5.0
     eol: ^0.9.1
     esprima-next: ^5.7.0
     gulp-sort: ^2.0.0
@@ -11962,7 +11962,7 @@ __metadata:
     vinyl-fs: ^3.0.1
   bin:
     i18next-scanner: bin/cli.js
-  checksum: bb8237c042b8ad30723c40458f2161d9d112019000a9b01c78b648f8250b8d378328f5b68d50c8faccf39393d6490605a587d48c0f9cfa0f94975de4cbe2b1d5
+  checksum: 14e2bbf4c3f7f1ffa4ab2fd1e2e577becaf1d0a63d9e74d7fb07e1944190e0ff1f0bb88a13fddfdf1172326dcc01cdcc253d91f00616da7dadb8607d0d48c188
   languageName: node
   linkType: hard
 
@@ -16163,7 +16163,7 @@ __metadata:
     electron: ^12.2.3
     electron-builder: 22.14.13
     electron-builder-notarize: ^1.2.0
-    i18next-scanner: ^3.3.0
+    i18next-scanner: ^4.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-is: ^18.2.0

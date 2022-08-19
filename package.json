@@ -86,7 +86,7 @@
     "electron": "^12.2.3",
     "electron-builder": "22.14.13",
     "electron-builder-notarize": "^1.2.0",
-    "i18next-scanner": "^3.3.0",
+    "i18next-scanner": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
