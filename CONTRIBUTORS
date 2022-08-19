@@ -1,4 +1,4 @@
-    3754	Jaco                          	Replace setTimeout(..., 0) with nextTick (#7997)
+    3755	Jaco                          	Disable unreachable endpoints (#8021)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
