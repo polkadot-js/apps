@@ -1,4 +1,4 @@
-    3753	Jaco                          	Check for api.call.transactionPaymentApi for fees (#7996)
+    3754	Jaco                          	Replace setTimeout(..., 0) with nextTick (#7997)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
