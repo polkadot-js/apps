@@ -11,7 +11,7 @@ import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { formatBalance, isFunction, nextTick } from '@polkadot/util';
+import { formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -32,13 +32,12 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
-      nextTick((): void => {
+    accountId && extrinsic && api.call.transactionPaymentApi &&
+      nextTick(async (): Promise<void> => {
         try {
-          extrinsic
-            .paymentInfo(accountId)
-            .then((info) => mountedRef.current && setDispatchInfo(info))
-            .catch(console.error);
+          const info = await extrinsic.paymentInfo(accountId);
+
+          mountedRef.current && setDispatchInfo(info);
         } catch (error) {
           console.error(error);
         }

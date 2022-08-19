@@ -187,6 +187,7 @@ import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
+import nodeSnow from './nodes/snow.png';
 import nodeSoonsocial from './nodes/soonsocial.png';
 import nodeSoonsocialX from './nodes/soonsocialX.png';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -388,6 +389,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SkyeKiwi: chainSkyeKiwi,
+  'Snow Kusama': nodeSnow,
   soonsocial: nodeSoonsocial,
   soonsocialX: nodeSoonsocialX,
   SORA: nodeSora,
@@ -588,6 +590,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
+  Snow: nodeSnow,
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,

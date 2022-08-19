@@ -26,7 +26,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
-      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
+      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
+      Dwellir: 'wss://acala-rpc.dwellir.com'
     }
   },
   {
@@ -138,7 +139,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Efinity',
     providers: {
       Efinity: 'wss://rpc.efinity.io',
-      Dwellir: 'wss://efinity-rpc.dwellir.com'
+      Dwellir: 'wss://efinity-rpc.dwellir.com',
+      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     }
   },
   {

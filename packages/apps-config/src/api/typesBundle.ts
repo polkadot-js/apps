@@ -7212,7 +7212,8 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         }
       ]
@@ -7595,7 +7596,8 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         }
       ]
@@ -44918,14 +44920,22 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "RpcResult": {
+            "XYKRpcResult": {
               "price": "Balance"
             },
             "RPCAmountsResult": {
               "firstAssetAmount": "Balance",
               "secondAssetAmount": "Balance"
             },
-            "TokenId": "u32"
+            "VestingInfo": {
+              "locked": "Balance",
+              "perBlock": "Balance",
+              "startingBlock": "BlockNumber"
+            },
+            "TokenId": "u32",
+            "VestingInfosWithLockedAt": {
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo, Balance)>"
+            }
           }
         }
       ],
@@ -44947,7 +44957,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
             "description": "",
@@ -44965,7 +44975,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
             "description": "",
@@ -45001,7 +45011,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
             "description": "",
@@ -45019,7 +45029,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
             "description": "",
@@ -45033,7 +45043,49 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
+          },
+          "get_max_instant_unreserve_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_max_instant_burn_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_vesting_locked_at": {
+            "description": "",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "token_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
           }
         }
       }
@@ -45059,14 +45111,22 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "RpcResult": {
+            "XYKRpcResult": {
               "price": "Balance"
             },
             "RPCAmountsResult": {
               "firstAssetAmount": "Balance",
               "secondAssetAmount": "Balance"
             },
-            "TokenId": "u32"
+            "VestingInfo": {
+              "locked": "Balance",
+              "perBlock": "Balance",
+              "startingBlock": "BlockNumber"
+            },
+            "TokenId": "u32",
+            "VestingInfosWithLockedAt": {
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo, Balance)>"
+            }
           }
         }
       ],
@@ -45088,7 +45148,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
             "description": "",
@@ -45106,7 +45166,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
             "description": "",
@@ -45142,7 +45202,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
             "description": "",
@@ -45160,7 +45220,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
             "description": "",
@@ -45174,7 +45234,49 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
+          },
+          "get_max_instant_unreserve_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_max_instant_burn_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_vesting_locked_at": {
+            "description": "",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "token_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
           }
         }
       }
@@ -48322,7 +48424,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -48332,39 +48434,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -48391,7 +48468,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -48407,7 +48486,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -48424,6 +48505,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48490,6 +48573,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48597,6 +48682,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48705,6 +48792,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48830,6 +48919,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -48979,6 +49070,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49133,6 +49226,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49307,6 +49402,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49482,6 +49579,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -49708,6 +49807,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50038,7 +50139,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -50048,39 +50149,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -50107,7 +50183,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -50123,7 +50201,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -50140,6 +50220,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50206,6 +50288,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50313,6 +50397,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50421,6 +50507,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50546,6 +50634,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50695,6 +50785,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -50849,6 +50941,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51023,6 +51117,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51198,6 +51294,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51424,6 +51522,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51754,7 +51854,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -51764,39 +51864,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -51823,7 +51898,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -51839,7 +51916,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -51856,6 +51935,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -51922,6 +52003,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52029,6 +52112,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52137,6 +52222,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52262,6 +52349,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52411,6 +52500,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52565,6 +52656,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52739,6 +52832,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -52914,6 +53009,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53140,6 +53237,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53470,7 +53569,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -53480,39 +53579,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -53539,7 +53613,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -53555,7 +53631,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -53572,6 +53650,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53638,6 +53718,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53745,6 +53827,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53853,6 +53937,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -53978,6 +54064,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54127,6 +54215,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54281,6 +54371,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54455,6 +54547,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54630,6 +54724,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -54856,6 +54952,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -55202,460 +55300,6 @@ export const typesBundle = {
         }
       ]
     },
-    "nft": {
-      "rpc": {
-        "unique": {
-          "adminlist": {
-            "description": "Get admin list",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "allowlist": {
-            "description": "Get allowlist",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "accountTokens": {
-            "description": "Get tokens owned by account",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u32>"
-          },
-          "collectionTokens": {
-            "description": "Get tokens contained in collection",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u32>"
-          },
-          "lastTokenId": {
-            "description": "Get last token id",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "totalSupply": {
-            "description": "Get amount of unique collection tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "accountBalance": {
-            "description": "Get amount of different user tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "balance": {
-            "description": "Get amount of specific account token",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u128"
-          },
-          "allowance": {
-            "description": "Get allowed amount",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "sender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "spender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u128"
-          },
-          "tokenOwner": {
-            "description": "Get token owner",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "topmostTokenOwner": {
-            "description": "Get token owner, in case of nested token - find parent recursive",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "tokenChildren": {
-            "description": "Get tokens nested directly into the token",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsTokenChild>"
-          },
-          "constMetadata": {
-            "description": "Get token constant metadata",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u8>"
-          },
-          "variableMetadata": {
-            "description": "Get token variable metadata",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u8>"
-          },
-          "collectionProperties": {
-            "description": "Get collection properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "tokenProperties": {
-            "description": "Get token properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "propertyPermissions": {
-            "description": "Get property permissions",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsPropertyKeyPermission>"
-          },
-          "tokenData": {
-            "description": "Get token data",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "UpDataStructsTokenData"
-          },
-          "tokenExists": {
-            "description": "Check if token exists",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "bool"
-          },
-          "collectionById": {
-            "description": "Get collection by specified id",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<UpDataStructsRpcCollection>"
-          },
-          "collectionStats": {
-            "description": "Get collection stats",
-            "params": [
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "UpDataStructsCollectionStats"
-          },
-          "allowed": {
-            "description": "Check if user is allowed to use collection",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "bool"
-          },
-          "nextSponsored": {
-            "description": "Get number of blocks when sponsored transaction is available",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<u64>"
-          },
-          "effectiveCollectionLimits": {
-            "description": "Get effective collection limits",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<UpDataStructsCollectionLimits>"
-          }
-        }
-      }
-    },
     "nftmart": {
       "types": [
         {
@@ -55863,7 +55507,7 @@ export const typesBundle = {
         },
         "moon": {
           "isBlockFinalized": {
-            "description": "Checks if an Ethereum block is finalized",
+            "description": "Returns whether an Ethereum block is finalized",
             "params": [
               {
                 "name": "blockHash",
@@ -55873,39 +55517,14 @@ export const typesBundle = {
             "type": "bool"
           },
           "isTxFinalized": {
-            "description": "Checks if an Ethereum transaction is finalized",
+            "description": "Returns whether an Ethereum transaction is finalized",
             "params": [
               {
-                "name": "transactionHash",
+                "name": "txHash",
                 "type": "Hash"
               }
             ],
             "type": "bool"
-          }
-        },
-        "eth": {
-          "feeHistory": {
-            "description": "Returns Ethereum fee history",
-            "params": [
-              {
-                "name": "blockCount",
-                "type": "U256"
-              },
-              {
-                "name": "newestBlock",
-                "type": "BlockNumber"
-              },
-              {
-                "name": "rewardPercentiles",
-                "type": "Option<Vec<f64>>"
-              }
-            ],
-            "type": "FeeHistory"
-          },
-          "maxPriorityFeePerGas": {
-            "description": "Returns Ethereum max priority fee per gas",
-            "params": [],
-            "type": "U256"
           }
         }
       },
@@ -55932,7 +55551,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -55948,7 +55569,9 @@ export const typesBundle = {
             "Account": {
               "nonce": "U256",
               "balance": "u128"
-            }
+            },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -55965,6 +55588,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56031,6 +55656,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56138,6 +55765,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56246,6 +55875,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56371,6 +56002,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56520,6 +56153,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56674,6 +56309,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -56848,6 +56485,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -57023,6 +56662,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -57249,6 +56890,8 @@ export const typesBundle = {
               "nonce": "U256",
               "balance": "u128"
             },
+            "EthTransaction": "LegacyTransaction",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "ExtrinsicSignature": "EthereumSignature",
             "RoundIndex": "u32",
             "Candidate": {
@@ -67278,6 +66921,676 @@ export const typesBundle = {
         }
       ]
     },
+    "testnet-interlay": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "CurrencyId": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId"
+              }
+            },
+            "InterbtcPrimitivesCurrencyId": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId"
+              }
+            },
+            "InterbtcForeignAssetId": "u32",
+            "ForeignAssetId": "u32",
+            "FundAccountJsonRpcRequest": {
+              "account_id": "AccountId",
+              "currency_id": "InterbtcPrimitivesCurrencyId"
+            },
+            "H256Le": "H256",
+            "SignedFixedPoint": "FixedU128",
+            "TokenSymbol": {
+              "_enum": {
+                "DOT": 0,
+                "IBTC": 1,
+                "INTR": 2,
+                "KSM": 10,
+                "KBTC": 11,
+                "KINT": 12
+              }
+            },
+            "InterbtcPrimitivesTokenSymbol": {
+              "_enum": {
+                "DOT": 0,
+                "IBTC": 1,
+                "INTR": 2,
+                "KSM": 10,
+                "KBTC": 11,
+                "KINT": 12
+              }
+            },
+            "UnsignedFixedPoint": "FixedU128",
+            "VaultCurrencyPair": {
+              "collateral": "CurrencyId",
+              "wrapped": "CurrencyId"
+            },
+            "VaultId": {
+              "account_id": "AccountId",
+              "currencies": "VaultCurrencyPair"
+            }
+          }
+        }
+      ],
+      "rpc": {
+        "btcRelay": {
+          "verifyBlockHeaderInclusion": {
+            "description": "Verify that the block with the given hash is included",
+            "params": [
+              {
+                "name": "block_hash",
+                "type": "H256Le"
+              }
+            ],
+            "type": "void"
+          }
+        },
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue request IDs for a particular vault",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "oracle": {
+          "collateralToWrapped": {
+            "description": "Collateral to Wrapped exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "wrappedToCollateral": {
+            "description": "Wrapped to Collateral exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem request IDs for a particular vault",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "refund": {
+          "getRefundRequests": {
+            "description": "Get all refund request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getRefundRequestsByIssueId": {
+            "description": "Get all refund request IDs for a particular issue ID",
+            "params": [
+              {
+                "name": "issue_id",
+                "type": "H256"
+              }
+            ],
+            "type": "H256"
+          },
+          "getVaultRefundRequests": {
+            "description": "Get all refund request IDs for a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "replace": {
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace request IDs to a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace request IDs from a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "vaultRegistry": {
+          "getCollateralizationFromVault": {
+            "description": "Returns the collateralization of a specific vault",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              },
+              {
+                "name": "only_issued",
+                "type": "bool"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Returns the collateralization of a specific vault and collateral",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "only_issued",
+                "type": "bool"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold.",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the amount of collateral required to issue an amount of InterBTC",
+            "params": [
+              {
+                "name": "amount_btc",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all vaults that are registered using the given account _id",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<VaultId>"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          }
+        }
+      },
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      },
+      "instances": {
+        "balances": [
+          "ksm",
+          "kbtc",
+          "kint",
+          "dot",
+          "ibtc",
+          "intr"
+        ]
+      }
+    },
+    "testnet-kintsugi": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "CurrencyId": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId"
+              }
+            },
+            "InterbtcPrimitivesCurrencyId": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId"
+              }
+            },
+            "InterbtcForeignAssetId": "u32",
+            "ForeignAssetId": "u32",
+            "FundAccountJsonRpcRequest": {
+              "account_id": "AccountId",
+              "currency_id": "InterbtcPrimitivesCurrencyId"
+            },
+            "H256Le": "H256",
+            "SignedFixedPoint": "FixedU128",
+            "TokenSymbol": {
+              "_enum": {
+                "DOT": 0,
+                "IBTC": 1,
+                "INTR": 2,
+                "KSM": 10,
+                "KBTC": 11,
+                "KINT": 12
+              }
+            },
+            "InterbtcPrimitivesTokenSymbol": {
+              "_enum": {
+                "DOT": 0,
+                "IBTC": 1,
+                "INTR": 2,
+                "KSM": 10,
+                "KBTC": 11,
+                "KINT": 12
+              }
+            },
+            "UnsignedFixedPoint": "FixedU128",
+            "VaultCurrencyPair": {
+              "collateral": "CurrencyId",
+              "wrapped": "CurrencyId"
+            },
+            "VaultId": {
+              "account_id": "AccountId",
+              "currencies": "VaultCurrencyPair"
+            }
+          }
+        }
+      ],
+      "rpc": {
+        "btcRelay": {
+          "verifyBlockHeaderInclusion": {
+            "description": "Verify that the block with the given hash is included",
+            "params": [
+              {
+                "name": "block_hash",
+                "type": "H256Le"
+              }
+            ],
+            "type": "void"
+          }
+        },
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue request IDs for a particular vault",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "oracle": {
+          "collateralToWrapped": {
+            "description": "Collateral to Wrapped exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "wrappedToCollateral": {
+            "description": "Wrapped to Collateral exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem request IDs for a particular vault",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "refund": {
+          "getRefundRequests": {
+            "description": "Get all refund request IDs for a particular account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getRefundRequestsByIssueId": {
+            "description": "Get all refund request IDs for a particular issue ID",
+            "params": [
+              {
+                "name": "issue_id",
+                "type": "H256"
+              }
+            ],
+            "type": "H256"
+          },
+          "getVaultRefundRequests": {
+            "description": "Get all refund request IDs for a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "replace": {
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace request IDs to a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          },
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace request IDs from a particular vault",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<H256>"
+          }
+        },
+        "vaultRegistry": {
+          "getCollateralizationFromVault": {
+            "description": "Returns the collateralization of a specific vault",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              },
+              {
+                "name": "only_issued",
+                "type": "bool"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Returns the collateralization of a specific vault and collateral",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "only_issued",
+                "type": "bool"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vault",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold.",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the amount of collateral required to issue an amount of InterBTC",
+            "params": [
+              {
+                "name": "amount_btc",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all vaults that are registered using the given account _id",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<VaultId>"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [],
+            "type": "Vec<(VaultId, BalanceWrapper)>"
+          }
+        }
+      },
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      },
+      "instances": {
+        "balances": [
+          "ksm",
+          "kbtc",
+          "kint",
+          "dot",
+          "ibtc",
+          "intr"
+        ]
+      }
+    },
     "trustbase": {
       "types": [
         {
@@ -67604,6 +67917,460 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "unique": {
+      "rpc": {
+        "unique": {
+          "adminlist": {
+            "description": "Get admin list",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "allowlist": {
+            "description": "Get allowlist",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "accountTokens": {
+            "description": "Get tokens owned by account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "collectionTokens": {
+            "description": "Get tokens contained in collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "lastTokenId": {
+            "description": "Get last token id",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "totalSupply": {
+            "description": "Get amount of unique collection tokens",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get amount of different user tokens",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get amount of specific account token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "allowance": {
+            "description": "Get allowed amount",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "tokenOwner": {
+            "description": "Get token owner",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "topmostTokenOwner": {
+            "description": "Get token owner, in case of nested token - find parent recursive",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenChildren": {
+            "description": "Get tokens nested directly into the token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "constMetadata": {
+            "description": "Get token constant metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "variableMetadata": {
+            "description": "Get token variable metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Vec<String>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Vec<String>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Vec<String>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
+          },
+          "tokenData": {
+            "description": "Get token data",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Vec<String>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsTokenData"
+          },
+          "tokenExists": {
+            "description": "Check if token exists",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "collectionById": {
+            "description": "Get collection by specified id",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get collection stats",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
+          "allowed": {
+            "description": "Check if user is allowed to use collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "nextSponsored": {
+            "description": "Get number of blocks when sponsored transaction is available",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u64>"
+          },
+          "effectiveCollectionLimits": {
+            "description": "Get effective collection limits",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsCollectionLimits>"
+          }
+        }
+      }
     },
     "unit-node": {
       "types": [

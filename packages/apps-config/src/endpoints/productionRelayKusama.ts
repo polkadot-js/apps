@@ -30,8 +30,9 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://pendulumchain.org/amplitude',
     paraId: 2124,
     text: 'Amplitude',
-    isUnreachable: true,
-    providers: {} // Working on making this live ASAP
+    providers: {
+      PendulumChain: 'wss://pencol-kus-01.pendulumchain.tech'
+    } // Working on making this live ASAP
   },
   {
     info: 'bajun',
@@ -127,7 +128,9 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2123,
     text: 'GM',
     providers: {
-      GMorDieDAO: 'wss://kusama.gmordie.com'
+      GMorDieDAO: 'wss://kusama.gmordie.com',
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org'
     }
   },
   {
@@ -178,7 +181,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://karura.polkawallet.io',
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+      Dwellir: 'wss://karura-rpc.dwellir.com'
     }
   },
   {
@@ -401,6 +405,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'snow',
+    homepage: 'https://icenetwork.io/snow',
+    paraId: 2129,
+    text: 'Snow Network',
+    isUnreachable: true,
+    providers: {
+      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+    }
+  },
+  {
     info: 'sora_ksm',
     homepage: 'https://sora.org/',
     paraId: 2011,
@@ -486,7 +500,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemine'
+      Pinknode: 'wss://public-rpc.pinknode.io/statemine',
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.xyz/ws'
     },
     teleport: [-1]
   },
