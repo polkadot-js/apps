@@ -153,6 +153,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMd5',
+    paraId: 4088,
+    text: 'MD5 Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.md5.network'
+    }
+  },
+  {
     info: 'rococoMoonsama',
     isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,

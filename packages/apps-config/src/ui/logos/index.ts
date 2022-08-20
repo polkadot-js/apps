@@ -39,6 +39,7 @@ import chainKusama from './chains/kusama-128.gif';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
+import chainMd5 from './chains/md5.png';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
 import chainOLI from './chains/oli.svg';
@@ -149,6 +150,7 @@ import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
+import nodeMd5 from './nodes/md5.png';
 import nodeMinix from './nodes/minix.png';
 import moonbase from './nodes/moonbase_alpha.png';
 import moonbeam from './nodes/moonbeam.png';
@@ -338,6 +340,7 @@ export const chainLogos = Object.entries({
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
   'mathchain-galois': nodeMath,
+  MD5: nodeMd5,
   Minix: nodeMinix,
   'Minix Testnet': nodeMinix,
   'Moonbase Alpha': moonbase,
@@ -543,6 +546,7 @@ export const nodeLogos = Object.entries({
   'Manta Parachain Collator': nodeManta,
   MathChain: nodeMath,
   'mathChain-galois': nodeMath,
+  'MD5 Network': nodeMd5,
   minix: nodeMinix,
   Moonrock: nodeMoonrock,
   'Moonsama Development': chainMoonsamaDevelopment,
@@ -831,6 +835,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoMangata: chainMangata,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
+  rococoMd5: nodeMd5,
   rococoMoonrock: nodeMoonrock,
   rococoMoonsama: chainMoonsamaDevelopment,
   rococoNodle: nodeNodle,
