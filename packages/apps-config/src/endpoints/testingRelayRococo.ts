@@ -279,7 +279,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3003,
     text: 'Virto',
     providers: {
-      VirtoNetwork: 'wss://rococo.virtonetwork.xyz'
+      // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
     }
   },
   {
