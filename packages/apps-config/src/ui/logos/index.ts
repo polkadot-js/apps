@@ -215,6 +215,7 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeConfti from './nodes/confti.svg';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
@@ -805,6 +806,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
+  rococoConfti: nodeConfti,
   rococoContracts: chainRococoContracts,
   rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,

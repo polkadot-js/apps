@@ -290,6 +290,14 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Zeitggeist: 'wss://roc.zeitgeist.pm'
     }
+  },
+  {
+    info: 'rococoConfti',
+    paraId: 4094,
+    text: 'Confti',
+    providers: {
+      Confti: 'wss://ws.confti.club'
+    }
   }
 ];
 
