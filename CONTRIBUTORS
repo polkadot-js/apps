@@ -298,6 +298,7 @@
        1	Marin Petrunić                	add Vedran westend provider (#4674)
        1	mark hayward                  	Accounts typo (#4673)
        1	Matej Nemček                  	Removed broken link to app-nodeinfo from README (#1392)
+       1	Max Gravitt                   	Adding MD5 Network - parachain on Rococo (#8026)
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
        1	Mickaël Canu                  	fix error on validator word (#7110)
