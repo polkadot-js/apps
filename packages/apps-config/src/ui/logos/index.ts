@@ -39,7 +39,6 @@ import chainKusama from './chains/kusama-128.gif';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
-import chainMd5 from './chains/md5.png';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
 import chainOLI from './chains/oli.svg';
