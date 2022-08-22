@@ -31,6 +31,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'ajuna',
+    homepage: 'https://ajuna.io',
+    paraId: 2051,
+    text: 'Ajuna Network',
+    providers: {
+      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
+    }
+  },
+  {
     info: 'odyssey',
     homepage: 'https://www.aresprotocol.io/',
     paraId: 2028,
