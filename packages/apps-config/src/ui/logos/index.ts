@@ -105,6 +105,7 @@ import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
 import nodeCompetitorsClub from './nodes/competitors-club.png';
+import nodeConfti from './nodes/confti.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
@@ -215,7 +216,6 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeConfti from './nodes/confti.svg';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
