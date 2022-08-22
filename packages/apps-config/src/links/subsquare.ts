@@ -19,6 +19,7 @@ export default {
     Phala: 'phala',
     Polkadot: 'polkadot',
     'Turing Network': 'turing',
+    Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
