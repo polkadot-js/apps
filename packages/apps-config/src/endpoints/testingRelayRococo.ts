@@ -73,6 +73,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoConfti',
+    paraId: 4094,
+    text: 'Confti',
+    providers: {
+      Confti: 'wss://ws.confti.club'
+    }
+  },
+  {
     info: 'rococoCrust',
     paraId: 2012,
     text: 'Crust Testnet',
@@ -289,14 +297,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Zeitgeist PC',
     providers: {
       Zeitggeist: 'wss://roc.zeitgeist.pm'
-    }
-  },
-  {
-    info: 'rococoConfti',
-    paraId: 4094,
-    text: 'Confti',
-    providers: {
-      Confti: 'wss://ws.confti.club'
     }
   }
 ];
