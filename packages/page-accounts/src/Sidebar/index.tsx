@@ -23,7 +23,6 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
     []
   );
 
-
   return (
     <AccountSidebarToggle.Provider value={setAddress}>
       {children}

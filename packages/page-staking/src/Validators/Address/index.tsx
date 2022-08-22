@@ -173,7 +173,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <td className='number media--1100'>
           {stakeOwn?.gtn(0) && (
             <FormatBalance
-              isDarwinia = {isDarwiniaPower}
+              isDarwiniaPower = {isDarwiniaPower}
               value={isDarwiniaPower ? undefined : stakeOwn}
               valueFormatted={isDarwiniaPower ? formatDarwiniaPower(stakeOwn, t('power', 'power')) : undefined}
             />

@@ -9,8 +9,8 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
 import type { TxCallback, TxFailedCallback } from './Status/types';
 
+import { Compact, Struct, u64, Vec } from '@polkadot/types';
 import { AccountIndex, Address, Balance, BlockNumber, EraIndex } from '@polkadot/types/interfaces';
-import { Compact, Struct, Vec, u64 } from "@polkadot/types";
 
 export interface BareProps {
   children?: React.ReactNode;
@@ -86,7 +86,6 @@ export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
 export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
-
 
 export interface DarwiniaStakingStructsTimeDepositItem extends Struct {
   readonly value: Compact<Balance>;

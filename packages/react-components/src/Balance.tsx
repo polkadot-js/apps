@@ -48,7 +48,7 @@ export function renderProvided ({ className = '', isDarwiniaPower, label, powerU
   return (
     <FormatBalance
       className={`ui--Balance ${className}`}
-      isDarwinia={isDarwiniaPower}
+      isDarwiniaPower = {isDarwiniaPower}
       label={label}
       value={isDarwiniaPower ? undefined : Array.isArray(value) ? value[0] : value}
       valueFormatted={isDarwiniaPower ? formatDarwiniaPower(value as BN, powerUnit) : undefined}

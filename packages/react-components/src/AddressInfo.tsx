@@ -12,6 +12,7 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -23,9 +24,7 @@ import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
 import { useTranslation } from './translate';
-import { rpcNetwork } from "@polkadot/react-api/util/getEnvironment";
-import { DarwiniaStakingStructsStakingLedger } from "./types";
-import { formatBalance as balanceFormatter } from './util/formatBalance';
+import { DarwiniaStakingStructsStakingLedger } from './types';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -50,10 +49,9 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-
 interface DarwiniaBalance {
-  locked: string;
-  bonded: string;
+  locked: BN;
+  bonded: BN;
 }
 
 interface Props {
@@ -235,19 +233,20 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
   const isDarwinia = rpcNetwork.isDarwinia();
-  let darwiniaBalance: DarwiniaBalance | undefined = undefined;
+  let darwiniaBalance: DarwiniaBalance | undefined;
 
-  if(isDarwinia && stakingInfo) {
+  if (isDarwinia && stakingInfo) {
     const stakingLedger = stakingInfo.stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+
     if (stakingLedger.activeDepositRing) {
-      const locked = stakingLedger.activeDepositRing.toBn();
+      const lockedRing = stakingLedger.activeDepositRing.unwrap();
       const allStakingRing = (stakingLedger.active || stakingLedger.activeRing).toBn();
-      const bondedRing = allStakingRing.sub(locked);
+      const bondedRing = allStakingRing.sub(lockedRing);
 
       darwiniaBalance = {
-        locked: balanceFormatter(locked),
-        bonded: balanceFormatter(bondedRing)
-      }
+        bonded: bondedRing,
+        locked: lockedRing
+      };
     }
   }
 
@@ -365,9 +364,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <Label label={t<string>('locked')} />
       <FormatBalance
         className='result'
-        isDarwinia={true}
-        valueFormatted={darwiniaBalance.locked}
         labelPost={<IconVoid />}
+        value={darwiniaBalance.locked}
       />
     </React.Fragment>
   );
@@ -431,9 +429,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <Label label={t<string>('bonded')} />
       <FormatBalance
         className='result'
-        isDarwinia={true}
-        valueFormatted={darwiniaBalance.bonded}
         labelPost={<IconVoid />}
+        value={darwiniaBalance.bonded}
       />
     </React.Fragment>
   );

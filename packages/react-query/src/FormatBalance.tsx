@@ -25,7 +25,7 @@ interface Props {
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
-  isDarwinia?: boolean;
+  isDarwiniaPower?: boolean;
 }
 
 // for million, 2 * 3-grouping + comma
@@ -53,40 +53,44 @@ function createElement (prefix: string, postfix: string, unit: string, label: La
 }
 
 function splitFormat (value: string, label?: LabelPost, isShort?: boolean): React.ReactNode {
+  console.log('original=======');
   const [prefix, postfixFull] = value.split('.');
   const [postfix, unit] = postfixFull.split(' ');
 
   return createElement(prefix, postfix, unit, label, isShort);
 }
 
-const splitFormatDarwiniaBalance = (balance: string, darwiniaToken: string, labelPost?: LabelPost) => {
-  const [prefix, postfix] = balance.split('.');
+const splitFormatDarwiniaPower = (amount: string, defaultPowerUnit: string, labelPost?: LabelPost) => {
+  const [prefix, postfix] = amount.split('.');
 
   const processUnit = (amount: string) => {
-    const [balanceAmount, unit] = amount.split(' ');
-    let balanceUnit: string
-    if(unit) {
-      balanceUnit = unit;
-    } else {
-      balanceUnit = darwiniaToken;
-    }
-    return {
-      balanceAmount,
-      balanceUnit
-    }
-  }
+    const [powerAmount, unit] = amount.split(' ');
+    let customPowerUnit: string;
 
-  if(postfix) {
+    if (unit) {
+      customPowerUnit = unit;
+    } else {
+      customPowerUnit = defaultPowerUnit;
+    }
+
+    return {
+      customPowerUnit,
+      powerAmount
+    };
+  };
+
+  if (postfix) {
     // it has decimal, check if it has its own unit
-    const { balanceAmount: decimal,balanceUnit } = processUnit(postfix);
-    return <>{prefix}{'.'}<span className='ui--FormatBalance-postfix'>{decimal}</span>{' '}<span className={'ui--FormatBalance-unit'}>{balanceUnit}</span>{labelPost}</>;
+    const { customPowerUnit, powerAmount: decimal } = processUnit(postfix);
+
+    return <>{prefix}{'.'}<span className='ui--FormatBalance-postfix'>{decimal}</span>{' '}<span className={'ui--FormatBalance-unit'}>{customPowerUnit}</span>{labelPost}</>;
   }
 
   // it has no decimal, process it accordingly
-  const { balanceAmount,balanceUnit } = processUnit(prefix);
+  const { customPowerUnit, powerAmount } = processUnit(prefix);
 
-  return <>{balanceAmount}{' '}{balanceUnit}{labelPost}</>
-}
+  return <>{powerAmount}{' '}{customPowerUnit}{labelPost}</>;
+};
 
 function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
@@ -104,18 +108,14 @@ function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [num
   return createElement(prefix, postfix, unitPost, labelPost, isShort);
 }
 
-function FormatBalance ({ children, className = '', format, formatIndex, isDarwinia, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', format, formatIndex, isDarwiniaPower, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const defaultPowerUnit = t('power', 'power');
   const { api } = useApi();
 
   const formatInfo = useMemo(
     () => format || getFormat(api.registry, formatIndex),
     [api, format, formatIndex]
-  );
-
-  const [, darwiniaToken] = useMemo(
-    () => getFormat(api.registry, 0),
-    [api]
   );
 
   // labelPost here looks messy, however we ensure we have one less text node
@@ -127,8 +127,8 @@ function FormatBalance ({ children, className = '', format, formatIndex, isDarwi
         data-testid='balance-summary'
       >{
           valueFormatted
-            ? isDarwinia
-              ? splitFormatDarwiniaBalance(valueFormatted, darwiniaToken, labelPost)
+            ? isDarwiniaPower
+              ? splitFormatDarwiniaPower(valueFormatted, defaultPowerUnit, labelPost)
               : splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'

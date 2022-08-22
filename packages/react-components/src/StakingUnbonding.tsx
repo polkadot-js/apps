@@ -6,8 +6,11 @@ import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
+import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
@@ -22,6 +25,7 @@ interface Unlocking {
 interface DeriveStakingAccountPartial {
   accountId: DeriveStakingAccount['accountId'] | string;
   unlocking?: Unlocking[];
+  stakingLedger?: DarwiniaStakingStructsStakingLedger;
 }
 
 interface Props {
@@ -30,7 +34,33 @@ interface Props {
   stakingInfo?: DeriveStakingAccountPartial;
 }
 
-function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: DeriveSessionProgress): [[Unlocking, BN, BN][], BN] {
+function extractTotals (currentBlock?: BlockNumber, stakingInfo?: DeriveStakingAccountPartial, progress?: DeriveSessionProgress, isDarwinia = false): [[Unlocking, BN, BN][], BN] {
+  if (isDarwinia) {
+    if (!stakingInfo?.stakingLedger || !progress || !currentBlock) {
+      return [[], BN_ZERO];
+    }
+
+    const stakingLedger = stakingInfo.stakingLedger;
+    const unbondingItems = stakingLedger.ringStakingLock.unbondings.filter((unbondingItem) => unbondingItem.until.gt(currentBlock));
+    const unbondingAmount = unbondingItems.reduce((accumulator, item) => accumulator.add(item.amount), new BN(0));
+    const mapped = unbondingItems.map((item): [Unlocking, BN, BN] => {
+      const blocksPerEra = progress.eraLength;
+      const remainedBlocks = item.until.sub(currentBlock);
+      const remainedEras = remainedBlocks.div(blocksPerEra);
+
+      return [
+        {
+          remainingEras: remainedEras,
+          value: item.amount
+        },
+        remainedEras,
+        remainedBlocks
+      ];
+    });
+
+    return [mapped, unbondingAmount];
+  }
+
   if (!stakingInfo?.unlocking || !progress) {
     return [[], BN_ZERO];
   }
@@ -54,11 +84,13 @@ function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: De
 function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const currentBlock = useBestNumber();
   const { t } = useTranslation();
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const [mapped, total] = useMemo(
-    () => extractTotals(stakingInfo, progress),
-    [progress, stakingInfo]
+    () => extractTotals(currentBlock, stakingInfo, progress, isDarwinia),
+    [currentBlock, isDarwinia, progress, stakingInfo]
   );
 
   if (!stakingInfo || !mapped.length) {
