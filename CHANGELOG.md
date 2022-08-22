@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 0.121.1 Aug 22, 2022
+
+Contributed:
+
+- Update Logion types (Thanks to https://github.com/gdethier)
+- Update Bit Country Pioneer logo (Thanks to https://github.com/mikejamesli)
+- Add Rococo Amplitude (Thanks to https://github.com/gonzamontiel)
+- Add Kusama Snow (Thanks to https://github.com/0xrust)
+- Add Rococo Confti (Thanks to https://github.com/cheft)
+- Update Kusama GM endpoint (Thanks to https://github.com/arrudagates)
+- Adjust Unique lookup key (Thanks to https://github.com/ashkuc)
+- Add derive mapping for interlay testnets (Thanks to https://github.com/bvotteler)
+- Update Genshiro types (Thanks to https://github.com/pr0fedt)
+- Add BLD nodes endpoint for GM (Thanks to https://github.com/arrudagates)
+- Add TerraBioDAO endpoint for GM (Thanks to https://github.com/koutakou)
+- Add OnFinality endpoint for Efinity (Thanks to https://github.com/banananeko)
+- Add RadiumBlock endpoint for Statemine (Thanks to https://github.com/radiumb)
+- Update Moonbeam types bundle (Thanks to https://github.com/hyd628)
+- Add Dwellir endpoints for Acala and Karura (Thanks to https://github.com/benjichat)
+
+Changes:
+
+- Ajust display for endpoints (Relay, Parachains, Common)
+- Adjust check for availability of payment queries (via runtime)
+- Disable unreachable endpoints
+
+
 ## 0.120.1 Aug 8, 2022
 
 Contributed:
