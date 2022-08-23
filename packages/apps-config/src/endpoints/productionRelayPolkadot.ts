@@ -36,7 +36,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2051,
     text: 'Ajuna Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
+      // AjunaNetwork: 'wss://rpc-parachain.ajuna.network' // https://github.com/polkadot-js/apps/issues/8039
     }
   },
   {
@@ -91,15 +91,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'coinversation',
     // this is also a duplicate as a Live and Testing network -
     // it is either/or, not and
-    info: 'coinversation',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
+    isUnreachable: true,
     homepage: 'http://www.coinversation.io/',
     paraId: 2027,
     text: 'Coinversation',
     providers: {
-      Coinversation: 'wss://rpc.coinversation.io/'
+      // Coinversation: 'wss://rpc.coinversation.io/' // https://github.com/polkadot-js/apps/issues/6635
     }
   },
   {
@@ -133,12 +133,11 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'darwinia',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
     paraId: 2003,
     text: 'Darwinia Backup',
     providers: {
-      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
+      // 'Darwinia Network': 'wss://parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     }
   },
   {
@@ -327,11 +326,10 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'subgame',
     homepage: 'http://subgame.org/',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
     paraId: 2017,
     text: 'SubGame Gamma',
     providers: {
-      SubGame: 'wss://gamma.subgame.org/'
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
