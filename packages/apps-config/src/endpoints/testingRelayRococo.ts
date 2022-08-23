@@ -73,6 +73,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoConfti',
+    paraId: 4094,
+    text: 'Confti',
+    providers: {
+      Confti: 'wss://ws.confti.club'
+    }
+  },
+  {
     info: 'rococoCrust',
     paraId: 2012,
     text: 'Crust Testnet',
@@ -150,6 +158,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Mangata',
     providers: {
       Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
+    }
+  },
+  {
+    info: 'rococoMd5',
+    paraId: 4088,
+    text: 'MD5 Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.md5.network'
     }
   },
   {
