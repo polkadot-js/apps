@@ -1,4 +1,4 @@
-    3758	Jaco                          	0.121.1 (#8030)
+    3759	Jaco                          	Disable unreachable endpoints (#8038)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
@@ -217,6 +217,7 @@
        1	1xstj                         	add eggnet to rococo (#7918)
        1	abhath-labs                   	Add Bitgreen parachain to Rococo (#7441)
        1	Adam                          	new edeware logo and color (#6249)
+       1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Alex Sedighi                  	Update URL for Nodle Testing Parachain on Rococo (#7810)
        1	Alexey                        	Rename SORA-staging Node to Sora (#5084)
