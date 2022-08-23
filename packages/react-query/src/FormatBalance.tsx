@@ -53,7 +53,6 @@ function createElement (prefix: string, postfix: string, unit: string, label: La
 }
 
 function splitFormat (value: string, label?: LabelPost, isShort?: boolean): React.ReactNode {
-  console.log('original=======');
   const [prefix, postfixFull] = value.split('.');
   const [postfix, unit] = postfixFull.split(' ');
 

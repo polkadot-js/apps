@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
+import {BN, BN_ZERO} from '@polkadot/util';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -13,6 +13,8 @@ import { BlockToTime } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate';
 import useUnbondDuration from '../useUnbondDuration';
+import {rpcNetwork} from "@polkadot/react-api/util/getEnvironment";
+import {DarwiniaStakingStructsStakingLedger} from "@polkadot/react-components/types";
 
 interface Props {
   controllerId?: AccountId | null;
@@ -25,9 +27,31 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
-  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
+  const isDarwinia = rpcNetwork.isDarwinia();
+  const [maxBalance] = useState<BN | null>(() => {
+    if(isDarwinia) {
+      if(stakingLedger) {
+        const darwiniaStakingLedger = stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+        const allStakingRings = (darwiniaStakingLedger.active?.unwrap() || darwiniaStakingLedger.activeRing?.unwrap()).toBn();
+        const lockedRings = darwiniaStakingLedger.activeDepositRing?.unwrap() ?? BN_ZERO;
+        return allStakingRings.sub(lockedRings)
+      }
+      return null
+    } else {
+      return stakingLedger?.active?.unwrap() || null
+    }
+  });
+
   const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
   const [withMax, setWithMax] = useState(false);
+
+  const getDarwiniaQueryParams = () => {
+    const amount = withMax ? maxBalance : maxUnbond;
+    if(!amount) {
+      return {'ringbalance': '0'};
+    }
+    return {'ringbalance': amount.toString()};
+  }
 
   return (
     <Modal
@@ -84,7 +108,7 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           isDisabled={!((withMax ? maxBalance : maxUnbond)?.gtn(0))}
           label={t<string>('Unbond')}
           onStart={onClose}
-          params={[withMax ? maxBalance : maxUnbond]}
+          params={[isDarwinia ? getDarwiniaQueryParams() : withMax ? maxBalance : maxUnbond]}
           tx={api.tx.staking.unbond}
         />
       </Modal.Actions>

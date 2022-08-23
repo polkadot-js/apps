@@ -93,12 +93,6 @@ function extractState (ownStashes?: StakerState[], isDarwinia?: boolean): State 
     }
   });
 
-  console.log('bondedNoms=======', bondedNoms.toString());
-  console.log('bondedNone=======', bondedNone.toString());
-  console.log('bondedTotal=======', bondedTotal.toString());
-  console.log('bondedVals=======', bondedVals.toString());
-  console.log('foundStashes=======', ownStashes.sort(sortStashes));
-
   return {
     bondedNoms,
     bondedNone,
@@ -120,7 +114,6 @@ function filterStashes (stashTypeIndex: number, stashes: StakerState[]): StakerS
 }
 
 function getValue (stashTypeIndex: number, { bondedNoms, bondedNone, bondedTotal, bondedVals }: State): BN | undefined {
-  console.log('stashTypeIndex======', stashTypeIndex);
 
   switch (stashTypeIndex) {
     case 0: return bondedTotal;

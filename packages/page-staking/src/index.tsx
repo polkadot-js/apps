@@ -78,7 +78,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
 
-  console.log('ownStashes=======', ownStashes);
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
   const pathRef = useRef(createPathRef(basePath));

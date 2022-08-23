@@ -12,8 +12,8 @@ import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { BN, formatNumber, isFunction } from '@polkadot/util';
+import {useApi, useBestNumber, useCall, useToggle} from '@polkadot/react-hooks';
+import {BN, BN_ZERO, formatNumber, isFunction} from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useSlashingSpans from '../useSlashingSpans';
@@ -29,6 +29,8 @@ import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
 import WarnBond from './WarnBond';
+import {rpcNetwork} from "@polkadot/react-api/util/getEnvironment";
+import {DarwiniaStakingStructsStakingLedger} from "@polkadot/react-components/types";
 
 interface Props {
   allSlashes?: [BN, PalletStakingUnappliedSlash[]][];
@@ -77,6 +79,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
+  const isDarwinia = rpcNetwork.isDarwinia();
+  const currentBlock = useBestNumber();
 
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
@@ -97,6 +101,18 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
 
   const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active?.isEmpty;
 
+  const isRebondButtonDisabled = () => {
+    if(isDarwinia) {
+      if(!stakingAccount || !stakingAccount.stakingLedger || !currentBlock) {
+        return true;
+      }
+      const darwiniaStakingLedger = stakingAccount.stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+      const unbondings = darwiniaStakingLedger.ringStakingLock.unbondings.filter((item)=>item.until.gt(currentBlock));
+      const amount = unbondings.reduce((accumulator, item)=>accumulator.add(item.amount), BN_ZERO);
+      return amount.lten(0);
+    }
+    return !isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length;
+  }
   return (
     <tr className={className}>
       <td className='badge together'>
@@ -296,7 +312,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     onClick={toggleUnbond}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    isDisabled={isRebondButtonDisabled()}
                     label={t<string>('Rebond funds')}
                     onClick={toggleRebond}
                   />
