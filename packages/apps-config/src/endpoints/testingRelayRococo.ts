@@ -33,11 +33,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
     text: 'Bajun Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-rococo.bajun.network'
+      // AjunaNetwork: 'wss://rpc-rococo.bajun.network' // https://github.com/polkadot-js/apps/issues/7593
     }
   },
   {
@@ -77,7 +76,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4094,
     text: 'Confti',
     providers: {
-      Confti: 'wss://ws.confti.club'
+      // Confti: 'wss://ws.confti.club' // https://github.com/polkadot-js/apps/issues/8036
     }
   },
   {
@@ -170,11 +169,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoMoonsama',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
     text: 'Moonsama',
     providers: {
-      Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+      // Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com' // https://github.com/polkadot-js/apps/issues/7526
     }
   },
   {
@@ -300,11 +298,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoZeitgeist',
-    isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
     paraId: 2050,
     text: 'Zeitgeist PC',
     providers: {
-      Zeitggeist: 'wss://roc.zeitgeist.pm'
+      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
     }
   }
 ];
