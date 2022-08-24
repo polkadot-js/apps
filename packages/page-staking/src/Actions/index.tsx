@@ -75,6 +75,7 @@ function extractState (ownStashes?: StakerState[], isDarwinia?: boolean): State 
       const bondedRing = allStakingRing.sub(lockedRing);
 
       const unbondingAndUnbonded = darwiniaStakingLedger.ringStakingLock.unbondings.reduce((accumulator, item) => accumulator.add(item.amount), new BN(0));
+
       value = unbondingAndUnbonded.add(bondedRing);
     } else {
       value = stakingLedger && stakingLedger.total
@@ -114,7 +115,6 @@ function filterStashes (stashTypeIndex: number, stashes: StakerState[]): StakerS
 }
 
 function getValue (stashTypeIndex: number, { bondedNoms, bondedNone, bondedTotal, bondedVals }: State): BN | undefined {
-
   switch (stashTypeIndex) {
     case 0: return bondedTotal;
     case 1: return bondedNoms;
@@ -186,16 +186,22 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
               options={stashTypes.current}
               value={stashTypeIndex}
             />
-            <NewNominator
-              isInElection={isInElection}
-              targets={targets}
-            />
-            <NewValidator
-              isInElection={isInElection}
-              minCommission={minCommission}
-              targets={targets}
-            />
-            <NewStash />
+            {
+              !isDarwinia && (
+                <>
+                  <NewNominator
+                    isInElection={isInElection}
+                    targets={targets}
+                  />
+                  <NewValidator
+                    isInElection={isInElection}
+                    minCommission={minCommission}
+                    targets={targets}
+                  />
+                  <NewStash />
+                </>
+              )
+            }
           </>
         )}
       </Button.Group>
