@@ -8,7 +8,9 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     Acala: 'acala',
+    Altair: 'altair',
     Bifrost: 'bifrost',
+    Centrifuge: 'centrifuge',
     Crust: 'crust',
     'Darwinia Crab': 'crab',
     Interlay: 'interlay',
