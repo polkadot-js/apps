@@ -25,11 +25,10 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
+import { gmSpec, tinkernetSpec } from './light-client-spec/specs';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
-
-import { gmSpec, tinkernetSpec } from './light-client-spec/specs';
 
 interface Props {
   children: React.ReactNode;
@@ -238,29 +237,34 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
 
 function getLightProvider (chain = 'polkadot') {
   const [relayArg, paraArg] = chain.split('/');
-  const wellKnown = () => {switch (relayArg) {
-    case 'kusama':
-      return WellKnownChain.ksmcc3;
-    case 'polkadot':
-      return WellKnownChain.polkadot;
-    case 'rococo':
-      return WellKnownChain.rococo_v2_2;
-    case 'westend':
-      return WellKnownChain.westend2;
-    default:
-      throw new Error(`Unable to construct light chain ${chain}`);
-  }}
+
+  const wellKnown = () => {
+    switch (relayArg) {
+      case 'kusama':
+        return WellKnownChain.ksmcc3;
+      case 'polkadot':
+        return WellKnownChain.polkadot;
+      case 'rococo':
+        return WellKnownChain.rococo_v2_2;
+      case 'westend':
+        return WellKnownChain.westend2;
+      default:
+        throw new Error(`Unable to construct light chain ${chain}`);
+    }
+  };
 
   const relay = new ScProvider(wellKnown());
 
-  const paraOrRelay = () => {switch (paraArg) {
-    case 'gm':
-      return new ScProvider(JSON.stringify(gmSpec), relay);
-    case 'tinkernet':
-      return new ScProvider(JSON.stringify(tinkernetSpec), relay);
-    default:
-      return relay;
-  }}
+  const paraOrRelay = () => {
+    switch (paraArg) {
+      case 'gm':
+        return new ScProvider(JSON.stringify(gmSpec), relay);
+      case 'tinkernet':
+        return new ScProvider(JSON.stringify(tinkernetSpec), relay);
+      default:
+        return relay;
+    }
+  };
 
   return paraOrRelay();
 }
