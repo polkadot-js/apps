@@ -8,7 +8,9 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     Acala: 'acala',
+    Altair: 'altair',
     Bifrost: 'bifrost',
+    Centrifuge: 'centrifuge',
     Crust: 'crust',
     'Darwinia Crab': 'crab',
     Interlay: 'interlay',
@@ -19,6 +21,7 @@ export default {
     Phala: 'phala',
     Polkadot: 'polkadot',
     'Turing Network': 'turing',
+    Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>

@@ -12,5 +12,6 @@ export const ethereumChains = [
   'alt-producer',
   'flash-layer',
   'armonia-eva',
-  'armonia-wall-e'
+  'armonia-wall-e',
+  'root'
 ];
