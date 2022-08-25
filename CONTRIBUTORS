@@ -1,4 +1,4 @@
-    3761	Jaco                          	Bump common (#8042)
+    3762	Jaco                          	Disable endpoints (#8047)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       47	pan                           	update Bifrost logo on Rococo (#7895)
