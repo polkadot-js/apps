@@ -130,7 +130,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com',
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
-      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org'
+      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
+      'light client': 'light://substrate-connect/kusama/gm'
     }
   },
   {
@@ -158,7 +159,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
-      'InvArch Team': 'wss://tinker.invarch.network'
+      'InvArch Team': 'wss://tinker.invarch.network',
+      'light client': 'light://substrate-connect/kusama/tinkernet'
     }
   },
   {

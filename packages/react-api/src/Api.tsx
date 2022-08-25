@@ -29,6 +29,8 @@ import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 
+import { gmSpec, tinkernetSpec } from './light-client-spec/specs';
+
 interface Props {
   children: React.ReactNode;
   apiUrl: string;
@@ -234,8 +236,9 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   };
 }
 
-function getWellKnownChain (chain = 'polkadot') {
-  switch (chain) {
+function getLightProvider (chain = 'polkadot') {
+  const [relayArg, paraArg] = chain.split('/');
+  const wellKnown = () => {switch (relayArg) {
     case 'kusama':
       return WellKnownChain.ksmcc3;
     case 'polkadot':
@@ -246,7 +249,20 @@ function getWellKnownChain (chain = 'polkadot') {
       return WellKnownChain.westend2;
     default:
       throw new Error(`Unable to construct light chain ${chain}`);
-  }
+  }}
+
+  const relay = new ScProvider(wellKnown());
+
+  const paraOrRelay = () => {switch (paraArg) {
+    case 'gm':
+      return new ScProvider(JSON.stringify(gmSpec), relay);
+    case 'tinkernet':
+      return new ScProvider(JSON.stringify(tinkernetSpec), relay);
+    default:
+      return relay;
+  }}
+
+  return paraOrRelay();
 }
 
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
@@ -256,7 +272,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   try {
     const providers = [0].map((): ProviderInterface =>
       isLight
-        ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+        ? getLightProvider(apiUrl.replace('light://substrate-connect/', ''))
         : new WsProvider(apiUrl)
     );
 
