@@ -874,6 +874,7 @@ export const namedLogos: Record<string, unknown> = {
   singLavender: nodeSingLavender,
   skyekiwi: chainSkyeKiwi,
   snakenet: chainSnakenet,
+  snow: nodeSnow,
   snowbridge: chainSnowbridge,
   soonsocial: nodeSoonsocial,
   sora: nodeSora,
