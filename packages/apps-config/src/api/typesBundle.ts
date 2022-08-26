@@ -36782,6 +36782,7 @@ export const typesBundle = {
           "ChainId": "u8",
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
@@ -37022,6 +37023,7 @@ export const typesBundle = {
         "types": {
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
