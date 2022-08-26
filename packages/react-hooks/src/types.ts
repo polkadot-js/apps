@@ -5,9 +5,11 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, Call, EraIndex, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { IExtrinsic } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+
+import { Exposure as DarwiniaExposure } from '@darwinia/types';
 
 export type CallParam = any;
 
@@ -167,3 +169,34 @@ export interface BatchOptions {
   max?: number;
   type?: BatchType;
 }
+
+export interface DarwiniaStakerReward {
+  era: EraIndex;
+  eraReward: Balance;
+  isStakerPayout?: boolean;
+  isEmpty: boolean;
+  isValidator: boolean;
+  nominating: DeriveEraExposureNominating[];
+  validators: Record<string, DeriveStakerRewardValidator>;
+  total: Balance;
+}
+
+interface DeriveEraExposureNominating {
+  validatorId: string;
+  validatorIndex: number;
+}
+
+export interface DeriveStakerRewardValidator {
+  total: Balance;
+  value?: Balance;
+}
+
+export interface DeriveStakerExposure {
+  era: EraIndex;
+  isEmpty: boolean;
+  isValidator: boolean;
+  nominating: DeriveEraExposureNominating[];
+  validators: DeriveEraValidatorExposure;
+}
+
+type DeriveEraValidatorExposure = Record<string, DarwiniaExposure>;

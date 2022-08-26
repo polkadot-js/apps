@@ -14,6 +14,7 @@
   "version": "0.121.2-1-x",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "@darwinia/types": "^2.8.9",
     "@polkadot/hw-ledger": "^10.1.5",
     "is-ipfs": "6.0.2"
   }
