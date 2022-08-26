@@ -2718,10 +2718,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@phala/typedefs@npm:0.2.30":
-  version: 0.2.30
-  resolution: "@phala/typedefs@npm:0.2.30"
-  checksum: c8999c1462ab0b642123c262a00d3d96851352778c64c23d8b5a35ed18d9bf2d425541140bab8d82de0c4f02db8b837b3b0d93824b845222fcdd6a565214f0c5
+"@phala/typedefs@npm:0.2.31":
+  version: 0.2.31
+  resolution: "@phala/typedefs@npm:0.2.31"
+  checksum: 53aa61bc1c4397e26020ed100e3333fdc410af4cf11e7d848dc65b77dfa6064da5c8f93d6edb6dfc49d800a5c99f2f5fa5ed04e456973bf9c694d180f6ed71fd
   languageName: node
   linkType: hard
 
@@ -3190,7 +3190,7 @@ __metadata:
     "@mangata-finance/types": ^0.7.0
     "@metaverse-network-sdk/type-definitions": ^0.0.1-13
     "@parallel-finance/type-definitions": 1.7.8
-    "@phala/typedefs": 0.2.30
+    "@phala/typedefs": 0.2.31
     "@polkadot/api": ^9.2.3
     "@polkadot/api-derive": ^9.2.3
     "@polkadot/networks": ^10.1.6
@@ -3204,7 +3204,7 @@ __metadata:
     "@unique-nft/opal-testnet-types": 0.5.3
     "@unique-nft/quartz-mainnet-types": 0.6.1
     "@unique-nft/unique-mainnet-types": 0.6.3
-    "@zeitgeistpm/type-defs": 0.7.0
+    "@zeitgeistpm/type-defs": 0.8.0
     "@zeroio/type-definitions": 0.0.14
     lodash: ^4.17.21
     moonbeam-types-bundle: 2.0.8
@@ -3217,7 +3217,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@babel/core": ^7.18.10
+    "@babel/core": ^7.18.13
     "@babel/polyfill": ^7.12.1
     "@polkadot/dev": ^0.67.116
     "@polkadot/react-components": ^0.121.2-9-x
@@ -3247,7 +3247,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@babel/core": ^7.18.10
+    "@babel/core": ^7.18.13
     "@babel/polyfill": ^7.12.1
     "@babel/runtime": ^7.18.9
     "@polkadot/apps-config": ^0.121.2-9-x
@@ -3545,7 +3545,7 @@ __metadata:
     react-copy-to-clipboard: ^5.1.0
     react-dom: ^18.2.0
     react-dropzone: ^11.7.1
-    react-i18next: ^11.18.4
+    react-i18next: ^11.18.5
     react-is: ^18.2.0
     react-markdown: ^8.0.3
     react-router: ^5.3.3
@@ -4720,13 +4720,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^28.1.7":
-  version: 28.1.7
-  resolution: "@types/jest@npm:28.1.7"
+"@types/jest@npm:*, @types/jest@npm:^28.1.8":
+  version: 28.1.8
+  resolution: "@types/jest@npm:28.1.8"
   dependencies:
     expect: ^28.0.0
     pretty-format: ^28.0.0
-  checksum: 17c9bf9667cd4f062eba5aa9eaea248927bf6479da1cc009e0b7d26d501f460f068dd23eddb67d2602264e915a30b63ae7c9cbb516723ffd18589f6f9d267d43
+  checksum: d4cd36158a3ae1d4b42cc48a77c95de74bc56b84cf81e09af3ee0399c34f4a7da8ab9e787570f10004bd642f9e781b0033c37327fbbf4a8e4b6e37e8ee3693a7
   languageName: node
   linkType: hard
 
@@ -5607,10 +5607,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeitgeistpm/type-defs@npm:0.7.0":
-  version: 0.7.0
-  resolution: "@zeitgeistpm/type-defs@npm:0.7.0"
-  checksum: 90fed428d9eb72bf5ad2475b7101401d250781a93f89bc9896109181e6153615a299398a0572140036fb802cd822fccc5b20cab3bcd19bd1cb8d6e0fffdfeedb
+"@zeitgeistpm/type-defs@npm:0.8.0":
+  version: 0.8.0
+  resolution: "@zeitgeistpm/type-defs@npm:0.8.0"
+  checksum: e0cac049a0fbae2ef47677dc322e56c553b76aa8c0aade77ff46ce2b77f5fd0831deb1efeb6eab43f089ca66cb03cc4d7c92891b07cac39272bebfca37d4c789
   languageName: node
   linkType: hard
 
@@ -16332,7 +16332,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "polkadot-apps@workspace:."
   dependencies:
-    "@babel/core": ^7.18.10
+    "@babel/core": ^7.18.13
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.18.9
     "@crustio/crust-pin": ^1.0.0
@@ -16340,7 +16340,7 @@ __metadata:
     "@polkadot/dev": ^0.67.116
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
-    "@types/jest": ^28.1.7
+    "@types/jest": ^28.1.8
     "@types/react-beautiful-dnd": ^13.1.2
     "@types/react-copy-to-clipboard": ^5.0.4
     "@types/react-dom": ^18.0.6
@@ -17033,9 +17033,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^11.18.4":
-  version: 11.18.4
-  resolution: "react-i18next@npm:11.18.4"
+"react-i18next@npm:^11.18.5":
+  version: 11.18.5
+  resolution: "react-i18next@npm:11.18.5"
   dependencies:
     "@babel/runtime": ^7.14.5
     html-parse-stringify: ^3.0.1
@@ -17047,7 +17047,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: c64546e22447410cb09020156d86a35cc672f5e34899155456068a7caedfb70dacd70e3619e671ebc831b11d0ca95c1de1c56897842fd1de401a87b86d040beb
+  checksum: c5e4b5b8ecc49f799a93110cb4d99d91190a268cf3b14b48e005ac1453eefe75e10758952a7d01fef4cf55afc5a6e7170d23c41d602efaedc06d4d34a85cd725
   languageName: node
   linkType: hard
 

@@ -13,7 +13,7 @@
   "type": "module",
   "version": "0.121.2-9-x",
   "dependencies": {
-    "@babel/core": "^7.18.10",
+    "@babel/core": "^7.18.13",
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.18.9",
     "@polkadot/apps-config": "^0.121.2-9-x",
