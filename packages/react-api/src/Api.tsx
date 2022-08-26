@@ -25,8 +25,8 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { gmSpec, tinkernetSpec } from './light-client-spec/specs';
 import ApiContext from './ApiContext';
+import { lightSpecs } from './light-client-specs';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 
@@ -255,18 +255,9 @@ function getLightProvider (chain = 'polkadot') {
 
   const relay = new ScProvider(wellKnown());
 
-  const paraOrRelay = () => {
-    switch (paraArg) {
-      case 'gm':
-        return new ScProvider(JSON.stringify(gmSpec), relay);
-      case 'tinkernet':
-        return new ScProvider(JSON.stringify(tinkernetSpec), relay);
-      default:
-        return relay;
-    }
-  };
-
-  return paraOrRelay();
+  return paraArg && lightSpecs[paraArg]
+    ? new ScProvider(JSON.stringify(lightSpecs[paraArg]), relay)
+    : relay;
 }
 
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {

@@ -4,4 +4,7 @@
 import gmSpec from './gm.json';
 import tinkernetSpec from './tinkernet.json';
 
-export { gmSpec, tinkernetSpec };
+export const lightSpecs: Record<string, unknown> = {
+  gm: gmSpec,
+  tinkernet: tinkernetSpec
+};
