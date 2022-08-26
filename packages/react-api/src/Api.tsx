@@ -26,6 +26,7 @@ import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
+import { lightSpecs } from './light-client-specs';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 
@@ -234,19 +235,29 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   };
 }
 
-function getWellKnownChain (chain = 'polkadot') {
-  switch (chain) {
-    case 'kusama':
-      return WellKnownChain.ksmcc3;
-    case 'polkadot':
-      return WellKnownChain.polkadot;
-    case 'rococo':
-      return WellKnownChain.rococo_v2_2;
-    case 'westend':
-      return WellKnownChain.westend2;
-    default:
-      throw new Error(`Unable to construct light chain ${chain}`);
-  }
+function getLightProvider (chain = 'polkadot') {
+  const [relayArg, paraArg] = chain.split('/');
+
+  const wellKnown = () => {
+    switch (relayArg) {
+      case 'kusama':
+        return WellKnownChain.ksmcc3;
+      case 'polkadot':
+        return WellKnownChain.polkadot;
+      case 'rococo':
+        return WellKnownChain.rococo_v2_2;
+      case 'westend':
+        return WellKnownChain.westend2;
+      default:
+        throw new Error(`Unable to construct light chain ${chain}`);
+    }
+  };
+
+  const relay = new ScProvider(wellKnown());
+
+  return paraArg && lightSpecs[paraArg]
+    ? new ScProvider(JSON.stringify(lightSpecs[paraArg]), relay)
+    : relay;
 }
 
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
@@ -256,7 +267,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   try {
     const providers = [0].map((): ProviderInterface =>
       isLight
-        ? new ScProvider(getWellKnownChain(apiUrl.replace('light://substrate-connect/', '')))
+        ? getLightProvider(apiUrl.replace('light://substrate-connect/', ''))
         : new WsProvider(apiUrl)
     );
 
