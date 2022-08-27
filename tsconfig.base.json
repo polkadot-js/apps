@@ -3,6 +3,7 @@
 	"compilerOptions": {
     "composite": false,
     "jsx": "react",
+    "resolveJsonModule": true,
 		"paths": {
       "@polkadot/apps/*": ["apps/src/*"],
       "@polkadot/apps": ["apps/src"],

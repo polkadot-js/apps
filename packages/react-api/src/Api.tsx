@@ -239,24 +239,19 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
  * Creates a ScProvider from a <relay>[/parachain] string
  */
 function getLightProvider (chain: string): ScProvider {
-  const [relayName, paraName] = chain.split('/');
-  const relaySpec = relaySpecs[relayName];
+  const [sc, relayName, paraName] = chain.split('/');
 
-  if (!relaySpec) {
+  if (sc !== 'substrate-connect') {
+    throw new Error(`Cannot connect to non substrate-connect protocol ${chain}`);
+  } else if (!relaySpecs[relayName] || (paraName && (!lightSpecs[relayName] || !lightSpecs[relayName][paraName]))) {
     throw new Error(`Unable to construct light chain ${chain}`);
   }
 
-  const relay = new ScProvider(relaySpec);
+  const relay = new ScProvider(relaySpecs[relayName]);
 
-  if (!paraName) {
-    return relay;
-  }
-
-  if (!lightSpecs[relayName] || !lightSpecs[relayName][paraName]) {
-    throw new Error(`Unable to connect to light chain ${chain}`);
-  }
-
-  return new ScProvider(lightSpecs[relayName][paraName], relay);
+  return paraName
+    ? new ScProvider(lightSpecs[relayName][paraName], relay)
+    : relay;
 }
 
 /**
@@ -268,7 +263,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
 
   try {
     const provider = isLight
-      ? getLightProvider(apiUrl.replace('light://substrate-connect/', ''))
+      ? getLightProvider(apiUrl.replace('light://', ''))
       : new WsProvider(apiUrl);
 
     api = new ApiPromise({
