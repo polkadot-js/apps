@@ -128,7 +128,10 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2123,
     text: 'GM',
     providers: {
-      GMorDieDAO: 'wss://kusama.gmordie.com'
+      GMorDieDAO: 'wss://kusama.gmordie.com',
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
+      'light client': 'light://substrate-connect/kusama/gm'
     }
   },
   {
@@ -156,7 +159,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
-      'InvArch Team': 'wss://tinker.invarch.network'
+      'InvArch Team': 'wss://tinker.invarch.network',
+      'light client': 'light://substrate-connect/kusama/tinkernet'
     }
   },
   {
@@ -179,7 +183,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://karura.polkawallet.io',
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+      Dwellir: 'wss://karura-rpc.dwellir.com'
     }
   },
   {
@@ -497,7 +502,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemine'
+      Pinknode: 'wss://public-rpc.pinknode.io/statemine',
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.xyz/ws'
     },
     teleport: [-1]
   },

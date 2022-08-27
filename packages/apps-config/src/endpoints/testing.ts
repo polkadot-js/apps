@@ -242,7 +242,7 @@ export const testChains: EndpointOption[] = [
     info: 'brainstorm',
     text: 'InvArch Brainstorm Testnet',
     providers: {
-      'InvArch Team': 'wss://brainstorm.invarch.network/'
+      // 'InvArch Team': 'wss://brainstorm.invarch.network/' // https://github.com/polkadot-js/apps/issues/8020
     }
   },
   {

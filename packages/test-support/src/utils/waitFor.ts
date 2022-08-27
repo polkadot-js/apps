@@ -3,9 +3,6 @@
 
 export type WaitOptions = { interval?: number, timeout?: number };
 
-export async function waitFor (predicate: () => boolean, { interval, timeout }: WaitOptions): Promise<boolean>;
-export async function waitFor (predicate: () => Promise<boolean>, { interval, timeout }: WaitOptions): Promise<boolean>;
-
 export async function waitFor (predicate: () => Promise<boolean> | boolean, { interval = 500, timeout = 10000 } = {}): Promise<boolean> {
   const asyncPredicate = () => Promise.resolve(predicate());
 
@@ -23,5 +20,6 @@ export async function waitFor (predicate: () => Promise<boolean> | boolean, { in
   return true;
 }
 
-export const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+export function sleep (ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
