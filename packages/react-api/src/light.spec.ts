@@ -15,7 +15,7 @@ describe('lightSpecs', (): void => {
         fs.existsSync(
           path.join(__dirname, lightSpecs[r][s])
         ),
-        `${lightSpecs[r][s]} does not exist`
+        `packages/react-api/src/${lightSpecs[r][s].slice(2)} does not exist`
       );
     });
   });
