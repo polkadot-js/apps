@@ -171,17 +171,17 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'substrate',
-    text: 'Flaming Fir',
-    providers: {
-      // Parity: 'wss://substrate-rpc.parity.io' // https://github.com/polkadot-js/apps/issues/5571
-    }
-  },
-  {
     info: 'fantour',
     text: 'Fantour',
     providers: {
       // FantourDev: 'wss://test-ws.fantour.io' // https://github.com/polkadot-js/apps/issues/6519
+    }
+  },
+  {
+    info: 'substrate',
+    text: 'Flaming Fir',
+    providers: {
+      // Parity: 'wss://substrate-rpc.parity.io' // https://github.com/polkadot-js/apps/issues/5571
     }
   },
   {
