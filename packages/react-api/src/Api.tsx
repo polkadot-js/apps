@@ -254,11 +254,10 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const spec = await import(`./light/${relayName}/${lightSpecs[relayName][paraName]}`, { assert: { type: 'json' } });
+  const specMod = await import(`${lightSpecs[relayName][paraName]}`, { assert: { type: 'json' } });
 
-  console.error(JSON.stringify(spec));
-
-  return new ScProvider(JSON.stringify(spec), relay);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return new ScProvider(JSON.stringify(specMod.default), relay);
 }
 
 /**
