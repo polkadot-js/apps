@@ -4,7 +4,7 @@
 // Add your imported spec here in alphabetical order.
 // The key here reflects the URL of the light client endpoint.
 // e.g. light://substrate-connect/kusama/gm
-export const specs: Record<string, string> = {
-  gm: 'gm.json',
-  tinkernet: 'tinkernet.json'
-};
+export const specs: string[] = [
+  'gm',
+  'tinkernet'
+];

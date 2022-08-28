@@ -12,6 +12,10 @@
   "sideEffects": true,
   "type": "module",
   "version": "0.121.2-16-x",
+  "browser": {
+    "fs": false,
+    "path": false
+  },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
     "@polkadot/api": "^9.2.3",

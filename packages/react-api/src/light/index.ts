@@ -7,15 +7,13 @@ import { specs as kusama } from './kusama';
 
 export const lightSpecs: Record<string, Record<string, string>> =
   Object
-    .entries<Record<string, string>>({ kusama })
+    .entries({ kusama })
     .reduce((all: Record<string, Record<string, string>>, [r, v]) => {
-      all[r] = Object
-        .entries<string>(v)
-        .reduce((specs: Record<string, string>, [k, v]) => {
-          specs[k] = `./light/${r}/${v}`;
+      all[r] = v.reduce((specs: Record<string, string>, k) => {
+        specs[k] = `./light/${r}/${k}.json`;
 
-          return specs;
-        }, {});
+        return specs;
+      }, {});
 
       return all;
     }, {});
