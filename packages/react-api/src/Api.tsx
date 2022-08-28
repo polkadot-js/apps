@@ -25,7 +25,7 @@ import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
-import { lightSpecs, relaySpecs } from './lightClient';
+import { lightSpecs, relaySpecs } from './light';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 
@@ -238,7 +238,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
  * @internal
  * Creates a ScProvider from a <relay>[/parachain] string
  */
-function getLightProvider (chain: string): ScProvider {
+async function getLightProvider (chain: string): Promise<ScProvider> {
   const [sc, relayName, paraName] = chain.split('/');
 
   if (sc !== 'substrate-connect') {
@@ -249,9 +249,15 @@ function getLightProvider (chain: string): ScProvider {
 
   const relay = new ScProvider(relaySpecs[relayName]);
 
-  return paraName
-    ? new ScProvider(lightSpecs[relayName][paraName], relay)
-    : relay;
+  if (!paraName) {
+    return relay;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const specMod = await import(`${lightSpecs[relayName][paraName]}`);
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return new ScProvider(JSON.stringify(specMod.default), relay);
 }
 
 /**
@@ -263,7 +269,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
 
   try {
     const provider = isLight
-      ? getLightProvider(apiUrl.replace('light://', ''))
+      ? await getLightProvider(apiUrl.replace('light://', ''))
       : new WsProvider(apiUrl);
 
     api = new ApiPromise({
