@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ExposureT as DarwiniaStakingStructsExposure } from '@darwinia/types/interfaces/darwiniaInject';
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
@@ -9,6 +10,7 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import { useMemo } from 'react';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -122,6 +124,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = new Array<ValidatorInfo>(derive.info.length);
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   for (let i = 0; i < derive.info.length; i++) {
     const { accountId, exposure = emptyExposure, stakingLedger, validatorPrefs } = derive.info[i];
@@ -130,6 +133,13 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     let [bondOwn, bondTotal] = exposure.total
       ? [exposure.own.unwrap(), exposure.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
+
+    if (isDarwinia) {
+      const darwiniaExposure = exposure as unknown as DarwiniaStakingStructsExposure;
+
+      bondOwn = darwiniaExposure.ownPower;
+      bondTotal = darwiniaExposure.totalPower;
+    }
 
     const skipRewards = bondTotal.isZero();
 

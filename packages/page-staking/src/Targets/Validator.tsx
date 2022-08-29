@@ -7,6 +7,8 @@ import type { NominatedBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
+import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hooks';
@@ -38,6 +40,7 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
   const { api } = useApi();
   const accountInfo = useDeriveAccountInfo(accountId);
   const [,, time] = useBlockTime(lastPayout);
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const isVisible = useMemo(
     () => accountInfo
@@ -128,11 +131,26 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
         )}
       </td>
       <td className='number media--1200 no-pad-right'>{numNominators || ''}</td>
-      <td className='number media--1200 no-pad-left'>{nominatedBy.length || ''}</td>
+      <td className='number media--1200 no-pad-left'>{isDarwinia ? '' : nominatedBy.length || ''}</td>
       <td className='number media--1100'>{commissionPer.toFixed(2)}%</td>
-      <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
-      <td className='number together media--900'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
-      <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>
+      <td className='number together'>{!bondTotal.isZero() &&
+        <FormatBalance
+          isDarwiniaPower = {isDarwinia}
+          value={isDarwinia ? undefined : bondTotal}
+          valueFormatted={isDarwinia ? formatDarwiniaPower(bondTotal, t('power', 'power')) : undefined}
+        />}</td>
+      <td className='number together media--900'>{!bondOwn.isZero() &&
+        <FormatBalance
+          isDarwiniaPower = {isDarwinia}
+          value={isDarwinia ? undefined : bondOwn}
+          valueFormatted={isDarwinia ? formatDarwiniaPower(bondOwn, t('power', 'power')) : undefined}
+        />}</td>
+      <td className='number together media--1600'>{!bondOther.isZero() &&
+        <FormatBalance
+          isDarwiniaPower = {isDarwinia}
+          value={isDarwinia ? undefined : bondOther}
+          valueFormatted={isDarwinia ? formatDarwiniaPower(bondOther, t('power', 'power')) : undefined}
+        />}</td>
       <td className='number together'>{(stakedReturnCmp > 0) && <>{stakedReturnCmp.toFixed(2)}%</>}</td>
       <td>
         {!isBlocking && (canSelect || isSelected) && (

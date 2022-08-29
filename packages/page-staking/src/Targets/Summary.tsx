@@ -7,6 +7,8 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
+import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -52,6 +54,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
   const { t } = useTranslation();
   const { api } = useApi();
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const progressStake = useMemo(
     () => getProgressInfo(totalStaked, totalIssuance),
@@ -68,11 +71,14 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
       <section className='media--800'>
         {progressStake && (
           <CardSummary
+            hideProgress={true}
             label={t<string>('total staked')}
             progress={progressStake}
           >
             <FormatBalance
-              value={totalStaked}
+              isDarwiniaPower={isDarwinia}
+              value={isDarwinia ? undefined : totalStaked}
+              valueFormatted={isDarwinia ? formatDarwiniaPower(totalStaked, t('power', 'power')) : undefined}
               withSi
             />
           </CardSummary>
@@ -92,13 +98,17 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
             progress={progressAvg}
           >
             <FormatBalance
-              value={lowStaked}
+              isDarwiniaPower={isDarwinia}
+              value={isDarwinia ? undefined : lowStaked}
+              valueFormatted={isDarwinia ? formatDarwiniaPower(lowStaked, t('power', 'power')) : undefined}
               withCurrency={false}
               withSi
             />
             &nbsp;/&nbsp;
             <FormatBalance
-              value={avgStaked}
+              isDarwiniaPower={isDarwinia}
+              value={isDarwinia ? undefined : avgStaked}
+              valueFormatted={isDarwinia ? formatDarwiniaPower(avgStaked, t('power', 'power')) : undefined}
               withSi
             />
           </CardSummary>

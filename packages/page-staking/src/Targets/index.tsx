@@ -10,6 +10,7 @@ import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
@@ -206,6 +207,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const [toggles, setToggle] = useSavedFlags('staking:targets', DEFAULT_FLAGS);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>(DEFAULT_SORT);
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const labelsRef = useRef({
     rankBondOther: t<string>('other stake'),
@@ -293,15 +295,25 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
     [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
-    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
-      <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-      `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
-      1,
-      () => _sort(header as 'rankOverall')
-    ]),
+    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => {
+      if (header === 'rankOverall' && isDarwinia) {
+        return [
+          <><div /></>,
+          '',
+          1
+        ];
+      }
+
+      return [
+        <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
+        `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
+        1,
+        () => _sort(header as 'rankOverall')
+      ];
+    }),
     [],
     []
-  ], [_sort, labelsRef, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, isDarwinia, labelsRef, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     <div>

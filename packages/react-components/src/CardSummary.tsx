@@ -28,9 +28,10 @@ interface Props {
   help?: React.ReactNode;
   label: React.ReactNode;
   progress?: ProgressProps;
+  hideProgress?: boolean;
 }
 
-function CardSummary ({ children, className = '', help, label, progress }: Props): React.ReactElement<Props> | null {
+function CardSummary ({ children, className = '', help, hideProgress, label, progress }: Props): React.ReactElement<Props> | null {
   const value = progress && progress.value;
   const total = progress && progress.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -93,7 +94,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           )
         }
       </Labelled>
-      {progress && !progress.hideGraph && <Progress {...progress} />}
+      {progress && !progress.hideGraph && !hideProgress && <Progress {...progress} />}
     </article>
   );
 }
