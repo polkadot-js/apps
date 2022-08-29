@@ -36782,6 +36782,7 @@ export const typesBundle = {
           "ChainId": "u8",
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
@@ -37022,6 +37023,7 @@ export const typesBundle = {
         "types": {
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
@@ -61111,6 +61113,30 @@ export const typesBundle = {
               "promisor_signature": "MultiSignature"
             },
             "LiabilityIndex": "u32"
+          }
+        }
+      ]
+    },
+    "root": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "AccountId32": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId",
+            "Lookup0": "AccountId",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature"
           }
         }
       ]

@@ -15,9 +15,9 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.121.2-1-x",
+  "version": "0.121.2-18-x",
   "versions": {
-    "git": "0.121.2-1-x",
+    "git": "0.121.2-18-x",
     "npm": "0.121.1"
   },
   "workspaces": [
@@ -64,15 +64,15 @@
     "test:skipped": "echo 'tests skipped'"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.10",
+    "@babel/core": "^7.18.13",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.18.9",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.1.26",
-    "@polkadot/dev": "^0.67.113",
+    "@polkadot/dev": "^0.67.116",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
-    "@types/jest": "^28.1.7",
+    "@types/jest": "^28.1.8",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.0.6",
@@ -99,9 +99,9 @@
     "@polkadot/api-base": "^9.2.3",
     "@polkadot/api-contract": "^9.2.3",
     "@polkadot/api-derive": "^9.2.3",
-    "@polkadot/hw-ledger": "^10.1.5",
-    "@polkadot/keyring": "^10.1.5",
-    "@polkadot/networks": "^10.1.5",
+    "@polkadot/hw-ledger": "^10.1.6",
+    "@polkadot/keyring": "^10.1.6",
+    "@polkadot/networks": "^10.1.6",
     "@polkadot/phishing": "^0.18.6",
     "@polkadot/rpc-augment": "^9.2.3",
     "@polkadot/rpc-core": "^9.2.3",
@@ -112,11 +112,11 @@
     "@polkadot/types-create": "^9.2.3",
     "@polkadot/types-known": "^9.2.3",
     "@polkadot/types-support": "^9.2.3",
-    "@polkadot/util": "^10.1.5",
-    "@polkadot/util-crypto": "^10.1.5",
+    "@polkadot/util": "^10.1.6",
+    "@polkadot/util-crypto": "^10.1.6",
     "@polkadot/wasm-crypto": "^6.3.1",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.3.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.2"
   }
 }
