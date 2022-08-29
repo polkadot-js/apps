@@ -1527,7 +1527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@darwinia/types@npm:2.8.9":
+"@darwinia/types@npm:2.8.9, @darwinia/types@npm:^2.8.9":
   version: 2.8.9
   resolution: "@darwinia/types@npm:2.8.9"
   checksum: 517a900a76705cc12fb795a4677fb69708ad6890c39f5e034b7c9db1dbe6160c82be3ee8de3262cf88a2eb12bcd868058f2ccb9d19b3359552a473ad4912cf8d
@@ -3107,9 +3107,11 @@ __metadata:
   resolution: "@polkadot/app-staking@workspace:packages/page-staking"
   dependencies:
     "@babel/runtime": ^7.18.9
+    "@darwinia/types": ^2.8.9
     "@polkadot/app-explorer": ^0.121.2-18-x
     "@polkadot/react-components": ^0.121.2-18-x
     "@polkadot/react-query": ^0.121.2-18-x
+    bignumber.js: ^9.1.0
   languageName: unknown
   linkType: soft
 
@@ -3240,6 +3242,7 @@ __metadata:
   resolution: "@polkadot/apps-routing@workspace:packages/apps-routing"
   dependencies:
     "@babel/runtime": ^7.18.9
+    "@darwinia/types": ^2.8.9
   languageName: unknown
   linkType: soft
 
@@ -3520,6 +3523,7 @@ __metadata:
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
     "@babel/runtime": ^7.18.9
+    "@darwinia/types": ^2.8.9
     "@fortawesome/fontawesome-svg-core": ^6.1.2
     "@fortawesome/free-solid-svg-icons": ^6.1.2
     "@fortawesome/react-fontawesome": ^0.2.0
@@ -3564,6 +3568,7 @@ __metadata:
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@babel/runtime": ^7.18.9
+    "@darwinia/types": ^2.8.9
     "@polkadot/hw-ledger": ^10.1.6
     is-ipfs: 6.0.2
   languageName: unknown
@@ -6632,6 +6637,13 @@ __metadata:
   version: 9.0.2
   resolution: "bignumber.js@npm:9.0.2"
   checksum: 8637b71d0a99104b20413c47578953970006fec6b4df796b9dcfd9835ea9c402ea0e727eba9a5ca9f9a393c1d88b6168c5bbe0887598b708d4f8b4870ad62e1f
+  languageName: node
+  linkType: hard
+
+"bignumber.js@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "bignumber.js@npm:9.1.0"
+  checksum: 52ec2bb5a3874d7dc1a1018f28f8f7aff4683515ffd09d6c2d93191343c76567ae0ee32cc45149d53afb2b904bc62ed471a307b35764beea7e9db78e56bef6c6
   languageName: node
   linkType: hard
 
