@@ -60,9 +60,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2001,
     text: 'Bifrost',
     providers: {
-      'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
-      'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
-      'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
+      Liebi: 'wss://bifrost-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
       Dwellir: 'wss://bifrost-rpc.dwellir.com'
     }
