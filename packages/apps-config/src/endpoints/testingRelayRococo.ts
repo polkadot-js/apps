@@ -32,6 +32,13 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoAventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 4095,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'rococoBajun',
     paraId: 3026,
     text: 'Bajun Network',
@@ -303,13 +310,6 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
     }
-  },
-  {
-    info: 'rococoAventus',
-    homepage: 'https://www.aventus.io/',
-    paraId: 4095,
-    text: 'Aventus',
-    providers: { }
   }
 ];
 
