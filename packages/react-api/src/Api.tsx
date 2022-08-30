@@ -328,7 +328,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
             loadOnReady(api, apiEndpoint, injectedPromise, store, types)
               .then(setState)
               .catch(onError);
-          });
+          }).catch(onError);
         });
 
         setIsApiInitialized(true);
