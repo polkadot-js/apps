@@ -16,6 +16,7 @@
     "@acala-network/type-definitions": "^4.1.5",
     "@babel/runtime": "^7.18.9",
     "@bifrost-finance/type-definitions": "1.6.1",
+    "@chainsafe/metamask-polkadot-adapter": "^0.4.1",
     "@crustio/type-definitions": "1.3.0",
     "@darwinia/types": "2.8.9",
     "@darwinia/types-known": "2.8.9",

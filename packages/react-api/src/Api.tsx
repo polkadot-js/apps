@@ -13,7 +13,7 @@ import store from 'store';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, typesBundle } from '@polkadot/apps-config';
+import { ethereumChains, injectExtensions, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -318,15 +318,17 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         api.on('disconnected', () => setIsApiConnected(false));
         api.on('error', onError);
         api.on('ready', (): void => {
-          const injectedPromise = web3Enable('polkadot-js/apps');
+          injectExtensions().then(() => {
+            const injectedPromise = web3Enable('polkadot-js/apps');
 
-          injectedPromise
-            .then(setExtensions)
-            .catch(console.error);
+            injectedPromise
+              .then(setExtensions)
+              .catch(console.error);
 
-          loadOnReady(api, apiEndpoint, injectedPromise, store, types)
-            .then(setState)
-            .catch(onError);
+            loadOnReady(api, apiEndpoint, injectedPromise, store, types)
+              .then(setState)
+              .catch(onError);
+          });
         });
 
         setIsApiInitialized(true);
