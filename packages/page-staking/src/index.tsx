@@ -11,6 +11,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -77,6 +78,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ], OPT_MULTI);
   const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
@@ -134,7 +136,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'bags',
       text: t<string>('Bags')
     },
-    {
+    !isDarwinia && {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
       text: t<string>('Slashes')
@@ -144,7 +146,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, isDarwinia, slashes, t]);
 
   return (
     <main className={`staking--App ${className}`}>
