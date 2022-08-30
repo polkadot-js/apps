@@ -11,6 +11,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Performance from '@polkadot/app-staking/Performance';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -49,6 +50,7 @@ function createPathRef (basePath: string): Record<string, string | string[]> {
   return {
     bags: `${basePath}/bags`,
     payout: `${basePath}/payout`,
+    performance: `${basePath}/performance`,
     pools: `${basePath}/pools`,
     query: [
       `${basePath}/query/:value`,
@@ -142,6 +144,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       hasParams: true,
       name: 'query',
       text: t<string>('Validator stats')
+    },
+    {
+      name: 'performance',
+      text: t<string>('Performance')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
@@ -191,6 +197,13 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             toggleFavorite={toggleFavorite}
             toggleLedger={toggleLedger}
             toggleNominatedBy={toggleNominatedBy}
+          />
+        </Route>
+        <Route path={pathRef.current.performance}>
+          <Performance
+            favorites={favorites}
+            targets={targets}
+            toggleFavorite={toggleFavorite}
           />
         </Route>
       </Switch>
