@@ -321,6 +321,7 @@
        1	Pierre Krieger                	Update translation.json (#6266)
        1	Pierre-Luc Gagné              	Added a warning popup at account creation for seed backup (#325)
        1	Preschian Febryantara         	add KodaDot logo (#7151)
+       1	Puneet Saraswat               	Frequency rococo  (#8076)
        1	Radka Gettová                 	Make Block Hash "Hover to Copy"-able (#458)
        1	Ramsey R                      	Kabocha parachain candidate for Kusama chain. (#7333)
        1	Raoul Millais                 	Upgrade @substrate/connect@0.3.16 (#5855)
