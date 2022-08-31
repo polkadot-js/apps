@@ -65771,11 +65771,12 @@ export const typesBundle = {
             "Space": {
               "id": "SpaceId",
               "created": "WhoAndWhen",
-              "edited": "bool",
+              "updated": "bool",
               "owner": "AccountId",
               "parent_id": "Option<SpaceId>",
               "content": "Content",
               "hidden": "bool",
+              "posts_count": "u32",
               "permissions": "Option<SpacePermissions>"
             },
             "SpaceUpdate": {
@@ -65846,7 +65847,7 @@ export const typesBundle = {
             "Post": {
               "id": "PostId",
               "created": "WhoAndWhen",
-              "edited": "bool",
+              "updated": "bool",
               "owner": "AccountId",
               "extension": "PostExtension",
               "space_id": "Option<SpaceId>",
@@ -65862,14 +65863,21 @@ export const typesBundle = {
             },
             "PostExtension": {
               "_enum": {
-                "RegularPost": "Null",
+                "Post": "RegularPost",
                 "Comment": "Comment",
-                "SharedPost": "PostId"
+                "SharingPost": "SharingPost"
               }
             },
             "Comment": {
               "parent_id": "Option<PostId>",
               "root_post_id": "PostId"
+            },
+            "RegularPost": {
+              "total_replies_count": "u32"
+            },
+            "SharingPost": {
+              "total_replies_count": "u32",
+              "original_post_id": "PostId"
             }
           }
         },
