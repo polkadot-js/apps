@@ -14,7 +14,7 @@ interface Props {
 }
 
 function Favorite ({ address, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> {
-  const _onFavorite = useCallback(
+  const onFavorite = useCallback(
     () => toggleFavorite(address),
     [address, toggleFavorite]
   );
@@ -24,7 +24,7 @@ function Favorite ({ address, className, isFavorite, toggleFavorite }: Props): R
       className={className}
       color={isFavorite ? 'orange' : 'gray'}
       icon='star'
-      onClick={_onFavorite}
+      onClick={onFavorite}
     />
   );
 }

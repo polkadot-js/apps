@@ -7,7 +7,7 @@ import { MarkWarning } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
-function ActionsBanner (): React.ReactElement<null> | null {
+function ActionsBanner (): React.ReactElement {
   const { t } = useTranslation();
 
   const AlephZeroRotatingCommitteeInfo = 'https://alephzero.org/blog/fundamentals-rotating-committees/';
@@ -16,12 +16,12 @@ function ActionsBanner (): React.ReactElement<null> | null {
     <MarkWarning
       className='warning centered'
       content={<>
-        {t<string>('Performance of a validator is calculated based on ratio of blocks created in given session to expected number of blocks produced in a said session. See more info ')}
+        {'Performance of a validator is calculated based on ratio of blocks created in given session to expected number of blocks produced in a said session. See more info '}
         {<a
           href={AlephZeroRotatingCommitteeInfo}
           rel='noopener noreferrer'
           target='_blank'
-        >{t<string>('here.')}</a>}
+        >{'here.'}</a>}
       </>}
     />
   );

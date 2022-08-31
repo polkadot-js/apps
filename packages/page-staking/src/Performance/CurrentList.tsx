@@ -31,7 +31,7 @@ interface Filtered {
   validators?: AccountExtend[];
 }
 
-function sortAccountByFavourites (accounts: string[] = [], favorites: string[]): AccountExtend[] {
+function sortAccountByFavourites (accounts: string[], favorites: string[]): AccountExtend[] {
   return accounts
     .map((accountId): AccountExtend => [
       accountId,
@@ -71,7 +71,7 @@ interface CommitteeSize extends Struct {
   reservedSeats: u32,
 }
 
-function CurrentList ({ className, currentSessionCommittee, favorites, session, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ className, currentSessionCommittee, favorites, session, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [nameFilter, setNameFilter] = useState<string>('');
