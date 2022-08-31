@@ -121,7 +121,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoFrequency',
     paraId: 4044,
-    text: 'Frequency Rococo',
+    text: 'Frequency',
     providers: {
       Frequency: 'wss://collator1.frequency.xyz'
     }
