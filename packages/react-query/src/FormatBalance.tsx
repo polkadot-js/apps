@@ -98,7 +98,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
                 ? <>{t<string>('everything')}{labelPost || ''}</>
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
               : isString(labelPost)
-                ? `-${labelPost}`
+                ? `-${labelPost.toString()}`
                 : labelPost
         }</span>{children}
     </div>

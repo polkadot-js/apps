@@ -60,9 +60,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2001,
     text: 'Bifrost',
     providers: {
-      'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
-      'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
-      'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
+      Liebi: 'wss://bifrost-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
       Dwellir: 'wss://bifrost-rpc.dwellir.com'
     }
@@ -129,7 +127,9 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'GM',
     providers: {
       GMorDieDAO: 'wss://kusama.gmordie.com',
-      'bLd Nodes': 'wss://ws.gm.bldnodes.org'
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
+      'light client': 'light://substrate-connect/kusama/gm'
     }
   },
   {
@@ -157,7 +157,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
-      'InvArch Team': 'wss://tinker.invarch.network'
+      'InvArch Team': 'wss://tinker.invarch.network',
+      'light client': 'light://substrate-connect/kusama/tinkernet'
     }
   },
   {
@@ -180,7 +181,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://karura.polkawallet.io',
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+      Dwellir: 'wss://karura-rpc.dwellir.com'
     }
   },
   {
@@ -334,7 +336,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2102,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
+      'Kylin Network': 'wss://kusama.kylin-node.co.uk',
+      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws'
     }
   },
   {
@@ -498,7 +501,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemine'
+      Pinknode: 'wss://public-rpc.pinknode.io/statemine',
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.xyz/ws'
     },
     teleport: [-1]
   },
