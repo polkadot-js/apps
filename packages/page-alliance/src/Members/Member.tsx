@@ -80,7 +80,7 @@ function Member ({ className, info: { accountId, role }, isPrime, isVoter }: Pro
             value={
               <Menu>
                 <Menu.Item
-                  isDisabled={info && info.isUpForKicking}
+                  isDisabled={!!(info && (info.isUpForKicking || info.isRetiringAt))}
                   label={t<string>('Retire')}
                   onClick={doRetire}
                 />
