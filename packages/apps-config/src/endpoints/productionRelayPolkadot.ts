@@ -62,6 +62,13 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'aventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 2056,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'bifrost',
     homepage: 'https://crowdloan.bifrost.app',
     paraId: 2030,
