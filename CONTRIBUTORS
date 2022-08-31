@@ -307,6 +307,7 @@
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
+       1	nahuseyoum                    	Adds Aventus parachain info (#8067)
        1	Nantian                       	update acala rpc (#6704)
        1	nasa8x                        	Add GeekCash testnet, logo, color (#5265)
        1	NightingaleAsh                	Add loom network kusama (#5591)
