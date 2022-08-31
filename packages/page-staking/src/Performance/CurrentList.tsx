@@ -117,15 +117,17 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
 
   const blocksTarget = useMemo(
     () => {
-      if (!committeeSize || ! sessionInfo) {
+      if (!committeeSize || !sessionInfo) {
         return undefined;
       }
+
       const sessionPeriod = api.consts.elections.sessionPeriod;
 
       const currentCommitteeSize = committeeSize.nonReservedSeats.toNumber() + committeeSize.reservedSeats.toNumber();
+
       return Math.round(Number(sessionPeriod.toString()) / currentCommitteeSize);
     },
-     [committeeSize, sessionInfo, api]
+    [committeeSize, sessionInfo, api]
   );
 
   const isLoading = useLoadingDelay();
@@ -183,7 +185,7 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
         <Address
           address={address}
           blocksCreated={sessionValidatorBlockCountLookup ? sessionValidatorBlockCountLookup[address] : 0}
-          blocksTarget={blocksTarget ? blocksTarget : 0}
+          blocksTarget={blocksTarget || 0}
           filterName={nameFilter}
           isFavorite={isFavorite}
           key={address}
