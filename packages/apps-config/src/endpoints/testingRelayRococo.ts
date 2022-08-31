@@ -119,6 +119,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoFrequency',
+    paraId: 4044,
+    text: 'Frequency Rococo',
+    providers: {
+      Webb: 'wss://rococo-rpc.polkadot.io'
+    }
+  },
+  {
     info: 'rococoGenshiro',
     paraId: 2024,
     text: 'Genshiro Testnet',

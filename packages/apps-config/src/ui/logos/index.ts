@@ -125,6 +125,7 @@ import nodeEdgeware from './nodes/edgeware-white.png';
 import nodeEfinity from './nodes/efinity.svg';
 import nodeEncointer from './nodes/encointer-blue.svg';
 import nodeFantour from './nodes/fantour.png';
+import nodeFrequency from './nodes/frequencyRococo.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
@@ -824,6 +825,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
+  rococoFrequency: nodeFrequency,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
   rococoHelixstreet: nodeHelixstreet,
