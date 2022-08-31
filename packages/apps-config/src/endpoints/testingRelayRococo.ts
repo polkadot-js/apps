@@ -123,7 +123,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4044,
     text: 'Frequency Rococo',
     providers: {
-      Webb: 'wss://rococo-rpc.polkadot.io'
+      Frequency: 'wss://rococo-rpc.polkadot.io'
     }
   },
   {
