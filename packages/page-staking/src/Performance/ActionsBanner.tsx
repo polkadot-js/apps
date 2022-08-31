@@ -5,11 +5,7 @@ import React from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-
 function ActionsBanner (): React.ReactElement {
-  const { t } = useTranslation();
-
   const AlephZeroRotatingCommitteeInfo = 'https://alephzero.org/blog/fundamentals-rotating-committees/';
 
   return (
