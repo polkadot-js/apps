@@ -33,11 +33,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
     paraId: 3026,
     text: 'Bajun Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-rococo.bajun.network'
+      // AjunaNetwork: 'wss://rpc-rococo.bajun.network' // https://github.com/polkadot-js/apps/issues/7593
     }
   },
   {
@@ -70,6 +69,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Catalyst',
     providers: {
       Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+    }
+  },
+  {
+    info: 'rococoConfti',
+    paraId: 4094,
+    text: 'Confti',
+    providers: {
+      // Confti: 'wss://ws.confti.club' // https://github.com/polkadot-js/apps/issues/8036
     }
   },
   {
@@ -153,12 +160,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMd5',
+    paraId: 4088,
+    text: 'MD5 Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.md5.network'
+    }
+  },
+  {
     info: 'rococoMoonsama',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
     text: 'Moonsama',
     providers: {
-      Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+      // Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com' // https://github.com/polkadot-js/apps/issues/7526
     }
   },
   {
@@ -279,16 +293,15 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3003,
     text: 'Virto',
     providers: {
-      VirtoNetwork: 'wss://rococo.virtonetwork.xyz'
+      // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
     }
   },
   {
     info: 'rococoZeitgeist',
-    isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
     paraId: 2050,
     text: 'Zeitgeist PC',
     providers: {
-      Zeitggeist: 'wss://roc.zeitgeist.pm'
+      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
     }
   }
 ];

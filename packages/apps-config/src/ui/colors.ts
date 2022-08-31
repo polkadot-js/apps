@@ -90,6 +90,7 @@ const chainLogion = 'rgb(21, 38, 101)';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#030408';
+const chainMd5 = '#3584e4';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainMybank = '#282736';
@@ -198,6 +199,7 @@ const nodeKusari = '#b8860b';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMathChain = '#000000';
+const nodeMd5 = '#175bae';
 const nodeMoonbeam = '#53cbc9';
 const nodeMoonbase = '#F45B5B';
 const nodeMoonriver = '#0E132E';
@@ -380,6 +382,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
+  'MD5 Network': chainMd5,
   Minix: chainMinix,
   'Minix Testnet': chainMinix,
   'Moonbase Alpha': nodeMoonbase,
@@ -538,6 +541,7 @@ export const nodeColors = Object.entries({
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
+  'MD5 Network': nodeMd5,
   'Moonsama Development': chainMoonsama,
   'mybank.network node': nodeMybank,
   Myriad: chainMyriad,

@@ -96,6 +96,7 @@ import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
+import rootnet from './rootnet';
 import shibuya from './shibuya';
 import shiden from './shiden';
 import snowbridge from './snowbridge';
@@ -246,6 +247,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   realis,
   'riochain-runtime': riochain,
   robonomics,
+  root: rootnet,
   shibuya,
   shiden,
   snowbridge,

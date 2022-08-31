@@ -14,7 +14,7 @@ import type { Options } from './types';
 
 import React from 'react';
 
-import { assert, isNull, isUndefined } from '@polkadot/util';
+import { assert, isNull, isUndefined, nextTick } from '@polkadot/util';
 
 import echoTransform from '../transform/echo';
 import { isEqual, triggerChange } from '../util';
@@ -92,12 +92,12 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
         // The attachment takes time when a lot is available, set a timeout
         // to first handle the current queue before subscribing
-        setTimeout((): void => {
+        nextTick((): void => {
           this
             .subscribe(this.getParams(this.props))
             .then(NOOP)
             .catch(NOOP);
-        }, 0);
+        });
       }
 
       public override componentWillUnmount (): void {
