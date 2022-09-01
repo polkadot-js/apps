@@ -336,6 +336,7 @@
   "period": "",
   "points": "",
   "pools": "",
+  "power": "power",
   "preimage {{hash}}": "",
   "preimage {{shortHash}}": "",
   "preimages": "",
@@ -393,6 +394,5 @@
   "{{count}} key/value pairs encoded for submission": "",
   "{{days}} days": "",
   "{{percentage}}% turnout": "",
-  "⚡️ Thunder Gateway": "",
-  "power": ""
+  "⚡️ Thunder Gateway": ""
 }
