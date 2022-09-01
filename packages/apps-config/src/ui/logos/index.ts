@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAmplitude from './chains/amplitude.svg';
 import chainAstar from './chains/astar.png';
+import chainAventus from './chains/aventus.svg';
 import chainBitgreen from './chains/bitgreen.png';
 import chainBrainstorm from './chains/brainstorm.png';
 import chainCoinversation from './chains/coinversation.png';
@@ -93,6 +94,7 @@ import nodeAresMars from './nodes/ares-mars.png';
 import nodeAresOdyssey from './nodes/ares-odyssey.svg';
 import nodeAstar from './nodes/astar.png';
 import nodeAutomata from './nodes/automata.png';
+import nodeAventus from './nodes/aventus.svg';
 import nodeBajun from './nodes/bajun.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
@@ -123,6 +125,7 @@ import nodeEdgeware from './nodes/edgeware-white.png';
 import nodeEfinity from './nodes/efinity.svg';
 import nodeEncointer from './nodes/encointer-blue.svg';
 import nodeFantour from './nodes/fantour.png';
+import nodeFrequency from './nodes/frequencyRococo.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
@@ -236,6 +239,7 @@ export const chainLogos = Object.entries({
   Astar: chainAstar,
   Automata: nodeAutomata,
   'Automata ContextFree': nodeAutomata,
+  Aventus: chainAventus,
   'Bajun Testnet': nodeBajun,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
@@ -460,6 +464,7 @@ export const nodeLogos = Object.entries({
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomata,
   'Automata Node': nodeAutomata,
+  Aventus: nodeAventus,
   'Bajun Node': nodeBajun,
   Basilisk: nodeBasilisk,
   'Beast Node': nodeBeast,
@@ -671,6 +676,7 @@ export const namedLogos: Record<string, unknown> = {
   astar: chainAstar,
   automata: nodeAutomata,
   'automata-contextfree': nodeAutomata,
+  aventus: chainAventus,
   bajun: nodeBajun,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
@@ -801,6 +807,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
+  rococoAventus: nodeAventus,
   rococoBajun: nodeBajun,
   rococoBasilisk: nodeBasilisk,
   rococoBifrost: nodeBifrost,
@@ -818,6 +825,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
+  rococoFrequency: nodeFrequency,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
   rococoHelixstreet: nodeHelixstreet,

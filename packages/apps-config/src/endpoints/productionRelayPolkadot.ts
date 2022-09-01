@@ -62,6 +62,13 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'aventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 2056,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'bifrost',
     homepage: 'https://crowdloan.bifrost.app',
     paraId: 2030,
@@ -354,7 +361,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemint'
+      Pinknode: 'wss://public-rpc.pinknode.io/statemint',
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
     }
   }
 ];
