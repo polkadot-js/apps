@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
-import { BN_HUNDRED } from '@polkadot/util';
+import { BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
@@ -140,15 +140,49 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
   });
 }
 
-function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[], isDarwiniaPower: boolean): ValidatorInfo[] {
   // Use slice to create new array, so that sorting triggers component render
   return validators
     .slice(0)
-    .sort((a, b) =>
-      sortFromMax
+    .sort((a, b) => {
+      if (isDarwiniaPower) {
+        let firstValue: BN;
+        let secondValue: BN;
+
+        switch (sortBy) {
+          case 'rankBondOther': {
+            firstValue = a.bondOther;
+            secondValue = b.bondOther;
+            break;
+          }
+
+          case 'rankBondOwn': {
+            firstValue = a.bondOwn;
+            secondValue = b.bondOwn;
+            break;
+          }
+
+          case 'rankBondTotal': {
+            firstValue = a.bondTotal;
+            secondValue = b.bondTotal;
+            break;
+          }
+
+          default: {
+            firstValue = BN_ZERO;
+            secondValue = BN_ZERO;
+          }
+        }
+
+        return sortFromMax
+          ? secondValue.sub(firstValue).toNumber()
+          : firstValue.sub(secondValue).toNumber();
+      }
+
+      return sortFromMax
         ? a[sortBy] - b[sortBy]
-        : b[sortBy] - a[sortBy]
-    )
+        : b[sortBy] - a[sortBy];
+    })
     .sort((a, b) =>
       a.isFavorite === b.isFavorite
         ? 0
@@ -238,9 +272,9 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   // (the same applies for changing the sort order, state here is more effective)
   useEffect((): void => {
     filtered && setSorted(
-      sort(sortBy, sortFromMax, filtered)
+      sort(sortBy, sortFromMax, filtered, isDarwinia)
     );
-  }, [filtered, sortBy, sortFromMax]);
+  }, [filtered, isDarwinia, sortBy, sortFromMax]);
 
   useEffect((): void => {
     toggleLedger();
