@@ -6,10 +6,11 @@ import type { SortedTargets, ValidatorInfo } from '../types';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { CommitteeSize } from '@polkadot/app-staking/Performance/index';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { Option, Struct, u32 } from '@polkadot/types-codec';
+import { AccountId, EraIndex } from '@polkadot/types/interfaces';
+import { Option, u32 } from '@polkadot/types-codec';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
@@ -21,8 +22,10 @@ interface Props {
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   session?: number;
-  currentSessionCommittee: string[];
+  currentSessionCommittee: AccountId[];
   sessionValidatorBlockCountLookup: Record<string, number>;
+  committeeSize?: CommitteeSize;
+  sessionInfo?: DeriveSessionProgress;
 }
 
 type AccountExtend = [string, boolean];
@@ -42,13 +45,13 @@ function sortAccountByFavourites (accounts: string[], favorites: string[]): Acco
     });
 }
 
-function getFiltered (targets: SortedTargets | undefined, favorites: string[], currentSessionCommittee: string[]): Filtered {
+function getFiltered (targets: SortedTargets | undefined, favorites: string[], currentSessionCommittee: AccountId[]): Filtered {
   if (!targets) {
     return {};
   }
 
   return {
-    validators: sortAccountByFavourites(currentSessionCommittee, favorites)
+    validators: sortAccountByFavourites(currentSessionCommittee.map((accountId) => accountId.toString()), favorites)
   };
 }
 
@@ -64,56 +67,10 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   return result;
 }
 
-type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
-
-interface CommitteeSize extends Struct {
-  nonReservedSeats: u32
-  reservedSeats: u32,
-}
-
-function CurrentList ({ className, currentSessionCommittee, favorites, session, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, committeeSize, currentSessionCommittee, favorites, session, sessionInfo, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [nameFilter, setNameFilter] = useState<string>('');
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
-  // to be used later on
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const committeeSize = useCall<CommitteeSize>(api.query.elections.committeeSize);
-  const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
-
-  // to be used later on
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const [era, eraFirstSession, eraLastSession]: [number | undefined, number | undefined, number | undefined] = useMemo(
-    () => {
-      if (!sessionInfo || !erasStartSessionIndex || !session) {
-        return [undefined, undefined, undefined];
-      }
-
-      const erasStartSessionIndexLookup: Record<number, number> = {};
-
-      erasStartSessionIndex.filter(([, values]) => values.isSome)
-        .forEach(([key, values]) => {
-          const eraIndex = key.args[0];
-
-          erasStartSessionIndexLookup[eraIndex.toNumber()] = values.unwrap().toNumber();
-        });
-
-      let currentEra = sessionInfo.activeEra.toNumber();
-      let currentEraSessionStart: number = erasStartSessionIndexLookup[currentEra];
-      let currentEraSessionEnd = null;
-
-      while (currentEraSessionStart > session) {
-        currentEraSessionEnd = currentEraSessionStart - 1;
-        currentEra = currentEra - 1;
-        currentEraSessionStart = erasStartSessionIndexLookup[currentEra];
-      }
-
-      return [currentEra, currentEraSessionStart, currentEraSessionEnd];
-    },
-    [erasStartSessionIndex, sessionInfo, session]
-  );
 
   const blocksTarget = useMemo(
     () => {
@@ -160,6 +117,22 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
     ]
   );
 
+  const listExtended = list?.map(([address, isFavorite]) => {
+    const blocksCreated = sessionValidatorBlockCountLookup
+      ? Object.keys(sessionValidatorBlockCountLookup).includes(address)
+        ? sessionValidatorBlockCountLookup[address]
+        : 0
+      : 0;
+    const blocksTargetValue = blocksTarget || 0;
+    let rewardPercentage = blocksTargetValue && blocksCreated && blocksTargetValue > 0 ? 100 * blocksCreated / blocksTargetValue : 0;
+
+    if (rewardPercentage >= 90) {
+      rewardPercentage = 100;
+    }
+
+    return [address, isFavorite, blocksCreated, blocksTargetValue, rewardPercentage];
+  });
+
   return (
     <Table
       className={className}
@@ -181,15 +154,15 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
       }
       header={headerRef.current}
     >
-      {list && list.map(([address, isFavorite]): React.ReactNode => (
+      {listExtended && listExtended.map(([address, isFavorite, blocksCreated, blocksTargetValue, rewardPercentage]): React.ReactNode => (
         <Address
           address={address}
-          blocksCreated={sessionValidatorBlockCountLookup ? sessionValidatorBlockCountLookup[address] : 0}
-          blocksTarget={blocksTarget || 0}
+          blocksCreated={blocksCreated}
+          blocksTarget={blocksTarget}
           filterName={nameFilter}
           isFavorite={isFavorite}
           key={address}
-          rewardPercentage={0}
+          rewardPercentage={rewardPercentage.toFixed(1)}
           toggleFavorite={toggleFavorite}
         />
       ))}
