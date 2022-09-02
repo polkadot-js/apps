@@ -5,12 +5,9 @@ import type { SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
-import { CommitteeSize } from '@polkadot/app-staking/Performance/index';
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
-import { AccountId, EraIndex } from '@polkadot/types/interfaces';
-import { Option, u32 } from '@polkadot/types-codec';
+import { useLoadingDelay} from '@polkadot/react-hooks';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
@@ -21,11 +18,10 @@ interface Props {
   favorites: string[];
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
-  session?: number;
+  session: number;
   currentSessionCommittee: AccountId[];
   sessionValidatorBlockCountLookup: Record<string, number>;
-  committeeSize?: CommitteeSize;
-  sessionInfo?: DeriveSessionProgress;
+  expectedSessionValidatorBlockCount: Record<string, number>;
 }
 
 type AccountExtend = [string, boolean];
@@ -67,25 +63,9 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   return result;
 }
 
-function CurrentList ({ className, committeeSize, currentSessionCommittee, favorites, session, sessionInfo, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, currentSessionCommittee, favorites, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const [nameFilter, setNameFilter] = useState<string>('');
-
-  const blocksTarget = useMemo(
-    () => {
-      if (!committeeSize || !sessionInfo) {
-        return undefined;
-      }
-
-      const sessionPeriod = api.consts.elections.sessionPeriod;
-
-      const currentCommitteeSize = committeeSize.nonReservedSeats.toNumber() + committeeSize.reservedSeats.toNumber();
-
-      return Math.round(Number(sessionPeriod.toString()) / currentCommitteeSize);
-    },
-    [committeeSize, sessionInfo, api]
-  );
 
   const isLoading = useLoadingDelay();
 
@@ -123,7 +103,7 @@ function CurrentList ({ className, committeeSize, currentSessionCommittee, favor
         ? sessionValidatorBlockCountLookup[address]
         : 0
       : 0;
-    const blocksTargetValue = blocksTarget || 0;
+    const blocksTargetValue = expectedSessionValidatorBlockCount[address] || 0;
     let rewardPercentage = blocksTargetValue && blocksCreated && blocksTargetValue > 0 ? 100 * blocksCreated / blocksTargetValue : 0;
 
     if (rewardPercentage >= 90) {
@@ -154,7 +134,7 @@ function CurrentList ({ className, committeeSize, currentSessionCommittee, favor
       }
       header={headerRef.current}
     >
-      {listExtended && listExtended.map(([address, isFavorite, blocksCreated, blocksTargetValue, rewardPercentage]): React.ReactNode => (
+      {listExtended && listExtended.map(([address, isFavorite, blocksCreated, blocksTarget, rewardPercentage]): React.ReactNode => (
         <Address
           address={address}
           blocksCreated={blocksCreated}

@@ -1,0 +1,299 @@
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { SortedTargets } from '../types';
+
+import React, { useEffect, useMemo, useState} from 'react';
+
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { Vec } from '@polkadot/types';
+import {AccountId, EraIndex, Hash} from '@polkadot/types/interfaces';
+import {Option, Struct, u32} from '@polkadot/types-codec';
+
+import ActionsBanner from './ActionsBanner';
+import CurrentList from './CurrentList';
+import Summary from './Summary';
+
+interface Props {
+  className?: string;
+  favorites: string[];
+  targets: SortedTargets;
+  toggleFavorite: (address: string) => void;
+  session: number,
+}
+
+interface CurrentEraValidators extends Struct {
+  reserved: Vec<AccountId>;
+  nonReserved: Vec<AccountId>;
+}
+
+interface CommitteeSize extends Struct {
+  nonReservedSeats: u32
+  reservedSeats: u32,
+}
+
+type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
+
+function Performance ({ className = '', favorites, session, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+
+  const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
+  const [firstBlockInSessionHash, setFirstBlockInSessionHash] = useState<Hash | null>(null);
+  const [lastBlockInSessionHash, setLastBlockInSessionHash] = useState<Hash | null>(null);
+  const [currentEraValidators, setCurrentEraValidators] = useState<CurrentEraValidators | null>(null);
+  const [committeeSize, setCommitteeSize] = useState<CommitteeSize | null>(null);
+  const [sessionValidatorBlockCountLookup, setSessionValidatorBlockCountLookup] = useState<Record<string, number>>({});
+  const [ firstSessionBlockAuthor, setFirstSessionBlockAuthor ] = useState<string>('');
+
+  // const currentEraValidators = useCall<CurrentEraValidators>(api.query.elections.currentEraValidators);
+  // const committeeSize = useCall<CommitteeSize>(api.query.elections.committeeSize);
+  // const [currentSessionCached, setCurrentSessionCached] = useState(0);
+  // const sessionChanged = useRef(false);
+  // const { lastHeaders } = useContext(BlockAuthorsContext);
+
+  const era: number | null = useMemo(
+    () => {
+      if (!erasStartSessionIndex) {
+        return null;
+      }
+
+      const erasStartSessionIndexLookup: [number, number][] = [];
+      erasStartSessionIndex.filter(([, values]) => values.isSome)
+        .forEach(([key, values]) => {
+          const eraIndex = key.args[0];
+          erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
+        });
+      erasStartSessionIndexLookup.sort(([eraIndexA,], [eraIndexB,]) => {
+        return eraIndexA - eraIndexB;
+      });
+
+      for(let i = 0; i < erasStartSessionIndexLookup.length; i++) {
+        let eraIndex = erasStartSessionIndexLookup[i][0];
+        let currentEraSessionStart = erasStartSessionIndexLookup[i][1];
+        let currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
+
+        if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
+          console.log([eraIndex, currentEraSessionStart]);
+          return eraIndex;
+        }
+      }
+
+      let lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+      return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
+    },
+    // TODO this is not refreshed automatically when new era begins
+    // we need to query entries on timeout
+    [erasStartSessionIndex, session]
+  );
+
+  useEffect( () => {
+      if (era) {
+        const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+        let firstBlockInSession = session * sessionPeriod;
+        console.log("firstBlockInSession", firstBlockInSession);
+        api.rpc.chain
+          .getBlockHash(firstBlockInSession)
+          .then((result): void => {
+            console.log("firstBlockInSessionHash", result.toString())
+            setFirstBlockInSessionHash(result);
+          })
+          .catch(console.error);
+        let lastBlockInSession = (session + 1) * sessionPeriod - 1;
+        console.log("lastBlockInSession", lastBlockInSession);
+        api.rpc.chain
+          .getBlockHash(lastBlockInSession)
+          .then((result): void => {
+            console.log("lastBlockInSessionHash", result.toString())
+            setLastBlockInSessionHash(result);
+          })
+          .catch(console.error);
+      }
+    },
+    [api, era, session]
+  );
+
+   useEffect(() => {
+      if (firstBlockInSessionHash) {
+        api.at(firstBlockInSessionHash.toString()).then((result) => {
+          if (result) {
+            result.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
+              if (currentEraValidatorsValue) {
+                console.log(currentEraValidatorsValue);
+                setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
+              }
+            }).catch(console.error);
+            result.query.elections.committeeSize().then((committeeSizeValue) => {
+              if (committeeSizeValue) {
+                console.log(committeeSizeValue);
+                setCommitteeSize(committeeSizeValue as CommitteeSize);
+              }
+            }).catch(console.error);
+          }
+          }).catch(console.error);
+        api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
+          if (header && !header.isEmpty && header.author) {
+            setFirstSessionBlockAuthor(header.author.toString());
+          }
+        }).catch(console.error);
+      }
+
+    },
+    [api, firstBlockInSessionHash]
+  );
+
+  useEffect(() => {
+    // todo bug? lack of 1 block count in last block state?
+      if (lastBlockInSessionHash) {
+        api.at(lastBlockInSessionHash.toString()).then((result) => {
+          if (result) {
+            result.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
+              if (sessionValidatorBlockCountValue) {
+                const sessionValidatorBlockCountLookup: Record<string, number> = {};
+
+                sessionValidatorBlockCountValue.forEach(([key, values]) => {
+                  const account = key.args[0].toString();
+
+                  sessionValidatorBlockCountLookup[account] = Number(values.toString());
+                });
+                console.log("sessionValidatorBlockCountLookup", sessionValidatorBlockCountLookup);
+                setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
+              }
+            }).catch(console.error);
+          }
+        }).catch(console.error);
+      }
+    },
+    [api, lastBlockInSessionHash]
+  );
+
+  function chooseForSession (validators: AccountId[], count: number, sessionIndex: number) {
+    const validatorsLength = validators.length;
+    const firstIndex = sessionIndex * count % validatorsLength;
+    const chosen: Array<AccountId> = [];
+
+    for (let i = 0; i < Math.min(count, validatorsLength); i++) {
+      chosen.push(validators[(firstIndex + i) % validatorsLength]);
+    }
+
+    return chosen;
+  }
+
+  const [eraValidators, currentSessionCommittee] = useMemo(
+    () => {
+      if (!currentEraValidators || !committeeSize) {
+        return [null, null];
+      }
+      const nonReserved = currentEraValidators.nonReserved.toArray();
+      const reserved = currentEraValidators.reserved.toArray();
+      const nonReservedFreeSeats = committeeSize.nonReservedSeats.toNumber();
+      const reservedFreeSeats = committeeSize.reservedSeats.toNumber();
+      const currentSession = session;
+
+      const chosenFromNonReserved = chooseForSession(nonReserved, nonReservedFreeSeats, currentSession);
+      const chosenFromReserved = chooseForSession(reserved, reservedFreeSeats, currentSession);
+
+      const currentSessionCommittee = chosenFromReserved.concat(chosenFromNonReserved);
+      const eraValidators = reserved.concat(nonReserved);
+
+      console.log("eraValidators", eraValidators);
+      console.log("currentSessionCommittee", currentSessionCommittee);
+
+      return [eraValidators, currentSessionCommittee];
+    },
+    [api, currentEraValidators, committeeSize, session]
+  );
+
+  const expectedSessionValidatorBlockCount = useMemo(() => {
+      console.log("firstSessionBlockAuthor, eraValidators, currentSessionCommittee",firstSessionBlockAuthor, eraValidators, currentSessionCommittee );
+      if (!firstSessionBlockAuthor || !eraValidators || !currentSessionCommittee) {
+        return {};
+      }
+
+      const resultLookup: Record<string, number> = {};
+
+      // should not change at all during runtime, therefore it's fine to use current api object
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+      console.log("sessionPeriod", sessionPeriod);
+      console.log("firstSessionBlockAuthor", firstSessionBlockAuthor);
+      let index = currentSessionCommittee.findIndex((value) => value.toString() == firstSessionBlockAuthor);
+      if (index == -1) {
+        console.warn("Sth went wrong, could not find first block session author!");
+        return {};
+      }
+      console.log("currentSessionCommittee", currentSessionCommittee);
+      console.log("index", index);
+
+      for(let i = 0; i < currentSessionCommittee.length; i++) {
+        let author = currentSessionCommittee[(i + index) % currentSessionCommittee.length];
+        let offset = Math.max(sessionPeriod - i, 0);
+        resultLookup[author.toString()] = Math.ceil(offset / currentSessionCommittee.length);
+      }
+      console.log("resultLookup", resultLookup);
+      return resultLookup;
+    },
+     [firstSessionBlockAuthor, eraValidators, currentSessionCommittee]
+  );
+
+  //
+  // useEffect(() => {
+  //   // TODO destroy timeout
+  //
+  //   eraFirstSession && eraLastSession == null && setTimeout(() => {
+  //     api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
+  //     api.query.elections.sessionValidatorBlockCount.entries().then(
+  //       (result) => {
+  //         if (result) {
+  //           const sessionValidatorBlockCountLookup: Record<string, number> = {};
+  //
+  //           result.forEach(([key, values]) => {
+  //             const account = key.args[0].toString();
+  //
+  //             sessionValidatorBlockCountLookup[account] = Number(values.toString());
+  //           });
+  //           setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
+  //         }
+  //       }
+  //     ).catch(console.error);
+  //   }, 1000);
+  // });
+
+
+
+  // useEffect(() => {
+  //     let lastHeader = lastHeaders
+  //       .filter((header) => !!header)[0];
+  //     if (lastHeader && lastHeader.author) {
+  //       setLastHeaderAuthorCached(lastHeader.author.toString());
+  //       if (sessionChanged.current) {
+  //         console.log(lastHeaderAuthorCached);
+  //         console.log(currentSessionCached);
+  //         sessionChanged.current = false;
+  //       }
+  //     }
+  //   }, [lastHeaders]
+  // );
+
+  return (
+    <div className={`staking--Performance ${className}`}>
+      <Summary
+        currentSessionCommittee={currentSessionCommittee || []}
+        eraValidators={eraValidators || []}
+        targets={targets}
+        era={era}
+        session={session}
+      />
+      <ActionsBanner />
+      <CurrentList
+        currentSessionCommittee={currentSessionCommittee || []}
+        favorites={favorites}
+        session={session}
+        sessionValidatorBlockCountLookup={sessionValidatorBlockCountLookup}
+        expectedSessionValidatorBlockCount={expectedSessionValidatorBlockCount}
+        targets={targets}
+        toggleFavorite={toggleFavorite}
+      />
+    </div>
+  );
+}
+
+export default React.memo(Performance);
