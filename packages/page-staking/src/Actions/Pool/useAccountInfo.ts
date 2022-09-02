@@ -7,7 +7,7 @@ import type { AccountInfo } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
 const OPT_DEL = {
   transform: (opt: Option<PalletNominationPoolsPoolMember>): PalletNominationPoolsPoolMember | null =>
@@ -16,17 +16,19 @@ const OPT_DEL = {
 
 function useAccountInfoImpl (accountId: string): AccountInfo | null {
   const { api } = useApi();
+  const isMountedRef = useIsMountedRef();
   const [state, setState] = useState<AccountInfo | null>(null);
   const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   useEffect((): void => {
-    member &&
-      api.call
-        .nominationPoolsApi
+    member && api.call.nominationPoolsApi &&
+      api.call.nominationPoolsApi
         .pendingRewards(accountId)
-        .then((claimable) => setState({ claimable, member }))
+        .then((claimable) =>
+          isMountedRef.current && setState({ claimable, member })
+        )
         .catch(console.error);
-  }, [accountId, member, api]);
+  }, [accountId, member, api, isMountedRef]);
 
   return state;
 }
