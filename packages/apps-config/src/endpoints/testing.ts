@@ -290,7 +290,7 @@ export const testChains: EndpointOption[] = [
     info: 'klugdossier',
     text: 'Klug Dossier',
     providers: {
-      'Klug Dossier': 'wss://klugdossier.net/'
+      // 'Klug Dossier': 'wss://klugdossier.net/' // https://github.com/polkadot-js/apps/issues/8081
     }
   },
   {
