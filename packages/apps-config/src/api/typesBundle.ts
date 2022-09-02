@@ -24322,11 +24322,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -24883,11 +24879,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -26645,11 +26637,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -27205,11 +27193,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -28158,11 +28142,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -28718,11 +28698,7 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
-                "Token2": "u8",
-                "VToken2": "u8",
-                "VSToken2": "u8",
-                "VSBond2": "u8"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
               }
             },
             "CurrencyIdOf": "CurrencyId",
