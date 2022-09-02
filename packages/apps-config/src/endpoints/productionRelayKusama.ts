@@ -148,7 +148,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://kusama.api.integritee.network',
-      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws',
+      Dwellir: 'wss://integritee-ksm-rpc.dwellir.com'
     }
   },
   {
@@ -369,7 +370,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
-      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
+      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
+      Dwellir: 'wss://robonomics-rpc.dwellir.com'
     }
   },
   {
