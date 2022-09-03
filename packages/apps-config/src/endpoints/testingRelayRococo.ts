@@ -32,6 +32,13 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoAventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 4095,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'rococoBajun',
     paraId: 3026,
     text: 'Bajun Network',
@@ -44,7 +51,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     }
   },
   {
@@ -109,6 +116,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Eggnet',
     providers: {
       Webb: 'wss://rococo1.webb.tools'
+    }
+  },
+  {
+    info: 'rococoFrequency',
+    paraId: 4044,
+    text: 'Frequency',
+    providers: {
+      Frequency: 'wss://collator1.frequency.xyz'
     }
   },
   {
