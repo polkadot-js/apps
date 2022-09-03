@@ -16,7 +16,7 @@ function UserIcon (): React.ReactElement {
       <circle
         cx='20'
         cy='20'
-        fill='url(#pattern0)'
+        // fill='url(#pattern0)'
         r='20'
       />
       <defs>
