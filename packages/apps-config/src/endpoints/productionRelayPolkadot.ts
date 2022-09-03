@@ -183,7 +183,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     text: 'HydraDX',
     providers: {
-      'Galactic Council': 'wss://rpc-01.hydradx.io',
+      'Galactic Council': 'wss://rpc.hydradx.cloud',
       Dwellir: 'wss://hydradx-rpc.dwellir.com'
     }
   },
