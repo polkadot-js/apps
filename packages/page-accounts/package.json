@@ -19,7 +19,7 @@
     "@polkadot/react-components": "^0.121.2-31-x",
     "@polkadot/react-hooks": "^0.121.2-31-x",
     "@polkadot/util": "^10.1.7",
-    "@polkadot/vanitygen": "^0.52.6",
+    "@polkadot/vanitygen": "^0.52.7",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
