@@ -42,7 +42,7 @@ function sortAccountByFavourites (accounts: string[], favorites: string[]): Acco
     });
 }
 
-function getFiltered (targets: SortedTargets | undefined, favorites: string[], currentSessionCommittee: string[]): Filtered {
+function getFiltered (favorites: string[], currentSessionCommittee: string[], targets?: SortedTargets): Filtered {
   if (!targets) {
     return {};
   }
@@ -102,7 +102,7 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
 
       let currentEra = sessionInfo.activeEra.toNumber();
       let currentEraSessionStart: number = erasStartSessionIndexLookup[currentEra];
-      let currentEraSessionEnd = null;
+      let currentEraSessionEnd;
 
       while (currentEraSessionStart > session) {
         currentEraSessionEnd = currentEraSessionStart - 1;
@@ -118,7 +118,7 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
   const blocksTarget = useMemo(
     () => {
       if (!committeeSize || !sessionInfo) {
-        return undefined;
+        return;
       }
 
       const sessionPeriod = api.consts.elections.sessionPeriod;
@@ -133,14 +133,12 @@ function CurrentList ({ className, currentSessionCommittee, favorites, session, 
   const isLoading = useLoadingDelay();
 
   const { validators } = useMemo(
-    () => getFiltered(targets, favorites, currentSessionCommittee),
+    () => getFiltered(favorites, currentSessionCommittee, targets),
     [favorites, targets, currentSessionCommittee]
   );
 
   const list = useMemo(
-    () => isLoading
-      ? undefined
-      : validators,
+    () => !isLoading && validators,
     [isLoading, validators]
   );
 

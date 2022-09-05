@@ -6,7 +6,7 @@ import React from 'react';
 import { MarkWarning } from '@polkadot/react-components';
 
 function ActionsBanner (): React.ReactElement {
-  const AlephZeroRotatingCommitteeInfo = 'https://alephzero.org/blog/fundamentals-rotating-committees/';
+  const alephZeroRotatingCommitteeInfo = 'https://alephzero.org/blog/fundamentals-rotating-committees/';
 
   return (
     <MarkWarning
@@ -14,7 +14,7 @@ function ActionsBanner (): React.ReactElement {
       content={<>
         {'Performance of a validator is calculated based on ratio of blocks created in given session to expected number of blocks produced in a said session. See more info '}
         {<a
-          href={AlephZeroRotatingCommitteeInfo}
+          href={alephZeroRotatingCommitteeInfo}
           rel='noopener noreferrer'
           target='_blank'
         >{'here.'}</a>}
