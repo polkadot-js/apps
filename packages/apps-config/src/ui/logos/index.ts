@@ -903,6 +903,7 @@ export const namedLogos: Record<string, unknown> = {
   subspace: nodeSubspace,
   'subspace-farmnet': nodeSubspace,
   'subspace-gemini-1': nodeSubspace,
+  'subspace-gemini-2a': nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
