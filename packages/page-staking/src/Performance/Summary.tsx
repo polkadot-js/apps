@@ -6,12 +6,12 @@ import type { SortedTargets } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 
+import SummarySession from '@polkadot/app-staking/Performance/SummarySession';
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { AccountId } from '@polkadot/types/interfaces';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import SummarySession from "@polkadot/app-staking/Performance/SummarySession";
 
 interface Props {
   className?: string;
@@ -22,7 +22,7 @@ interface Props {
   session: number;
 }
 
-function Summary ({ className = '', currentSessionCommittee, eraValidators, era, session }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', currentSessionCommittee, era, eraValidators, session }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -43,8 +43,8 @@ function Summary ({ className = '', currentSessionCommittee, eraValidators, era,
       </section>
       <section>
         <SummarySession
-            era={era}
-            session={session}
+          era={era}
+          session={session}
         />
       </section>
     </SummaryBox>

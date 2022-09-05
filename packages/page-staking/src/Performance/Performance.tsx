@@ -3,12 +3,13 @@
 
 import type { SortedTargets } from '../types';
 
-import React, { useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Vec } from '@polkadot/types';
-import {AccountId, EraIndex, Hash} from '@polkadot/types/interfaces';
-import {Option, Struct, u32} from '@polkadot/types-codec';
+import { AccountId, EraIndex, Hash } from '@polkadot/types/interfaces';
+import { Option, Struct, u32 } from '@polkadot/types-codec';
 
 import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
@@ -43,13 +44,10 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
   const [currentEraValidators, setCurrentEraValidators] = useState<CurrentEraValidators | null>(null);
   const [committeeSize, setCommitteeSize] = useState<CommitteeSize | null>(null);
   const [sessionValidatorBlockCountLookup, setSessionValidatorBlockCountLookup] = useState<Record<string, number>>({});
-  const [ firstSessionBlockAuthor, setFirstSessionBlockAuthor ] = useState<string>('');
+  const [firstSessionBlockAuthor, setFirstSessionBlockAuthor] = useState<string>('');
+  const [isPalletElectionsSupported, setIsPalletElectionsSupported] = useState<boolean>(false);
 
-  // const currentEraValidators = useCall<CurrentEraValidators>(api.query.elections.currentEraValidators);
-  // const committeeSize = useCall<CommitteeSize>(api.query.elections.committeeSize);
-  // const [currentSessionCached, setCurrentSessionCached] = useState(0);
-  // const sessionChanged = useRef(false);
-  // const { lastHeaders } = useContext(BlockAuthorsContext);
+  const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
   const era: number | null = useMemo(
     () => {
@@ -58,27 +56,31 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
       }
 
       const erasStartSessionIndexLookup: [number, number][] = [];
+
       erasStartSessionIndex.filter(([, values]) => values.isSome)
         .forEach(([key, values]) => {
           const eraIndex = key.args[0];
+
           erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
         });
-      erasStartSessionIndexLookup.sort(([eraIndexA,], [eraIndexB,]) => {
+      erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
         return eraIndexA - eraIndexB;
       });
 
-      for(let i = 0; i < erasStartSessionIndexLookup.length; i++) {
-        let eraIndex = erasStartSessionIndexLookup[i][0];
-        let currentEraSessionStart = erasStartSessionIndexLookup[i][1];
-        let currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
+      for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
+        const eraIndex = erasStartSessionIndexLookup[i][0];
+        const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
+        const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
 
         if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
           console.log([eraIndex, currentEraSessionStart]);
+
           return eraIndex;
         }
       }
 
-      let lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+      const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+
       return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
     },
     // TODO this is not refreshed automatically when new era begins
@@ -86,84 +88,107 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
     [erasStartSessionIndex, session]
   );
 
-  useEffect( () => {
-      if (era) {
-        const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-        let firstBlockInSession = session * sessionPeriod;
-        console.log("firstBlockInSession", firstBlockInSession);
-        api.rpc.chain
-          .getBlockHash(firstBlockInSession)
-          .then((result): void => {
-            console.log("firstBlockInSessionHash", result.toString())
-            setFirstBlockInSessionHash(result);
-          })
-          .catch(console.error);
-        let lastBlockInSession = (session + 1) * sessionPeriod - 1;
-        console.log("lastBlockInSession", lastBlockInSession);
-        api.rpc.chain
-          .getBlockHash(lastBlockInSession)
-          .then((result): void => {
-            console.log("lastBlockInSessionHash", result.toString())
-            setLastBlockInSessionHash(result);
-          })
-          .catch(console.error);
-      }
-    },
-    [api, era, session]
-  );
+  useEffect(() => {
+    if (era) {
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+      const firstBlockInSession = session * sessionPeriod;
 
-   useEffect(() => {
-      if (firstBlockInSessionHash) {
-        api.at(firstBlockInSessionHash.toString()).then((result) => {
-          if (result) {
-            result.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
-              if (currentEraValidatorsValue) {
-                console.log(currentEraValidatorsValue);
-                setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
-              }
-            }).catch(console.error);
-            result.query.elections.committeeSize().then((committeeSizeValue) => {
-              if (committeeSizeValue) {
-                console.log(committeeSizeValue);
-                setCommitteeSize(committeeSizeValue as CommitteeSize);
-              }
-            }).catch(console.error);
-          }
-          }).catch(console.error);
-        api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
-          if (header && !header.isEmpty && header.author) {
-            setFirstSessionBlockAuthor(header.author.toString());
-          }
-        }).catch(console.error);
-      }
+      console.log('firstBlockInSession', firstBlockInSession);
+      api.rpc.chain
+        .getBlockHash(firstBlockInSession)
+        .then((result): void => {
+          console.log('firstBlockInSessionHash', result.toString());
+          setFirstBlockInSessionHash(result);
+        })
+        .catch(console.error);
+      const lastBlockInSession = (session + 1) * sessionPeriod - 1;
 
-    },
-    [api, firstBlockInSessionHash]
+      console.log('lastBlockInSession', lastBlockInSession);
+      api.rpc.chain
+        .getBlockHash(lastBlockInSession)
+        .then((result): void => {
+          console.log('lastBlockInSessionHash', result.toString());
+          setLastBlockInSessionHash(result);
+        })
+        .catch(console.error);
+    }
+  },
+  [api, era, session]
   );
 
   useEffect(() => {
-    // todo bug? lack of 1 block count in last block state?
-      if (lastBlockInSessionHash) {
-        api.at(lastBlockInSessionHash.toString()).then((result) => {
-          if (result) {
-            result.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
-              if (sessionValidatorBlockCountValue) {
-                const sessionValidatorBlockCountLookup: Record<string, number> = {};
+    if (firstBlockInSessionHash) {
+      api.at(firstBlockInSessionHash.toString()).then((result) => {
+        if (result) {
+          result.query.elections.palletVersion().then((version) => {
+            console.log('Pallet storage version', version.toString());
 
-                sessionValidatorBlockCountValue.forEach(([key, values]) => {
-                  const account = key.args[0].toString();
+            if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
+              setIsPalletElectionsSupported(true);
+              result.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
+                if (currentEraValidatorsValue) {
+                  console.log(currentEraValidatorsValue);
+                  setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
+                }
+              }).catch(console.error);
+              result.query.elections.committeeSize().then((committeeSizeValue) => {
+                if (committeeSizeValue) {
+                  console.log(committeeSizeValue);
+                  setCommitteeSize(committeeSizeValue as CommitteeSize);
+                }
+              }).catch(console.error);
+            } else {
+              setIsPalletElectionsSupported(false);
+            }
+          }).catch(console.error);
+        }
+      }).catch(console.error);
+      api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
+        if (header && !header.isEmpty && header.author) {
+          setFirstSessionBlockAuthor(header.author.toString());
+        }
+      }).catch(console.error);
+    }
+  },
+  [api, firstBlockInSessionHash]
+  );
 
-                  sessionValidatorBlockCountLookup[account] = Number(values.toString());
-                });
-                console.log("sessionValidatorBlockCountLookup", sessionValidatorBlockCountLookup);
-                setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
-              }
-            }).catch(console.error);
-          }
-        }).catch(console.error);
-      }
-    },
-    [api, lastBlockInSessionHash]
+  useEffect(() => {
+    if (lastBlockInSessionHash && isPalletElectionsSupported && firstSessionBlockAuthor) {
+      api.at(lastBlockInSessionHash.toString()).then((result) => {
+        if (result) {
+          result.query.elections.palletVersion().then((version) => {
+            console.log('Pallet storage version', version.toString());
+
+            if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
+              result.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
+                if (sessionValidatorBlockCountValue) {
+                  const sessionValidatorBlockCountLookup: Record<string, number> = {};
+
+                  sessionValidatorBlockCountValue.forEach(([key, values]) => {
+                    const account = key.args[0].toString();
+
+                    sessionValidatorBlockCountLookup[account] = Number(values.toString());
+
+                    if (account === firstSessionBlockAuthor) {
+                      // a workaround for the fact that the first session block author is not reflected in that block
+                      // elections.sessionValidatorBlockCount state
+                      sessionValidatorBlockCountLookup[account] += 1;
+                    }
+                  });
+                  console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
+                  setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
+                }
+              }).catch(console.error);
+            } else {
+              setIsPalletElectionsSupported(false);
+            }
+          }).catch(console.error);
+        }
+      }).catch(console.error);
+    }
+  },
+  [api, lastBlockInSessionHash, isPalletElectionsSupported, firstSessionBlockAuthor]
   );
 
   function chooseForSession (validators: AccountId[], count: number, sessionIndex: number) {
@@ -180,9 +205,10 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
 
   const [eraValidators, currentSessionCommittee] = useMemo(
     () => {
-      if (!currentEraValidators || !committeeSize) {
+      if (!currentEraValidators || !committeeSize || !isPalletElectionsSupported) {
         return [null, null];
       }
+
       const nonReserved = currentEraValidators.nonReserved.toArray();
       const reserved = currentEraValidators.reserved.toArray();
       const nonReservedFreeSeats = committeeSize.nonReservedSeats.toNumber();
@@ -195,43 +221,51 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
       const currentSessionCommittee = chosenFromReserved.concat(chosenFromNonReserved);
       const eraValidators = reserved.concat(nonReserved);
 
-      console.log("eraValidators", eraValidators);
-      console.log("currentSessionCommittee", currentSessionCommittee);
+      console.log('eraValidators', eraValidators);
+      console.log('currentSessionCommittee', currentSessionCommittee);
 
       return [eraValidators, currentSessionCommittee];
     },
-    [api, currentEraValidators, committeeSize, session]
+    [currentEraValidators, committeeSize, session, isPalletElectionsSupported]
   );
 
   const expectedSessionValidatorBlockCount = useMemo(() => {
-      console.log("firstSessionBlockAuthor, eraValidators, currentSessionCommittee",firstSessionBlockAuthor, eraValidators, currentSessionCommittee );
-      if (!firstSessionBlockAuthor || !eraValidators || !currentSessionCommittee) {
-        return {};
-      }
+    console.log('firstSessionBlockAuthor, eraValidators, currentSessionCommittee', firstSessionBlockAuthor, eraValidators, currentSessionCommittee);
 
-      const resultLookup: Record<string, number> = {};
+    if (!firstSessionBlockAuthor || !eraValidators || !currentSessionCommittee || !isPalletElectionsSupported) {
+      return {};
+    }
 
-      // should not change at all during runtime, therefore it's fine to use current api object
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      console.log("sessionPeriod", sessionPeriod);
-      console.log("firstSessionBlockAuthor", firstSessionBlockAuthor);
-      let index = currentSessionCommittee.findIndex((value) => value.toString() == firstSessionBlockAuthor);
-      if (index == -1) {
-        console.warn("Sth went wrong, could not find first block session author!");
-        return {};
-      }
-      console.log("currentSessionCommittee", currentSessionCommittee);
-      console.log("index", index);
+    const resultLookup: Record<string, number> = {};
 
-      for(let i = 0; i < currentSessionCommittee.length; i++) {
-        let author = currentSessionCommittee[(i + index) % currentSessionCommittee.length];
-        let offset = Math.max(sessionPeriod - i, 0);
-        resultLookup[author.toString()] = Math.ceil(offset / currentSessionCommittee.length);
-      }
-      console.log("resultLookup", resultLookup);
-      return resultLookup;
-    },
-     [firstSessionBlockAuthor, eraValidators, currentSessionCommittee]
+    // should not change at all during runtime, therefore it's fine to use current api object
+    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+
+    console.log('sessionPeriod', sessionPeriod);
+    console.log('firstSessionBlockAuthor', firstSessionBlockAuthor);
+    const index = currentSessionCommittee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
+
+    if (index === -1) {
+      console.warn('Sth went wrong, could not find first block session author!');
+
+      return {};
+    }
+
+    console.log('currentSessionCommittee', currentSessionCommittee);
+    console.log('index', index);
+
+    for (let i = 0; i < currentSessionCommittee.length; i++) {
+      const author = currentSessionCommittee[(i + index) % currentSessionCommittee.length];
+      const offset = Math.max(sessionPeriod - i, 0);
+
+      resultLookup[author.toString()] = Math.ceil(offset / currentSessionCommittee.length);
+    }
+
+    console.log('resultLookup', resultLookup);
+
+    return resultLookup;
+  },
+  [api, firstSessionBlockAuthor, eraValidators, currentSessionCommittee, isPalletElectionsSupported]
   );
 
   //
@@ -257,41 +291,33 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
   //   }, 1000);
   // });
 
-
-
-  // useEffect(() => {
-  //     let lastHeader = lastHeaders
-  //       .filter((header) => !!header)[0];
-  //     if (lastHeader && lastHeader.author) {
-  //       setLastHeaderAuthorCached(lastHeader.author.toString());
-  //       if (sessionChanged.current) {
-  //         console.log(lastHeaderAuthorCached);
-  //         console.log(currentSessionCached);
-  //         sessionChanged.current = false;
-  //       }
-  //     }
-  //   }, [lastHeaders]
-  // );
-
   return (
     <div className={`staking--Performance ${className}`}>
-      <Summary
-        currentSessionCommittee={currentSessionCommittee || []}
-        eraValidators={eraValidators || []}
-        targets={targets}
-        era={era}
-        session={session}
-      />
-      <ActionsBanner />
-      <CurrentList
-        currentSessionCommittee={currentSessionCommittee || []}
-        favorites={favorites}
-        session={session}
-        sessionValidatorBlockCountLookup={sessionValidatorBlockCountLookup}
-        expectedSessionValidatorBlockCount={expectedSessionValidatorBlockCount}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      />
+      {!isPalletElectionsSupported
+        ? <MarkWarning
+          className='warning centered'
+          content={<>Unsupported pallet elections storage version. Choose more recent session number.</>}
+        />
+        : (<>
+          <Summary
+            currentSessionCommittee={currentSessionCommittee || []}
+            era={era}
+            eraValidators={eraValidators || []}
+            session={session}
+            targets={targets}
+          />
+          <ActionsBanner />
+          <CurrentList
+            currentSessionCommittee={currentSessionCommittee || []}
+            eraValidators={eraValidators || []}
+            expectedSessionValidatorBlockCount={expectedSessionValidatorBlockCount}
+            favorites={favorites}
+            session={session}
+            sessionValidatorBlockCountLookup={sessionValidatorBlockCountLookup}
+            targets={targets}
+            toggleFavorite={toggleFavorite}
+          />
+        </>)}
     </div>
   );
 }

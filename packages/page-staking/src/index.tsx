@@ -11,6 +11,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import PerformancePage from '@polkadot/app-staking/Performance';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -29,7 +30,6 @@ import useNominations from './useNominations';
 import useOwnPools from './useOwnPools';
 import useSortedTargets from './useSortedTargets';
 import Validators from './Validators';
-import PerformancePage from "@polkadot/app-staking/Performance";
 
 const HIDDEN_ACC = ['actions', 'payout'];
 

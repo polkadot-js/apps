@@ -3,9 +3,9 @@
 
 import React from 'react';
 
+import { useTranslation } from '@polkadot/app-explorer/translate';
 import { CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
-import { useTranslation } from "@polkadot/app-explorer/translate";
 
 interface Props {
   className?: string;
@@ -13,23 +13,22 @@ interface Props {
   era: number;
 }
 
-function SummarySession ({ className, session, era }: Props): React.ReactElement<Props> {
+function SummarySession ({ className, era, session }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-        <>
-                <CardSummary label={t<string>('session')}>
+    <>
+      <CardSummary label={t<string>('session')}>
                   #{formatNumber(session)}
-                </CardSummary>
-
-                <CardSummary
-                  className={className}
-                  label={t<string>('era')}
-                >
+      </CardSummary>
+      <CardSummary
+        className={className}
+        label={t<string>('era')}
+      >
                   #{formatNumber(era)}
-                </CardSummary>
+      </CardSummary>
 
-        </>
+    </>
   );
 }
 

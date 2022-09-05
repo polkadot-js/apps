@@ -5,8 +5,8 @@ import type { SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
-import { Table } from '@polkadot/react-components';
-import { useLoadingDelay} from '@polkadot/react-hooks';
+import { Table, Toggle } from '@polkadot/react-components';
+import { useLoadingDelay } from '@polkadot/react-hooks';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import Filtering from '../Filtering';
@@ -19,6 +19,7 @@ interface Props {
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   session: number;
+  eraValidators: AccountId[];
   currentSessionCommittee: AccountId[];
   sessionValidatorBlockCountLookup: Record<string, number>;
   expectedSessionValidatorBlockCount: Record<string, number>;
@@ -41,13 +42,15 @@ function sortAccountByFavourites (accounts: string[], favorites: string[]): Acco
     });
 }
 
-function getFiltered (targets: SortedTargets | undefined, favorites: string[], currentSessionCommittee: AccountId[]): Filtered {
+function getFiltered (targets: SortedTargets | undefined, favorites: string[], allEraValidators: boolean, currentSessionCommittee: AccountId[], eraValidators: AccountId[]): Filtered {
   if (!targets) {
     return {};
   }
 
+  const validators = allEraValidators ? eraValidators : currentSessionCommittee;
+
   return {
-    validators: sortAccountByFavourites(currentSessionCommittee.map((accountId) => accountId.toString()), favorites)
+    validators: sortAccountByFavourites(validators.map((accountId) => accountId.toString()), favorites)
   };
 }
 
@@ -63,15 +66,16 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   return result;
 }
 
-function CurrentList ({ className, currentSessionCommittee, favorites, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, currentSessionCommittee, eraValidators, expectedSessionValidatorBlockCount, favorites, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
+  const [allEraValidators, setAllEraValidators] = useState(true);
 
   const isLoading = useLoadingDelay();
 
   const { validators } = useMemo(
-    () => getFiltered(targets, favorites, currentSessionCommittee),
-    [favorites, targets, currentSessionCommittee]
+    () => getFiltered(targets, favorites, allEraValidators, currentSessionCommittee, eraValidators),
+    [favorites, targets, currentSessionCommittee, allEraValidators, eraValidators]
   );
 
   const list = useMemo(
@@ -97,14 +101,20 @@ function CurrentList ({ className, currentSessionCommittee, favorites, sessionVa
     ]
   );
 
-  const listExtended = list?.map(([address, isFavorite]) => {
+  const listExtended: [string, boolean, number, number, number][] | undefined = list?.map(([address, isFavorite]) => {
     const blocksCreated = sessionValidatorBlockCountLookup
       ? Object.keys(sessionValidatorBlockCountLookup).includes(address)
         ? sessionValidatorBlockCountLookup[address]
         : 0
       : 0;
     const blocksTargetValue = expectedSessionValidatorBlockCount[address] || 0;
-    let rewardPercentage = blocksTargetValue && blocksCreated && blocksTargetValue > 0 ? 100 * blocksCreated / blocksTargetValue : 0;
+    let rewardPercentage = 0;
+
+    if (blocksTargetValue > 0) {
+      rewardPercentage = 100 * blocksCreated / blocksTargetValue;
+    } else if (blocksTargetValue === 0 && blocksCreated === 0) {
+      rewardPercentage = 100;
+    }
 
     if (rewardPercentage >= 90) {
       rewardPercentage = 100;
@@ -127,10 +137,20 @@ function CurrentList ({ className, currentSessionCommittee, favorites, sessionVa
         </>
       }
       filter={
-        <Filtering
-          nameFilter={nameFilter}
-          setNameFilter={setNameFilter}
-        />
+        <div className='staking--optionsBar'>
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+          />
+          <Toggle
+            className='staking--buttonToggle'
+            label={
+              t<string>('All era validators')
+            }
+            onChange={setAllEraValidators}
+            value={allEraValidators}
+          />
+        </div>
       }
       header={headerRef.current}
     >
