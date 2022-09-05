@@ -24,7 +24,7 @@
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.4.13",
     "@interlay/interbtc-types": "1.9.0",
-    "@kiltprotocol/type-definitions": "0.1.23",
+    "@kiltprotocol/type-definitions": "^0.2.0",
     "@laminar/type-definitions": "0.3.1",
     "@logion/node-api": "^0.4.1",
     "@mangata-finance/types": "^0.8.0",
