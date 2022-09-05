@@ -16,6 +16,7 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     SORA: 'sora-substrate',
     Shiden: 'shiden',
