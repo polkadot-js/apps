@@ -14,9 +14,9 @@
   "version": "0.121.2-33-x",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "@darwinia/types": "^2.8.9",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@darwinia/types": "^2.8.9",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@polkadot/keyring": "^10.1.7",
     "@polkadot/react-api": "^0.121.2-33-x",
