@@ -40120,7 +40120,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -40372,8 +40372,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "kilt-spiritnet": {
       "types": [
@@ -43070,7 +43230,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -43322,8 +43482,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "kintsugi-parachain": {
       "types": [
@@ -48251,7 +48571,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -48503,8 +48823,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "mathchain": {
       "types": [
