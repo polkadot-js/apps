@@ -34340,6 +34340,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -34466,6 +34492,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -34675,6 +34731,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -34801,6 +34883,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -35010,6 +35122,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -35136,6 +35274,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -43233,6 +43401,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -43359,6 +43553,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -44936,7 +45160,7 @@ export const typesBundle = {
             },
             "TokenId": "u32",
             "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo, Balance)>"
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
             }
           }
         }
@@ -45034,6 +45258,20 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "XYKRpcResult<Balance>"
+          },
+          "calculate_rewards_amount_v2": {
             "description": "",
             "params": [
               {
@@ -45127,7 +45365,7 @@ export const typesBundle = {
             },
             "TokenId": "u32",
             "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo, Balance)>"
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
             }
           }
         }
@@ -45225,6 +45463,20 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "XYKRpcResult<Balance>"
+          },
+          "calculate_rewards_amount_v2": {
             "description": "",
             "params": [
               {
@@ -67023,6 +67275,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -67149,6 +67427,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -67358,6 +67666,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -67484,6 +67818,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {

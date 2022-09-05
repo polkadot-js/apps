@@ -51,7 +51,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     }
   },
   {
