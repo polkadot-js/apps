@@ -6,7 +6,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
 import { SortedTargets } from '@polkadot/app-staking/types';
-import { Input } from '@polkadot/react-components';
+import {Input, Spinner} from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Performance from './Performance';
@@ -16,6 +16,11 @@ interface Props {
   favorites: string[];
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
+}
+
+export interface SessionEra {
+  session: number,
+  era?: number,
 }
 
 function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.ReactElement<Props> {
@@ -33,6 +38,12 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
     return sessionInfo?.currentIndex.toNumber();
   },
   [sessionInfo]
+  );
+
+  const currentEra = useMemo(() => {
+      return sessionInfo?.currentEra.toNumber();
+    },
+    [sessionInfo]
   );
 
   const minimumSessionNumber = useMemo(() => {
@@ -92,6 +103,14 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
   [t, currentSession, minimumSessionNumber]
   );
 
+  if (!currentSession) {
+    return (
+      <Spinner label={"waiting for the first session"}/>
+    );
+  }
+
+  let [sessionEra, currentSessionMode] = inputSession ? [{ session: inputSession }, false] : [{ session: currentSession, era: currentEra }, true];
+  console.log("sessionEra", sessionEra);
   return (
     <section>
       <Input
@@ -102,15 +121,13 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
         onChange={_onChangeKey}
         onEnter={_onAdd}
       />
-      {(!currentSession || !inputSession)
-        ? undefined
-        : (
-          <Performance
-            favorites={favorites}
-            session={inputSession}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-          />)}
+      <Performance
+        favorites={favorites}
+        sessionEra={sessionEra}
+        targets={targets}
+        toggleFavorite={toggleFavorite}
+        currentSessionMode={currentSessionMode}
+      />
     </section>
   );
 }

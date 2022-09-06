@@ -7,20 +7,24 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Vec } from '@polkadot/types';
+import {StorageKey, Vec} from '@polkadot/types';
 import { AccountId, EraIndex, Hash } from '@polkadot/types/interfaces';
-import { Option, Struct, u32 } from '@polkadot/types-codec';
+import { Option, Struct, u32} from '@polkadot/types-codec';
 
 import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
 import Summary from './Summary';
+import { SessionEra } from './index';
+import {ApiDecoration} from "@polkadot/api/types";
+import {AnyTuple, Codec} from "@polkadot/types/types";
 
 interface Props {
   className?: string;
   favorites: string[];
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
-  session: number,
+  sessionEra: SessionEra,
+  currentSessionMode: boolean,
 }
 
 interface CurrentEraValidators extends Struct {
@@ -35,7 +39,7 @@ interface CommitteeSize extends Struct {
 
 type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
 
-function Performance ({ className = '', favorites, session, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function Performance ({ className = '', favorites, sessionEra, targets, toggleFavorite, currentSessionMode }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
   const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
@@ -49,8 +53,15 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
 
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
-  const era: number | null = useMemo(
-    () => {
+  const era: number | null = useMemo(() => {
+      if (currentSessionMode) {
+        if (!sessionEra.era) {
+          console.warn("sessionEra.era should not be undefined in the current session mode!");
+          return null;
+        }
+        return sessionEra.era;
+      }
+
       if (!erasStartSessionIndex) {
         return null;
       }
@@ -72,7 +83,7 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
         const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
         const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
 
-        if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
+        if (currentEraSessionStart <= sessionEra.session && currentEraSessionEnd && sessionEra.session <= currentEraSessionEnd) {
           console.log([eraIndex, currentEraSessionStart]);
 
           return eraIndex;
@@ -83,15 +94,13 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
 
       return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
     },
-    // TODO this is not refreshed automatically when new era begins
-    // we need to query entries on timeout
-    [erasStartSessionIndex, session]
+  [erasStartSessionIndex, sessionEra, currentSessionMode]
   );
 
   useEffect(() => {
     if (era) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const firstBlockInSession = session * sessionPeriod;
+      const firstBlockInSession = sessionEra.session * sessionPeriod;
 
       console.log('firstBlockInSession', firstBlockInSession);
       api.rpc.chain
@@ -101,46 +110,52 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
           setFirstBlockInSessionHash(result);
         })
         .catch(console.error);
-      const lastBlockInSession = (session + 1) * sessionPeriod - 1;
+      if (!currentSessionMode) {
+        const lastBlockInSession = (sessionEra.session + 1) * sessionPeriod - 1;
 
-      console.log('lastBlockInSession', lastBlockInSession);
-      api.rpc.chain
-        .getBlockHash(lastBlockInSession)
-        .then((result): void => {
-          console.log('lastBlockInSessionHash', result.toString());
-          setLastBlockInSessionHash(result);
-        })
-        .catch(console.error);
+        console.log('lastBlockInSession', lastBlockInSession);
+        api.rpc.chain
+          .getBlockHash(lastBlockInSession)
+          .then((result): void => {
+            console.log('lastBlockInSessionHash', result.toString());
+            setLastBlockInSessionHash(result);
+          })
+          .catch(console.error);
+      }
     }
   },
-  [api, era, session]
+  [api, era, sessionEra.session]
   );
+
+  function getSessionValidators(currentApi: ApiDecoration<"promise">) {
+    currentApi.query.elections.palletVersion().then((version) => {
+      console.log('Pallet storage version', version.toString());
+
+      if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
+        setIsPalletElectionsSupported(true);
+        currentApi.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
+          if (currentEraValidatorsValue) {
+            console.log(currentEraValidatorsValue);
+            setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
+          }
+        }).catch(console.error);
+        currentApi.query.elections.committeeSize().then((committeeSizeValue) => {
+          if (committeeSizeValue) {
+            console.log(committeeSizeValue);
+            setCommitteeSize(committeeSizeValue as CommitteeSize);
+          }
+        }).catch(console.error);
+      } else {
+        setIsPalletElectionsSupported(false);
+      }
+    }).catch(console.error);
+  }
 
   useEffect(() => {
     if (firstBlockInSessionHash) {
       api.at(firstBlockInSessionHash.toString()).then((result) => {
         if (result) {
-          result.query.elections.palletVersion().then((version) => {
-            console.log('Pallet storage version', version.toString());
-
-            if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
-              setIsPalletElectionsSupported(true);
-              result.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
-                if (currentEraValidatorsValue) {
-                  console.log(currentEraValidatorsValue);
-                  setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
-                }
-              }).catch(console.error);
-              result.query.elections.committeeSize().then((committeeSizeValue) => {
-                if (committeeSizeValue) {
-                  console.log(committeeSizeValue);
-                  setCommitteeSize(committeeSizeValue as CommitteeSize);
-                }
-              }).catch(console.error);
-            } else {
-              setIsPalletElectionsSupported(false);
-            }
-          }).catch(console.error);
+          getSessionValidators(result);
         }
       }).catch(console.error);
       api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
@@ -153,42 +168,58 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
   [api, firstBlockInSessionHash]
   );
 
+  function parseSessionValidatorBlockCount(sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][]) {
+    const sessionValidatorBlockCountLookup: Record<string, number> = {};
+
+    sessionValidatorBlockCountValue.forEach(([key, values]) => {
+      const account = key.args[0].toString();
+
+      sessionValidatorBlockCountLookup[account] = Number(values.toString());
+
+      if (account === firstSessionBlockAuthor) {
+        // a workaround for the fact that the first session block author is not reflected in that block
+        // elections.sessionValidatorBlockCount state
+        sessionValidatorBlockCountLookup[account] += 1;
+      }
+    });
+    console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
+    setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
+  }
+
+  function  setBlockCountLookup(currentApi: ApiDecoration<"promise">)  {
+    currentApi.query.elections.palletVersion().then((version) => {
+      console.log('Pallet storage version', version.toString());
+
+      if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
+        currentApi.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
+          if (sessionValidatorBlockCountValue) {
+            parseSessionValidatorBlockCount(sessionValidatorBlockCountValue);
+          }
+        }).catch(console.error);
+      } else {
+        setIsPalletElectionsSupported(false);
+      }
+    }).catch(console.error);
+  }
+
   useEffect(() => {
     if (lastBlockInSessionHash && isPalletElectionsSupported && firstSessionBlockAuthor) {
       api.at(lastBlockInSessionHash.toString()).then((result) => {
         if (result) {
-          result.query.elections.palletVersion().then((version) => {
-            console.log('Pallet storage version', version.toString());
-
-            if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
-              result.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
-                if (sessionValidatorBlockCountValue) {
-                  const sessionValidatorBlockCountLookup: Record<string, number> = {};
-
-                  sessionValidatorBlockCountValue.forEach(([key, values]) => {
-                    const account = key.args[0].toString();
-
-                    sessionValidatorBlockCountLookup[account] = Number(values.toString());
-
-                    if (account === firstSessionBlockAuthor) {
-                      // a workaround for the fact that the first session block author is not reflected in that block
-                      // elections.sessionValidatorBlockCount state
-                      sessionValidatorBlockCountLookup[account] += 1;
-                    }
-                  });
-                  console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
-                  setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
-                }
-              }).catch(console.error);
-            } else {
-              setIsPalletElectionsSupported(false);
-            }
-          }).catch(console.error);
+          setBlockCountLookup(result);
         }
       }).catch(console.error);
     }
   },
   [api, lastBlockInSessionHash, isPalletElectionsSupported, firstSessionBlockAuthor]
+  );
+
+  useEffect(() => {
+      if (isPalletElectionsSupported && firstSessionBlockAuthor && currentSessionMode) {
+        setBlockCountLookup(api);
+      }
+    },
+    [api, isPalletElectionsSupported, firstSessionBlockAuthor, currentSessionMode]
   );
 
   function chooseForSession (validators: AccountId[], count: number, sessionIndex: number) {
@@ -213,7 +244,7 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
       const reserved = currentEraValidators.reserved.toArray();
       const nonReservedFreeSeats = committeeSize.nonReservedSeats.toNumber();
       const reservedFreeSeats = committeeSize.reservedSeats.toNumber();
-      const currentSession = session;
+      const currentSession = sessionEra.session;
 
       const chosenFromNonReserved = chooseForSession(nonReserved, nonReservedFreeSeats, currentSession);
       const chosenFromReserved = chooseForSession(reserved, reservedFreeSeats, currentSession);
@@ -226,7 +257,7 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
 
       return [eraValidators, currentSessionCommittee];
     },
-    [currentEraValidators, committeeSize, session, isPalletElectionsSupported]
+    [currentEraValidators, committeeSize, sessionEra, isPalletElectionsSupported]
   );
 
   const expectedSessionValidatorBlockCount = useMemo(() => {
@@ -268,28 +299,20 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
   [api, firstSessionBlockAuthor, eraValidators, currentSessionCommittee, isPalletElectionsSupported]
   );
 
-  //
-  // useEffect(() => {
-  //   // TODO destroy timeout
-  //
-  //   eraFirstSession && eraLastSession == null && setTimeout(() => {
-  //     api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
-  //     api.query.elections.sessionValidatorBlockCount.entries().then(
-  //       (result) => {
-  //         if (result) {
-  //           const sessionValidatorBlockCountLookup: Record<string, number> = {};
-  //
-  //           result.forEach(([key, values]) => {
-  //             const account = key.args[0].toString();
-  //
-  //             sessionValidatorBlockCountLookup[account] = Number(values.toString());
-  //           });
-  //           setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
-  //         }
-  //       }
-  //     ).catch(console.error);
-  //   }, 1000);
-  // });
+
+  useEffect(() => {
+    currentSessionMode && setTimeout(() => {
+      console.log("Setting timeout");
+      api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
+      api.query.elections.sessionValidatorBlockCount.entries().then(
+        (result) => {
+          if (result) {
+            parseSessionValidatorBlockCount(result);
+          }
+        }
+      ).catch(console.error);
+    }, 1000);
+  });
 
   return (
     <div className={`staking--Performance ${className}`}>
@@ -303,7 +326,7 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
             currentSessionCommittee={currentSessionCommittee || []}
             era={era}
             eraValidators={eraValidators || []}
-            session={session}
+            session={sessionEra.session}
             targets={targets}
           />
           <ActionsBanner />
@@ -312,7 +335,7 @@ function Performance ({ className = '', favorites, session, targets, toggleFavor
             eraValidators={eraValidators || []}
             expectedSessionValidatorBlockCount={expectedSessionValidatorBlockCount}
             favorites={favorites}
-            session={session}
+            session={sessionEra.session}
             sessionValidatorBlockCountLookup={sessionValidatorBlockCountLookup}
             targets={targets}
             toggleFavorite={toggleFavorite}

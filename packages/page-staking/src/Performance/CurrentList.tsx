@@ -69,7 +69,7 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
 function CurrentList ({ className, currentSessionCommittee, eraValidators, expectedSessionValidatorBlockCount, favorites, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [allEraValidators, setAllEraValidators] = useState(true);
+  const [allEraValidators, setAllEraValidators] = useState(false);
 
   const isLoading = useLoadingDelay();
 
