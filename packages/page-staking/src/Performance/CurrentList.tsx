@@ -42,7 +42,7 @@ function sortAccountByFavourites (accounts: string[], favorites: string[]): Acco
     });
 }
 
-function getFiltered (targets: SortedTargets | undefined, favorites: string[], allEraValidators: boolean, currentSessionCommittee: AccountId[], eraValidators: AccountId[]): Filtered {
+function getFiltered (favorites: string[], allEraValidators: boolean, currentSessionCommittee: AccountId[], eraValidators: AccountId[], targets?: SortedTargets): Filtered {
   if (!targets) {
     return {};
   }
@@ -74,7 +74,7 @@ function CurrentList ({ className, currentSessionCommittee, eraValidators, expec
   const isLoading = useLoadingDelay();
 
   const { validators } = useMemo(
-    () => getFiltered(targets, favorites, allEraValidators, currentSessionCommittee, eraValidators),
+    () => getFiltered(favorites, allEraValidators, currentSessionCommittee, eraValidators, targets),
     [favorites, targets, currentSessionCommittee, allEraValidators, eraValidators]
   );
 
