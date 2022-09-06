@@ -3,20 +3,20 @@
 
 import type { SortedTargets } from '../types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { ApiDecoration } from '@polkadot/api/types';
 import { MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import {StorageKey, Vec} from '@polkadot/types';
+import { StorageKey, Vec } from '@polkadot/types';
 import { AccountId, EraIndex, Hash } from '@polkadot/types/interfaces';
-import { Option, Struct, u32} from '@polkadot/types-codec';
+import { AnyTuple, Codec } from '@polkadot/types/types';
+import { Option, Struct, u32 } from '@polkadot/types-codec';
 
 import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
-import Summary from './Summary';
 import { SessionEra } from './index';
-import {ApiDecoration} from "@polkadot/api/types";
-import {AnyTuple, Codec} from "@polkadot/types/types";
+import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -39,7 +39,7 @@ interface CommitteeSize extends Struct {
 
 type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
 
-function Performance ({ className = '', favorites, sessionEra, targets, toggleFavorite, currentSessionMode }: Props): React.ReactElement<Props> {
+function Performance ({ className = '', currentSessionMode, favorites, sessionEra, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
   const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
@@ -54,46 +54,48 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
   const era: number | null = useMemo(() => {
-      if (currentSessionMode) {
-        if (!sessionEra.era) {
-          console.warn("sessionEra.era should not be undefined in the current session mode!");
-          return null;
-        }
-        return sessionEra.era;
-      }
+    if (currentSessionMode) {
+      if (!sessionEra.era) {
+        console.warn('sessionEra.era should not be undefined in the current session mode!');
 
-      if (!erasStartSessionIndex) {
         return null;
       }
 
-      const erasStartSessionIndexLookup: [number, number][] = [];
+      return sessionEra.era;
+    }
 
-      erasStartSessionIndex.filter(([, values]) => values.isSome)
-        .forEach(([key, values]) => {
-          const eraIndex = key.args[0];
+    if (!erasStartSessionIndex) {
+      return null;
+    }
 
-          erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
-        });
-      erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
-        return eraIndexA - eraIndexB;
+    const erasStartSessionIndexLookup: [number, number][] = [];
+
+    erasStartSessionIndex.filter(([, values]) => values.isSome)
+      .forEach(([key, values]) => {
+        const eraIndex = key.args[0];
+
+        erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
       });
+    erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
+      return eraIndexA - eraIndexB;
+    });
 
-      for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
-        const eraIndex = erasStartSessionIndexLookup[i][0];
-        const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
-        const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
+    for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
+      const eraIndex = erasStartSessionIndexLookup[i][0];
+      const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
+      const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
 
-        if (currentEraSessionStart <= sessionEra.session && currentEraSessionEnd && sessionEra.session <= currentEraSessionEnd) {
-          console.log([eraIndex, currentEraSessionStart]);
+      if (currentEraSessionStart <= sessionEra.session && currentEraSessionEnd && sessionEra.session <= currentEraSessionEnd) {
+        console.log([eraIndex, currentEraSessionStart]);
 
-          return eraIndex;
-        }
+        return eraIndex;
       }
+    }
 
-      const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+    const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
 
-      return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
-    },
+    return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
+  },
   [erasStartSessionIndex, sessionEra, currentSessionMode]
   );
 
@@ -110,6 +112,7 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
           setFirstBlockInSessionHash(result);
         })
         .catch(console.error);
+
       if (!currentSessionMode) {
         const lastBlockInSession = (sessionEra.session + 1) * sessionPeriod - 1;
 
@@ -124,10 +127,10 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
       }
     }
   },
-  [api, era, sessionEra.session]
+  [api, era, sessionEra.session, currentSessionMode]
   );
 
-  function getSessionValidators(currentApi: ApiDecoration<"promise">) {
+  function getSessionValidators (currentApi: ApiDecoration<'promise'>) {
     currentApi.query.elections.palletVersion().then((version) => {
       console.log('Pallet storage version', version.toString());
 
@@ -168,7 +171,7 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
   [api, firstBlockInSessionHash]
   );
 
-  function parseSessionValidatorBlockCount(sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][]) {
+  const parseSessionValidatorBlockCount = useCallback((sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][]) => {
     const sessionValidatorBlockCountLookup: Record<string, number> = {};
 
     sessionValidatorBlockCountValue.forEach(([key, values]) => {
@@ -184,9 +187,10 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
     });
     console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
     setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
-  }
+  }, [firstSessionBlockAuthor]
+  );
 
-  function  setBlockCountLookup(currentApi: ApiDecoration<"promise">)  {
+  const setBlockCountLookup = useCallback((currentApi: ApiDecoration<'promise'>) => {
     currentApi.query.elections.palletVersion().then((version) => {
       console.log('Pallet storage version', version.toString());
 
@@ -200,7 +204,8 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
         setIsPalletElectionsSupported(false);
       }
     }).catch(console.error);
-  }
+  }, [parseSessionValidatorBlockCount]
+  );
 
   useEffect(() => {
     if (lastBlockInSessionHash && isPalletElectionsSupported && firstSessionBlockAuthor) {
@@ -211,15 +216,15 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
       }).catch(console.error);
     }
   },
-  [api, lastBlockInSessionHash, isPalletElectionsSupported, firstSessionBlockAuthor]
+  [api, lastBlockInSessionHash, isPalletElectionsSupported, firstSessionBlockAuthor, setBlockCountLookup]
   );
 
   useEffect(() => {
-      if (isPalletElectionsSupported && firstSessionBlockAuthor && currentSessionMode) {
-        setBlockCountLookup(api);
-      }
-    },
-    [api, isPalletElectionsSupported, firstSessionBlockAuthor, currentSessionMode]
+    if (isPalletElectionsSupported && firstSessionBlockAuthor && currentSessionMode) {
+      setBlockCountLookup(api);
+    }
+  },
+  [api, isPalletElectionsSupported, firstSessionBlockAuthor, currentSessionMode, setBlockCountLookup]
   );
 
   function chooseForSession (validators: AccountId[], count: number, sessionIndex: number) {
@@ -299,19 +304,20 @@ function Performance ({ className = '', favorites, sessionEra, targets, toggleFa
   [api, firstSessionBlockAuthor, eraValidators, currentSessionCommittee, isPalletElectionsSupported]
   );
 
-
   useEffect(() => {
-    currentSessionMode && setTimeout(() => {
-      console.log("Setting timeout");
-      api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
-      api.query.elections.sessionValidatorBlockCount.entries().then(
-        (result) => {
-          if (result) {
-            parseSessionValidatorBlockCount(result);
+    if (currentSessionMode) {
+      setTimeout(() => {
+        console.log('Setting timeout');
+        api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
+        api.query.elections.sessionValidatorBlockCount.entries().then(
+          (result) => {
+            if (result) {
+              parseSessionValidatorBlockCount(result);
+            }
           }
-        }
-      ).catch(console.error);
-    }, 1000);
+        ).catch(console.error);
+      }, 1000);
+    }
   });
 
   return (

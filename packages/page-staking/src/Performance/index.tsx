@@ -6,7 +6,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
 import { SortedTargets } from '@polkadot/app-staking/types';
-import {Input, Spinner} from '@polkadot/react-components';
+import { Input, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Performance from './Performance';
@@ -41,9 +41,9 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
   );
 
   const currentEra = useMemo(() => {
-      return sessionInfo?.currentEra.toNumber();
-    },
-    [sessionInfo]
+    return sessionInfo?.currentEra.toNumber();
+  },
+  [sessionInfo]
   );
 
   const minimumSessionNumber = useMemo(() => {
@@ -105,12 +105,16 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
 
   if (!currentSession) {
     return (
-      <Spinner label={"waiting for the first session"}/>
+      <Spinner label={'waiting for the first session'} />
     );
   }
 
-  let [sessionEra, currentSessionMode] = inputSession ? [{ session: inputSession }, false] : [{ session: currentSession, era: currentEra }, true];
-  console.log("sessionEra", sessionEra);
+  const [sessionEra, currentSessionMode] = inputSession
+    ? [{ session: inputSession }, false]
+    : [{ era: currentEra, session: currentSession }, true];
+
+  console.log('sessionEra', sessionEra);
+
   return (
     <section>
       <Input
@@ -122,11 +126,11 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
         onEnter={_onAdd}
       />
       <Performance
+        currentSessionMode={currentSessionMode}
         favorites={favorites}
         sessionEra={sessionEra}
         targets={targets}
         toggleFavorite={toggleFavorite}
-        currentSessionMode={currentSessionMode}
       />
     </section>
   );
