@@ -34,7 +34,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoAventus',
     homepage: 'https://www.aventus.io/',
-    paraId: 4095,
+    paraId: 2056,
     text: 'Aventus',
     providers: { }
   },
