@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
@@ -33,6 +33,7 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
     key: ''
   }));
   const [inputSession, setInputSession] = useState<number | null>(null);
+  const currentSessionMode = useRef(true);
 
   const currentSession = useMemo(() => {
     return sessionInfo?.currentIndex.toNumber();
@@ -103,17 +104,27 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
   [t, currentSession, minimumSessionNumber]
   );
 
-  if (!currentSession) {
+  const sessionEra = useMemo((): SessionEra | undefined => {
+    if (currentSession) {
+      if (inputSession) {
+        currentSessionMode.current = false;
+
+        return { session: inputSession };
+      } else {
+        currentSessionMode.current = true;
+
+        return { era: currentEra, session: currentSession };
+      }
+    }
+
+    return undefined;
+  }, [inputSession, currentEra, currentSession]);
+
+  if (!sessionEra) {
     return (
       <Spinner label={'waiting for the first session'} />
     );
   }
-
-  const [sessionEra, currentSessionMode] = inputSession
-    ? [{ session: inputSession }, false]
-    : [{ era: currentEra, session: currentSession }, true];
-
-  console.log('sessionEra', sessionEra);
 
   return (
     <section>
@@ -126,7 +137,7 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
         onEnter={_onAdd}
       />
       <Performance
-        currentSessionMode={currentSessionMode}
+        currentSessionMode={currentSessionMode.current}
         favorites={favorites}
         sessionEra={sessionEra}
         targets={targets}

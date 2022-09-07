@@ -86,8 +86,6 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : null;
 
       if (currentEraSessionStart <= sessionEra.session && currentEraSessionEnd && sessionEra.session <= currentEraSessionEnd) {
-        console.log([eraIndex, currentEraSessionStart]);
-
         return eraIndex;
       }
     }
@@ -104,11 +102,9 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
       const firstBlockInSession = sessionEra.session * sessionPeriod;
 
-      console.log('firstBlockInSession', firstBlockInSession);
       api.rpc.chain
         .getBlockHash(firstBlockInSession)
         .then((result): void => {
-          console.log('firstBlockInSessionHash', result.toString());
           setFirstBlockInSessionHash(result);
         })
         .catch(console.error);
@@ -116,11 +112,9 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       if (!currentSessionMode) {
         const lastBlockInSession = (sessionEra.session + 1) * sessionPeriod - 1;
 
-        console.log('lastBlockInSession', lastBlockInSession);
         api.rpc.chain
           .getBlockHash(lastBlockInSession)
           .then((result): void => {
-            console.log('lastBlockInSessionHash', result.toString());
             setLastBlockInSessionHash(result);
           })
           .catch(console.error);
@@ -132,19 +126,15 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
 
   function getSessionValidators (currentApi: ApiDecoration<'promise'>) {
     currentApi.query.elections.palletVersion().then((version) => {
-      console.log('Pallet storage version', version.toString());
-
       if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
         setIsPalletElectionsSupported(true);
         currentApi.query.elections.currentEraValidators().then((currentEraValidatorsValue) => {
           if (currentEraValidatorsValue) {
-            console.log(currentEraValidatorsValue);
             setCurrentEraValidators(currentEraValidatorsValue as CurrentEraValidators);
           }
         }).catch(console.error);
         currentApi.query.elections.committeeSize().then((committeeSizeValue) => {
           if (committeeSizeValue) {
-            console.log(committeeSizeValue);
             setCommitteeSize(committeeSizeValue as CommitteeSize);
           }
         }).catch(console.error);
@@ -185,15 +175,12 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
         sessionValidatorBlockCountLookup[account] += 1;
       }
     });
-    console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
     setSessionValidatorBlockCountLookup(sessionValidatorBlockCountLookup);
   }, [firstSessionBlockAuthor]
   );
 
   const setBlockCountLookup = useCallback((currentApi: ApiDecoration<'promise'>) => {
     currentApi.query.elections.palletVersion().then((version) => {
-      console.log('Pallet storage version', version.toString());
-
       if (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) {
         currentApi.query.elections.sessionValidatorBlockCount.entries().then((sessionValidatorBlockCountValue) => {
           if (sessionValidatorBlockCountValue) {
@@ -208,7 +195,7 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
   );
 
   useEffect(() => {
-    if (lastBlockInSessionHash && isPalletElectionsSupported && firstSessionBlockAuthor) {
+    if (lastBlockInSessionHash && isPalletElectionsSupported) {
       api.at(lastBlockInSessionHash.toString()).then((result) => {
         if (result) {
           setBlockCountLookup(result);
@@ -216,15 +203,7 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       }).catch(console.error);
     }
   },
-  [api, lastBlockInSessionHash, isPalletElectionsSupported, firstSessionBlockAuthor, setBlockCountLookup]
-  );
-
-  useEffect(() => {
-    if (isPalletElectionsSupported && firstSessionBlockAuthor && currentSessionMode) {
-      setBlockCountLookup(api);
-    }
-  },
-  [api, isPalletElectionsSupported, firstSessionBlockAuthor, currentSessionMode, setBlockCountLookup]
+  [api, lastBlockInSessionHash, isPalletElectionsSupported, setBlockCountLookup]
   );
 
   function chooseForSession (validators: AccountId[], count: number, sessionIndex: number) {
@@ -257,17 +236,12 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       const currentSessionCommittee = chosenFromReserved.concat(chosenFromNonReserved);
       const eraValidators = reserved.concat(nonReserved);
 
-      console.log('eraValidators', eraValidators);
-      console.log('currentSessionCommittee', currentSessionCommittee);
-
       return [eraValidators, currentSessionCommittee];
     },
     [currentEraValidators, committeeSize, sessionEra, isPalletElectionsSupported]
   );
 
   const expectedSessionValidatorBlockCount = useMemo(() => {
-    console.log('firstSessionBlockAuthor, eraValidators, currentSessionCommittee', firstSessionBlockAuthor, eraValidators, currentSessionCommittee);
-
     if (!firstSessionBlockAuthor || !eraValidators || !currentSessionCommittee || !isPalletElectionsSupported) {
       return {};
     }
@@ -277,8 +251,6 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
     // should not change at all during runtime, therefore it's fine to use current api object
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
 
-    console.log('sessionPeriod', sessionPeriod);
-    console.log('firstSessionBlockAuthor', firstSessionBlockAuthor);
     const index = currentSessionCommittee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
 
     if (index === -1) {
@@ -287,9 +259,6 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       return {};
     }
 
-    console.log('currentSessionCommittee', currentSessionCommittee);
-    console.log('index', index);
-
     for (let i = 0; i < currentSessionCommittee.length; i++) {
       const author = currentSessionCommittee[(i + index) % currentSessionCommittee.length];
       const offset = Math.max(sessionPeriod - i, 0);
@@ -297,18 +266,16 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
       resultLookup[author.toString()] = Math.ceil(offset / currentSessionCommittee.length);
     }
 
-    console.log('resultLookup', resultLookup);
-
     return resultLookup;
   },
   [api, firstSessionBlockAuthor, eraValidators, currentSessionCommittee, isPalletElectionsSupported]
   );
 
+  // this is not very optimal is it is run every render
+  // it is a workaround for api.query.elections.sessionValidatorBlockCount.entries not working as expected with useCall
   useEffect(() => {
     if (currentSessionMode) {
-      setTimeout(() => {
-        console.log('Setting timeout');
-        api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
+      api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
         api.query.elections.sessionValidatorBlockCount.entries().then(
           (result) => {
             if (result) {
@@ -316,9 +283,9 @@ function Performance ({ className = '', currentSessionMode, favorites, sessionEr
             }
           }
         ).catch(console.error);
-      }, 1000);
     }
-  });
+  }
+  );
 
   return (
     <div className={`staking--Performance ${className}`}>
