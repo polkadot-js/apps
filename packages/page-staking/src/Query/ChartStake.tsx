@@ -68,8 +68,12 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
       : 0;
 
     labels.push(era.toHuman());
-    const darwiniaPower = divisor.muln(avg);
-    const avgItem = isDarwinia ? darwiniaPower : avg;
+    const avgBN = new BN(`${Math.floor(avg)}`)
+    /* to convert avg to balance, multiply by divisor since when we were calculating total
+    * in the above logic we used the method balanceToNumber which divided the
+    * power by the divisor */
+    const darwiniaPowerAvg = avgBN.mul(divisor);
+    const avgItem = isDarwinia ? darwiniaPowerAvg : avg;
 
     avgSet.push(avgItem);
     cliSet.push(cli);
