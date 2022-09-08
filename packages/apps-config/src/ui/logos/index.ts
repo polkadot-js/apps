@@ -50,6 +50,7 @@ import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
 import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
+import chainRocfinity from './chains/rocfinity.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoContracts from './chains/rococo-contracts.png';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -187,6 +188,7 @@ import nodeQuartz from './nodes/quartz.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeRocfinity from './nodes/rocfinity.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
@@ -391,6 +393,7 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Robonomics: nodeRobonomics,
   Rococo: chainRococo,
+  Rocfinity: chainRocfinity,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -594,6 +597,7 @@ export const nodeLogos = Object.entries({
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   robonomics: nodeRobonomics,
+  Rocfinity: nodeRocfinity,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
   sherpax: nodeSherpax,
@@ -800,7 +804,7 @@ export const namedLogos: Record<string, unknown> = {
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,
-  rocfinity: nodeEfinity,
+  rocfinity: nodeRocfinity,
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
