@@ -1,29 +1,32 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
-import { SortedTargets } from '@polkadot/app-staking/types';
 import { Input, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { EraIndex } from '@polkadot/types/interfaces';
+import { Option, u32 } from '@polkadot/types-codec';
 
 import Performance from './Performance';
 
 interface Props {
   className?: string;
   favorites: string[];
-  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
 }
 
 export interface SessionEra {
   session: number,
-  era?: number,
+  era: number,
+  currentSessionMode: boolean,
 }
 
-function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
+
+function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
@@ -33,7 +36,7 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
     key: ''
   }));
   const [inputSession, setInputSession] = useState<number | null>(null);
-  const currentSessionMode = useRef(true);
+  const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
 
   const currentSession = useMemo(() => {
     return sessionInfo?.currentIndex.toNumber();
@@ -104,47 +107,67 @@ function PerformancePage ({ favorites, targets, toggleFavorite }: Props): React.
   [t, currentSession, minimumSessionNumber]
   );
 
+  function calculateEra (session: number, erasStartSessionIndex: SessionIndexEntry[]) {
+    const erasStartSessionIndexLookup: [number, number][] = [];
+
+    erasStartSessionIndex.filter(([, values]) => values.isSome)
+      .forEach(([key, values]) => {
+        const eraIndex = key.args[0];
+
+        erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
+      });
+    erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
+      return eraIndexA - eraIndexB;
+    });
+
+    for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
+      const eraIndex = erasStartSessionIndexLookup[i][0];
+      const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
+      const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : undefined;
+
+      if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
+        return eraIndex;
+      }
+    }
+
+    const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+
+    return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
+  }
+
   const sessionEra = useMemo((): SessionEra | undefined => {
-    if (currentSession) {
+    if (currentSession && erasStartSessionIndex && currentEra) {
       if (inputSession) {
-        currentSessionMode.current = false;
-
-        return { session: inputSession };
+        return { currentSessionMode: false, era: calculateEra(inputSession, erasStartSessionIndex), session: inputSession };
       } else {
-        currentSessionMode.current = true;
-
-        return { era: currentEra, session: currentSession };
+        return { currentSessionMode: true, era: currentEra, session: currentSession };
       }
     }
 
     return undefined;
-  }, [inputSession, currentEra, currentSession]);
-
-  if (!sessionEra) {
-    return (
-      <Spinner label={'waiting for the first session'} />
-    );
-  }
+  }, [inputSession, currentEra, currentSession, erasStartSessionIndex]);
 
   return (
-    <section>
-      <Input
-        autoFocus
-        help={help}
-        isError={!isValid}
-        label={t<string>('Session number')}
-        onChange={_onChangeKey}
-        onEnter={_onAdd}
-      />
-      <Performance
-        currentSessionMode={currentSessionMode.current}
-        favorites={favorites}
-        sessionEra={sessionEra}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      />
-    </section>
-  );
+    <div>
+      {sessionEra === undefined && <Spinner label={'loading data'} />}
+      {sessionEra !== undefined &&
+        <section>
+          <Input
+            autoFocus
+            help={help}
+            isError={!isValid}
+            label={t<string>('Session number')}
+            onChange={_onChangeKey}
+            onEnter={_onAdd}
+          />
+          <Performance
+            favorites={favorites}
+            sessionEra={sessionEra}
+            toggleFavorite={toggleFavorite}
+          />
+        </section>
+      }
+    </div>);
 }
 
 export default React.memo(PerformancePage);

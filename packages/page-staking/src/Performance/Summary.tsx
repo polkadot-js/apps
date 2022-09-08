@@ -1,42 +1,40 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedTargets } from '../types';
-
 import React from 'react';
 import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-staking/Performance/SummarySession';
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { AccountId } from '@polkadot/types/interfaces';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { ValidatorPerformance } from './Performance';
 
 interface Props {
   className?: string;
-  eraValidators: AccountId[];
-  currentSessionCommittee: AccountId[];
-  targets: SortedTargets;
+  validatorPerformances: ValidatorPerformance[];
   era: number;
   session: number;
 }
 
-function Summary ({ className = '', currentSessionCommittee, era, eraValidators, session }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', era, session, validatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const committeeLength = validatorPerformances.filter((performance) => performance.isCommittee).length;
 
   return (
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('era validators')}>
-          {eraValidators.length > 0
-            ? <>{formatNumber(eraValidators.length)}</>
+          {validatorPerformances.length > 0
+            ? <>{formatNumber(validatorPerformances.length)}</>
             : <Spinner noLabel />
           }
         </CardSummary>
         <CardSummary label={t<string>('committee size')}>
-          {currentSessionCommittee.length > 0
-            ? <>{formatNumber(currentSessionCommittee.length)}</>
+          {committeeLength > 0
+            ? <>{formatNumber(committeeLength)}</>
             : <Spinner noLabel />
           }
         </CardSummary>

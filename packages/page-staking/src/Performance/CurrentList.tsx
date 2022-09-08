@@ -1,13 +1,11 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedTargets, ValidatorInfo } from '../types';
-
 import React, { useMemo, useRef, useState } from 'react';
 
+import { ValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
 import { Table, Toggle } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
-import { AccountId } from '@polkadot/types/interfaces';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
@@ -15,79 +13,41 @@ import Address from './Address';
 
 interface Props {
   className?: string;
-  favorites: string[];
-  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   session: number;
-  eraValidators: AccountId[];
-  currentSessionCommittee: AccountId[];
-  sessionValidatorBlockCountLookup: Record<string, number>;
-  expectedSessionValidatorBlockCount: Record<string, number>;
+  validatorPerformances: ValidatorPerformance[];
 }
 
-type AccountExtend = [string, boolean];
-
-interface Filtered {
-  validators?: AccountExtend[];
-}
-
-function sortAccountByFavourites (accounts: string[], favorites: string[]): AccountExtend[] {
-  return accounts
-    .map((accountId): AccountExtend => [
-      accountId,
-      favorites.includes(accountId)
-    ])
-    .sort(([, isFavA]: AccountExtend, [, isFavB]: AccountExtend): number => {
-      return isFavA === isFavB ? 0 : (isFavA ? -1 : 1);
+function sortValidatorsByFavourites (validatorPerformances: ValidatorPerformance[]): ValidatorPerformance[] {
+  return validatorPerformances
+    .sort(({ isFavourite: favA }: ValidatorPerformance, { isFavourite: favB }: ValidatorPerformance): number => {
+      return favA === favB ? 0 : (favA ? -1 : 1);
     });
 }
 
-function getFiltered (favorites: string[], allEraValidators: boolean, currentSessionCommittee: AccountId[], eraValidators: AccountId[], targets?: SortedTargets): Filtered {
-  if (!targets) {
-    return {};
-  }
+function getFiltered (displayOnlyCommittee: boolean, validatorPerformances: ValidatorPerformance[]) {
+  const validators = displayOnlyCommittee ? validatorPerformances.filter((performance) => performance.isCommittee) : validatorPerformances;
 
-  const validators = allEraValidators ? eraValidators : currentSessionCommittee;
-
-  return {
-    validators: sortAccountByFavourites(validators.map((accountId) => accountId.toString()), favorites)
-  };
+  return sortValidatorsByFavourites(validators);
 }
 
-function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
-  const result: Record<string, ValidatorInfo> = {};
-
-  for (let i = 0; i < infos.length; i++) {
-    const info = infos[i];
-
-    result[info.key] = info;
-  }
-
-  return result;
-}
-
-function CurrentList ({ className, currentSessionCommittee, eraValidators, expectedSessionValidatorBlockCount, favorites, sessionValidatorBlockCountLookup, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, toggleFavorite, validatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [allEraValidators, setAllEraValidators] = useState(false);
+  const [displayOnlyCommittee, setDisplayOnlyCommittee] = useState(true);
 
   const isLoading = useLoadingDelay();
 
-  const { validators } = useMemo(
-    () => getFiltered(favorites, allEraValidators, currentSessionCommittee, eraValidators, targets),
-    [favorites, targets, currentSessionCommittee, allEraValidators, eraValidators]
+  const validators = useMemo(
+    () => getFiltered(displayOnlyCommittee, validatorPerformances),
+    [validatorPerformances, displayOnlyCommittee]
   );
 
   const list = useMemo(
     () => isLoading
-      ? undefined
+      ? []
       : validators,
     [isLoading, validators]
-  );
-
-  const infoMap = useMemo(
-    () => targets.validators && mapValidators(targets.validators),
-    [targets]
   );
 
   const headerRef = useRef(
@@ -101,13 +61,7 @@ function CurrentList ({ className, currentSessionCommittee, eraValidators, expec
     ]
   );
 
-  const listExtended: [string, boolean, number, number, number][] | undefined = list?.map(([address, isFavorite]) => {
-    const blocksCreated = sessionValidatorBlockCountLookup
-      ? Object.keys(sessionValidatorBlockCountLookup).includes(address)
-        ? sessionValidatorBlockCountLookup[address]
-        : 0
-      : 0;
-    const blocksTargetValue = expectedSessionValidatorBlockCount[address] || 0;
+  function calculatePercentReward (blocksCreated: number, blocksTargetValue: number) {
     let rewardPercentage = 0;
 
     if (blocksTargetValue > 0) {
@@ -120,19 +74,18 @@ function CurrentList ({ className, currentSessionCommittee, eraValidators, expec
       rewardPercentage = 100;
     }
 
-    return [address, isFavorite, blocksCreated, blocksTargetValue, rewardPercentage];
-  });
+    return rewardPercentage;
+  }
 
   return (
     <Table
       className={className}
       empty={
-        list && infoMap && t<string>('No active validators found')
+        list && t<string>('No active validators found')
       }
       emptySpinner={
         <>
           {!validators && <div>{t<string>('Retrieving validators')}</div>}
-          {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
           {!list && <div>{t<string>('Preparing validator list')}</div>}
         </>
       }
@@ -145,24 +98,24 @@ function CurrentList ({ className, currentSessionCommittee, eraValidators, expec
           <Toggle
             className='staking--buttonToggle'
             label={
-              t<string>('All era validators')
+              t<string>('Current committee')
             }
-            onChange={setAllEraValidators}
-            value={allEraValidators}
+            onChange={setDisplayOnlyCommittee}
+            value={displayOnlyCommittee}
           />
         </div>
       }
       header={headerRef.current}
     >
-      {listExtended && listExtended.map(([address, isFavorite, blocksCreated, blocksTarget, rewardPercentage]): React.ReactNode => (
+      {list.map((performance): React.ReactNode => (
         <Address
-          address={address}
-          blocksCreated={blocksCreated}
-          blocksTarget={blocksTarget}
+          address={performance.accountId}
+          blocksCreated={performance.blockCount}
+          blocksTarget={performance.expectedBlockCount}
           filterName={nameFilter}
-          isFavorite={isFavorite}
-          key={address}
-          rewardPercentage={rewardPercentage.toFixed(1)}
+          isFavorite={performance.isFavourite}
+          key={performance.accountId}
+          rewardPercentage={calculatePercentReward(performance.blockCount, performance.expectedBlockCount).toFixed(1)}
           toggleFavorite={toggleFavorite}
         />
       ))}
