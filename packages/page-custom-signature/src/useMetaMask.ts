@@ -23,7 +23,7 @@ export function useMetaMask (): UseMetaMask {
     const errorTimeout = new Promise((resolve, reject) => {
       timeout.current = setTimeout(() => {
         // console.log('Timeout reached!');
-        reject(new Error('Signature request timeout'));
+        reject(new Error('Signature request timed out after 30 seconds.'));
       }, 1000 * 30);
     }
     );
