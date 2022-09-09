@@ -298,7 +298,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoTinkernet',
     paraId: 2125,
-    text: 'Tinkernet Rococo',
+    text: 'Tinkernet',
     providers: {
       'InvArch Team': 'wss://rococo.invarch.network'
     }
