@@ -66,6 +66,7 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
 
     if (blocksTargetValue > 0) {
       rewardPercentage = 100 * blocksCreated / blocksTargetValue;
+
       if (rewardPercentage >= 90) {
         rewardPercentage = 100;
       }

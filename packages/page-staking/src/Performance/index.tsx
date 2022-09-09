@@ -5,7 +5,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
-import { Input, Spinner } from '@polkadot/react-components';
+import { Input, MarkWarning, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { EraIndex } from '@polkadot/types/interfaces';
 import { Option, u32 } from '@polkadot/types-codec';
@@ -31,7 +31,7 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const historyDepth = useCall<number>(api.query.staking.historyDepth);
-  const [ parsedSessionNumber, setParsedSessionNumber ] = useState<number | undefined>(undefined);
+  const [parsedSessionNumber, setParsedSessionNumber] = useState<number | undefined>(undefined);
   const [inputSession, setInputSession] = useState<number | null>(null);
   const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
 
@@ -60,6 +60,7 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
   const _onChangeKey = useCallback(
     (key: string): void => {
       let isInputSessionNumberCorrect = false;
+
       if (currentSession && historyDepth && minimumSessionNumber) {
         const sessionNumber = parseInt(key);
 
@@ -69,9 +70,10 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
           }
         }
       }
-      isInputSessionNumberCorrect ?
-        setParsedSessionNumber(Number(key)) :
-        setParsedSessionNumber(undefined);
+
+      isInputSessionNumberCorrect
+        ? setParsedSessionNumber(Number(key))
+        : setParsedSessionNumber(undefined);
     },
     [currentSession, minimumSessionNumber, historyDepth]
   );
@@ -138,8 +140,14 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
       }
     }
 
-    return;
+    return undefined;
   }, [inputSession, currentEra, currentSession, erasStartSessionIndex]);
+
+  if (!api.runtimeChain.toString().includes('Aleph Zero')) {
+    return (
+      <MarkWarning content={'Unsupported chain.'} />
+    );
+  }
 
   return (
     <div>
