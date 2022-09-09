@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Performance from '@polkadot/app-staking/Performance';
+import PerformancePage from '@polkadot/app-staking/Performance';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -200,9 +200,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
         </Route>
         <Route path={pathRef.current.performance}>
-          <Performance
+          <PerformancePage
             favorites={favorites}
-            targets={targets}
             toggleFavorite={toggleFavorite}
           />
         </Route>

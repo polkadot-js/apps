@@ -18,7 +18,7 @@ interface Props {
   toggleFavorite: (accountId: string) => void;
   blocksCreated: number,
   blocksTarget: number,
-  rewardPercentage: number,
+  rewardPercentage: string,
 }
 
 function useAddressCalls (api: ApiPromise, address: string) {

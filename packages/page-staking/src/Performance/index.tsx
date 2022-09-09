@@ -1,86 +1,175 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedTargets } from '../types';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import React, { useMemo } from 'react';
-
+import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { useTranslation } from '@polkadot/app-staking/translate';
+import { Input, MarkWarning, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Vec } from '@polkadot/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { Struct, u32 } from '@polkadot/types-codec';
+import { EraIndex } from '@polkadot/types/interfaces';
+import { Option, u32 } from '@polkadot/types-codec';
 
-import ActionsBanner from './ActionsBanner';
-import CurrentList from './CurrentList';
-import Summary from './Summary';
+import Performance from './Performance';
 
 interface Props {
   className?: string;
   favorites: string[];
-  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
-  session?: number,
 }
 
-interface CurrentEraValidators extends Struct {
-  reserved: Vec<AccountId>;
-  nonReserved: Vec<AccountId>;
+export interface SessionEra {
+  session: number,
+  era: number,
+  currentSessionMode: boolean,
 }
 
-type SessionValidatorBlockCountEntry = [{ args: [AccountId] }, u32];
+type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
 
-function Performance ({ className = '', favorites, session, targets, toggleFavorite }: Props): React.ReactElement<Props> {
+function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const currentEraValidators = useCall<CurrentEraValidators>(api.query.elections.currentEraValidators);
-  const sessionValidatorBlockCountEntries = useCall<SessionValidatorBlockCountEntry[]>(api.query.elections.sessionValidatorBlockCount.entries);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const historyDepth = useCall<number>(api.query.staking.historyDepth);
+  const [parsedSessionNumber, setParsedSessionNumber] = useState<number | undefined>(undefined);
+  const [inputSession, setInputSession] = useState<number | null>(null);
+  const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
 
-  const sessionValidatorBlockCountLookup = useMemo(
-    () => {
-      const sessionValidatorBlockCountLookup: Record<string, number> = {};
-
-      sessionValidatorBlockCountEntries?.forEach(([key, values]) => {
-        const account = key.args[0].toString();
-
-        sessionValidatorBlockCountLookup[account] = values.toNumber();
-      });
-
-      return sessionValidatorBlockCountLookup;
-    },
-    [sessionValidatorBlockCountEntries]
+  const currentSession = useMemo(() => {
+    return sessionInfo?.currentIndex.toNumber();
+  },
+  [sessionInfo]
   );
 
-  const [eraValidators, currentSessionCommittee] = useMemo(
-    () => {
-      if (!currentEraValidators || !sessionValidatorBlockCountLookup) {
-        return [[], []];
+  const currentEra = useMemo(() => {
+    return sessionInfo?.currentEra.toNumber();
+  },
+  [sessionInfo]
+  );
+
+  const minimumSessionNumber = useMemo(() => {
+    if (currentSession && historyDepth && sessionInfo) {
+      return Math.max(currentSession - historyDepth * sessionInfo.sessionsPerEra.toNumber(), 1);
+    }
+
+    return null;
+  },
+  [historyDepth, currentSession, sessionInfo]
+  );
+
+  const _onChangeKey = useCallback(
+    (key: string): void => {
+      let isInputSessionNumberCorrect = false;
+
+      if (currentSession && historyDepth && minimumSessionNumber) {
+        const sessionNumber = parseInt(key);
+
+        if (!isNaN(sessionNumber)) {
+          if (sessionNumber < currentSession && minimumSessionNumber <= sessionNumber) {
+            isInputSessionNumberCorrect = true;
+          }
+        }
       }
 
-      const currentSessionCommittee = Object.keys(sessionValidatorBlockCountLookup);
-      const eraValidators = currentEraValidators?.nonReserved.toArray().concat(currentEraValidators?.reserved.toArray());
-
-      return [eraValidators, currentSessionCommittee];
+      isInputSessionNumberCorrect
+        ? setParsedSessionNumber(Number(key))
+        : setParsedSessionNumber(undefined);
     },
-    [currentEraValidators, sessionValidatorBlockCountLookup]
+    [currentSession, minimumSessionNumber, historyDepth]
   );
+
+  const _onAdd = useCallback(
+    (): void => {
+      if (parsedSessionNumber) {
+        setInputSession(parsedSessionNumber);
+      }
+    },
+    [parsedSessionNumber]
+  );
+
+  const help = useMemo(() => {
+    let msg = t<string>('Enter past session number.');
+
+    if (currentSession) {
+      msg += ' Current one is ' + currentSession.toString() + '.';
+
+      if (minimumSessionNumber) {
+        msg += ' Minimum session number is ' + minimumSessionNumber.toString() + '.';
+      }
+    }
+
+    return msg;
+  },
+  [t, currentSession, minimumSessionNumber]
+  );
+
+  function calculateEra (session: number, erasStartSessionIndex: SessionIndexEntry[]) {
+    const erasStartSessionIndexLookup: [number, number][] = [];
+
+    erasStartSessionIndex.filter(([, values]) => values.isSome)
+      .forEach(([key, values]) => {
+        const eraIndex = key.args[0];
+
+        erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
+      });
+    erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
+      return eraIndexA - eraIndexB;
+    });
+
+    for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
+      const eraIndex = erasStartSessionIndexLookup[i][0];
+      const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
+      const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : undefined;
+
+      if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
+        return eraIndex;
+      }
+    }
+
+    const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
+
+    return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
+  }
+
+  const sessionEra = useMemo((): SessionEra | undefined => {
+    if (currentSession && erasStartSessionIndex && currentEra) {
+      if (inputSession) {
+        return { currentSessionMode: false, era: calculateEra(inputSession, erasStartSessionIndex), session: inputSession };
+      } else {
+        return { currentSessionMode: true, era: currentEra, session: currentSession };
+      }
+    }
+
+    return undefined;
+  }, [inputSession, currentEra, currentSession, erasStartSessionIndex]);
+
+  if (!api.runtimeChain.toString().includes('Aleph Zero')) {
+    return (
+      <MarkWarning content={'Unsupported chain.'} />
+    );
+  }
 
   return (
-    <div className={`staking--Performance ${className}`}>
-      <Summary
-        currentSessionCommittee={currentSessionCommittee}
-        eraValidators={eraValidators}
-        targets={targets}
-      />
-      <ActionsBanner />
-      <CurrentList
-        currentSessionCommittee={currentSessionCommittee}
-        favorites={favorites}
-        session={session}
-        sessionValidatorBlockCountLookup={sessionValidatorBlockCountLookup}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      />
-    </div>
-  );
+    <div>
+      {!sessionEra && <Spinner label={'loading data'} />}
+      {sessionEra &&
+        <section>
+          <Input
+            autoFocus
+            help={help}
+            isError={!parsedSessionNumber}
+            label={t<string>('Session number')}
+            onChange={_onChangeKey}
+            onEnter={_onAdd}
+          />
+          <Performance
+            favorites={favorites}
+            sessionEra={sessionEra}
+            toggleFavorite={toggleFavorite}
+          />
+        </section>
+      }
+    </div>);
 }
 
-export default React.memo(Performance);
+export default React.memo(PerformancePage);
