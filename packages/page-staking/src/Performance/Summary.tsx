@@ -27,7 +27,7 @@ function Summary ({ className = '', era, session, validatorPerformances }: Props
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('era validators')}>
-          {validatorPerformances.length > 0
+          {validatorPerformances.length
             ? <>{formatNumber(validatorPerformances.length)}</>
             : <Spinner noLabel />
           }

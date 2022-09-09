@@ -31,10 +31,7 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const historyDepth = useCall<number>(api.query.staking.historyDepth);
-  const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: string }>(() => ({
-    isValid: false,
-    key: ''
-  }));
+  const [ parsedSessionNumber, setParsedSessionNumber ] = useState<number | undefined>(undefined);
   const [inputSession, setInputSession] = useState<number | null>(null);
   const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
 
@@ -62,33 +59,30 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
 
   const _onChangeKey = useCallback(
     (key: string): void => {
-      let valid = false;
-
+      let isInputSessionNumberCorrect = false;
       if (currentSession && historyDepth && minimumSessionNumber) {
         const sessionNumber = parseInt(key);
 
         if (!isNaN(sessionNumber)) {
           if (sessionNumber < currentSession && minimumSessionNumber <= sessionNumber) {
-            valid = true;
+            isInputSessionNumberCorrect = true;
           }
         }
       }
-
-      setValue({
-        isValid: valid,
-        key
-      });
+      isInputSessionNumberCorrect ?
+        setParsedSessionNumber(Number(key)) :
+        setParsedSessionNumber(undefined);
     },
     [currentSession, minimumSessionNumber, historyDepth]
   );
 
   const _onAdd = useCallback(
     (): void => {
-      if (isValid) {
-        setInputSession(Number(key));
+      if (parsedSessionNumber) {
+        setInputSession(parsedSessionNumber);
       }
     },
-    [isValid, key]
+    [parsedSessionNumber]
   );
 
   const help = useMemo(() => {
@@ -144,18 +138,18 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
       }
     }
 
-    return undefined;
+    return;
   }, [inputSession, currentEra, currentSession, erasStartSessionIndex]);
 
   return (
     <div>
-      {sessionEra === undefined && <Spinner label={'loading data'} />}
-      {sessionEra !== undefined &&
+      {!sessionEra && <Spinner label={'loading data'} />}
+      {sessionEra &&
         <section>
           <Input
             autoFocus
             help={help}
-            isError={!isValid}
+            isError={!parsedSessionNumber}
             label={t<string>('Session number')}
             onChange={_onChangeKey}
             onEnter={_onAdd}

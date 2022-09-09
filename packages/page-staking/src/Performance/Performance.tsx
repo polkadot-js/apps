@@ -71,7 +71,7 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   );
 
   useEffect(() => {
-    if (firstBlockInSessionHash !== undefined) {
+    if (firstBlockInSessionHash) {
       api.at(firstBlockInSessionHash.toString()).then((result) => {
         result.query.elections.palletVersion().then((version) => {
           setIsPalletElectionsSupported(Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION);
@@ -97,7 +97,7 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   );
 
   useEffect(() => {
-    if (firstBlockInSessionHash !== undefined) {
+    if (firstBlockInSessionHash) {
       api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
         if (header && !header.isEmpty && header.author) {
           setFirstSessionBlockAuthor(header.author.toString());
@@ -124,7 +124,7 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   }
 
   useEffect(() => {
-    if (lastBlockInSessionHash !== undefined && firstSessionBlockAuthor !== undefined) {
+    if (lastBlockInSessionHash && firstSessionBlockAuthor) {
       api.at(lastBlockInSessionHash.toString()).then((result) => {
         const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
 
@@ -152,7 +152,7 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   }, [firstSessionBlockAuthor, sessionEra, api]);
 
   useEffect(() => {
-    if (firstBlockInSessionHash !== undefined) {
+    if (firstBlockInSessionHash) {
       api.at(firstBlockInSessionHash.toString()).then((resultApi) => {
         const validators = resultApi.query.session.validators;
 
@@ -194,8 +194,8 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
       const count = maybeCount ? maybeCount[1] : 0;
       const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
       const expectedBlockCount = maybeExpectedBlockCount ? maybeExpectedBlockCount[1] : 0;
-      const isCommittee = committee.find((value) => validator === value) !== undefined;
-      const isFavourite = favorites.find((value) => validator === value) !== undefined;
+      const isCommittee = !!committee.find((value) => validator === value);
+      const isFavourite = !!favorites.find((value) => validator === value);
 
       return {
         accountId: validator,
@@ -215,12 +215,12 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   return (
     <div className={`staking--Performance ${className}`}>
       {isPalletElectionsSupported === undefined && <Spinner label={'Checking storage version'} />}
-      {isPalletElectionsSupported !== undefined && !isPalletElectionsSupported &&
+      {!isPalletElectionsSupported !== undefined && !isPalletElectionsSupported &&
          <MarkWarning
            className='warning centered'
            content={<>Unsupported pallet elections storage version. Choose more recent session number.</>}
          />}
-      {isPalletElectionsSupported !== undefined && isPalletElectionsSupported &&
+      {isPalletElectionsSupported &&
          (<>
            <Summary
              committee={committee}
