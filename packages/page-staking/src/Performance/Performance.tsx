@@ -188,11 +188,11 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   [api, firstSessionBlockAuthor, committee]
   );
 
-  function getValidatorPerformance(validator: string,
-               sessionValidatorBlockCountLookup: [string, number][],
-               expectedSessionValidatorBlockCount: [string, number][],
-               favorites: string[],
-               isCommittee: boolean): ValidatorPerformance {
+  function getValidatorPerformance (validator: string,
+    sessionValidatorBlockCountLookup: [string, number][],
+    expectedSessionValidatorBlockCount: [string, number][],
+    favorites: string[],
+    isCommittee: boolean): ValidatorPerformance {
     const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
     const count = maybeCount ? maybeCount[1] : 0;
     const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
@@ -209,7 +209,7 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   }
 
   useEffect(() => {
-    let nonCommittee = eraValidators.filter((validator) => !committee.find((value) => validator === value));
+    const nonCommittee = eraValidators.filter((validator) => !committee.find((value) => validator === value));
 
     const nonCommitteePerformances = nonCommittee.map((validator) => getValidatorPerformance(validator,
       sessionValidatorBlockCountLookup,
