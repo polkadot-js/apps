@@ -3195,7 +3195,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.18.13
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.67.123
+    "@polkadot/dev": ^0.67.125
     "@polkadot/react-components": ^0.121.2-41-x
     "@types/react-dom": ^18.0.6
     "@types/tmp": ^0.2.3
@@ -3228,7 +3228,7 @@ __metadata:
     "@babel/runtime": ^7.18.9
     "@polkadot/apps-config": ^0.121.2-41-x
     "@polkadot/apps-routing": ^0.121.2-41-x
-    "@polkadot/dev": ^0.67.123
+    "@polkadot/dev": ^0.67.125
     "@polkadot/react-api": ^0.121.2-41-x
     "@polkadot/react-components": ^0.121.2-41-x
     "@polkadot/react-hooks": ^0.121.2-41-x
@@ -3259,9 +3259,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.123":
-  version: 0.67.123
-  resolution: "@polkadot/dev@npm:0.67.123"
+"@polkadot/dev@npm:^0.67.125":
+  version: 0.67.125
+  resolution: "@polkadot/dev@npm:0.67.125"
   dependencies:
     "@babel/cli": ^7.18.10
     "@babel/core": ^7.19.0
@@ -3285,7 +3285,7 @@ __metadata:
     "@rollup/plugin-dynamic-import-vars": ^1.4.4
     "@rollup/plugin-inject": ^4.0.4
     "@rollup/plugin-json": ^4.1.0
-    "@rollup/plugin-node-resolve": ^14.0.0
+    "@rollup/plugin-node-resolve": ^14.0.1
     "@rushstack/eslint-patch": ^1.1.4
     "@typescript-eslint/eslint-plugin": 5.36.2
     "@typescript-eslint/parser": 5.36.2
@@ -3326,10 +3326,10 @@ __metadata:
     rimraf: ^3.0.2
     rollup: ^2.79.0
     rollup-plugin-cleanup: ^3.2.1
-    typescript: ^4.8.2
+    typescript: ^4.8.3
     webpack: ^5.74.0
     webpack-cli: ^4.10.0
-    webpack-dev-server: ^4.10.1
+    webpack-dev-server: ^4.11.0
     webpack-merge: ^5.8.0
     webpack-subresource-integrity: ^5.1.0
     yargs: ^17.5.1
@@ -3358,7 +3358,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 7c4b0db4508bf8f31a9ebfe7cb980184fae58b36153ae6f965fa750de3ea3f035cd47285eccf250f0d7b321ba19282c342c31de231ca2013dd7104ef5f97fc2b
+  checksum: 6eb8fb0dd14e8eefb7c060ce3a4c17ac973d28fdd4244f3bfb301f7558dd152426dab359bab9cf1c6a6af311db9098c654aa344d5c921ce4ad18723e2a15e32f
   languageName: node
   linkType: hard
 
@@ -4080,9 +4080,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "@rollup/plugin-node-resolve@npm:14.0.0"
+"@rollup/plugin-node-resolve@npm:^14.0.1":
+  version: 14.0.1
+  resolution: "@rollup/plugin-node-resolve@npm:14.0.1"
   dependencies:
     "@rollup/pluginutils": ^3.1.0
     "@types/resolve": 1.17.1
@@ -4092,7 +4092,7 @@ __metadata:
     resolve: ^1.19.0
   peerDependencies:
     rollup: ^2.78.0
-  checksum: c40e7db6c36fd34d699904e8fdf87e550d608d1fe99f2004eda0251d2e436934a901336730eedcb051c2a0c600ee3fc3173b9a2013968247de1fda06fb0a6605
+  checksum: 504ff5485f81e435d3da41d1be92cdccbb1f1cb3cab444183517b2ad2de9f9246288964783b28b121c72642cc9ac05ca945300ac65997f047141d648e6c0515b
   languageName: node
   linkType: hard
 
@@ -16393,7 +16393,7 @@ __metadata:
     "@babel/runtime": ^7.18.9
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.26
-    "@polkadot/dev": ^0.67.123
+    "@polkadot/dev": ^0.67.125
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.0.0
@@ -19936,23 +19936,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "typescript@npm:4.8.2"
+"typescript@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "typescript@npm:4.8.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 7f5b81d0d558c9067f952c7af52ab7f19c2e70a916817929e4a5b256c93990bf3178eccb1ac8a850bc75df35f6781b6f4cb3370ce20d8b1ded92ed462348f628
+  checksum: 8286a5edcaf3d68e65c451aa1e7150ad1cf53ee0813c07ec35b7abdfdb10f355ecaa13c6a226a694ae7a67785fd7eeebf89f845da0b4f7e4a35561ddc459aba0
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.8.2#~builtin<compat/typescript>":
-  version: 4.8.2
-  resolution: "typescript@patch:typescript@npm%3A4.8.2#~builtin<compat/typescript>::version=4.8.2&hash=bda367"
+"typescript@patch:typescript@npm%3A^4.8.3#~builtin<compat/typescript>":
+  version: 4.8.3
+  resolution: "typescript@patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 6f49363af8af2fe480da1d5fa68712644438785208b06690a3cbe5e7365fd652c3a0f1e587bc8684d78fb69de3dde4de185c0bad7bb4f3664ddfc813ce8caad6
+  checksum: 0404a09c625df01934ef774b45ce1ca57ccae41cd625fcdbb82056715320d9329e70d9d75c2c732ec6ef947444ca978c189a332b71fa21f5c1437d5a83e24906
   languageName: node
   linkType: hard
 
@@ -20975,9 +20975,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.10.1":
-  version: 4.10.1
-  resolution: "webpack-dev-server@npm:4.10.1"
+"webpack-dev-server@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "webpack-dev-server@npm:4.11.0"
   dependencies:
     "@types/bonjour": ^3.5.9
     "@types/connect-history-api-fallback": ^1.3.5
@@ -21015,7 +21015,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
-  checksum: d026e6be63058ba5f881c58c9d49367a26c43d76bb7c2a1d9fb80eeae644099cc098913b4e9f32e2ed89eff0e7cc08e03cae8a1c4e7a1c8f67c5c673ab70761e
+  checksum: b2c7e9810138d0c6fa670a890410a74b29d4dd23d428e92e61e0233c542689f57caf9b31c031fbcc772170b6710b0752e81fa9cbc41ac0deefdc32d5749ce08d
   languageName: node
   linkType: hard
 
