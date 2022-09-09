@@ -296,6 +296,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoTinkernet',
+    paraId: 2125,
+    text: 'Tinkernet Rococo',
+    providers: {
+      'InvArch Team': 'wss://rococo.invarch.network'
+    }
+  },
+  {
     info: 'rococoTuring',
     paraId: 2114,
     text: 'Turing Network (Staging)',
