@@ -188,25 +188,41 @@ function Performance ({ className = '', favorites, sessionEra, toggleFavorite }:
   [api, firstSessionBlockAuthor, committee]
   );
 
+  function getValidatorPerformance(validator: string,
+               sessionValidatorBlockCountLookup: [string, number][],
+               expectedSessionValidatorBlockCount: [string, number][],
+               favorites: string[],
+               isCommittee: boolean): ValidatorPerformance {
+    const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
+    const count = maybeCount ? maybeCount[1] : 0;
+    const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
+    const expectedBlockCount = maybeExpectedBlockCount ? maybeExpectedBlockCount[1] : 0;
+    const isFavourite = !!favorites.find((value) => validator === value);
+
+    return {
+      accountId: validator,
+      blockCount: count,
+      expectedBlockCount,
+      isCommittee,
+      isFavourite
+    };
+  }
+
   useEffect(() => {
-    const performances = eraValidators.map((validator) => {
-      const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
-      const count = maybeCount ? maybeCount[1] : 0;
-      const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
-      const expectedBlockCount = maybeExpectedBlockCount ? maybeExpectedBlockCount[1] : 0;
-      const isCommittee = !!committee.find((value) => validator === value);
-      const isFavourite = !!favorites.find((value) => validator === value);
+    let nonCommittee = eraValidators.filter((validator) => !committee.find((value) => validator === value));
 
-      return {
-        accountId: validator,
-        blockCount: count,
-        expectedBlockCount,
-        isCommittee,
-        isFavourite
-      };
-    });
+    const nonCommitteePerformances = nonCommittee.map((validator) => getValidatorPerformance(validator,
+      sessionValidatorBlockCountLookup,
+      expectedSessionValidatorBlockCount,
+      favorites,
+      false));
+    const committeePerformances = committee.map((validator) => getValidatorPerformance(validator,
+      sessionValidatorBlockCountLookup,
+      expectedSessionValidatorBlockCount,
+      favorites,
+      true));
 
-    setValidatorPerformances(performances);
+    setValidatorPerformances(committeePerformances.concat(nonCommitteePerformances));
   },
   [committee, eraValidators, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount, favorites]
 
