@@ -864,6 +864,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
+  rococoTinkernet: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
