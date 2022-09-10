@@ -422,12 +422,16 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         totalStaked={totalStaked}
       />
       <Button.Group>
-        <Button
-          icon='check'
-          isDisabled={!validators?.length || !ownNominators?.length}
-          label={t<string>('Most profitable')}
-          onClick={_selectProfitable}
-        />
+        {
+          !isDarwinia && (
+            <Button
+              icon='check'
+              isDisabled={!validators?.length || !ownNominators?.length}
+              label={t<string>('Most profitable')}
+              onClick={_selectProfitable}
+            />
+          )
+        }
         <Nominate
           isDisabled={isInElection || !validators?.length}
           ownNominators={ownNominators}

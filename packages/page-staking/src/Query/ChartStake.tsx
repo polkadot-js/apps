@@ -5,13 +5,13 @@ import type { ExposureT as DarwiniaStakingStructsExposure } from '@darwinia/type
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
+import BigNumber from 'bignumber.js';
 import React, { useMemo } from 'react';
 
 import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_ZERO, formatBalance } from '@polkadot/util';
-import BigNumber from 'bignumber.js';
 
 import { useTranslation } from '../translate';
 import { balanceToNumber } from './util';
@@ -23,26 +23,30 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
   const cliSet: LineDataEntry = [];
   const expSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
-  const [total, avgCount] = !isDarwinia ? exposures.reduce(([total, avgCount], { clipped }) => {
-    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+  const [total, avgCount] = !isDarwinia
+    ? exposures.reduce(([total, avgCount], { clipped }) => {
+      const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
 
-    if (cli > 0) {
-      total += cli;
-      avgCount++;
-    }
+      if (cli > 0) {
+        total += cli;
+        avgCount++;
+      }
 
-    return [total, avgCount];
-  }, [0, 0]): exposures.reduce(([total, avgCount], { clipped }) => {
-    const darwiniaClipped = clipped as unknown as DarwiniaStakingStructsExposure;
-    const clippedTotal = darwiniaClipped.totalPower ?? BN_ZERO;
-    if (clippedTotal.gtn(0)) {
-      const clippedTotalBN = new BigNumber(clippedTotal.toString())
-      total = total.plus(clippedTotalBN);
-      avgCount++;
-    }
+      return [total, avgCount];
+    }, [0, 0])
+    : exposures.reduce(([total, avgCount], { clipped }) => {
+      const darwiniaClipped = clipped as unknown as DarwiniaStakingStructsExposure;
+      const clippedTotal = darwiniaClipped.totalPower ?? BN_ZERO;
 
-    return [total, avgCount];
-  }, [new BigNumber(0), 0]);
+      if (clippedTotal.gtn(0)) {
+        const clippedTotalBN = new BigNumber(clippedTotal.toString());
+
+        total = total.plus(clippedTotalBN);
+        avgCount++;
+      }
+
+      return [total, avgCount];
+    }, [new BigNumber(0), 0]);
 
   exposures.forEach(({ clipped, era, exposure }): void => {
     // Darwinia Crab doesn't have the total field
@@ -67,9 +71,11 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
     }
 
     let avg: number|BN;
-    if(isDarwinia) {
+
+    if (isDarwinia) {
       const totalBigNumber = total as BigNumber;
-      const avgBigNumber = totalBigNumber.div(avgCount).toFormat(0,BigNumber.ROUND_UP).replace(/,/g,'');
+      const avgBigNumber = totalBigNumber.div(avgCount).toFormat(0, BigNumber.ROUND_UP).replace(/,/g, '');
+
       avg = avgCount > 0
         ? new BN(avgBigNumber)
         : BN_ZERO;
@@ -77,7 +83,6 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
       avg = avgCount > 0
         ? Math.ceil((total as number) * 100 / avgCount) / 100
         : 0;
-
     }
 
     labels.push(era.toHuman());
