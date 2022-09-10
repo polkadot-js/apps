@@ -11,6 +11,7 @@ import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_ZERO, formatBalance } from '@polkadot/util';
+import BigNumber from 'bignumber.js';
 
 import { useTranslation } from '../translate';
 import { balanceToNumber } from './util';
@@ -22,16 +23,8 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
   const cliSet: LineDataEntry = [];
   const expSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
-  const [total, avgCount] = exposures.reduce(([total, avgCount], { clipped }) => {
-    let cli = 0;
-
-    if (isDarwinia) {
-      const darwiniaClipped = clipped as unknown as DarwiniaStakingStructsExposure;
-
-      cli = balanceToNumber(darwiniaClipped.totalPower ?? BN_ZERO, divisor);
-    } else {
-      cli = balanceToNumber(clipped.total?.unwrap(), divisor);
-    }
+  const [total, avgCount] = !isDarwinia ? exposures.reduce(([total, avgCount], { clipped }) => {
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
 
     if (cli > 0) {
       total += cli;
@@ -39,7 +32,17 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
     }
 
     return [total, avgCount];
-  }, [0, 0]);
+  }, [0, 0]): exposures.reduce(([total, avgCount], { clipped }) => {
+    const darwiniaClipped = clipped as unknown as DarwiniaStakingStructsExposure;
+    const clippedTotal = darwiniaClipped.totalPower ?? BN_ZERO;
+    if (clippedTotal.gtn(0)) {
+      const clippedTotalBN = new BigNumber(clippedTotal.toString())
+      total = total.plus(clippedTotalBN);
+      avgCount++;
+    }
+
+    return [total, avgCount];
+  }, [new BigNumber(0), 0]);
 
   exposures.forEach(({ clipped, era, exposure }): void => {
     // Darwinia Crab doesn't have the total field
@@ -63,19 +66,22 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN, isDarwi
       exp = balanceToNumber(exposure.total?.unwrap(), divisor);
     }
 
-    const avg = avgCount > 0
-      ? Math.ceil(total * 100 / avgCount) / 100
-      : 0;
+    let avg: number|BN;
+    if(isDarwinia) {
+      const totalBigNumber = total as BigNumber;
+      const avgBigNumber = totalBigNumber.div(avgCount).toFormat(0,BigNumber.ROUND_UP).replace(/,/g,'');
+      avg = avgCount > 0
+        ? new BN(avgBigNumber)
+        : BN_ZERO;
+    } else {
+      avg = avgCount > 0
+        ? Math.ceil((total as number) * 100 / avgCount) / 100
+        : 0;
+
+    }
 
     labels.push(era.toHuman());
-    const avgBN = new BN(`${Math.floor(avg)}`)
-    /* to convert avg to balance, multiply by divisor since when we were calculating total
-    * in the above logic we used the method balanceToNumber which divided the
-    * power by the divisor */
-    const darwiniaPowerAvg = avgBN.mul(divisor);
-    const avgItem = isDarwinia ? darwiniaPowerAvg : avg;
-
-    avgSet.push(avgItem);
+    avgSet.push(avg);
     cliSet.push(cli);
     expSet.push(exp);
   });
