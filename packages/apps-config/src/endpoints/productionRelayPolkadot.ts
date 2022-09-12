@@ -78,6 +78,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    isUnreachable: true,
+    homepage: 'https://www.bitgreenswiss.org/crowdloan.html',
+    text: 'Bitgreen',
+    paraId: 2048,
+    providers: {
+      Bitgreen: 'wss://bitgreen.org/ws'
+    }
+  },
+  {
     info: 'centrifuge',
     homepage: 'https://centrifuge.io',
     paraId: 2031,
