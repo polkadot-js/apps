@@ -65,6 +65,7 @@ import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTinker from './chains/tinker.png';
+import chainWatr from './chains/watr.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
@@ -439,6 +440,7 @@ export const chainLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Wapex: nodeTotem,
+  'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
   'Westend Collectives': chainWestendColl,
@@ -878,6 +880,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
   rococoVln: nodeVln,
+  rococoWatr: chainWatr,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,
