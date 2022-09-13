@@ -45013,6 +45013,11 @@ export const typesBundle = {
       ]
     },
     "logion": {
+      "alias": {
+        "loAuthorityList": {
+          "StorageVersion": "LoAuthorityListStorageVersion"
+        }
+      },
       "types": [
         {
           "minmax": [
@@ -45232,12 +45237,12 @@ export const typesBundle = {
         {
           "minmax": [
             112,
-            null
+            116
           ],
           "types": {
             "Address": "MultiAddress",
             "LookupSource": "MultiAddress",
-            "PeerId": "(Vec<u8>)",
+            "OpaquePeerId": "Vec<u8>",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "TAssetBalance": "u128",
             "AssetId": "u64",
@@ -45306,7 +45311,8 @@ export const typesBundle = {
                 "V3RequesterEnum",
                 "V4ItemSubmitter",
                 "V5Collection",
-                "V6ItemUpload"
+                "V6ItemUpload",
+                "V7ItemToken"
               ]
             },
             "Requester": {
@@ -45333,6 +45339,137 @@ export const typesBundle = {
             "CollectionItemToken": {
               "token_type": "Vec<u8>",
               "token_id": "Vec<u8>"
+            },
+            "FullIdentification": "Exposure",
+            "IdentificationTuple": "(ValidatorId, FullIdentification)",
+            "MembershipProof": {
+              "session": "SessionIndex",
+              "trieNodes": "Vec<Vec<u8>>",
+              "validatorCount": "ValidatorCount"
+            },
+            "SessionIndex": "u32",
+            "ValidatorCount": "u32",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "Keys": "SessionKeys2"
+          }
+        },
+        {
+          "minmax": [
+            117,
+            null
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "OpaquePeerId": "Vec<u8>",
+            "AccountInfo": "AccountInfoWithDualRefCount",
+            "TAssetBalance": "u128",
+            "AssetId": "u64",
+            "AssetDetails": {
+              "owner": "AccountId",
+              "issuer": "AccountId",
+              "admin": "AccountId",
+              "freezer": "AccountId",
+              "supply": "Balance",
+              "deposit": "DepositBalance",
+              "max_zombies": "u32",
+              "min_balance": "Balance",
+              "zombies": "u32",
+              "accounts": "u32",
+              "is_frozen": "bool"
+            },
+            "AssetMetadata": {
+              "deposit": "DepositBalance",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>",
+              "decimals": "u8"
+            },
+            "LocId": "u128",
+            "LegalOfficerCaseOf": {
+              "owner": "AccountId",
+              "requester": "Requester",
+              "metadata": "Vec<MetadataItem>",
+              "files": "Vec<File>",
+              "closed": "bool",
+              "loc_type": "LocType",
+              "links": "Vec<LocLink>",
+              "void_info": "Option<LocVoidInfo<LocId>>",
+              "replacer_of": "Option<LocId>",
+              "collection_last_block_submission": "Option<BlockNumber>",
+              "collection_max_size": "Option<CollectionSize>",
+              "collection_can_upload": "bool",
+              "seal": "Option<Hash>"
+            },
+            "MetadataItem": {
+              "name": "Vec<u8>",
+              "value": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocType": {
+              "_enum": [
+                "Transaction",
+                "Identity",
+                "Collection"
+              ]
+            },
+            "LocLink": {
+              "id": "LocId",
+              "nature": "Vec<u8>"
+            },
+            "File": {
+              "hash": "Hash",
+              "nature": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocVoidInfo": {
+              "replacer": "Option<LocId>"
+            },
+            "StorageVersion": {
+              "_enum": [
+                "V1",
+                "V2MakeLocVoid",
+                "V3RequesterEnum",
+                "V4ItemSubmitter",
+                "V5Collection",
+                "V6ItemUpload",
+                "V7ItemToken",
+                "V8AddSeal"
+              ]
+            },
+            "Requester": {
+              "_enum": {
+                "None": null,
+                "Account": "AccountId",
+                "Loc": "LocId"
+              }
+            },
+            "CollectionSize": "u32",
+            "CollectionItemId": "Hash",
+            "CollectionItem": {
+              "description": "Vec<u8>",
+              "files": "Vec<CollectionItemFile<Hash>>",
+              "token": "Option<CollectionItemToken>",
+              "restricted_delivery": "bool"
+            },
+            "CollectionItemFile": {
+              "name": "Vec<u8>",
+              "content_type": "Vec<u8>",
+              "fileSize": "u32",
+              "hash": "Hash"
+            },
+            "CollectionItemToken": {
+              "token_type": "Vec<u8>",
+              "token_id": "Vec<u8>"
+            },
+            "LegalOfficerData": {
+              "node_id": "Option<OpaquePeerId>",
+              "base_url": "Option<Vec<u8>>"
+            },
+            "LoAuthorityListStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2AddOnchainSettings"
+              ]
             },
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
