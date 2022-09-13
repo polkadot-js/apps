@@ -154,7 +154,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoMd5',
-    paraId: 4088,
+    paraId: 2089,
     text: 'MD5 Network',
     providers: {
       'Hashed Systems': 'wss://c1.md5.network'
