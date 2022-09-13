@@ -6,7 +6,7 @@ import type { Member as MemberType, Rule, Unscrupulous } from '../types';
 import React, { useRef } from 'react';
 
 import { Button, Table } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useBestNumber, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Join from './Join';
@@ -26,6 +26,7 @@ interface Props {
 function Overview ({ className, members, prime, rule, unscrupulous, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isJoinOpen, toggleJoin] = useToggle();
+  const bestNumber = useBestNumber();
 
   const hdrRef = useRef([
     [t<string>('members'), 'start', 2],
@@ -61,6 +62,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
       >
         {members && members.map((m) => (
           <Member
+            bestNumber={bestNumber}
             info={m}
             isPrime={prime === m.accountId}
             isVoter={!!voters && voters.includes(m.accountId)}

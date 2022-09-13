@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_ZERO, nextTick } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
@@ -23,11 +23,17 @@ function useWeightImpl (call?: Call | null): [BN, number] {
   const [state, setState] = useState(EMPTY_STATE);
 
   useEffect((): void => {
-    if (call && isFunction(api.rpc.payment?.queryInfo)) {
-      api.tx(call)
-        .paymentInfo(ZERO_ACCOUNT)
-        .then(({ weight }) => mountedRef.current && setState([weight, call.encodedLength]))
-        .catch(console.error);
+    if (call && api.call.transactionPaymentApi) {
+      nextTick(async (): Promise<void> => {
+        try {
+          const extrinsic = api.tx(call);
+          const { weight } = await extrinsic.paymentInfo(ZERO_ACCOUNT);
+
+          mountedRef.current && setState([weight, call.encodedLength]);
+        } catch (error) {
+          console.error(error);
+        }
+      });
     } else {
       setState(EMPTY_STATE);
     }

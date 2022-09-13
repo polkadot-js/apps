@@ -19,7 +19,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, BN_ZERO } from '@polkadot/util';
+import { assert, BN_ZERO, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import Address from './Address';
@@ -308,7 +308,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     (): void => {
       setBusy(true);
 
-      setTimeout((): void => {
+      nextTick((): void => {
         const errorHandler = (error: Error): void => {
           console.error(error);
 
@@ -331,7 +331,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           .catch((error): void => {
             errorHandler(error as Error);
           });
-      }, 0);
+      });
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );

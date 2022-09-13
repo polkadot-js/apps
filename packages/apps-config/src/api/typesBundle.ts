@@ -34340,6 +34340,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -34466,6 +34492,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -34675,6 +34731,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -34801,6 +34883,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -35010,6 +35122,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -35136,6 +35274,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -36782,6 +36950,7 @@ export const typesBundle = {
           "ChainId": "u8",
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
@@ -37022,6 +37191,7 @@ export const typesBundle = {
         "types": {
           "Address": "MultiAddress",
           "LookupSource": "MultiAddress",
+          "DispatchErrorModule": "DispatchErrorModuleU8",
           "Keys": "AccountId",
           "BridgeChainId": "u8",
           "BridgeEvent": {
@@ -39950,7 +40120,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -40202,8 +40372,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "kilt-spiritnet": {
       "types": [
@@ -42900,7 +43230,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -43152,8 +43482,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "kintsugi-parachain": {
       "types": [
@@ -43229,6 +43719,32 @@ export const typesBundle = {
               }
             ],
             "type": "void"
+          }
+        },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "issue": {
@@ -43357,6 +43873,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -44467,6 +45013,11 @@ export const typesBundle = {
       ]
     },
     "logion": {
+      "alias": {
+        "loAuthorityList": {
+          "StorageVersion": "LoAuthorityListStorageVersion"
+        }
+      },
       "types": [
         {
           "minmax": [
@@ -44686,12 +45237,12 @@ export const typesBundle = {
         {
           "minmax": [
             112,
-            null
+            116
           ],
           "types": {
             "Address": "MultiAddress",
             "LookupSource": "MultiAddress",
-            "PeerId": "(Vec<u8>)",
+            "OpaquePeerId": "Vec<u8>",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "TAssetBalance": "u128",
             "AssetId": "u64",
@@ -44760,7 +45311,8 @@ export const typesBundle = {
                 "V3RequesterEnum",
                 "V4ItemSubmitter",
                 "V5Collection",
-                "V6ItemUpload"
+                "V6ItemUpload",
+                "V7ItemToken"
               ]
             },
             "Requester": {
@@ -44787,6 +45339,137 @@ export const typesBundle = {
             "CollectionItemToken": {
               "token_type": "Vec<u8>",
               "token_id": "Vec<u8>"
+            },
+            "FullIdentification": "Exposure",
+            "IdentificationTuple": "(ValidatorId, FullIdentification)",
+            "MembershipProof": {
+              "session": "SessionIndex",
+              "trieNodes": "Vec<Vec<u8>>",
+              "validatorCount": "ValidatorCount"
+            },
+            "SessionIndex": "u32",
+            "ValidatorCount": "u32",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "Keys": "SessionKeys2"
+          }
+        },
+        {
+          "minmax": [
+            117,
+            null
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "OpaquePeerId": "Vec<u8>",
+            "AccountInfo": "AccountInfoWithDualRefCount",
+            "TAssetBalance": "u128",
+            "AssetId": "u64",
+            "AssetDetails": {
+              "owner": "AccountId",
+              "issuer": "AccountId",
+              "admin": "AccountId",
+              "freezer": "AccountId",
+              "supply": "Balance",
+              "deposit": "DepositBalance",
+              "max_zombies": "u32",
+              "min_balance": "Balance",
+              "zombies": "u32",
+              "accounts": "u32",
+              "is_frozen": "bool"
+            },
+            "AssetMetadata": {
+              "deposit": "DepositBalance",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>",
+              "decimals": "u8"
+            },
+            "LocId": "u128",
+            "LegalOfficerCaseOf": {
+              "owner": "AccountId",
+              "requester": "Requester",
+              "metadata": "Vec<MetadataItem>",
+              "files": "Vec<File>",
+              "closed": "bool",
+              "loc_type": "LocType",
+              "links": "Vec<LocLink>",
+              "void_info": "Option<LocVoidInfo<LocId>>",
+              "replacer_of": "Option<LocId>",
+              "collection_last_block_submission": "Option<BlockNumber>",
+              "collection_max_size": "Option<CollectionSize>",
+              "collection_can_upload": "bool",
+              "seal": "Option<Hash>"
+            },
+            "MetadataItem": {
+              "name": "Vec<u8>",
+              "value": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocType": {
+              "_enum": [
+                "Transaction",
+                "Identity",
+                "Collection"
+              ]
+            },
+            "LocLink": {
+              "id": "LocId",
+              "nature": "Vec<u8>"
+            },
+            "File": {
+              "hash": "Hash",
+              "nature": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocVoidInfo": {
+              "replacer": "Option<LocId>"
+            },
+            "StorageVersion": {
+              "_enum": [
+                "V1",
+                "V2MakeLocVoid",
+                "V3RequesterEnum",
+                "V4ItemSubmitter",
+                "V5Collection",
+                "V6ItemUpload",
+                "V7ItemToken",
+                "V8AddSeal"
+              ]
+            },
+            "Requester": {
+              "_enum": {
+                "None": null,
+                "Account": "AccountId",
+                "Loc": "LocId"
+              }
+            },
+            "CollectionSize": "u32",
+            "CollectionItemId": "Hash",
+            "CollectionItem": {
+              "description": "Vec<u8>",
+              "files": "Vec<CollectionItemFile<Hash>>",
+              "token": "Option<CollectionItemToken>",
+              "restricted_delivery": "bool"
+            },
+            "CollectionItemFile": {
+              "name": "Vec<u8>",
+              "content_type": "Vec<u8>",
+              "fileSize": "u32",
+              "hash": "Hash"
+            },
+            "CollectionItemToken": {
+              "token_type": "Vec<u8>",
+              "token_id": "Vec<u8>"
+            },
+            "LegalOfficerData": {
+              "node_id": "Option<OpaquePeerId>",
+              "base_url": "Option<Vec<u8>>"
+            },
+            "LoAuthorityListStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2AddOnchainSettings"
+              ]
             },
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
@@ -44920,14 +45603,22 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "RpcResult": {
+            "XYKRpcResult": {
               "price": "Balance"
             },
             "RPCAmountsResult": {
               "firstAssetAmount": "Balance",
               "secondAssetAmount": "Balance"
             },
-            "TokenId": "u32"
+            "VestingInfo": {
+              "locked": "Balance",
+              "perBlock": "Balance",
+              "startingBlock": "BlockNumber"
+            },
+            "TokenId": "u32",
+            "VestingInfosWithLockedAt": {
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
+            }
           }
         }
       ],
@@ -44949,7 +45640,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
             "description": "",
@@ -44967,7 +45658,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
             "description": "",
@@ -45003,7 +45694,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
             "description": "",
@@ -45021,7 +45712,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
             "description": "",
@@ -45035,7 +45726,63 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
+          },
+          "calculate_rewards_amount_v2": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "XYKRpcResult<Balance>"
+          },
+          "get_max_instant_unreserve_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_max_instant_burn_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_vesting_locked_at": {
+            "description": "",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "token_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
           }
         }
       }
@@ -45061,14 +45808,22 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "RpcResult": {
+            "XYKRpcResult": {
               "price": "Balance"
             },
             "RPCAmountsResult": {
               "firstAssetAmount": "Balance",
               "secondAssetAmount": "Balance"
             },
-            "TokenId": "u32"
+            "VestingInfo": {
+              "locked": "Balance",
+              "perBlock": "Balance",
+              "startingBlock": "BlockNumber"
+            },
+            "TokenId": "u32",
+            "VestingInfosWithLockedAt": {
+              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
+            }
           }
         }
       ],
@@ -45090,7 +45845,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
             "description": "",
@@ -45108,7 +45863,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
             "description": "",
@@ -45144,7 +45899,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
             "description": "",
@@ -45162,7 +45917,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
             "description": "",
@@ -45176,7 +45931,63 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "RpcResult<Balance>"
+            "type": "XYKRpcResult<Balance>"
+          },
+          "calculate_rewards_amount_v2": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "XYKRpcResult<Balance>"
+          },
+          "get_max_instant_unreserve_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_max_instant_burn_amount": {
+            "description": "",
+            "params": [
+              {
+                "name": "user",
+                "type": "AccountId"
+              },
+              {
+                "name": "liquidity_asset_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "get_vesting_locked_at": {
+            "description": "",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "token_id",
+                "type": "TokenId"
+              }
+            ],
+            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
           }
         }
       }
@@ -47897,7 +48708,7 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            null
+            10710
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -48149,8 +48960,168 @@ export const typesBundle = {
               "amount": "Balance"
             }
           }
+        },
+        {
+          "minmax": [
+            10720,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "rpc": {
+        "did": {
+          "query": {
+            "description": "Return the DID information linked to the provided DID identifier, if found.",
+            "params": [
+              {
+                "name": "did",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByWeb3Name": {
+            "description": "Return the DID information linked to the provided web3name, if found.",
+            "params": [
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          },
+          "queryByAccount": {
+            "description": "Return the DID information linked to the provided account, if found.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<DidLinkedInfo>"
+          }
+        }
+      }
     },
     "mathchain": {
       "types": [
@@ -61015,6 +61986,30 @@ export const typesBundle = {
         }
       ]
     },
+    "root": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "AccountId32": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId",
+            "Lookup0": "AccountId",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature"
+          }
+        }
+      ]
+    },
     "shibuya": {
       "types": [
         {
@@ -66897,6 +67892,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -67023,6 +68044,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
@@ -67232,6 +68283,32 @@ export const typesBundle = {
             "type": "void"
           }
         },
+        "escrow": {
+          "balanceAt": {
+            "description": "Get a given user's escrowed balance",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "totalSupply": {
+            "description": "Get the total voting supply in the system",
+            "params": [
+              {
+                "name": "height",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "BalanceWrapper"
+          }
+        },
         "issue": {
           "getIssueRequests": {
             "description": "Get all issue request IDs for a particular account",
@@ -67358,6 +68435,36 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<H256>"
+          }
+        },
+        "reward": {
+          "computeEscrowReward": {
+            "description": "Get a given user's rewards due",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
+          },
+          "computeVaultReward": {
+            "description": "Get a given vault's rewards due",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              },
+              {
+                "name": "currency_id",
+                "type": "CurrencyId"
+              }
+            ],
+            "type": "BalanceWrapper"
           }
         },
         "vaultRegistry": {
