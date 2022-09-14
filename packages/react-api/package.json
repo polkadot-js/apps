@@ -11,17 +11,17 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.121.2-33-x",
+  "version": "0.121.2-47-x",
   "browser": {
     "fs": false,
     "path": false
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
-    "@polkadot/api": "^9.3.2",
+    "@polkadot/api": "^9.3.3",
     "@polkadot/extension-compat-metamask": "^0.44.6",
     "@polkadot/extension-dapp": "^0.44.6",
-    "@polkadot/rpc-provider": "^9.3.2",
+    "@polkadot/rpc-provider": "^9.3.3",
     "fflate": "^0.7.3",
     "rxjs": "^7.5.6"
   }

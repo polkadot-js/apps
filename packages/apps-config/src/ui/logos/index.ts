@@ -50,6 +50,7 @@ import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
 import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
+import chainRocfinity from './chains/rocfinity.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoContracts from './chains/rococo-contracts.png';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -187,6 +188,7 @@ import nodeQuartz from './nodes/quartz.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeRocfinity from './nodes/rocfinity.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
@@ -248,6 +250,7 @@ export const chainLogos = Object.entries({
   'Bifrost Kusama': nodeBifrost,
   'Bifrost Polkadot': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
+  Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
@@ -390,6 +393,7 @@ export const chainLogos = Object.entries({
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   Robonomics: nodeRobonomics,
+  Rocfinity: chainRocfinity,
   Rococo: chainRococo,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
@@ -594,6 +598,7 @@ export const nodeLogos = Object.entries({
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   robonomics: nodeRobonomics,
+  Rocfinity: nodeRocfinity,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
   sherpax: nodeSherpax,
@@ -684,6 +689,7 @@ export const namedLogos: Record<string, unknown> = {
   'Bifrost Stage Testnet': nodeBifrost,
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
+  bitgreen: chainBitgreen,
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
@@ -800,7 +806,7 @@ export const namedLogos: Record<string, unknown> = {
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,
-  rocfinity: nodeEfinity,
+  rocfinity: nodeRocfinity,
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
@@ -864,6 +870,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
+  rococoTinkernet: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
@@ -903,6 +910,7 @@ export const namedLogos: Record<string, unknown> = {
   subspace: nodeSubspace,
   'subspace-farmnet': nodeSubspace,
   'subspace-gemini-1': nodeSubspace,
+  'subspace-gemini-2a': nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,

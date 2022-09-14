@@ -34,7 +34,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoAventus',
     homepage: 'https://www.aventus.io/',
-    paraId: 4095,
+    paraId: 2056,
     text: 'Aventus',
     providers: { }
   },
@@ -67,7 +67,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3024,
     text: 'Bitgreen',
     providers: {
-      Bitgreen: 'wss://rococobitgreen.abhath-labs.com'
+      Bitgreen: 'wss://testnet.bitgreen.org'
     }
   },
   {
@@ -176,7 +176,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoMd5',
-    paraId: 4088,
+    paraId: 2089,
     text: 'MD5 Network',
     providers: {
       'Hashed Systems': 'wss://c1.md5.network'
@@ -293,6 +293,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 't0rn',
     providers: {
       t3rn: 'wss://dev.net.t3rn.io'
+    }
+  },
+  {
+    info: 'rococoTinkernet',
+    paraId: 2125,
+    text: 'Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://rococo.invarch.network'
     }
   },
   {

@@ -325,8 +325,8 @@ export const testChains: EndpointOption[] = [
     info: 'acala',
     text: 'Mandala',
     providers: {
-      Acala: 'wss://mandala.polkawallet.io',
-      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
+      Acala: 'wss://mandala.polkawallet.io'
+      // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
     }
   },
   {
@@ -526,6 +526,15 @@ export const testChains: EndpointOption[] = [
     text: 'Subspace Gemini 1',
     providers: {
       Europe: 'wss://eu.gemini-1b.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-2a',
+    text: 'Subspace Gemini 2a',
+    providers: {
+      'Europe 0': 'wss://eu-0.gemini-2a.subspace.network/ws',
+      'Europe 1': 'wss://eu-1.gemini-2a.subspace.network/ws',
+      'Europe 2': 'wss://eu-2.gemini-2a.subspace.network/ws'
     }
   },
   {
