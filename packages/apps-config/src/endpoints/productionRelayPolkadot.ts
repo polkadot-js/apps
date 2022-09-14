@@ -358,6 +358,15 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Unique Asia': 'wss://asia-ws.unique.network/',
       'Unique Europe': 'wss://eu-ws.unique.network/'
     }
+  },
+  {
+    info: 'oak',
+    homepage: 'https://oak.tech',
+    paraId: 2114,
+    text: 'OAK Network',
+    providers: {
+      OAK: 'wss://rpc.oak.tech'
+    }
   }
 ];
 
