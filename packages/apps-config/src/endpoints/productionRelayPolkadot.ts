@@ -362,7 +362,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'oak',
     homepage: 'https://oak.tech',
-    paraId: 2114,
+    paraId: 2090,
     text: 'OAK Network',
     providers: {
       OAK: 'wss://rpc.oak.tech'
