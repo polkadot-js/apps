@@ -58075,6 +58075,17 @@ export const typesBundle = {
         }
       ]
     },
+    "oak": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
     "opal": {
       "rpc": {
         "unique": {
