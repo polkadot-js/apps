@@ -287,6 +287,7 @@
        1	jizer                         	add trustbase infos (#4627)
        1	joe petrowski                 	unscrupelous to unscrupulous (#7935)
        1	Jun Zhang                     	Update translation.json (#4508)
+       1	Justin Zhou                   	add OAK chain (#8126)
        1	Kai                           	Fix broken contract deployment function (#1643)
        1	kaichao                       	Refresh zh translations (#3322)
        1	Kerwin Zhu                    	fix Chinese translation of 'comm.' (#4464)
