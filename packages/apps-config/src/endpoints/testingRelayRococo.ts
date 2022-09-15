@@ -324,7 +324,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2058,
     text: 'Watr Network',
     providers: {
-      Watr: 'wss://watr-tmp.paritytech.net'
+      Watr: 'wss://rpc.dev.watr.org'
     }
   },
   {
