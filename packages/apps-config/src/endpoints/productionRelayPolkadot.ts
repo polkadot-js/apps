@@ -283,6 +283,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'oak',
     homepage: 'https://oak.tech',
+    isUnreachable: true,
     paraId: 2090,
     text: 'OAK Network',
     providers: {
