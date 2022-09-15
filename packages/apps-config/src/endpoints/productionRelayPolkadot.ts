@@ -281,6 +281,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'oak',
+    homepage: 'https://oak.tech',
+    paraId: 2090,
+    text: 'OAK Network',
+    providers: {
+      OAK: 'wss://rpc.oak.tech'
+    }
+  },
+  {
     info: 'omnibtc',
     isUnreachable: true,
     homepage: 'https://www.omnibtc.finance',
@@ -357,15 +366,6 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Unique America': 'wss://us-ws.unique.network/',
       'Unique Asia': 'wss://asia-ws.unique.network/',
       'Unique Europe': 'wss://eu-ws.unique.network/'
-    }
-  },
-  {
-    info: 'oak',
-    homepage: 'https://oak.tech',
-    paraId: 2090,
-    text: 'OAK Network',
-    providers: {
-      OAK: 'wss://rpc.oak.tech'
     }
   }
 ];
