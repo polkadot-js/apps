@@ -340,7 +340,7 @@ export const testChains: EndpointOption[] = [
     info: 'minix',
     text: 'MiniX Testnet',
     providers: {
-      Chainx: 'wss://minichain.coming.chat/ws'
+      // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     }
   },
   {
