@@ -257,6 +257,35 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
     }
   }
 
+ .performance--actionrow {
+    align-items: flex-start;
+    display: flex;
+
+    .ui--Button {
+      margin: 0.25rem;
+    }
+
+    &.head {
+      flex: 1 1 100%;
+      margin: 0 auto;
+      max-width: 620px;
+    }
+  }
+
+  .performance--actionrow-value {
+    flex: 1;
+    min-width: 0;
+
+    .ui--output {
+      word-break: break-all;
+    }
+  }
+
+  .performance--actionrow-buttons {
+    flex: 0;
+    padding: 0.5rem 0.25rem;
+  }
+
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);

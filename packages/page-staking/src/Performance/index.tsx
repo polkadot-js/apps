@@ -3,17 +3,14 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { useTranslation } from '@polkadot/app-staking/translate';
-import { Input, MarkWarning, Spinner } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { Option, u32 } from '@polkadot/types-codec';
-
-import Performance from './Performance';
+import {Button, Input, MarkWarning, Spinner} from '@polkadot/react-components';
+import {useApi} from '@polkadot/react-hooks';
+import Performance from "@polkadot/app-staking/Performance/Performance";
+import useEra from './useEra';
+import useCurrentSessionInfo from "@polkadot/app-staking/Performance/useCurrentSessionInfo";
 
 interface Props {
-  className?: string;
   favorites: string[];
   toggleFavorite: (address: string) => void;
 }
@@ -24,38 +21,26 @@ export interface SessionEra {
   currentSessionMode: boolean,
 }
 
-type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
-
 function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
-  const historyDepth = useCall<number>(api.query.staking.historyDepth);
+
+  const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
+
   const [parsedSessionNumber, setParsedSessionNumber] = useState<number | undefined>(undefined);
-  const [inputSession, setInputSession] = useState<number | null>(null);
-  const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
+  const [inputSession, setInputSession] = useState<number | undefined>(undefined);
+  const era = useEra(inputSession);
 
-  const currentSession = useMemo(() => {
-    return sessionInfo?.currentIndex.toNumber();
-  },
-  [sessionInfo]
-  );
-
-  const currentEra = useMemo(() => {
-    return sessionInfo?.currentEra.toNumber();
-  },
-  [sessionInfo]
-  );
-
-  const minimumSessionNumber = useMemo(() => {
-    if (currentSession && historyDepth && sessionInfo) {
-      return Math.max(currentSession - historyDepth * sessionInfo.sessionsPerEra.toNumber(), 1);
+  const sessionEra = useMemo((): SessionEra | undefined => {
+    if (era && inputSession) {
+      return {currentSessionMode: false, era: era, session: inputSession};
     }
+    if (currentSession && currentEra) {
+      return {currentSessionMode: true, era: currentEra, session: currentSession};
+    }
+    return undefined;
+  }, [inputSession, currentEra, currentSession, era]);
 
-    return null;
-  },
-  [historyDepth, currentSession, sessionInfo]
-  );
 
   const _onChangeKey = useCallback(
     (key: string): void => {
@@ -103,45 +88,6 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
   [t, currentSession, minimumSessionNumber]
   );
 
-  function calculateEra (session: number, erasStartSessionIndex: SessionIndexEntry[]) {
-    const erasStartSessionIndexLookup: [number, number][] = [];
-
-    erasStartSessionIndex.filter(([, values]) => values.isSome)
-      .forEach(([key, values]) => {
-        const eraIndex = key.args[0];
-
-        erasStartSessionIndexLookup.push([eraIndex.toNumber(), values.unwrap().toNumber()]);
-      });
-    erasStartSessionIndexLookup.sort(([eraIndexA], [eraIndexB]) => {
-      return eraIndexA - eraIndexB;
-    });
-
-    for (let i = 0; i < erasStartSessionIndexLookup.length; i++) {
-      const eraIndex = erasStartSessionIndexLookup[i][0];
-      const currentEraSessionStart = erasStartSessionIndexLookup[i][1];
-      const currentEraSessionEnd = i + 1 < erasStartSessionIndexLookup.length ? erasStartSessionIndexLookup[i + 1][1] - 1 : undefined;
-
-      if (currentEraSessionStart <= session && currentEraSessionEnd && session <= currentEraSessionEnd) {
-        return eraIndex;
-      }
-    }
-
-    const lastErasStartSessionIndexLookup = erasStartSessionIndexLookup.length - 1;
-
-    return erasStartSessionIndexLookup[lastErasStartSessionIndexLookup][0];
-  }
-
-  const sessionEra = useMemo((): SessionEra | undefined => {
-    if (currentSession && erasStartSessionIndex && currentEra) {
-      if (inputSession) {
-        return { currentSessionMode: false, era: calculateEra(inputSession, erasStartSessionIndex), session: inputSession };
-      } else {
-        return { currentSessionMode: true, era: currentEra, session: currentSession };
-      }
-    }
-
-    return undefined;
-  }, [inputSession, currentEra, currentSession, erasStartSessionIndex]);
 
   if (!api.runtimeChain.toString().includes('Aleph Zero')) {
     return (
@@ -149,12 +95,17 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
     );
   }
 
+  if (!sessionEra) {
+    return (
+      <Spinner label={'loading data'} />
+    );
+  }
+
   return (
-    <div>
-      {!sessionEra && <Spinner label={'loading data'} />}
-      {sessionEra &&
-        <section>
-          <Input
+    <>
+       <section className='performance--actionrow'>
+         <div className='performance--actionrow-value'>
+           <Input
             autoFocus
             help={help}
             isError={!parsedSessionNumber}
@@ -162,14 +113,25 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
             onChange={_onChangeKey}
             onEnter={_onAdd}
           />
-          <Performance
-            favorites={favorites}
-            sessionEra={sessionEra}
-            toggleFavorite={toggleFavorite}
-          />
-        </section>
-      }
-    </div>);
+        </div>
+         <div className='performance--actionrow-buttons'>
+           <Button
+             icon='play'
+             isDisabled={!parsedSessionNumber}
+             onClick={_onAdd}
+           />
+         </div>
+         </section>
+         <section>
+         <Performance
+           favorites={favorites}
+           sessionEra={sessionEra}
+           toggleFavorite={toggleFavorite}
+         />
+       </section>
+    </>
+  );
 }
 
 export default React.memo(PerformancePage);
+
