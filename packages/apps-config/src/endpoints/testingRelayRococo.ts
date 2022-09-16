@@ -40,10 +40,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
-    paraId: 3026,
+    paraId: 2119,
     text: 'Bajun Network',
     providers: {
-      // AjunaNetwork: 'wss://rpc-rococo.bajun.network' // https://github.com/polkadot-js/apps/issues/7593
+      AjunaNetwork: 'wss://rpc-rococo.bajun.network'
     }
   },
   {
