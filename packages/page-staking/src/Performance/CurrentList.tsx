@@ -14,24 +14,36 @@ import Address from './Address';
 interface Props {
   className?: string;
   toggleFavorite: (address: string) => void;
+  favorites: string[];
   session: number;
   validatorPerformances: ValidatorPerformance[];
 }
 
-function sortValidatorsByFavourites (validatorPerformances: ValidatorPerformance[]): ValidatorPerformance[] {
+interface ValidatorPerformanceExtended {
+  validatorPerformance: ValidatorPerformance;
+  isFavourite: boolean;
+}
+
+function sortValidatorsByFavourites (validatorPerformances: ValidatorPerformanceExtended[]): ValidatorPerformanceExtended[] {
   return validatorPerformances
-    .sort(({ isFavourite: favA }: ValidatorPerformance, { isFavourite: favB }: ValidatorPerformance): number => {
+    .sort(({ isFavourite: favA }, { isFavourite: favB }): number => {
       return favA === favB ? 0 : (favA ? -1 : 1);
     });
 }
 
-function getFiltered (displayOnlyCommittee: boolean, validatorPerformances: ValidatorPerformance[]) {
+function getFiltered (displayOnlyCommittee: boolean, validatorPerformances: ValidatorPerformance[], favorites: string[]) {
   const validators = displayOnlyCommittee ? validatorPerformances.filter((performance) => performance.isCommittee) : validatorPerformances;
 
-  return sortValidatorsByFavourites(validators);
+  return sortValidatorsByFavourites(validators.map((validatorPerformance) => {
+      return {
+        isFavourite: !!favorites.find(([id]) => id === validatorPerformance.accountId),
+        validatorPerformance: validatorPerformance,
+      };
+    }
+  ));
 }
 
-function CurrentList ({ className, toggleFavorite, validatorPerformances }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, toggleFavorite, favorites, validatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
   const [displayOnlyCommittee, setDisplayOnlyCommittee] = useState(true);
@@ -39,7 +51,7 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
   const isLoading = useLoadingDelay();
 
   const validators = useMemo(
-    () => getFiltered(displayOnlyCommittee, validatorPerformances),
+    () => getFiltered(displayOnlyCommittee, validatorPerformances, favorites),
     [validatorPerformances, displayOnlyCommittee]
   );
 
@@ -109,13 +121,13 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
     >
       {list.map((performance): React.ReactNode => (
         <Address
-          address={performance.accountId}
-          blocksCreated={performance.blockCount}
-          blocksTarget={performance.expectedBlockCount}
+          address={performance.validatorPerformance.accountId}
+          blocksCreated={performance.validatorPerformance.blockCount}
+          blocksTarget={performance.validatorPerformance.expectedBlockCount}
           filterName={nameFilter}
           isFavorite={performance.isFavourite}
-          key={performance.accountId}
-          rewardPercentage={calculatePercentReward(performance.blockCount, performance.expectedBlockCount).toFixed(1)}
+          key={performance.validatorPerformance.accountId}
+          rewardPercentage={calculatePercentReward(performance.validatorPerformance.blockCount, performance.validatorPerformance.expectedBlockCount).toFixed(1)}
           toggleFavorite={toggleFavorite}
         />
       ))}

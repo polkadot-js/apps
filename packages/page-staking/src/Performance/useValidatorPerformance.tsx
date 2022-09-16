@@ -5,26 +5,26 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { DeriveEraExposure } from '@polkadot/api-derive/types';
 import {createNamedHook, useApi, useCall} from '@polkadot/react-hooks';
-import { StorageKey } from '@polkadot/types';
-import { Hash } from '@polkadot/types/interfaces';
+import {StorageKey} from '@polkadot/types';
+import {Hash} from '@polkadot/types/interfaces';
 import { AnyTuple, Codec } from '@polkadot/types/types';
 
 import { SessionEra } from './index';
-
-interface Props {
-  favorites: string[];
-  sessionEra: SessionEra,
-}
 
 export interface ValidatorPerformance {
   accountId: string,
   blockCount: number,
   expectedBlockCount: number,
   isCommittee: boolean;
-  isFavourite: boolean,
 }
 
-function useValidatorPerformanceImpl ({ favorites, sessionEra }: Props): [ValidatorPerformance[], string[], undefined | boolean]{
+export interface SessionValidatorPerformance {
+  sessionId: number,
+  isPalletElectionsSupported: boolean | undefined,
+  validatorPerformances: ValidatorPerformance[],
+}
+
+function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionValidatorPerformance[]{
   const { api } = useApi();
 
   const [validatorPerformances, setValidatorPerformances] = useState<ValidatorPerformance[]>([]);
@@ -38,6 +38,40 @@ function useValidatorPerformanceImpl ({ favorites, sessionEra }: Props): [Valida
   const [sessionValidatorBlockCountLookup, setSessionValidatorBlockCountLookup] = useState<[string, number][]>([]);
 
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
+
+  // useEffect((): () => void => {
+  //   let unsub: (() => void) | undefined;
+  //
+  //   if (mountedRef.current && nominees && nominees.length && indexes) {
+  //     api
+  //       .queryMulti(
+  //         [[api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>]
+  //           .concat(
+  //             api.query.staking.erasStakers
+  //               ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
+  //               : nominees.map((id) => [api.query.staking.stakers, id])
+  //           )
+  //           .concat(
+  //             nominees.map((id) => [api.query.staking.slashingSpans, id])
+  //           ),
+  //         ([optNominators, ...exposuresAndSpans]: [Option<Nominations>, ...(Exposure | Option<SlashingSpans>)[]]): void => {
+  //           const exposures = exposuresAndSpans.slice(0, nominees.length) as Exposure[];
+  //           const slashes = exposuresAndSpans.slice(nominees.length) as Option<SlashingSpans>[];
+  //
+  //           mountedRef.current && setState(
+  //             extractState(api, stashId, slashes, nominees, indexes, optNominators.unwrapOrDefault().submittedIn, exposures)
+  //           );
+  //         }
+  //       )
+  //       .then((_unsub): void => {
+  //         unsub = _unsub;
+  //       }).catch(console.error);
+  //   }
+  //
+  //   return (): void => {
+  //     unsub && unsub();
+  //   };
+  // }, [api, indexes, mountedRef, nominees, stashId]);
 
   const eraExposure = useCall<DeriveEraExposure>(api.derive.staking.eraExposure, [sessionEra.era]);
 
@@ -185,20 +219,16 @@ function useValidatorPerformanceImpl ({ favorites, sessionEra }: Props): [Valida
   function getValidatorPerformance (validator: string,
     sessionValidatorBlockCountLookup: [string, number][],
     expectedSessionValidatorBlockCount: [string, number][],
-    favorites: string[],
     isCommittee: boolean): ValidatorPerformance {
     const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
     const count = maybeCount ? maybeCount[1] : 0;
     const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
     const expectedBlockCount = maybeExpectedBlockCount ? maybeExpectedBlockCount[1] : 0;
-    const isFavourite = !!favorites.find((value) => validator === value);
-
     return {
       accountId: validator,
       blockCount: count,
       expectedBlockCount,
       isCommittee,
-      isFavourite
     };
   }
 
@@ -208,21 +238,19 @@ function useValidatorPerformanceImpl ({ favorites, sessionEra }: Props): [Valida
     const nonCommitteePerformances = nonCommittee.map((validator) => getValidatorPerformance(validator,
       sessionValidatorBlockCountLookup,
       expectedSessionValidatorBlockCount,
-      favorites,
       false));
     const committeePerformances = committee.map((validator) => getValidatorPerformance(validator,
       sessionValidatorBlockCountLookup,
       expectedSessionValidatorBlockCount,
-      favorites,
       true));
 
     setValidatorPerformances(committeePerformances.concat(nonCommitteePerformances));
   },
-  [committee, eraValidators, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount, favorites]
+  [committee, eraValidators, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount]
 
   );
 
-  return [validatorPerformances, committee, isPalletElectionsSupported];
+  return [{ sessionId: sessionEra.session, isPalletElectionsSupported, validatorPerformances}];
 }
 
-export default createNamedHook('useValidatorPerformance', useValidatorPerformanceImpl);
+export default createNamedHook('useSessionValidatorPerformance', useSessionValidatorPerformanceImpl);

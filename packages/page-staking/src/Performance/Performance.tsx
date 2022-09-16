@@ -9,10 +9,10 @@ import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
 import { SessionEra } from './index';
 import Summary from './Summary';
-import useValidatorPerformance from "@polkadot/app-staking/Performance/useValidatorPerformance";
+import useSessionValidatorPerformance from './useValidatorPerformance';
 
 interface Props {
-  favorites: string[];
+  favorites: string[],
   toggleFavorite: (address: string) => void;
   sessionEra: SessionEra,
 }
@@ -22,12 +22,13 @@ export interface ValidatorPerformance {
   blockCount: number,
   expectedBlockCount: number,
   isCommittee: boolean;
-  isFavourite: boolean,
 }
 
 function Performance ({ favorites, sessionEra, toggleFavorite }: Props): React.ReactElement<Props>  {
 
-  const [validatorPerformances, committee, isPalletElectionsSupported] = useValidatorPerformance({favorites, sessionEra});
+  const sessionValidatorPerformance = useSessionValidatorPerformance(sessionEra)[0];
+  const isPalletElectionsSupported = sessionValidatorPerformance.isPalletElectionsSupported;
+  const validatorPerformances = sessionValidatorPerformance.validatorPerformances;
 
   return (
     <div className='staking--Performance'>
@@ -40,7 +41,7 @@ function Performance ({ favorites, sessionEra, toggleFavorite }: Props): React.R
       {isPalletElectionsSupported &&
          (<>
            <Summary
-             committee={committee}
+             committee={validatorPerformances.filter((perf) => perf.isCommittee).map((perf) => perf.accountId)}
              era={sessionEra.era}
              session={sessionEra.session}
              validatorPerformances={validatorPerformances}
@@ -49,6 +50,7 @@ function Performance ({ favorites, sessionEra, toggleFavorite }: Props): React.R
            <CurrentList
              session={sessionEra.session}
              toggleFavorite={toggleFavorite}
+             favorites={favorites}
              validatorPerformances={validatorPerformances}
            />
          </>)}

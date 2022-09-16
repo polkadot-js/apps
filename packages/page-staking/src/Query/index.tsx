@@ -37,7 +37,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       return [];
     }, [currentSession, currentEra]
   );
-  
+
   const _onQuery = useCallback(
     (): void => {
       if (validatorId) {
