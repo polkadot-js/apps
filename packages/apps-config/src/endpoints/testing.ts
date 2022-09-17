@@ -518,7 +518,7 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+      // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     }
   },
   {
