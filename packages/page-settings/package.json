@@ -13,7 +13,7 @@
   "type": "module",
   "version": "0.121.2-53-x",
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
+    "@babel/runtime": "^7.19.0",
     "@polkadot/apps-config": "^0.121.2-53-x",
     "@polkadot/react-components": "^0.121.2-53-x",
     "@polkadot/react-query": "^0.121.2-53-x",

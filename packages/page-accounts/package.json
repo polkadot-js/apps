@@ -13,13 +13,13 @@
   "type": "module",
   "version": "0.121.2-53-x",
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
-    "@polkadot/hw-ledger": "^10.1.7",
-    "@polkadot/phishing": "^0.18.7",
+    "@babel/runtime": "^7.19.0",
+    "@polkadot/hw-ledger": "^10.1.8",
+    "@polkadot/phishing": "^0.18.8",
     "@polkadot/react-components": "^0.121.2-53-x",
     "@polkadot/react-hooks": "^0.121.2-53-x",
-    "@polkadot/util": "^10.1.7",
-    "@polkadot/vanitygen": "^0.52.7",
+    "@polkadot/util": "^10.1.8",
+    "@polkadot/vanitygen": "^0.52.8",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
