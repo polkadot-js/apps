@@ -77,7 +77,7 @@ export const testChains: EndpointOption[] = [
     info: 'bifrost',
     text: 'Bifrost Stage Network',
     providers: {
-      Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
+      // Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/8139
     }
   },
   {
