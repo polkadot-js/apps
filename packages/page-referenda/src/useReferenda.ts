@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import useReferendaIds from './useReferendaIds';
+import useTracks from './useTracks';
 
 const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
 
@@ -64,19 +65,38 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
+function getResult (referenda: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): Referendum[] | undefined {
+  if (tracks) {
+    for (let i = 0; i < referenda.length; i++) {
+      if (referenda[i].info.isOngoing) {
+        const track = tracks.find(([id]) => id.eq(referenda[i].info.asOngoing.track));
+
+        if (track) {
+          referenda[i].track = track[1];
+        }
+      }
+    }
+  }
+
+  return referenda;
+}
+
 function useReferendaImpl (palletReferenda: PalletReferenda): [Referendum[] | undefined, [BN, PalletReferendaTrackInfo][] | undefined] {
   const { api, isApiReady } = useApi();
   const ids = useReferendaIds(palletReferenda);
+  const tracks = useTracks(palletReferenda);
   const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
     () => [
-      ids && ids.length === 0
-        ? undefined
-        : referenda,
-      api.consts[palletReferenda as 'referenda'] && api.consts[palletReferenda as 'referenda'].tracks
+      (ids && ids.length === 0)
+        ? []
+        : referenda
+          ? getResult(referenda, tracks)
+          : undefined,
+      tracks
     ],
-    [ids, referenda, api, palletReferenda]
+    [ids, referenda, tracks]
   );
 }
 

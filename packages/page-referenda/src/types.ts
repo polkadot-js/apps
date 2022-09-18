@@ -13,6 +13,7 @@ export interface Referendum {
   info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally;
   isConvictionVote: boolean;
   key: string;
+  track?: PalletReferendaTrackInfo;
 }
 
 export interface ReferendumProps {
@@ -20,7 +21,6 @@ export interface ReferendumProps {
   isMember: boolean;
   members?: string[];
   palletVote: PalletVote;
-  tracks?: [BN, PalletReferendaTrackInfo][];
   value: Referendum;
 }
 
