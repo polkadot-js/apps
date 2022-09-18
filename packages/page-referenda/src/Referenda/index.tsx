@@ -26,7 +26,7 @@ interface Props {
 function Referenda ({ className, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const referenda = useReferenda(palletReferenda);
+  const [referenda, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, referenda);
 
   const isMember = useMemo(
@@ -53,6 +53,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
             key={r.key}
             members={members}
             palletVote={palletVote}
+            tracks={tracks}
             value={r}
           />
         ))}

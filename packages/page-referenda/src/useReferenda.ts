@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
+import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda, Referendum } from './types';
 
@@ -64,16 +64,19 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function useReferendaImpl (palletReferenda: PalletReferenda): Referendum[] | undefined {
+function useReferendaImpl (palletReferenda: PalletReferenda): [Referendum[] | undefined, [BN, PalletReferendaTrackInfo][] | undefined] {
   const { api, isApiReady } = useApi();
   const ids = useReferendaIds(palletReferenda);
   const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
-    () => ids && ids.length === 0
-      ? []
-      : referenda,
-    [ids, referenda]
+    () => [
+      ids && ids.length === 0
+        ? undefined
+        : referenda,
+      api.consts[palletReferenda as 'referenda'] && api.consts[palletReferenda as 'referenda'].tracks
+    ],
+    [ids, referenda, api, palletReferenda]
   );
 }
 
