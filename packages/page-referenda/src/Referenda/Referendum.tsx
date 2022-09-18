@@ -15,7 +15,7 @@ const Components: Record<string, React.ComponentType<Props>> = {
 };
 
 function Referendum (props: Props): React.ReactElement<Props> {
-  const { className, value: { id, info } } = props;
+  const { className, value: { id, info, track } } = props;
 
   const Component = useMemo(
     () => Components[info.type] || Other,
@@ -26,6 +26,9 @@ function Referendum (props: Props): React.ReactElement<Props> {
     <tr className={className}>
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
+      </td>
+      <td className='number'>
+        {track && track.name.toString()}
       </td>
       <td>
         <textarea
