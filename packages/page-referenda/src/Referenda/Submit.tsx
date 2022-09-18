@@ -1,7 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { PalletReferenda } from '../types';
 
 import React, { useCallback, useState } from 'react';
 
@@ -14,7 +16,10 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  members?: string[];
   onClose: () => void;
+  palletReferenda: PalletReferenda;
+  tracks: [BN, PalletReferendaTrackInfo][];
 }
 
 interface HashState {
@@ -22,7 +27,7 @@ interface HashState {
   isHashValid: boolean;
 }
 
-function Propose ({ className = '', onClose }: Props): React.ReactElement<Props> {
+function Submit ({ className = '', members, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -47,6 +52,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
       <Modal.Content>
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
+            filter={members}
             help={t<string>('The account you want to register the proposal from')}
             label={t<string>('send from account')}
             labelExtra={
@@ -104,4 +110,4 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(Propose);
+export default React.memo(Submit);
