@@ -326,6 +326,15 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
     }
+  },
+  {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
+    }
   }
 ];
 
