@@ -1,15 +1,19 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RawParam } from '@polkadot/react-params/types';
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
-import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
+import { getTypeDef } from '@polkadot/types/create';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -27,20 +31,41 @@ interface HashState {
   isHashValid: boolean;
 }
 
-function Submit ({ className = '', members, onClose }: Props): React.ReactElement<Props> | null {
+function Submit ({ className = '', members, onClose, palletReferenda }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [balance, setBalance] = useState<BN | undefined>();
+  // const [track, setTrack] = useState<number | undefined>();
+  const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
-  const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
 
-  const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
+  const originType = useMemo(
+    () => [{
+      type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[0].type.toString())
+    }],
+    [api, palletReferenda]
+  );
+
+  // Idially we would just like to use the track - need a mapping for these
+  // const trackOpts = useMemo(
+  //   () => tracks.map(([id, track]) => ({
+  //     text: track.name.toString(),
+  //     value: id.toNumber()
+  //   })),
+  //   [tracks]
+  // );
+
+  const _onChangeOrigin = useCallback(
+    ([{ isValid, value }]: RawParam[]) =>
+      setOrigin(isValid ? value : null),
     []
   );
 
-  const hasMinLocked = balance?.gte(api.consts.democracy.minimumDeposit);
+  const _onChangeHash = useCallback(
+    (hash?: string) =>
+      setHash({ hash, isHashValid: isHex(hash, 256) }),
+    []
+  );
 
   return (
     <Modal
@@ -75,19 +100,16 @@ function Submit ({ className = '', members, onClose }: Props): React.ReactElemen
             value={hash}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
-          <InputBalance
-            defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The locked value for this proposal')}
-            isError={!hasMinLocked}
-            label={t<string>('locked balance')}
-            onChange={setBalance}
-          />
-          <InputBalance
-            defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The minimum deposit required')}
-            isDisabled
-            label={t<string>('minimum deposit')}
+        <Modal.Columns hint={t<string>('The track you wish to submit for, each has a different period, different root and acceptance criteria.')}>
+          {/* <Dropdown
+            label={t<string>('submission track')}
+            onChange={setTrack}
+            options={trackOpts}
+          /> */}
+          <Params
+            className='originSelect'
+            onChange={_onChangeOrigin}
+            params={originType}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -95,19 +117,21 @@ function Submit ({ className = '', members, onClose }: Props): React.ReactElemen
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps}
+          isDisabled={!origin || !isHashValid || !accountId}
           label={t<string>('Submit proposal')}
           onStart={onClose}
-          params={
-            api.tx.democracy.propose.meta.args.length === 3
-              ? [hash, balance, publicProps?.length]
-              : [hash, balance]
-          }
-          tx={api.tx.democracy.propose}
+          params={[origin, hash]}
+          tx={api.tx[palletReferenda as 'referenda'].submit}
         />
       </Modal.Actions>
     </Modal>
   );
 }
 
-export default React.memo(Submit);
+export default React.memo(styled(Submit)`
+  .originSelect {
+    > .ui--Params-Content {
+      padding-left: 0;
+    }
+  }
+`);
