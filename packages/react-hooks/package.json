@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.121.2-55-x",
+  "version": "0.121.2-56-x",
   "dependencies": {
     "@babel/runtime": "^7.19.0",
     "@darwinia/types": "^2.8.9",
