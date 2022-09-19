@@ -10,11 +10,11 @@ import { createNamedHook } from '@polkadot/react-hooks';
 import useReferenda from './useReferenda';
 
 export function useCounterNamed (palletReferenda: PalletReferenda): number {
-  const refs = useReferenda(palletReferenda);
+  const [referanda] = useReferenda(palletReferenda);
 
   return useMemo(
-    () => (refs && refs.filter(({ info }) => info.isOngoing).length) || 0,
-    [refs]
+    () => (referanda && referanda.filter(({ info }) => info.isOngoing).length) || 0,
+    [referanda]
   );
 }
 

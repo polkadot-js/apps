@@ -63,6 +63,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           <Input
             autoFocus
             help={t<string>('The preimage hash of the proposal')}
+            isError={!isHashValid}
             label={t<string>('preimage hash')}
             onChange={_onChangeHash}
             value={hash}
