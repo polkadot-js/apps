@@ -30,12 +30,12 @@ function Referendum (props: Props): React.ReactElement<Props> {
       <td className='number'>
         {track && track.name.toString()}
       </td>
-      <td>
+      {/* <td>
         <textarea
           rows={8}
           style={{ width: 512 }}
         >{JSON.stringify(info.toHuman(), null, 2)}</textarea>
-      </td>
+      </td> */}
       <Component {...props} />
     </tr>
   );

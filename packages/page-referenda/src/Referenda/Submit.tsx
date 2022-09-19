@@ -37,12 +37,18 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
   const [accountId, setAccountId] = useState<string | null>(null);
   // const [track, setTrack] = useState<number | undefined>();
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
+  const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
 
-  const originType = useMemo(
-    () => [{
-      type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[0].type.toString())
-    }],
+  const [originType, atAfterType] = useMemo(
+    () => [
+      [{
+        type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[0].type.toString())
+      }],
+      [{
+        type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[2].type.toString())
+      }]
+    ],
     [api, palletReferenda]
   );
 
@@ -58,6 +64,12 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
   const _onChangeOrigin = useCallback(
     ([{ isValid, value }]: RawParam[]) =>
       setOrigin(isValid ? value : null),
+    []
+  );
+
+  const _onChangeAtAfter = useCallback(
+    ([{ isValid, value }]: RawParam[]) =>
+      setAtAfter(isValid ? value : null),
     []
   );
 
@@ -100,7 +112,7 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
             value={hash}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The track you wish to submit for, each has a different period, different root and acceptance criteria.')}>
+        <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
           {/* <Dropdown
             label={t<string>('submission track')}
             onChange={setTrack}
@@ -112,15 +124,22 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
             params={originType}
           />
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a sp[ecific block.')}>
+          <Params
+            className='timeSelect'
+            onChange={_onChangeAtAfter}
+            params={atAfterType}
+          />
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!origin || !isHashValid || !accountId}
+          isDisabled={!origin || !atAfter || !isHashValid || !accountId}
           label={t<string>('Submit proposal')}
           onStart={onClose}
-          params={[origin, hash]}
+          params={[origin, hash, atAfter]}
           tx={api.tx[palletReferenda as 'referenda'].submit}
         />
       </Modal.Actions>
@@ -129,7 +148,7 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
 }
 
 export default React.memo(styled(Submit)`
-  .originSelect {
+  .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
     }
