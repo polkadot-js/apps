@@ -77,7 +77,7 @@ export const testChains: EndpointOption[] = [
     info: 'bifrost',
     text: 'Bifrost Stage Network',
     providers: {
-      Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
+      // Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/8139
     }
   },
   {
@@ -340,7 +340,7 @@ export const testChains: EndpointOption[] = [
     info: 'minix',
     text: 'MiniX Testnet',
     providers: {
-      Chainx: 'wss://minichain.coming.chat/ws'
+      // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     }
   },
   {
@@ -518,7 +518,7 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+      // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     }
   },
   {
