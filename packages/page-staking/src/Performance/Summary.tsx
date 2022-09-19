@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-staking/Performance/SummarySession';
@@ -9,31 +9,33 @@ import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { ValidatorPerformance } from './Performance';
+import {EraValidatorPerformance} from "@polkadot/app-staking/Performance/Performance";
 
 interface Props {
   className?: string;
-  validatorPerformances: ValidatorPerformance[];
+  eraValidatorPerformances: EraValidatorPerformance[];
   era: number;
   session: number;
 }
 
-function Summary ({ className = '', era, session, validatorPerformances }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', era, session, eraValidatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
-  const committeeLength = validatorPerformances.filter((performance) => performance.isCommittee).length;
+  const committeeLength = useMemo(() => {
+    return eraValidatorPerformances.filter((perf) => perf.isCommittee).length;
+    }, [eraValidatorPerformances]
+  );
 
   return (
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('era validators')}>
-          {validatorPerformances.length
-            ? <>{formatNumber(validatorPerformances.length)}</>
+          {eraValidatorPerformances.length
+            ? <>{formatNumber(eraValidatorPerformances.length)}</>
             : <Spinner noLabel />
           }
         </CardSummary>
         <CardSummary label={t<string>('committee size')}>
-          {committeeLength > 0
+          {committeeLength
             ? <>{formatNumber(committeeLength)}</>
             : <Spinner noLabel />
           }

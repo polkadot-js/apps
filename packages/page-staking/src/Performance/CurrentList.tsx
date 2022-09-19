@@ -3,47 +3,47 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 
-import { ValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
 import { Table, Toggle } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
 import Address from './Address';
+import {EraValidatorPerformance} from "@polkadot/app-staking/Performance/Performance";
 
 interface Props {
   className?: string;
   toggleFavorite: (address: string) => void;
   favorites: string[];
   session: number;
-  validatorPerformances: ValidatorPerformance[];
+  eraValidatorPerformances: EraValidatorPerformance[];
 }
 
-interface ValidatorPerformanceExtended {
-  validatorPerformance: ValidatorPerformance;
+interface EraValidatorPerformanceExtended {
+  eraValidatorPerformance: EraValidatorPerformance;
   isFavourite: boolean;
 }
 
-function sortValidatorsByFavourites (validatorPerformances: ValidatorPerformanceExtended[]): ValidatorPerformanceExtended[] {
+function sortValidatorsByFavourites (validatorPerformances: EraValidatorPerformanceExtended[]): EraValidatorPerformanceExtended[] {
   return validatorPerformances
     .sort(({ isFavourite: favA }, { isFavourite: favB }): number => {
       return favA === favB ? 0 : (favA ? -1 : 1);
     });
 }
 
-function getFiltered (displayOnlyCommittee: boolean, validatorPerformances: ValidatorPerformance[], favorites: string[]) {
-  const validators = displayOnlyCommittee ? validatorPerformances.filter((performance) => performance.isCommittee) : validatorPerformances;
+function getFiltered (displayOnlyCommittee: boolean, eraValidatorPerformances: EraValidatorPerformance[], favorites: string[]) {
+  const validators = displayOnlyCommittee ? eraValidatorPerformances.filter((performance) => performance.isCommittee) : eraValidatorPerformances;
 
   return sortValidatorsByFavourites(validators.map((validatorPerformance) => {
       return {
-        isFavourite: !!favorites.find(([id]) => id === validatorPerformance.accountId),
-        validatorPerformance: validatorPerformance,
+        isFavourite: !!favorites.find(([id]) => id === validatorPerformance.validatorPerformance.accountId),
+        eraValidatorPerformance: validatorPerformance,
       };
     }
   ));
 }
 
-function CurrentList ({ className, toggleFavorite, favorites, validatorPerformances }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, toggleFavorite, favorites, eraValidatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
   const [displayOnlyCommittee, setDisplayOnlyCommittee] = useState(true);
@@ -51,8 +51,8 @@ function CurrentList ({ className, toggleFavorite, favorites, validatorPerforman
   const isLoading = useLoadingDelay();
 
   const validators = useMemo(
-    () => getFiltered(displayOnlyCommittee, validatorPerformances, favorites),
-    [validatorPerformances, displayOnlyCommittee]
+    () => getFiltered(displayOnlyCommittee, eraValidatorPerformances, favorites),
+    [eraValidatorPerformances, displayOnlyCommittee]
   );
 
   const list = useMemo(
@@ -119,15 +119,15 @@ function CurrentList ({ className, toggleFavorite, favorites, validatorPerforman
       }
       header={headerRef.current}
     >
-      {list.map((performance): React.ReactNode => (
+      {list.map(({eraValidatorPerformance, isFavourite}): React.ReactNode => (
         <Address
-          address={performance.validatorPerformance.accountId}
-          blocksCreated={performance.validatorPerformance.blockCount}
-          blocksTarget={performance.validatorPerformance.expectedBlockCount}
+          address={eraValidatorPerformance.validatorPerformance.accountId}
+          blocksCreated={eraValidatorPerformance.validatorPerformance.blockCount}
+          blocksTarget={eraValidatorPerformance.validatorPerformance.expectedBlockCount}
           filterName={nameFilter}
-          isFavorite={performance.isFavourite}
-          key={performance.validatorPerformance.accountId}
-          rewardPercentage={calculatePercentReward(performance.validatorPerformance.blockCount, performance.validatorPerformance.expectedBlockCount).toFixed(1)}
+          isFavorite={isFavourite}
+          key={eraValidatorPerformance.validatorPerformance.accountId}
+          rewardPercentage={calculatePercentReward(eraValidatorPerformance.validatorPerformance.blockCount, eraValidatorPerformance.validatorPerformance.expectedBlockCount).toFixed(1)}
           toggleFavorite={toggleFavorite}
         />
       ))}

@@ -9,7 +9,7 @@ import { Button, InputAddressSimple } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Validator from './Validator';
 import useCurrentSessionInfo from "@polkadot/app-staking/Performance/useCurrentSessionInfo";
-import useValidatorPerformance, { ValidatorPerformance } from "@polkadot/app-staking/Performance/useValidatorPerformance";
+import useValidatorPerformance, { ValidatorPerformance } from "@polkadot/app-staking/Performance/useCommitteePerformance";
 import useEra from "@polkadot/app-staking/Performance/useEra";
 
 

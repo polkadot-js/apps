@@ -3,31 +3,27 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { DeriveEraExposure } from '@polkadot/api-derive/types';
-import {createNamedHook, useApi, useCall} from '@polkadot/react-hooks';
+import {createNamedHook, useApi} from '@polkadot/react-hooks';
 import {StorageKey} from '@polkadot/types';
 import {Hash} from '@polkadot/types/interfaces';
 import { AnyTuple, Codec } from '@polkadot/types/types';
-
-import { SessionEra } from './index';
 
 export interface ValidatorPerformance {
   accountId: string,
   blockCount: number,
   expectedBlockCount: number,
-  isCommittee: boolean;
 }
 
-export interface SessionValidatorPerformance {
+export interface SessionCommitteePerformance {
   sessionId: number,
   isPalletElectionsSupported: boolean | undefined,
-  validatorPerformances: ValidatorPerformance[],
+  performance: ValidatorPerformance[],
 }
 
-function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionValidatorPerformance[]{
+function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitteePerformance[]{
   const { api } = useApi();
 
-  const [validatorPerformances, setValidatorPerformances] = useState<ValidatorPerformance[]>([]);
+  const [committeeMemberPerformances, setCommitteeMemberPerformances] = useState<ValidatorPerformance[]>([]);
   const [committee, setCommittee] = useState<string[]>([]);
 
   const [firstBlockInSessionHash, setFirstBlockInSessionHash] = useState<Hash | undefined>(undefined);
@@ -39,54 +35,9 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
 
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
-  // useEffect((): () => void => {
-  //   let unsub: (() => void) | undefined;
-  //
-  //   if (mountedRef.current && nominees && nominees.length && indexes) {
-  //     api
-  //       .queryMulti(
-  //         [[api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>]
-  //           .concat(
-  //             api.query.staking.erasStakers
-  //               ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
-  //               : nominees.map((id) => [api.query.staking.stakers, id])
-  //           )
-  //           .concat(
-  //             nominees.map((id) => [api.query.staking.slashingSpans, id])
-  //           ),
-  //         ([optNominators, ...exposuresAndSpans]: [Option<Nominations>, ...(Exposure | Option<SlashingSpans>)[]]): void => {
-  //           const exposures = exposuresAndSpans.slice(0, nominees.length) as Exposure[];
-  //           const slashes = exposuresAndSpans.slice(nominees.length) as Option<SlashingSpans>[];
-  //
-  //           mountedRef.current && setState(
-  //             extractState(api, stashId, slashes, nominees, indexes, optNominators.unwrapOrDefault().submittedIn, exposures)
-  //           );
-  //         }
-  //       )
-  //       .then((_unsub): void => {
-  //         unsub = _unsub;
-  //       }).catch(console.error);
-  //   }
-  //
-  //   return (): void => {
-  //     unsub && unsub();
-  //   };
-  // }, [api, indexes, mountedRef, nominees, stashId]);
-
-  const eraExposure = useCall<DeriveEraExposure>(api.derive.staking.eraExposure, [sessionEra.era]);
-
-  const eraValidators = useMemo(() => {
-    if (eraExposure?.validators) {
-      return Object.keys(eraExposure?.validators);
-    }
-
-    return [];
-  }, [eraExposure]
-  );
-
   useEffect(() => {
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-    const firstBlockInSession = sessionEra.session * sessionPeriod;
+    const firstBlockInSession = sessions[0] * sessionPeriod;
 
     api.rpc.chain
       .getBlockHash(firstBlockInSession)
@@ -95,7 +46,7 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
       })
       .catch(console.error);
   },
-  [api, sessionEra]
+  [api, sessions[0]]
   );
 
   useEffect(() => {
@@ -109,19 +60,18 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
   }, [api, firstBlockInSessionHash]);
 
   useEffect(() => {
-    if (!sessionEra.currentSessionMode) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const lastBlockInSession = (sessionEra.session + 1) * sessionPeriod - 1;
+      const lastBlockInSession = (sessions[0] + 1) * sessionPeriod - 1;
 
       api.rpc.chain
         .getBlockHash(lastBlockInSession)
         .then((result): void => {
-          setLastBlockInSessionHash(result);
+          !result.isEmpty && setLastBlockInSessionHash(result);
         })
         .catch(console.error);
-    }
+
   },
-  [api, sessionEra]
+  [api, sessions[0]]
   );
 
   useEffect(() => {
@@ -152,7 +102,8 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
   }
 
   useEffect(() => {
-    if (lastBlockInSessionHash && firstSessionBlockAuthor) {
+    if (lastBlockInSessionHash  && firstSessionBlockAuthor) {
+      console.log(lastBlockInSessionHash);
       api.at(lastBlockInSessionHash.toString()).then((result) => {
         const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
 
@@ -167,7 +118,7 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (sessionEra.currentSessionMode && firstSessionBlockAuthor) {
+      if (lastBlockInSessionHash === undefined && firstSessionBlockAuthor) {
         api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
         api.query.elections.sessionValidatorBlockCount.entries().then((value) => {
           setSessionValidatorBlockCountLookup(parseSessionBlockCount(value, firstSessionBlockAuthor));
@@ -177,7 +128,7 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [firstSessionBlockAuthor, sessionEra, api]);
+  }, [firstSessionBlockAuthor, sessions[0], api]);
 
   useEffect(() => {
     if (firstBlockInSessionHash) {
@@ -218,8 +169,7 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
 
   function getValidatorPerformance (validator: string,
     sessionValidatorBlockCountLookup: [string, number][],
-    expectedSessionValidatorBlockCount: [string, number][],
-    isCommittee: boolean): ValidatorPerformance {
+    expectedSessionValidatorBlockCount: [string, number][]): ValidatorPerformance {
     const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
     const count = maybeCount ? maybeCount[1] : 0;
     const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
@@ -228,29 +178,21 @@ function useSessionValidatorPerformanceImpl (sessionEra: SessionEra): SessionVal
       accountId: validator,
       blockCount: count,
       expectedBlockCount,
-      isCommittee,
     };
   }
 
   useEffect(() => {
-    const nonCommittee = eraValidators.filter((validator) => !committee.find((value) => validator === value));
-
-    const nonCommitteePerformances = nonCommittee.map((validator) => getValidatorPerformance(validator,
+    const committeeMemberPerformances = committee.map((validator) => getValidatorPerformance(validator,
       sessionValidatorBlockCountLookup,
-      expectedSessionValidatorBlockCount,
-      false));
-    const committeePerformances = committee.map((validator) => getValidatorPerformance(validator,
-      sessionValidatorBlockCountLookup,
-      expectedSessionValidatorBlockCount,
-      true));
-
-    setValidatorPerformances(committeePerformances.concat(nonCommitteePerformances));
+      expectedSessionValidatorBlockCount));
+    console.log(committee);
+    console.log(committeeMemberPerformances);
+    setCommitteeMemberPerformances(committeeMemberPerformances);
   },
-  [committee, eraValidators, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount]
-
+  [committee, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount]
   );
 
-  return [{ sessionId: sessionEra.session, isPalletElectionsSupported, validatorPerformances}];
+  return [{ sessionId: sessions[0], isPalletElectionsSupported, performance: committeeMemberPerformances}];
 }
 
-export default createNamedHook('useSessionValidatorPerformance', useSessionValidatorPerformanceImpl);
+export default createNamedHook('useSessionCommitteePerformance', useSessionCommitteePerformanceImpl);
