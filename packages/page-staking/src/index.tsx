@@ -79,6 +79,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
   const isDarwinia = rpcNetwork.isDarwinia();
+  // console.log(isDarwinia);
 
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
