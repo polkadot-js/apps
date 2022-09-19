@@ -10,11 +10,11 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
-import { isHex } from '@polkadot/util';
+import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -34,11 +34,21 @@ interface HashState {
 function Submit ({ className = '', members, onClose, palletReferenda }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useBestNumber();
   const [accountId, setAccountId] = useState<string | null>(null);
   // const [track, setTrack] = useState<number | undefined>();
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+
+  const isInvalidAt = useMemo(
+    () => !bestNumber || !atAfter || (
+      (atAfter as { At: BN }).At
+        ? (atAfter as { At: BN }).At.lte(bestNumber)
+        : (atAfter as { After: BN }).After.lte(bestNumber)
+    ),
+    [atAfter, bestNumber]
+  );
 
   const [originType, atAfterType] = useMemo(
     () => [
@@ -78,6 +88,8 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
       setHash({ hash, isHashValid: isHex(hash, 256) }),
     []
   );
+
+  console.log(atAfter);
 
   return (
     <Modal
@@ -124,9 +136,10 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
             params={originType}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a sp[ecific block.')}>
+        <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
           <Params
             className='timeSelect'
+            isError={isInvalidAt}
             onChange={_onChangeAtAfter}
             params={atAfterType}
           />
@@ -136,7 +149,7 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!origin || !atAfter || !isHashValid || !accountId}
+          isDisabled={!origin || !atAfter || !isHashValid || !accountId || isInvalidAt}
           label={t<string>('Submit proposal')}
           onStart={onClose}
           params={[origin, hash, atAfter]}

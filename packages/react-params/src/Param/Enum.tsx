@@ -127,6 +127,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}

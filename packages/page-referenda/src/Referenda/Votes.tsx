@@ -40,7 +40,7 @@ function Votes ({ className = '', isConvictionVote, tally }: Props): React.React
               summary={
                 <>
                   {t<string>('Nay')}
-                  <div><FormatBalance value={tally.ayes} /></div>
+                  <div><FormatBalance value={tally.nays} /></div>
                 </>
               }
             />
