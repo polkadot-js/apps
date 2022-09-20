@@ -78,6 +78,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    isUnreachable: true,
+    homepage: 'https://www.bitgreenswiss.org/crowdloan.html',
+    text: 'Bitgreen',
+    paraId: 2048,
+    providers: {
+      Bitgreen: 'wss://bitgreen.org/ws'
+    }
+  },
+  {
     info: 'centrifuge',
     homepage: 'https://centrifuge.io',
     paraId: 2031,
@@ -268,6 +278,16 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       Dwellir: 'wss://eden-rpc.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/nodle'
+    }
+  },
+  {
+    info: 'oak',
+    homepage: 'https://oak.tech',
+    isUnreachable: true,
+    paraId: 2090,
+    text: 'OAK Network',
+    providers: {
+      OAK: 'wss://rpc.oak.tech'
     }
   },
   {

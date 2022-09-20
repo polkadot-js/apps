@@ -98,6 +98,7 @@ const chainMybank = '#282736';
 const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
+const chainOAK = '#A8278C';
 const chainOLI = '#8CC63F';
 const chainOmniBTC = '#6759E9';
 const chainOpal = '#3B9C9D';
@@ -143,6 +144,7 @@ const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0
 const chainSwapdex = '#E94082';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTinker = '#161616';
+const chainTinkerRococo = 'linear-gradient(90deg, rgba(253,52,166,1) 0%, rgba(22,213,239,1) 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
@@ -401,6 +403,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
+  'OAK Network': chainOAK,
   Odyssey: nodeOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -460,6 +463,7 @@ export const chainColors: Record<string, string> = Object.entries({
   swapdex: chainSwapdex,
   t0rn: chainT0rn,
   Tick: chainRoccoTick,
+  'Tinkernet Rococo Testnet': chainTinkerRococo,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,

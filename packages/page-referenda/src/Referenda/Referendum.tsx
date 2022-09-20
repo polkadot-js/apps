@@ -7,25 +7,36 @@ import React, { useMemo } from 'react';
 
 import { formatNumber } from '@polkadot/util';
 
+import Killed from './RefKilled';
 import Ongoing from './RefOngoing';
-import Other from './RefOther';
+import Tuple from './RefTuple';
+import { getTrackName } from './util';
 
 const Components: Record<string, React.ComponentType<Props>> = {
+  Killed,
   Ongoing
 };
 
 function Referendum (props: Props): React.ReactElement<Props> {
-  const { className, value: { id, info } } = props;
+  const { className, value: { id, info, track } } = props;
 
   const Component = useMemo(
-    () => Components[info.type] || Other,
+    () => Components[info.type] || Tuple,
     [info]
+  );
+
+  const trackName = useMemo(
+    () => track && getTrackName(track),
+    [track]
   );
 
   return (
     <tr className={className}>
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
+      </td>
+      <td className='number'>
+        {trackName}
       </td>
       {/* <td>
         <textarea

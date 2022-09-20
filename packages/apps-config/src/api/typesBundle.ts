@@ -33861,7 +33861,7 @@ export const typesBundle = {
             "description": "Returns the route that results in the largest amount out for amount in",
             "params": [
               {
-                "name": "amount_in",
+                "name": "amount",
                 "type": "Balance"
               },
               {
@@ -33871,6 +33871,10 @@ export const typesBundle = {
               {
                 "name": "token_out",
                 "type": "CurrencyId"
+              },
+              {
+                "name": "reversed",
+                "type": "bool"
               },
               {
                 "name": "at",
@@ -36642,7 +36646,7 @@ export const typesBundle = {
             "description": "Returns the route that results in the largest amount out for amount in",
             "params": [
               {
-                "name": "amount_in",
+                "name": "amount",
                 "type": "Balance"
               },
               {
@@ -36652,6 +36656,10 @@ export const typesBundle = {
               {
                 "name": "token_out",
                 "type": "CurrencyId"
+              },
+              {
+                "name": "reversed",
+                "type": "bool"
               },
               {
                 "name": "at",
@@ -40376,6 +40384,84 @@ export const typesBundle = {
         {
           "minmax": [
             10720,
+            10899
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10900,
             null
           ],
           "types": {
@@ -40442,6 +40528,12 @@ export const typesBundle = {
               "_enum": {
                 "X25519": "AccountId32"
               }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
             }
           }
         }
@@ -40479,6 +40571,28 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "ParachainStakingApi": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
               }
             },
             "version": 1
@@ -43486,6 +43600,84 @@ export const typesBundle = {
         {
           "minmax": [
             10720,
+            10899
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10900,
             null
           ],
           "types": {
@@ -43552,6 +43744,12 @@ export const typesBundle = {
               "_enum": {
                 "X25519": "AccountId32"
               }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
             }
           }
         }
@@ -43589,6 +43787,28 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "ParachainStakingApi": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
               }
             },
             "version": 1
@@ -45013,6 +45233,11 @@ export const typesBundle = {
       ]
     },
     "logion": {
+      "alias": {
+        "loAuthorityList": {
+          "StorageVersion": "LoAuthorityListStorageVersion"
+        }
+      },
       "types": [
         {
           "minmax": [
@@ -45232,12 +45457,12 @@ export const typesBundle = {
         {
           "minmax": [
             112,
-            null
+            116
           ],
           "types": {
             "Address": "MultiAddress",
             "LookupSource": "MultiAddress",
-            "PeerId": "(Vec<u8>)",
+            "OpaquePeerId": "Vec<u8>",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "TAssetBalance": "u128",
             "AssetId": "u64",
@@ -45306,7 +45531,8 @@ export const typesBundle = {
                 "V3RequesterEnum",
                 "V4ItemSubmitter",
                 "V5Collection",
-                "V6ItemUpload"
+                "V6ItemUpload",
+                "V7ItemToken"
               ]
             },
             "Requester": {
@@ -45333,6 +45559,137 @@ export const typesBundle = {
             "CollectionItemToken": {
               "token_type": "Vec<u8>",
               "token_id": "Vec<u8>"
+            },
+            "FullIdentification": "Exposure",
+            "IdentificationTuple": "(ValidatorId, FullIdentification)",
+            "MembershipProof": {
+              "session": "SessionIndex",
+              "trieNodes": "Vec<Vec<u8>>",
+              "validatorCount": "ValidatorCount"
+            },
+            "SessionIndex": "u32",
+            "ValidatorCount": "u32",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "Keys": "SessionKeys2"
+          }
+        },
+        {
+          "minmax": [
+            117,
+            null
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "OpaquePeerId": "Vec<u8>",
+            "AccountInfo": "AccountInfoWithDualRefCount",
+            "TAssetBalance": "u128",
+            "AssetId": "u64",
+            "AssetDetails": {
+              "owner": "AccountId",
+              "issuer": "AccountId",
+              "admin": "AccountId",
+              "freezer": "AccountId",
+              "supply": "Balance",
+              "deposit": "DepositBalance",
+              "max_zombies": "u32",
+              "min_balance": "Balance",
+              "zombies": "u32",
+              "accounts": "u32",
+              "is_frozen": "bool"
+            },
+            "AssetMetadata": {
+              "deposit": "DepositBalance",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>",
+              "decimals": "u8"
+            },
+            "LocId": "u128",
+            "LegalOfficerCaseOf": {
+              "owner": "AccountId",
+              "requester": "Requester",
+              "metadata": "Vec<MetadataItem>",
+              "files": "Vec<File>",
+              "closed": "bool",
+              "loc_type": "LocType",
+              "links": "Vec<LocLink>",
+              "void_info": "Option<LocVoidInfo<LocId>>",
+              "replacer_of": "Option<LocId>",
+              "collection_last_block_submission": "Option<BlockNumber>",
+              "collection_max_size": "Option<CollectionSize>",
+              "collection_can_upload": "bool",
+              "seal": "Option<Hash>"
+            },
+            "MetadataItem": {
+              "name": "Vec<u8>",
+              "value": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocType": {
+              "_enum": [
+                "Transaction",
+                "Identity",
+                "Collection"
+              ]
+            },
+            "LocLink": {
+              "id": "LocId",
+              "nature": "Vec<u8>"
+            },
+            "File": {
+              "hash": "Hash",
+              "nature": "Vec<u8>",
+              "submitter": "AccountId"
+            },
+            "LocVoidInfo": {
+              "replacer": "Option<LocId>"
+            },
+            "StorageVersion": {
+              "_enum": [
+                "V1",
+                "V2MakeLocVoid",
+                "V3RequesterEnum",
+                "V4ItemSubmitter",
+                "V5Collection",
+                "V6ItemUpload",
+                "V7ItemToken",
+                "V8AddSeal"
+              ]
+            },
+            "Requester": {
+              "_enum": {
+                "None": null,
+                "Account": "AccountId",
+                "Loc": "LocId"
+              }
+            },
+            "CollectionSize": "u32",
+            "CollectionItemId": "Hash",
+            "CollectionItem": {
+              "description": "Vec<u8>",
+              "files": "Vec<CollectionItemFile<Hash>>",
+              "token": "Option<CollectionItemToken>",
+              "restricted_delivery": "bool"
+            },
+            "CollectionItemFile": {
+              "name": "Vec<u8>",
+              "content_type": "Vec<u8>",
+              "fileSize": "u32",
+              "hash": "Hash"
+            },
+            "CollectionItemToken": {
+              "token_type": "Vec<u8>",
+              "token_id": "Vec<u8>"
+            },
+            "LegalOfficerData": {
+              "node_id": "Option<OpaquePeerId>",
+              "base_url": "Option<Vec<u8>>"
+            },
+            "LoAuthorityListStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2AddOnchainSettings"
+              ]
             },
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
@@ -48827,6 +49184,84 @@ export const typesBundle = {
         {
           "minmax": [
             10720,
+            10899
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<RawServiceEndpoints>",
+              "details": "RawDidDetails"
+            },
+            "RawServiceEndpoints": {
+              "id": "Text",
+              "serviceTypes": "Vec<Text>",
+              "urls": "Vec<Text>"
+            },
+            "RawDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "DidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<AccountId32>",
+              "w3n": "Option<String>",
+              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
+              "details": "RpcDidDetails"
+            },
+            "RpcServiceEndpoint": {
+              "id": "String",
+              "serviceTypes": "Vec<String>",
+              "urls": "Vec<String>"
+            },
+            "RpcDidDetails": {
+              "authenticationKey": "Hash",
+              "keyAgreementKeys": "BTreeSet<Hash>",
+              "delegationKey": "Option<Hash>",
+              "attestationKey": "Option<Hash>",
+              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
+              "lastTxCounter": "BlockNumber",
+              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
+            },
+            "RpcPublicKeyDetails": {
+              "key": "RpcDidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "RpcDidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "RpcDidVerificationKey",
+                "PublicEncryptionKey": "RpcDidEncryptionKey"
+              }
+            },
+            "RpcDidVerificationKey": {
+              "_enum": {
+                "Ed25519": "AccountId32",
+                "Sr25519": "AccountId32",
+                "Ecdsa": "AccountId33"
+              }
+            },
+            "RpcDidEncryptionKey": {
+              "_enum": {
+                "X25519": "AccountId32"
+              }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10900,
             null
           ],
           "types": {
@@ -48893,6 +49328,12 @@ export const typesBundle = {
               "_enum": {
                 "X25519": "AccountId32"
               }
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
             }
           }
         }
@@ -48930,6 +49371,28 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "ParachainStakingApi": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
               }
             },
             "version": 1
@@ -57938,6 +58401,17 @@ export const typesBundle = {
         }
       ]
     },
+    "oak": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
     "opal": {
       "rpc": {
         "unique": {
@@ -58623,7 +59097,7 @@ export const typesBundle = {
             "description": "Returns the route that results in the largest amount out for amount in",
             "params": [
               {
-                "name": "amount_in",
+                "name": "amount",
                 "type": "Balance"
               },
               {
@@ -58633,6 +59107,10 @@ export const typesBundle = {
               {
                 "name": "token_out",
                 "type": "CurrencyId"
+              },
+              {
+                "name": "reversed",
+                "type": "bool"
               },
               {
                 "name": "at",
@@ -69489,7 +69967,7 @@ export const typesBundle = {
             "description": "Returns the route that results in the largest amount out for amount in",
             "params": [
               {
-                "name": "amount_in",
+                "name": "amount",
                 "type": "Balance"
               },
               {
@@ -69499,6 +69977,10 @@ export const typesBundle = {
               {
                 "name": "token_out",
                 "type": "CurrencyId"
+              },
+              {
+                "name": "reversed",
+                "type": "bool"
               },
               {
                 "name": "at",

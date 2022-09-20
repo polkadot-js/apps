@@ -43,6 +43,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
+import chainOAK from './chains/oak.png';
 import chainOLI from './chains/oli.svg';
 import chainOmniBTC from './chains/omnibtc.svg';
 import chainOpal from './chains/opal-logo.png';
@@ -51,6 +52,7 @@ import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
 import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
+import chainRocfinity from './chains/rocfinity.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoContracts from './chains/rococo-contracts.png';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -188,6 +190,7 @@ import nodeQuartz from './nodes/quartz.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeRocfinity from './nodes/rocfinity.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
@@ -249,6 +252,7 @@ export const chainLogos = Object.entries({
   'Bifrost Kusama': nodeBifrost,
   'Bifrost Polkadot': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
+  Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
@@ -363,6 +367,7 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
+  'OAK Network': chainOAK,
   Odyssey: nodeAresOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -393,6 +398,7 @@ export const chainLogos = Object.entries({
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   Robonomics: nodeRobonomics,
+  Rocfinity: chainRocfinity,
   Rococo: chainRococo,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
@@ -600,6 +606,7 @@ export const nodeLogos = Object.entries({
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   robonomics: nodeRobonomics,
+  Rocfinity: nodeRocfinity,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
   sherpax: nodeSherpax,
@@ -655,6 +662,7 @@ export const nodeLogos = Object.entries({
 
 // Alphabetical overrides based on the actual specName
 export const specLogos = Object.entries({
+  oak: chainOAK,
   shell: nodeShell,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
@@ -690,6 +698,7 @@ export const namedLogos: Record<string, unknown> = {
   'Bifrost Stage Testnet': nodeBifrost,
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
+  bitgreen: chainBitgreen,
   brainstorm: chainBrainstorm,
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
@@ -784,6 +793,7 @@ export const namedLogos: Record<string, unknown> = {
   myriad: chainMyriad,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
+  oak: chainOAK,
   odyssey: nodeAresOdyssey,
   omnibtc: nodeOmniBTC,
   opal: nodeUniqueWestend,
@@ -807,7 +817,7 @@ export const namedLogos: Record<string, unknown> = {
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,
-  rocfinity: nodeEfinity,
+  rocfinity: nodeRocfinity,
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
@@ -872,6 +882,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
+  rococoTinkernet: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,

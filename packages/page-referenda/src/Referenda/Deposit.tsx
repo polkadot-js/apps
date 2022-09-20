@@ -13,7 +13,7 @@ interface Props {
   submit: PalletReferendaDeposit | null;
 }
 
-function Tuple ({ decision, submit }: Props): React.ReactElement<Props> {
+function Deposit ({ decision, submit }: Props): React.ReactElement<Props> {
   const [first, second] = useMemo(
     () => [submit, decision && decision.unwrapOr(null)],
     [decision, submit]
@@ -39,4 +39,4 @@ function Tuple ({ decision, submit }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Tuple);
+export default React.memo(Deposit);
