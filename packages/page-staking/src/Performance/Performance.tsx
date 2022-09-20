@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 
 import { MarkWarning, Spinner } from '@polkadot/react-components';
 
@@ -29,6 +29,7 @@ function Performance ({ favorites, sessionEra, toggleFavorite }: Props): React.R
 
   const sessionCommitteePerformance = useSessionCommitteePerformance([sessionEra.session])[0];
   const isPalletElectionsSupported = sessionCommitteePerformance.isPalletElectionsSupported;
+  // const firstBlockAuthor = sessionCommitteePerformance.firstSessionBlockAuthor;
 
   const eraExposure = useCall<DeriveEraExposure>(api.derive.staking.eraExposure, [sessionEra.era]);
   const eraValidators = useMemo(() => {
@@ -66,6 +67,20 @@ function Performance ({ favorites, sessionEra, toggleFavorite }: Props): React.R
     [sessionCommitteePerformance, eraValidators]
 
   );
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (firstSessionBlockAuthors) {
+  //       api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
+  //       api.query.elections.sessionValidatorBlockCount.entries().then((value) => {
+  //         setSessionValidatorBlockCountLookup(parseSessionBlockCount(value, firstSessionBlockAuthors));
+  //       }
+  //       ).catch(console.error);
+  //     }
+  //   }, 1000);
+  //
+  //   return () => clearInterval(interval);
+  // }, [firstSessionBlockAuthors, sessions[0], api]);
 
   return (
     <div className='staking--Performance'>

@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState} from 'react';
 
 import {createNamedHook, useApi} from '@polkadot/react-hooks';
 import {StorageKey} from '@polkadot/types';
@@ -18,72 +18,103 @@ export interface SessionCommitteePerformance {
   sessionId: number,
   isPalletElectionsSupported: boolean | undefined,
   performance: ValidatorPerformance[],
+  firstSessionBlockAuthor: string | undefined,
 }
 
 function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitteePerformance[]{
   const { api } = useApi();
 
-  const [committeeMemberPerformances, setCommitteeMemberPerformances] = useState<ValidatorPerformance[]>([]);
-  const [committee, setCommittee] = useState<string[]>([]);
+  const MAX_POSSIBLE_SESSIONS = 1000;
 
-  const [firstBlockInSessionHash, setFirstBlockInSessionHash] = useState<Hash | undefined>(undefined);
-  const [lastBlockInSessionHash, setLastBlockInSessionHash] = useState<Hash | undefined>(undefined);
-  const [firstSessionBlockAuthor, setFirstSessionBlockAuthor] = useState<string | undefined>(undefined);
-  const [isPalletElectionsSupported, setIsPalletElectionsSupported] = useState<boolean | undefined>(undefined);
-
-  const [sessionValidatorBlockCountLookup, setSessionValidatorBlockCountLookup] = useState<[string, number][]>([]);
+  const [firstBlockInSessionHashes, setFirstBlockInSessionHashes] = useState<(Hash | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [isPalletElectionsSupportedInSession, setIsPalletElectionsSupportedInSession] = useState<(boolean | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [lastBlockInSessionsHashes, setLastBlockInSessionsHashes] = useState<(Hash | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [firstSessionBlockAuthors, setFirstSessionBlockAuthors] = useState<(string | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [sessionValidatorBlockCountLookups, setSessionValidatorBlockCountLookups] = useState<[string, number][][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [expectedValidatorBlockCountLookups, setExpectedSessionValidatorBlockCountLookups] = useState<[string, number][][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  const [committees, setCommittees] = useState<string[][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
+  // TODO comment why init is one off
+  const [committeeMemberPerformances, setCommitteeMemberPerformances] = useState<SessionCommitteePerformance[]>([]);
 
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
   useEffect(() => {
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-    const firstBlockInSession = sessions[0] * sessionPeriod;
-
-    api.rpc.chain
-      .getBlockHash(firstBlockInSession)
-      .then((result): void => {
-        setFirstBlockInSessionHash(result);
-      })
-      .catch(console.error);
-  },
-  [api, sessions[0]]
-  );
-
-  useEffect(() => {
-    if (firstBlockInSessionHash) {
-      api.at(firstBlockInSessionHash.toString()).then((result) => {
-        result.query.elections.palletVersion().then((version) => {
-          setIsPalletElectionsSupported(Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION);
-        }).catch(console.error);
-      }).catch(console.error);
-    }
-  }, [api, firstBlockInSessionHash]);
-
-  useEffect(() => {
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const lastBlockInSession = (sessions[0] + 1) * sessionPeriod - 1;
-
+    const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
+    firstBlocksInSession.forEach((firstBlockInSession, index) => {
+      console.log("First block of session", firstBlockInSession/sessionPeriod, "is", firstBlockInSession, "index", index);
       api.rpc.chain
-        .getBlockHash(lastBlockInSession)
+        .getBlockHash(firstBlockInSession)
         .then((result): void => {
-          !result.isEmpty && setLastBlockInSessionHash(result);
+          setFirstBlockInSessionHashes(existingItems => {
+            return existingItems.map((item, j) => {
+              return j === index ? result : item;
+            });
+          });
+
         })
         .catch(console.error);
-
+    })
   },
-  [api, sessions[0]]
+  [api, JSON.stringify(sessions)]
   );
 
   useEffect(() => {
-    if (firstBlockInSessionHash) {
-      api.derive.chain.getHeader(firstBlockInSessionHash).then((header) => {
-        if (header && !header.isEmpty && header.author) {
-          setFirstSessionBlockAuthor(header.author.toString());
-        }
-      }).catch(console.error);
-    }
+    firstBlockInSessionHashes.forEach((firstBlockInSessionHash, index) => {
+      if (firstBlockInSessionHash) {
+        console.log("First block hash", firstBlockInSessionHash.toString(), "index", index);
+        api.at(firstBlockInSessionHash.toString()).then((result) => {
+          result.query.elections.palletVersion().then((version) => {
+            setIsPalletElectionsSupportedInSession(existingItems => {
+              return existingItems.map((item, j) => {
+                return j === index ? (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) : item;
+              });
+            });
+          }).catch(console.error);
+        }).catch(console.error);
+      }
+    });
+  }, [api, JSON.stringify(firstBlockInSessionHashes)]);
+
+  useEffect(() => {
+    console.log("sessions", JSON.stringify(sessions));
+    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+    const lastBlocksInSession = sessions.map((session) => (session + 1) * sessionPeriod - 1);
+    lastBlocksInSession.forEach((lastBlockInSession, index) => {
+      console.log("Last block in session", lastBlockInSession, "index", index);
+      api.rpc.chain
+        .getBlockHash(lastBlockInSession)
+        .then((maybeHash): void => {
+          maybeHash && !maybeHash.isEmpty &&
+          setLastBlockInSessionsHashes(existingItems => {
+            return existingItems.map((item, j) => {
+              return j === index ? maybeHash : item;
+            });
+          });
+        })
+        .catch(console.error);
+    });
   },
-  [api, firstBlockInSessionHash]
+  [api, JSON.stringify(sessions)]
+  );
+
+  useEffect(() => {
+    firstBlockInSessionHashes.forEach((maybeHash, index) => {
+      if (maybeHash && !maybeHash.isEmpty) {
+        api.derive.chain.getHeader(maybeHash).then((header) => {
+          if (header && !header.isEmpty && header.author) {
+            console.log("First block author", header.author.toString(), "index", index);
+            setFirstSessionBlockAuthors(existingItems => {
+              return existingItems.map((item, j) => {
+                return j === index ? header.author?.toString() : item;
+              });
+            });
+          }
+        }).catch(console.error);
+      }
+    });
+  },
+  [api, JSON.stringify(firstBlockInSessionHashes)]
   );
 
   function parseSessionBlockCount (sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][], firstSessionBlockAuthor: string): [string, number][] {
@@ -102,69 +133,70 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   }
 
   useEffect(() => {
-    if (lastBlockInSessionHash  && firstSessionBlockAuthor) {
-      console.log(lastBlockInSessionHash);
-      api.at(lastBlockInSessionHash.toString()).then((result) => {
-        const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
-
-        sessionValidatorBlockCount && sessionValidatorBlockCount.entries().then((value) => {
-          setSessionValidatorBlockCountLookup(parseSessionBlockCount(value, firstSessionBlockAuthor));
+    lastBlockInSessionsHashes.forEach((maybeHash, index) => {
+      let firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+      if (maybeHash && !maybeHash.isEmpty && firstSessionBlockAuthor) {
+        console.log("Last block hash", maybeHash.toString(), "index", index);
+        api.at(maybeHash.toString()).then((result) => {
+          const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
+          firstSessionBlockAuthor && sessionValidatorBlockCount && sessionValidatorBlockCount.entries().then((value) => {
+            const blockCount = parseSessionBlockCount(value, firstSessionBlockAuthor);
+            setSessionValidatorBlockCountLookups(existingItems => {
+              return existingItems.map((item, j) => {
+                return j === index ? blockCount : item;
+              });
+            });
+          }).catch(console.error);
         }).catch(console.error);
-      }).catch(console.error);
-    }
-  }
-  , [api, lastBlockInSessionHash, firstSessionBlockAuthor]
-  );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (lastBlockInSessionHash === undefined && firstSessionBlockAuthor) {
-        api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
-        api.query.elections.sessionValidatorBlockCount.entries().then((value) => {
-          setSessionValidatorBlockCountLookup(parseSessionBlockCount(value, firstSessionBlockAuthor));
-        }
-        ).catch(console.error);
       }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [firstSessionBlockAuthor, sessions[0], api]);
-
-  useEffect(() => {
-    if (firstBlockInSessionHash) {
-      api.at(firstBlockInSessionHash.toString()).then((resultApi) => {
-        const validators = resultApi.query.session.validators;
-
-        validators && validators().then((value) => {
-          setCommittee(value.map((validator) => validator.toString()));
-        }).catch(console.error);
-      }).catch(console.error);
-    }
-  }, [api, firstBlockInSessionHash]
+    });
+  }
+  , [api, JSON.stringify(lastBlockInSessionsHashes), JSON.stringify(firstSessionBlockAuthors)]
   );
 
-  const expectedSessionValidatorBlockCount = useMemo(() => {
-    const result: [string, number][] = [];
+  useEffect(() => {
+    firstBlockInSessionHashes.forEach((maybeHash, index) => {
+      if (maybeHash && !maybeHash.isEmpty) {
+        api.at(maybeHash.toString()).then((resultApi) => {
+          const validators = resultApi.query.session.validators;
+          validators && validators().then((value) => {
+            const validatorAccounts = value.map((validator) => validator.toString());
+            setCommittees(existingItems => {
+              return existingItems.map((item, j) => {
+                return j === index ? validatorAccounts : item;
+              });
+            });
+          }).catch(console.error);
+        }).catch(console.error);
+      }
+    });
+  }, [api, JSON.stringify(firstBlockInSessionHashes)]
+  );
 
-    // should not change at all during runtime, therefore it's fine to use current api object
-    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+  useEffect(() => {
+    committees.forEach((committee, index) => {
+      if (committee) {
+        const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+        const result: [string, number][] = [];
+        const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+        const committeeIndex = committee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
+        if (committeeIndex !== -1) {
+          for (let i = 0; i < committee.length; i++) {
+            const author = committee[(i + committeeIndex) % committee.length];
+            const offset = Math.max(sessionPeriod - i, 0);
 
-    const index = committee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
-
-    if (index === -1) {
-      return [];
-    }
-
-    for (let i = 0; i < committee.length; i++) {
-      const author = committee[(i + index) % committee.length];
-      const offset = Math.max(sessionPeriod - i, 0);
-
-      result.push([author.toString(), Math.ceil(offset / committee.length)]);
-    }
-
-    return result;
+            result.push([author.toString(), Math.ceil(offset / committee.length)]);
+          }
+          setExpectedSessionValidatorBlockCountLookups(existingItems => {
+            return existingItems.map((item, j) => {
+              return j === index ? result : item;
+            });
+          });
+        }
+      }
+    });
   },
-  [api, firstSessionBlockAuthor, committee]
+  [api, JSON.stringify(firstSessionBlockAuthors), JSON.stringify(committees)]
   );
 
   function getValidatorPerformance (validator: string,
@@ -182,17 +214,45 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   }
 
   useEffect(() => {
-    const committeeMemberPerformances = committee.map((validator) => getValidatorPerformance(validator,
-      sessionValidatorBlockCountLookup,
-      expectedSessionValidatorBlockCount));
-    console.log(committee);
-    console.log(committeeMemberPerformances);
-    setCommitteeMemberPerformances(committeeMemberPerformances);
+    setCommitteeMemberPerformances(sessions.map((session, index) => {
+      const sessionValidatorBlockCountLookup = sessionValidatorBlockCountLookups[index];
+      const expectedValidatorBlockCountLookup = expectedValidatorBlockCountLookups[index];
+      const committee = committees[index];
+      const isPalletElectionsSupported = isPalletElectionsSupportedInSession[index];
+      const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+
+      if (committee && sessionValidatorBlockCountLookup && expectedValidatorBlockCountLookup && firstSessionBlockAuthor) {
+        console.log("sessionId", session);
+        console.log("sessionValidatorBlockCountLookup", sessionValidatorBlockCountLookup);
+        console.log("expectedValidatorBlockCountLookup", expectedValidatorBlockCountLookup);
+        console.log("isPalletElectionsSupported", isPalletElectionsSupported);
+        console.log("firstSessionBlockAuthor", firstSessionBlockAuthor);
+        console.log("committee", committee);
+
+        const validatorPerformances = committee.map((validator) => getValidatorPerformance(validator,
+          sessionValidatorBlockCountLookup,
+          expectedValidatorBlockCountLookup));
+        const committeePerformance : SessionCommitteePerformance = {
+          sessionId: session,
+          isPalletElectionsSupported: isPalletElectionsSupported,
+          performance: validatorPerformances,
+          firstSessionBlockAuthor: firstSessionBlockAuthor,
+        };
+        return committeePerformance;
+      }
+      return {
+        sessionId: session,
+        isPalletElectionsSupported: undefined,
+        performance: [],
+        firstSessionBlockAuthor: undefined,
+      };
+    }));
   },
-  [committee, sessionValidatorBlockCountLookup, expectedSessionValidatorBlockCount]
+  [JSON.stringify(committees), JSON.stringify(sessionValidatorBlockCountLookups), JSON.stringify(expectedValidatorBlockCountLookups),
+          JSON.stringify(sessions), JSON.stringify(isPalletElectionsSupportedInSession), JSON.stringify(firstSessionBlockAuthors)]
   );
 
-  return [{ sessionId: sessions[0], isPalletElectionsSupported, performance: committeeMemberPerformances}];
+  return committeeMemberPerformances;
 }
 
 export default createNamedHook('useSessionCommitteePerformance', useSessionCommitteePerformanceImpl);

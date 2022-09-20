@@ -43,6 +43,22 @@ function getFiltered (displayOnlyCommittee: boolean, eraValidatorPerformances: E
   ));
 }
 
+export function calculatePercentReward (blocksCreated: number, blocksTargetValue: number) {
+  let rewardPercentage = 0;
+
+  if (blocksTargetValue > 0) {
+    rewardPercentage = 100 * blocksCreated / blocksTargetValue;
+
+    if (rewardPercentage >= 90) {
+      rewardPercentage = 100;
+    }
+  } else if (blocksTargetValue === 0 && blocksCreated === 0) {
+    rewardPercentage = 100;
+  }
+
+  return rewardPercentage;
+}
+
 function CurrentList ({ className, toggleFavorite, favorites, eraValidatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
@@ -72,22 +88,6 @@ function CurrentList ({ className, toggleFavorite, favorites, eraValidatorPerfor
       [undefined, 'media--1200']
     ]
   );
-
-  function calculatePercentReward (blocksCreated: number, blocksTargetValue: number) {
-    let rewardPercentage = 0;
-
-    if (blocksTargetValue > 0) {
-      rewardPercentage = 100 * blocksCreated / blocksTargetValue;
-
-      if (rewardPercentage >= 90) {
-        rewardPercentage = 100;
-      }
-    } else if (blocksTargetValue === 0 && blocksCreated === 0) {
-      rewardPercentage = 100;
-    }
-
-    return rewardPercentage;
-  }
 
   return (
     <Table

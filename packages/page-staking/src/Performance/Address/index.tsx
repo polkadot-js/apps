@@ -12,10 +12,10 @@ import Favorite from './Favorite';
 
 interface Props {
   address: string;
-  className?: string;
   filterName: string;
-  isFavorite: boolean;
-  toggleFavorite: (accountId: string) => void;
+  isFavorite?: boolean;
+  toggleFavorite?: (accountId: string) => void;
+  session?: number;
   blocksCreated: number,
   blocksTarget: number,
   rewardPercentage: string,
@@ -27,7 +27,7 @@ function useAddressCalls (api: ApiPromise, address: string) {
   return { accountInfo };
 }
 
-function Address ({ address, blocksCreated, blocksTarget, className = '', filterName, isFavorite, rewardPercentage, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, session, blocksCreated, blocksTarget, filterName, isFavorite, rewardPercentage, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
 
@@ -41,9 +41,9 @@ function Address ({ address, blocksCreated, blocksTarget, className = '', filter
   }
 
   return (
-    <tr className={className}>
+    <tr>
       <td className='badge together'>
-        <Favorite
+       <Favorite
           address={address}
           isFavorite={isFavorite}
           toggleFavorite={toggleFavorite}
@@ -52,6 +52,9 @@ function Address ({ address, blocksCreated, blocksTarget, className = '', filter
       <td className='address'>
         <AddressSmall value={address} />
       </td>
+      {session && <td className='number'>
+        {session}
+      </td>}
       <td className='number'>
         {blocksCreated}
       </td>
