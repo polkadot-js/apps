@@ -11,7 +11,9 @@ function extractIndexes (registrars: RegistrationJudgement[]) {
 }
 
 export function getJudgements (identity: DeriveAccountRegistration | undefined): SortedJudgements {
-  if (!identity) return [];
+  if (!identity) {
+    return [];
+  }
 
   const judgements = groupJudgements(identity.judgements);
 

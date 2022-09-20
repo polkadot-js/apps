@@ -44,7 +44,7 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
     return null;
   }
 
-  const drawAngle = angle % 360;
+  const drawAngle = (angle === 360) ? 360 : angle % 360;
 
   return (
     <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}>

@@ -49,8 +49,19 @@ function Index ({ bestNumber, className, description, index, proposals, status }
     UnassignCurator: t('Unassign curator')
   });
 
-  const existingCloseBountyProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'closeBounty'), [proposals]);
-  const existingUnassignCuratorProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'unassignCurator'), [proposals]);
+  const existingCloseBountyProposal = useMemo(
+    () => proposals?.find(({ proposal }) =>
+      proposal && proposal.method === 'closeBounty'
+    ),
+    [proposals]
+  );
+
+  const existingUnassignCuratorProposal = useMemo(
+    () => proposals?.find(({ proposal }) =>
+      proposal && proposal.method === 'unassignCurator'
+    ),
+    [proposals]
+  );
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
@@ -118,43 +129,38 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               {showCloseBounty &&
               <Menu.Item
                 key='closeBounty'
+                label={t<string>('Close')}
                 onClick={toggleCloseBounty}
-              >
-                {t<string>('Close')}
-              </Menu.Item>
+              />
               }
-              {showRejectCurator &&
-              <Menu.Item
-                key='rejectCurator'
-                onClick={toggleRejectCurator}
-              >
-                {t<string>('Reject curator')}
-              </Menu.Item>
-              }
-              {showExtendExpiry &&
-              <Menu.Item
-                key='extendExpiry'
-                onClick={toggleExtendExpiry}
-              >
-                {t<string>('Extend expiry')}
-              </Menu.Item>
-              }
-              {showGiveUpCurator &&
-              <Menu.Item
-                key='giveUpCurator'
-                onClick={toggleGiveUpCurator}
-              >
-                {t<string>('Give up')}
-              </Menu.Item>
-              }
-              {showSlashCurator && availableSlashActions.map((actionName) =>
+              {showRejectCurator && (
+                <Menu.Item
+                  key='rejectCurator'
+                  label={t<string>('Reject curator')}
+                  onClick={toggleRejectCurator}
+                />
+              )}
+              {showExtendExpiry && (
+                <Menu.Item
+                  key='extendExpiry'
+                  label={t<string>('Extend expiry')}
+                  onClick={toggleExtendExpiry}
+                />
+              )}
+              {showGiveUpCurator && (
+                <Menu.Item
+                  key='giveUpCurator'
+                  label={t<string>('Give up')}
+                  onClick={toggleGiveUpCurator}
+                />
+              )}
+              {showSlashCurator && availableSlashActions.map((actionName) => (
                 <Menu.Item
                   key={actionName}
+                  label={slashCuratorActionNames.current[actionName]}
                   onClick={slashCurator(actionName)}
-                >
-                  {slashCuratorActionNames.current[actionName]}
-                </Menu.Item>
-              )}
+                />
+              ))}
             </Menu>
           }
         >

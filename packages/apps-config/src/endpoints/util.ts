@@ -1,12 +1,14 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { EndpointOption, LinkOption } from './types';
 
 interface SortOption {
   isUnreachable?: boolean;
 }
+
+let dummyId = 0;
 
 function sortNoop (): number {
   return 0;
@@ -31,6 +33,9 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
         expandLinked(entry.linked).map((child): LinkOption => {
           child.genesisHashRelay = entry.genesisHash;
           child.isChild = true;
+          child.textRelay = input.length
+            ? input[0].text
+            : undefined;
           child.valueRelay = valueRelay;
 
           return child;
@@ -41,20 +46,25 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
 }
 
 function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+  const hasProviders = Object.keys(providers).length !== 0;
   const base = {
     genesisHash,
     homepage,
     info,
     isChild,
     isDisabled,
-    isUnreachable,
+    isUnreachable: isUnreachable || !hasProviders,
     paraId,
     teleport,
     text
   };
 
   const result = Object
-    .entries(providers)
+    .entries(
+      hasProviders
+        ? providers
+        : { Placeholder: `wss://${++dummyId}` }
+    )
     .filter((_, index) => !firstOnly || index === 0)
     .map(([host, value], index): LinkOption => ({
       ...base,

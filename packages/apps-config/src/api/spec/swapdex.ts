@@ -34,6 +34,45 @@ const definitions: OverrideBundleDefinition = {
           v: 'u64',
           r: 'H256',
           s: 'H256'
+        },
+        ClassId: 'u64',
+        TokenId: 'u64',
+        ClassData: 'Vec<u8>',
+        TokenData: 'Vec<u8>',
+        ReportReason: {
+          _enum: [
+            'None',
+            'Illigal',
+            'Plagiarism',
+            'Duplicate',
+            'Reported'
+          ]
+        },
+        ClassInfoOf: {
+          metadata: 'Vec<u8>',
+          total_issuance: 'TokenId',
+
+          owner: 'AccountId',
+          class_data: 'ClassData'
+        },
+        ExtendedInfo: {
+          display_flag: 'bool',
+          report: 'ReportReason',
+          frozen: 'bool'
+        },
+        TokenInfoOf: {
+          metadata: 'Vec<u8>',
+          owner: 'AccountId',
+          class_data: 'ClassData'
+        },
+        'bridge::ChainId': 'u8',
+        ChainId: 'u8',
+        ResourceId: '[u8; 32]',
+        DepositNonce: 'u64',
+        ProposalVotes: {
+          votes_for: 'Vec<AccountId>',
+          votes_against: 'Vec<AccountId>',
+          status: 'enum'
         }
       }
     }

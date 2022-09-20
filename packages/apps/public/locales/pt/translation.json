@@ -295,7 +295,7 @@
   "Positive number between 1 and {{memberCount}}": "Número positivo entre 1 e {{memberCount}}",
   "Positive number greater than or equal to {{nextFreeId}}": "Número positivo maior ou igual a {{nextFreeId}}",
   "Pre-sale ethereum address": "Endereço ethereum de pré-venda",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "O prefixo indica o formato do endereço ss58 nesta rede; é um número entre 0 e 255 que descreve o formato preciso dos bytes do endereço",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "O prefixo indica o formato do endereço ss58 nesta rede; é um número entre 0 e 255 que descreve o formato preciso dos bytes do endereço",
   "Preimage": "Pré-imagem",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "Apresente o código QR que contém a assinatura para a interface do usuário. Depois de digitalizado, ele será enviado para processamento e execução em cadeia.",
   "Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.": "A proposta pode ser para aprovar ou rejeitar esses gastos. Uma vez aprovada, a alteração é aplicada removendo a proposta ou agendando o pagamento.",
@@ -1125,5 +1125,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. Assine com seu endereço ETH",
   "{{threshold}}, not passing": "{{threshold}}, não passando",
   "{{threshold}}, passing": "{{threshold}}, passando",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x saldo de votos, bloqueado por {{lock}} x promulgação ({{period}} dias)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x saldo de votos, bloqueado por {{lock}} x promulgação ({{period}} dias)"
 }

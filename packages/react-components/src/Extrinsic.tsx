@@ -18,6 +18,7 @@ interface Props {
   className?: string;
   defaultArgs?: RawParam[];
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
+  filter?: (section: string, method?: string) => boolean;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
@@ -74,12 +75,11 @@ function getCallState (fn: SubmittableExtrinsicFunction<'promise'>, values: RawP
   };
 }
 
-function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultArgs, defaultValue, filter, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [{ extrinsic, values }, setDisplay] = useState<CallState>(() => getCallState(defaultValue, defaultArgs));
 
   useEffect((): void => {
     const isValid = isValuesValid(extrinsic.params, values);
-
     let method;
 
     if (isValid) {
@@ -97,7 +97,11 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
 
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>) =>
-      setDisplay(getCallState(fn)),
+      setDisplay((prev): CallState =>
+        fn.section === prev.extrinsic.fn.section && fn.method === prev.extrinsic.fn.method
+          ? prev
+          : getCallState(fn)
+      ),
     []
   );
 
@@ -113,6 +117,7 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
+        filter={filter}
         help={meta?.docs.join(' ')}
         isDisabled={isDisabled}
         isError={isError}

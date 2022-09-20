@@ -6,7 +6,7 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 const transformCounter = {
-  transform: (motions: DeriveCollectiveProposal[]) => motions.filter(({ votes }): boolean => !!votes).length
+  transform: (motions: DeriveCollectiveProposal[]) => motions.filter(({ votes }) => !!votes).length
 };
 
 function useCounterImpl (): number {

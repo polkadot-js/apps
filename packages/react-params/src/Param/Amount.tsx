@@ -21,6 +21,12 @@ function getBitLength (registry: Registry, { type }: TypeDef): number {
 }
 
 function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, registry, type, withLabel }: Props): React.ReactElement<Props> {
+  const isSigned = useMemo(
+    // Allow signed inputs for i{8, 16, 32, 64, 128, ...} types
+    () => /^i\d*$/.test(type.type),
+    [type]
+  );
+
   const defaultValue = useMemo(
     () => isDisabled
       ? value instanceof registry.createClass('AccountIndex')
@@ -63,6 +69,7 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
             className='full'
             defaultValue={defaultValue}
             isError={isError}
+            isSigned={isSigned}
             isZeroable
             label={label}
             onChange={_onChange}

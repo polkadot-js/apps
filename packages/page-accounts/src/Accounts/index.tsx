@@ -92,7 +92,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const accountsMap = useMemo(() => {
     const ret: Record<string, SortedAccount> = {};
 
-    accountsWithInfo.forEach(function (x) { ret[x.address] = x; });
+    accountsWithInfo.forEach(function (x) {
+      ret[x.address] = x;
+    });
 
     return ret;
   }, [accountsWithInfo]);

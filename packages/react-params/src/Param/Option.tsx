@@ -1,10 +1,10 @@
 // Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
+import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { Props } from '../types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
@@ -13,17 +13,19 @@ import { Option } from '@polkadot/types';
 import { useTranslation } from '../translate';
 import Param from './index';
 
+const DEF_VALUE = { isValid: true, value: undefined };
+
 function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isActive, setIsActive] = useState(withOptionActive || false);
-
-  const defaultValue = useMemo(
-    () => isDisabled
-      ? _defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome
-        ? { isValid: _defaultValue.isValid, value: _defaultValue.value.unwrap() }
-        : { isValid: _defaultValue.isValid, value: undefined }
-      : _defaultValue,
-    [_defaultValue, isDisabled]
+  const [isActive, setIsActive] = useState(() => withOptionActive || !!(_defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome) || false);
+  const [defaultValue] = useState(
+    () => isActive || isDisabled
+      ? _defaultValue && (
+        _defaultValue.value instanceof Option && _defaultValue.value.isSome
+          ? { isValid: _defaultValue.isValid, value: (_defaultValue.value as Option<Codec>).unwrap() }
+          : DEF_VALUE
+      )
+      : DEF_VALUE
   );
 
   useEffect((): void => {
@@ -36,7 +38,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
   return (
     <div className={className}>
       <Param
-        defaultValue={defaultValue}
+        defaultValue={isActive ? defaultValue : DEF_VALUE}
         isDisabled={isDisabled || !isActive}
         isInOption
         isOptional={!isActive && !isDisabled}

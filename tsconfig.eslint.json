@@ -2,7 +2,8 @@
   "extends": "./tsconfig.base.json",
   "exclude": [
     "build/**/*",
-    "**/build/**/*"
+    "**/build/**/*",
+    "**/node_modules/**/*"
   ],
   "compilerOptions": {
     "baseUrl": "./packages",

@@ -39,7 +39,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
   useEffect((): void => {
     members && setThreshold({
       isThresholdValid: members.length !== 0,
-      threshold: new BN(Math.ceil(members.length * getProposalThreshold(api)))
+      threshold: new BN(Math.min(members.length, Math.ceil(members.length * getProposalThreshold(api))))
     });
   }, [api, members]);
 

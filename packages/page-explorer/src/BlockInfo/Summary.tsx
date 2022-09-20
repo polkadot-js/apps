@@ -14,12 +14,12 @@ import { BN, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   maxBlockWeight?: Weight;
   signedBlock?: SignedBlock;
 }
 
-function extractEventDetails (events?: KeyedEvent[]): [BN?, BN?, BN?] {
+function extractEventDetails (events?: KeyedEvent[] | null): [BN?, BN?, BN?] {
   return events
     ? events.reduce(([deposits, transfers, weight], { record: { event: { data, method, section } } }) => [
       section === 'balances' && method === 'Deposit'
@@ -56,7 +56,10 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
             <CardSummary label={t<string>('deposits')}>
               <FormatBalance value={deposits} />
             </CardSummary>
-            <CardSummary label={t<string>('transfers')}>
+            <CardSummary
+              className='media--1000'
+              label={t<string>('transfers')}
+            >
               <FormatBalance value={transfers} />
             </CardSummary>
           </>
@@ -76,7 +79,7 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
           </CardSummary>
         </section>
       )}
-      <section>
+      <section className='media--900'>
         <CardSummary label={t<string>('event count')}>
           {formatNumber(events.length)}
         </CardSummary>

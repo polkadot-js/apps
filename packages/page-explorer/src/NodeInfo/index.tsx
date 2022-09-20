@@ -65,6 +65,7 @@ function NodeInfo (): React.ReactElement {
         blockNumber={info.blockNumber}
         label={t<string>('pending extrinsics')}
         value={info.extrinsics}
+        withLink
       />
     </>
   );

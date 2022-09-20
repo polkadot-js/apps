@@ -22,7 +22,6 @@ function ParentAccount ({ address, className }: ParentAccountProps): React.React
         className='parent-icon'
         icon='code-branch'
       />
-
       <AccountName
         value={address}
         withSidebar

@@ -7,10 +7,14 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Output } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { u8aToHex } from '@polkadot/util';
+
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  hex?: string | null;
   inspect?: Inspect | null;
   label: React.ReactNode;
 }
@@ -38,10 +42,24 @@ function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: 
   return result;
 }
 
-function DecodedInspect ({ className, inspect, label }: Props): React.ReactElement<Props> | null {
+function DecodedInspect ({ className, hex, inspect, label }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { createLink } = useApi();
   const formatted = useMemo(
     () => inspect && formatInspect(inspect),
     [inspect]
+  );
+  const [link, path] = useMemo(
+    (): [null | string, null | string] => {
+      if (hex) {
+        const path = `/extrinsics/decode/${hex}`;
+
+        return [createLink(path), `#${path}`];
+      }
+
+      return [null, null];
+    },
+    [createLink, hex]
   );
 
   if (!formatted) {
@@ -62,6 +80,21 @@ function DecodedInspect ({ className, inspect, label }: Props): React.ReactEleme
               <td>{value}</td>
             </tr>
           ))}
+          {link && (
+            <tr
+              className='isLink'
+              key='hex'
+            >
+              <td>{t<string>('link')}</td>
+              <td>
+                <a
+                  href={link}
+                  rel='noreferrer'
+                  target='_blank'
+                >{path}</a>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </Output>
@@ -69,18 +102,44 @@ function DecodedInspect ({ className, inspect, label }: Props): React.ReactEleme
 }
 
 export default React.memo(styled(DecodedInspect)`
-  table tr td {
-    vertical-align: top;
+  table {
+    width: 100%;
 
-    &:first-child {
-      color: var(--color-label);
-      padding-right: 0.5em;
-      text-align: right;
-      white-space: nowrap;
-    }
+    tbody {
+      width: 100%;
 
-    &:last-child {
-      font: var(--font-mono);
+      tr {
+        width: 100%;
+
+        td {
+          vertical-align: top;
+        }
+
+        td:first-child {
+          color: var(--color-label);
+          padding: 0 0.5em 0 1rem;
+          text-align: right;
+          white-space: nowrap;
+        }
+
+        &:not(.isLink) td:last-child {
+          font: var(--font-mono);
+          width: 100%;
+        }
+
+        &.isLink td {
+          &:last-child {
+            max-width: 0;
+          }
+
+          a {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
     }
   }
 `);

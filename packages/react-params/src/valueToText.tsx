@@ -49,7 +49,7 @@ export function toHumanJson (value: any): string {
     .replace(/\],\[/g, '],\n[');
 }
 
-export default function valueToText (type: string, value: Codec | undefined | null, contentShorten = true): React.ReactNode {
+export default function valueToText (type: string, value: Codec | undefined | null): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     return div({}, '<unknown>');
   }
@@ -57,7 +57,7 @@ export default function valueToText (type: string, value: Codec | undefined | nu
   return div(
     {},
     ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type) && isFunction(value.toU8a)
-      ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
+      ? u8aToHex(value.toU8a(true))
       // HACK Handle Keys as hex-only (this should go away once the node value is
       // consistently swapped to `Bytes`)
       : type === 'Vec<(ValidatorId,Keys)>'

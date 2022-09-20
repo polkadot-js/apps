@@ -3,17 +3,18 @@
 
 import type { ValidateInfo } from './types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Dropdown, InputAddress, InputNumber, MarkError, Modal } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN, BN_HUNDRED as MAX_COMM, BN_ONE, isFunction } from '@polkadot/util';
+import { useApi } from '@polkadot/react-hooks';
+import { BN, BN_HUNDRED as MAX_COMM, BN_ONE, bnMax, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
   controllerId: string;
+  minCommission?: BN;
   onChange: (info: ValidateInfo) => void;
   stashId: string;
   withFocus?: boolean;
@@ -22,12 +23,17 @@ interface Props {
 
 const COMM_MUL = new BN(1e7);
 
-function Validate ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
+function Validate ({ className = '', controllerId, minCommission, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const minComm = useCall<BN>(api.query.staking.minCommission);
   const [commission, setCommission] = useState(BN_ONE);
   const [allowNoms, setAllowNoms] = useState(true);
+  const defaultComm = useMemo(
+    () => minCommission
+      ? bnMax(minCommission.div(COMM_MUL), BN_ONE)
+      : BN_ONE,
+    [minCommission]
+  );
 
   const blockedOptions = useRef([
     { text: t('Yes, allow nominations'), value: true },
@@ -56,7 +62,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withFocus,
     []
   );
 
-  const commErr = !!minComm && commission.lt(minComm);
+  const commErr = !!minCommission && commission.lt(minCommission);
 
   return (
     <div className={className}>
@@ -77,6 +83,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withFocus,
       <Modal.Columns hint={t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}>
         <InputNumber
           autoFocus={withFocus}
+          defaultValue={defaultComm}
           help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
           isError={commErr}
           isZeroable
@@ -85,7 +92,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withFocus,
           onChange={_setCommission}
         />
         {commErr && (
-          <MarkError content={t<string>('The commission is below the on-chain minimum of {{p}}%', { replace: { p: (minComm.mul(MAX_COMM).div(COMM_MUL).toNumber() / 100).toFixed(2) } })} />
+          <MarkError content={t<string>('The commission is below the on-chain minimum of {{p}}%', { replace: { p: (minCommission.mul(MAX_COMM).div(COMM_MUL).toNumber() / 100).toFixed(2) } })} />
         )}
       </Modal.Columns>
       {isFunction(api.tx.staking.kick) && (

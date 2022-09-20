@@ -395,7 +395,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "大于或等于{{nextFreeId}}的正数",
   "Potential dispatch of referendum {{id}} (if passed)": "公投{{id}}的潜在调度(如果通过)",
   "Pre-sale ethereum address": "预售以太坊地址",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "地址前缀用0~255的数来来表示SS58地址的编码格式",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "地址前缀用0~255的数来来表示SS58地址的编码格式",
   "Preimage": "原像",
   "Preparing QR for signing": "准备 QR 签名",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "将包含签名的二维码呈现给 UI。一旦扫描，它将提交到链上处理和执行。",
@@ -1380,5 +1380,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}. 用你的以太坊地址签名",
   "{{threshold}}, not passing": "{{threshold}},没有通过",
   "{{threshold}}, passing": "{{threshold}}, 通过",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x投票余额，锁定 {{lock}}x 执行 ({{period}} days)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x投票余额，锁定 {{lock}}x 执行 ({{period}} days)"
 }

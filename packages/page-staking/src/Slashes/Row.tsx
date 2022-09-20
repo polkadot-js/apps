@@ -5,7 +5,7 @@ import type { Slash } from './types';
 
 import React, { useCallback } from 'react';
 
-import { AddressMini, AddressSmall, Badge, Checkbox, Expander } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Checkbox, ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -26,6 +26,18 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
     [index, onSelect]
   );
 
+  const renderOthers = useCallback(
+    () => others.map(([accountId, balance], index): React.ReactNode => (
+      <AddressMini
+        balance={balance}
+        key={index}
+        value={accountId}
+        withBalance
+      />
+    )),
+    [others]
+  );
+
   return (
     <tr>
       <td className='badge'>
@@ -41,16 +53,10 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
       </td>
       <td className='expand all'>
         {!!others.length && (
-          <Expander summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}>
-            {others.map(([accountId, balance], index): React.ReactNode => (
-              <AddressMini
-                balance={balance}
-                key={index}
-                value={accountId}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <ExpanderScroll
+            renderChildren={renderOthers}
+            summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
+          />
         )}
       </td>
       <td className='address'>

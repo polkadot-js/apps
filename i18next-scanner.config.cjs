@@ -41,7 +41,7 @@ module.exports = {
     '!**/node_modules/**'
   ],
   options: {
-    debug: true,
+    debug: false, // true to print config
     defaultLng: 'en',
     func: {
       extensions: ['.tsx', '.ts'],

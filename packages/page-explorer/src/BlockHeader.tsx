@@ -9,12 +9,8 @@ import { Link } from 'react-router-dom';
 import { AddressMini, Digits } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-// TODO update HeaderExtended in api-derive
-export interface HeaderExtendedWithMapping extends HeaderExtended {
-  authorFromMapping?: string;
-}
 interface Props {
-  value: HeaderExtendedWithMapping;
+  value: HeaderExtended;
 }
 
 function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
@@ -31,11 +27,9 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>
-        {value.authorFromMapping
-          ? <AddressMini value={value.authorFromMapping} />
-          : value.author && (
-            <AddressMini value={value.author} />
-          )}
+        {value.author && (
+          <AddressMini value={value.author} />
+        )}
       </td>
     </tr>
   );

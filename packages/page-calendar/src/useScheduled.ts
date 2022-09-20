@@ -11,7 +11,7 @@ import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 import { useEffect, useState } from 'react';
 
 import { useLeaseRangeMax } from '@polkadot/app-parachains/useLeaseRanges';
-import { createNamedHook, useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useBlockInterval, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface DateExt {
@@ -23,13 +23,13 @@ type SlashEntry = [{ args: [EraIndex] }, UnappliedSlash[]];
 
 type ScheduleEntry = [{ args: [BlockNumber] }, Option<Scheduled>[]];
 
-function newDate (blocks: BN, blockTime: number): DateExt {
-  const date = new Date(Date.now() + blocks.muln(blockTime).toNumber());
+function newDate (blocks: BN, blockTime: BN): DateExt {
+  const date = new Date(Date.now() + blocks.mul(blockTime).toNumber());
 
   return { date, dateTime: date.getTime() };
 }
 
-function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?, BN?, BN?][]): [EntryType, EntryInfo[]][] {
+function createConstDurations (bestNumber: BlockNumber, blockTime: BN, items: [EntryType, BlockNumber?, BN?, BN?][]): [EntryType, EntryInfo[]][] {
   return items.map(([type, duration, additional = BN_ZERO, offset = BN_ZERO]): [EntryType, EntryInfo[]] => {
     if (!duration) {
       return [type, []];
@@ -47,7 +47,7 @@ function createConstDurations (bestNumber: BlockNumber, blockTime: number, items
   });
 }
 
-function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motions: DeriveCollectiveProposal[]): [EntryType, EntryInfo[]][] {
+function createCouncilMotions (bestNumber: BlockNumber, blockTime: BN, motions: DeriveCollectiveProposal[]): [EntryType, EntryInfo[]][] {
   return [['councilMotion', motions
     .map(({ hash, votes }): EntryInfo | null => {
       if (!votes) {
@@ -68,7 +68,7 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motio
   ]];
 }
 
-function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatches: DeriveDispatch[]): [EntryType, EntryInfo[]][] {
+function createDispatches (bestNumber: BlockNumber, blockTime: BN, dispatches: DeriveDispatch[]): [EntryType, EntryInfo[]][] {
   return dispatches.map(({ at, index }): [EntryType, EntryInfo[]] => {
     const blocks = at.sub(bestNumber);
 
@@ -81,7 +81,7 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
   });
 }
 
-function createReferendums (bestNumber: BlockNumber, blockTime: number, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
+function createReferendums (bestNumber: BlockNumber, blockTime: BN, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
   return referendums.reduce((result: [EntryType, EntryInfo[]][], { index, status }): [EntryType, EntryInfo[]][] => {
     const enactBlocks = status.end.add(status.delay).isub(bestNumber);
     const voteBlocks = status.end.sub(bestNumber).isub(BN_ONE);
@@ -104,7 +104,7 @@ function createReferendums (bestNumber: BlockNumber, blockTime: number, referend
   }, []);
 }
 
-function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress, unapplied: SlashEntry[], slashDeferDuration?: BlockNumber): [EntryType, EntryInfo[]][] {
+function createStakingInfo (bestNumber: BlockNumber, blockTime: BN, sessionInfo: DeriveSessionProgress, unapplied: SlashEntry[], slashDeferDuration?: BlockNumber): [EntryType, EntryInfo[]][] {
   const blocksEra = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
   const blocksSes = sessionInfo.sessionLength.sub(sessionInfo.sessionProgress);
   const slashDuration = slashDeferDuration?.mul(sessionInfo.eraLength);
@@ -142,7 +142,7 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
   ];
 }
 
-function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled: ScheduleEntry[]): [EntryType, EntryInfo[]][] {
+function createScheduled (bestNumber: BlockNumber, blockTime: BN, scheduled: ScheduleEntry[]): [EntryType, EntryInfo[]][] {
   return [['scheduler', scheduled
     .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
     .reduce((items: EntryInfo[], [key, vecSchedOpt]): EntryInfo[] => {
@@ -171,7 +171,7 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, [])]];
 }
 
-function createAuctionInfo (bestNumber: BlockNumber, blockTime: number, rangeMax: BN, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
+function createAuctionInfo (bestNumber: BlockNumber, blockTime: BN, rangeMax: BN, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
   const blocks = endBlock.sub(bestNumber);
 
   return [
@@ -199,7 +199,7 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 // TODO council votes, tips closing
 function useScheduledImpl (): EntryInfo[] {
   const { api } = useApi();
-  const [blockTime] = useBlockTime();
+  const blockTime = useBlockInterval();
   const bestNumber = useBestNumber();
   const leaseRangeMax = useLeaseRangeMax();
   const auctionInfo = useCall<Option<ITuple<[LeasePeriodOf, BlockNumber]>>>(api.query.auctions?.auctionInfo);

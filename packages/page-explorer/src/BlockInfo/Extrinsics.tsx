@@ -15,12 +15,13 @@ import ExtrinsicDisplay from './Extrinsic';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
+  withLink: boolean;
 }
 
-function Extrinsics ({ blockNumber, className = '', events, label, value }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -28,7 +29,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
     [label || t<string>('extrinsics'), 'start', 2],
     [t('events'), 'start media--1000', 2],
     [t('weight'), 'media--1400'],
-    [t('signer'), 'address media--1200']
+    [undefined, 'address media--1200']
   ], [label, t]);
 
   return (
@@ -46,6 +47,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
           key={`extrinsic:${index}`}
           maxBlockWeight={api.consts.system.blockWeights?.maxBlock}
           value={extrinsic}
+          withLink={withLink}
         />
       )}
     </Table>

@@ -1,29 +1,22 @@
 // Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber, Header, ParaId, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { ParaId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
 
-import { useCall, useParaApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
+
+import useChainDetails from './useChainDetails';
 
 interface Props {
   className?: string;
   id: ParaId;
 }
 
-const transformHeader = {
-  transform: (header: Header) => header.number.unwrap()
-};
-
 function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
-  const { api } = useParaApi(id);
-
-  // We are not using the derive here, we keep this queries to the point to not overload
-  const bestNumber = useCall<BlockNumber>(api?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
-  const runtimeVersion = useCall<RuntimeVersion>(api?.rpc.state.subscribeRuntimeVersion);
+  const { bestNumber, runtimeVersion } = useChainDetails(id);
 
   return (
     <div className={className}>

@@ -20,7 +20,7 @@ interface Owned {
   owned: OwnedIdPartial[];
 }
 
-const entriesOptions = {
+const OPT_ENTRIES = {
   transform: (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>][]): Owned => {
     const owned = entries
       .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
@@ -45,7 +45,7 @@ const entriesOptions = {
   }
 };
 
-const hashesOption = {
+const OPT_HASHES = {
   transform: ([[paraIds], optHashes]: [[ParaId[]], Option<Hash>[]]) =>
     paraIds.map((paraId, index): CodeHash => ({
       hash: optHashes[index].unwrapOr(null),
@@ -61,8 +61,8 @@ function useOwnedIdsImpl (): OwnedId[] {
     api.events.registrar.Registered,
     api.events.registrar.Reserved
   ]);
-  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, entriesOptions, trigger.blockHash);
-  const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, OPT_ENTRIES, trigger.blockHash);
+  const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], OPT_HASHES);
 
   return useMemo(
     () => unfiltered && hashes

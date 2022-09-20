@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-const transformEntries = {
+const OPT_SCHED = {
   transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduledV3>[]][]): ScheduledExt[] => {
     return entries
       .filter(([, all]) => all.some((o) => o.isSome))
@@ -51,10 +51,13 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, transformEntries);
+  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, OPT_SCHED);
 
   const filtered = useMemo(
-    () => bestNumber && items && items.filter(({ blockNumber }) => blockNumber.gte(bestNumber)),
+    () => bestNumber && items &&
+      items
+        .filter(({ blockNumber }) => blockNumber.gte(bestNumber))
+        .sort((a, b) => a.blockNumber.cmp(b.blockNumber)),
     [bestNumber, items]
   );
 

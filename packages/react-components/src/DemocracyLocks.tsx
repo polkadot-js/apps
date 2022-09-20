@@ -51,7 +51,7 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: Partial<DeriveDemocrac
       .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished = false, referendumId, vote }, blocks]): Entry[] => {
         const isCountdown = blocks.gt(BN_ZERO);
         const header = referendumId && vote
-          ? <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}{isDelegated && '/d'}</div>
+          ? <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction?.toString()}{isDelegated && '/d'}</div>
           : <div>{t('Prior locked voting')}</div>;
         const prev = sorted.length ? sorted[sorted.length - 1] : null;
 

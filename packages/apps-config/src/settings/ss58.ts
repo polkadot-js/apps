@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/ui-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { Option } from './types';
 
 import { selectableNetworks } from '@polkadot/networks';

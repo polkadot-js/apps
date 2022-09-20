@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -14,20 +14,30 @@ import Icon from './Icon';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
+interface Unlocking {
+  remainingEras: BN;
+  value: BN;
+}
+
+interface DeriveStakingAccountPartial {
+  accountId: DeriveStakingAccount['accountId'] | string;
+  unlocking?: Unlocking[];
+}
+
 interface Props {
   iconPosition: 'left' | 'right';
   className?: string;
-  stakingInfo?: DeriveStakingAccount;
+  stakingInfo?: DeriveStakingAccountPartial;
 }
 
-function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSessionProgress): [[DeriveUnlocking, BN, BN][], BN] {
+function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: DeriveSessionProgress): [[Unlocking, BN, BN][], BN] {
   if (!stakingInfo?.unlocking || !progress) {
     return [[], BN_ZERO];
   }
 
   const mapped = stakingInfo.unlocking
     .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
-    .map((unlock): [DeriveUnlocking, BN, BN] => [
+    .map((unlock): [Unlocking, BN, BN] => [
       unlock,
       unlock.remainingEras,
       unlock.remainingEras

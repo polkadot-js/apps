@@ -52,12 +52,14 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
-      } else {
+      } else if (!e.isUnreachable) {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
-          isUnreachable: e.isUnreachable,
+          isRelay: !!e.genesisHash,
           name: e.text as string,
+          nameRelay: e.textRelay as string,
+          paraId: e.paraId,
           providers: [prov]
         });
       }
@@ -176,7 +178,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _removeApiEndpoint = useCallback(
     (): void => {
-      if (!isSavedCustomEndpoint) return;
+      if (!isSavedCustomEndpoint) {
+        return;
+      }
 
       const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 

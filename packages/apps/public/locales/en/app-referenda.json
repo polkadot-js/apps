@@ -1,0 +1,23 @@
+{
+  "Aye": "Aye",
+  "Aye {{count}}": "Aye {{count}}",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.",
+  "If this proposal is passed, the changes will be applied via dispatch and the deposit returned.": "If this proposal is passed, the changes will be applied via dispatch and the deposit returned.",
+  "Nay": "Nay",
+  "Nay {{count}}": "Nay {{count}}",
+  "No referendums found": "No referendums found",
+  "Overview": "Overview",
+  "The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.": "The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.",
+  "The conviction to use for this vote, with an appropriate lock period.": "The conviction to use for this vote, with an appropriate lock period.",
+  "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.": "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.",
+  "Vote": "Vote",
+  "Vote Aye": "Vote Aye",
+  "Vote Nay": "Vote Nay",
+  "Vote on proposal": "Vote on proposal",
+  "active": "active",
+  "conviction": "conviction",
+  "preimage": "preimage",
+  "preimage {{shortHash}}": "preimage {{shortHash}}",
+  "referenda": "referenda",
+  "total": "total"
+}

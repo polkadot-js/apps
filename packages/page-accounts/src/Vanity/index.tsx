@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
+import { nextTick } from '@polkadot/util';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
@@ -109,7 +110,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         return _checkMatches();
       }
 
-      setTimeout((): void => {
+      nextTick((): void => {
         if (mountedRef.current) {
           if (results.current.length === 25) {
             _checkMatches();
@@ -121,7 +122,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
 
           _executeGeneration();
         }
-      }, 0);
+      });
     },
     [_checkMatches, api, match, mountedRef, runningRef, type, withCase]
   );
@@ -234,7 +235,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
       </Button.Group>
       {matches.length !== 0 && (
         <>
-          <article className='warning centered'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address any funds and the associated seed any funds sent to it will be lost.')}</article>
+          <article className='warning centered'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address and the associated seed any funds sent to it will be lost.')}</article>
           <Table
             className='vanity--App-matches'
             empty={t<string>('No matches found')}

@@ -5,10 +5,10 @@ import type { AccountId, Balance, BlockNumber, OpenTipTo225 } from '@polkadot/ty
 import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, AddressSmall, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
@@ -94,6 +94,18 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
 
   const [isMedianSelected, setMedianTip] = useState(false);
 
+  const renderTippers = useCallback(
+    () => tip.tips.map(([tipper, balance]) => (
+      <AddressMini
+        balance={balance}
+        key={tipper.toString()}
+        value={tipper}
+        withBalance
+      />
+    )),
+    [tip]
+  );
+
   useEffect((): void => {
     onSelect(hash, isMedianSelected, median);
   }, [hash, isMedianSelected, median, onSelect]);
@@ -122,22 +134,15 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <TipReason hash={reason} />
       <td className='expand media--1100'>
         {tips.length !== 0 && (
-          <Expander summary={
-            <>
-              <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
-              <FormatBalance value={median} />
-            </>
-          }
-          >
-            {tips.map(([tipper, balance]) => (
-              <AddressMini
-                balance={balance}
-                key={tipper.toString()}
-                value={tipper}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <ExpanderScroll
+            renderChildren={renderTippers}
+            summary={
+              <>
+                <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+                <FormatBalance value={median} />
+              </>
+            }
+          />
         )}
       </td>
       <td className='button together'>
@@ -200,7 +205,6 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <td className='links media--1700'>
         <LinkExternal
           data={hash}
-          isLogo
           type='tip'
         />
       </td>

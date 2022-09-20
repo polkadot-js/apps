@@ -15,7 +15,7 @@ interface Result {
   manager: AccountId | null;
 }
 
-const optMulti = {
+const OPT_MULTI = {
   defaultValue: {
     headHex: null,
     lifecycle: null,
@@ -42,7 +42,7 @@ function useThreadInfoImpl (id: ParaId): Result {
     [api.query.paras.upcomingParasGenesis, id],
     [api.query.paras.paraLifecycles, id],
     [api.query.registrar.paras, id]
-  ], optMulti);
+  ], OPT_MULTI);
 }
 
 export default createNamedHook('useThreadInfo', useThreadInfoImpl);

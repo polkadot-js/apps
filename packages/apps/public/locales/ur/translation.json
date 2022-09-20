@@ -395,7 +395,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "مثبت نمبر {{nextFreeId}} سے بڑا یا اس کے برابر",
   "Potential dispatch of referendum {{id}} (if passed)": "ریفرنڈم کی ممکنہ ترسیل {{id}} (اگر منظور ہو)",
   "Pre-sale ethereum address": "قبل از فروخت ایتھیریم کا پتہ",
-  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "پری فکس اس نیٹ ورک میں ss58 ایڈریس فارمیٹ کی نشاندہی کرتا ہے، یہ 0 ~ 255 کے درمیان ایک نمبر ہے جو ایڈریس کے بائٹس کی درست شکل بیان کرتا ہے",
+  "Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address": "پری فکس اس نیٹ ورک میں ss58 ایڈریس فارمیٹ کی نشاندہی کرتا ہے، یہ 0 ~ 255 کے درمیان ایک نمبر ہے جو ایڈریس کے بائٹس کی درست شکل بیان کرتا ہے",
   "Preimage": "پری امیج",
   "Preparing QR for signing": "دستخط کے لیے کیو آر کی تیاری",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "یو آئی کے لیئے دستخط پر مشتمل کیو آر کوڈ پیش کریں۔ ایک بار اسکین کرنے کے بعد اسے آن چین پروسیسنگ اور عملدرآمد کے لیے جمع کیا جائے گا۔",
@@ -1379,5 +1379,5 @@
   "{{step}}. Sign with your ETH address": "{{step}}۔ اپنے ای ٹی ایچ ایڈریس کے ساتھ دستخط کریں",
   "{{threshold}}, not passing": "{{threshold}} ، نہیں پار ہورہا",
   "{{threshold}}, passing": "{{threshold}} ، پار ہورہا ہے",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x ووٹنگ بیلنس، نفاذ کے لیئے لاک {{lock}} x کیا گیا ({{period}} دن)"
+  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}} x ووٹنگ بیلنس، نفاذ کے لیئے لاک {{lock}} x کیا گیا ({{period}} دن)"
 }

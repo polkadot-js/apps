@@ -31,7 +31,15 @@ function createWebpack (context, mode = 'production') {
     return alias;
   }, {});
   const plugins = fs.existsSync(path.join(context, 'public'))
-    ? new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })
+    ? new CopyWebpackPlugin({
+      patterns: [{
+        from: 'public',
+        globOptions: {
+          dot: true,
+          ignore: ['**/index.html']
+        }
+      }]
+    })
     : [];
 
   return {
@@ -40,6 +48,10 @@ function createWebpack (context, mode = 'production') {
     mode,
     module: {
       rules: [
+        {
+          scheme: 'data',
+          type: 'asset/resource',
+        },
         {
           include: /node_modules/,
           test: /\.css$/,
@@ -69,29 +81,18 @@ function createWebpack (context, mode = 'production') {
         {
           exclude: [/semantic-ui-css/],
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          use: [
-            {
-              loader: require.resolve('url-loader'),
-              options: {
-                esModule: false,
-                limit: 10000,
-                name: 'static/[name].[contenthash:8].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[contenthash:8].[ext]'
+          }
         },
         {
           exclude: [/semantic-ui-css/],
           test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          use: [
-            {
-              loader: require.resolve('file-loader'),
-              options: {
-                esModule: false,
-                name: 'static/[name].[contenthash:8].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/[name].[contenthash:8].[ext]'
+          }
         },
         {
           include: [/semantic-ui-css/],
@@ -138,6 +139,7 @@ function createWebpack (context, mode = 'production') {
       chunkFilename: '[name].[chunkhash:8].js',
       filename: '[name].[contenthash:8].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
+      hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
       publicPath: ''
     },
@@ -166,14 +168,12 @@ function createWebpack (context, mode = 'production') {
       })
     ].concat(plugins),
     resolve: {
-      alias: {
-        ...alias,
-        'react/jsx-runtime': require.resolve('react/jsx-runtime')
-      },
+      alias,
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
         assert: require.resolve('assert/'),
         crypto: require.resolve('crypto-browserify'),
+        fs: false,
         http: require.resolve('stream-http'),
         https: require.resolve('https-browserify'),
         os: require.resolve('os-browserify/browser'),

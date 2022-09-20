@@ -4,6 +4,7 @@
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { emptyLogos, extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
@@ -53,7 +54,6 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       empty={t<string>('No Upgradable extensions')}
       header={headerRef.current}
     >
-
       {extensions
         ? options.length !== 0 && (
           <>
@@ -67,8 +67,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 />
               </td>
             </tr>
-
-            <tr className='hasOddRowColoring'>
+            <tr className='isOdd'>
               <td>
                 <Button.Group>
                   <Button
@@ -84,9 +83,12 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
         )
         : <Spinner />
       }
-
     </Table>
   );
 }
 
-export default React.memo(Extensions);
+export default React.memo(styled(Extensions)`
+  table {
+    overflow: visible;
+  }
+`);

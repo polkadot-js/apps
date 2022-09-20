@@ -17,6 +17,7 @@ export default function createOptions (api: ApiPromise, rpcs: Record<string, Rec
 
   return Object
     .keys((api.rpc as Record<string, Record<string, unknown>>)[sectionName])
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((methodName) => section[methodName])
     .filter((ext): ext is DefinitionRpcExt => !!ext)

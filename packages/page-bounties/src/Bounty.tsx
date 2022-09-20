@@ -4,10 +4,11 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -32,11 +33,9 @@ interface Props {
   proposals?: DeriveCollectiveProposal[];
 }
 
-const EMPTY_CELL = '-';
-
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, toggleExpanded] = useToggle(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
   const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
@@ -51,15 +50,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
     const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
 
-    return (proposalToDisplay?.proposal.method === 'proposeCurator')
+    return (proposalToDisplay?.proposal?.method === 'proposeCurator')
       ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
       : null;
   }, [curator, proposals, status]);
-
-  const handleOnIconClick = useCallback(
-    () => setIsExpanded((isExpanded) => !isExpanded),
-    []
-  );
 
   return (
     <>
@@ -130,7 +124,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='fast-actions-row'>
             <LinkExternal
               data={index}
-              isLogo
               type='bounty'
             />
             <BountyExtraActions
@@ -142,7 +135,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
             <ExpandButton
               expanded={isExpanded}
-              onClick={handleOnIconClick}
+              onClick={toggleExpanded}
             />
           </div>
         </td>
@@ -159,13 +152,21 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
+          {curator && (
+            <div className='label-column-right'>
+              <div className='label'>{t("Curator's fee")}</div>
+              <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
+            </div>
+          )}
           <div className='label-column-right'>
-            <div className='label'>{t("Curator's fee")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
-          </div>
-          <div className='label-column-right'>
-            <div className='label'>{t("Curator's deposit")}</div>
-            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+            {curator && !curatorDeposit.isZero() && (
+              <>
+                <div className='label'>{t("Curator's deposit")}</div>
+                <div className='inline-balance'>
+                  <FormatBalance value={curatorDeposit} />
+                </div>
+              </>
+            )}
           </div>
         </td>
         <td />
@@ -193,14 +194,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 }
 
 export default React.memo(styled(Bounty)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
   .description-column {
     max-width: 200px;
 
@@ -220,8 +213,8 @@ export default React.memo(styled(Bounty)`
     width: 1%;
 
     .fast-actions-row {
-      display: flex;
       align-items: center;
+      display: flex;
       justify-content: flex-end;
 
       & > * + * {

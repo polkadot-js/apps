@@ -1,15 +1,10 @@
 {
   "lightclient.experimental": "light client (experimental)",
   "lng.detect": "Default browser language (auto-detect)",
-  "opal.unique.network": "OPAL by UNIQUE",
-  "quartz.unique.network": "QUARTZ by UNIQUE",
-  "rpc.KlugDossier": "Klug Dossier",
-  "rpc.calamari.systems": "Calamari",
   "rpc.dev.custom": "Custom environment",
   "rpc.dev.custom.entry": "Custom {{WS_URL}}",
   "rpc.dev.custom.own": "Custom",
   "rpc.dev.local": "Local Node",
-  "rpc.dolphin": "Dolphin Testnet",
   "rpc.header.dev": "Development",
   "rpc.header.kusama.relay": "Kusama & parachains",
   "rpc.header.live": "Live networks",
@@ -259,4 +254,5 @@
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet",
   "westend.kylin-node.co.uk": "Pichiu"
+
 }

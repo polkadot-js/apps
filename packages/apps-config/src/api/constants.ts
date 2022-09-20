@@ -1,15 +1,15 @@
 // Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { selectableNetworks } from '@polkadot/networks';
+import { knownGenesis } from '@polkadot/networks/defaults';
 import { assert, BN } from '@polkadot/util';
 
 function getGenesis (name: string): string {
-  const network = selectableNetworks.find(({ network }) => network === name);
+  const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
-  assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
+  assert(network && network[1][0], `Unable to find genesisHash for ${name}`);
 
-  return network.genesisHash[0];
+  return network[1][0];
 }
 
 export const KULUPU_GENESIS = getGenesis('kulupu');
@@ -19,9 +19,9 @@ export const KUSAMA_GENESIS = getGenesis('kusama');
 export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
-export const ROCOCO_GENESIS = '0xaaf2cd1b74b5f726895921259421b534124726263982522174147046b8827897';
+export const ROCOCO_GENESIS = getGenesis('rococo');
 
-export const WESTEND_GENESIS = '0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e';
+export const WESTEND_GENESIS = getGenesis('westend');
 
 export const NEATCOIN_GENESIS = '0xfbb541421d30423c9a753ffa844b64fd44d823f513bf49e3b73b3a656309a595';
 

@@ -16,6 +16,7 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     SORA: 'sora-substrate',
     Shiden: 'shiden',
@@ -23,7 +24,7 @@ export default {
     Subsocial: 'subsocial'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
-    `https://sub.id/#/${data.toString()}`,
+    `https://sub.id/${data.toString()}`,
   isActive: true,
   logo: externalLogos.subid as string,
   paths: {

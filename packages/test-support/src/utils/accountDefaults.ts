@@ -112,19 +112,35 @@ class MockAccountHooks {
       // Typescript does not recognize that keys and values from Object.entries are safe,
       // so we have to use "any" here.
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(props.meta || meta).forEach(function ([key, value]) { (meta as any)[key] = value; });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(props.balance || balance).forEach(function ([key, value]) { (balance as any)[key] = value; });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(props.staking || staking).forEach(function ([key, value]) { (staking as any)[key] = value; });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(props.info || info).forEach(function ([key, value]) { (info as any)[key] = value; });
+      Object
+        .entries(props.meta || meta)
+        .forEach(([key, value]) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (meta as any)[key] = value;
+        });
+      Object
+        .entries(props.balance || balance)
+        .forEach(([key, value]) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (balance as any)[key] = value;
+        });
+      Object
+        .entries(props.staking || staking)
+        .forEach(([key, value]) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (staking as any)[key] = value;
+        });
+      Object
+        .entries(props.info || info)
+        .forEach(([key, value]) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (info as any)[key] = value;
+        });
 
       this.accountsMap[address] = {
-        balance: balance,
-        info: info,
-        staking: staking
+        balance,
+        info,
+        staking
       };
     }
   }

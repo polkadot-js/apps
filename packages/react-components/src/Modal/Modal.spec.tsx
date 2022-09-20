@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
@@ -62,31 +62,37 @@ describe('Modal Component', () => {
   it('opens and closes modal', async () => {
     renderModal();
 
-    await expectModalToBeClosed();
-    await openModal();
-    await expectModalToBeOpen();
-    await closeModal();
-    await expectModalToBeClosed();
+    await waitFor(async () => {
+      await expectModalToBeClosed();
+      await openModal();
+      await expectModalToBeOpen();
+      await closeModal();
+      await expectModalToBeClosed();
+    });
   });
 
   it('renders all modal sections', async () => {
     renderModal();
 
-    await expectModalToBeClosed();
-    await openModal();
-    await expectModalToBeOpen();
+    await waitFor(async () => {
+      await expectModalToBeClosed();
+      await openModal();
+      await expectModalToBeOpen();
 
-    await screen.findByText('Test Modal');
-    await screen.findAllByText('Test Modal Content');
-    await screen.findByRole('button', { name: 'Submit Modal' });
+      await screen.findByText('Test Modal');
+      await screen.findAllByText('Test Modal Content');
+      await screen.findByRole('button', { name: 'Submit Modal' });
+    });
   });
 
   it('closes modal with ESC button', async () => {
     renderModal();
 
-    await expectModalToBeClosed();
-    await openModal();
-    await expectModalToBeOpen();
+    await waitFor(async () => {
+      await expectModalToBeClosed();
+      await openModal();
+      await expectModalToBeOpen();
+    });
 
     fireEvent.keyDown(window, {
       charCode: 27,
@@ -95,16 +101,21 @@ describe('Modal Component', () => {
       keyCode: 27
     });
 
-    await expectModalToBeClosed();
+    await waitFor(async () => {
+      await expectModalToBeClosed();
+    });
   });
 });
 
 async function expectModalToBeClosed () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByRole('button', { name: 'Open Test Modal' });
+
   expect(screen.queryAllByTestId('test-modal')).toHaveLength(0);
 }
 
 async function expectModalToBeOpen () {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await screen.findByTestId('test-modal');
 }
 

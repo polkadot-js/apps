@@ -14,7 +14,7 @@ interface State {
   info?: GiltInfo;
 }
 
-const optGiltInfo = {
+const OPT_GILT = {
   defaultValue: {} as GiltInfo,
   transform: ([activeTotal, queueTotals]: [ActiveGiltsTotal, [u32, BalanceOf][]]): GiltInfo => ({
     activeIndex: activeTotal.index.isZero()
@@ -32,7 +32,7 @@ function useInfoImpl (): State {
   const info = useCallMulti<GiltInfo>([
     api.query.gilt.activeTotal,
     api.query.gilt.queueTotals
-  ], optGiltInfo);
+  ], OPT_GILT);
 
   // useEffect((): void => {
   //   info.activeIndex &&

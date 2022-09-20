@@ -11,14 +11,14 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.108.2-12",
+  "version": "0.121.2-42-x",
   "dependencies": {
-    "@babel/runtime": "^7.17.2",
-    "@polkadot/react-components": "^0.108.2-12",
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/react-components": "^0.121.2-42-x",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.1.4",
-    "testcontainers": "^8.4.0"
+    "@testing-library/react": "^13.3.0",
+    "testcontainers": "^8.13.0"
   }
 }
