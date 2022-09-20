@@ -1,15 +1,17 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { getGovernanceTracks } from '@polkadot/apps-config';
+import { Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
@@ -17,6 +19,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getTrackName } from './util';
 
 interface Props {
   className?: string;
@@ -31,15 +34,48 @@ interface HashState {
   isHashValid: boolean;
 }
 
-function Submit ({ className = '', members, onClose, palletReferenda }: Props): React.ReactElement<Props> | null {
+function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks: [BN, PalletReferendaTrackInfo][], trackId: number): Record<string, string> | undefined {
+  const originMap = getGovernanceTracks(api, specName, palletReferenda);
+  const trackInfo = tracks.find(([id]) => id.eqn(trackId));
+  let origin: Record<string, string> | undefined;
+
+  if (trackInfo && originMap) {
+    const trackName = trackInfo[1].name.toString();
+    const record = originMap.find(([[id, name]]) =>
+      id === trackId &&
+      name === trackName
+    );
+
+    origin = record && record[1];
+  }
+
+  return origin;
+}
+
+function Submit ({ className = '', members, onClose, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, specName } = useApi();
   const bestNumber = useBestNumber();
   const [accountId, setAccountId] = useState<string | null>(null);
-  // const [track, setTrack] = useState<number | undefined>();
+  const [trackId, setTrack] = useState<number | undefined>();
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
+  const [defaultAtAfter, setDefaultAtAfter] = useState<RawParam[] | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+
+  useEffect((): void => {
+    bestNumber && setDefaultAtAfter((prev) =>
+      prev || [{
+        isValid: true,
+        value: { After: bestNumber.addn(1000) }
+      }]
+    );
+  }, [api, bestNumber]);
+
+  const originParam = useMemo(
+    () => trackId !== undefined && getOrigin(api, specName, palletReferenda, tracks, trackId),
+    [api, palletReferenda, specName, trackId, tracks]
+  );
 
   const isInvalidAt = useMemo(
     () => !bestNumber || !atAfter || (
@@ -53,23 +89,24 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
   const [originType, atAfterType] = useMemo(
     () => [
       [{
+        name: 'origin',
         type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[0].type.toString())
       }],
       [{
+        name: 'enact',
         type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[2].type.toString())
       }]
     ],
     [api, palletReferenda]
   );
 
-  // Idially we would just like to use the track - need a mapping for these
-  // const trackOpts = useMemo(
-  //   () => tracks.map(([id, track]) => ({
-  //     text: track.name.toString(),
-  //     value: id.toNumber()
-  //   })),
-  //   [tracks]
-  // );
+  const trackOpts = useMemo(
+    () => tracks.map(([id, track]) => ({
+      text: getTrackName(track),
+      value: id.toNumber()
+    })),
+    [tracks]
+  );
 
   const _onChangeOrigin = useCallback(
     ([{ isValid, value }]: RawParam[]) =>
@@ -89,8 +126,6 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
     []
   );
 
-  console.log(atAfter);
-
   return (
     <Modal
       className={className}
@@ -102,8 +137,8 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
             filter={members}
-            help={t<string>('The account you want to register the proposal from')}
-            label={t<string>('send from account')}
+            help={t<string>('The account you want to propose from')}
+            label={t<string>('propose from account')}
             labelExtra={
               <Available
                 label={<span className='label'>{t<string>('transferrable')}</span>}
@@ -125,34 +160,40 @@ function Submit ({ className = '', members, onClose, palletReferenda }: Props): 
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
-          {/* <Dropdown
+          <Dropdown
+            defaultValue={trackOpts[0] && trackOpts[0].value}
             label={t<string>('submission track')}
             onChange={setTrack}
             options={trackOpts}
-          /> */}
-          <Params
-            className='originSelect'
-            onChange={_onChangeOrigin}
-            params={originType}
           />
+          {!originParam && (
+            <Params
+              className='originSelect'
+              onChange={_onChangeOrigin}
+              params={originType}
+            />
+          )}
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
-          <Params
-            className='timeSelect'
-            isError={isInvalidAt}
-            onChange={_onChangeAtAfter}
-            params={atAfterType}
-          />
-        </Modal.Columns>
+        {bestNumber && defaultAtAfter && (
+          <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
+            <Params
+              className='timeSelect'
+              isError={isInvalidAt}
+              onChange={_onChangeAtAfter}
+              params={atAfterType}
+              values={defaultAtAfter}
+            />
+          </Modal.Columns>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!origin || !atAfter || !isHashValid || !accountId || isInvalidAt}
+          isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt}
           label={t<string>('Submit proposal')}
           onStart={onClose}
-          params={[origin, hash, atAfter]}
+          params={[originParam || origin, hash, atAfter]}
           tx={api.tx[palletReferenda as 'referenda'].submit}
         />
       </Modal.Actions>

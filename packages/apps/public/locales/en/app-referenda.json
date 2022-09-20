@@ -8,6 +8,7 @@
   "No referendums found": "No referendums found",
   "Overview": "Overview",
   "Submit proposal": "Submit proposal",
+  "The account you want to propose from": "The account you want to propose from",
   "The account you want to register the proposal from": "The account you want to register the proposal from",
   "The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.": "The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.",
   "The conviction to use for this vote, with an appropriate lock period.": "The conviction to use for this vote, with an appropriate lock period.",
@@ -26,8 +27,10 @@
   "preimage": "preimage",
   "preimage hash": "preimage hash",
   "preimage {{shortHash}}": "preimage {{shortHash}}",
+  "propose from account": "propose from account",
   "referenda": "referenda",
   "send from account": "send from account",
+  "submission track": "submission track",
   "total": "total",
   "transferrable": "transferrable"
 }
