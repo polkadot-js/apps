@@ -225,8 +225,8 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoKabocha',
     isDisabled: false, 
-    paraId: 4113,
-    text: t('rpc.rococo.kabocha', 'Kabocha (kabsoup)', { ns: 'apps-config' }),
+    paraId: 2113,
+    text: 'Kabocha (kabsoup)',
     providers: {
       JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     }
