@@ -899,7 +899,7 @@ export const namedLogos: Record<string, unknown> = {
   sora_ksm: nodeSora,
   spanner: chainSpanner,
   stafi: nodeStafi,
-  stagex:nodeTotem,
+  stagex: nodeTotem,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
   subdao: nodeSubDAO,
