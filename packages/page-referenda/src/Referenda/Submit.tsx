@@ -16,9 +16,10 @@ import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
-import { formatNumber, isHex, stringPascalCase } from '@polkadot/util';
+import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getTrackName } from './util';
 
 interface Props {
   className?: string;
@@ -101,7 +102,7 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
 
   const trackOpts = useMemo(
     () => tracks.map(([id, track]) => ({
-      text: track.name.toString().replace(/_/g, ' ').split(' ').map(stringPascalCase).join(' '),
+      text: getTrackName(track),
       value: id.toNumber()
     })),
     [tracks]
@@ -136,8 +137,8 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
             filter={members}
-            help={t<string>('The account you want to register the proposal from')}
-            label={t<string>('send from account')}
+            help={t<string>('The account you want to propose from')}
+            label={t<string>('propose from account')}
             labelExtra={
               <Available
                 label={<span className='label'>{t<string>('transferrable')}</span>}
