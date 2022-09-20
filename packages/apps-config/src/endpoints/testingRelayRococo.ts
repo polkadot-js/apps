@@ -280,6 +280,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
+    }
+  },
+  {
     info: 'rococoSubzero',
     paraId: 4040,
     text: 'Subzero',
@@ -325,15 +334,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Zeitgeist PC',
     providers: {
       // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
-    }
-  },
-  {
-    info: 'stagex',
-    homepage: 'https://totemaccounting.com/',
-    paraId: 2007,
-    text: 'Stagex',
-    providers: {
-      Totem: 'wss://s-ui.kapex.network'
     }
   }
 ];
