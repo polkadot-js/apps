@@ -154,6 +154,7 @@ const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVirto = '#063970';
 const chainVln = '#33cc33';
+const chainWatr = '#373b39';
 const chainWeb3games = '#000000';
 const chainWestend = '#da68a7';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -370,7 +371,6 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
-  Lego: chainTotem,
   'Listen Network': chainListen,
   Litentry: chainLitentry,
   'Litentry-rococo': chainLitentryRococo,
@@ -442,6 +442,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SORA Kusama': chainSora,
   'SORA Rococo': chainSora,
   Spanner: chainSpanner,
+  Stagex: chainTotem,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
@@ -473,6 +474,7 @@ export const chainColors: Record<string, string> = Object.entries({
   VirtoRococo: chainVirto,
   'VLN PC': chainVln,
   Wapex: chainTotem,
+  'Watr Network': chainWatr,
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
