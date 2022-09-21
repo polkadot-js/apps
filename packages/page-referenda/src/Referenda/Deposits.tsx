@@ -10,7 +10,8 @@ import React, { useMemo } from 'react';
 
 import { AddressMini } from '@polkadot/react-components';
 
-import Deposit from './Deposit';
+import DepositPlace from './DepositPlace';
+import DepositRefund from './DepositRefund';
 
 interface Props {
   canDeposit?: boolean;
@@ -44,13 +45,21 @@ function Deposits ({ canDeposit, decision, id, palletReferenda, submit, track }:
             withBalance
           />
         )
-        : track && canDeposit && (
-          <Deposit
-            id={id}
-            palletReferenda={palletReferenda}
-            track={track}
-          />
-        )}
+        : canDeposit
+          ? track && (
+            <DepositPlace
+              id={id}
+              palletReferenda={palletReferenda}
+              track={track}
+            />
+          )
+          : (
+            <DepositRefund
+              id={id}
+              palletReferenda={palletReferenda}
+            />
+          )
+      }
     </td>
   );
 }
