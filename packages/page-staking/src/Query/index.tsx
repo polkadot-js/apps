@@ -9,7 +9,7 @@ import { calculatePercentReward } from '@polkadot/app-staking/Performance/Curren
 import useSessionCommitteePerformance, { ValidatorPerformance } from '@polkadot/app-staking/Performance/useCommitteePerformance';
 import useCurrentSessionInfo from '@polkadot/app-staking/Performance/useCurrentSessionInfo';
 import { Button, InputAddressSimple, Table } from '@polkadot/react-components';
-import { useLoadingDelay } from '@polkadot/react-hooks';
+import {useApi, useLoadingDelay} from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Validator from './Validator';
@@ -19,6 +19,7 @@ interface Props {
 }
 
 function Query ({ className }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
   const { t } = useTranslation();
   const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
@@ -29,6 +30,11 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   function range (size: number, startAt = 0) {
     return [...Array(size).keys()].map((i) => i + startAt);
   }
+
+  const isAlephChain = useMemo(() => {
+    return api.runtimeChain.toString().includes('Aleph Zero');
+    }, [api]
+  );
 
   const pastSessions = useMemo(() => {
     if (currentSession && currentEra && historyDepth && minimumSessionNumber) {
@@ -46,10 +52,12 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const sessionCommitteePerformance = useSessionCommitteePerformance(pastSessions);
 
   const filteredSessionPerformances = useMemo(() => {
-    return sessionCommitteePerformance.map(({ performance, sessionId }) =>
-      performance.filter((performance) => performance.accountId === value).map((performance) => {
-        return [performance, sessionId, value];
-      })).flat();
+    return sessionCommitteePerformance.map(({ performance, sessionId , isPalletElectionsSupported}) => {
+      return !!isPalletElectionsSupported ?
+        performance.filter((performance) => performance.accountId === value).map((performance) => {
+          return [performance, sessionId, value];
+        }) : [];
+    }).flat();
   },
   [sessionCommitteePerformance, value]);
 
@@ -101,7 +109,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
           onClick={_onQuery}
         />
       </InputAddressSimple>
-      {value && <Table
+      {value && !!isAlephChain && <Table
         className={className}
         empty={numberOfNonZeroPerformances === pastSessions.length && <div>{t<string>('No entries found')}</div>}
         emptySpinner={

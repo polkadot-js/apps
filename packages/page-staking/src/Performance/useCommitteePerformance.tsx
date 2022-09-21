@@ -54,21 +54,23 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
   useEffect(() => {
-    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-    const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
+    if (api && api.consts.elections) {
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+      const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
 
-    firstBlocksInSession.forEach((firstBlockInSession, index) => {
-      api.rpc.chain
-        .getBlockHash(firstBlockInSession)
-        .then((result): void => {
-          setFirstBlockInSessionHashes((existingItems) => {
-            return existingItems.map((item, j) => {
-              return j === index ? result : item;
+      firstBlocksInSession.forEach((firstBlockInSession, index) => {
+        api.rpc.chain
+          .getBlockHash(firstBlockInSession)
+          .then((result): void => {
+            setFirstBlockInSessionHashes((existingItems) => {
+              return existingItems.map((item, j) => {
+                return j === index ? result : item;
+              });
             });
-          });
-        })
-        .catch(console.error);
-    });
+          })
+          .catch(console.error);
+      });
+    }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(sessions)]
@@ -94,22 +96,24 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-    const lastBlocksInSession = sessions.map((session) => (session + 1) * sessionPeriod - 1);
+    if (api && api.consts.elections) {
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+      const lastBlocksInSession = sessions.map((session) => (session + 1) * sessionPeriod - 1);
 
-    lastBlocksInSession.forEach((lastBlockInSession, index) => {
-      api.rpc.chain
-        .getBlockHash(lastBlockInSession)
-        .then((maybeHash): void => {
-          maybeHash && !maybeHash.isEmpty &&
-          setLastBlockInSessionsHashes((existingItems) => {
-            return existingItems.map((item, j) => {
-              return j === index ? maybeHash : item;
+      lastBlocksInSession.forEach((lastBlockInSession, index) => {
+        api.rpc.chain
+          .getBlockHash(lastBlockInSession)
+          .then((maybeHash): void => {
+            maybeHash && !maybeHash.isEmpty &&
+            setLastBlockInSessionsHashes((existingItems) => {
+              return existingItems.map((item, j) => {
+                return j === index ? maybeHash : item;
+              });
             });
-          });
-        })
-        .catch(console.error);
-    });
+          })
+          .catch(console.error);
+      });
+    }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(sessions)]
@@ -237,7 +241,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
       const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
 
       if (committee && expectedValidatorBlockCountLookup && firstSessionBlockAuthor) {
-
         const validatorPerformances = committee.map((validator) => getValidatorPerformance(validator,
           sessionValidatorBlockCountLookup,
           expectedValidatorBlockCountLookup));
