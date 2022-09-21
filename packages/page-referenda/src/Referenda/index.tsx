@@ -61,7 +61,11 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
             ],
             [undefined, undefined, 3]
           ]}
-          key={track ? `track:${track.name.toString()}` : 'untracked'}
+          key={
+            track
+              ? `track:${track.name.toString()}`
+              : 'untracked'
+          }
         >
           {referenda && referenda.map((r) => (
             <Referendum
