@@ -49,6 +49,7 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
     <>
       <td className='all' />
       <Deposits
+        canRefund
         decision={decision}
         id={id}
         palletReferenda={palletReferenda}

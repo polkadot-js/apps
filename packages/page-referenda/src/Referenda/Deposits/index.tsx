@@ -4,17 +4,18 @@
 import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../types';
+import type { PalletReferenda } from '../../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini } from '@polkadot/react-components';
 
-import DepositPlace from './DepositPlace';
-import DepositRefund from './DepositRefund';
+import Place from './Place';
+import Refund from './Refund';
 
 interface Props {
   canDeposit?: boolean;
+  canRefund?: boolean;
   decision: Option<PalletReferendaDeposit> | null;
   id: BN;
   palletReferenda: PalletReferenda;
@@ -22,7 +23,7 @@ interface Props {
   track?: PalletReferendaTrackInfo;
 }
 
-function Deposits ({ canDeposit, decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
+function Deposits ({ canDeposit, canRefund, decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
   const [valSubmit, valDeposit] = useMemo(
     () => [submit, decision && decision.unwrapOr(null)],
     [decision, submit]
@@ -47,14 +48,14 @@ function Deposits ({ canDeposit, decision, id, palletReferenda, submit, track }:
         )
         : canDeposit
           ? track && (
-            <DepositPlace
+            <Place
               id={id}
               palletReferenda={palletReferenda}
               track={track}
             />
           )
-          : (
-            <DepositRefund
+          : canRefund && (
+            <Refund
               id={id}
               palletReferenda={palletReferenda}
             />

@@ -3,7 +3,7 @@
 
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../types';
+import type { PalletReferenda } from '../../types';
 
 import React, { useState } from 'react';
 
@@ -11,7 +11,7 @@ import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
