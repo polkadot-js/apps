@@ -10,7 +10,7 @@ import { AnyTuple, Codec } from '@polkadot/types/types';
 
 export interface ValidatorPerformance {
   accountId: string,
-  blockCount: number,
+  blockCount?: number,
   expectedBlockCount: number,
 }
 
@@ -19,6 +19,21 @@ export interface SessionCommitteePerformance {
   isPalletElectionsSupported: boolean | undefined,
   performance: ValidatorPerformance[],
   firstSessionBlockAuthor: string | undefined,
+}
+
+export function parseSessionBlockCount (sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][], firstSessionBlockAuthor: string): [string, number][] {
+  return sessionValidatorBlockCountValue.map(([key, values]) => {
+    const account = key.args[0].toString();
+    let count = Number(values.toString());
+
+    if (account === firstSessionBlockAuthor) {
+      // a workaround for the fact that the first session block author is not reflected in that block
+      // elections.sessionValidatorBlockCount state
+      count += 1;
+    }
+
+    return [account, count];
+  });
 }
 
 function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitteePerformance[]{
@@ -42,7 +57,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
     const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
     firstBlocksInSession.forEach((firstBlockInSession, index) => {
-      console.log("First block of session", firstBlockInSession/sessionPeriod, "is", firstBlockInSession, "index", index);
       api.rpc.chain
         .getBlockHash(firstBlockInSession)
         .then((result): void => {
@@ -62,7 +76,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   useEffect(() => {
     firstBlockInSessionHashes.forEach((firstBlockInSessionHash, index) => {
       if (firstBlockInSessionHash) {
-        console.log("First block hash", firstBlockInSessionHash.toString(), "index", index);
         api.at(firstBlockInSessionHash.toString()).then((result) => {
           result.query.elections.palletVersion().then((version) => {
             setIsPalletElectionsSupportedInSession(existingItems => {
@@ -77,11 +90,9 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   }, [api, JSON.stringify(firstBlockInSessionHashes)]);
 
   useEffect(() => {
-    console.log("sessions", JSON.stringify(sessions));
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
     const lastBlocksInSession = sessions.map((session) => (session + 1) * sessionPeriod - 1);
     lastBlocksInSession.forEach((lastBlockInSession, index) => {
-      console.log("Last block in session", lastBlockInSession, "index", index);
       api.rpc.chain
         .getBlockHash(lastBlockInSession)
         .then((maybeHash): void => {
@@ -103,7 +114,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
       if (maybeHash && !maybeHash.isEmpty) {
         api.derive.chain.getHeader(maybeHash).then((header) => {
           if (header && !header.isEmpty && header.author) {
-            console.log("First block author", header.author.toString(), "index", index);
             setFirstSessionBlockAuthors(existingItems => {
               return existingItems.map((item, j) => {
                 return j === index ? header.author?.toString() : item;
@@ -117,26 +127,10 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   [api, JSON.stringify(firstBlockInSessionHashes)]
   );
 
-  function parseSessionBlockCount (sessionValidatorBlockCountValue: [StorageKey<AnyTuple>, Codec][], firstSessionBlockAuthor: string): [string, number][] {
-    return sessionValidatorBlockCountValue.map(([key, values]) => {
-      const account = key.args[0].toString();
-      let count = Number(values.toString());
-
-      if (account === firstSessionBlockAuthor) {
-        // a workaround for the fact that the first session block author is not reflected in that block
-        // elections.sessionValidatorBlockCount state
-        count += 1;
-      }
-
-      return [account, count];
-    });
-  }
-
   useEffect(() => {
     lastBlockInSessionsHashes.forEach((maybeHash, index) => {
       let firstSessionBlockAuthor = firstSessionBlockAuthors[index];
       if (maybeHash && !maybeHash.isEmpty && firstSessionBlockAuthor) {
-        console.log("Last block hash", maybeHash.toString(), "index", index);
         api.at(maybeHash.toString()).then((result) => {
           const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
           firstSessionBlockAuthor && sessionValidatorBlockCount && sessionValidatorBlockCount.entries().then((value) => {
@@ -200,12 +194,13 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   function getValidatorPerformance (validator: string,
-    sessionValidatorBlockCountLookup: [string, number][],
+    sessionValidatorBlockCountLookup: [string, number][] | undefined,
     expectedSessionValidatorBlockCount: [string, number][]): ValidatorPerformance {
-    const maybeCount = sessionValidatorBlockCountLookup.find(([id]) => id === validator);
-    const count = maybeCount ? maybeCount[1] : 0;
     const maybeExpectedBlockCount = expectedSessionValidatorBlockCount.find(([id]) => id === validator);
     const expectedBlockCount = maybeExpectedBlockCount ? maybeExpectedBlockCount[1] : 0;
+    const maybeCount = sessionValidatorBlockCountLookup?.find(([id]) => id === validator);
+    const count = maybeCount ? maybeCount[1] :
+      (sessionValidatorBlockCountLookup ? 0 : undefined);
     return {
       accountId: validator,
       blockCount: count,
@@ -221,7 +216,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
       const isPalletElectionsSupported = isPalletElectionsSupportedInSession[index];
       const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
 
-      if (committee && sessionValidatorBlockCountLookup && expectedValidatorBlockCountLookup && firstSessionBlockAuthor) {
+      if (committee && expectedValidatorBlockCountLookup && firstSessionBlockAuthor) {
         console.log("sessionId", session);
         console.log("sessionValidatorBlockCountLookup", sessionValidatorBlockCountLookup);
         console.log("expectedValidatorBlockCountLookup", expectedValidatorBlockCountLookup);

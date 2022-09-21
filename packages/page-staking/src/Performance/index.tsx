@@ -10,18 +10,13 @@ import Performance from "@polkadot/app-staking/Performance/Performance";
 import useEra from './useEra';
 import useCurrentSessionInfo from "@polkadot/app-staking/Performance/useCurrentSessionInfo";
 
-interface Props {
-  favorites: string[];
-  toggleFavorite: (address: string) => void;
-}
-
 export interface SessionEra {
   session: number,
   era: number,
   currentSessionMode: boolean,
 }
 
-function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElement<Props> {
+function PerformancePage (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -124,9 +119,7 @@ function PerformancePage ({ favorites, toggleFavorite }: Props): React.ReactElem
          </section>
          <section>
          <Performance
-           favorites={favorites}
            sessionEra={sessionEra}
-           toggleFavorite={toggleFavorite}
          />
        </section>
     </>

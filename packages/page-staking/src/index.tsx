@@ -200,10 +200,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
         </Route>
         <Route path={pathRef.current.performance}>
-          <PerformancePage
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-          />
+          <PerformancePage/>
         </Route>
       </Switch>
       <Actions

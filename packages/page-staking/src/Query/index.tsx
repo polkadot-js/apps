@@ -1,21 +1,18 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import { useParams } from 'react-router-dom';
 
-import {Button, InputAddressSimple, Table, Toggle} from '@polkadot/react-components';
+import {Button, InputAddressSimple, Table} from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Validator from './Validator';
 import useCurrentSessionInfo from "@polkadot/app-staking/Performance/useCurrentSessionInfo";
-import useValidatorPerformance, { ValidatorPerformance } from "@polkadot/app-staking/Performance/useCommitteePerformance";
-import useEra from "@polkadot/app-staking/Performance/useEra";
-import useSessionCommitteePerformance from "@polkadot/app-staking/Performance/useCommitteePerformance";
+import useSessionCommitteePerformance, {ValidatorPerformance} from "@polkadot/app-staking/Performance/useCommitteePerformance";
 import Address from "@polkadot/app-staking/Performance/Address";
 import {calculatePercentReward} from "@polkadot/app-staking/Performance/CurrentList";
-import Filtering from "@polkadot/app-staking/Filtering";
-
+import {useLoadingDelay} from "@polkadot/react-hooks";
 
 interface Props {
   className?: string;
@@ -27,30 +24,46 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
   const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
-  const [ sessionsValidatorPerformance, setSessionsValidatorPerformance ] = useState<ValidatorPerformance[]>([]);
+  const isLoading = useLoadingDelay();
 
   function range(size : number, startAt = 0) {
     return [...Array(size).keys()].map(i => i + startAt);
   }
 
   const pastSessions = useMemo(() => {
-      if (currentSession && currentEra) {
-        const sessionQueryDepth = 400;
-        return range(sessionQueryDepth, currentSession - sessionQueryDepth - 1);
+      if (currentSession && currentEra && historyDepth && minimumSessionNumber) {
+        const maxSessionQueryDepth = 4 * historyDepth;
+        const minSessionNumber = Math.max(minimumSessionNumber, currentSession - maxSessionQueryDepth);
+        const queryDepth = currentSession - minSessionNumber;
+        console.log(queryDepth);
+        return range(queryDepth, currentSession - queryDepth);
       }
       return [];
-    }, [currentSession, currentEra]
+    }, [currentSession, currentEra, historyDepth, minimumSessionNumber]
   );
 
   const sessionCommitteePerformance = useSessionCommitteePerformance(pastSessions);
 
-  const list = useMemo(() => {
-    return sessionCommitteePerformance.map(({performance, sessionId}) =>
-      performance.filter((performance) => performance.accountId === value).map((performance) => {
-        return [performance, sessionId];
-      })).flat();
+  const filteredSessionPerformances = useMemo(() => {
+      return sessionCommitteePerformance.map(({performance, sessionId}) =>
+        performance.filter((performance) => performance.accountId === value).map((performance) => {
+          return [performance, sessionId];
+        })).flat();
   },
    [sessionCommitteePerformance]);
+
+  const numberOfNonZeroPerformances = useMemo(() => {
+      return sessionCommitteePerformance.filter(({performance}) =>
+        performance.length).length;
+    },
+    [sessionCommitteePerformance]);
+
+  const list = useMemo(
+    () => isLoading
+      ? []
+      : filteredSessionPerformances,
+    [isLoading, filteredSessionPerformances]
+  );
 
 
   const _onQuery = useCallback(
@@ -64,13 +77,11 @@ function Query ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef(
     [
-      [t('performance'), 'start', 2],
+      [t('session performance in last 4 eras'), 'start', 1],
       [t('session'), 'expand'],
       [t('blocks created'), 'expand'],
       [t('blocks expected'), 'expand'],
       [t('max % reward'), 'expand'],
-      [],
-      [undefined, 'media--1200']
     ]
   );
 
@@ -93,12 +104,10 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       </InputAddressSimple>
       {value && <Table
         className={className}
-        empty={
-          sessionCommitteePerformance && t<string>('No active validators found')
-        }
+        empty={numberOfNonZeroPerformances === pastSessions.length && <div>{t<string>('No entries found')}</div>}
         emptySpinner={
           <>
-            {!sessionCommitteePerformance && <div>{t<string>('Preparing validator list')}</div>}
+            {(numberOfNonZeroPerformances !== pastSessions.length) && <div>{t<string>('Querying past performances')}</div>}
           </>
         }
         header={headerRef.current}
@@ -109,9 +118,9 @@ function Query ({ className }: Props): React.ReactElement<Props> {
           blocksCreated={(performance[0] as ValidatorPerformance).blockCount}
           blocksTarget={(performance[0] as ValidatorPerformance).expectedBlockCount}
           filterName={''}
-          key={(performance[0] as ValidatorPerformance).accountId}
+          key={performance[1] as number}
           session={performance[1] as number}
-          rewardPercentage={calculatePercentReward((performance as unknown as ValidatorPerformance).blockCount, (performance as unknown as ValidatorPerformance).expectedBlockCount).toFixed(1)}
+          rewardPercentage={calculatePercentReward((performance[0] as ValidatorPerformance).blockCount, (performance[0] as ValidatorPerformance).expectedBlockCount)}
         />
       ))}
       </Table>}
