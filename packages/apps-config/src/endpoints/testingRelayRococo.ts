@@ -224,7 +224,6 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoKabocha',
-    isDisabled: false, 
     paraId: 2113,
     text: 'Kabocha (kabsoup)',
     providers: {
