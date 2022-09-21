@@ -20,6 +20,7 @@ export interface ReferendumProps {
   className?: string;
   isMember: boolean;
   members?: string[];
+  palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   value: Referendum;
 }

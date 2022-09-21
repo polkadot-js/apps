@@ -11,13 +11,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.121.2-61-x",
+  "version": "0.121.2-62-x",
   "dependencies": {
     "@babel/runtime": "^7.19.0",
+    "@polkadot/app-explorer": "^0.121.2-62-x",
+    "@polkadot/react-components": "^0.121.2-62-x",
+    "@polkadot/react-query": "^0.121.2-62-x",
     "@darwinia/types": "^2.8.9",
-    "@polkadot/app-explorer": "^0.121.2-61-x",
-    "@polkadot/react-components": "^0.121.2-61-x",
-    "@polkadot/react-query": "^0.121.2-61-x",
     "bignumber.js": "^9.1.0"
   }
 }
