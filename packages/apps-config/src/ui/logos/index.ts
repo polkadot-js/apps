@@ -42,6 +42,7 @@ import chainLogion from './chains/logion.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
+import chainOAK from './chains/oak.png';
 import chainOLI from './chains/oli.svg';
 import chainOmniBTC from './chains/omnibtc.svg';
 import chainOpal from './chains/opal-logo.png';
@@ -331,7 +332,6 @@ export const chainLogos = Object.entries({
   'Kusama CC3': chainKusama,
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
-  Lego: nodeTotem,
   'Listen Network': chainListen,
   Litentry: nodeLitentry,
   'Litentry-rococo': nodeLitentry,
@@ -364,6 +364,7 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
+  'OAK Network': chainOAK,
   Odyssey: nodeAresOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -408,6 +409,7 @@ export const chainLogos = Object.entries({
   'SORA Kusama': nodeSora,
   'SORA Rococo': nodeSora,
   Spanner: chainSpanner,
+  Stagex: nodeTotem,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   'Statemint Test': nodeStatemine,
@@ -656,6 +658,7 @@ export const nodeLogos = Object.entries({
 
 // Alphabetical overrides based on the actual specName
 export const specLogos = Object.entries({
+  oak: chainOAK,
   shell: nodeShell,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
@@ -765,7 +768,6 @@ export const namedLogos: Record<string, unknown> = {
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
-  lego: nodeTotem,
   listen: chainListen,
   litentry: nodeLitentry,
   litmus: nodeLitmus,
@@ -785,6 +787,7 @@ export const namedLogos: Record<string, unknown> = {
   myriad: chainMyriad,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
+  oak: chainOAK,
   odyssey: nodeAresOdyssey,
   omnibtc: nodeOmniBTC,
   opal: nodeUniqueWestend,
@@ -900,6 +903,7 @@ export const namedLogos: Record<string, unknown> = {
   sora_ksm: nodeSora,
   spanner: chainSpanner,
   stafi: nodeStafi,
+  stagex: nodeTotem,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
   subdao: nodeSubDAO,
@@ -932,7 +936,6 @@ export const namedLogos: Record<string, unknown> = {
   unorthodox: chainUnorthodox,
   vanilla: nodeParallel,
   vln: nodeVln,
-  wapex: nodeTotem,
   web3games: nodeWeb3games,
   westend: nodeWestend,
   westendCollectives: chainWestendColl,

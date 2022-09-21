@@ -281,6 +281,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'oak',
+    homepage: 'https://oak.tech',
+    isUnreachable: true,
+    paraId: 2090,
+    text: 'OAK Network',
+    providers: {
+      OAK: 'wss://rpc.oak.tech'
+    }
+  },
+  {
     info: 'omnibtc',
     isUnreachable: true,
     homepage: 'https://www.omnibtc.finance',

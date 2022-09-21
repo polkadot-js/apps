@@ -40,7 +40,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBajun',
-    paraId: 3026,
+    paraId: 2119,
     text: 'Bajun Network',
     providers: {
       AjunaNetwork: 'wss://rpc-rococo.bajun.network'
@@ -277,6 +277,15 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Spreehafen',
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
+    }
+  },
+  {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
     }
   },
   {
