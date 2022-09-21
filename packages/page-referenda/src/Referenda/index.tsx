@@ -15,7 +15,6 @@ import useSummary from '../useSummary';
 import Referendum from './Referendum';
 import Submit from './Submit';
 import Summary from './Summary';
-import { getTrackName } from './util';
 
 export { useCounterNamed as useCounter } from '../useCounter';
 
@@ -49,21 +48,16 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
           tracks={tracks}
         />
       </Button.Group>
-      {grouped.map(({ referenda, track }: ReferendaGroup) => (
+      {grouped.map(({ referenda, trackName }: ReferendaGroup) => (
         <Table
           empty={referenda && t<string>('No referendums found')}
           header={[
-            [
-              track
-                ? t('{{track}}', { replace: { track: getTrackName(track) } })
-                : t('referenda'),
-              'start', 2
-            ],
+            [trackName || t('referenda'), 'start', 2],
             [undefined, undefined, 3]
           ]}
           key={
-            track
-              ? `track:${track.name.toString()}`
+            trackName
+              ? `track:${trackName}`
               : 'untracked'
           }
         >

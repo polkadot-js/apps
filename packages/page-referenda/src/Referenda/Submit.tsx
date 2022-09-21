@@ -19,7 +19,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getTrackName } from './util';
+import { getTrackName } from '../util';
 
 interface Props {
   className?: string;

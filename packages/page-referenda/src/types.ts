@@ -10,6 +10,7 @@ export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCo
 
 export interface ReferendaGroup {
   track?: PalletReferendaTrackInfo;
+  trackName?: string;
   referenda?: Referendum[];
 }
 

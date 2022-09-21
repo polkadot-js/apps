@@ -12,6 +12,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import useReferendaIds from './useReferendaIds';
 import useTracks from './useTracks';
+import { getTrackName } from './util';
 
 const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
 
@@ -72,7 +73,7 @@ function groupReferenda (referenda?: Referendum[]): ReferendaGroup[] {
       group = grouped.find(({ track }) => ref.track === track);
 
       if (!group) {
-        group = { referenda: [], track: ref.track };
+        group = { referenda: [], track: ref.track, trackName: getTrackName(ref.track) };
 
         grouped.push(group);
       }
