@@ -50,7 +50,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
       </Button.Group>
       {grouped.map(({ referenda, trackName }: ReferendaGroup) => (
         <Table
-          empty={referenda && t<string>('No referendums found')}
+          empty={referenda && t<string>('No active referenda')}
           header={[
             [trackName || t('referenda'), 'start', 2],
             [undefined, undefined, 3]
