@@ -10,7 +10,7 @@ import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import Deposit from './Deposit';
+import Deposits from './Deposits';
 import Vote from './Vote';
 import Votes from './Votes';
 
@@ -31,12 +31,14 @@ function expandOngoing (info: Referendum['info']): Expanded {
   };
 }
 
-function Ongoing ({ isMember, members, palletVote, value: { id, info, isConvictionVote } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
   const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, shortHash, tallyTotal } = useMemo(
     () => expandOngoing(info),
     [info]
   );
+
   const preimage = usePreimage(proposalHash);
 
   return (
@@ -53,9 +55,13 @@ function Ongoing ({ isMember, members, palletVote, value: { id, info, isConvicti
           : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
       </td>
-      <Deposit
+      <Deposits
+        canDeposit
         decision={decisionDeposit}
+        id={id}
+        palletReferenda={palletReferenda}
         submit={submissionDeposit}
+        track={track}
       />
       <Votes
         id={id}

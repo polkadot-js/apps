@@ -65,8 +65,8 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function getResult (referenda: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): Referendum[] | undefined {
-  if (tracks) {
+function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): Referendum[] | undefined {
+  if (tracks && referenda) {
     for (let i = 0; i < referenda.length; i++) {
       if (referenda[i].info.isOngoing) {
         const track = tracks.find(([id]) => id.eq(referenda[i].info.asOngoing.track));
@@ -85,15 +85,13 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [Referendum[] | un
   const { api, isApiReady } = useApi();
   const ids = useReferendaIds(palletReferenda);
   const tracks = useTracks(palletReferenda);
-  const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
+  const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda as 'referenda'].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
     () => [
       (ids && ids.length === 0)
         ? []
-        : referenda
-          ? getResult(referenda, tracks)
-          : undefined,
+        : getResult(referenda, tracks),
       tracks
     ],
     [ids, referenda, tracks]
