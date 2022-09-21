@@ -159,6 +159,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoKabocha',
+    paraId: 2113,
+    text: 'Kabocha (kabsoup)',
+    providers: {
+      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
+    }
+  },
+  {
     info: 'rococoLitentry',
     paraId: 2106,
     text: 'Litentry',
@@ -220,14 +228,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Pangolin',
     providers: {
       'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
-    }
-  },
-  {
-    info: 'rococoKabocha',
-    paraId: 2113,
-    text: 'Kabocha (kabsoup)',
-    providers: {
-      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     }
   },
   {
