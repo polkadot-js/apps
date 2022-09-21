@@ -72,6 +72,7 @@ import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
+import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
 import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -334,7 +335,6 @@ export const chainLogos = Object.entries({
   'Kusama CC3': chainKusama,
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
-  Lego: nodeTotem,
   'Listen Network': chainListen,
   Litentry: nodeLitentry,
   'Litentry-rococo': nodeLitentry,
@@ -412,6 +412,7 @@ export const chainLogos = Object.entries({
   'SORA Kusama': nodeSora,
   'SORA Rococo': nodeSora,
   Spanner: chainSpanner,
+  Stagex: nodeTotem,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   'Statemint Test': nodeStatemine,
@@ -444,6 +445,7 @@ export const chainLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Wapex: nodeTotem,
+  'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
   'Westend Collectives': chainWestendColl,
@@ -773,7 +775,6 @@ export const namedLogos: Record<string, unknown> = {
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
-  lego: nodeTotem,
   listen: chainListen,
   litentry: nodeLitentry,
   litmus: nodeLitmus,
@@ -890,6 +891,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
   rococoVln: nodeVln,
+  rococoWatr: chainWatr,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,
@@ -909,6 +911,7 @@ export const namedLogos: Record<string, unknown> = {
   sora_ksm: nodeSora,
   spanner: chainSpanner,
   stafi: nodeStafi,
+  stagex: nodeTotem,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
   subdao: nodeSubDAO,
@@ -941,7 +944,6 @@ export const namedLogos: Record<string, unknown> = {
   unorthodox: chainUnorthodox,
   vanilla: nodeParallel,
   vln: nodeVln,
-  wapex: nodeTotem,
   web3games: nodeWeb3games,
   westend: nodeWestend,
   westendCollectives: chainWestendColl,

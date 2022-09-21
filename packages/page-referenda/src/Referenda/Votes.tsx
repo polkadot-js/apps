@@ -25,38 +25,30 @@ function Votes ({ className = '', isConvictionVote, tally }: Props): React.React
 
   return (
     <td className={`${className} expand`}>
-      {isConvictionVote
-        ? (
-          <>
-            <Expander
-              summary={
-                <>
-                  {t<string>('Aye')}
-                  <div><FormatBalance value={tally.ayes} /></div>
-                </>
-              }
-            />
-            <Expander
-              summary={
-                <>
-                  {t<string>('Nay')}
-                  <div><FormatBalance value={tally.nays} /></div>
-                </>
-              }
-            />
-          </>
-        )
-        : (
-          <>
-            <Expander
-              summary={t<string>('Aye {{count}}', { replace: { count: tally.ayes.toNumber() } })}
-            />
-            <Expander
-              summary={t<string>('Nay {{count}}', { replace: { count: tally.nays.toNumber() } })}
-            />
-          </>
-        )
-      }
+      <Expander
+        summary={
+          isConvictionVote
+            ? (
+              <>
+                {t<string>('Aye')}
+                <div><FormatBalance value={tally.ayes} /></div>
+              </>
+            )
+            : t<string>('Aye {{count}}', { replace: { count: tally.ayes.toNumber() } })
+        }
+      />
+      <Expander
+        summary={
+          isConvictionVote
+            ? (
+              <>
+                {t<string>('Nay')}
+                <div><FormatBalance value={tally.nays} /></div>
+              </>
+            )
+            : t<string>('Nay {{count}}', { replace: { count: tally.nays.toNumber() } })
+        }
+      />
     </td>
   );
 }

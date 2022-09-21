@@ -289,6 +289,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
+    }
+  },
+  {
     info: 'rococoSubzero',
     paraId: 4040,
     text: 'Subzero',
@@ -326,6 +335,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Virto',
     providers: {
       // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
+    }
+  },
+  {
+    info: 'rococoWatr',
+    paraId: 2058,
+    text: 'Watr Network',
+    providers: {
+      Watr: 'wss://rpc.dev.watr.org'
     }
   },
   {

@@ -11,8 +11,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useBestNumber } from '@polkadot/react-hooks';
+import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
@@ -23,10 +23,10 @@ import { getTrackName } from './util';
 
 interface Props {
   className?: string;
+  isMember: boolean;
   members?: string[];
-  onClose: () => void;
   palletReferenda: PalletReferenda;
-  tracks: [BN, PalletReferendaTrackInfo][];
+  tracks?: [BN, PalletReferendaTrackInfo][];
 }
 
 interface HashState {
@@ -34,28 +34,32 @@ interface HashState {
   isHashValid: boolean;
 }
 
-function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks: [BN, PalletReferendaTrackInfo][], trackId: number): Record<string, string> | undefined {
-  const originMap = getGovernanceTracks(api, specName, palletReferenda);
-  const trackInfo = tracks.find(([id]) => id.eqn(trackId));
+function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): Record<string, string> | undefined {
   let origin: Record<string, string> | undefined;
 
-  if (trackInfo && originMap) {
-    const trackName = trackInfo[1].name.toString();
-    const record = originMap.find(([[id, name]]) =>
-      id === trackId &&
-      name === trackName
-    );
+  if (tracks && trackId !== undefined) {
+    const originMap = getGovernanceTracks(api, specName, palletReferenda);
+    const trackInfo = tracks.find(([id]) => id.eqn(trackId));
 
-    origin = record && record[1];
+    if (trackInfo && originMap) {
+      const trackName = trackInfo[1].name.toString();
+      const record = originMap.find(([[id, name]]) =>
+        id === trackId &&
+        name === trackName
+      );
+
+      origin = record && record[1];
+    }
   }
 
   return origin;
 }
 
-function Submit ({ className = '', members, onClose, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
+function Submit ({ className = '', isMember, members, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, specName } = useApi();
   const bestNumber = useBestNumber();
+  const [isSubmitOpen, toggleSubmit] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [trackId, setTrack] = useState<number | undefined>();
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
@@ -73,7 +77,7 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   }, [api, bestNumber]);
 
   const originParam = useMemo(
-    () => trackId !== undefined && getOrigin(api, specName, palletReferenda, tracks, trackId),
+    () => getOrigin(api, specName, palletReferenda, tracks, trackId),
     [api, palletReferenda, specName, trackId, tracks]
   );
 
@@ -101,7 +105,7 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   );
 
   const trackOpts = useMemo(
-    () => tracks.map(([id, track]) => ({
+    () => tracks && tracks.map(([id, track]) => ({
       text: getTrackName(track),
       value: id.toNumber()
     })),
@@ -127,77 +131,94 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   );
 
   return (
-    <Modal
-      className={className}
-      header={t<string>('Submit proposal')}
-      onClose={onClose}
-      size='large'
-    >
-      <Modal.Content>
-        <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
-          <InputAddress
-            filter={members}
-            help={t<string>('The account you want to propose from')}
-            label={t<string>('propose from account')}
-            labelExtra={
-              <Available
-                label={<span className='label'>{t<string>('transferrable')}</span>}
-                params={accountId}
+    <>
+      {trackOpts && isSubmitOpen && (
+        <Modal
+          className={className}
+          header={t<string>('Submit proposal')}
+          onClose={toggleSubmit}
+          size='large'
+        >
+          <Modal.Content>
+            <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('The account you want to propose from')}
+                label={t<string>('propose from account')}
+                labelExtra={
+                  <Available
+                    label={<span className='label'>{t<string>('transferrable')}</span>}
+                    params={accountId}
+                  />
+                }
+                onChange={setAccountId}
+                type='account'
               />
-            }
-            onChange={setAccountId}
-            type='account'
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
-          <Input
-            autoFocus
-            help={t<string>('The preimage hash of the proposal')}
-            isError={!isHashValid}
-            label={t<string>('preimage hash')}
-            onChange={_onChangeHash}
-            value={hash}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
-          <Dropdown
-            defaultValue={trackOpts[0] && trackOpts[0].value}
-            label={t<string>('submission track')}
-            onChange={setTrack}
-            options={trackOpts}
-          />
-          {!originParam && (
-            <Params
-              className='originSelect'
-              onChange={_onChangeOrigin}
-              params={originType}
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
+              <Input
+                autoFocus
+                help={t<string>('The preimage hash of the proposal')}
+                isError={!isHashValid}
+                label={t<string>('preimage hash')}
+                onChange={_onChangeHash}
+                value={hash}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
+              <Dropdown
+                defaultValue={trackOpts[0] && trackOpts[0].value}
+                label={t<string>('submission track')}
+                onChange={setTrack}
+                options={trackOpts}
+              />
+              {!originParam && (
+                <Params
+                  className='originSelect'
+                  onChange={_onChangeOrigin}
+                  params={originType}
+                />
+              )}
+            </Modal.Columns>
+            {bestNumber && defaultAtAfter && (
+              <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
+                <Params
+                  className='timeSelect'
+                  isError={isInvalidAt}
+                  onChange={_onChangeAtAfter}
+                  params={atAfterType}
+                  values={defaultAtAfter}
+                />
+              </Modal.Columns>
+            )}
+            <Modal.Columns hint={t<string>('The deposit for this proposal will be locked for the referendum duration.')}>
+              <InputBalance
+                defaultValue={api.consts[palletReferenda as 'referenda'].submissionDeposit}
+                isDisabled
+                label={t<string>('submission deposit')}
+              />
+            </Modal.Columns>
+          </Modal.Content>
+          <Modal.Actions>
+            <TxButton
+              accountId={accountId}
+              icon='plus'
+              isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt}
+              label={t<string>('Submit proposal')}
+              onStart={toggleSubmit}
+              params={[originParam || origin, hash, atAfter]}
+              tx={api.tx[palletReferenda as 'referenda'].submit}
             />
-          )}
-        </Modal.Columns>
-        {bestNumber && defaultAtAfter && (
-          <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
-            <Params
-              className='timeSelect'
-              isError={isInvalidAt}
-              onChange={_onChangeAtAfter}
-              params={atAfterType}
-              values={defaultAtAfter}
-            />
-          </Modal.Columns>
-        )}
-      </Modal.Content>
-      <Modal.Actions>
-        <TxButton
-          accountId={accountId}
-          icon='plus'
-          isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt}
-          label={t<string>('Submit proposal')}
-          onStart={onClose}
-          params={[originParam || origin, hash, atAfter]}
-          tx={api.tx[palletReferenda as 'referenda'].submit}
-        />
-      </Modal.Actions>
-    </Modal>
+          </Modal.Actions>
+        </Modal>
+      )}
+      <Button
+        icon='plus'
+        isDisabled={!isMember || !trackOpts}
+        label={t<string>('Submit proposal')}
+        onClick={toggleSubmit}
+      />
+    </>
   );
 }
 
