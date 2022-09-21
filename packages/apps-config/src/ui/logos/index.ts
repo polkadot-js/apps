@@ -71,6 +71,7 @@ import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
+import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
 import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -440,6 +441,8 @@ export const chainLogos = Object.entries({
   VirtoRococo: chainVirto,
   Vln: nodeVln,
   'VLN PC': nodeVln,
+  Wapex: nodeTotem,
+  'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
   'Westend Collectives': chainWestendColl,
@@ -880,6 +883,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
   rococoVln: nodeVln,
+  rococoWatr: chainWatr,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,

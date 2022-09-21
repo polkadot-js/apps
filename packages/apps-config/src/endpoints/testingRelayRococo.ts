@@ -329,6 +329,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoWatr',
+    paraId: 2058,
+    text: 'Watr Network',
+    providers: {
+      Watr: 'wss://rpc.dev.watr.org'
+    }
+  },
+  {
     info: 'rococoZeitgeist',
     paraId: 2050,
     text: 'Zeitgeist PC',
