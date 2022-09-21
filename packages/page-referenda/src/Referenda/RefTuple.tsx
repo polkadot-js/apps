@@ -7,7 +7,7 @@ import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import Deposit from './Deposit';
+import Deposits from './Deposits';
 
 interface Expanded {
   decision: Option<PalletReferendaDeposit> | null;
@@ -39,7 +39,7 @@ function expandTuple (info: Referendum['info']): Expanded {
     };
 }
 
-function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
+function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.ReactElement<Props> {
   const { decision, submit, when } = useMemo(
     () => expandTuple(info),
     [info]
@@ -48,9 +48,12 @@ function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
   return (
     <>
       <td className='all' />
-      <Deposit
+      <Deposits
         decision={decision}
+        id={id}
+        palletReferenda={palletReferenda}
         submit={submit}
+        track={track}
       />
       <td
         className='number'

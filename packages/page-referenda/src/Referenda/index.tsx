@@ -7,7 +7,7 @@ import React, { useMemo, useRef } from 'react';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Table } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
@@ -30,7 +30,6 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
   const { allAccounts } = useAccounts();
   const [referenda, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, referenda);
-  const [isSubmitOpen, toggleSubmit] = useToggle();
 
   const isMember = useMemo(
     () => !members || allAccounts.some((a) => members.includes(a)),
@@ -47,24 +46,12 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
       <Summary summary={summary} />
       <Button.Group>
         <AddPreimage />
-        {tracks && (
-          <>
-            <Button
-              icon='plus'
-              isDisabled={!isMember}
-              label={t<string>('Submit proposal')}
-              onClick={toggleSubmit}
-            />
-            {isSubmitOpen && (
-              <Submit
-                members={members}
-                onClose={toggleSubmit}
-                palletReferenda={palletReferenda}
-                tracks={tracks}
-              />
-            )}
-          </>
-        )}
+        <Submit
+          isMember={isMember}
+          members={members}
+          palletReferenda={palletReferenda}
+          tracks={tracks}
+        />
       </Button.Group>
       <Table
         className={className}
@@ -76,6 +63,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
             isMember={isMember}
             key={r.key}
             members={members}
+            palletReferenda={palletReferenda}
             palletVote={palletVote}
             value={r}
           />
