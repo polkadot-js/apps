@@ -54,7 +54,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
 
   useEffect(() => {
-    console.log('sessions in hook', sessions);
     const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
     const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
 
@@ -238,12 +237,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
       const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
 
       if (committee && expectedValidatorBlockCountLookup && firstSessionBlockAuthor) {
-        console.log('sessionId', session);
-        console.log('sessionValidatorBlockCountLookup', sessionValidatorBlockCountLookup);
-        console.log('expectedValidatorBlockCountLookup', expectedValidatorBlockCountLookup);
-        console.log('isPalletElectionsSupported', isPalletElectionsSupported);
-        console.log('firstSessionBlockAuthor', firstSessionBlockAuthor);
-        console.log('committee', committee);
 
         const validatorPerformances = committee.map((validator) => getValidatorPerformance(validator,
           sessionValidatorBlockCountLookup,

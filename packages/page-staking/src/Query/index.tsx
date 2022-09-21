@@ -36,8 +36,6 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       const minSessionNumber = Math.max(minimumSessionNumber, currentSession - maxSessionQueryDepth);
       const queryDepth = currentSession - minSessionNumber;
 
-      console.log(queryDepth);
-
       return range(queryDepth, currentSession - queryDepth);
     }
 
@@ -86,8 +84,6 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       [t('max % reward'), 'expand']
     ]
   );
-
-  console.log('list', list);
 
   return (
     <div className={className}>
