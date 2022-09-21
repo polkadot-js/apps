@@ -7,7 +7,7 @@ import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
@@ -16,9 +16,10 @@ import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
-import { formatNumber, isHex, stringPascalCase } from '@polkadot/util';
+import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getTrackName } from './util';
 
 interface Props {
   className?: string;
@@ -59,7 +60,17 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   const [trackId, setTrack] = useState<number | undefined>();
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
+  const [defaultAtAfter, setDefaultAtAfter] = useState<RawParam[] | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+
+  useEffect((): void => {
+    bestNumber && setDefaultAtAfter((prev) =>
+      prev || [{
+        isValid: true,
+        value: { After: bestNumber.addn(1000) }
+      }]
+    );
+  }, [api, bestNumber]);
 
   const originParam = useMemo(
     () => trackId !== undefined && getOrigin(api, specName, palletReferenda, tracks, trackId),
@@ -78,9 +89,11 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   const [originType, atAfterType] = useMemo(
     () => [
       [{
+        name: 'origin',
         type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[0].type.toString())
       }],
       [{
+        name: 'enact',
         type: getTypeDef(api.tx[palletReferenda as 'referenda'].submit.meta.args[2].type.toString())
       }]
     ],
@@ -89,7 +102,7 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
 
   const trackOpts = useMemo(
     () => tracks.map(([id, track]) => ({
-      text: track.name.toString().replace(/_/g, ' ').split(' ').map(stringPascalCase).join(' '),
+      text: getTrackName(track),
       value: id.toNumber()
     })),
     [tracks]
@@ -124,8 +137,8 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
             filter={members}
-            help={t<string>('The account you want to register the proposal from')}
-            label={t<string>('send from account')}
+            help={t<string>('The account you want to propose from')}
+            label={t<string>('propose from account')}
             labelExtra={
               <Available
                 label={<span className='label'>{t<string>('transferrable')}</span>}
@@ -161,14 +174,17 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
             />
           )}
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
-          <Params
-            className='timeSelect'
-            isError={isInvalidAt}
-            onChange={_onChangeAtAfter}
-            params={atAfterType}
-          />
-        </Modal.Columns>
+        {bestNumber && defaultAtAfter && (
+          <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
+            <Params
+              className='timeSelect'
+              isError={isInvalidAt}
+              onChange={_onChangeAtAfter}
+              params={atAfterType}
+              values={defaultAtAfter}
+            />
+          </Modal.Columns>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <TxButton
