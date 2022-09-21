@@ -55,6 +55,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+    }
+  },
+  {
     info: 'rococoBifrost',
     paraId: 2001,
     text: 'Bifrost',
