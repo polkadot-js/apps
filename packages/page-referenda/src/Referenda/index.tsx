@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferenda, PalletVote } from '../types';
+import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Table } from '@polkadot/react-components';
@@ -15,6 +15,7 @@ import useSummary from '../useSummary';
 import Referendum from './Referendum';
 import Submit from './Submit';
 import Summary from './Summary';
+import { getTrackName } from './util';
 
 export { useCounterNamed as useCounter } from '../useCounter';
 
@@ -28,18 +29,13 @@ interface Props {
 function Referenda ({ className, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const [referenda, tracks] = useReferenda(palletReferenda);
-  const summary = useSummary(palletReferenda, referenda);
+  const [grouped, tracks] = useReferenda(palletReferenda);
+  const summary = useSummary(palletReferenda, grouped);
 
   const isMember = useMemo(
     () => !members || allAccounts.some((a) => members.includes(a)),
     [allAccounts, members]
   );
-
-  const headerRef = useRef([
-    [t('referenda'), 'start', 2],
-    [undefined, undefined, 3]
-  ]);
 
   return (
     <div className={className}>
@@ -53,22 +49,32 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
           tracks={tracks}
         />
       </Button.Group>
-      <Table
-        className={className}
-        empty={referenda && t<string>('No referendums found')}
-        header={headerRef.current}
-      >
-        {referenda && referenda.map((r) => (
-          <Referendum
-            isMember={isMember}
-            key={r.key}
-            members={members}
-            palletReferenda={palletReferenda}
-            palletVote={palletVote}
-            value={r}
-          />
-        ))}
-      </Table>
+      {grouped.map(({ referenda, track }: ReferendaGroup) => (
+        <Table
+          empty={referenda && t<string>('No referendums found')}
+          header={[
+            [
+              track
+                ? t('{{track}}', { replace: { track: getTrackName(track) } })
+                : t('referenda'),
+              'start', 2
+            ],
+            [undefined, undefined, 3]
+          ]}
+          key={track ? `track:${track.name.toString()}` : 'untracked'}
+        >
+          {referenda && referenda.map((r) => (
+            <Referendum
+              isMember={isMember}
+              key={r.key}
+              members={members}
+              palletReferenda={palletReferenda}
+              palletVote={palletVote}
+              value={r}
+            />
+          ))}
+        </Table>
+      ))}
     </div>
   );
 }

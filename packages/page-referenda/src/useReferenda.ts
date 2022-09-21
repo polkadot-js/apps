@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, Referendum } from './types';
+import type { PalletReferenda, ReferendaGroup, Referendum } from './types';
 
 import { useMemo } from 'react';
 
@@ -52,20 +52,57 @@ const OPT_MULTI = {
         info,
         isConvictionVote: isConvictionVote(info),
         key: id.toString()
-      }))
-      .sort((a, b) =>
-        a.info.isOngoing === b.info.isOngoing
-          ? a.info.isOngoing
-            ? sortOngoing(a, b)
-            : sortOther(a, b)
-          : a.info.isOngoing
-            ? -1
-            : 1
-      ),
+      })),
   withParamsTransform: true
 };
 
-function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): Referendum[] | undefined {
+function groupReferenda (referenda?: Referendum[]): ReferendaGroup[] {
+  if (!referenda) {
+    return [{}];
+  }
+
+  const grouped: ReferendaGroup[] = [];
+  const other: ReferendaGroup = { referenda: [] };
+
+  for (let i = 0; i < referenda.length; i++) {
+    const ref = referenda[i];
+    let group: ReferendaGroup | undefined = other;
+
+    if (ref.track) {
+      group = grouped.find(({ track }) => ref.track === track);
+
+      if (!group) {
+        group = { referenda: [], track: ref.track };
+
+        grouped.push(group);
+      }
+    }
+
+    group.referenda && group.referenda.push(ref);
+  }
+
+  if ((other.referenda && other.referenda.length !== 0) || !grouped.length) {
+    grouped.push(other);
+  }
+
+  for (let i = 0; i < grouped.length; i++) {
+    const group = grouped[i];
+
+    group.referenda && group.referenda.sort((a, b) =>
+      a.info.isOngoing === b.info.isOngoing
+        ? a.info.isOngoing
+          ? sortOngoing(a, b)
+          : sortOther(a, b)
+        : a.info.isOngoing
+          ? -1
+          : 1
+    );
+  }
+
+  return grouped;
+}
+
+function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
   if (tracks && referenda) {
     for (let i = 0; i < referenda.length; i++) {
       if (referenda[i].info.isOngoing) {
@@ -78,10 +115,10 @@ function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrack
     }
   }
 
-  return referenda;
+  return groupReferenda(referenda);
 }
 
-function useReferendaImpl (palletReferenda: PalletReferenda): [Referendum[] | undefined, [BN, PalletReferendaTrackInfo][] | undefined] {
+function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], [BN, PalletReferendaTrackInfo][] | undefined] {
   const { api, isApiReady } = useApi();
   const ids = useReferendaIds(palletReferenda);
   const tracks = useTracks(palletReferenda);
@@ -90,7 +127,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [Referendum[] | un
   return useMemo(
     () => [
       (ids && ids.length === 0)
-        ? []
+        ? [{ referenda: [] }]
         : getResult(referenda, tracks),
       tracks
     ],
