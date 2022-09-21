@@ -26,19 +26,17 @@ function expandTuple (info: Referendum['info']): Expanded {
           ? info.asTimedOut
           : null;
 
-  if (!data) {
-    return {
+  return data
+    ? {
+      decision: data[2],
+      submit: data[1],
+      when: new Date(data[0].toNumber())
+    }
+    : {
       decision: null,
       submit: null,
       when: null
     };
-  }
-
-  return {
-    decision: data[2],
-    submit: data[1],
-    when: new Date(data[0].toNumber())
-  };
 }
 
 function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {

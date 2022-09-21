@@ -33,10 +33,12 @@ function expandOngoing (info: Referendum['info']): Expanded {
 
 function Ongoing ({ isMember, members, palletVote, value: { id, info, isConvictionVote } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
   const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, shortHash, tallyTotal } = useMemo(
     () => expandOngoing(info),
     [info]
   );
+
   const preimage = usePreimage(proposalHash);
 
   return (

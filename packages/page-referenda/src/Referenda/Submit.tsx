@@ -11,7 +11,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
@@ -34,19 +34,22 @@ interface HashState {
   isHashValid: boolean;
 }
 
-function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks: [BN, PalletReferendaTrackInfo][], trackId: number): Record<string, string> | undefined {
-  const originMap = getGovernanceTracks(api, specName, palletReferenda);
-  const trackInfo = tracks.find(([id]) => id.eqn(trackId));
+function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks: [BN, PalletReferendaTrackInfo][], trackId?: number): Record<string, string> | undefined {
   let origin: Record<string, string> | undefined;
 
-  if (trackInfo && originMap) {
-    const trackName = trackInfo[1].name.toString();
-    const record = originMap.find(([[id, name]]) =>
-      id === trackId &&
-      name === trackName
-    );
+  if (trackId !== undefined) {
+    const originMap = getGovernanceTracks(api, specName, palletReferenda);
+    const trackInfo = tracks.find(([id]) => id.eqn(trackId));
 
-    origin = record && record[1];
+    if (trackInfo && originMap) {
+      const trackName = trackInfo[1].name.toString();
+      const record = originMap.find(([[id, name]]) =>
+        id === trackId &&
+        name === trackName
+      );
+
+      origin = record && record[1];
+    }
   }
 
   return origin;
@@ -73,7 +76,7 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
   }, [api, bestNumber]);
 
   const originParam = useMemo(
-    () => trackId !== undefined && getOrigin(api, specName, palletReferenda, tracks, trackId),
+    () => getOrigin(api, specName, palletReferenda, tracks, trackId),
     [api, palletReferenda, specName, trackId, tracks]
   );
 
@@ -185,6 +188,13 @@ function Submit ({ className = '', members, onClose, palletReferenda, tracks }: 
             />
           </Modal.Columns>
         )}
+        <Modal.Columns hint={t<string>('The deposit for this proposal will be locked for the referendum duration.')}>
+          <InputBalance
+            defaultValue={api.consts[palletReferenda as 'referenda'].submissionDeposit}
+            isDisabled
+            label={t<string>('submission deposit')}
+          />
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <TxButton
