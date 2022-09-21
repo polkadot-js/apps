@@ -852,7 +852,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoIntegritee: nodeIntegritee,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
-  rococoKabocha: chainKabocha,
+  rococoKabocha: nodeKabocha,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
