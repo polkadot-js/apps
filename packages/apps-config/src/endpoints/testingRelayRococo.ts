@@ -280,6 +280,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
+    }
+  },
+  {
     info: 'rococoSubzero',
     paraId: 4040,
     text: 'Subzero',
