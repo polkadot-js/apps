@@ -3,13 +3,13 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 
+import { EraValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
 import { Table, Toggle } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
 import Address from './Address';
-import {EraValidatorPerformance} from "@polkadot/app-staking/Performance/Performance";
 
 interface Props {
   className?: string;
@@ -19,6 +19,7 @@ interface Props {
 
 function getFiltered (displayOnlyCommittee: boolean, eraValidatorPerformances: EraValidatorPerformance[]) {
   const validators = displayOnlyCommittee ? eraValidatorPerformances.filter((performance) => performance.isCommittee) : eraValidatorPerformances;
+
   return validators;
 }
 
@@ -26,6 +27,7 @@ export function calculatePercentReward (blocksCreated: number | undefined, block
   if (blocksCreated === undefined) {
     return '';
   }
+
   let rewardPercentage = 0;
 
   if (blocksTargetValue > 0) {
@@ -66,9 +68,10 @@ function CurrentList ({ className, eraValidatorPerformances }: Props): React.Rea
       [t('blocks created'), 'expand'],
       [t('blocks expected'), 'expand'],
       [t('max % reward'), 'expand'],
-      [t('stats'), 'expand'],
+      [t('stats'), 'expand']
     ]
   );
+
   return (
     <Table
       className={className}
@@ -99,7 +102,7 @@ function CurrentList ({ className, eraValidatorPerformances }: Props): React.Rea
       }
       header={headerRef.current}
     >
-      {list.map(({validatorPerformance}): React.ReactNode => (
+      {list.map(({ validatorPerformance }): React.ReactNode => (
         <Address
           address={validatorPerformance.accountId}
           blocksCreated={validatorPerformance.blockCount}

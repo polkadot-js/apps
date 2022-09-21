@@ -200,7 +200,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
         </Route>
         <Route path={pathRef.current.performance}>
-          <PerformancePage/>
+          <PerformancePage />
         </Route>
       </Switch>
       <Actions

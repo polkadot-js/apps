@@ -3,12 +3,13 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
+import Performance from '@polkadot/app-staking/Performance/Performance';
+import useCurrentSessionInfo from '@polkadot/app-staking/Performance/useCurrentSessionInfo';
 import { useTranslation } from '@polkadot/app-staking/translate';
-import {Button, Input, MarkWarning, Spinner} from '@polkadot/react-components';
-import {useApi} from '@polkadot/react-hooks';
-import Performance from "@polkadot/app-staking/Performance/Performance";
+import { Button, Input, MarkWarning, Spinner } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+
 import useEra from './useEra';
-import useCurrentSessionInfo from "@polkadot/app-staking/Performance/useCurrentSessionInfo";
 
 export interface SessionEra {
   session: number,
@@ -28,14 +29,15 @@ function PerformancePage (): React.ReactElement {
 
   const sessionEra = useMemo((): SessionEra | undefined => {
     if (era && inputSession) {
-      return {currentSessionMode: false, era: era, session: inputSession};
+      return { currentSessionMode: false, era, session: inputSession };
     }
+
     if (currentSession && currentEra) {
-      return {currentSessionMode: true, era: currentEra, session: currentSession};
+      return { currentSessionMode: true, era: currentEra, session: currentSession };
     }
+
     return undefined;
   }, [inputSession, currentEra, currentSession, era]);
-
 
   const _onChangeKey = useCallback(
     (key: string): void => {
@@ -83,7 +85,6 @@ function PerformancePage (): React.ReactElement {
   [t, currentSession, minimumSessionNumber]
   );
 
-
   if (!api.runtimeChain.toString().includes('Aleph Zero')) {
     return (
       <MarkWarning content={'Unsupported chain.'} />
@@ -98,9 +99,9 @@ function PerformancePage (): React.ReactElement {
 
   return (
     <>
-       <section className='performance--actionrow'>
-         <div className='performance--actionrow-value'>
-           <Input
+      <section className='performance--actionrow'>
+        <div className='performance--actionrow-value'>
+          <Input
             autoFocus
             help={help}
             isError={!parsedSessionNumber}
@@ -109,22 +110,21 @@ function PerformancePage (): React.ReactElement {
             onEnter={_onAdd}
           />
         </div>
-         <div className='performance--actionrow-buttons'>
-           <Button
-             icon='play'
-             isDisabled={!parsedSessionNumber}
-             onClick={_onAdd}
-           />
-         </div>
-         </section>
-         <section>
-         <Performance
-           sessionEra={sessionEra}
-         />
-       </section>
+        <div className='performance--actionrow-buttons'>
+          <Button
+            icon='play'
+            isDisabled={!parsedSessionNumber}
+            onClick={_onAdd}
+          />
+        </div>
+      </section>
+      <section>
+        <Performance
+          sessionEra={sessionEra}
+        />
+      </section>
     </>
   );
 }
 
 export default React.memo(PerformancePage);
-

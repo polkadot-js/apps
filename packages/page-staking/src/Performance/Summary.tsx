@@ -1,15 +1,15 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { EraValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
 import SummarySession from '@polkadot/app-staking/Performance/SummarySession';
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import {EraValidatorPerformance} from "@polkadot/app-staking/Performance/Performance";
 
 interface Props {
   className?: string;
@@ -18,11 +18,11 @@ interface Props {
   session: number;
 }
 
-function Summary ({ className = '', era, session, eraValidatorPerformances }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', era, eraValidatorPerformances, session }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const committeeLength = useMemo(() => {
     return eraValidatorPerformances.filter((perf) => perf.isCommittee).length;
-    }, [eraValidatorPerformances]
+  }, [eraValidatorPerformances]
   );
 
   return (

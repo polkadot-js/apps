@@ -1,13 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useCallback, useMemo} from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import {AddressSmall, Icon, Spinner} from '@polkadot/react-components';
+import { AddressSmall, Icon, Spinner } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
-import {queryAddress} from "@polkadot/app-staking/Targets/Validator";
 
 interface Props {
   address: string;
@@ -24,7 +23,11 @@ function useAddressCalls (api: ApiPromise, address: string) {
   return { accountInfo };
 }
 
-function Address ({ address, session, blocksCreated, blocksTarget, filterName, rewardPercentage, }: Props): React.ReactElement<Props> | null {
+function queryAddress (address: string): void {
+  window.location.hash = `/staking/query/${address}`;
+}
+
+function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPercentage, session }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
 
@@ -37,6 +40,7 @@ function Address ({ address, session, blocksCreated, blocksTarget, filterName, r
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const _onQueryStats = useCallback(
     () => queryAddress(address),
     [address]
@@ -51,7 +55,7 @@ function Address ({ address, session, blocksCreated, blocksTarget, filterName, r
         {session}
       </td>}
       <td className='number'>
-        {blocksCreated === undefined ? <Spinner noLabel={true}/> : blocksCreated}
+        {blocksCreated === undefined ? <Spinner noLabel={true} /> : blocksCreated}
       </td>
       <td className='number'>
         {blocksTarget}

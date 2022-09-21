@@ -3,13 +3,13 @@
 
 import { useMemo } from 'react';
 
-import {createNamedHook, useApi, useCall} from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { EraIndex } from '@polkadot/types/interfaces';
 import { Option, u32 } from '@polkadot/types-codec';
 
 type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
 
-function useEraImpl(inputSession?: number) {
+function useEraImpl (inputSession?: number) {
   const { api } = useApi();
   const erasStartSessionIndex = useCall<SessionIndexEntry[]>(api.query.staking.erasStartSessionIndex.entries);
 
@@ -45,6 +45,7 @@ function useEraImpl(inputSession?: number) {
     if (inputSession && erasStartSessionIndex) {
       return calculateEra(inputSession, erasStartSessionIndex);
     }
+
     return undefined;
   }, [inputSession, erasStartSessionIndex]);
 
