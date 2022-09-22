@@ -3,16 +3,18 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
 import Deposits from './Deposits';
+import RefEnd from './RefEnd';
 
 interface Expanded {
   decision: Option<PalletReferendaDeposit> | null;
   submit: PalletReferendaDeposit | null;
-  when: Date | null;
+  when: BN | null;
 }
 
 function expandTuple (info: Referendum['info']): Expanded {
@@ -30,7 +32,7 @@ function expandTuple (info: Referendum['info']): Expanded {
     ? {
       decision: data[2],
       submit: data[1],
-      when: new Date(data[0].toNumber())
+      when: data[0]
     }
     : {
       decision: null,
@@ -47,6 +49,10 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
 
   return (
     <>
+      <RefEnd
+        label={info.type}
+        when={when}
+      />
       <td className='all' />
       <Deposits
         canRefund
@@ -58,14 +64,10 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
       />
       <td
         className='number'
-        colSpan={2}
-      >
-        {when && (
-          when.toUTCString()
-        )}
-      </td>
+        colSpan={3}
+      />
       <td className='number'>
-        {info.type}
+
       </td>
     </>
   );
