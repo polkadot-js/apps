@@ -335,7 +335,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainSnakenet,
-  'HydraDX Rococo': chainHydrate,
+  'HydraDX testnet': chainHydrate,
   Idavoll: chainIdavoll,
   'Imbue Testnet': chainImbue,
   InterBTC: chainInterbtc,

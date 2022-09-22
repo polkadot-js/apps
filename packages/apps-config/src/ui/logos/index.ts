@@ -299,7 +299,7 @@ export const chainLogos = Object.entries({
   'GM Parachain': chainGM,
   helixstreet: nodeHelixstreet,
   HydraDX: chainSnakenet,
-  'HydraDX Rococo': chainHydrate,
+  'HydraDX testnet': chainHydrate,
   Idavoll: nodeIdavoll,
   'Imbue Testnet': nodeImbue,
   InterBTC: nodeInterBTC,
