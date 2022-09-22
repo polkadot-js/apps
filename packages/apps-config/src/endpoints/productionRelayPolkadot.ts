@@ -125,8 +125,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2019,
     text: 'Composable Finance',
     providers: {
-      Composable: 'wss://rpc.composable.finance',
-      Dwellir: 'wss://composable-rpc.dwellir.com'
+      Composable: 'wss://rpc.composable.finance'
     }
   },
   {
