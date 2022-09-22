@@ -36,10 +36,11 @@ export function parseSessionBlockCount (sessionValidatorBlockCountValue: [Storag
   });
 }
 
-function getExpectedBlockCountLookup(committee: string[], firstSessionBlockAuthor: string, sessionPeriod: number) {
+function getExpectedBlockCountLookup (committee: string[], firstSessionBlockAuthor: string, sessionPeriod: number) {
   const result: [string, number][] = [];
 
   const committeeIndex = committee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
+
   if (committeeIndex !== -1) {
     for (let i = 0; i < committee.length; i++) {
       const author = committee[(i + committeeIndex) % committee.length];
@@ -48,6 +49,7 @@ function getExpectedBlockCountLookup(committee: string[], firstSessionBlockAutho
       result.push([author.toString(), Math.ceil(offset / committee.length)]);
     }
   }
+
   return result;
 }
 
@@ -69,6 +71,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     if (api && api.consts.elections) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(session * sessionPeriod));
+
       Promise.all(promises)
         .then((blockHashes) => setFirstBlockInSessionHashes(blockHashes))
         .catch(console.error);
@@ -79,12 +82,15 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    const promisesApiAtFirstBlock = firstBlockInSessionHashes.map((hash) =>  api.at(hash.toString()));
+    const promisesApiAtFirstBlock = firstBlockInSessionHashes.map((hash) => api.at(hash.toString()));
+
     Promise.all(promisesApiAtFirstBlock).then((apis) => {
       const promisesPalletVersions = apis.map((promise) => promise.query.elections.palletVersion());
+
       Promise.all(promisesPalletVersions)
         .then((palletElectionVersionInSession: Codec[]) => {
-          let versions = palletElectionVersionInSession.map((version) => Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION);
+          const versions = palletElectionVersionInSession.map((version) => Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION);
+
           setIsPalletElectionsSupportedInSession(versions);
         }).catch(console.error);
     }).catch(console.error);
@@ -97,6 +103,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     if (api && api.consts.elections) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash((session + 1) * sessionPeriod - 1));
+
       Promise.all(promises)
         .then((blockHashes) => setLastBlockInSessionsHashes(blockHashes.filter((hash) => !hash.isEmpty)))
         .catch(console.error);
@@ -108,6 +115,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
   useEffect(() => {
     const promises = firstBlockInSessionHashes.map((hash) => api.derive.chain.getHeader(hash));
+
     Promise.all(promises).then((headers) =>
       setFirstSessionBlockAuthors(headers.map((header) => header.author ? header.author.toString() : '')))
       .catch(console.error);
@@ -118,11 +126,14 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
   useEffect(() => {
     const promisesApisAtLastBlock = lastBlockInSessionsHashes.map((hash) => api.at(hash.toString()));
+
     Promise.all(promisesApisAtLastBlock).then((lastBlockApis) => {
       const promisesSessionValidatorBlockCountEntries = lastBlockApis.map((promise) => promise.query.elections.sessionValidatorBlockCount.entries());
+
       Promise.all(promisesSessionValidatorBlockCountEntries).then((entriesArray) =>
-        setSessionValidatorBlockCountLookups(entriesArray.map((entries,index) => {
+        setSessionValidatorBlockCountLookups(entriesArray.map((entries, index) => {
           const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+
           return parseSessionBlockCount(entries, firstSessionBlockAuthor);
         }))).catch(console.error);
     }).catch(console.error);
@@ -133,13 +144,15 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
   useEffect(() => {
     const apisAtFirstBlockPromises = firstBlockInSessionHashes.map((hash) => api.at(hash.toString()));
+
     Promise.all(apisAtFirstBlockPromises).then((apis) => {
-        const validatorsPromises = apis.map((api) => api.query.session.validators());
-        Promise.all(validatorsPromises).then((validatorsOfValidators: Codec[][]) =>
-          setCommittees(validatorsOfValidators.map((validators) =>
-            validators.map((validator) => validator.toString()))))
-          .catch(console.error);
-      }
+      const validatorsPromises = apis.map((api) => api.query.session.validators());
+
+      Promise.all(validatorsPromises).then((validatorsOfValidators: Codec[][]) =>
+        setCommittees(validatorsOfValidators.map((validators) =>
+          validators.map((validator) => validator.toString()))))
+        .catch(console.error);
+    }
     ).catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,11 +160,12 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-      setExpectedSessionValidatorBlockCountLookups(committees.map((committee, index) => {
-        const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
-        const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-        return getExpectedBlockCountLookup(committee, firstSessionBlockAuthor, sessionPeriod);
-      }));
+    setExpectedSessionValidatorBlockCountLookups(committees.map((committee, index) => {
+      const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+
+      return getExpectedBlockCountLookup(committee, firstSessionBlockAuthor, sessionPeriod);
+    }));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(firstSessionBlockAuthors), JSON.stringify(committees)]

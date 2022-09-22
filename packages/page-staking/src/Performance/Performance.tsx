@@ -22,7 +22,7 @@ export interface EraValidatorPerformance {
   isCommittee: boolean;
 }
 
-function parsePerformanceCommittee(currentSessionMode: boolean, sessionValidatorBlockCountLookup: [string, number][], committeePerformance: ValidatorPerformance) {
+function parsePerformanceCommittee (currentSessionMode: boolean, sessionValidatorBlockCountLookup: [string, number][], committeePerformance: ValidatorPerformance) {
   if (currentSessionMode && sessionValidatorBlockCountLookup.length > 0) {
     const maybeBlockCount = sessionValidatorBlockCountLookup.find(([id]) => id === committeePerformance.accountId);
     const blockCount = maybeBlockCount ? maybeBlockCount[1] : 0;
@@ -72,8 +72,9 @@ function Performance ({ sessionEra }: Props): React.ReactElement<Props> {
 
   const eraValidatorPerformances: EraValidatorPerformance[] = useMemo(() => {
     if (!sessionCommitteePerformance) {
-        return [];
+      return [];
     }
+
     const committeePerformances = sessionCommitteePerformance.performance;
 
     const validatorPerformancesCommittee = committeePerformances.map((committeePerformance) =>
@@ -93,7 +94,6 @@ function Performance ({ sessionEra }: Props): React.ReactElement<Props> {
     });
 
     return validatorPerformancesCommittee.concat(validatorPerformancesNonCommittee);
-
   },
   [sessionCommitteePerformance, eraValidators, sessionValidatorBlockCountLookup, sessionEra]
 
