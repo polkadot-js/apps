@@ -14,7 +14,12 @@ export function useCounterNamed (palletReferenda: PalletReferenda): number {
 
   return useMemo(
     () => grouped
-      ? grouped.reduce((total, { referenda }) => total + (referenda ? referenda.filter(({ info }) => info.isOngoing).length : 0), 0)
+      ? grouped.reduce((total, { referenda }) =>
+        total + (
+          referenda
+            ? referenda.filter(({ info }) => info.isOngoing).length
+            : 0
+        ), 0)
       : 0,
     [grouped]
   );

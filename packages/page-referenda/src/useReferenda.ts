@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, ReferendaGroup, Referendum } from './types';
+import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum } from './types';
 
 import { useMemo } from 'react';
 
@@ -21,7 +21,16 @@ function isConvictionVote (info: Referendum['info']): info is PalletReferendaRef
 }
 
 function sortOngoing (a: Referendum, b: Referendum): number {
-  return a.info.asOngoing.track.cmp(b.info.asOngoing.track) || a.id.cmp(b.id);
+  const ao = a.info.asOngoing;
+  const bo = b.info.asOngoing;
+
+  return ao.track.cmp(bo.track) || (
+    ao.deciding.isSome === bo.deciding.isSome
+      ? 0
+      : ao.deciding.isSome
+        ? -1
+        : 1
+  ) || a.id.cmp(b.id);
 }
 
 function sortOther (a: Referendum, b: Referendum): number {
@@ -37,6 +46,24 @@ function sortOther (a: Referendum, b: Referendum): number {
           ? -1
           : idxa - idxb
   ) || a.id.cmp(b.id);
+}
+
+function sortReferenda (a: Referendum, b: Referendum): number {
+  return a.info.isOngoing === b.info.isOngoing
+    ? a.info.isOngoing
+      ? sortOngoing(a, b)
+      : sortOther(a, b)
+    : a.info.isOngoing
+      ? -1
+      : 1;
+}
+
+function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
+  return a.trackId && b.trackId
+    ? a.trackId.cmp(b.trackId)
+    : a.trackId
+      ? -1
+      : 1;
 }
 
 const OPT_MULTI = {
@@ -57,66 +84,63 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function groupReferenda (referenda?: Referendum[]): ReferendaGroup[] {
+function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
   if (!referenda) {
+    // return an empty group when we have no referenda
     return [{}];
+  } else if (!tracks) {
+    // if we have no tracks, we just return the referenda unsorted
+    return [{ referenda: referenda.sort(sortReferenda) }];
   }
 
-  const grouped: ReferendaGroup[] = [];
-  const other: ReferendaGroup = { referenda: [] };
+  const grouped: ReferendaGroupKnown[] = [];
+  const other: ReferendaGroupKnown = { referenda: [] };
 
+  // sort the referenda by track inside groups
   for (let i = 0; i < referenda.length; i++) {
     const ref = referenda[i];
-    let group: ReferendaGroup | undefined = other;
 
-    if (ref.track) {
-      group = grouped.find(({ track }) => ref.track === track);
+    // only ongoing have tracks
+    const trackInfo = ref.info.isOngoing
+      ? tracks.find(([id]) => id.eq(ref.info.asOngoing.track))
+      : undefined;
+
+    if (trackInfo) {
+      ref.trackId = trackInfo[0];
+      ref.track = trackInfo[1];
+
+      const group = grouped.find(({ track }) => ref.track === track);
 
       if (!group) {
-        group = { referenda: [], track: ref.track, trackName: getTrackName(ref.track) };
-
-        grouped.push(group);
+        // we don't have a group as of yet, create one
+        grouped.push({
+          referenda: [ref],
+          track: ref.track,
+          trackId: ref.trackId,
+          trackName: getTrackName(ref.track)
+        });
+      } else {
+        // existing group, just add the referendum
+        group.referenda.push(ref);
       }
+    } else {
+      // if we have no track, we just add it to "other"
+      other.referenda.push(ref);
     }
-
-    group.referenda && group.referenda.push(ref);
   }
 
+  // if we do have items in "other", we add it (or if none, then empty other)
   if ((other.referenda && other.referenda.length !== 0) || !grouped.length) {
     grouped.push(other);
   }
 
+  // sort referenda per group
   for (let i = 0; i < grouped.length; i++) {
-    const group = grouped[i];
-
-    group.referenda && group.referenda.sort((a, b) =>
-      a.info.isOngoing === b.info.isOngoing
-        ? a.info.isOngoing
-          ? sortOngoing(a, b)
-          : sortOther(a, b)
-        : a.info.isOngoing
-          ? -1
-          : 1
-    );
+    grouped[i].referenda.sort(sortReferenda);
   }
 
-  return grouped;
-}
-
-function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
-  if (tracks && referenda) {
-    for (let i = 0; i < referenda.length; i++) {
-      if (referenda[i].info.isOngoing) {
-        const track = tracks.find(([id]) => id.eq(referenda[i].info.asOngoing.track));
-
-        if (track) {
-          referenda[i].track = track[1];
-        }
-      }
-    }
-  }
-
-  return groupReferenda(referenda);
+  // sort all groups
+  return grouped.sort(sortGroups);
 }
 
 function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], [BN, PalletReferendaTrackInfo][] | undefined] {

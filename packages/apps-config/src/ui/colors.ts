@@ -66,6 +66,7 @@ const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
+const chainKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const chainJupiter = '#7143ff';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -193,7 +194,7 @@ const nodeIpse = '#08a1e8';
 const nodeJaz = '#121212';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
-const nodeKabocha = '#f53485';
+const nodeKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
@@ -345,6 +346,8 @@ export const chainColors: Record<string, string> = Object.entries({
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
@@ -530,7 +533,8 @@ export const nodeColors = Object.entries({
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
-  Kabocha: nodeKabocha,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
