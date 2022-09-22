@@ -3,7 +3,7 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 
-import { ValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
+import { EraValidatorPerformance } from '@polkadot/app-staking/Performance/Performance';
 import { Table, Toggle } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
@@ -13,25 +13,37 @@ import Address from './Address';
 
 interface Props {
   className?: string;
-  toggleFavorite: (address: string) => void;
   session: number;
-  validatorPerformances: ValidatorPerformance[];
+  eraValidatorPerformances: EraValidatorPerformance[];
 }
 
-function sortValidatorsByFavourites (validatorPerformances: ValidatorPerformance[]): ValidatorPerformance[] {
-  return validatorPerformances
-    .sort(({ isFavourite: favA }: ValidatorPerformance, { isFavourite: favB }: ValidatorPerformance): number => {
-      return favA === favB ? 0 : (favA ? -1 : 1);
-    });
+function getFiltered (displayOnlyCommittee: boolean, eraValidatorPerformances: EraValidatorPerformance[]) {
+  const validators = displayOnlyCommittee ? eraValidatorPerformances.filter((performance) => performance.isCommittee) : eraValidatorPerformances;
+
+  return validators;
 }
 
-function getFiltered (displayOnlyCommittee: boolean, validatorPerformances: ValidatorPerformance[]) {
-  const validators = displayOnlyCommittee ? validatorPerformances.filter((performance) => performance.isCommittee) : validatorPerformances;
+export function calculatePercentReward (blocksCreated: number | undefined, blocksTargetValue: number) {
+  if (blocksCreated === undefined) {
+    return '';
+  }
 
-  return sortValidatorsByFavourites(validators);
+  let rewardPercentage = 0;
+
+  if (blocksTargetValue > 0) {
+    rewardPercentage = 100 * blocksCreated / blocksTargetValue;
+
+    if (rewardPercentage >= 90) {
+      rewardPercentage = 100;
+    }
+  } else if (blocksTargetValue === 0 && blocksCreated === 0) {
+    rewardPercentage = 100;
+  }
+
+  return rewardPercentage.toFixed(1);
 }
 
-function CurrentList ({ className, toggleFavorite, validatorPerformances }: Props): React.ReactElement<Props> {
+function CurrentList ({ className, eraValidatorPerformances }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
   const [displayOnlyCommittee, setDisplayOnlyCommittee] = useState(true);
@@ -39,8 +51,8 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
   const isLoading = useLoadingDelay();
 
   const validators = useMemo(
-    () => getFiltered(displayOnlyCommittee, validatorPerformances),
-    [validatorPerformances, displayOnlyCommittee]
+    () => getFiltered(displayOnlyCommittee, eraValidatorPerformances),
+    [eraValidatorPerformances, displayOnlyCommittee]
   );
 
   const list = useMemo(
@@ -52,30 +64,13 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
 
   const headerRef = useRef(
     [
-      [t('validators'), 'start', 2],
+      [t('validators'), 'start', 1],
       [t('blocks created'), 'expand'],
-      [t('blocks expected'), 'media--1100'],
-      [t('max % reward')],
-      [],
-      [undefined, 'media--1200']
+      [t('blocks expected'), 'expand'],
+      [t('max % reward'), 'expand'],
+      [t('stats'), 'expand']
     ]
   );
-
-  function calculatePercentReward (blocksCreated: number, blocksTargetValue: number) {
-    let rewardPercentage = 0;
-
-    if (blocksTargetValue > 0) {
-      rewardPercentage = 100 * blocksCreated / blocksTargetValue;
-
-      if (rewardPercentage >= 90) {
-        rewardPercentage = 100;
-      }
-    } else if (blocksTargetValue === 0 && blocksCreated === 0) {
-      rewardPercentage = 100;
-    }
-
-    return rewardPercentage;
-  }
 
   return (
     <Table
@@ -107,16 +102,14 @@ function CurrentList ({ className, toggleFavorite, validatorPerformances }: Prop
       }
       header={headerRef.current}
     >
-      {list.map((performance): React.ReactNode => (
+      {list.map(({ validatorPerformance }): React.ReactNode => (
         <Address
-          address={performance.accountId}
-          blocksCreated={performance.blockCount}
-          blocksTarget={performance.expectedBlockCount}
+          address={validatorPerformance.accountId}
+          blocksCreated={validatorPerformance.blockCount}
+          blocksTarget={validatorPerformance.expectedBlockCount}
           filterName={nameFilter}
-          isFavorite={performance.isFavourite}
-          key={performance.accountId}
-          rewardPercentage={calculatePercentReward(performance.blockCount, performance.expectedBlockCount).toFixed(1)}
-          toggleFavorite={toggleFavorite}
+          key={validatorPerformance.accountId}
+          rewardPercentage={calculatePercentReward(validatorPerformance.blockCount, validatorPerformance.expectedBlockCount)}
         />
       ))}
     </Table>

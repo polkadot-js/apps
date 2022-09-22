@@ -1,24 +1,20 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Icon, Spinner } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
-import Favorite from './Favorite';
-
 interface Props {
   address: string;
-  className?: string;
   filterName: string;
-  isFavorite: boolean;
-  toggleFavorite: (accountId: string) => void;
-  blocksCreated: number,
+  session?: number;
+  blocksCreated?: number,
   blocksTarget: number,
-  rewardPercentage: string,
+  rewardPercentage?: string,
 }
 
 function useAddressCalls (api: ApiPromise, address: string) {
@@ -27,7 +23,11 @@ function useAddressCalls (api: ApiPromise, address: string) {
   return { accountInfo };
 }
 
-function Address ({ address, blocksCreated, blocksTarget, className = '', filterName, isFavorite, rewardPercentage, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function queryAddress (address: string) {
+  window.location.hash = `/staking/query/${address}`;
+}
+
+function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPercentage, session }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
 
@@ -40,28 +40,36 @@ function Address ({ address, blocksCreated, blocksTarget, className = '', filter
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const onQueryStats = useCallback(
+    () => queryAddress(address),
+    [address]
+  );
+
   return (
-    <tr className={className}>
-      <td className='badge together'>
-        <Favorite
-          address={address}
-          isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
-        />
-      </td>
+    <tr>
       <td className='address'>
         <AddressSmall value={address} />
       </td>
+      {session && <td className='number'>
+        {session}
+      </td>}
       <td className='number'>
-        {blocksCreated}
+        {blocksCreated ?? <Spinner noLabel={true} />}
       </td>
       <td className='number'>
         {blocksTarget}
       </td>
       <td className='number'>
-        {rewardPercentage}
+        {blocksCreated === undefined ? '' : rewardPercentage}
       </td>
-
+      {!session && <td className='number'>
+        <Icon
+          className='staking--stats highlight--color'
+          icon='chart-line'
+          onClick={onQueryStats}
+        />
+      </td>}
     </tr>
   );
 }
