@@ -42,26 +42,27 @@ function Deposits ({ canDeposit, canRefund, className = '', decision, id, pallet
       )}
       {valDeposit
         ? (
-          <AddressMini
-            balance={valDeposit.amount}
-            value={valDeposit.who}
-            withBalance
+          <>
+            <AddressMini
+              balance={valDeposit.amount}
+              value={valDeposit.who}
+              withBalance
+            />
+            {canRefund && (
+              <Refund
+                id={id}
+                palletReferenda={palletReferenda}
+              />
+            )}
+          </>
+        )
+        : canDeposit && track && (
+          <Place
+            id={id}
+            palletReferenda={palletReferenda}
+            track={track}
           />
         )
-        : canDeposit
-          ? track && (
-            <Place
-              id={id}
-              palletReferenda={palletReferenda}
-              track={track}
-            />
-          )
-          : canRefund && (
-            <Refund
-              id={id}
-              palletReferenda={palletReferenda}
-            />
-          )
       }
     </td>
   );
