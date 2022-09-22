@@ -32,6 +32,7 @@ export function calculatePercentReward (blocksCreated: number | undefined, block
 
   if (blocksTargetValue > 0) {
     rewardPercentage = 100 * blocksCreated / blocksTargetValue;
+
     if (rewardPercentage >= 90 && rewardPercentage <= 100) {
       rewardPercentage = 100;
     }
