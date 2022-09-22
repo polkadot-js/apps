@@ -27,6 +27,7 @@ The repo is split into a number of packages, each representing an application. T
 - [page-settings](packages/page-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
 - [page-staking](packages/page-staking/) A basic staking management app, allowing staking and nominations.
 - [page-storage](packages/page-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
+- [page-supersig](packages/page-supersig/) Like multisig, but with super powers. A light app to handle your decentralised organisation through the supersig pallet.
 - [page-toolbox](packages/page-toolbox/) Submission of raw data to RPC endpoints and utility hashing functions.
 - [page-transfer](packages/page-transfer/) A basic account management app, allowing transfer of Units/DOTs between accounts.
 

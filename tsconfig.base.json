@@ -77,6 +77,8 @@
       "@polkadot/app-storage/*": ["page-storage/src/*"],
       "@polkadot/app-sudo": ["page-sudo/src"],
       "@polkadot/app-sudo/*": ["page-sudo/src/*"],
+      "@polkadot/app-supersig": ["page-supersig/src"],
+      "@polkadot/app-supersig/*": ["page-supersig/src/*"],
       "@polkadot/app-tech-comm": ["page-tech-comm/src"],
       "@polkadot/app-tech-comm/*": ["page-tech-comm/src/*"],
       "@polkadot/app-treasury": ["page-treasury/src"],
