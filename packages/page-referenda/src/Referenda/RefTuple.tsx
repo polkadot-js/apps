@@ -49,11 +49,11 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
 
   return (
     <>
+      <td className='all' />
       <RefEnd
         label={info.type}
         when={when}
       />
-      <td className='all' />
       <Deposits
         canRefund
         decision={decision}

@@ -79,16 +79,6 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
 
   return (
     <>
-      <RefEnd
-        label={
-          confirmEnd
-            ? t<string>('Confirming')
-            : decideEnd
-              ? t<string>('Deciding')
-              : t<string>('Preparing')
-        }
-        when={periodEnd}
-      />
       <td className='all'>
         {preimage && preimage.proposal
           ? (
@@ -101,6 +91,16 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
           : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
       </td>
+      <RefEnd
+        label={
+          confirmEnd
+            ? t<string>('Confirming')
+            : decideEnd
+              ? t<string>('Deciding')
+              : t<string>('Preparing')
+        }
+        when={periodEnd}
+      />
       <Deposits
         canDeposit
         decision={decisionDeposit}
