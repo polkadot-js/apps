@@ -143,6 +143,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+    }
+  },
+  {
     info: 'rococoImbue',
     paraId: 2121,
     text: 'Imbue Network',
@@ -350,14 +358,6 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Zeitgeist PC',
     providers: {
       // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
-    }
-  },
-  {
-    info: 'rococoHydraDX',
-    paraId: 2034,
-    text: 'HydraDX',
-    providers: {
-      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
     }
   }
 ];
