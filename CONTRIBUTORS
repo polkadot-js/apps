@@ -270,6 +270,7 @@
        1	Gerawork Aynekulu             	Update RILT paraId (#7736)
        1	gojazdev                      	feat(apps-config): introduce Jaz node (#7805)
        1	goldsteinsveta                	Style bug fix: Balances asset selector (#6668)
+       1	green-jay                     	add hydradx rococo (#8154)
        1	Guenit                        	remove apron config `isDisabled` flag (#5151)
        1	h4x3rotab                     	Update Phala's websocket endpoint (#4241)
        1	Hanonycash                    	Added hanonycash Network logos & endpoints (#3911)
