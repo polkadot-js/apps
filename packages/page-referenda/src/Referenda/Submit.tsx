@@ -34,6 +34,11 @@ interface HashState {
   isHashValid: boolean;
 }
 
+interface DefaultAtAfter {
+  defaults: [{ isValid: boolean, value: { After: BN } }];
+  trackId: number;
+}
+
 function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): Record<string, string> | undefined {
   let origin: Record<string, string> | undefined;
 
@@ -55,26 +60,47 @@ function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, 
   return origin;
 }
 
+function getDefaultEnactment (prev: DefaultAtAfter | null, bestNumber: BN, trackId: number, tracks: [BN, PalletReferendaTrackInfo][]): DefaultAtAfter {
+  if (prev && prev.trackId === trackId) {
+    return prev;
+  }
+
+  const track = tracks.find(([id]) => id.eqn(trackId));
+
+  return {
+    defaults: [{
+      isValid: true,
+      value: {
+        After: track
+          ? bestNumber
+            .add(track[1].preparePeriod)
+            .add(track[1].decisionPeriod)
+            .add(track[1].confirmPeriod)
+            .add(track[1].minEnactmentPeriod)
+          : bestNumber.addn(1000)
+      }
+    }],
+    trackId
+  };
+}
+
 function Submit ({ className = '', isMember, members, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, specName } = useApi();
   const bestNumber = useBestNumber();
   const [isSubmitOpen, toggleSubmit] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [trackId, setTrack] = useState<number | undefined>();
+  const [trackId, setTrack] = useState<number | undefined>(undefined);
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
-  const [defaultAtAfter, setDefaultAtAfter] = useState<RawParam[] | null>(null);
+  const [defaultAtAfter, setDefaultAtAfter] = useState<DefaultAtAfter | null>(null);
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
 
   useEffect((): void => {
-    bestNumber && setDefaultAtAfter((prev) =>
-      prev || [{
-        isValid: true,
-        value: { After: bestNumber.addn(1000) }
-      }]
+    tracks && trackId !== undefined && bestNumber && setDefaultAtAfter((prev) =>
+      getDefaultEnactment(prev, bestNumber, trackId, tracks)
     );
-  }, [api, bestNumber]);
+  }, [api, bestNumber, trackId, tracks]);
 
   const originParam = useMemo(
     () => getOrigin(api, specName, palletReferenda, tracks, trackId),
@@ -185,9 +211,10 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 <Params
                   className='timeSelect'
                   isError={isInvalidAt}
+                  key={`after:${defaultAtAfter.trackId.toString()}`}
                   onChange={_onChangeAtAfter}
                   params={atAfterType}
-                  values={defaultAtAfter}
+                  values={defaultAtAfter.defaults}
                 />
               </Modal.Columns>
             )}

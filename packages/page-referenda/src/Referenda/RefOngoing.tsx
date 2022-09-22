@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/types';
+import type { PalletReferendaDecidingStatus, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { Referendum, ReferendumProps as Props } from '../types';
 
@@ -8,6 +10,9 @@ import React, { useMemo } from 'react';
 
 import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
+import { useBestNumber } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
@@ -31,12 +36,45 @@ function expandOngoing (info: Referendum['info']): Expanded {
   };
 }
 
+function expandPeriods (submitted: BN, optDeciding: Option<PalletReferendaDecidingStatus>, track?: PalletReferendaTrackInfo): [BN | null, BN | null, BN | null, BN | null] {
+  if (!track) {
+    return [null, null, null, null];
+  }
+
+  let prepareEnd: BN | null = null;
+  let decideEnd: BN | null = null;
+  let confirmEnd: BN | null = null;
+
+  if (optDeciding.isSome) {
+    const deciding = optDeciding.unwrap();
+
+    if (deciding.confirming.isSome) {
+      // we are confirming
+      confirmEnd = deciding.confirming.unwrap().add(track.confirmPeriod);
+    } else {
+      // we are still deciding
+      decideEnd = deciding.since.add(track.decisionPeriod);
+    }
+  } else {
+    // we are still preparing
+    prepareEnd = submitted.add(track.preparePeriod);
+  }
+
+  return [prepareEnd, decideEnd, confirmEnd, confirmEnd || decideEnd || prepareEnd];
+}
+
 function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const bestNumber = useBestNumber();
 
-  const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, shortHash, tallyTotal } = useMemo(
+  const { ongoing: { deciding, decisionDeposit, proposalHash, submissionDeposit, submitted, tally }, shortHash, tallyTotal } = useMemo(
     () => expandOngoing(info),
     [info]
+  );
+
+  const [, decideEnd, confirmEnd, periodEnd] = useMemo(
+    () => expandPeriods(submitted, deciding, track),
+    [deciding, submitted, track]
   );
 
   const preimage = usePreimage(proposalHash);
@@ -54,6 +92,21 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
           )
           : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
+      </td>
+      <td className='number'>
+        {bestNumber && periodEnd && (
+          <>
+            {
+              confirmEnd
+                ? t<string>('Confirming')
+                : decideEnd
+                  ? t<string>('Deciding')
+                  : t<string>('Preparing')
+            }
+            <BlockToTime value={periodEnd.sub(bestNumber)} />
+            #{formatNumber(periodEnd)}
+          </>
+        )}
       </td>
       <Deposits
         canDeposit
