@@ -33,6 +33,7 @@ import chainGenshiro from './chains/genshiro.svg';
 import chainGM from './chains/gm.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
+import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
@@ -312,6 +313,8 @@ export const chainLogos = Object.entries({
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup)': chainKabocha,
   Kapex: nodeTotem,
   Karura: chainKarura,
   Kerria: chainParallel,
@@ -537,8 +540,11 @@ export const nodeLogos = Object.entries({
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   Kerria: nodeParallel,
   'Kerria Dev': nodeParallel,
+  Khala: nodeKhala,
+  'Khala Node': nodeKhala,
   KICO: chainKico,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
@@ -753,6 +759,7 @@ export const namedLogos: Record<string, unknown> = {
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
   kabocha: nodeKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   kapex: nodeTotem,
   karura: chainKarura,
   kerria: nodeParallel,
@@ -846,6 +853,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoIntegritee: nodeIntegritee,
   rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
+  rococoKabocha: nodeKabocha,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
