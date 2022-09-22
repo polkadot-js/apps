@@ -23,7 +23,7 @@ function useAddressCalls (api: ApiPromise, address: string) {
   return { accountInfo };
 }
 
-function queryAddress (address: string): void {
+function queryAddress (address: string) {
   window.location.hash = `/staking/query/${address}`;
 }
 
@@ -41,7 +41,7 @@ function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPerc
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const _onQueryStats = useCallback(
+  const onQueryStats = useCallback(
     () => queryAddress(address),
     [address]
   );
@@ -55,7 +55,7 @@ function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPerc
         {session}
       </td>}
       <td className='number'>
-        {blocksCreated === undefined ? <Spinner noLabel={true} /> : blocksCreated}
+        {blocksCreated ?? <Spinner noLabel={true} />}
       </td>
       <td className='number'>
         {blocksTarget}
@@ -67,7 +67,7 @@ function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPerc
         <Icon
           className='staking--stats highlight--color'
           icon='chart-line'
-          onClick={_onQueryStats}
+          onClick={onQueryStats}
         />
       </td>}
     </tr>

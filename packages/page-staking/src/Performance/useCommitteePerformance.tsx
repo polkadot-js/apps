@@ -36,19 +36,31 @@ export function parseSessionBlockCount (sessionValidatorBlockCountValue: [Storag
   });
 }
 
+function getExpectedBlockCountLookup(committee: string[], firstSessionBlockAuthor: string, sessionPeriod: number) {
+  const result: [string, number][] = [];
+
+  const committeeIndex = committee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
+  if (committeeIndex !== -1) {
+    for (let i = 0; i < committee.length; i++) {
+      const author = committee[(i + committeeIndex) % committee.length];
+      const offset = Math.max(sessionPeriod - i, 0);
+
+      result.push([author.toString(), Math.ceil(offset / committee.length)]);
+    }
+  }
+  return result;
+}
+
 function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitteePerformance[] {
   const { api } = useApi();
 
-  const MAX_POSSIBLE_SESSIONS = 1000;
-
-  const [firstBlockInSessionHashes, setFirstBlockInSessionHashes] = useState<(Hash | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [isPalletElectionsSupportedInSession, setIsPalletElectionsSupportedInSession] = useState<(boolean | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [lastBlockInSessionsHashes, setLastBlockInSessionsHashes] = useState<(Hash | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [firstSessionBlockAuthors, setFirstSessionBlockAuthors] = useState<(string | undefined)[]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [sessionValidatorBlockCountLookups, setSessionValidatorBlockCountLookups] = useState<[string, number][][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [expectedValidatorBlockCountLookups, setExpectedSessionValidatorBlockCountLookups] = useState<[string, number][][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  const [committees, setCommittees] = useState<string[][]>(Array(MAX_POSSIBLE_SESSIONS).fill(undefined));
-  // TODO comment why init is one off
+  const [firstBlockInSessionHashes, setFirstBlockInSessionHashes] = useState<Hash[]>([]);
+  const [isPalletElectionsSupportedInSession, setIsPalletElectionsSupportedInSession] = useState<boolean[]>([]);
+  const [lastBlockInSessionsHashes, setLastBlockInSessionsHashes] = useState<Hash[]>([]);
+  const [firstSessionBlockAuthors, setFirstSessionBlockAuthors] = useState<string[]>([]);
+  const [sessionValidatorBlockCountLookups, setSessionValidatorBlockCountLookups] = useState<[string, number][][]>([]);
+  const [expectedValidatorBlockCountLookups, setExpectedSessionValidatorBlockCountLookups] = useState<[string, number][][]>([]);
+  const [committees, setCommittees] = useState<string[][]>([]);
   const [committeeMemberPerformances, setCommitteeMemberPerformances] = useState<SessionCommitteePerformance[]>([]);
 
   const MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION = 3;
@@ -56,20 +68,10 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   useEffect(() => {
     if (api && api.consts.elections) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const firstBlocksInSession = sessions.map((session) => session * sessionPeriod);
-
-      firstBlocksInSession.forEach((firstBlockInSession, index) => {
-        api.rpc.chain
-          .getBlockHash(firstBlockInSession)
-          .then((result): void => {
-            setFirstBlockInSessionHashes((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? result : item;
-              });
-            });
-          })
-          .catch(console.error);
-      });
+      const promises = sessions.map((session) => api.rpc.chain.getBlockHash(session * sessionPeriod));
+      Promise.all(promises)
+        .then((blockHashes) => setFirstBlockInSessionHashes(blockHashes))
+        .catch(console.error);
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,19 +79,15 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    firstBlockInSessionHashes.forEach((firstBlockInSessionHash, index) => {
-      if (firstBlockInSessionHash) {
-        api.at(firstBlockInSessionHash.toString()).then((result) => {
-          result.query.elections.palletVersion().then((version) => {
-            setIsPalletElectionsSupportedInSession((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? (Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION) : item;
-              });
-            });
-          }).catch(console.error);
+    const promisesApiAtFirstBlock = firstBlockInSessionHashes.map((hash) =>  api.at(hash.toString()));
+    Promise.all(promisesApiAtFirstBlock).then((apis) => {
+      const promisesPalletVersions = apis.map((promise) => promise.query.elections.palletVersion());
+      Promise.all(promisesPalletVersions)
+        .then((palletElectionVersionInSession: Codec[]) => {
+          let versions = palletElectionVersionInSession.map((version) => Number(version.toString()) >= MINIMUM_SUPPORTED_ELECTIONS_PALLET_VERSION);
+          setIsPalletElectionsSupportedInSession(versions);
         }).catch(console.error);
-      }
-    });
+    }).catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(firstBlockInSessionHashes)]
@@ -98,21 +96,10 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   useEffect(() => {
     if (api && api.consts.elections) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const lastBlocksInSession = sessions.map((session) => (session + 1) * sessionPeriod - 1);
-
-      lastBlocksInSession.forEach((lastBlockInSession, index) => {
-        api.rpc.chain
-          .getBlockHash(lastBlockInSession)
-          .then((maybeHash): void => {
-            maybeHash && !maybeHash.isEmpty &&
-            setLastBlockInSessionsHashes((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? maybeHash : item;
-              });
-            });
-          })
-          .catch(console.error);
-      });
+      const promises = sessions.map((session) => api.rpc.chain.getBlockHash((session + 1) * sessionPeriod - 1));
+      Promise.all(promises)
+        .then((blockHashes) => setLastBlockInSessionsHashes(blockHashes.filter((hash) => !hash.isEmpty)))
+        .catch(console.error);
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,96 +107,51 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    firstBlockInSessionHashes.forEach((maybeHash, index) => {
-      if (maybeHash && !maybeHash.isEmpty) {
-        api.derive.chain.getHeader(maybeHash).then((header) => {
-          if (header && !header.isEmpty && header.author) {
-            setFirstSessionBlockAuthors((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? header.author?.toString() : item;
-              });
-            });
-          }
-        }).catch(console.error);
-      }
-    });
+    const promises = firstBlockInSessionHashes.map((hash) => api.derive.chain.getHeader(hash));
+    Promise.all(promises).then((headers) =>
+      setFirstSessionBlockAuthors(headers.map((header) => header.author ? header.author.toString() : '')))
+      .catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(firstBlockInSessionHashes)]
   );
 
   useEffect(() => {
-    lastBlockInSessionsHashes.forEach((maybeHash, index) => {
-      const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
-
-      if (maybeHash && !maybeHash.isEmpty && firstSessionBlockAuthor) {
-        api.at(maybeHash.toString()).then((result) => {
-          const sessionValidatorBlockCount = result.query.elections.sessionValidatorBlockCount;
-
-          firstSessionBlockAuthor && sessionValidatorBlockCount && sessionValidatorBlockCount.entries().then((value) => {
-            const blockCount = parseSessionBlockCount(value, firstSessionBlockAuthor);
-
-            setSessionValidatorBlockCountLookups((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? blockCount : item;
-              });
-            });
-          }).catch(console.error);
-        }).catch(console.error);
-      }
-    });
+    const promisesApisAtLastBlock = lastBlockInSessionsHashes.map((hash) => api.at(hash.toString()));
+    Promise.all(promisesApisAtLastBlock).then((lastBlockApis) => {
+      const promisesSessionValidatorBlockCountEntries = lastBlockApis.map((promise) => promise.query.elections.sessionValidatorBlockCount.entries());
+      Promise.all(promisesSessionValidatorBlockCountEntries).then((entriesArray) =>
+        setSessionValidatorBlockCountLookups(entriesArray.map((entries,index) => {
+          const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
+          return parseSessionBlockCount(entries, firstSessionBlockAuthor);
+        }))).catch(console.error);
+    }).catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(lastBlockInSessionsHashes), JSON.stringify(firstSessionBlockAuthors)]
   );
 
   useEffect(() => {
-    firstBlockInSessionHashes.forEach((maybeHash, index) => {
-      if (maybeHash && !maybeHash.isEmpty) {
-        api.at(maybeHash.toString()).then((resultApi) => {
-          const validators = resultApi.query.session.validators;
-
-          validators && validators().then((value) => {
-            const validatorAccounts = value.map((validator) => validator.toString());
-
-            setCommittees((existingItems) => {
-              return existingItems.map((item, j) => {
-                return j === index ? validatorAccounts : item;
-              });
-            });
-          }).catch(console.error);
-        }).catch(console.error);
+    const apisAtFirstBlockPromises = firstBlockInSessionHashes.map((hash) => api.at(hash.toString()));
+    Promise.all(apisAtFirstBlockPromises).then((apis) => {
+        const validatorsPromises = apis.map((api) => api.query.session.validators());
+        Promise.all(validatorsPromises).then((validatorsOfValidators: Codec[][]) =>
+          setCommittees(validatorsOfValidators.map((validators) =>
+            validators.map((validator) => validator.toString()))))
+          .catch(console.error);
       }
-    });
+    ).catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(firstBlockInSessionHashes)]
   );
 
   useEffect(() => {
-    committees.forEach((committee, index) => {
-      if (committee) {
+      setExpectedSessionValidatorBlockCountLookups(committees.map((committee, index) => {
         const firstSessionBlockAuthor = firstSessionBlockAuthors[index];
-        const result: [string, number][] = [];
         const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-        const committeeIndex = committee.findIndex((value) => value.toString() === firstSessionBlockAuthor);
-
-        if (committeeIndex !== -1) {
-          for (let i = 0; i < committee.length; i++) {
-            const author = committee[(i + committeeIndex) % committee.length];
-            const offset = Math.max(sessionPeriod - i, 0);
-
-            result.push([author.toString(), Math.ceil(offset / committee.length)]);
-          }
-
-          setExpectedSessionValidatorBlockCountLookups((existingItems) => {
-            return existingItems.map((item, j) => {
-              return j === index ? result : item;
-            });
-          });
-        }
-      }
-    });
+        return getExpectedBlockCountLookup(committee, firstSessionBlockAuthor, sessionPeriod);
+      }));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(firstSessionBlockAuthors), JSON.stringify(committees)]

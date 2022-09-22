@@ -22,6 +22,27 @@ export interface EraValidatorPerformance {
   isCommittee: boolean;
 }
 
+function parsePerformanceCommittee(currentSessionMode: boolean, sessionValidatorBlockCountLookup: [string, number][], committeePerformance: ValidatorPerformance) {
+  if (currentSessionMode && sessionValidatorBlockCountLookup.length > 0) {
+    const maybeBlockCount = sessionValidatorBlockCountLookup.find(([id]) => id === committeePerformance.accountId);
+    const blockCount = maybeBlockCount ? maybeBlockCount[1] : 0;
+
+    return {
+      isCommittee: true,
+      validatorPerformance: {
+        accountId: committeePerformance.accountId,
+        blockCount,
+        expectedBlockCount: committeePerformance.expectedBlockCount
+      }
+    };
+  }
+
+  return {
+    isCommittee: true,
+    validatorPerformance: committeePerformance
+  };
+}
+
 function Performance ({ sessionEra }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
@@ -50,45 +71,29 @@ function Performance ({ sessionEra }: Props): React.ReactElement<Props> {
   );
 
   const eraValidatorPerformances: EraValidatorPerformance[] = useMemo(() => {
-    if (sessionCommitteePerformance) {
-      const committeePerformances = sessionCommitteePerformance.performance;
-      const validatorPerformancesCommittee = committeePerformances.map((committeePerformance) => {
-        if (sessionEra.currentSessionMode && sessionValidatorBlockCountLookup.length > 0) {
-          const maybeBlockCount = sessionValidatorBlockCountLookup.find(([id]) => id === committeePerformance.accountId);
-          const blockCount = maybeBlockCount ? maybeBlockCount[1] : 0;
-
-          return {
-            isCommittee: true,
-            validatorPerformance: {
-              accountId: committeePerformance.accountId,
-              blockCount,
-              expectedBlockCount: committeePerformance.expectedBlockCount
-            }
-          };
-        }
-
-        return {
-          isCommittee: true,
-          validatorPerformance: committeePerformance
-        };
-      });
-      const committeeAccountIds = committeePerformances.map((performance) => performance.accountId);
-      const nonCommitteeAccountIds = eraValidators.filter((validator) => !committeeAccountIds.find((value) => validator === value));
-      const validatorPerformancesNonCommittee = nonCommitteeAccountIds.map((accountId) => {
-        return {
-          isCommittee: false,
-          validatorPerformance: {
-            accountId,
-            blockCount: 0,
-            expectedBlockCount: 0
-          }
-        };
-      });
-
-      return validatorPerformancesCommittee.concat(validatorPerformancesNonCommittee);
+    if (!sessionCommitteePerformance) {
+        return [];
     }
+    const committeePerformances = sessionCommitteePerformance.performance;
 
-    return [];
+    const validatorPerformancesCommittee = committeePerformances.map((committeePerformance) =>
+      parsePerformanceCommittee(sessionEra.currentSessionMode, sessionValidatorBlockCountLookup, committeePerformance)
+    );
+    const committeeAccountIds = committeePerformances.map((performance) => performance.accountId);
+    const nonCommitteeAccountIds = eraValidators.filter((validator) => !committeeAccountIds.find((value) => validator === value));
+    const validatorPerformancesNonCommittee = nonCommitteeAccountIds.map((accountId) => {
+      return {
+        isCommittee: false,
+        validatorPerformance: {
+          accountId,
+          blockCount: 0,
+          expectedBlockCount: 0
+        }
+      };
+    });
+
+    return validatorPerformancesCommittee.concat(validatorPerformancesNonCommittee);
+
   },
   [sessionCommitteePerformance, eraValidators, sessionValidatorBlockCountLookup, sessionEra]
 
@@ -133,4 +138,4 @@ function Performance ({ sessionEra }: Props): React.ReactElement<Props> {
   );
 }
 
-export default Performance;
+export default React.memo(Performance);
