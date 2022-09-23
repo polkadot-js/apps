@@ -9,12 +9,11 @@ import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum }
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import useReferendaIds from './useReferendaIds';
 import useTracks from './useTracks';
 import { getTrackName } from './util';
-
-const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
 
 function isConvictionVote (info: Referendum['info']): info is PalletReferendaReferendumInfoConvictionVotingTally {
   return info.isOngoing && !(info as PalletReferendaReferendumInfoRankedCollectiveTally).asOngoing.tally.bareAyes && !!(info as PalletReferendaReferendumInfoConvictionVotingTally).asOngoing.tally.support;
@@ -26,36 +25,42 @@ function sortOngoing (a: Referendum, b: Referendum): number {
 
   return ao.track.cmp(bo.track) || (
     ao.deciding.isSome === bo.deciding.isSome
-      ? 0
+      ? ao.deciding.isSome
+        ? a.info.asOngoing.deciding.unwrap().since.cmp(
+          b.info.asOngoing.deciding.unwrap().since
+        )
+        : 0
       : ao.deciding.isSome
         ? -1
         : 1
-  ) || a.id.cmp(b.id);
+  );
 }
 
-function sortOther (a: Referendum, b: Referendum): number {
-  const idxa = ORDER.indexOf(a.info.type);
-  const idxb = ORDER.indexOf(b.info.type);
-
-  return (
-    idxa === idxb
-      ? 0
-      : idxa === -1
-        ? 1
-        : idxb === -1
-          ? -1
-          : idxa - idxb
-  ) || a.id.cmp(b.id);
+function getWhen ({ info }: Referendum): BN {
+  return info.isApproved
+    ? info.asApproved[0]
+    : info.isRejected
+      ? info.asRejected[0]
+      : info.isCancelled
+        ? info.asCancelled[0]
+        : info.isTimedOut
+          ? info.asTimedOut[0]
+          : info.isKilled
+            ? info.asKilled
+            // this is an actual unknown state...
+            : BN_ZERO;
 }
 
 function sortReferenda (a: Referendum, b: Referendum): number {
-  return a.info.isOngoing === b.info.isOngoing
-    ? a.info.isOngoing
-      ? sortOngoing(a, b)
-      : sortOther(a, b)
-    : a.info.isOngoing
-      ? -1
-      : 1;
+  return (
+    a.info.isOngoing === b.info.isOngoing
+      ? a.info.isOngoing
+        ? sortOngoing(a, b)
+        : getWhen(b).cmp(getWhen(a))
+      : a.info.isOngoing
+        ? -1
+        : 1
+  ) || b.id.cmp(a.id);
 }
 
 function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
@@ -84,12 +89,12 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function getResult (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
+function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
   if (!referenda) {
     // return an empty group when we have no referenda
     return [{}];
   } else if (!tracks) {
-    // if we have no tracks, we just return the referenda unsorted
+    // if we have no tracks, we just return the referenda sorted
     return [{ referenda: referenda.sort(sortReferenda) }];
   }
 
@@ -153,7 +158,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
     () => [
       (ids && ids.length === 0)
         ? [{ referenda: [] }]
-        : getResult(referenda, tracks),
+        : group(referenda, tracks),
       tracks
     ],
     [ids, referenda, tracks]
