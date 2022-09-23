@@ -22,7 +22,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
-      OnFinality: 'wss://altair.api.onfinality.io/public-ws'
+      OnFinality: 'wss://altair.api.onfinality.io/public-ws',
+      Dwellir: 'wss://altair-rpc.dwellir.com'
     }
   },
   {
