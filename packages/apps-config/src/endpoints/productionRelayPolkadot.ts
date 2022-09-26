@@ -402,8 +402,8 @@ export const prodRelayPolkadot: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'light client': 'light://substrate-connect/polkadot',
-    'Automata 1RPC': 'wss://1rpc.io/dot'
+    'Automata 1RPC': 'wss://1rpc.io/dot',
+    'light client': 'light://substrate-connect/polkadot'
   },
   teleport: [1000],
   linked: [
