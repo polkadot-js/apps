@@ -27,7 +27,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      Dwellir: 'wss://acala-rpc.dwellir.com'
+      Dwellir: 'wss://acala-rpc.dwellir.com',
+      'Automata 1RPC': 'wss://1rpc.io/aca'
     }
   },
   {
@@ -58,7 +59,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/astar'
+      Pinknode: 'wss://public-rpc.pinknode.io/astar',
+      'Automata 1RPC': 'wss://1rpc.io/astr'
     }
   },
   {
@@ -266,7 +268,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
+      'Automata 1RPC': 'wss://1rpc.io/glmr'
     }
   },
   {
@@ -399,7 +402,8 @@ export const prodRelayPolkadot: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'light client': 'light://substrate-connect/polkadot'
+    'light client': 'light://substrate-connect/polkadot',
+    'Automata 1RPC': 'wss://1rpc.io/dot'
   },
   teleport: [1000],
   linked: [

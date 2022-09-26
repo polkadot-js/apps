@@ -534,7 +534,8 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'light client': 'light://substrate-connect/kusama'
+    'light client': 'light://substrate-connect/kusama',
+    'Automata 1RPC': 'wss://1rpc.io/ksm'
   },
   teleport: [1000, 1001],
   linked: [
