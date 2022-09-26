@@ -170,7 +170,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2113,
     text: 'Kabocha',
     providers: {
-      JelliedOwl: 'wss://kabocha.jelliwdowl.net'
+      JelliedOwl: 'wss://kabocha.jelliedowl.net'
     }
   },
   {
