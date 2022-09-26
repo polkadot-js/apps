@@ -3108,6 +3108,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-supersig@workspace:packages/page-supersig":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-supersig@workspace:packages/page-supersig"
+  dependencies:
+    "@babel/runtime": ^7.19.0
+    "@polkadot/react-components": ^0.121.2-63-x
+    "@polkadot/react-query": ^0.121.2-63-x
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-tech-comm@workspace:packages/page-tech-comm":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-tech-comm@workspace:packages/page-tech-comm"

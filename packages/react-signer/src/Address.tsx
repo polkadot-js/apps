@@ -94,7 +94,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
 
         case 'Governance':
           return checkNested(address) || (
-            ['council', 'democracy', 'elections', 'electionsPhragmen', 'phragmenElection', 'poll', 'society', 'technicalCommittee', 'tips', 'treasury'].includes(section)
+            ['council', 'democracy', 'elections', 'electionsPhragmen', 'phragmenElection', 'poll', 'society', 'supersig', 'technicalCommittee', 'tips', 'treasury'].includes(section)
           );
 
         case 'IdentityJudgement':

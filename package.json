@@ -56,7 +56,7 @@
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
     "postinstall": "polkadot-dev-yarn-only",
     "postinstall:electron": "electron-builder install-app-deps",
-    "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
+    "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3003",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
     "test": "polkadot-dev-run-test --runInBand --testPathIgnorePatterns slow --testNamePattern='^((?!--SLOW--).)*$'",
     "test:all": "polkadot-dev-run-test --runInBand --config ./jest-slow.config.cjs",

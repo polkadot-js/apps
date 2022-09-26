@@ -9,33 +9,33 @@ import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import PreImage from './PreImage';
+import Proposal from './Proposal';
 
 interface Props {
   imageHash: Hash;
   isImminent?: boolean;
 }
 
-function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<Props> | null {
+function ProposalButton ({ imageHash, isImminent }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [isPreimageOpen, togglePreimage] = useToggle();
+  const [isProposalOpen, toggleProposal] = useToggle();
 
   return (
     <>
       <Button
         icon='plus'
-        label={t<string>('Image')}
-        onClick={togglePreimage}
+        label={t<string>('Proposal')}
+        onClick={toggleProposal}
       />
-      {isPreimageOpen && (
-        <PreImage
+      {isProposalOpen && (
+        <Proposal
           imageHash={imageHash}
           isImminent={isImminent}
-          onClose={togglePreimage}
+          onClose={toggleProposal}
         />
       )}
     </>
   );
 }
 
-export default React.memo(PreImageButton);
+export default React.memo(ProposalButton);

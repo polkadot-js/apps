@@ -1,87 +1,141 @@
 // Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveProposal } from '@polkadot/api-derive/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { Hash } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { AddressMini, Button, ExpanderScroll, LinkExternal } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
+import { BN, BN_ZERO } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import Seconding from './Seconding';
 
 interface Props {
   className?: string;
-  value: DeriveProposal;
+  isImminent?: boolean;
+  imageHash?: Hash;
+  onClose: () => void;
 }
 
-function Proposal ({ className = '', value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
+interface HashState {
+  encodedHash: string;
+  encodedProposal: string;
+  storageFee: BN;
+}
+
+const ZERO_HASH = blake2AsHex('');
+
+function proposal ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, apiDefaultTxSudo } = useApi();
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: BN_ZERO });
+  const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
-  const seconding = useMemo(
-    () => seconds.filter((_address, index) => index !== 0),
-    [seconds]
-  );
+  useEffect((): void => {
+    const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const storageFee = api.consts.democracy.preimageByteDeposit.mul(
+      encodedProposal
+        ? new BN((encodedProposal.length - 2) / 2)
+        : BN_ZERO
+    );
 
-  const renderSeconds = useCallback(
-    () => seconding.map((address, count): React.ReactNode => (
-      <AddressMini
-        key={`${count}:${address.toHex()}`}
-        value={address}
-        withBalance={false}
-        withShrink
-      />
-    )),
-    [seconding]
-  );
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
+  }, [api, proposal]);
+
+  const isMatched = imageHash
+    ? imageHash.eq(encodedHash)
+    : true;
 
   return (
-    <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell
-        imageHash={imageHash}
-        proposal={image?.proposal}
-      />
-      <td className='address'>
-        <AddressMini value={proposer} />
-      </td>
-      <td className='number together media--1200'>
-        <FormatBalance value={balance} />
-      </td>
-      <td className='expand'>
-        {seconding.length !== 0 && (
-          <ExpanderScroll
-            empty={seconding && t<string>('No endorsements')}
-            renderChildren={renderSeconds}
-            summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}
+    <Modal
+      className={className}
+      header={t<string>('Submit proposal')}
+      onClose={onClose}
+      size='large'
+    >
+      <Modal.Content>
+        <Modal.Columns hint={t<string>('This account will pay the fees for the proposal, based on the size thereof.')}>
+          <InputAddress
+            help={t<string>('The account you want to register the proposal from')}
+            label={t<string>('send from account')}
+            labelExtra={
+              <Available
+                label={<span className='label'>{t<string>('transferrable')}</span>}
+                params={accountId}
+              />
+            }
+            onChange={setAccountId}
+            type='account'
           />
+        </Modal.Columns>
+        <Modal.Columns hint={
+          <>
+            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the proposal needs to be available.')}</p>
+          </>
+        }
+        >
+          <Extrinsic
+            defaultValue={apiDefaultTxSudo}
+            label={t<string>('propose')}
+            onChange={setProposal}
+          />
+          <Input
+            className='disabledLook'
+            help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
+            isDisabledError={!isMatched}
+            label={t<string>('proposal hash')}
+            value={encodedHash}
+          />
+        </Modal.Columns>
+        {!isImminent && (
+          <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
+            <InputBalance
+              defaultValue={storageFee}
+              help={t<string>('The amount reserved to store this image')}
+              isDisabled
+              label={t<string>('calculated storage fee')}
+            />
+          </Modal.Columns>
         )}
-      </td>
-      <td className='button'>
-        <Button.Group>
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
-          )}
-          <Seconding
-            deposit={balance}
-            depositors={seconds || []}
-            image={image}
-            proposalId={index}
-          />
-        </Button.Group>
-      </td>
-      <td className='links media--1000'>
-        <LinkExternal
-          data={index}
-          type='proposal'
+      </Modal.Content>
+      <Modal.Actions>
+        <TxButton
+          accountId={accountId}
+          icon='plus'
+          isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
+          label={t<string>('Submit proposal')}
+          onStart={onClose}
+          params={[encodedProposal]}
+          tx={
+            isImminent
+              ? api.tx.democracy.noteImminentPreimage
+              : api.tx.democracy.notePreimage
+          }
         />
-      </td>
-    </tr>
+      </Modal.Actions>
+    </Modal>
   );
 }
 
-export default React.memo(Proposal);
+export default React.memo(styled(proposal)`
+  .toggleImminent {
+    margin: 0.5rem 0;
+    text-align: right;
+  }
+
+  .disabledLook input {
+    background: transparent;
+    border-style: dashed;
+    &:focus{
+      background: transparent;
+      border-color: #d9d8d7;
+    }
+  }
+`);

@@ -4,8 +4,6 @@
 import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
-
-import DispatchQueue from './DispatchQueue';
 import Scheduler from './Scheduler';
 
 interface Props {
@@ -17,7 +15,6 @@ function Execute ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <DispatchQueue />
       {api.query.scheduler && (
         <Scheduler />
       )}

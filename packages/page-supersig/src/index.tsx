@@ -5,8 +5,6 @@ import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-
-import useDispatchCounter from './Execute/useCounter';
 import basicMd from './md/basic.md';
 import Execute from './Execute';
 import Overview from './Overview';
@@ -20,20 +18,22 @@ interface Props {
 
 function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const dispatchCount = useDispatchCounter();
 
   const items = useMemo(() => [
     {
       isRoot: true,
-      name: 'overview',
-      text: t<string>('Overview')
+      name: 'dashboard',
+      text: t<string>('Dashboard')
     },
     {
-      count: dispatchCount,
-      name: 'dispatch',
-      text: t<string>('Dispatch')
+      name: 'supersigs',
+      text: t<string>('Supersigs')
+    },
+    {
+      name: 'proposals',
+      text: t<string>('Proposals')
     }
-  ], [dispatchCount, t]);
+  ], [, t]);
 
   return (
     <main className='supersig--App'>
@@ -42,11 +42,16 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={items}
       />
+       <Overview />
       <Switch>
-        <Route path={`${basePath}/dispatch`}>
-          <Execute />
+        <Route path={`${basePath}/supersigs`}>
+          <Overview />
         </Route>
-        <Route><Overview /></Route>
+      </Switch>
+      <Switch>
+        <Route path={`${basePath}/proposals`}>
+        </Route>
+        <Route></Route>
       </Switch>
     </main>
   );

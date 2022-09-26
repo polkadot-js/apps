@@ -36,6 +36,7 @@ import society from './society';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
+import supersig from './supersig';
 import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
@@ -79,6 +80,7 @@ export default function create (t: TFunction): Routes {
     runtime(t),
     signing(t),
     sudo(t),
+    supersig(t),
     files(t),
     js(t),
     utilities(t),

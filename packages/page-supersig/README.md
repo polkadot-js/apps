@@ -1,1 +1,1 @@
-# @polkadot/app-democracy
+# @polkadot/app-supersig
