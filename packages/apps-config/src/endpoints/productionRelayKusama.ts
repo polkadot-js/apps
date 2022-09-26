@@ -22,7 +22,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
-      OnFinality: 'wss://altair.api.onfinality.io/public-ws'
+      OnFinality: 'wss://altair.api.onfinality.io/public-ws',
+      Dwellir: 'wss://altair-rpc.dwellir.com'
     }
   },
   {
@@ -328,8 +329,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2087,
     text: 'Picasso',
     providers: {
-      Composable: 'wss://picasso-rpc.composable.finance',
-      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      Composable: 'wss://picasso-rpc.composable.finance'
     }
   },
   {

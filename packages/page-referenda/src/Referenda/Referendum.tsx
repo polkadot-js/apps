@@ -29,12 +29,6 @@ function Referendum (props: Props): React.ReactElement<Props> {
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      {/* <td>
-        <textarea
-          rows={8}
-          style={{ width: 512 }}
-        >{JSON.stringify(info.toHuman(), null, 2)}</textarea>
-      </td> */}
       <Component {...props} />
     </tr>
   );

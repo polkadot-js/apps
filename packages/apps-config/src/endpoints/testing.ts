@@ -248,7 +248,8 @@ export const testChains: EndpointOption[] = [
     info: 'joystream',
     text: 'Joystream',
     providers: {
-      Jsgenesis: 'wss://rpc.joystream.org:9944'
+      Jsgenesis: 'wss://rpc.joystream.org:9944',
+      Dwellir: 'wss://joystream-rpc.dwellir.com'
     }
   },
   {
