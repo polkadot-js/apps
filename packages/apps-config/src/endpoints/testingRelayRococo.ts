@@ -143,6 +143,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+    }
+  },
+  {
     info: 'rococoImbue',
     paraId: 2121,
     text: 'Imbue Network',
