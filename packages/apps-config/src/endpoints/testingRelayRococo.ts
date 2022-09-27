@@ -115,7 +115,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4006,
     text: 'Eggnet',
     providers: {
-      Webb: 'wss://rococo1.webb.tools'
+      // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
     }
   },
   {
