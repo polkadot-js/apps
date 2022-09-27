@@ -20,11 +20,9 @@ const DEFAULT_PARAMS: InflationParams = {
   // 5% for falloff, as per the defaults, see
   // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L534
   falloff: 0.05,
-  // 10% max, 0.25% min, see
-  // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L523
-  maxInflation: 0.1,
+  maxInflation: 0.14,
   minInflation: 0.025,
-  stakeTarget: 0.5
+  stakeTarget: 0.7
 };
 
 const KNOWN_PARAMS: Record<string, InflationParams> = {

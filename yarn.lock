@@ -208,6 +208,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cloudflare/wrangler@npm:^1.10.3":
+  version: 1.19.12
+  resolution: "@cloudflare/wrangler@npm:1.19.12"
+  dependencies:
+    axios: ^0.21.1
+    rimraf: ^3.0.2
+    tar: ^6.1.10
+  bin:
+    wrangler: run-wrangler.js
+    wrangler1: run-wrangler.js
+  checksum: 40cbc1141046a4d7183a79ef61240065ee22d6f643b2a45e31c1e966b6da41e3b81e8a1e3745730a0f50123a0a2b863122e41f1c659e81fa3e67814410689af2
+  languageName: node
+  linkType: hard
+
 "@crustio/crust-pin@npm:^1.0.0":
   version: 1.0.0
   resolution: "@crustio/crust-pin@npm:1.0.0"
@@ -13734,6 +13748,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "polkadot-apps@workspace:."
   dependencies:
+    "@cloudflare/wrangler": ^1.10.3
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^2.1.0
     "@polkadot/dev": ^0.72.15
@@ -16568,6 +16583,20 @@ fsevents@~2.3.2:
     mkdirp: ^1.0.3
     yallist: ^4.0.0
   checksum: 49d72e4420944e7ede2782d6b0826a6ede6cdab23c7de63470917e7a78166bc4d5b1a96279d3d79a85f1ba5a17cd37c0acbb3cbff19a07447691445b8b051c55
+  languageName: node
+  linkType: hard
+
+"tar@npm:^6.1.10":
+  version: 6.1.11
+  resolution: "tar@npm:6.1.11"
+  dependencies:
+    chownr: ^2.0.0
+    fs-minipass: ^2.0.0
+    minipass: ^3.0.0
+    minizlib: ^2.1.1
+    mkdirp: ^1.0.3
+    yallist: ^4.0.0
+  checksum: a04c07bb9e2d8f46776517d4618f2406fb977a74d914ad98b264fc3db0fe8224da5bec11e5f8902c5b9bcb8ace22d95fbe3c7b36b8593b7dfc8391a25898f32f
   languageName: node
   linkType: hard
 
