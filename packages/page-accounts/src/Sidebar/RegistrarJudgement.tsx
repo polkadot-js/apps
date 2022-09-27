@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { HexString } from '@polkadot/util/types';
@@ -29,9 +28,9 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<PalletIdentityRegistration>, api: ApiPromise): HexString | null =>
+  transform: (optId: Option<PalletIdentityRegistration>): HexString | null =>
     optId.isSome
-      ? api.registry.hash(optId.unwrap().info.hash.toHex()
+      ? optId.unwrap().info.hash.toHex()
       : null
 };
 
