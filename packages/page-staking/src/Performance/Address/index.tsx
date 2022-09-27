@@ -36,15 +36,14 @@ function Address ({ address, blocksCreated, blocksTarget, filterName, rewardPerc
     [api, accountInfo, address, filterName]
   );
 
-  if (!isVisible) {
-    return null;
-  }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const onQueryStats = useCallback(
     () => queryAddress(address),
     [address]
   );
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <tr>
