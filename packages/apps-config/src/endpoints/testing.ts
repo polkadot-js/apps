@@ -590,7 +590,7 @@ export const testChains: EndpointOption[] = [
     info: 'vodka',
     text: 'Vodka',
     providers: {
-      Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      // Vodka: 'wss://vodka.rpc.neatcoin.org/ws' // https://github.com/polkadot-js/apps/issues/8175
     }
   },
   {
