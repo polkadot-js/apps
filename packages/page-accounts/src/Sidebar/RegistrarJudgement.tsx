@@ -4,12 +4,12 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useState } from 'react';
 
 import { Dropdown, Input, InputAddress, MarkError, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,9 +29,9 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<PalletIdentityRegistration>, api: ApiPromise): string | null =>
+  transform: (optId: Option<PalletIdentityRegistration>, api: ApiPromise): HexString | null =>
     optId.isSome
-      ? u8aToHex(api.registry.hash(optId.unwrap().info.hash))
+      ? api.registry.hash(optId.unwrap().info.hash.toHex()
       : null
 };
 
