@@ -70,7 +70,7 @@ export const testChains: EndpointOption[] = [
     info: 'edgeware',
     text: 'Beresheet',
     providers: {
-      // 'Commonwealth Labs': 'wss://beresheet.edgewa.re' // https://github.com/polkadot-js/apps/issues/7982
+      JelliedOwl: 'wss://beresheet.jelliedowl.net'
     }
   },
   {
