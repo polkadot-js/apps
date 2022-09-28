@@ -49,6 +49,6 @@
     "lodash": "^4.17.21",
     "moonbeam-types-bundle": "2.0.8",
     "pontem-types-bundle": "1.0.15",
-    "rxjs": "^7.5.6"
+    "rxjs": "^7.5.7"
   }
 }
