@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { initPolkadotSnap } from '@chainsafe/metamask-polkadot-adapter/build/extension';
+import { catchError, firstValueFrom, from, of, timeout, zip } from 'rxjs';
 
-// it would have been really good to import this from detect-browser, however... not exported
 type Browser = 'chrome' | 'firefox';
 
 interface Extension {
@@ -42,19 +42,11 @@ export const availableExtensions = known.reduce<Record<Browser, Extension[]>>((a
 }, { chrome: [], firefox: [] });
 
 // Some extensions do not use `@polkadot/extension-inject` and need to be manually inject into a window context
-
 export function injectExtensions (): Promise<boolean[]> {
-  return Promise.all([
+  return firstValueFrom(zip([
     initPolkadotSnap
-  ].map((method) => {
-    // Timeout injecting extension
-    return Promise.race([
-      method(),
-      new Promise<false>((resolve) => {
-        setTimeout((): void => {
-          resolve(false);
-        }, 1000 /* 1 sec */);
-      })
-    ]);
-  }));
+  ].map((method) => firstValueFrom(from(method()).pipe(
+    timeout(1000), // timeout if method() doesn't resolve after 1s
+    catchError(() => of(false))
+  )))));
 }
