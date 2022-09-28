@@ -22,7 +22,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
-      OnFinality: 'wss://altair.api.onfinality.io/public-ws'
+      OnFinality: 'wss://altair.api.onfinality.io/public-ws',
+      Dwellir: 'wss://altair-rpc.dwellir.com'
     }
   },
   {
@@ -41,7 +42,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Bajun Network',
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.bajun.network',
-      Dwellir: 'wss://bajun-rpc.dwellir.com'
+      Dwellir: 'wss://bajun-rpc.dwellir.com',
+      OnFinality: 'wss://bajun.api.onfinality.io/public-ws'
     }
   },
   {
@@ -148,7 +150,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://kusama.api.integritee.network',
-      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws',
+      Dwellir: 'wss://integritee-ksm-rpc.dwellir.com'
     }
   },
   {
@@ -167,7 +170,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2113,
     text: 'Kabocha',
     providers: {
-      JelliedOwl: 'wss://kabocha.jelliedowl.com'
+      JelliedOwl: 'wss://kabocha.jelliedowl.net'
     }
   },
   {
@@ -326,8 +329,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2087,
     text: 'Picasso',
     providers: {
-      Composable: 'wss://picasso-rpc.composable.finance',
-      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      Composable: 'wss://picasso-rpc.composable.finance'
     }
   },
   {
@@ -369,7 +371,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Robonomics',
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
-      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
+      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
+      Dwellir: 'wss://robonomics-rpc.dwellir.com'
     }
   },
   {
@@ -531,6 +534,7 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+    'Automata 1RPC': 'wss://1rpc.io/ksm',
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: [1000, 1001],

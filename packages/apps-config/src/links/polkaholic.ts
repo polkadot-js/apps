@@ -37,6 +37,7 @@ export default {
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
     'Nodle Parachain': 'nodle',
+    'OAK Network': 'oak',
     'OriginTrail Parachain': 'origintrail',
     Parallel: 'parallel',
     'Parallel Heiko': 'parallel-heiko',

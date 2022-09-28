@@ -32,11 +32,18 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoAventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 2056,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'rococoBajun',
-    paraId: 3026,
+    paraId: 2119,
     text: 'Bajun Network',
     providers: {
-      // AjunaNetwork: 'wss://rpc-rococo.bajun.network' // https://github.com/polkadot-js/apps/issues/7593
+      AjunaNetwork: 'wss://rpc-rococo.bajun.network'
     }
   },
   {
@@ -44,7 +51,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     }
   },
   {
@@ -60,7 +67,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3024,
     text: 'Bitgreen',
     providers: {
-      Bitgreen: 'wss://rococobitgreen.abhath-labs.com'
+      Bitgreen: 'wss://testnet.bitgreen.org'
     }
   },
   {
@@ -108,7 +115,15 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4006,
     text: 'Eggnet',
     providers: {
-      Webb: 'wss://rococo1.webb.tools'
+      // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
+    }
+  },
+  {
+    info: 'rococoFrequency',
+    paraId: 4044,
+    text: 'Frequency',
+    providers: {
+      Frequency: 'wss://collator1.frequency.xyz'
     }
   },
   {
@@ -128,6 +143,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+    }
+  },
+  {
     info: 'rococoImbue',
     paraId: 2121,
     text: 'Imbue Network',
@@ -141,6 +164,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://rococo.api.integritee.network'
+    }
+  },
+  {
+    info: 'rococoKabocha',
+    paraId: 2113,
+    text: 'Kabocha (kabsoup)',
+    providers: {
+      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     }
   },
   {
@@ -161,7 +192,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoMd5',
-    paraId: 4088,
+    paraId: 2089,
     text: 'MD5 Network',
     providers: {
       'Hashed Systems': 'wss://c1.md5.network'
@@ -265,6 +296,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
+    }
+  },
+  {
     info: 'rococoSubzero',
     paraId: 4040,
     text: 'Subzero',
@@ -281,6 +321,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoTinkernet',
+    paraId: 2125,
+    text: 'Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://rococo.invarch.network'
+    }
+  },
+  {
     info: 'rococoTuring',
     paraId: 2114,
     text: 'Turing Network (Staging)',
@@ -294,6 +342,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Virto',
     providers: {
       // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
+    }
+  },
+  {
+    info: 'rococoWatr',
+    paraId: 2058,
+    text: 'Watr Network',
+    providers: {
+      Watr: 'wss://rpc.dev.watr.org'
     }
   },
   {

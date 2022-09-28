@@ -66,7 +66,7 @@ export default React.memo(styled(ProposedAction)`
   margin-left: 2rem;
 
   .ui--ProposedAction-extrinsic {
-    .ui--Params-Content {
+    > .ui--Params-Content {
       padding-left: 0;
     }
   }
