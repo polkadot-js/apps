@@ -211,17 +211,6 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    info: 'kilt',
-    homepage: 'https://www.kilt.io/',
-    paraId: 2086,
-    text: 'KILT Spiritnet',
-    providers: {
-      'KILT Protocol': 'wss://spiritnet.kilt.io/',
-      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
-      Dwellir: 'wss://kilt-rpc.dwellir.com'
-    }
-  },
-  {
     info: 'kintsugi',
     homepage: 'https://kintsugi.interlay.io/',
     paraId: 2092,
