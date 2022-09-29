@@ -95,6 +95,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'shadow',
+    homepage: 'https://crust.network/',
+    paraId: 2225,
+    text: 'Crust Shadow 2',
+    isUnreachable: true,
+    providers: {
+      Crust: 'wss://rpc-shadow.crust.network/'
+    }
+  },
+  {
     info: 'crab',
     homepage: 'https://crab.network',
     paraId: 2105,
