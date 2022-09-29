@@ -72,6 +72,7 @@ import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVirto from './chains/virto.png';
+import chainVara from './chains/vara.svg';
 import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
 import chainWestendColl from './chains/westend-collectives.png';
@@ -438,6 +439,7 @@ export const chainLogos = Object.entries({
   UNIQUE: chainUnique,
   'Unit Network': nodeUnitv,
   Unorthodox: chainUnorthodox,
+  'Vara Network': chainVara,
   VirtoRococo: chainVirto,
   Vln: nodeVln,
   'VLN PC': nodeVln,
@@ -939,6 +941,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   unitv: nodeUnitv,
   unorthodox: chainUnorthodox,
+  vara: chainVara,
   vanilla: nodeParallel,
   vln: nodeVln,
   web3games: nodeWeb3games,

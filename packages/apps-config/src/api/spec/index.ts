@@ -187,6 +187,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   galital,
   'galital-collator': galitalParachain,
   gamepower,
+  gear: standard,
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,

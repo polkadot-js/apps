@@ -139,6 +139,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      Gear: 'wss://vara.gear.rs'
+    }
+  },
+  {
     info: 'hanonycash',
     text: 'Hanonycash',
     providers: {
