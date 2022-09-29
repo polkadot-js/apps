@@ -33,16 +33,6 @@ function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, num
       : (((idealInterest * idealStake) - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
   ));
 
-  console.log({
-    idealInterest,
-    idealStake,
-    inflation,
-    stakedFraction,
-    stakedReturn: stakedFraction
-      ? (inflation / stakedFraction)
-      : 0
-  }, stakeTarget, Math.min(auctionMax, numAuctions.toNumber()), Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust);
-
   return {
     idealInterest,
     idealStake,
