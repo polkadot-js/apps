@@ -142,7 +142,7 @@ export const prodParasKusama: EndpointOption[] = [
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
       TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
       Leemo: 'wss://leemo.gmordie.com',
-      'GM Intern': `wss://intern.gmordie.com`, 
+      'GM Intern': 'wss://intern.gmordie.com',
       'light client': 'light://substrate-connect/kusama/gm'
     }
   },
