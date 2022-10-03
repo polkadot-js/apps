@@ -22,7 +22,7 @@ function Close ({ hasFailed, hash, idNumber, proposal }: Props): React.ReactElem
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [proposalWeight, proposalLength] = useWeight(proposal);
+  const { encodedCallLength, v1Weight } = useWeight(proposal);
   const modLocation = useCollectiveInstance('council');
 
   // protect against older versions
@@ -57,13 +57,13 @@ function Close ({ hasFailed, hash, idNumber, proposal }: Props): React.ReactElem
           <Modal.Actions>
             <TxButton
               accountId={accountId}
-              isDisabled={!hasFailed && !proposalLength}
+              isDisabled={!hasFailed && !encodedCallLength}
               onStart={toggleOpen}
               params={
                 api.tx[modLocation].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
-                    : [hash, idNumber, proposalWeight, proposalLength]
+                    : [hash, idNumber, v1Weight, encodedCallLength]
                   : [hash, idNumber]
               }
               tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}

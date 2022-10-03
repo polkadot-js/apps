@@ -62,12 +62,13 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
           );
 
           setBatchSize((prev) =>
-            weight.isZero()
+            weight.v1Weight.isZero()
               ? prev
               : Math.floor(
                 maxBlock
+                  .v1Weight
                   .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-                  .div(weight)
+                  .div(weight.v1Weight)
                   .toNumber() / 100
               )
           );
