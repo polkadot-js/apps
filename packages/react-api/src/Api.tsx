@@ -21,7 +21,7 @@ import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { formatBalance, isFunction, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
+import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -226,7 +226,6 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
-    isWeightV2: isFunction(registry.createType('Weight').toBn),
     specName: api.runtimeVersion.specName.toString(),
     specVersion: api.runtimeVersion.specVersion.toString(),
     systemChain,

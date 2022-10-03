@@ -7,7 +7,7 @@ import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
-import { BN_ZERO, nextTick } from '@polkadot/util';
+import { BN_ZERO, isFunction, nextTick, objectSpread } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
@@ -26,6 +26,7 @@ interface V2WeightConstruct {
 
 interface Result {
   encodedCallLength: number;
+  isWeightV2: boolean;
   v1Weight: BN;
   v2Weight: V2WeightConstruct;
   // FIXME This is horrible, however we certainly don't want to cast everywhere in the code, so
@@ -35,7 +36,7 @@ interface Result {
 
 // a random address that we are using for our queries
 const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';
-const EMPTY_STATE: Result = {
+const EMPTY_STATE: Partial<Result> = {
   encodedCallLength: 0,
   v1Weight: BN_ZERO,
   v2Weight: { refTime: BN_ZERO },
@@ -57,9 +58,11 @@ export function convertWeight (weight: V1Weight | V2Weight): { v1Weight: BN, v2W
 
 // for a given call, calculate the weight
 function useWeightImpl (call?: Call | null): Result {
-  const { api, isWeightV2 } = useApi();
+  const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState(EMPTY_STATE);
+  const [state, setState] = useState<Result>(() => objectSpread({
+    isWeightV2: !isFunction(api.registry.createType('Weight').toBn)
+  }, EMPTY_STATE));
 
   useEffect((): void => {
     if (call && api.call.transactionPaymentApi) {
@@ -69,20 +72,26 @@ function useWeightImpl (call?: Call | null): Result {
             (await api.tx(call).paymentInfo(ZERO_ACCOUNT)).weight
           );
 
-          mountedRef.current && setState({
-            encodedCallLength: call.encodedLength,
-            v1Weight,
-            v2Weight,
-            weight: isWeightV2 ? v1Weight : v2Weight
-          });
+          mountedRef.current && setState((prev) =>
+            objectSpread({}, prev, {
+              encodedCallLength: call.encodedLength,
+              v1Weight,
+              v2Weight,
+              weight: prev.isWeightV2
+                ? v2Weight
+                : v1Weight
+            })
+          );
         } catch (error) {
           console.error(error);
         }
       });
     } else {
-      setState(EMPTY_STATE);
+      setState((prev) =>
+        objectSpread({}, prev, EMPTY_STATE)
+      );
     }
-  }, [api, call, isWeightV2, mountedRef]);
+  }, [api, call, mountedRef]);
 
   return state;
 }
