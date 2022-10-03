@@ -29,8 +29,6 @@ interface Result {
   isWeightV2: boolean;
   v1Weight: BN;
   v2Weight: V2WeightConstruct;
-  // FIXME This is horrible, however we certainly don't want to cast everywhere in the code, so
-  // this is basically either BN | V2WeightConstruct
   weight: BN | V2WeightConstruct;
 }
 
