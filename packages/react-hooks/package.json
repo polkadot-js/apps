@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.119.2-11-x",
+  "version": "0.121.2-88-x",
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
-    "@polkadot/hw-ledger": "^10.1.2",
+    "@babel/runtime": "^7.19.0",
+    "@polkadot/hw-ledger": "^10.1.9",
     "is-ipfs": "6.0.2"
   }
 }

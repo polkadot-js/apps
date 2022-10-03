@@ -6,7 +6,7 @@ import fs from 'fs';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { assert, isError, isString } from '@polkadot/util';
 
-import { typesBundle, typesChain } from '../api';
+import { typesBundle } from '../api';
 import { createWsEndpoints } from '../endpoints';
 import { fetchJson } from './fetch';
 
@@ -34,15 +34,14 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
     let isOk = true;
 
     try {
-      assert(json.Answer, `No DNS entry for ${host}`);
+      assert(json && json.Answer, `No DNS entry for ${host}`);
 
       provider = new WsProvider(ws, false);
       api = new ApiPromise({
         provider,
         throwOnConnect: true,
         throwOnUnknown: false,
-        typesBundle,
-        typesChain
+        typesBundle
       });
 
       setTimeout((): void => {
@@ -112,7 +111,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
         ws: value
       }))
       .filter((v): v is Endpoint => !!v.ws)
-  )('%name @ %$ws', async ({ name, ws }): Promise<void> => {
+  )('$name @ $ws', async ({ name, ws }): Promise<void> => {
     expect(await checker(name, ws)).toBe(true);
   });
 }

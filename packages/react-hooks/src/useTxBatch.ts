@@ -8,11 +8,12 @@ import type { BatchOptions, BatchType } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, nextTick } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
+import { convertWeight } from './useWeight';
 
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {
@@ -46,26 +47,35 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 64));
 
   useEffect((): void => {
-    txs && txs.length && allAccounts[0] && isFunction(api.rpc.payment?.queryInfo) &&
-      txs[0]
-        .paymentInfo(allAccounts[0])
-        .then((info) =>
+    txs && txs.length && allAccounts[0] && api.call.transactionPaymentApi &&
+      nextTick(async (): Promise<void> => {
+        try {
+          const weight = convertWeight(
+            (
+              await txs[0].paymentInfo(allAccounts[0])
+            ).weight
+          );
+          const maxBlock = convertWeight(
+            api.consts.system.blockWeights
+              ? api.consts.system.blockWeights.maxBlock
+              : api.consts.system.maximumBlockWeight as Weight
+          );
+
           setBatchSize((prev) =>
-            info.weight.isZero()
+            weight.v1Weight.isZero()
               ? prev
               : Math.floor(
-                (
-                  api.consts.system.blockWeights
-                    ? api.consts.system.blockWeights.maxBlock
-                    : api.consts.system.maximumBlockWeight as Weight
-                )
+                maxBlock
+                  .v1Weight
                   .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-                  .div(info.weight)
+                  .div(weight.v1Weight)
                   .toNumber() / 100
               )
-          )
-        )
-        .catch(console.error);
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      });
   }, [allAccounts, api, options, txs]);
 
   return useMemo(

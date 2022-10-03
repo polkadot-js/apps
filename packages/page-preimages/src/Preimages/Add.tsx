@@ -37,7 +37,7 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic<'promise'>)?.method.toHex() || '';
 
-    // we currently don't have a constant exposed, or rather, maybe somwhere else...
+    // we currently don't have a constant exposed, or rather, maybe somewhere else...
     // const storageFee = api.consts.democracy.preimageByteDeposit.mul(
     //   encodedProposal
     //     ? new BN((encodedProposal.length - 2) / 2)

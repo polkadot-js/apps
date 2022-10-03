@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
+import { isObject } from '@polkadot/util';
 
 import Params from '../';
 import Bare from './Bare';
@@ -51,12 +52,16 @@ function getInitial (defaultValue: RawParam, options: Option[]): Initial {
     initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
-        : Object.keys(defaultValue.value as Record<string, unknown>)[0]
+        : isObject(defaultValue.value)
+          ? Object.keys(defaultValue.value as Record<string, unknown>)[0]
+          : options[0] && options[0].value
       : options[0] && options[0].value,
     initialParams: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? [{ isValid: true, value: defaultValue.value.inner }]
-        : undefined
+        : isObject(defaultValue.value)
+          ? [{ isValid: true, value: (defaultValue.value as Record<string, unknown>)[Object.keys(defaultValue.value as Record<string, unknown>)[0]] }]
+          : undefined
       : undefined
   };
 }
@@ -127,6 +132,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}

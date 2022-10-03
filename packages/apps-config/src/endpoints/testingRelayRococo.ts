@@ -16,6 +16,14 @@ import { ROCOCO_GENESIS } from '../api/constants';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'rococoAmplitude',
+    paraId: 2124,
+    text: 'Amplitude',
+    providers: {
+      PendulumChain: 'wss://pencol-roc-00.pendulumchain.tech'
+    }
+  },
+  {
     info: 'arctic',
     paraId: 3015,
     text: 'Arctic',
@@ -24,9 +32,15 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoAventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 2056,
+    text: 'Aventus',
+    providers: { }
+  },
+  {
     info: 'rococoBajun',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7593
-    paraId: 3026,
+    paraId: 2119,
     text: 'Bajun Network',
     providers: {
       AjunaNetwork: 'wss://rpc-rococo.bajun.network'
@@ -37,7 +51,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2090,
     text: 'Basilisk',
     providers: {
-      'Galactic Council': 'wss://rpc-01.basilisk-rococo.hydradx.io'
+      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     }
   },
   {
@@ -53,7 +67,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3024,
     text: 'Bitgreen',
     providers: {
-      Bitgreen: 'wss://rococobitgreen.abhath-labs.com'
+      Bitgreen: 'wss://testnet.bitgreen.org'
     }
   },
   {
@@ -62,6 +76,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Catalyst',
     providers: {
       Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+    }
+  },
+  {
+    info: 'rococoConfti',
+    paraId: 4094,
+    text: 'Confti',
+    providers: {
+      // Confti: 'wss://ws.confti.club' // https://github.com/polkadot-js/apps/issues/8036
     }
   },
   {
@@ -91,15 +113,23 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'Eggnet',
     paraId: 4006,
-    text: 'Eggnet Parachain',
+    text: 'Eggnet',
     providers: {
-      Webb: 'wss://rococo1.webb.tools'
+      // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
+    }
+  },
+  {
+    info: 'rococoFrequency',
+    paraId: 4044,
+    text: 'Frequency',
+    providers: {
+      Frequency: 'wss://collator1.frequency.xyz'
     }
   },
   {
     info: 'rococoGenshiro',
     paraId: 2024,
-    text: 'Genshiro Rococo Testnet',
+    text: 'Genshiro Testnet',
     providers: {
       Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
     }
@@ -110,6 +140,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Helixstreet',
     providers: {
       Helixstreet: 'wss://rpc-rococo.helixstreet.io'
+    }
+  },
+  {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
     }
   },
   {
@@ -129,6 +167,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoKabocha',
+    paraId: 2113,
+    text: 'Kabocha (kabsoup)',
+    providers: {
+      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
+    }
+  },
+  {
     info: 'rococoLitentry',
     paraId: 2106,
     text: 'Litentry',
@@ -145,12 +191,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoMd5',
+    paraId: 2089,
+    text: 'MD5 Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.md5.network'
+    }
+  },
+  {
     info: 'rococoMoonsama',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7526
     paraId: 2055,
     text: 'Moonsama',
     providers: {
-      Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com'
+      // Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com' // https://github.com/polkadot-js/apps/issues/7526
     }
   },
   {
@@ -165,14 +218,14 @@ export const testParasRococo: EndpointOption[] = [
     info: 'chainoli',
     homepage: 'https://www.my-oli.com/en/',
     paraId: 4023,
-    text: 'OLI Parachain',
+    text: 'OLI',
     providers: {}
   },
   {
     info: 'rococoOriginTrailParachain',
     homepage: 'https://parachain.origintrail.io',
     paraId: 2043,
-    text: 'OriginTrail Parachain Testnet',
+    text: 'OriginTrail Testnet',
     providers: {
       TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
     }
@@ -180,7 +233,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoPangolin',
     paraId: 2105,
-    text: 'Pangolin Parachain',
+    text: 'Pangolin',
     providers: {
       'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
     }
@@ -229,7 +282,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoSora',
     paraId: 2011,
-    text: 'SORA Rococo Parachain',
+    text: 'SORA',
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     }
@@ -240,6 +293,15 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Spreehafen',
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
+    }
+  },
+  {
+    info: 'stagex',
+    homepage: 'https://totemaccounting.com/',
+    paraId: 2007,
+    text: 'Stagex',
+    providers: {
+      Totem: 'wss://s-ui.kapex.network'
     }
   },
   {
@@ -259,6 +321,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoTinkernet',
+    paraId: 2125,
+    text: 'Tinkernet',
+    providers: {
+      'InvArch Team': 'wss://rococo.invarch.network'
+    }
+  },
+  {
     info: 'rococoTuring',
     paraId: 2114,
     text: 'Turing Network (Staging)',
@@ -271,16 +341,23 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3003,
     text: 'Virto',
     providers: {
-      VirtoNetwork: 'wss://rococo.virtonetwork.xyz'
+      // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
+    }
+  },
+  {
+    info: 'rococoWatr',
+    paraId: 2058,
+    text: 'Watr Network',
+    providers: {
+      Watr: 'wss://rpc.dev.watr.org'
     }
   },
   {
     info: 'rococoZeitgeist',
-    isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
     paraId: 2050,
     text: 'Zeitgeist PC',
     providers: {
-      Zeitggeist: 'wss://roc.zeitgeist.pm'
+      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
     }
   }
 ];

@@ -19,6 +19,8 @@ import useMembers from './useMembers';
 import useRule from './useRule';
 import useUnscrupulous from './useUnscrupulous';
 
+export { default as useCounter } from './useCounter';
+
 interface Props {
   basePath: string;
   className?: string;
