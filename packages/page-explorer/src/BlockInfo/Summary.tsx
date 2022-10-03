@@ -30,7 +30,11 @@ function extractEventDetails (events?: KeyedEvent[] | null): [BN?, BN?, BN?] {
         ? transfers.iadd(data[2] as Balance)
         : transfers,
       section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
-        ? weight.iadd(convertWeight(((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo).weight).v1Weight)
+        ? weight.iadd(
+          convertWeight(
+            ((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo).weight
+          ).v1Weight
+        )
         : weight
     ], [new BN(0), new BN(0), new BN(0)])
     : [];

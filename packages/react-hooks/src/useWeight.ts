@@ -28,6 +28,9 @@ interface Result {
   encodedCallLength: number;
   v1Weight: BN;
   v2Weight: V2WeightConstruct;
+  // FIXME This is horrible, however we certainly don't want to cast everywhere in the code, so
+  // this is basically either BN | V2WeightConstruct
+  weight: BN | V2WeightConstruct;
 }
 
 // a random address that we are using for our queries
@@ -35,7 +38,8 @@ const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';
 const EMPTY_STATE: Result = {
   encodedCallLength: 0,
   v1Weight: BN_ZERO,
-  v2Weight: { refTime: BN_ZERO }
+  v2Weight: { refTime: BN_ZERO },
+  weight: BN_ZERO
 };
 
 // return both v1 & v2 weight structures (would depend on actual use)
@@ -53,7 +57,7 @@ export function convertWeight (weight: V1Weight | V2Weight): { v1Weight: BN, v2W
 
 // for a given call, calculate the weight
 function useWeightImpl (call?: Call | null): Result {
-  const { api } = useApi();
+  const { api, isWeightV2 } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState(EMPTY_STATE);
 
@@ -65,7 +69,12 @@ function useWeightImpl (call?: Call | null): Result {
             (await api.tx(call).paymentInfo(ZERO_ACCOUNT)).weight
           );
 
-          mountedRef.current && setState({ encodedCallLength: call.encodedLength, v1Weight, v2Weight });
+          mountedRef.current && setState({
+            encodedCallLength: call.encodedLength,
+            v1Weight,
+            v2Weight,
+            weight: isWeightV2 ? v1Weight : v2Weight
+          });
         } catch (error) {
           console.error(error);
         }
@@ -73,7 +82,7 @@ function useWeightImpl (call?: Call | null): Result {
     } else {
       setState(EMPTY_STATE);
     }
-  }, [api, call, mountedRef]);
+  }, [api, call, isWeightV2, mountedRef]);
 
   return state;
 }

@@ -65,8 +65,7 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
             weight.v1Weight.isZero()
               ? prev
               : Math.floor(
-                maxBlock
-                  .v1Weight
+                maxBlock.v1Weight
                   .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
                   .div(weight.v1Weight)
                   .toNumber() / 100
