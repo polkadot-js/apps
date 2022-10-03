@@ -50,11 +50,8 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
     txs && txs.length && allAccounts[0] && api.call.transactionPaymentApi &&
       nextTick(async (): Promise<void> => {
         try {
-          const weight = convertWeight(
-            (
-              await txs[0].paymentInfo(allAccounts[0])
-            ).weight
-          );
+          const paymentInfo = await txs[0].paymentInfo(allAccounts[0]);
+          const weight = convertWeight(paymentInfo.weight);
           const maxBlock = convertWeight(
             api.consts.system.blockWeights
               ? api.consts.system.blockWeights.maxBlock
