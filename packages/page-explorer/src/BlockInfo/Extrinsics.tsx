@@ -3,11 +3,11 @@
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ExtrinsicDisplay from './Extrinsic';
@@ -17,13 +17,13 @@ interface Props {
   className?: string;
   events?: KeyedEvent[] | null;
   label?: React.ReactNode;
+  maxBlockWeight?: BN;
   value?: Extrinsic[] | null;
   withLink: boolean;
 }
 
-function Extrinsics ({ blockNumber, className = '', events, label, value, withLink }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
 
   const header = useMemo(() => [
     [label || t<string>('extrinsics'), 'start', 2],
@@ -45,7 +45,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value, withLi
           events={events}
           index={index}
           key={`extrinsic:${index}`}
-          maxBlockWeight={api.consts.system.blockWeights?.maxBlock}
+          maxBlockWeight={maxBlockWeight}
           value={extrinsic}
           withLink={withLink}
         />
