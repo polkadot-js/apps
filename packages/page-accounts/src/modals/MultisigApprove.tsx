@@ -47,7 +47,7 @@ const EMPTY_CALL: CallData = {
 
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isWeightV2 } = useApi();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [callHex, setCallHex] = useState<string>('');
   const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
@@ -154,7 +154,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, hash, isCallOverride, isMultiCall, isWeightV2, others, multisig, threshold, type, weight]);
+  }, [api, callData, hash, isCallOverride, isMultiCall, others, multisig, threshold, type, weight]);
 
   const isAye = type === 'aye';
 
