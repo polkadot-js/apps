@@ -51,7 +51,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const { allAccounts } = useAccounts();
   const [callHex, setCallHex] = useState<string>('');
   const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
-  const [callWeight, callLength] = useWeight(callData);
+  const { encodedCallLength, v1Weight } = useWeight(callData);
   const [hash, setHash] = useState<string | null>(() => ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>(() => ({ isMultiCall: false, multisig: null }));
   const [isCallOverride, setCallOverride] = useState(true);
@@ -139,20 +139,20 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           ? isMultiCall && isCallOverride
             ? callData
               ? multiMod.asMulti.meta.args.length === 6
-                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, callWeight)
+                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, v1Weight)
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
                 : multiMod.asMulti(threshold, others, multisig.when, callData)
               : null
             : multiMod.approveAsMulti.meta.args.length === 5
-              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, callWeight)
+              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, v1Weight)
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               : multiMod.approveAsMulti(threshold, others, multisig.when, hash)
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, callWeight, hash, isCallOverride, isMultiCall, others, multisig, threshold, type]);
+  }, [api, callData, hash, isCallOverride, isMultiCall, others, multisig, threshold, type, v1Weight]);
 
   const isAye = type === 'aye';
 
@@ -277,7 +277,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           accountId={signatory}
           extrinsic={tx}
           icon={isAye ? 'check' : 'times'}
-          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !callLength)))}
+          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !encodedCallLength)))}
           label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />

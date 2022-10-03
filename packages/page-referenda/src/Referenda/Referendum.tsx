@@ -7,10 +7,12 @@ import React, { useMemo } from 'react';
 
 import { formatNumber } from '@polkadot/util';
 
+import Killed from './RefKilled';
 import Ongoing from './RefOngoing';
-import Other from './RefOther';
+import Tuple from './RefTuple';
 
 const Components: Record<string, React.ComponentType<Props>> = {
+  Killed,
   Ongoing
 };
 
@@ -18,7 +20,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const { className, value: { id, info } } = props;
 
   const Component = useMemo(
-    () => Components[info.type] || Other,
+    () => Components[info.type] || Tuple,
     [info]
   );
 
@@ -27,12 +29,6 @@ function Referendum (props: Props): React.ReactElement<Props> {
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      {/* <td>
-        <textarea
-          rows={8}
-          style={{ width: 512 }}
-        >{JSON.stringify(info.toHuman(), null, 2)}</textarea>
-      </td> */}
       <Component {...props} />
     </tr>
   );

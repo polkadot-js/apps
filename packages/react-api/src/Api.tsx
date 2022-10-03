@@ -3,7 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-import type { ProviderInterface, ProviderStats } from '@polkadot/rpc-provider/types';
+import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
@@ -11,7 +11,7 @@ import type { ApiProps, ApiState } from './types';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
@@ -19,14 +19,13 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
-import { lightSpecs } from './light-client-specs';
+import { lightSpecs, relaySpecs } from './light';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 
@@ -235,44 +234,46 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   };
 }
 
-function getLightProvider (chain = 'polkadot') {
-  const [relayArg, paraArg] = chain.split('/');
+/**
+ * @internal
+ * Creates a ScProvider from a <relay>[/parachain] string
+ */
+async function getLightProvider (chain: string): Promise<ScProvider> {
+  const [sc, relayName, paraName] = chain.split('/');
 
-  const wellKnown = () => {
-    switch (relayArg) {
-      case 'kusama':
-        return WellKnownChain.ksmcc3;
-      case 'polkadot':
-        return WellKnownChain.polkadot;
-      case 'rococo':
-        return WellKnownChain.rococo_v2_2;
-      case 'westend':
-        return WellKnownChain.westend2;
-      default:
-        throw new Error(`Unable to construct light chain ${chain}`);
-    }
-  };
+  if (sc !== 'substrate-connect') {
+    throw new Error(`Cannot connect to non substrate-connect protocol ${chain}`);
+  } else if (!relaySpecs[relayName] || (paraName && (!lightSpecs[relayName] || !lightSpecs[relayName][paraName]))) {
+    throw new Error(`Unable to construct light chain ${chain}`);
+  }
 
-  const relay = new ScProvider(wellKnown());
+  const relay = new ScProvider(relaySpecs[relayName]);
 
-  return paraArg && lightSpecs[paraArg]
-    ? new ScProvider(JSON.stringify(lightSpecs[paraArg]), relay)
-    : relay;
+  if (!paraName) {
+    return relay;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const specMod = await import(`${lightSpecs[relayName][paraName]}`);
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return new ScProvider(JSON.stringify(specMod.default), relay);
 }
 
+/**
+ * @internal
+ */
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
 
   try {
-    const providers = [0].map((): ProviderInterface =>
-      isLight
-        ? getLightProvider(apiUrl.replace('light://substrate-connect/', ''))
-        : new WsProvider(apiUrl)
-    );
+    const provider = isLight
+      ? await getLightProvider(apiUrl.replace('light://', ''))
+      : new WsProvider(apiUrl);
 
     api = new ApiPromise({
-      provider: providers[0],
+      provider,
       registry,
       signer,
       types,
@@ -281,9 +282,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
-      for (let i = 0; i < providers.length; i++) {
-        await providers[i].connect();
-      }
+      await provider.connect();
     }
   } catch (error) {
     onError(error);
