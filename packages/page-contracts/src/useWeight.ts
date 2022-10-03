@@ -19,7 +19,7 @@ function useWeightImpl (): UseWeight {
       api.consts.system.blockWeights
         ? api.consts.system.blockWeights.maxBlock
         : api.consts.system.maximumBlockWeight as Weight
-    ).div(BN_MILLION).div(BN_TEN)
+    ).v1Weight.div(BN_MILLION).div(BN_TEN)
   );
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -29,7 +29,7 @@ function useWeightImpl (): UseWeight {
         api.consts.system.blockWeights
           ? api.consts.system.blockWeights.maxBlock
           : api.consts.system.maximumBlockWeight as Weight
-      ).div(BN_MILLION).div(BN_TEN)),
+      ).v1Weight.div(BN_MILLION).div(BN_TEN)),
     [api]
   );
 
@@ -45,7 +45,7 @@ function useWeightImpl (): UseWeight {
         api.consts.system.blockWeights
           ? api.consts.system.blockWeights.maxBlock
           : api.consts.system.maximumBlockWeight as Weight
-      )).toNumber();
+      ).v1Weight).toNumber();
       percentage = (executionTime / blockTime.toNumber()) * 100;
 
       // execution is 2s of 6s blocks, i.e. 1/3

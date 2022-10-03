@@ -59,7 +59,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const [isVersionCurrent, maxBlockWeight] = useMemo(
     () => [
       !!runtimeVersion && api.runtimeVersion.specName.eq(runtimeVersion.specName) && api.runtimeVersion.specVersion.eq(runtimeVersion.specVersion),
-      api.consts.system.blockWeights && api.consts.system.blockWeights.maxBlock && convertWeight(api.consts.system.blockWeights.maxBlock)
+      api.consts.system.blockWeights && api.consts.system.blockWeights.maxBlock && convertWeight(api.consts.system.blockWeights.maxBlock).v1Weight
     ],
     [api, runtimeVersion]
   );
