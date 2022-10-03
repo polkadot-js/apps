@@ -173,7 +173,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
-      'light client': 'light://substrate-connect/kusama/tinkernet'
+      'light client': 'light://substrate-connect/kusama/tinkernet',
+      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws'
     }
   },
   {
