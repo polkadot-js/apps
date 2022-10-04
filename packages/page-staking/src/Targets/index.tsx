@@ -21,7 +21,6 @@ import Legend from '../Legend';
 import { useTranslation } from '../translate';
 import useIdentities from '../useIdentities';
 import Nominate from './Nominate';
-import Summary from './Summary';
 import useOwnNominators from './useOwnNominators';
 import Validator from './Validator';
 
@@ -194,7 +193,7 @@ const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
 
 const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
 
-function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastEra, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targets: { medianComm, validatorIds, validators }, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -363,18 +362,6 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
 
   return (
     <div className={className}>
-      <Summary
-        avgStaked={avgStaked}
-        lastEra={lastEra}
-        lowStaked={lowStaked}
-        minNominated={minNominated}
-        minNominatorBond={minNominatorBond}
-        numNominators={nominators?.length}
-        numValidators={validators?.length}
-        stakedReturn={stakedReturn}
-        totalIssuance={totalIssuance}
-        totalStaked={totalStaked}
-      />
       <Button.Group>
         <Button
           icon='check'

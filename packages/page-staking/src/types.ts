@@ -96,6 +96,15 @@ export interface SortedTargets {
   validators?: ValidatorInfo[];
   validatorIds?: string[];
   waitingIds?: string[];
+  nominatorActiveCount?: number;
+  nominatorElectingCount?: number;
+  nominatorIntentionCount?: number;
+  validatorActiveCount?: number;
+  validatorIntentionCount?: number;
+  validatorWaitingCount?: number;
+  nominatorMinActiveThreshold?: string;
+  nominatorMaxElectingCount?: u32 | null;
+  validatorMinActiveThreshold?: string;
 }
 
 export interface PoolAccounts {

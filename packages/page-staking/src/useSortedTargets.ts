@@ -4,13 +4,15 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
-import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { AccountId32 } from '@polkadot/types/interfaces';
+import { PalletStakingExposure, PalletStakingIndividualExposure } from '@polkadot/types/lookup';
+import { arrayFlatten, BN, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -26,13 +28,15 @@ interface MultiResult {
   maxNominatorsCount?: BN;
   maxValidatorsCount?: BN;
   minNominatorBond?: BN;
-  minValidatorBond?: BN;
+  minValidatorBond?: BN | undefined;
   totalIssuance?: BN;
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
 const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
+
+const b = (x: BN, api: ApiPromise): string => formatBalance(api.createType('Balance', x));
 
 const OPT_ERA = {
   transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
@@ -284,9 +288,51 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
   ], OPT_MULTI);
+
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
+  const [stakers, setStakers] = useState<[StorageKey<[u32, AccountId32]>, PalletStakingExposure][]>([]);
+  const [stakersTotal, setStakersTotal] = useState<BN | undefined>(undefined);
+  const [nominatorMinActiveThreshold, setNominatorMinActiveThreshold] = useState<string | undefined>();
+  const [nominatorMaxElectingCount, setNominatorMaxElectingCount] = useState<u32>();
+  const [nominatorElectingCount, setNominatorElectingCount] = useState<number | undefined>();
+  const [nominatorActiveCount, setNominatorActiveCount] = useState<number | undefined>();
+  const [validatorActiveCount, setValidatorActiveCount] = useState<number | undefined>();
+
+  const [calcStakers, setCalcStakers] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (stakers[0] && stakers[0][1]) {
+      setStakersTotal(stakers[0][1].total.toBn());
+    }
+  }, [stakers]);
+
+  useEffect(() => {
+    if (stakers.length && !calcStakers) {
+      const assignments: Map<string, BN> = new Map();
+
+      stakers.sort((a, b) => a[1].total.toBn().cmp(b[1].total.toBn())).map((x) => x[1].others).flat(1).forEach((x) => {
+        const nominator = (x as PalletStakingIndividualExposure).who.toString();
+        const amount = (x as PalletStakingIndividualExposure).value;
+        const val = assignments.get(nominator);
+
+        assignments.set(nominator, val ? amount.toBn().add(val) : amount.toBn());
+      });
+
+      const nominatorStakes = Array.from(assignments);
+
+      nominatorStakes.sort((a, b) => a[1].cmp(b[1]));
+
+      setNominatorMaxElectingCount(api.consts.electionProviderMultiPhase?.maxElectingVoters);
+
+      setNominatorElectingCount(assignments.size);
+      setNominatorActiveCount(assignments.size);
+      setNominatorMinActiveThreshold(nominatorStakes[0] ? b(nominatorStakes[0][1], api) : '');
+      setValidatorActiveCount(stakers.length);
+      setCalcStakers(true);
+    }
+  }, [api, calcStakers, stakers]);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
@@ -296,6 +342,16 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   );
 
   const inflation = useInflation(baseInfo?.totalStaked);
+
+  const curEra = useCall<Option<u32>>(api.query.staking.currentEra);
+
+  const getStakers = useMemo(() => async (currentEra: u32) => {
+    setStakers(await api.query.staking.erasStakers.entries(currentEra));
+  }, [api.query.staking.erasStakers]);
+
+  curEra && getStakers(curEra?.unwrap());
+
+  const validatorMinActiveThreshold = stakersTotal !== undefined ? b(stakersTotal, api) : undefined;
 
   return useMemo(
     (): SortedTargets => ({
@@ -309,13 +365,19 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
       minNominated: BN_ZERO,
       minNominatorBond,
       minValidatorBond,
+      nominatorActiveCount,
+      nominatorElectingCount,
+      nominatorMaxElectingCount,
+      nominatorMinActiveThreshold,
+      validatorActiveCount,
+      validatorMinActiveThreshold,
       ...(
         inflation && inflation.stakedReturn
           ? addReturns(inflation, baseInfo)
           : baseInfo
       )
     }),
-    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
+    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, nominatorActiveCount, nominatorElectingCount, nominatorMaxElectingCount, nominatorMinActiveThreshold, validatorActiveCount, validatorMinActiveThreshold]
   );
 }
 

@@ -19,6 +19,7 @@ import basicMd from './md/basic.md';
 import Actions from './Actions';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
+import Overview from './Overview';
 import Payouts from './Payouts';
 import Pools from './Pools';
 import Query from './Query';
@@ -113,6 +114,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Overview')
     },
     {
+      name: 'validators',
+      text: t<string>('Validators')
+    },
+    {
       name: 'actions',
       text: t<string>('Accounts')
     },
@@ -194,6 +199,21 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
         </Route>
       </Switch>
+      <Overview
+        className={basePath === pathname ? '' : '--hidden'}
+        favorites={favorites}
+        hasAccounts={hasAccounts}
+        hasQueries={hasQueries}
+        hasStashes={hasStashes}
+        minCommission={minCommission}
+        nominatedBy={nominatedBy}
+        ownStashes={ownStashes}
+        paraValidators={paraValidators}
+        stakingOverview={stakingOverview}
+        targets={targets}
+        toggleFavorite={toggleFavorite}
+        toggleNominatedBy={toggleNominatedBy}
+      />
       <Actions
         className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
@@ -203,7 +223,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         targets={targets}
       />
       <Validators
-        className={basePath === pathname ? '' : '--hidden'}
+        className={pathname === `${basePath}/validators` ? '' : '--hidden'}
         favorites={favorites}
         hasAccounts={hasAccounts}
         hasQueries={hasQueries}
