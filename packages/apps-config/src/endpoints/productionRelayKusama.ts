@@ -32,8 +32,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2124,
     text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://pencol-kus-01.pendulumchain.tech'
-    } // Working on making this live ASAP
+      PendulumChain: 'wss://rpc.pendulumchain.tech'
+    }
   },
   {
     info: 'bajun',
@@ -174,6 +174,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
+      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
       // NOTE: Keep this as the last entry, nothing after it
       'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
