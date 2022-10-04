@@ -222,8 +222,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2107,
     text: 'KICO',
     providers: {
-      'DICO Foundation': 'wss://rpc.kico.dico.io',
-      'DICO Foundation 2': 'wss://rpc.api.kico.dico.io'
+      'DICO Foundation': 'wss://rpc.kico.dico.io'
+      // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
     }
   },
   {
