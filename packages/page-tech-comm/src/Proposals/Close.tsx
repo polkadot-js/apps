@@ -24,7 +24,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { encodedCallLength, v1Weight } = useWeight(proposal);
+  const { encodedCallLength, weight } = useWeight(proposal);
   const modLocation = useCollectiveInstance(type);
 
   if (!modLocation) {
@@ -64,7 +64,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
                 api.tx[modLocation].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
-                    : [hash, idNumber, v1Weight, encodedCallLength]
+                    : [hash, idNumber, weight, encodedCallLength]
                   : [hash, idNumber]
               }
               tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
