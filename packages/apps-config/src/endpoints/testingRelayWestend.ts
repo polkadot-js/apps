@@ -138,7 +138,8 @@ export const testRelayWestend: EndpointOption = {
     Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     Dwellir: 'wss://westend-rpc.dwellir.com',
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-    'light client': 'light://substrate-connect/westend'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/westend' // NOTE: Keep last
   },
   teleport: [1000, 1002],
   linked: [

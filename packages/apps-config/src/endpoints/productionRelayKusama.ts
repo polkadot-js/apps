@@ -143,7 +143,8 @@ export const prodParasKusama: EndpointOption[] = [
       TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
       Leemo: 'wss://leemo.gmordie.com',
       'GM Intern': 'wss://intern.gmordie.com',
-      'light client': 'light://substrate-connect/kusama/gm'
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/kusama/gm' // NOTE: Keep last
     }
   },
   {
@@ -173,7 +174,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
-      'light client': 'light://substrate-connect/kusama/tinkernet'
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
   },
   {
@@ -536,7 +538,8 @@ export const prodRelayKusama: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
-    'light client': 'light://substrate-connect/kusama'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/kusama' // NOTE: Keep last
   },
   teleport: [1000, 1001],
   linked: [
