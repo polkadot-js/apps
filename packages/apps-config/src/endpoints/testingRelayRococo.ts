@@ -403,7 +403,8 @@ export const testRelayRococo: EndpointOption = {
     // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
     // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // After reset, syncs to old chain
     // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
-    'light client': 'light://substrate-connect/rococo'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/rococo' // NOTE: Keep last
   },
   teleport: [1000, 1002],
   linked: [

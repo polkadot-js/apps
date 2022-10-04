@@ -414,7 +414,8 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    'light client': 'light://substrate-connect/polkadot'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
   teleport: [1000],
   linked: [

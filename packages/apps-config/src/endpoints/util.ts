@@ -75,7 +75,14 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
         ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
         : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
-    }));
+    }))
+    .sort((a, b) =>
+      a.isLightClient
+        ? 1
+        : b.isLightClient
+          ? -1
+          : 0
+    );
 
   if (linked) {
     const last = result[result.length - 1];
