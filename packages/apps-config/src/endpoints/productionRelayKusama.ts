@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -542,7 +543,7 @@ export const prodRelayKusama: EndpointOption = {
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/kusama' // NOTE: Keep last
   },
-  teleport: [1000, 1001],
+  teleport: getTeleports(prodParasKusamaCommon),
   linked: [
     ...prodParasKusamaCommon,
     ...prodParasKusama

@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -417,7 +418,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
-  teleport: [1000],
+  teleport: getTeleports(prodParasPolkadotCommon),
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot

@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -141,7 +142,7 @@ export const testRelayWestend: EndpointOption = {
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/westend' // NOTE: Keep last
   },
-  teleport: [1000, 1002],
+  teleport: getTeleports(testParasWestendCommon),
   linked: [
     ...testParasWestendCommon,
     ...testParasWestend
