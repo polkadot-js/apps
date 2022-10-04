@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -539,7 +540,7 @@ export const prodRelayKusama: EndpointOption = {
     'Automata 1RPC': 'wss://1rpc.io/ksm',
     'light client': 'light://substrate-connect/kusama'
   },
-  teleport: [1000, 1001],
+  teleport: getTeleports(prodParasKusamaCommon),
   linked: [
     ...prodParasKusamaCommon,
     ...prodParasKusama

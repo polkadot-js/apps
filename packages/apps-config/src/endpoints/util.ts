@@ -101,3 +101,10 @@ export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnl
     .reduce((all: LinkOption[], e) =>
       all.concat(expandEndpoint(t, e, firstOnly, withSort)), []);
 }
+
+export function getTeleports (input: EndpointOption[]): number[] {
+  return input
+    .filter(({ teleport }) => !!teleport && teleport[0] === -1)
+    .map(({ paraId }) => paraId)
+    .filter((id): id is number => !!id);
+}

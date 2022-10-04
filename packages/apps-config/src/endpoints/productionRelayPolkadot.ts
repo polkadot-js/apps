@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -416,7 +417,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'Automata 1RPC': 'wss://1rpc.io/dot',
     'light client': 'light://substrate-connect/polkadot'
   },
-  teleport: [1000],
+  teleport: getTeleports(prodParasPolkadotCommon),
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot

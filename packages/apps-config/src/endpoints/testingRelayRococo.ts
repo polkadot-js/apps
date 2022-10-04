@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -405,7 +406,7 @@ export const testRelayRococo: EndpointOption = {
     // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
     'light client': 'light://substrate-connect/rococo'
   },
-  teleport: [1000, 1002],
+  teleport: getTeleports(testParasRococoCommon),
   linked: [
     ...testParasRococoCommon,
     ...testParasRococo

@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -140,7 +141,7 @@ export const testRelayWestend: EndpointOption = {
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     'light client': 'light://substrate-connect/westend'
   },
-  teleport: [1000, 1001],
+  teleport: getTeleports(testParasWestendCommon),
   linked: [
     ...testParasWestendCommon,
     ...testParasWestend
