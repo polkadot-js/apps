@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 
@@ -21,14 +21,20 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   const { api } = useApi();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash);
+  const historyDepth = useCall<u32>(api.query.staking.historyDepth);
   const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, PalletStakingUnappliedSlash[]][]>([]);
 
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
+    const range = api.consts.staking.historyDepth || historyDepth;
+    const from = api.query.staking && api.query.staking.earliestUnappliedSlash
+      ? earliestSlash && earliestSlash.unwrapOr(null)
+      : indexes && range
+        ? indexes.activeEra.sub(range)
+        : null;
 
-    if (mountedRef.current && indexes && earliestSlash && earliestSlash.isSome) {
-      const from = earliestSlash.unwrap();
+    if (mountedRef.current && indexes && from) {
       const range: BN[] = [];
       let start = new BN(from);
 
@@ -54,7 +60,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
     return (): void => {
       unsub && unsub();
     };
-  }, [api, earliestSlash, indexes, mountedRef]);
+  }, [api, earliestSlash, historyDepth, indexes, mountedRef]);
 
   return slashes;
 }
