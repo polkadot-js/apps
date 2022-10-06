@@ -126,9 +126,19 @@ export const prodParasKusama: EndpointOption[] = [
   {
     info: 'genshiro',
     homepage: 'https://genshiro.equilibrium.io',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
+    isUnreachable: true,
     paraId: 2024,
     text: 'Genshiro',
+    providers: {
+      Equilibrium: 'wss://node.genshiro.io'
+    }
+  },
+  {
+    info: 'genshiro',
+    homepage: 'https://genshiro.equilibrium.io',
+    isUnreachable: true,
+    paraId: 2226,
+    text: 'Genshiro crowdloan 2',
     providers: {
       Equilibrium: 'wss://node.genshiro.io'
     }
