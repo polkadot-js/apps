@@ -27,7 +27,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
 
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
-    const range = api.consts.staking.historyDepth || historyDepth;
+    const range = api.consts.staking?.historyDepth || historyDepth;
     const from = api.query.staking && api.query.staking.earliestUnappliedSlash
       ? earliestSlash && earliestSlash.unwrapOr(null)
       : indexes && range
