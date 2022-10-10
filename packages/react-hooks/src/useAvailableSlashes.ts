@@ -21,7 +21,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   const { api } = useApi();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash);
-  const historyDepth = useCall<u32>(api.query.staking.historyDepth);
+  const historyDepth = useCall<u32>(api.query.staking?.historyDepth);
   const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, PalletStakingUnappliedSlash[]][]>([]);
 
