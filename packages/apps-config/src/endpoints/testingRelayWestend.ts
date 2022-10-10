@@ -21,7 +21,7 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2086,
     text: 'Charcoal',
     providers: {
-      Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+      // Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8219
     }
   },
   {
