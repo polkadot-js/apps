@@ -25,6 +25,7 @@ export default {
     'Crust Collator': 'shadow',
     'Crust Maxwell': 'maxwell',
     Darwinia: 'darwinia',
+    'DAO IPCI': 'ipci',
     'Darwinia Crab': 'crab',
     'Darwinia Parachain': 'darwinia-parachain',
     'DataHighway Tanganika Kusama Parachain': 'datahighway',

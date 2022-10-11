@@ -139,6 +139,7 @@ import nodeIdavoll from './nodes/idavoll.png';
 import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
+import nodeIPCI from './nodes/ipci.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJaz from './nodes/jaz.png';
 import nodeJoystream from './nodes/joystream.svg';
@@ -308,6 +309,7 @@ export const chainLogos = Object.entries({
   'InvArch Brainstorm Testnet': chainBrainstorm,
   'InvArch Tinker Network': chainTinker,
   IpseTestnet: nodeIpse,
+  ipci: nodeIPCI,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
   Kabocha: chainKabocha,
@@ -534,6 +536,7 @@ export const nodeLogos = Object.entries({
   'InvArch Brainstorm Node': chainBrainstorm,
   'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
+  'DAO IPCI': nodeIPCI,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
   Kabocha: nodeKabocha,
@@ -752,6 +755,7 @@ export const namedLogos: Record<string, unknown> = {
   interlay: chainInterlay,
   'interlay-testnet': chainInterlay,
   ipse: nodeIpse,
+  ipci: nodeIPCI,
   jaz: nodeJaz,
   joystream: nodeJoystream,
   jupiter: nodeJupiter,
