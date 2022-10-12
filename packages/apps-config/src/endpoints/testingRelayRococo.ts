@@ -358,7 +358,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2101,
     text: 'Battery Station (Rococo)',
     providers: {
-      Zeitggeist: 'wss://roc.zeitgeist.pm'
+      Zeitgeist: 'wss://roc.zeitgeist.pm'
     }
   }
 ];
