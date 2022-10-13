@@ -56,6 +56,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoZeitgeist',
+    paraId: 2101,
+    text: 'Battery Station',
+    providers: {
+      Zeitgeist: 'wss://roc.zeitgeist.pm'
+    }
+  },
+  {
     info: 'rococoBifrost',
     paraId: 2001,
     text: 'Bifrost',
@@ -353,14 +361,6 @@ export const testParasRococo: EndpointOption[] = [
       Watr: 'wss://rpc.dev.watr.org'
     }
   },
-  {
-    info: 'rococoZeitgeist',
-    paraId: 2101,
-    text: 'Battery Station (Rococo)',
-    providers: {
-      Zeitgeist: 'wss://roc.zeitgeist.pm'
-    }
-  }
 ];
 
 export const testParasRococoCommon: EndpointOption[] = [
