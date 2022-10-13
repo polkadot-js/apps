@@ -24,6 +24,7 @@ export default {
     Crust: 'crust',
     'Crust Collator': 'shadow',
     'Crust Maxwell': 'maxwell',
+    'DAO IPCI': 'ipci',
     Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
     'Darwinia Parachain': 'darwinia-parachain',
