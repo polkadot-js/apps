@@ -112,7 +112,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'DAO IPCI',
     providers: {
       Airalab: 'wss://kusama.rpc.ipci.io'
-    },
+    }
   },
   {
     info: 'crab',
