@@ -355,10 +355,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoZeitgeist',
-    paraId: 2050,
-    text: 'Zeitgeist PC',
+    paraId: 2101,
+    text: 'Zeitgeist Battery Station',
     providers: {
-      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
+      Zeitgeist: 'wss://roc.zeitgeist.pm'
     }
   }
 ];
