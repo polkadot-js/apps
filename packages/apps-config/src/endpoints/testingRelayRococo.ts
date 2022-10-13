@@ -57,7 +57,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBifrost',
-    paraId: 2001,
+    paraId: 2030,
     text: 'Bifrost',
     providers: {
       Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws'
