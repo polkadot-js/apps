@@ -68,6 +68,8 @@ import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
+import logion from './logion';
+import logionParachain from './logion-parachain';
 import mangata from './mangata';
 import manta from './manta';
 import mathchain from './mathchain';
@@ -76,6 +78,7 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import oak from './oak';
 import opal from './opal';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
@@ -85,7 +88,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import pichiu from './pichiu';
-import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -95,6 +97,7 @@ import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
+import rootnet from './rootnet';
 import shibuya from './shibuya';
 import shiden from './shiden';
 import snowbridge from './snowbridge';
@@ -211,6 +214,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kylin,
   laminar,
   litentry,
+  logion,
+  'logion-parachain': logionParachain,
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
@@ -223,11 +228,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
-  nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  oak,
   opal,
   opportunity,
   'origintrail-parachain': origintrail,
@@ -237,7 +242,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  plasm,
   polymesh,
   'pontem-node': pontem,
   prism,
@@ -245,6 +249,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   realis,
   'riochain-runtime': riochain,
   robonomics,
+  root: rootnet,
   shibuya,
   shiden,
   snowbridge,
@@ -263,9 +268,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   swapdex,
   t0rn,
   ternoa,
+  'testnet-interlay': interbtc,
+  'testnet-kintsugi': interbtc,
   trustbase,
   turing,
   uart,
+  unique,
   'unit-node': unitv,
   'unit-parachain': unitv,
   unorthodox: standard,

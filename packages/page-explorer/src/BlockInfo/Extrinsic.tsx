@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
-import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
+import type { BlockNumber, DispatchInfo, Extrinsic } from '@polkadot/types/interfaces';
 import type { ICompact, INumber } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
+import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 
 import Event from '../Event';
@@ -17,9 +18,9 @@ import { useTranslation } from '../translate';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   index: number;
-  maxBlockWeight?: Weight;
+  maxBlockWeight?: BN;
   value: Extrinsic;
   withLink: boolean;
 }
@@ -36,11 +37,13 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
   return null;
 }
 
-function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
-  const filtered = events.filter(({ record: { phase } }) =>
-    phase.isApplyExtrinsic &&
-    phase.asApplyExtrinsic.eq(index)
-  );
+function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeight?: BN): [DispatchInfo | undefined, BN | undefined, number, KeyedEvent[]] {
+  const filtered = events
+    ? events.filter(({ record: { phase } }) =>
+      phase.isApplyExtrinsic &&
+      phase.asApplyExtrinsic.eq(index)
+    )
+    : [];
   const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
     section === 'system' &&
     ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
@@ -50,11 +53,13 @@ function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?
       ? infoRecord.record.event.data[0] as DispatchInfo
       : infoRecord.record.event.data[1] as DispatchInfo
     : undefined;
+  const weight = dispatchInfo && convertWeight(dispatchInfo.weight);
 
   return [
     dispatchInfo,
-    dispatchInfo && maxBlockWeight
-      ? dispatchInfo.weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
+    weight && weight.v1Weight,
+    weight && maxBlockWeight
+      ? weight.v1Weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
       : 0,
     filtered
   ];
@@ -102,7 +107,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
     [blockNumber, t, value]
   );
 
-  const [dispatchInfo, weightPercentage, thisEvents] = useMemo(
+  const [, weight, weightPercentage, thisEvents] = useMemo(
     () => filterEvents(index, events, maxBlockWeight),
     [index, events, maxBlockWeight]
   );
@@ -150,9 +155,9 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         )}
       </td>
       <td className='top number media--1400'>
-        {dispatchInfo && (
+        {weight && (
           <>
-            <>{formatNumber(dispatchInfo.weight)}</>
+            <>{formatNumber(weight)}</>
             <div>{weightPercentage.toFixed(2)}%</div>
           </>
         )}

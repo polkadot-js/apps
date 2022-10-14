@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
+import { isObject } from '@polkadot/util';
 
 import Params from '../';
 import Bare from './Bare';
@@ -24,8 +25,8 @@ interface Options {
 }
 
 interface Initial {
-  initialEnum: string | null;
-  initialValues: RawParam[] | undefined;
+  initialEnum: string | undefined | null;
+  initialParams: RawParam[] | undefined | null;
 }
 
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
@@ -46,17 +47,21 @@ function getOptions (registry: Registry, type: TypeDef): Options {
   };
 }
 
-function getInitial (defaultValue: RawParam): Initial {
+function getInitial (defaultValue: RawParam, options: Option[]): Initial {
   return {
     initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
-        : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-      : null,
-    initialValues: defaultValue && defaultValue.value
+        : isObject(defaultValue.value)
+          ? Object.keys(defaultValue.value as Record<string, unknown>)[0]
+          : options[0] && options[0].value
+      : options[0] && options[0].value,
+    initialParams: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? [{ isValid: true, value: defaultValue.value.inner }]
-        : undefined
+        : isObject(defaultValue.value)
+          ? [{ isValid: true, value: (defaultValue.value as Record<string, unknown>)[Object.keys(defaultValue.value as Record<string, unknown>)[0]] }]
+          : undefined
       : undefined
   };
 }
@@ -73,7 +78,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
   const [{ options, subTypes }] = useState<Options>(() => getOptions(registry, type));
   const [current, setCurrent] = useState<ParamDef[] | null>(() => getCurrent(registry, type, defaultValue, subTypes));
-  const [{ initialEnum, initialValues }] = useState<Initial>(() => getInitial(defaultValue));
+  const [{ initialEnum, initialParams }, setInitial] = useState<Initial>(() => getInitial(defaultValue, options));
 
   const _onChange = useCallback(
     (value: string): void => {
@@ -84,6 +89,16 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           ? [{ name: newType.name, type: newType }]
           : null
       );
+
+      if (newType) {
+        // if the enum changes, we want to discard the original initParams,
+        // these are not applicable anymore, rather use empty defaults
+        setInitial((prev) =>
+          newType.name === prev.initialEnum
+            ? prev
+            : { initialEnum: prev.initialEnum, initialParams: null }
+        );
+      }
     },
     [subTypes]
   );
@@ -117,11 +132,12 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}
           registry={registry}
-          values={initialValues}
+          values={initialParams}
         />
       )}
     </Bare>

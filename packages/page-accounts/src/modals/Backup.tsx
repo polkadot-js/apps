@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
+import { nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -32,7 +33,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   const _doBackup = useCallback(
     (): void => {
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           const addressKeyring = address && keyring.getPair(address);
           const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
@@ -49,7 +50,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
 
         setIsBusy(false);
         onClose();
-      }, 0);
+      });
     },
     [address, onClose, password]
   );

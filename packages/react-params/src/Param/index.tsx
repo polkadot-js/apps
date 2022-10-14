@@ -5,6 +5,7 @@ import type { Props } from '../types';
 
 import React, { useMemo } from 'react';
 
+import { getTypeDef } from '@polkadot/types';
 import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
@@ -22,7 +23,7 @@ function formatJSON (input: string): string {
     .replace(/,/g, ', ');
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
     [registry, type, overrides]
@@ -30,7 +31,14 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
 
   const label = useMemo(
     (): string => {
-      const fmtType = formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`);
+      const inner = encodeTypeDef(
+        registry,
+        // if our type is a Lookup, try and unwrap again
+        registry.isLookupType(type.lookupName || type.type)
+          ? getTypeDef(registry.createType(type.type).toRawType())
+          : type
+      );
+      const fmtType = formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${inner}${isDisabled && isInOption ? '>' : ''}`);
 
       return `${isUndefined(name) ? '' : `${name}: `}${fmtType}${type.typeName && !fmtType.includes(type.typeName) ? ` (${type.typeName})` : ''}`;
     },
@@ -54,6 +62,7 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
         className={`ui--Param ${className}`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        isError={isError}
         isInOption={isInOption}
         key={`${name || 'unknown'}:${label}`}
         label={label}

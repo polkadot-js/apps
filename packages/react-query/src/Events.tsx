@@ -41,8 +41,16 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
         !['Deposit', 'Withdraw'].includes(method)
       ) &&
       (
+        !['transactionPayment'].includes(section) ||
+        !['TransactionFeePaid'].includes(method)
+      ) &&
+      (
         !['paraInclusion', 'parasInclusion', 'inclusion'].includes(section) ||
         !['CandidateBacked', 'CandidateIncluded'].includes(method)
+      ) &&
+      (
+        !['relayChainInfo'].includes(section) ||
+        !['CurrentBlockNumbers'].includes(method)
       )
     )
     .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {

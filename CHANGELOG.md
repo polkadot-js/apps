@@ -1,5 +1,197 @@
 # CHANGELOG
 
+## 0.121.1 Aug 22, 2022
+
+Contributed:
+
+- Update Logion types (Thanks to https://github.com/gdethier)
+- Update Bit Country Pioneer logo (Thanks to https://github.com/mikejamesli)
+- Add Rococo Amplitude (Thanks to https://github.com/gonzamontiel)
+- Add Kusama Snow (Thanks to https://github.com/0xrust)
+- Add Rococo Confti (Thanks to https://github.com/cheft)
+- Update Kusama GM endpoint (Thanks to https://github.com/arrudagates)
+- Adjust Unique lookup key (Thanks to https://github.com/ashkuc)
+- Add derive mapping for interlay testnets (Thanks to https://github.com/bvotteler)
+- Update Genshiro types (Thanks to https://github.com/pr0fedt)
+- Add BLD nodes endpoint for GM (Thanks to https://github.com/arrudagates)
+- Add TerraBioDAO endpoint for GM (Thanks to https://github.com/koutakou)
+- Add OnFinality endpoint for Efinity (Thanks to https://github.com/banananeko)
+- Add RadiumBlock endpoint for Statemine (Thanks to https://github.com/radiumb)
+- Update Moonbeam types bundle (Thanks to https://github.com/hyd628)
+- Add Dwellir endpoints for Acala and Karura (Thanks to https://github.com/benjichat)
+
+Changes:
+
+- Ajust display for endpoints (Relay, Parachains, Common)
+- Adjust check for availability of payment queries (via runtime)
+- Disable unreachable endpoints
+
+
+## 0.120.1 Aug 8, 2022
+
+Contributed:
+
+- Update i18n for nominee list (Thanks to https://github.com/Nick-1979)
+- Remove OnFinality endpoint for Calamari (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Turnin (Thanks to https://github.com/irsal)
+- Add Dwellir endpoint for Bajun (Thanks to https://github.com/Maharacha)
+- Added Shiden/Astar endpoint (Thanks to https://github.com/shunsukew)
+- Remove Bit Country RPC node (Thanks to https://github.com/mikejamesli)
+- Add Web3 Games RPC node (Thanks to https://github.com/Zombieliu)
+
+Changes:
+
+- Built `typesBundle` statically (no explicit 3rd party dependencies)
+- Add support for Gov2 apps (referanda, preimages, whitelist, ranked collective)
+- Correctly handle errors on invalid proxy account selection
+- Handle JS apps error logs where logging itself fails
+
+
+## 0.119.1 Jul 30, 2022
+
+Contributed:
+
+- Fixes for alliance unscrupulous (Thanks to https://github.com/joepetrowski)
+- Add OnFinality endpoint for Kylin (Thanks to https://github.com/banananeko)
+- Update creditcoin endpoints (Thanks to https://github.com/jfrank-summit)
+- Register Bifrost on Rococo (Thanks to https://github.com/awesomepan)
+- Update Darwinia Crab parachain settings (Thanks to https://github.com/JayJay1024)
+- Add CESS testnet (Thanks to https://github.com/swowk)
+- Remove OnFalinaty endpoint for Basilisk (Thanks to https://github.com/banananeko)
+- Add Eggnet Rococo parachain (Thanks to https://github.com/1xstj)
+- Fix Turing logo display (Thanks to https://github.com/imstar15)
+- Add Subzero Rococo parachain (Thanks to https://github.com/vasylenko-yevhen)
+- Add Crust Rococo parachain (Thanks to https://github.com/mmyyrroonn)
+- Adjust Basilisk UI components (Thanks to https://github.com/lumir-mrkva)
+- Split Interlay & Kintsugi testnets (Thanks to https://github.com/gregdhill)
+- Add Dwellir endpoint for Efininity (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Acala & Karura (Thanks to https://github.com/Maharacha)
+- Add Crust, Litmus, Turing to Subsquare links (Thanks to https://github.com/wliyongfeng)
+
+Changes:
+
+- Add support for Alliance pallet
+- Only support contracts where `storageDepositLimit` is available
+- Adjust param component with additional deep inspection
+- Exclude `transactionPayment.TransactionFeePaid` from global events list
+
+
+## 0.118.1 Jul 19, 2022
+
+Contributed:
+
+- Add Kylin network (Thanks to https://github.com/Bart200c)
+- Add OLI parachain (Thanks to https://github.com/m-yahya)
+- Update OmniBTC logo (Thanks to https://github.com/wbh1328551759)
+- Westend collective common-good parachain (Thanks to https://github.com/lazam)
+- Update Singular to v2 links (Thanks to https://github.com/abzen)
+
+Changes:
+
+- Always use author from chain derive (remove apps-specific detection logic)
+- Don't fail full block display in explorer on undecodable events
+- Bump 3rd party dependencies
+- Filter sections/methods for internal attributes
+- Silence build-step i18n scanner output
+
+
+## 0.117.3 Jul 14, 2022
+
+Contributed:
+
+- Adjust Darwinia UI (Thanks to https://github.com/JayJay1024)
+- Add Rococo & Kusama SORA parachain info (Thanks to https://github.com/stefashkaa)
+- Add Live Netwok Odyssey (Thanks to https://github.com/jiyilanzhou)
+- Update Rocfinity name (Thanks to https://github.com/leonardocustodio)
+
+Changes:
+
+- Top level package.json adjustment for Electron packaging
+- Filter `relayinInfo.CurrentBlockNumbers` from global events list
+
+
+## 0.117.2 Jul 12, 2022
+
+Changes:
+
+- Fixes for release to gh-pages & ipfs
+
+
+## 0.117.1 Jul 12, 2022
+
+Contributed:
+
+- Fix table overflows for extensions (Thanks to https://github.com/SaltyCucumber)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Update Bifrost endpoint labels (Thanks to https://github.com/awesomepan)
+- Remove Neumann network (Thanks to https://github.com/imstar15)
+- Update HydraX endpoints (Thanks to https://github.com/Ank4n)
+- Name matching updates for Interlay parachain (Thanks to https://github.com/gregdhill)
+- Update Rocfinity paraId (Thanks to https://github.com/leonardocustodio)
+- Remove OnFinality endpoint for Pontem (Thanks to https://github.com/banananeko)
+- Replace outdated Magata testnet with Rococo parachain (Thanks to https://github.com/mateuszaaa)
+- Subsquare links for Polkadot & Crab (Thanks to https://github.com/wliyongfeng)
+- Subsquare links for Interlay (Thanks to https://github.com/wliyongfeng)
+- Subsquare links for Phala (Thanks to https://github.com/wliyongfeng)
+- Update Imbue logo (Thanks to https://github.com/samelamin)
+- Additional Pinknode endpoints (Thanks to https://github.com/rishikarthikeyan27)
+- Support armonia networks as ETH-compatible (Thanks to https://github.com/cryptocurrencybro)
+- Support layer networks as ETH-compatible (Thanks to https://github.com/atenjin)
+- Reskin Composable colors (Thanks to https://github.com/saadjhk)
+- Update RILT paraId (Thanks to https://github.com/ggera)
+- Update Unique type definitions (Thanks to https://github.com/ashkuc)
+- Remove Dwellir endpoints for Parallel (Thanks to https://github.com/benjichat)
+- Add Helixstree Rococo paraId (Thanks to https://github.com/helixstreet)
+- Update Ternoa logo & mainnet (Thanks to https://github.com/markopoloparadox)
+- Re-enable Shibuya endpoints (Thanks to https://github.com/rishikarthikeyan27)
+- Update Bifrost Subscan link (Thanks to https://github.com/awesomepan)
+- Add Zero Alpahville (Thanks to https://github.com/2075)
+- Add InvArch Tinkernet to Kusama (Thanks to https://github.com/arrudagates)
+- Add Logion networks (Thanks to https://github.com/gdethier)
+- Updata Logion types (Thanks to https://github.com/gdethier)
+- Remove Pinknode Mandala endpoint (Thanks to https://github.com/Shawn-Eng-888)
+- Additional Pinknode endpoints (Thanks to https://github.com/rishikarthikeyan27)
+- Add Kusama GM ParaId & remove from Rococo (Thanks to https://github.com/arrudagates)
+- Update Arctic endpoints (Thanks to https://github.com/itsmemz)
+- Add Myriad endpoint (Thanks to https://github.com/immhrmwn)
+- Add Polkaholic external links (Thanks to https://github.com/sourabhniyogi)
+- Add RadiumBlock endpoints for Kusama & Polkadot (Thanks to https://github.com/radiumb)
+- Enable sub.id links (Thanks to https://github.com/samchuk-vlad)
+- Update Nodle endpoint on Rococo (Thanks to https://github.com/aliXsed)
+- Add support for Jaz node (Thanks to https://github.com/gojazdev)
+- Add Amplitude chain to Kusama (Thanks to https://github.com/gonzamontiel)
+- Remove Plasm (Thanks to https://github.com/shunsukew)
+- Fix FR translation (Thanks to https://github.com/Boyquotes)
+- Remove Dwellir Manta & entrifuge endpoints (Thanks to https://github.com/Ank4n)
+- Update Imbue Rococo paraId (Thanks to https://github.com/samelamin)
+- Adjust colors for Litentry Rococo (Thanks to https://github.com/Kailai-Wang)
+- Enable Opal by Unique (Thanks to https://github.com/pasynkov)
+- HydraDX Snakenet merged to parachain (Thanks to https://github.com/lumir-mrkva)
+- Additional Polkassembly links (Thanks to https://github.com/niklabh)
+- Remove Pinknode Polkadex endpoint (Thanks to https://github.com/Shawn-Eng-888)
+- Add Integritee to Polkadot (Thanks to https://github.com/mosonyi)
+- Dwellir endpoints for tentry & Edgeware (Thanks to https://github.com/Ank4n)
+- Support for Heiko crowdloan 2 (Thanks to https://github.com/GopherJ)
+- Update Darwinia parachain (Thanks to https://github.com/JayJay1024)
+- Add OmniBTC paraId to Polkadot (Thanks to https://github.com/wbh1328551759)
+
+Changes:
+
+- App for makingg calls to `api.call.*` (runtime)
+- Optimize/Dedupe usage of historyDepth in staking
+- Apply sorting to scheduler display
+- Optimize looping in staking code
+- Adjust staking ranking displays
+- Display max proposal (capped) amount in treasury
+- Support for named event fields
+- Disable unreachable endpoints
+- Display block runtime version on explorer
+- Adjust pool checks with isSome before using
+- UI updates to poll information displays
+- Adjust apps-config for non-augmentation
+- Adjust param display for Enums with presets
+
+
 ## 0.116.1 Jun 4, 2022
 
 Contributed:
