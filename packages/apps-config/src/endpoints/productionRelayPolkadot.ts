@@ -177,7 +177,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2011,
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Equilibrium: 'wss://node.pol.equilibrium.io/',
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
     }
   },
   {
