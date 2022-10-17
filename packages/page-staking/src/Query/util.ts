@@ -3,8 +3,6 @@
 
 import type { BN } from '@polkadot/util';
 
-import { BigNumber } from 'bignumber.js';
-
 import { BN_THOUSAND, BN_ZERO, isBn, isFunction } from '@polkadot/util';
 
 interface ToBN {
@@ -26,9 +24,12 @@ export const formatDarwiniaPower = (power: BN| undefined, unit?: string): string
     return '';
   }
 
+  console.log();
+
   const powerUnit = unit || '';
   const firstLetter = powerUnit.substring(0, 1).toUpperCase();
   const capitalizedUnit = `${firstLetter}${powerUnit.substring(1, powerUnit.length)}`;
+  const formattedPower = power.toNumber().toLocaleString("en-US",{maximumFractionDigits: 0})
 
-  return `${new BigNumber(power.toString()).toFormat(0)} ${capitalizedUnit}`;
+  return `${formattedPower} ${capitalizedUnit}`;
 };
