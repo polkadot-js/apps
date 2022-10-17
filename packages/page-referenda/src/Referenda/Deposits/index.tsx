@@ -7,6 +7,7 @@ import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../../types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { AddressMini } from '@polkadot/react-components';
 
@@ -16,6 +17,7 @@ import Refund from './Refund';
 interface Props {
   canDeposit?: boolean;
   canRefund?: boolean;
+  className?: string;
   decision: Option<PalletReferendaDeposit> | null;
   id: BN;
   palletReferenda: PalletReferenda;
@@ -23,14 +25,14 @@ interface Props {
   track?: PalletReferendaTrackInfo;
 }
 
-function Deposits ({ canDeposit, canRefund, decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
+function Deposits ({ canDeposit, canRefund, className = '', decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
   const [valSubmit, valDeposit] = useMemo(
     () => [submit, decision && decision.unwrapOr(null)],
     [decision, submit]
   );
 
   return (
-    <td className='address'>
+    <td className={`${className} address`}>
       {valSubmit && (
         <AddressMini
           balance={valSubmit.amount}
@@ -40,29 +42,34 @@ function Deposits ({ canDeposit, canRefund, decision, id, palletReferenda, submi
       )}
       {valDeposit
         ? (
-          <AddressMini
-            balance={valDeposit.amount}
-            value={valDeposit.who}
-            withBalance
+          <>
+            <AddressMini
+              balance={valDeposit.amount}
+              value={valDeposit.who}
+              withBalance
+            />
+            {canRefund && (
+              <Refund
+                id={id}
+                palletReferenda={palletReferenda}
+              />
+            )}
+          </>
+        )
+        : canDeposit && track && (
+          <Place
+            id={id}
+            palletReferenda={palletReferenda}
+            track={track}
           />
         )
-        : canDeposit
-          ? track && (
-            <Place
-              id={id}
-              palletReferenda={palletReferenda}
-              track={track}
-            />
-          )
-          : canRefund && (
-            <Refund
-              id={id}
-              palletReferenda={palletReferenda}
-            />
-          )
       }
     </td>
   );
 }
 
-export default React.memo(Deposits);
+export default React.memo(styled(Deposits)`
+  .ui--AddressMini+.ui--Button {
+    margin-top: 0.25rem;
+  }
+`);

@@ -8,12 +8,24 @@ export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda
 
 export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
 
+export interface ReferendaGroup {
+  track?: PalletReferendaTrackInfo;
+  trackId?: BN;
+  trackName?: string;
+  referenda?: Referendum[];
+}
+
+export interface ReferendaGroupKnown extends ReferendaGroup {
+  referenda: Referendum[];
+}
+
 export interface Referendum {
   id: BN;
   info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally;
   isConvictionVote: boolean;
   key: string;
   track?: PalletReferendaTrackInfo;
+  trackId?: BN;
 }
 
 export interface ReferendumProps {

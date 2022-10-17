@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -27,7 +28,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      Dwellir: 'wss://acala-rpc.dwellir.com'
+      Dwellir: 'wss://acala-rpc.dwellir.com',
+      'Automata 1RPC': 'wss://1rpc.io/aca'
     }
   },
   {
@@ -58,7 +60,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/astar'
+      Pinknode: 'wss://public-rpc.pinknode.io/astar',
+      'Automata 1RPC': 'wss://1rpc.io/astr'
     }
   },
   {
@@ -94,7 +97,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Centrifuge',
     providers: {
       Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
-      OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
+      OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws',
+      Dwellir: 'wss://centrifuge-rpc.dwellir.com'
     }
   },
   {
@@ -125,8 +129,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2019,
     text: 'Composable Finance',
     providers: {
-      Composable: 'wss://rpc.composable.finance',
-      Dwellir: 'wss://composable-rpc.dwellir.com'
+      Composable: 'wss://rpc.composable.finance'
     }
   },
   {
@@ -174,7 +177,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2011,
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Equilibrium: 'wss://node.pol.equilibrium.io/',
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
     }
   },
   {
@@ -226,6 +230,17 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'kilt',
+    homepage: 'https://www.kilt.io/',
+    paraId: 2086,
+    text: 'KILT Spiritnet',
+    providers: {
+      'KILT Protocol': 'wss://spiritnet.kilt.io/',
+      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
+      Dwellir: 'wss://kilt-rpc.dwellir.com'
+    }
+  },
+  {
     info: 'kylin',
     homepage: 'https://kylin.network/',
     paraId: 2052,
@@ -266,7 +281,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
+      'Automata 1RPC': 'wss://1rpc.io/glmr'
     }
   },
   {
@@ -399,9 +415,11 @@ export const prodRelayPolkadot: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'light client': 'light://substrate-connect/polkadot'
+    'Automata 1RPC': 'wss://1rpc.io/dot',
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
-  teleport: [1000],
+  teleport: getTeleports(prodParasPolkadotCommon),
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot

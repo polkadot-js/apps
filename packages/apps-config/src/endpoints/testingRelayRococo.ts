@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -56,7 +57,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBifrost',
-    paraId: 2001,
+    paraId: 2030,
     text: 'Bifrost',
     providers: {
       Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws'
@@ -115,7 +116,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4006,
     text: 'Eggnet',
     providers: {
-      Webb: 'wss://rococo1.webb.tools'
+      // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
     }
   },
   {
@@ -143,6 +144,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    text: 'HydraDX',
+    providers: {
+      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+    }
+  },
+  {
     info: 'rococoImbue',
     paraId: 2121,
     text: 'Imbue Network',
@@ -156,6 +165,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://rococo.api.integritee.network'
+    }
+  },
+  {
+    info: 'rococoKabocha',
+    paraId: 2113,
+    text: 'Kabocha (kabsoup)',
+    providers: {
+      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     }
   },
   {
@@ -338,10 +355,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoZeitgeist',
-    paraId: 2050,
-    text: 'Zeitgeist PC',
+    paraId: 2101,
+    text: 'Zeitgeist Battery Station',
     providers: {
-      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
+      Zeitgeist: 'wss://roc.zeitgeist.pm'
     }
   }
 ];
@@ -352,7 +369,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     paraId: 1000,
     text: 'Rockmine',
     providers: {
-      Parity: 'wss://rococo-statemint-rpc.polkadot.io'
+      Parity: 'wss://rococo-rockmine-rpc.polkadot.io'
     },
     teleport: [-1]
   },
@@ -387,9 +404,10 @@ export const testRelayRococo: EndpointOption = {
     // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
     // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // After reset, syncs to old chain
     // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
-    'light client': 'light://substrate-connect/rococo'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/rococo' // NOTE: Keep last
   },
-  teleport: [1000, 1002],
+  teleport: getTeleports(testParasRococoCommon),
   linked: [
     ...testParasRococoCommon,
     ...testParasRococo
