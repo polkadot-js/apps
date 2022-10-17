@@ -14,9 +14,9 @@
   "version": "0.121.2-105-x",
   "dependencies": {
     "@babel/runtime": "^7.19.4",
+    "@darwinia/types": "^2.8.9",
     "@polkadot/app-explorer": "^0.121.2-105-x",
     "@polkadot/react-components": "^0.121.2-105-x",
-    "@polkadot/react-query": "^0.121.2-105-x",
-    "@darwinia/types": "^2.8.9"
+    "@polkadot/react-query": "^0.121.2-105-x"
   }
 }

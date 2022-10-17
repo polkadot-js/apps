@@ -1528,7 +1528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@darwinia/types@npm:2.8.10":
+"@darwinia/types@npm:2.8.10, @darwinia/types@npm:^2.8.9":
   version: 2.8.10
   resolution: "@darwinia/types@npm:2.8.10"
   checksum: 1fd623626a1e42c4ba21fd2a03a005581a165ac239a3f7b02f7ce321fbc2a399aacbf23f210169f53b841bf81a2eaa0457049737b8b1e1389278a6321b4074c5
@@ -3075,6 +3075,7 @@ __metadata:
   resolution: "@polkadot/app-staking@workspace:packages/page-staking"
   dependencies:
     "@babel/runtime": ^7.19.4
+    "@darwinia/types": ^2.8.9
     "@polkadot/app-explorer": ^0.121.2-105-x
     "@polkadot/react-components": ^0.121.2-105-x
     "@polkadot/react-query": ^0.121.2-105-x
@@ -3208,6 +3209,7 @@ __metadata:
   resolution: "@polkadot/apps-routing@workspace:packages/apps-routing"
   dependencies:
     "@babel/runtime": ^7.19.4
+    "@darwinia/types": ^2.8.9
   languageName: unknown
   linkType: soft
 
@@ -3488,6 +3490,7 @@ __metadata:
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
     "@babel/runtime": ^7.19.4
+    "@darwinia/types": ^2.8.9
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-solid-svg-icons": ^6.2.0
     "@fortawesome/react-fontawesome": ^0.2.0
@@ -3532,6 +3535,7 @@ __metadata:
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@babel/runtime": ^7.19.4
+    "@darwinia/types": ^2.8.9
     "@polkadot/hw-ledger": ^10.1.11
     is-ipfs: 6.0.2
   languageName: unknown
