@@ -64,6 +64,11 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     [api, runtimeVersion]
   );
 
+  const systemEvents = useMemo(
+    () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
+    [events]
+  );
+
   useEffect((): void => {
     value && Promise
       .all([
@@ -162,7 +167,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               <Events
                 error={evtError}
                 eventClassName='explorer--BlockByHash-block'
-                events={events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
+                events={systemEvents}
                 label={t<string>('system events')}
               />
             </Columar.Column>

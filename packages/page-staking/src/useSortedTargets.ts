@@ -301,7 +301,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     (): SortedTargets => ({
       counterForNominators,
       counterForValidators,
-      historyDepth,
+      historyDepth: api.consts.staking.historyDepth || historyDepth,
       inflation,
       maxNominatorsCount,
       maxValidatorsCount,
@@ -315,7 +315,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
           : baseInfo
       )
     }),
-    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
+    [api, baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
   );
 }
 

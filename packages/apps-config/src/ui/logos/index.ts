@@ -87,7 +87,7 @@ import externalPolkastats from './external/polkastats.png';
 import externalSingular from './external/singular.svg';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
-import externalSubscan from './external/subscan.svg';
+import externalSubscan from './external/subscan.png';
 import externalSubsquare from './external/subsquare.svg';
 import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
@@ -139,6 +139,7 @@ import nodeIdavoll from './nodes/idavoll.png';
 import nodeImbue from './nodes/imbue.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interlay.svg';
+import nodeIPCI from './nodes/ipci.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJaz from './nodes/jaz.png';
 import nodeJoystream from './nodes/joystream.svg';
@@ -307,6 +308,7 @@ export const chainLogos = Object.entries({
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
   'InvArch Tinker Network': chainTinker,
+  ipci: nodeIPCI,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -498,6 +500,7 @@ export const nodeLogos = Object.entries({
   'Crust Collator': nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust Testnet': nodeCrustParachain,
+  'DAO IPCI': nodeIPCI,
   darwinia: nodeDarwinia,
   'darwinia crab': nodeCrab,
   'darwinia parachain': nodeDarwinia,
@@ -751,6 +754,7 @@ export const namedLogos: Record<string, unknown> = {
   integritee: nodeIntegritee,
   interlay: chainInterlay,
   'interlay-testnet': chainInterlay,
+  ipci: nodeIPCI,
   ipse: nodeIpse,
   jaz: nodeJaz,
   joystream: nodeJoystream,

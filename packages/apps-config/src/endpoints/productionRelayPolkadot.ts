@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -176,7 +177,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2011,
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Equilibrium: 'wss://node.pol.equilibrium.io/',
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
     }
   },
   {
@@ -415,9 +417,10 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    'light client': 'light://substrate-connect/polkadot'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
-  teleport: [1000],
+  teleport: getTeleports(prodParasPolkadotCommon),
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot
