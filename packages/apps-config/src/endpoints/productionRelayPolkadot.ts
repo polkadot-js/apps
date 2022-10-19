@@ -339,7 +339,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2035,
     text: 'Phala Network',
     providers: {
-      Phala: 'wss://api.phala.network/ws'
+      Phala: 'wss://api.phala.network/ws',
+      OnFinality: 'wss://phala.api.onfinality.io/public-ws'
     }
   },
   {
