@@ -391,6 +391,15 @@ export const testParasRococoCommon: EndpointOption[] = [
       'Encointer Association': 'wss://rococo.api.encointer.org'
     },
     teleport: [-1]
+  },
+  {
+    info: 'rococoBridgehub',
+    paraId: 1013,
+    text: 'Bridgehub Rococo',
+    providers: {
+      Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
+    },
+    teleport: [-1]
   }
 ];
 
