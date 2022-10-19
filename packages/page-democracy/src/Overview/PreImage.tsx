@@ -25,7 +25,7 @@ interface Props {
 interface HashState {
   encodedHash: string;
   encodedProposal: string;
-  storageFee: BN;
+  storageFee: BN | null;
 }
 
 const ZERO_HASH = blake2AsHex('');
@@ -34,16 +34,18 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: BN_ZERO });
+  const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: null });
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
-    const storageFee = api.consts.democracy.preimageByteDeposit.mul(
-      encodedProposal
-        ? new BN((encodedProposal.length - 2) / 2)
-        : BN_ZERO
-    );
+    const storageFee = api.consts.democracy.preimageByteDeposit
+      ? (api.consts.democracy.preimageByteDeposit as unknown as BN).mul(
+        encodedProposal
+          ? new BN((encodedProposal.length - 2) / 2)
+          : BN_ZERO
+      )
+      : null;
 
     setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
   }, [api, proposal]);
@@ -94,7 +96,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
             value={encodedHash}
           />
         </Modal.Columns>
-        {!isImminent && (
+        {!isImminent && storageFee && (
           <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
             <InputBalance
               defaultValue={storageFee}
