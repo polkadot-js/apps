@@ -421,7 +421,9 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/shiden'
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/kusama/shiden' // NOTE: Keep last
     }
   },
   {

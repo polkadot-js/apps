@@ -5,7 +5,5 @@
 // The key here reflects the URL of the light client endpoint.
 // e.g. light://substrate-connect/kusama/gm
 export const specs: string[] = [
-  'gm',
-  'shiden',
-  'tinkernet'
+  'astar'
 ];
