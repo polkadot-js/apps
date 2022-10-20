@@ -218,6 +218,7 @@ import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
+import nodeVara from './nodes/vara.svg';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
 import nodeWestend from './nodes/westend_colour.svg';
@@ -945,7 +946,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   unitv: nodeUnitv,
   unorthodox: chainUnorthodox,
-  vara: chainVara,
+  vara: nodeVara,
   vanilla: nodeParallel,
   vln: nodeVln,
   web3games: nodeWeb3games,
