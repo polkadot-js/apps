@@ -397,7 +397,8 @@ export const prodParasKusama: EndpointOption[] = [
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
       Dwellir: 'wss://robonomics-rpc.dwellir.com',
-      Samsara: 'wss://robonomics.0xsamsara.com'
+      Samsara: 'wss://robonomics.0xsamsara.com',
+      Leemo: 'wss://robonomics.leemo.me'
     }
   },
   {
