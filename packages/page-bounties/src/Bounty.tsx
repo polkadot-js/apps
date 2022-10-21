@@ -153,7 +153,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
           {curator && (
-            <div className='label-column-right'>
+            <div className='`label-column-right`'>
               <div className='label'>{t("Curator's fee")}</div>
               <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
             </div>
