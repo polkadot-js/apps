@@ -61,7 +61,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar',
-      'Automata 1RPC': 'wss://1rpc.io/astr'
+      'Automata 1RPC': 'wss://1rpc.io/astr',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/polkadot/astar' // NOTE: Keep last
     }
   },
   {
