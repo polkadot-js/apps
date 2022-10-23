@@ -3,14 +3,15 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { Hash } from '@polkadot/types/interfaces';
+import type { HexString } from '@polkadot/util/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO, isCodec } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -18,7 +19,7 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   isImminent?: boolean;
-  imageHash?: Hash;
+  imageHash?: Hash | HexString;
   onClose: () => void;
 }
 
@@ -50,9 +51,14 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
     setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
   }, [api, proposal]);
 
-  const isMatched = imageHash
-    ? imageHash.eq(encodedHash)
-    : true;
+  const isMatched = useMemo(
+    () => imageHash
+      ? isCodec(imageHash)
+        ? (imageHash as Hash).eq(encodedHash)
+        : imageHash === encodedHash
+      : true,
+    [encodedHash, imageHash]
+  );
 
   return (
     <Modal
