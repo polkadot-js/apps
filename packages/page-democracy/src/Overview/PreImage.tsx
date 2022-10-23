@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN, BN_ZERO, isCodec } from '@polkadot/util';
+import { BN, BN_ZERO, isString } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -53,9 +53,9 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
 
   const isMatched = useMemo(
     () => imageHash
-      ? isCodec(imageHash)
-        ? (imageHash as Hash).eq(encodedHash)
-        : imageHash === encodedHash
+      ? isString(imageHash)
+        ? imageHash === encodedHash
+        : imageHash.eq(encodedHash)
       : true,
     [encodedHash, imageHash]
   );
