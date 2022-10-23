@@ -326,7 +326,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2125,
     text: 'Tinkernet',
     providers: {
-      'InvArch Team': 'wss://rococo.invarch.network'
+      // 'InvArch Team': 'wss://rococo.invarch.network' // https://github.com/polkadot-js/apps/issues/8266
     }
   },
   {
