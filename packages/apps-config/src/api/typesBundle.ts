@@ -36949,6 +36949,8 @@ export const typesBundle = {
       }
     },
     "khala": {
+      "alias": {},
+      "rpc": {},
       "types": [
         {
           "minmax": [
