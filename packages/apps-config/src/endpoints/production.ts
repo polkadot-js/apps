@@ -193,7 +193,7 @@ export const prodChains: EndpointOption[] = [
     info: 'neatcoin',
     text: 'Neatcoin',
     providers: {
-      // Neatcoin: 'wss://rpc.neatcoin.org/ws' // https://github.com/polkadot-js/apps/issues/8266
+      Neatcoin: 'wss://rpc.neatcoin.org/ws'
     }
   },
   {
