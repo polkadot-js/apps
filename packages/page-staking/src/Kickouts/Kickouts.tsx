@@ -1,4 +1,4 @@
-// [object Object]
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useMemo, useState } from 'react';
@@ -14,21 +14,20 @@ import { Codec } from '@polkadot/types/types';
 function parseEvents (eventsInBlocks: Vec<EventRecord>[], api: ApiPromise): [string, string][][][] {
   return eventsInBlocks.map((events) => {
     return events.filter(({ event }) => {
-      return event.section == 'elections' && event.method == 'KickOutValidators';
+      return event.section === 'elections' && event.method === 'KickOutValidators';
     })
       .map(({ event }) => {
-        const data = event.data[0];
-        const raw: Codec[][] = api.createType(data.toRawType(), data);
+        const raw = event.data[0] as unknown as Codec[][];
 
         return raw.map((value) => {
           const account = value[0].toString();
-          const reasonTypeAndValue = value[1].toHuman();
-          const reasonType = Object.keys(reasonTypeAndValue as Object)[0];
-          const reasonValue = Object.values(reasonTypeAndValue as Object)[0] as string;
+          const reasonTypeAndValue = value[1].toHuman() as Record<string, string>;
+          const reasonType = Object.keys(reasonTypeAndValue)[0];
+          const reasonValue = Object.values(reasonTypeAndValue)[0];
 
-          if (reasonType == 'OtherReason') {
+          if (reasonType === 'OtherReason') {
             return [account, reasonValue];
-          } else if (reasonType == 'InsufficientUptime') {
+          } else if (reasonType === 'InsufficientUptime') {
             return [account, 'Insufficient uptime in at least ' + reasonValue + ' sessions'];
           } else {
             return [account, reasonType + ': ' + reasonValue];
@@ -38,7 +37,7 @@ function parseEvents (eventsInBlocks: Vec<EventRecord>[], api: ApiPromise): [str
   });
 }
 
-function useKickOuts (): KickOutEvent[] {
+function useKickOuts (): KickOutEvent[] | undefined {
   const { api } = useApi();
   // below logic is not able to detect kicks in blocks in which elections has failed,
   // as staking.erasStartSessionIndex is not populated (new era does not start)
@@ -46,11 +45,11 @@ function useKickOuts (): KickOutEvent[] {
   const [electionBlockHashes, setElectionBlockHashes] = useState<Hash[]>([]);
   const [eventsInBlocks, setEventsInBlocks] = useState<[string, string][][][]>([]);
 
-  const [kickOutEvents, setKickOutEvents] = useState<KickOutEvent[]>([]);
+  const [kickOutEvents, setKickOutEvents] = useState<KickOutEvent[] | undefined>(undefined);
 
   const erasElectionsSessionIndexLookup = useMemo((): [number, number][] => {
     return erasStartSessionIndexLookup
-      .filter(([era, firstSession]) => firstSession > 0)
+      .filter(([, firstSession]) => firstSession > 0)
       .map(([era, firstSession]) => [era, firstSession - 1]);
   },
   [erasStartSessionIndexLookup]
@@ -60,8 +59,6 @@ function useKickOuts (): KickOutEvent[] {
     if (api && api.consts.elections) {
       const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
       const promises = erasElectionsSessionIndexLookup.map(([, electionSessionIndex]) => {
-        console.log('Query api at block nr ', electionSessionIndex * sessionPeriod);
-
         return api.rpc.chain.getBlockHash(electionSessionIndex * sessionPeriod);
       });
 
@@ -82,10 +79,8 @@ function useKickOuts (): KickOutEvent[] {
 
       Promise.all(promisesSystemEvents)
         .then((events: Vec<EventRecord>[]) => {
-          console.log('all events: ', events);
           const parsedEvents = parseEvents(events, api);
 
-          console.log('parsedEvents', parsedEvents);
           setEventsInBlocks(parsedEvents);
         }).catch(console.error);
     }).catch(console.error);
@@ -99,10 +94,9 @@ function useKickOuts (): KickOutEvent[] {
       const eventsWithEra: [number, [string, string][][]][] = erasStartSessionIndexLookup.map(function ([era], i) {
         return [era, eventsInBlocks[i]];
       });
-        // console.log(eventsWithEra);
       const events = eventsWithEra.filter(([, kickOutReasonsInEras]) => kickOutReasonsInEras && kickOutReasonsInEras.length > 0)
         .map(([era, kickOutReasonsInEras]) => {
-          if (kickOutReasonsInEras.length == 1) {
+          if (kickOutReasonsInEras.length === 1) {
             return kickOutReasonsInEras[0].map(([address, kickoutReason]) => {
               return {
                 address,
@@ -118,7 +112,8 @@ function useKickOuts (): KickOutEvent[] {
       setKickOutEvents(events);
     }
   },
-  [api, JSON.stringify(eventsInBlocks), JSON.stringify(erasStartSessionIndexLookup)]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [api, JSON.stringify(eventsInBlocks), JSON.stringify(erasStartSessionIndexLookup), JSON.stringify(erasElectionsSessionIndexLookup)]
   );
 
   return kickOutEvents;

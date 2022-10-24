@@ -1,10 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useLoadingDelay } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
@@ -12,21 +11,12 @@ import Address from './Address';
 import { KickOutEvent } from './index';
 
 interface Props {
-  kicks: KickOutEvent[],
+  kicks: KickOutEvent[] | undefined,
 }
 
 function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
-
-  const isLoading = useLoadingDelay();
-
-  const kickoutList = useMemo(
-    () => isLoading
-      ? []
-      : kicks,
-    [isLoading, kicks]
-  );
 
   const headerRef = useRef(
     [
@@ -41,12 +31,11 @@ function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
   return (
     <Table
       empty={
-        kickoutList && t<string>('No kick-out events found')
+        kicks !== undefined && kicks.length === 0 && t<string>('No kick-out events found in the past 84 eras')
       }
       emptySpinner={
         <>
-          {!kicks && <div>{t<string>('Retrieving kicks')}</div>}
-          {!kickoutList && <div>{t<string>('Preparing kick-out list')}</div>}
+          {kicks === undefined && <div>{t<string>('Retrieving kick-out events')}</div>}
         </>
       }
       filter={
@@ -59,7 +48,7 @@ function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
       }
       header={headerRef.current}
     >
-      {kickoutList.map(({ address, era, kickoutReason }): React.ReactNode => (
+      {kicks?.map(({ address, era, kickoutReason }): React.ReactNode => (
         <Address
           address={address}
           era={era}
