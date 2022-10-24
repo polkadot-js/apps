@@ -395,7 +395,7 @@ export const testParasRococoCommon: EndpointOption[] = [
   {
     info: 'rococoBridgehub',
     paraId: 1013,
-    text: 'Bridgehub Rococo',
+    text: 'Bridgehub',
     providers: {
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
