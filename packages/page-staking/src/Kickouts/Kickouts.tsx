@@ -3,7 +3,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { KickOutEvent } from '@polkadot/app-staking/Kickouts/index';
 import useErasStartSessionIndexLookup from '@polkadot/app-staking/Performance/useErasStartSessionIndexLookup';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
@@ -11,7 +10,11 @@ import { Vec } from '@polkadot/types';
 import { EventRecord, Hash } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-function parseEvents (eventsInBlocks: Vec<EventRecord>[], api: ApiPromise): [string, string][][][] {
+type KickOutReasons = [string, string][];
+type KickOutEventsInBlock = KickOutReasons[];
+type KickOutEventsInEras = KickOutEventsInBlock[];
+
+function parseEvents (eventsInBlocks: Vec<EventRecord>[]): KickOutEventsInEras {
   return eventsInBlocks.map((events) => {
     return events.filter(({ event }) => {
       return event.section === 'elections' && event.method === 'KickOutValidators';
@@ -43,8 +46,7 @@ function useKickOuts (): KickOutEvent[] | undefined {
   // as staking.erasStartSessionIndex is not populated (new era does not start)
   const erasStartSessionIndexLookup = useErasStartSessionIndexLookup();
   const [electionBlockHashes, setElectionBlockHashes] = useState<Hash[]>([]);
-  const [eventsInBlocks, setEventsInBlocks] = useState<[string, string][][][]>([]);
-
+  const [eventsInBlocks, setEventsInBlocks] = useState<KickOutEventsInEras>([]);
   const [kickOutEvents, setKickOutEvents] = useState<KickOutEvent[] | undefined>(undefined);
 
   const erasElectionsSessionIndexLookup = useMemo((): [number, number][] => {
@@ -56,16 +58,18 @@ function useKickOuts (): KickOutEvent[] | undefined {
   );
 
   useEffect(() => {
-    if (api && api.consts.elections) {
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-      const promises = erasElectionsSessionIndexLookup.map(([, electionSessionIndex]) => {
-        return api.rpc.chain.getBlockHash(electionSessionIndex * sessionPeriod);
-      });
-
-      Promise.all(promises)
-        .then((blockHashes) => setElectionBlockHashes(blockHashes))
-        .catch(console.error);
+    if (!(api && api.consts.elections)) {
+      return;
     }
+
+    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+    const promises = erasElectionsSessionIndexLookup.map(([, electionSessionIndex]) => {
+      return api.rpc.chain.getBlockHash(electionSessionIndex * sessionPeriod);
+    });
+
+    Promise.all(promises)
+      .then((blockHashes) => setElectionBlockHashes(blockHashes))
+      .catch(console.error);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(erasElectionsSessionIndexLookup)]
@@ -79,7 +83,7 @@ function useKickOuts (): KickOutEvent[] | undefined {
 
       Promise.all(promisesSystemEvents)
         .then((events: Vec<EventRecord>[]) => {
-          const parsedEvents = parseEvents(events, api);
+          const parsedEvents = parseEvents(events);
 
           setEventsInBlocks(parsedEvents);
         }).catch(console.error);
@@ -90,27 +94,29 @@ function useKickOuts (): KickOutEvent[] | undefined {
   );
 
   useEffect(() => {
-    if (eventsInBlocks.length > 0 && erasElectionsSessionIndexLookup) {
-      const eventsWithEra: [number, [string, string][][]][] = erasStartSessionIndexLookup.map(function ([era], i) {
-        return [era, eventsInBlocks[i]];
-      });
-      const events = eventsWithEra.filter(([, kickOutReasonsInEras]) => kickOutReasonsInEras && kickOutReasonsInEras.length > 0)
-        .map(([era, kickOutReasonsInEras]) => {
-          if (kickOutReasonsInEras.length === 1) {
-            return kickOutReasonsInEras[0].map(([address, kickoutReason]) => {
-              return {
-                address,
-                era,
-                kickoutReason
-              };
-            });
-          }
-
-          return [];
-        }).flat().reverse();
-
-      setKickOutEvents(events);
+    if (eventsInBlocks.length === 0 || !erasElectionsSessionIndexLookup) {
+      return;
     }
+
+    const eventsWithEra: [number, KickOutEventsInBlock][] = erasStartSessionIndexLookup.map(function ([era], i) {
+      return [era, eventsInBlocks[i]];
+    });
+    const events = eventsWithEra.filter(([, kickOutReasonsInEras]) => kickOutReasonsInEras && kickOutReasonsInEras.length > 0)
+      .map(([era, kickOutReasonsInEras]) => {
+        if (kickOutReasonsInEras.length === 1) {
+          return kickOutReasonsInEras[0].map(([address, kickoutReason]) => {
+            return {
+              address,
+              era,
+              kickoutReason
+            };
+          });
+        }
+
+        return [];
+      }).flat().reverse();
+
+    setKickOutEvents(events);
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   [api, JSON.stringify(eventsInBlocks), JSON.stringify(erasStartSessionIndexLookup), JSON.stringify(erasElectionsSessionIndexLookup)]
