@@ -3,8 +3,12 @@
   "id": "astar",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/51.103.6.72/tcp/30333/ws/p2p/12D3KooWDkpEpAJ2PnWRZyWK4wjrc4NjCRUQiSu5rwB8H8MifDuD",
-    "/ip4/18.183.235.189/tcp/30333/ws/p2p/12D3KooWPu4C4ZkaLb8H1EPkwUg8UWVyesD9hbEQWix3ACd7nUiM"
+    "/dnsaddr/bootnode.astar.network/p2p/12D3KooWMaG4prEjqt1C6Mfas8LCFs31f5k11jw4nRuV52KR3yaB",
+    "/ip4/51.91.105.142/tcp/30333/ws/p2p/12D3KooWMfHf9G1Mtawz4qySe1EqaBmrieidqn2xnEYckUYkpe52",
+    "/ip4/35.197.38.107/tcp/30333/ws/p2p/12D3KooWHV4YxifTpBkLWPPaF8EfoMSXeGNWWxXqUokGsBGxwioK",
+    "/dns4/node-6877180792046243840-0.p2p.onfinality.io/tcp/19932/ws/p2p/12D3KooWARXaG1Ft65ZgCPK8isSg1UBLASQenrH9sJsjEYEDAvQf",
+    "/dns4/node-6877173450521071616-0.p2p.onfinality.io/tcp/12708/ws/p2p/12D3KooWFPbDQjtCXhRjsvu1HCqTrSc6KEazEnETLPQMS4gDpoQq",
+    "/dns4/node-6877173614090539008-0.p2p.onfinality.io/tcp/29128/ws/p2p/12D3KooWERrQFE8ss7zYfcHp8ULVCc1N7gur7GqZ8ESuZB1Nmioh"
   ],
   "protocolId": "astar",
   "properties": {
