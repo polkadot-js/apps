@@ -6932,6 +6932,13 @@ export const typesBundle = {
               "len_cap": "u32",
               "items": "Vec<FixedNumber>"
             },
+            "ChainAddressType": {
+              "_enum": [
+                "Ethereum",
+                "Substrate",
+                "SubstrateWithPrefix"
+              ]
+            },
             "ChainId": "u8",
             "Currency": {
               "_enum": [
@@ -6955,6 +6962,7 @@ export const typesBundle = {
             "DebtWeightType": "i128",
             "DebtWeightTypeInner": "i128",
             "DepositNonce": "u64",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "Duration": {
               "secs": "u64",
               "nanos": "u32"
@@ -7212,8 +7220,7 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            },
-            "DispatchErrorModule": "DispatchErrorModuleU8"
+            }
           }
         }
       ]
@@ -7316,6 +7323,13 @@ export const typesBundle = {
               "len_cap": "u32",
               "items": "Vec<FixedNumber>"
             },
+            "ChainAddressType": {
+              "_enum": [
+                "Ethereum",
+                "Substrate",
+                "SubstrateWithPrefix"
+              ]
+            },
             "ChainId": "u8",
             "Currency": {
               "_enum": [
@@ -7339,6 +7353,7 @@ export const typesBundle = {
             "DebtWeightType": "i128",
             "DebtWeightTypeInner": "i128",
             "DepositNonce": "u64",
+            "DispatchErrorModule": "DispatchErrorModuleU8",
             "Duration": {
               "secs": "u64",
               "nanos": "u32"
@@ -7596,8 +7611,7 @@ export const typesBundle = {
                 "SixMonth",
                 "Year"
               ]
-            },
-            "DispatchErrorModule": "DispatchErrorModuleU8"
+            }
           }
         }
       ]
@@ -24311,7 +24325,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -24322,7 +24337,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -24868,7 +24887,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -24879,7 +24899,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -26626,7 +26650,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -26637,7 +26662,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -27182,7 +27211,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -27193,7 +27223,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -28131,7 +28165,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -28142,7 +28177,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -28687,7 +28726,8 @@ export const typesBundle = {
                 "ZLK": 7,
                 "PHA": 8,
                 "RMRK": 9,
-                "MOVR": 10
+                "MOVR": 10,
+                "GLMR": 11
               }
             },
             "CurrencyId": {
@@ -28698,7 +28738,11 @@ export const typesBundle = {
                 "Stable": "TokenSymbol",
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
-                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)"
+                "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "Token2": "u8",
+                "VToken2": "u8",
+                "VSToken2": "u8",
+                "VSBond2": "u8"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -45657,7 +45701,8 @@ export const typesBundle = {
                 "V5Collection",
                 "V6ItemUpload",
                 "V7ItemToken",
-                "V8AddSeal"
+                "V8AddSeal",
+                "V9TermsAndConditions"
               ]
             },
             "Requester": {
@@ -45673,7 +45718,8 @@ export const typesBundle = {
               "description": "Vec<u8>",
               "files": "Vec<CollectionItemFile<Hash>>",
               "token": "Option<CollectionItemToken>",
-              "restricted_delivery": "bool"
+              "restricted_delivery": "bool",
+              "terms_and_conditions": "Vec<TermsAndConditionsElement<LocId>>"
             },
             "CollectionItemFile": {
               "name": "Vec<u8>",
@@ -45694,6 +45740,11 @@ export const typesBundle = {
                 "V1",
                 "V2AddOnchainSettings"
               ]
+            },
+            "TermsAndConditionsElement": {
+              "tcType": "Vec<u8>",
+              "tcLoc": "LocId",
+              "details": "Vec<u8>"
             },
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
@@ -58419,38 +58470,8 @@ export const typesBundle = {
     "opal": {
       "rpc": {
         "unique": {
-          "adminlist": {
-            "description": "Get admin list",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "allowlist": {
-            "description": "Get allowlist",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
           "accountTokens": {
-            "description": "Get tokens owned by account",
+            "description": "Get tokens owned by an account in a collection",
             "params": [
               {
                 "name": "collection",
@@ -58469,7 +58490,7 @@ export const typesBundle = {
             "type": "Vec<u32>"
           },
           "collectionTokens": {
-            "description": "Get tokens contained in collection",
+            "description": "Get tokens contained within a collection",
             "params": [
               {
                 "name": "collection",
@@ -58483,65 +58504,12 @@ export const typesBundle = {
             ],
             "type": "Vec<u32>"
           },
-          "lastTokenId": {
-            "description": "Get last token id",
+          "tokenExists": {
+            "description": "Check if the token exists",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "totalSupply": {
-            "description": "Get amount of unique collection tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "accountBalance": {
-            "description": "Get amount of different user tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "balance": {
-            "description": "Get amount of specific account token",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -58553,37 +58521,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "u128"
-          },
-          "allowance": {
-            "description": "Get allowed amount",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "sender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "spender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u128"
+            "type": "bool"
           },
           "tokenOwner": {
-            "description": "Get token owner",
+            "description": "Get the token owner",
             "params": [
               {
                 "name": "collection",
@@ -58602,7 +58543,7 @@ export const typesBundle = {
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "topmostTokenOwner": {
-            "description": "Get token owner, in case of nested token - find parent recursive",
+            "description": "Get the topmost token owner in the hierarchy of a possibly nested token",
             "params": [
               {
                 "name": "collection",
@@ -58619,6 +58560,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenOwners": {
+            "description": "Returns 10 tokens owners in no particular order",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "tokenChildren": {
             "description": "Get tokens nested directly into the token",
@@ -58638,6 +58598,70 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
           },
           "constMetadata": {
             "description": "Get token constant metadata",
@@ -58677,72 +58701,8 @@ export const typesBundle = {
             ],
             "type": "Vec<u8>"
           },
-          "collectionProperties": {
-            "description": "Get collection properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "tokenProperties": {
-            "description": "Get token properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "propertyPermissions": {
-            "description": "Get property permissions",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsPropertyKeyPermission>"
-          },
           "tokenData": {
-            "description": "Get token data",
+            "description": "Get token data, including properties, optionally limited to the provided keys, and total pieces for an RFT",
             "params": [
               {
                 "name": "collection",
@@ -58754,7 +58714,7 @@ export const typesBundle = {
               },
               {
                 "name": "propertyKeys",
-                "type": "Vec<String>",
+                "type": "Option<Vec<String>>",
                 "isOptional": true
               },
               {
@@ -58765,12 +58725,50 @@ export const typesBundle = {
             ],
             "type": "UpDataStructsTokenData"
           },
-          "tokenExists": {
-            "description": "Check if token exists",
+          "totalSupply": {
+            "description": "Get the amount of distinctive tokens present in a collection",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get the amount of any user tokens owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get the amount of a specific token owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -58782,10 +58780,37 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "bool"
+            "type": "u128"
           },
-          "collectionById": {
-            "description": "Get collection by specified id",
+          "allowance": {
+            "description": "Get the amount of currently possible sponsored transactions on a token for the fee to be taken off a sponsor",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "adminlist": {
+            "description": "Get the list of admin accounts of a collection",
             "params": [
               {
                 "name": "collection",
@@ -58797,21 +58822,25 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Option<UpDataStructsRpcCollection>"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
-          "collectionStats": {
-            "description": "Get collection stats",
+          "allowlist": {
+            "description": "Get the list of accounts allowed to operate within a collection",
             "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
               {
                 "name": "at",
                 "type": "Hash",
                 "isOptional": true
               }
             ],
-            "type": "UpDataStructsCollectionStats"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "allowed": {
-            "description": "Check if user is allowed to use collection",
+            "description": "Check if a user is allowed to operate within a collection",
             "params": [
               {
                 "name": "collection",
@@ -58829,8 +58858,49 @@ export const typesBundle = {
             ],
             "type": "bool"
           },
+          "lastTokenId": {
+            "description": "Get the last token ID created in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "collectionById": {
+            "description": "Get a collection by the specified ID",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get chain stats about collections",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
           "nextSponsored": {
-            "description": "Get number of blocks when sponsored transaction is available",
+            "description": "Get the number of blocks until sponsoring a transaction is available",
             "params": [
               {
                 "name": "collection",
@@ -58866,6 +58936,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<UpDataStructsCollectionLimits>"
+          },
+          "totalPieces": {
+            "description": "Get the total amount of pieces of an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u128>"
           }
         }
       }
@@ -61687,38 +61776,8 @@ export const typesBundle = {
     "quartz": {
       "rpc": {
         "unique": {
-          "adminlist": {
-            "description": "Get admin list",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "allowlist": {
-            "description": "Get allowlist",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
           "accountTokens": {
-            "description": "Get tokens owned by account",
+            "description": "Get tokens owned by an account in a collection",
             "params": [
               {
                 "name": "collection",
@@ -61737,7 +61796,7 @@ export const typesBundle = {
             "type": "Vec<u32>"
           },
           "collectionTokens": {
-            "description": "Get tokens contained in collection",
+            "description": "Get tokens contained within a collection",
             "params": [
               {
                 "name": "collection",
@@ -61751,65 +61810,12 @@ export const typesBundle = {
             ],
             "type": "Vec<u32>"
           },
-          "lastTokenId": {
-            "description": "Get last token id",
+          "tokenExists": {
+            "description": "Check if the token exists",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "totalSupply": {
-            "description": "Get amount of unique collection tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "accountBalance": {
-            "description": "Get amount of different user tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "balance": {
-            "description": "Get amount of specific account token",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -61821,37 +61827,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "u128"
-          },
-          "allowance": {
-            "description": "Get allowed amount",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "sender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "spender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u128"
+            "type": "bool"
           },
           "tokenOwner": {
-            "description": "Get token owner",
+            "description": "Get the token owner",
             "params": [
               {
                 "name": "collection",
@@ -61870,7 +61849,7 @@ export const typesBundle = {
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "topmostTokenOwner": {
-            "description": "Get token owner, in case of nested token - find parent recursive",
+            "description": "Get the topmost token owner in the hierarchy of a possibly nested token",
             "params": [
               {
                 "name": "collection",
@@ -61887,6 +61866,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenOwners": {
+            "description": "Returns 10 tokens owners in no particular order",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "tokenChildren": {
             "description": "Get tokens nested directly into the token",
@@ -61906,6 +61904,70 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
           },
           "constMetadata": {
             "description": "Get token constant metadata",
@@ -61945,72 +62007,8 @@ export const typesBundle = {
             ],
             "type": "Vec<u8>"
           },
-          "collectionProperties": {
-            "description": "Get collection properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "tokenProperties": {
-            "description": "Get token properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "propertyPermissions": {
-            "description": "Get property permissions",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsPropertyKeyPermission>"
-          },
           "tokenData": {
-            "description": "Get token data",
+            "description": "Get token data, including properties, optionally limited to the provided keys, and total pieces for an RFT",
             "params": [
               {
                 "name": "collection",
@@ -62022,7 +62020,7 @@ export const typesBundle = {
               },
               {
                 "name": "propertyKeys",
-                "type": "Vec<String>",
+                "type": "Option<Vec<String>>",
                 "isOptional": true
               },
               {
@@ -62033,12 +62031,50 @@ export const typesBundle = {
             ],
             "type": "UpDataStructsTokenData"
           },
-          "tokenExists": {
-            "description": "Check if token exists",
+          "totalSupply": {
+            "description": "Get the amount of distinctive tokens present in a collection",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get the amount of any user tokens owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get the amount of a specific token owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -62050,10 +62086,37 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "bool"
+            "type": "u128"
           },
-          "collectionById": {
-            "description": "Get collection by specified id",
+          "allowance": {
+            "description": "Get the amount of currently possible sponsored transactions on a token for the fee to be taken off a sponsor",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "adminlist": {
+            "description": "Get the list of admin accounts of a collection",
             "params": [
               {
                 "name": "collection",
@@ -62065,21 +62128,25 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Option<UpDataStructsRpcCollection>"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
-          "collectionStats": {
-            "description": "Get collection stats",
+          "allowlist": {
+            "description": "Get the list of accounts allowed to operate within a collection",
             "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
               {
                 "name": "at",
                 "type": "Hash",
                 "isOptional": true
               }
             ],
-            "type": "UpDataStructsCollectionStats"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "allowed": {
-            "description": "Check if user is allowed to use collection",
+            "description": "Check if a user is allowed to operate within a collection",
             "params": [
               {
                 "name": "collection",
@@ -62097,8 +62164,49 @@ export const typesBundle = {
             ],
             "type": "bool"
           },
+          "lastTokenId": {
+            "description": "Get the last token ID created in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "collectionById": {
+            "description": "Get a collection by the specified ID",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get chain stats about collections",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
           "nextSponsored": {
-            "description": "Get number of blocks when sponsored transaction is available",
+            "description": "Get the number of blocks until sponsoring a transaction is available",
             "params": [
               {
                 "name": "collection",
@@ -62134,6 +62242,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<UpDataStructsCollectionLimits>"
+          },
+          "totalPieces": {
+            "description": "Get the total amount of pieces of an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u128>"
           }
         }
       }
@@ -62978,6 +63105,17 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
+        "farming": {
+          "rewardDoublingAssets": {
+            "description": "Get list of double rewarding assets",
+            "params": [],
+            "type": "Vec<AssetId>",
+            "isSubscription": false,
+            "jsonrpc": "farming_rewardDoublingAssets",
+            "method": "rewardDoublingAssets",
+            "section": "farming"
+          }
+        },
         "irohaMigration": {
           "needsMigration": {
             "description": "Check if the account needs migration",
@@ -63890,6 +64028,12 @@ export const typesBundle = {
               ]
             },
             "EthAddress": "H160",
+            "BridgeSignatureVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -63902,8 +64046,7 @@ export const typesBundle = {
             "LPSwapOutcomeInfo": {
               "amount": "Balance",
               "fee": "Balance",
-              "rewards": "Vec<LPRewardsInfo>",
-              "amountWithoutImpact": "Balance"
+              "rewards": "Vec<LPRewardsInfo>"
             },
             "LPRewardsInfo": {
               "amount": "Balance",
@@ -63930,8 +64073,8 @@ export const typesBundle = {
               "defaultProtocolFee": "BasisPoints"
             },
             "BalancePrecision": "u8",
-            "AssetSymbol": "Vec<u8>",
-            "AssetName": "Vec<u8>",
+            "AssetSymbol": "Text",
+            "AssetName": "Text",
             "AssetId32": "[u8; 32]",
             "SwapWithDesiredInput": {
               "desiredAmountIn": "Balance",
@@ -64074,7 +64217,8 @@ export const typesBundle = {
                 "PSWAP",
                 "DAI",
                 "ETH",
-                "XSTUSD"
+                "XSTUSD",
+                "XST"
               ]
             },
             "RewardInfo": {
@@ -64605,6 +64749,17 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
+        "farming": {
+          "rewardDoublingAssets": {
+            "description": "Get list of double rewarding assets",
+            "params": [],
+            "type": "Vec<AssetId>",
+            "isSubscription": false,
+            "jsonrpc": "farming_rewardDoublingAssets",
+            "method": "rewardDoublingAssets",
+            "section": "farming"
+          }
+        },
         "irohaMigration": {
           "needsMigration": {
             "description": "Check if the account needs migration",
@@ -65517,6 +65672,12 @@ export const typesBundle = {
               ]
             },
             "EthAddress": "H160",
+            "BridgeSignatureVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -65529,8 +65690,7 @@ export const typesBundle = {
             "LPSwapOutcomeInfo": {
               "amount": "Balance",
               "fee": "Balance",
-              "rewards": "Vec<LPRewardsInfo>",
-              "amountWithoutImpact": "Balance"
+              "rewards": "Vec<LPRewardsInfo>"
             },
             "LPRewardsInfo": {
               "amount": "Balance",
@@ -65557,8 +65717,8 @@ export const typesBundle = {
               "defaultProtocolFee": "BasisPoints"
             },
             "BalancePrecision": "u8",
-            "AssetSymbol": "Vec<u8>",
-            "AssetName": "Vec<u8>",
+            "AssetSymbol": "Text",
+            "AssetName": "Text",
             "AssetId32": "[u8; 32]",
             "SwapWithDesiredInput": {
               "desiredAmountIn": "Balance",
@@ -65701,7 +65861,8 @@ export const typesBundle = {
                 "PSWAP",
                 "DAI",
                 "ETH",
-                "XSTUSD"
+                "XSTUSD",
+                "XST"
               ]
             },
             "RewardInfo": {
@@ -67108,12 +67269,11 @@ export const typesBundle = {
             "Space": {
               "id": "SpaceId",
               "created": "WhoAndWhen",
-              "updated": "bool",
+              "edited": "bool",
               "owner": "AccountId",
               "parent_id": "Option<SpaceId>",
               "content": "Content",
               "hidden": "bool",
-              "posts_count": "u32",
               "permissions": "Option<SpacePermissions>"
             },
             "SpaceUpdate": {
@@ -67184,7 +67344,7 @@ export const typesBundle = {
             "Post": {
               "id": "PostId",
               "created": "WhoAndWhen",
-              "updated": "bool",
+              "edited": "bool",
               "owner": "AccountId",
               "extension": "PostExtension",
               "space_id": "Option<SpaceId>",
@@ -67200,21 +67360,14 @@ export const typesBundle = {
             },
             "PostExtension": {
               "_enum": {
-                "Post": "RegularPost",
+                "RegularPost": "Null",
                 "Comment": "Comment",
-                "SharingPost": "SharingPost"
+                "SharedPost": "PostId"
               }
             },
             "Comment": {
               "parent_id": "Option<PostId>",
               "root_post_id": "PostId"
-            },
-            "RegularPost": {
-              "total_replies_count": "u32"
-            },
-            "SharingPost": {
-              "total_replies_count": "u32",
-              "original_post_id": "PostId"
             }
           }
         },
@@ -69273,38 +69426,8 @@ export const typesBundle = {
     "unique": {
       "rpc": {
         "unique": {
-          "adminlist": {
-            "description": "Get admin list",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
-          "allowlist": {
-            "description": "Get allowlist",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
-          },
           "accountTokens": {
-            "description": "Get tokens owned by account",
+            "description": "Get tokens owned by an account in a collection",
             "params": [
               {
                 "name": "collection",
@@ -69323,7 +69446,7 @@ export const typesBundle = {
             "type": "Vec<u32>"
           },
           "collectionTokens": {
-            "description": "Get tokens contained in collection",
+            "description": "Get tokens contained within a collection",
             "params": [
               {
                 "name": "collection",
@@ -69337,65 +69460,12 @@ export const typesBundle = {
             ],
             "type": "Vec<u32>"
           },
-          "lastTokenId": {
-            "description": "Get last token id",
+          "tokenExists": {
+            "description": "Check if the token exists",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "totalSupply": {
-            "description": "Get amount of unique collection tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "accountBalance": {
-            "description": "Get amount of different user tokens",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u32"
-          },
-          "balance": {
-            "description": "Get amount of specific account token",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "account",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -69407,37 +69477,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "u128"
-          },
-          "allowance": {
-            "description": "Get allowed amount",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "sender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "spender",
-                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "u128"
+            "type": "bool"
           },
           "tokenOwner": {
-            "description": "Get token owner",
+            "description": "Get the token owner",
             "params": [
               {
                 "name": "collection",
@@ -69456,7 +69499,7 @@ export const typesBundle = {
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "topmostTokenOwner": {
-            "description": "Get token owner, in case of nested token - find parent recursive",
+            "description": "Get the topmost token owner in the hierarchy of a possibly nested token",
             "params": [
               {
                 "name": "collection",
@@ -69473,6 +69516,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenOwners": {
+            "description": "Returns 10 tokens owners in no particular order",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "tokenChildren": {
             "description": "Get tokens nested directly into the token",
@@ -69492,6 +69554,70 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
           },
           "constMetadata": {
             "description": "Get token constant metadata",
@@ -69531,72 +69657,8 @@ export const typesBundle = {
             ],
             "type": "Vec<u8>"
           },
-          "collectionProperties": {
-            "description": "Get collection properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "tokenProperties": {
-            "description": "Get token properties",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "tokenId",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsProperty>"
-          },
-          "propertyPermissions": {
-            "description": "Get property permissions",
-            "params": [
-              {
-                "name": "collection",
-                "type": "u32"
-              },
-              {
-                "name": "propertyKeys",
-                "type": "Vec<String>",
-                "isOptional": true
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<UpDataStructsPropertyKeyPermission>"
-          },
           "tokenData": {
-            "description": "Get token data",
+            "description": "Get token data, including properties, optionally limited to the provided keys, and total pieces for an RFT",
             "params": [
               {
                 "name": "collection",
@@ -69608,7 +69670,7 @@ export const typesBundle = {
               },
               {
                 "name": "propertyKeys",
-                "type": "Vec<String>",
+                "type": "Option<Vec<String>>",
                 "isOptional": true
               },
               {
@@ -69619,12 +69681,50 @@ export const typesBundle = {
             ],
             "type": "UpDataStructsTokenData"
           },
-          "tokenExists": {
-            "description": "Check if token exists",
+          "totalSupply": {
+            "description": "Get the amount of distinctive tokens present in a collection",
             "params": [
               {
                 "name": "collection",
                 "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get the amount of any user tokens owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get the amount of a specific token owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
               },
               {
                 "name": "tokenId",
@@ -69636,10 +69736,37 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "bool"
+            "type": "u128"
           },
-          "collectionById": {
-            "description": "Get collection by specified id",
+          "allowance": {
+            "description": "Get the amount of currently possible sponsored transactions on a token for the fee to be taken off a sponsor",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "adminlist": {
+            "description": "Get the list of admin accounts of a collection",
             "params": [
               {
                 "name": "collection",
@@ -69651,21 +69778,25 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Option<UpDataStructsRpcCollection>"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
-          "collectionStats": {
-            "description": "Get collection stats",
+          "allowlist": {
+            "description": "Get the list of accounts allowed to operate within a collection",
             "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
               {
                 "name": "at",
                 "type": "Hash",
                 "isOptional": true
               }
             ],
-            "type": "UpDataStructsCollectionStats"
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
           },
           "allowed": {
-            "description": "Check if user is allowed to use collection",
+            "description": "Check if a user is allowed to operate within a collection",
             "params": [
               {
                 "name": "collection",
@@ -69683,8 +69814,49 @@ export const typesBundle = {
             ],
             "type": "bool"
           },
+          "lastTokenId": {
+            "description": "Get the last token ID created in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "collectionById": {
+            "description": "Get a collection by the specified ID",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get chain stats about collections",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
           "nextSponsored": {
-            "description": "Get number of blocks when sponsored transaction is available",
+            "description": "Get the number of blocks until sponsoring a transaction is available",
             "params": [
               {
                 "name": "collection",
@@ -69720,6 +69892,25 @@ export const typesBundle = {
               }
             ],
             "type": "Option<UpDataStructsCollectionLimits>"
+          },
+          "totalPieces": {
+            "description": "Get the total amount of pieces of an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u128>"
           }
         }
       }
