@@ -281,7 +281,6 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       Blast: 'wss://moonbeam.public.blastapi.io',
-      Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
       'Automata 1RPC': 'wss://1rpc.io/glmr'
