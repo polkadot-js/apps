@@ -57,7 +57,7 @@ export const prodChains: EndpointOption[] = [
     info: 'competitors-club',
     text: 'Competitors Club',
     providers: {
-      'Competitors Club': 'wss://node0.competitors.club/wss'
+      // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     }
   },
   {

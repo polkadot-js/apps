@@ -623,7 +623,7 @@ export const testChains: EndpointOption[] = [
     info: 'zero',
     text: 'Zero Alphaville',
     providers: {
-      ZERO: 'wss://alphaville.zero.io'
+      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     }
   }
 ];

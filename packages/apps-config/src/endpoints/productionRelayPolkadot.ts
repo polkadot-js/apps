@@ -61,7 +61,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar',
-      'Automata 1RPC': 'wss://1rpc.io/astr'
+      'Automata 1RPC': 'wss://1rpc.io/astr',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/polkadot/astar' // NOTE: Keep last
     }
   },
   {
@@ -177,7 +179,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2011,
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Equilibrium: 'wss://node.pol.equilibrium.io/',
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
     }
   },
   {
@@ -340,7 +343,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2035,
     text: 'Phala Network',
     providers: {
-      Phala: 'wss://api.phala.network/ws'
+      Phala: 'wss://api.phala.network/ws',
+      OnFinality: 'wss://phala.api.onfinality.io/public-ws'
     }
   },
   {
