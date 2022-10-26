@@ -28,14 +28,14 @@ function NewSupersig ({ className = '', onClose }: Props): React.ReactElement<Pr
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
-  const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
+  const publicProps = useCall<unknown[]>(api.query.supersig.publicProps); // superSig_listMembers
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
     []
   );
 
-  const hasMinLocked = balance?.gte(api.consts.democracy.minimumDeposit);
+  const hasMinLocked = balance?.gte(api.consts.democracy.minimumDeposit); // change this to supersig or delete
 
   return (
       
