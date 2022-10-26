@@ -17,7 +17,7 @@
       18	fomod-in                      	Update translation.json (#5942)
       18	Wei Tang                      	Re-enable Neatcoin endpoint (#8271)
       17	Frank Liu                     	Add Onfinality endpoint for Statemint (#6513)
-      16	William Freudenberger         	refactor: apply relocation of KILT to Polkadot (#8183)
+      17	William Freudenberger         	fix: rollback KILT custom type decorations (#8279)
       16	Xiliang Chen                  	allow submit from Decod page (#5759)
       15	Eliott Teissonniere           	add nodle parachain colors (#7353)
       15	Jun Jiang                     	Update and fix Khala typedef (#8272)
