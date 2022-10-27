@@ -326,7 +326,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2125,
     text: 'Tinkernet',
     providers: {
-      'InvArch Team': 'wss://rococo.invarch.network'
+      // 'InvArch Team': 'wss://rococo.invarch.network' // https://github.com/polkadot-js/apps/issues/8266
     }
   },
   {
@@ -391,6 +391,14 @@ export const testParasRococoCommon: EndpointOption[] = [
       'Encointer Association': 'wss://rococo.api.encointer.org'
     },
     teleport: [-1]
+  },
+  {
+    info: 'rococoBridgehub',
+    paraId: 1013,
+    text: 'Bridgehub',
+    providers: {
+      Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
