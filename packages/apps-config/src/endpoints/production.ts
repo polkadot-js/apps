@@ -142,7 +142,7 @@ export const prodChains: EndpointOption[] = [
     info: 'vara',
     text: 'Vara',
     providers: {
-      Gear: 'wss://vara.gear.rs'
+      'Gear Tech': 'wss://rpc.vara-network.io'
     }
   },
   {
