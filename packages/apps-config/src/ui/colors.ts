@@ -153,6 +153,7 @@ const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
+const chainVara = '#32e37d';
 const chainVirto = '#063970';
 const chainVln = '#33cc33';
 const chainWatr = '#373b39';
@@ -471,6 +472,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
+  'Vara Network': chainVara,
   VirtoRococo: chainVirto,
   'VLN PC': chainVln,
   Wapex: chainTotem,
