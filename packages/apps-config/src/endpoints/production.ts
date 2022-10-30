@@ -139,13 +139,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'vara',
-    text: 'Vara',
-    providers: {
-      'Gear Tech': 'wss://rpc.vara-network.io'
-    }
-  },
-  {
     info: 'hanonycash',
     text: 'Hanonycash',
     providers: {
@@ -314,6 +307,13 @@ export const prodChains: EndpointOption[] = [
     text: 'UniArts',
     providers: {
       UniArts: 'wss://mainnet.uniarts.vip:9443'
+    }
+  },
+  {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
     }
   },
   {
