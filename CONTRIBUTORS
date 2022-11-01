@@ -347,6 +347,7 @@
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
        1	Sergei Lonshakov              	Robonomics ParaID 2077 added (#5706)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
+       1	Shamil                        	Move Vara from Live networks to Test networks (#8295)
        1	Shaun Wang                    	Fix spelling: Javascript -> JavaScript. (#4698)
        1	Shunfan Zhou                  	Re-enable Phala (PoC 5) Testnet (#7462)
        1	SimonKraus                    	fix(staking): fix typo (#4926)
