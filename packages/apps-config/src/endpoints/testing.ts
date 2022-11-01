@@ -590,6 +590,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
+    }
+  },
+  {
     info: 'vodka',
     text: 'Vodka',
     providers: {
