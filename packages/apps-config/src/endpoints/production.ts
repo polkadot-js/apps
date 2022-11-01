@@ -310,13 +310,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'vara',
-    text: 'Vara',
-    providers: {
-      'Gear Tech': 'wss://rpc.vara-network.io'
-    }
-  },
-  {
     info: 'westlake',
     text: 'Westlake',
     providers: {
