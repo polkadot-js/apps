@@ -27,7 +27,8 @@ export const testChains: EndpointOption[] = [
     info: 'aleph',
     text: 'Aleph Zero Testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
+      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
     }
   },
   {
@@ -589,6 +590,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
+    }
+  },
+  {
     info: 'vodka',
     text: 'Vodka',
     providers: {
@@ -622,7 +630,7 @@ export const testChains: EndpointOption[] = [
     info: 'zero',
     text: 'Zero Alphaville',
     providers: {
-      ZERO: 'wss://alphaville.zero.io'
+      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     }
   }
 ];

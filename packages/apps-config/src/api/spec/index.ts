@@ -278,6 +278,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   unorthodox: standard,
   vanilla: parallel,
+  vara: standard,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

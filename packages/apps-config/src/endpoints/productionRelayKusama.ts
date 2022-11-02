@@ -106,6 +106,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'ipci',
+    homepage: 'https://ipci.io',
+    paraId: 2222,
+    text: 'DAO IPCI',
+    providers: {
+      Airalab: 'wss://kusama.rpc.ipci.io'
+    }
+  },
+  {
     info: 'crab',
     homepage: 'https://crab.network',
     paraId: 2105,
@@ -126,9 +135,19 @@ export const prodParasKusama: EndpointOption[] = [
   {
     info: 'genshiro',
     homepage: 'https://genshiro.equilibrium.io',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
+    isUnreachable: true,
     paraId: 2024,
     text: 'Genshiro',
+    providers: {
+      Equilibrium: 'wss://node.genshiro.io'
+    }
+  },
+  {
+    info: 'genshiro',
+    homepage: 'https://genshiro.equilibrium.io',
+    isUnreachable: true,
+    paraId: 2226,
+    text: 'Genshiro crowdloan 2',
     providers: {
       Equilibrium: 'wss://node.genshiro.io'
     }
@@ -304,7 +323,6 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
@@ -377,7 +395,9 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
-      Dwellir: 'wss://robonomics-rpc.dwellir.com'
+      Dwellir: 'wss://robonomics-rpc.dwellir.com',
+      Samsara: 'wss://robonomics.0xsamsara.com',
+      Leemo: 'wss://robonomics.leemo.me'
     }
   },
   {
@@ -400,7 +420,9 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/shiden'
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/kusama/shiden' // NOTE: Keep last
     }
   },
   {
@@ -417,8 +439,8 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'snow',
     homepage: 'https://icenetwork.io/snow',
     paraId: 2129,
-    text: 'Snow Network',
-    isUnreachable: true,
+    text: 'SNOW Network',
+    isUnreachable: false,
     providers: {
       IceNetwork: 'wss://snow-rpc.icenetwork.io'
     }
