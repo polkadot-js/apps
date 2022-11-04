@@ -8,21 +8,21 @@ import { Table } from '@polkadot/react-components';
 import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
 import Address from './Address';
-import { KickOutEvent } from './index';
+import { SuspensionEvent } from './index';
 
 interface Props {
-  kicks: KickOutEvent[] | undefined,
+  suspensions: SuspensionEvent[] | undefined,
 }
 
-function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
+function CurrentList ({ suspensions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
 
   const headerRef = useRef(
     [
-      [t('kick-outs'), 'start', 1],
+      [t('suspensions'), 'start', 1],
       [t('era'), 'expand'],
-      [t('kick-out reason'), 'expand'],
+      [t('reason'), 'expand'],
       [t('stats'), 'expand']
 
     ]
@@ -31,11 +31,11 @@ function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
   return (
     <Table
       empty={
-        kicks !== undefined && kicks.length === 0 && t<string>('No kick-out events found in the past 84 eras')
+        suspensions !== undefined && suspensions.length === 0 && t<string>('No suspensions events found in the past 84 eras')
       }
       emptySpinner={
         <>
-          {kicks === undefined && <div>{t<string>('Retrieving kick-out events')}</div>}
+          {suspensions === undefined && <div>{t<string>('Retrieving suspensions events')}</div>}
         </>
       }
       filter={
@@ -48,13 +48,13 @@ function CurrentList ({ kicks }: Props): React.ReactElement<Props> {
       }
       header={headerRef.current}
     >
-      {kicks?.map(({ address, era, kickoutReason }): React.ReactNode => (
+      {suspensions?.map(({ address, era, suspensionReason }): React.ReactNode => (
         <Address
           address={address}
           era={era}
           filterName={nameFilter}
           key={address}
-          kickoutReason={kickoutReason}
+          suspensionReason={suspensionReason}
         />
       ))}
     </Table>

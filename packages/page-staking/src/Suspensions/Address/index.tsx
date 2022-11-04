@@ -11,7 +11,7 @@ import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 interface Props {
   address: string;
   era: number;
-  kickoutReason: string;
+  suspensionReason: string;
   filterName: string,
 }
 
@@ -25,7 +25,7 @@ function queryAddress (address: string) {
   window.location.hash = `/staking/query/${address}`;
 }
 
-function Address ({ address, era, filterName, kickoutReason }: Props): React.ReactElement<Props> | null {
+function Address ({ address, era, filterName, suspensionReason }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
 
@@ -52,7 +52,7 @@ function Address ({ address, era, filterName, kickoutReason }: Props): React.Rea
         {era}
       </td>
       <td className='number'>
-        {kickoutReason}
+        {suspensionReason}
       </td>
       <td className='number'>
         <Icon

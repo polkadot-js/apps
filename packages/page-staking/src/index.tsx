@@ -11,8 +11,8 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import KickoutsPage from '@polkadot/app-staking/Kickouts';
 import PerformancePage from '@polkadot/app-staking/Performance';
+import SuspensionsPage from '@polkadot/app-staking/Suspensions';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -50,7 +50,6 @@ const OPT_MULTI = {
 function createPathRef (basePath: string): Record<string, string | string[]> {
   return {
     bags: `${basePath}/bags`,
-    kickouts: `${basePath}/kickouts`,
     payout: `${basePath}/payout`,
     performance: `${basePath}/performance`,
     pools: `${basePath}/pools`,
@@ -59,6 +58,7 @@ function createPathRef (basePath: string): Record<string, string | string[]> {
       `${basePath}/query`
     ],
     slashes: `${basePath}/slashes`,
+    suspensions: `${basePath}/suspensions`,
     targets: `${basePath}/targets`
   };
 }
@@ -152,8 +152,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Performance')
     },
     {
-      name: 'kickouts',
-      text: t<string>('Kick-outs')
+      name: 'suspensions',
+      text: t<string>('Suspensions')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
@@ -208,8 +208,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={pathRef.current.performance}>
           <PerformancePage />
         </Route>
-        <Route path={pathRef.current.kickouts}>
-          <KickoutsPage />
+        <Route path={pathRef.current.suspensions}>
+          <SuspensionsPage />
         </Route>
       </Switch>
       <Actions
