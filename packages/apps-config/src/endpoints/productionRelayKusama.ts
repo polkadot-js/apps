@@ -33,7 +33,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2124,
     text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://rpc.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
     }
   },
   {
