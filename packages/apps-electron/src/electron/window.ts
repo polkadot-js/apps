@@ -12,7 +12,6 @@ export function createWindow (environment: string): Promise<unknown> {
     icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
       contextIsolation: true,
-      enableRemoteModule: false,
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     },
