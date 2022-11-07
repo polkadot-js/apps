@@ -35,15 +35,15 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
 
   useEffect((): void => {
     accountId && extrinsic && api.call.transactionPaymentApi &&
-          nextTick(async (): Promise<void> => {
-            try {
-              const info = await extrinsic.paymentInfo(accountId);
+      nextTick(async (): Promise<void> => {
+        try {
+          const info = await extrinsic.paymentInfo(accountId);
 
-              mountedRef.current && setDispatchInfo(info);
-            } catch (error) {
-              console.error(error);
-            }
-          });
+          mountedRef.current && setDispatchInfo(info);
+        } catch (error) {
+          console.error(error);
+        }
+      });
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo || !extrinsic) {
@@ -55,7 +55,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
 
-  const isAssetFeeError = api.query.assets && feeAssetBalance?.lte(dispatchInfo.partialFee);
+  const isAssetFeeError = feeAsset && feeAssetBalance?.lte(dispatchInfo.partialFee);
 
   return (
     <>
