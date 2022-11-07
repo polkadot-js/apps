@@ -27,11 +27,10 @@ interface Props {
 function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [feeAsset, feeAssetBalance] = useFeeAssetBalance(accountId);
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
-
-  const [feeAsset, feeAssetBalance] = useFeeAssetBalance(accountId);
 
   useEffect((): void => {
     accountId && extrinsic && api.call.transactionPaymentApi &&
@@ -55,7 +54,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
 
-  const isAssetFeeError = feeAsset && feeAssetBalance?.lte(dispatchInfo.partialFee);
+  const isFeeAssetError = feeAsset && feeAssetBalance?.lte(dispatchInfo.partialFee);
 
   return (
     <>
@@ -63,11 +62,11 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
         className={className}
         summary={
           <Trans i18nKey='feesForSubmission'>
-            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true, withUnit: feeAsset?.symbol })}</span> will be applied to the submission
+            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { decimals: feeAsset?.decimals, withSiFull: true, withUnit: feeAsset?.symbol })}</span> will be applied to the submission
           </Trans>
         }
       />
-      {(isFeeError || isAssetFeeError) && (
+      {(isFeeError || isFeeAssetError) && (
         <MarkWarning content={t<string>('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>
