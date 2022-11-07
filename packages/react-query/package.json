@@ -13,6 +13,6 @@
   "type": "module",
   "version": "0.121.2-130-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.0"
+    "@babel/runtime": "^7.20.1"
   }
 }

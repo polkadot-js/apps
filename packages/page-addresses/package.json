@@ -13,12 +13,12 @@
   "type": "module",
   "version": "0.121.2-130-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.0",
+    "@babel/runtime": "^7.20.1",
     "@polkadot/react-components": "^0.121.2-130-x",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
-    "testcontainers": "^8.15.0"
+    "testcontainers": "^8.16.0"
   }
 }
