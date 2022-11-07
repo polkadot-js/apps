@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.122.2 Nov 7, 2022
+
+Changes:
+
+- Bump Electron packages to workaround/fix 0.122.1 Mac issues
+
+
 ## 0.122.1 Nov 7, 2022
 
 Contributed:
