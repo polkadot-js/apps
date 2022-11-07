@@ -13,6 +13,7 @@ interface Props {
   era: number;
   suspensionReason: string;
   filterName: string,
+  suspensionLiftsInEra: number,
 }
 
 function useAddressCalls (api: ApiPromise, address: string) {
@@ -25,7 +26,7 @@ function queryAddress (address: string) {
   window.location.hash = `/staking/query/${address}`;
 }
 
-function Address ({ address, era, filterName, suspensionReason }: Props): React.ReactElement<Props> | null {
+function Address ({ address, era, filterName, suspensionLiftsInEra, suspensionReason }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
 
@@ -50,6 +51,9 @@ function Address ({ address, era, filterName, suspensionReason }: Props): React.
       </td>
       <td className='number'>
         {era}
+      </td>
+      <td className='number'>
+        {suspensionLiftsInEra}
       </td>
       <td className='number'>
         {suspensionReason}

@@ -21,10 +21,10 @@ function CurrentList ({ suspensions }: Props): React.ReactElement<Props> {
   const headerRef = useRef(
     [
       [t('suspensions'), 'start', 1],
-      [t('era'), 'expand'],
+      [t('start era'), 'expand'],
+      [t('end era'), 'expand'],
       [t('reason'), 'expand'],
       [t('stats'), 'expand']
-
     ]
   );
 
@@ -48,12 +48,13 @@ function CurrentList ({ suspensions }: Props): React.ReactElement<Props> {
       }
       header={headerRef.current}
     >
-      {suspensions?.map(({ address, era, suspensionReason }): React.ReactNode => (
+      {suspensions?.map(({ address, era, suspensionLiftsInEra, suspensionReason }): React.ReactNode => (
         <Address
           address={address}
           era={era}
           filterName={nameFilter}
           key={address}
+          suspensionLiftsInEra={suspensionLiftsInEra}
           suspensionReason={suspensionReason}
         />
       ))}

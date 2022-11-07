@@ -13,11 +13,12 @@ export interface SuspensionEvent {
   address: string;
   era: number;
   suspensionReason: string;
+  suspensionLiftsInEra: number;
 }
 
 function SuspensionsPage (): React.ReactElement {
   const { api } = useApi();
-  const kicks = useSuspensions();
+  const suspensions = useSuspensions();
 
   if (!api.runtimeChain.toString().includes('Aleph Zero')) {
     return (
@@ -28,7 +29,7 @@ function SuspensionsPage (): React.ReactElement {
   return (
     <section>
       <CurrentList
-        suspensions={kicks}
+        suspensions={suspensions}
       />
     </section>
   );
