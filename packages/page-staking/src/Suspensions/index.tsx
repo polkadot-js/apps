@@ -3,21 +3,22 @@
 
 import React from 'react';
 
-import CurrentList from '@polkadot/app-staking/Kickouts/CurrentList';
+import CurrentList from '@polkadot/app-staking/Suspensions/CurrentList';
 import { MarkWarning } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import useKickOuts from './Kickouts';
+import useSuspensions from './Suspensions';
 
-export interface KickOutEvent {
+export interface SuspensionEvent {
   address: string;
   era: number;
-  kickoutReason: string;
+  suspensionReason: string;
+  suspensionLiftsInEra: number;
 }
 
-function KickoutsPage (): React.ReactElement {
+function SuspensionsPage (): React.ReactElement {
   const { api } = useApi();
-  const kicks = useKickOuts();
+  const suspensions = useSuspensions();
 
   if (!api.runtimeChain.toString().includes('Aleph Zero')) {
     return (
@@ -28,10 +29,10 @@ function KickoutsPage (): React.ReactElement {
   return (
     <section>
       <CurrentList
-        kicks={kicks}
+        suspensions={suspensions}
       />
     </section>
   );
 }
 
-export default React.memo(KickoutsPage);
+export default React.memo(SuspensionsPage);
