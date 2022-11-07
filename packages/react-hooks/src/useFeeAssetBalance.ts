@@ -18,7 +18,7 @@ export const useFeeAssetBalance = (accountId: string | null): [
   const { api } = useApi();
   const [feeBalance, setFeeBalance] = useState<BN | null>(null);
   const feeAsset = feeAssets[api.runtimeVersion.specName.toString()];
-  const assetsAccount = useCall<Option<PalletAssetsAssetAccount>>(api.query.assets.account, [feeAsset?.assetId, accountId]);
+  const assetsAccount = useCall<Option<PalletAssetsAssetAccount>>(api.query.assets?.account, [feeAsset?.assetId, accountId]);
 
   useEffect(() => {
     if (!assetsAccount) {
