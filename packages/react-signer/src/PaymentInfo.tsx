@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useFeeAssetBalance, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -31,27 +31,31 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
+  const [feeAsset, feeAssetBalance] = useFeeAssetBalance(accountId);
+
   useEffect((): void => {
     accountId && extrinsic && api.call.transactionPaymentApi &&
-      nextTick(async (): Promise<void> => {
-        try {
-          const info = await extrinsic.paymentInfo(accountId);
+          nextTick(async (): Promise<void> => {
+            try {
+              const info = await extrinsic.paymentInfo(accountId);
 
-          mountedRef.current && setDispatchInfo(info);
-        } catch (error) {
-          console.error(error);
-        }
-      });
+              mountedRef.current && setDispatchInfo(info);
+            } catch (error) {
+              console.error(error);
+            }
+          });
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo || !extrinsic) {
     return null;
   }
 
-  const isFeeError = api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && (
+  const isFeeError = !feeAsset && api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && (
     balances.availableBalance.lte(dispatchInfo.partialFee) ||
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
+
+  const isAssetFeeError = api.query.assets && feeAssetBalance?.lte(dispatchInfo.partialFee);
 
   return (
     <>
@@ -59,11 +63,11 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
         className={className}
         summary={
           <Trans i18nKey='feesForSubmission'>
-            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
+            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true, withUnit: feeAsset?.symbol })}</span> will be applied to the submission
           </Trans>
         }
       />
-      {isFeeError && (
+      {(isFeeError || isAssetFeeError) && (
         <MarkWarning content={t<string>('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>

@@ -30,6 +30,7 @@ export { useEventChanges } from './useEventChanges';
 export { useEventTrigger } from './useEventTrigger';
 export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';
+export { useFeeAssetBalance } from './useFeeAssetBalance';
 export { useFormField } from './useFormField';
 export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
