@@ -8,8 +8,9 @@ import Address from '@polkadot/app-staking/Performance/Address';
 import { calculatePercentReward } from '@polkadot/app-staking/Performance/CurrentList';
 import useSessionCommitteePerformance, { ValidatorPerformance } from '@polkadot/app-staking/Performance/useCommitteePerformance';
 import useCurrentSessionInfo from '@polkadot/app-staking/Performance/useCurrentSessionInfo';
-import { Button, InputAddressSimple, Table } from '@polkadot/react-components';
-import { useApi, useLoadingDelay } from '@polkadot/react-hooks';
+import { Button, CardSummary, InputAddressSimple, SummaryBox, Table } from '@polkadot/react-components';
+import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
+import { u32 } from '@polkadot/types-codec';
 
 import { useTranslation } from '../translate';
 import Validator from './Validator';
@@ -23,6 +24,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
+  const underperformedValidatorSessionCount = useCall<u32>(api.query.elections.underperformedValidatorSessionCount, [value]);
 
   const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
   const isLoading = useLoadingDelay();
@@ -110,7 +112,16 @@ function Query ({ className }: Props): React.ReactElement<Props> {
           onClick={_onQuery}
         />
       </InputAddressSimple>
-      {value && !!isAlephChain && <Table
+      {value && !!isAlephChain &&
+      <SummaryBox className={className}>
+
+        <CardSummary label={t<string>('Underperformed Session Count')}>
+          {underperformedValidatorSessionCount?.toString()}
+        </CardSummary>
+      </SummaryBox>
+      }
+      {value && !!isAlephChain &&
+      <Table
         className={className}
         empty={numberOfNonZeroPerformances === pastSessions.length && <div>{t<string>('No entries found')}</div>}
         emptySpinner={
