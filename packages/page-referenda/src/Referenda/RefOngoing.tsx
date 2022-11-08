@@ -126,16 +126,14 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
         />
       </td>
       <td className='button'>
-        {preimage && (
-          <Vote
-            id={id}
-            isConvictionVote={isConvictionVote}
-            isMember={isMember}
-            members={members}
-            palletVote={palletVote}
-            preimage={preimage}
-          />
-        )}
+        <Vote
+          id={id}
+          isConvictionVote={isConvictionVote}
+          isMember={isMember}
+          members={members}
+          palletVote={palletVote}
+          preimage={preimage}
+        />
       </td>
     </>
   );
