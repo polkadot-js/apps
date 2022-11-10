@@ -94,7 +94,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         <h1>{formatNumber(id)}</h1>
       </td>
       <td className='badge together'>
-        {paraInfo.paraInfo?.locked.isFalse
+        {paraInfo.paraInfo?.locked?.isFalse
           ? (
             <Badge
               color='orange'
