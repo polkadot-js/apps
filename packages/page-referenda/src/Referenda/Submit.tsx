@@ -233,7 +233,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[originParam || origin, hash, atAfter]}
+              params={[originParam || origin, { Lookup: hash }, atAfter]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>

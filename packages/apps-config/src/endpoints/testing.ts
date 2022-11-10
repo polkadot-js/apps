@@ -492,7 +492,7 @@ export const testChains: EndpointOption[] = [
     info: 'soonsocial',
     text: 'Soonsocial',
     providers: {
-      DappForce: 'wss://testnet.subsocial.network'
+      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
     }
   },
   {
@@ -590,6 +590,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
+    }
+  },
+  {
     info: 'vodka',
     text: 'Vodka',
     providers: {
@@ -623,7 +630,7 @@ export const testChains: EndpointOption[] = [
     info: 'zero',
     text: 'Zero Alphaville',
     providers: {
-      ZERO: 'wss://alphaville.zero.io'
+      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     }
   }
 ];

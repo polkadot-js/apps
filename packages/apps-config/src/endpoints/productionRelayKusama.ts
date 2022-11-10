@@ -33,7 +33,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2124,
     text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://rpc.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
     }
   },
   {
@@ -323,7 +323,6 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
@@ -396,8 +395,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
-      Dwellir: 'wss://robonomics-rpc.dwellir.com',
-      Samsara: 'wss://robonomics.0xsamsara.com'
+      Samsara: 'wss://robonomics.0xsamsara.com',
+      Leemo: 'wss://robonomics.leemo.me'
     }
   },
   {
@@ -420,7 +419,9 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/shiden'
+      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/kusama/shiden' // NOTE: Keep last
     }
   },
   {
