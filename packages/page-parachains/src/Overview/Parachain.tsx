@@ -8,7 +8,7 @@ import type { EventMapInfo, ValidatorInfo } from './types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
@@ -90,8 +90,21 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
 
   return (
     <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'><ParaLink id={id} /></td>
+      <td className='number'>
+        <h1>{formatNumber(id)}</h1>
+      </td>
+      <td className='badge together'>
+        {paraInfo.paraInfo?.locked.isFalse
+          ? (
+            <Badge
+              color='orange'
+              icon='unlock'
+            />
+          )
+          : <Badge color='transparent' />
+        }
+        <ParaLink id={id} />
+      </td>
       <td className='number media--1400'>
         {validators && validators[1].length !== 0 && (
           <Expander
@@ -171,5 +184,11 @@ export default React.memo(styled(Parachain)`
     td {
       opacity: 0.5
     }
+  }
+
+  td.badge.together > div {
+    display: inline-block;
+    margin: 0 0.25rem 0 0;
+    vertical-align: middle;
   }
 `);
