@@ -64,13 +64,13 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
 
   const bounded = hashOrBounded as FrameSupportPreimagesBounded;
 
-  return bounded.isBasic
-    ? bounded.isInline
-      ? bounded.asInline.hash.toHex()
-      : bounded.isLegacy
-        ? bounded.asLegacy.hash_.toHex()
-        : bounded.asLookup.hash_.toHex()
-    : (hashOrBounded as Hash).toHex();
+  return bounded.isInline
+    ? bounded.asInline.hash.toHex()
+    : bounded.isLegacy
+      ? bounded.asLegacy.hash_.toHex()
+      : bounded.isLookup
+        ? bounded.asLookup.hash_.toHex()
+        : hashOrBounded.toHex();
 }
 
 function usePreimageImpl (hashOrBounded: Hash | HexString | FrameSupportPreimagesBounded): Preimage | undefined {
