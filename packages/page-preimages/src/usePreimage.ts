@@ -65,12 +65,12 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
   const bounded = hashOrBounded as FrameSupportPreimagesBounded;
 
   return bounded.isBasic
-    ? bounded.isInline
+    ? (hashOrBounded as Hash).toHex()
+    : bounded.isInline
       ? bounded.asInline.hash.toHex()
       : bounded.isLegacy
         ? bounded.asLegacy.hash_.toHex()
-        : bounded.asLookup.hash_.toHex()
-    : (hashOrBounded as Hash).toHex();
+        : bounded.asLookup.hash_.toHex();
 }
 
 function usePreimageImpl (hashOrBounded: Hash | HexString | FrameSupportPreimagesBounded): Preimage | undefined {
@@ -89,6 +89,8 @@ function usePreimageImpl (hashOrBounded: Hash | HexString | FrameSupportPreimage
   );
 
   const optBytes = useCall<Option<Bytes>>(params && api.query.preimage.preimageFor, params);
+
+  console.error(hashOrBounded, typeof hashOrBounded, params, optBytes, optStatus);
 
   return useMemo(
     () => optBytes && optStatus && createResult(api, optStatus, optBytes),
