@@ -9,8 +9,13 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 const definitions: OverrideBundleDefinition = {
   types: [
     {
+      // metadata v14 was introduced here. Hence, we don't need type overrides anymore.
+      minmax: [9, undefined],
+      types: {}
+    },
+    {
       // on all versions
-      minmax: [0, undefined],
+      minmax: [0, 9],
       types: {
         ShardIdentifier: 'Hash',
         GetterArgs: '(AccountId, CommunityIdentifier)',
