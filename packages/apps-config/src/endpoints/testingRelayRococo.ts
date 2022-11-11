@@ -398,7 +398,8 @@ export const testParasRococoCommon: EndpointOption[] = [
     text: 'Bridgehub',
     providers: {
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
-    }
+    },
+    teleport: [-1]
   }
 ];
 

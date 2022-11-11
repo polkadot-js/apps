@@ -18,10 +18,10 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletVote: PalletVote;
-  preimage: Preimage;
+  preimage?: Preimage;
 }
 
-function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage: { proposal } }: Props): React.ReactElement<Props> | null {
+function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -43,12 +43,14 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
-              <ProposedAction
-                idNumber={id}
-                proposal={proposal}
-              />
-            </Modal.Columns>
+            {preimage && (
+              <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
+                <ProposedAction
+                  idNumber={id}
+                  proposal={preimage.proposal}
+                />
+              </Modal.Columns>
+            )}
             <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
               <VoteAccount
                 filter={members}
