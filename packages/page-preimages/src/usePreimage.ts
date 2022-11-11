@@ -90,8 +90,6 @@ function usePreimageImpl (hashOrBounded: Hash | HexString | FrameSupportPreimage
 
   const optBytes = useCall<Option<Bytes>>(params && api.query.preimage.preimageFor, params);
 
-  console.error(hashOrBounded, typeof hashOrBounded, params, optBytes, optStatus);
-
   return useMemo(
     () => optBytes && optStatus && createResult(api, optStatus, optBytes),
     [api, optBytes, optStatus]
