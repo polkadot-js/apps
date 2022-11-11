@@ -110,7 +110,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Clover',
     providers: {
       Clover: 'wss://rpc-para.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8301
+      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
     }
   },
   {
@@ -332,7 +332,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8301
+      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
       Parallel: 'wss://rpc.parallel.fi'
     }
   },
