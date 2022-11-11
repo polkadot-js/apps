@@ -478,7 +478,6 @@ export const testChains: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
       Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
     }
   },
   {
