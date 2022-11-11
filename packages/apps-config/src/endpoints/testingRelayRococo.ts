@@ -338,6 +338,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoUnitNetwork',
+    paraId: 4168,
+    text: 'Unit Network',
+    providers: {
+      UNIT: 'wss://www.unitnode3.info:443'
+    }
+  },
+  {
     info: 'rococoVirto',
     paraId: 3003,
     text: 'Virto',
