@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { CopyButton, IdentityIcon, Input } from '@polkadot/react-components';
-import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
+import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a, u8aConcat } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -21,6 +21,7 @@ interface Props {
   defaultValue: RawParam;
   isDisabled?: boolean;
   isError?: boolean;
+  isInOption?: boolean;
   label?: React.ReactNode;
   length?: number;
   name?: string;
@@ -67,7 +68,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
     : [value === '0x', false, new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
     (): string | undefined => {
@@ -99,6 +100,10 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
 
       if (withLength && isValid) {
         value = compactAddLength(value);
+      }
+
+      if (isInOption && isValid) {
+        value = u8aConcat([1], value);
       }
 
       onChange && onChange({
