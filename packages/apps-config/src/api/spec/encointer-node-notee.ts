@@ -15,7 +15,7 @@ const definitions: OverrideBundleDefinition = {
     },
     {
       // on all versions
-      minmax: [0, 9],
+      minmax: [0, 8],
       types: {
         ShardIdentifier: 'Hash',
         GetterArgs: '(AccountId, CommunityIdentifier)',

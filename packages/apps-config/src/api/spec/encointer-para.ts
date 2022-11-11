@@ -15,7 +15,7 @@ const definitions: OverrideBundleDefinition = {
     },
     {
       // until metadata v14
-      minmax: [0, 3],
+      minmax: [0, 2],
       types: {
         ShardIdentifier: 'Hash',
         GetterArgs: '(AccountId, CommunityIdentifier)',
