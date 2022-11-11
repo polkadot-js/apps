@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
@@ -193,9 +193,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 onChange={_onChangeHash}
                 value={hash}
               />
-              {preimage && (
-                <ProposedAction proposal={preimage.proposal} />
-              )}
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
               <Dropdown
