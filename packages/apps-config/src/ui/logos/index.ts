@@ -896,7 +896,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoTuring: chainTuring,
-  rococoUnit: nodeUnit,
+  rococoUnitNetwork: nodeUnitNetwork,
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
   rococoVln: nodeVln,
