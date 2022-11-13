@@ -342,7 +342,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4168,
     text: 'Unit Network',
     providers: {
-      // UnitNetwork: 'wss://www.unitnode3.info:443'
+      UnitNetwork: 'wss://www.unitnode3.info:443'
     }
   },
   {

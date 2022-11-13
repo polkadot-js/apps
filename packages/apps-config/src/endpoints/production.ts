@@ -313,7 +313,7 @@ export const prodChains: EndpointOption[] = [
     info: 'unitnetwork',
     text: 'UnitNetwork',
     providers: {
-      UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443'
     }
   },
   {

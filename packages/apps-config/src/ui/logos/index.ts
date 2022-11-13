@@ -217,7 +217,7 @@ import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
-import nodeUnitNetwork from './nodes/unitnetwork.svg';
+import nodeUnitNetwork from './nodes/unitnetwork.png';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeVara from './nodes/vara.svg';
@@ -644,9 +644,9 @@ export const nodeLogos = Object.entries({
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
   'Unique Node': nodeUnique,
+  'Unit Collator': nodeUnitv,
   'Unit Network Collator': nodeUnitNetwork,
   'Unit Network Node': nodeUnitNetwork,
-  'Unit Collator': nodeUnitv,
   'Unit Node': nodeUnitv,
   Vanilla: nodeParallel,
   'Vanilla Dev': nodeParallel,
@@ -896,7 +896,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoTuring: chainTuring,
-  rococoUnit: nodeUnitNetwork,
+  rococoUnitNetwork: nodeUnitNetwork,
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
   rococoVln: nodeVln,
