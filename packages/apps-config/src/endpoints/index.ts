@@ -36,8 +36,10 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
     },
     ...expandEndpoints(t, chains, firstOnly, withSort),
     {
+      isDevelopment: true,
       isDisabled: false,
       isHeader: true,
+      isSpaced: true,
       text: t('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       textBy: '',
       ui: {},
