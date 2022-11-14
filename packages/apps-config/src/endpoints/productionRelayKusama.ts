@@ -324,7 +324,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
