@@ -13,6 +13,7 @@ import { isFunction, nextTick } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
+import { convertWeight } from './useWeight';
 
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {
@@ -49,18 +50,21 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
     txs && txs.length && allAccounts[0] && api.call.transactionPaymentApi &&
       nextTick(async (): Promise<void> => {
         try {
-          const { weight } = await txs[0].paymentInfo(allAccounts[0]);
-          const maxBlock = api.consts.system.blockWeights
-            ? api.consts.system.blockWeights.maxBlock
-            : api.consts.system.maximumBlockWeight as Weight;
+          const paymentInfo = await txs[0].paymentInfo(allAccounts[0]);
+          const weight = convertWeight(paymentInfo.weight);
+          const maxBlock = convertWeight(
+            api.consts.system.blockWeights
+              ? api.consts.system.blockWeights.maxBlock
+              : api.consts.system.maximumBlockWeight as Weight
+          );
 
           setBatchSize((prev) =>
-            weight.isZero()
+            weight.v1Weight.isZero()
               ? prev
               : Math.floor(
-                maxBlock
+                maxBlock.v1Weight
                   .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-                  .div(weight)
+                  .div(weight.v1Weight)
                   .toNumber() / 100
               )
           );

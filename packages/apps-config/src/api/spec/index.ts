@@ -78,6 +78,7 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import oak from './oak';
 import opal from './opal';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
@@ -231,6 +232,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  oak,
   opal,
   opportunity,
   'origintrail-parachain': origintrail,
@@ -276,6 +278,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   unorthodox: standard,
   vanilla: parallel,
+  vara: standard,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

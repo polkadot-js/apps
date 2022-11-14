@@ -7,11 +7,11 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
-function useModuleImpl (): AugmentedQueries<'promise'>['bagsList'] {
+function useModuleImpl (): AugmentedQueries<'promise'>['voterList'] {
   const { api } = useApi();
 
   return useMemo(
-    () => api.query.bagsList || api.query.voterList,
+    () => api.query.voterList || api.query.voterBagsList || api.query.bagsList,
     [api]
   );
 }
