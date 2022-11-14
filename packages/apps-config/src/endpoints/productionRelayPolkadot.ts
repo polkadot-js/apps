@@ -182,6 +182,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'frequency',
+    homepage: 'https://frequency.xyz',
+    paraId: 2091,
+    text: 'Frequency',
+    providers: {
+      'Frequency 0': 'wss://0.rpc.frequency.xyz',
+      'Frequency 1': 'wss://1.rpc.frequency.xyz'
+    }
+  },
+  {
     info: 'geminis',
     isUnreachable: true,
     homepage: 'https://geminis.network/',
