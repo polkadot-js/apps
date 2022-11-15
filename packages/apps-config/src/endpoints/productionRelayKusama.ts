@@ -23,8 +23,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
-      OnFinality: 'wss://altair.api.onfinality.io/public-ws',
-      Dwellir: 'wss://altair-rpc.dwellir.com'
+      OnFinality: 'wss://altair.api.onfinality.io/public-ws'
     }
   },
   {
@@ -183,8 +182,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://kusama.api.integritee.network',
-      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws',
-      Dwellir: 'wss://integritee-ksm-rpc.dwellir.com'
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -252,8 +250,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Kintsugi BTC',
     providers: {
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-      OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws',
-      Dwellir: 'wss://kintsugi-rpc.dwellir.com'
+      OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
     }
   },
   {
