@@ -26,14 +26,24 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
 
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
+    const [from, isEarliest] = api.query.staking?.earliestUnappliedSlash
+      ? [earliestSlash && earliestSlash.unwrapOr(null), true]
+      : indexes
+        ? [indexes.activeEra, false]
+        : [null, false];
 
-    if (mountedRef.current && indexes && earliestSlash && earliestSlash.isSome) {
-      const from = earliestSlash.unwrap();
+    if (mountedRef.current && indexes && from) {
       const range: BN[] = [];
+      const end = isEarliest
+        // any <= activeEra (we include activeEra since slashes are immediately reflected)
+        // NOTE: the era refers to where the slashes actually ocurred
+        ? indexes.activeEra
+        // we don't have access to earliestUnappliedSlash, use duration
+        // NOTE: the era refers to where these are to be applied
+        : indexes.activeEra.add(api.consts.staking.slashDeferDuration);
       let start = new BN(from);
 
-      // any <= activeEra (we include activeEra since slashes are immediately reflected)
-      while (start.lte(indexes.activeEra)) {
+      while (start.lte(end)) {
         range.push(start);
         start = start.add(BN_ONE);
       }
