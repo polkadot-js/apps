@@ -62,7 +62,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
     [t('total')],
     [t('payout')],
     !api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration &&
-      [t('in')],
+      [t('apply')],
     []
   ]);
 
