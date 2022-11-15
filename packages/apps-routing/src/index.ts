@@ -50,6 +50,7 @@ export default function create (t: TFunction): Routes {
     addresses(t),
     explorer(t),
     claims(t),
+    customSignature(t),
     poll(t),
     transfer(t),
     teleport(t),
