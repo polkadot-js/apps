@@ -48,13 +48,21 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
     };
   });
 
-  const headerRef = useRef<[string?, string?, number?][]>([
-    [t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 3],
+  const headerRef = useRef<([string?, string?, number?] | false)[]>([
+    [t('era {{era}}/unapplied', {
+      replace: {
+        era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
+          ? slash.era.toString()
+          : slash.era.sub(api.consts.staking.slashDeferDuration).toString()
+      }
+    }), 'start', 3],
     [t('reporters'), 'address'],
     [t('own')],
     [t('other')],
     [t('total')],
     [t('payout')],
+    !api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration &&
+      [t('in')],
     []
   ]);
 

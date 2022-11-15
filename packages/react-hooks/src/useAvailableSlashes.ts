@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 
@@ -21,25 +21,29 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   const { api } = useApi();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash);
-  const historyDepth = useCall<u32>(api.query.staking?.historyDepth);
   const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, PalletStakingUnappliedSlash[]][]>([]);
 
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
-    const range = api.consts.staking?.historyDepth || historyDepth;
-    const from = api.query.staking && api.query.staking.earliestUnappliedSlash
-      ? earliestSlash && earliestSlash.unwrapOr(null)
-      : indexes && range
-        ? indexes.activeEra.sub(range)
-        : null;
+    const [from, isEarliest] = api.query.staking?.earliestUnappliedSlash
+      ? [earliestSlash && earliestSlash.unwrapOr(null), true]
+      : indexes
+        ? [indexes.activeEra, false]
+        : [null, false];
 
     if (mountedRef.current && indexes && from) {
       const range: BN[] = [];
+      const end = isEarliest
+        // any <= activeEra (we include activeEra since slashes are immediately reflected)
+        // NOTE: the era refers to where the slashes actually ocurred
+        ? indexes.activeEra
+        // we don't have access to earliestUnappliedSlash, use duration
+        // NOTE: the era refers to where these are to be applied
+        : indexes.activeEra.add(api.consts.staking.slashDeferDuration);
       let start = new BN(from);
 
-      // any <= activeEra (we include activeEra since slashes are immediately reflected)
-      while (start.lte(indexes.activeEra)) {
+      while (start.lte(end)) {
         range.push(start);
         start = start.add(BN_ONE);
       }
@@ -60,7 +64,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
     return (): void => {
       unsub && unsub();
     };
-  }, [api, earliestSlash, historyDepth, indexes, mountedRef]);
+  }, [api, earliestSlash, indexes, mountedRef]);
 
   return slashes;
 }
