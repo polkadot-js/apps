@@ -31,6 +31,8 @@
       "@polkadot/app-contracts/*": ["page-contracts/src/*"],
       "@polkadot/app-council": ["page-council/src"],
       "@polkadot/app-council/*": ["page-council/src/*"],
+      "@polkadot/app-custom-signature": ["page-custom-signature/src"],
+      "@polkadot/app-custom-signature/*": ["page-custom-signature/src/*"],
       "@polkadot/app-democracy": ["page-democracy/src"],
       "@polkadot/app-democracy/*": ["page-democracy/src/*"],
       "@polkadot/app-extrinsics": ["page-extrinsics/src"],

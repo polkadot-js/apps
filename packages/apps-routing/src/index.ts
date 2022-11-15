@@ -14,6 +14,7 @@ import claims from './claims';
 import collator from './collator';
 import contracts from './contracts';
 import council from './council';
+import customSignature from './custom-signature';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
