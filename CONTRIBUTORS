@@ -1,4 +1,4 @@
-    3830	Jaco                          	Ensure staking slashes checks (#8350)
+    3831	Jaco                          	Disable unreachable endpoints (#8356)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
