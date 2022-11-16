@@ -117,6 +117,7 @@ import trustbase from './trustbase';
 import turing from './turing';
 import uart from './uart';
 import unique from './unique';
+import unitnetwork from './unitnetwork';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
@@ -276,6 +277,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   unique,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  'unitnetwork-node': unitnetwork,
+  'unitnetwork-parachain': unitnetwork,
   unorthodox: standard,
   vanilla: parallel,
   vara: standard,
