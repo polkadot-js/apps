@@ -69915,28 +69915,6 @@ export const typesBundle = {
         }
       }
     },
-    "unitnetwork-node": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {}
-        }
-      ]
-    },
-    "unitnetwork-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {}
-        }
-      ]
-    },
     "unit-node": {
       "types": [
         {
@@ -69964,6 +69942,28 @@ export const typesBundle = {
             "LookupSource": "AccountId",
             "RefCount": "u8"
           }
+        }
+      ]
+    },
+    "unitnetwork-node": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
+    "unitnetwork-parachain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
         }
       ]
     },
