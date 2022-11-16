@@ -92,7 +92,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2012,
     text: 'Crust Shadow',
     providers: {
-      Crust: 'wss://rpc-shadow.crust.network/'
+      // Crust: 'wss://rpc-shadow.crust.network/' // https://github.com/polkadot-js/apps/issues/8355
     }
   },
   {
@@ -102,7 +102,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Crust Shadow 2',
     isUnreachable: true,
     providers: {
-      Crust: 'wss://rpc-shadow.crust.network/'
+      // also duplicated right above (hence marked unreachable)
+      // Crust: 'wss://rpc-shadow.crust.network/' // https://github.com/polkadot-js/apps/issues/8355
     }
   },
   {
@@ -334,7 +335,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2085,
     text: 'Parallel Heiko',
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
