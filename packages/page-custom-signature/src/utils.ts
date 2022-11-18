@@ -78,11 +78,11 @@ export const recoverPublicKeyFromSig = (address: string, msgString: string, rpcS
 export const getPayload = (
   method: SubmittableExtrinsic<'promise'>,
   nonce: number,
-  networkPrefix: number
+  magicNumber: number
 ): Uint8Array => {
   const methodPayload: Uint8Array = method.toU8a(true).slice(1);
   // eslint-disable-next-line new-cap
-  const prefix = new u16(new TypeRegistry(), networkPrefix);
+  const prefix = new u16(new TypeRegistry(), magicNumber);
   let payload = new Uint8Array(0);
 
   const registry = new TypeRegistry();

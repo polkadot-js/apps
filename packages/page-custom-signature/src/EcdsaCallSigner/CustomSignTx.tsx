@@ -41,11 +41,11 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
     }, []
   );
 
-  const fetchNetworkPrefix = useCallback(
+  const fetchMagicNumber = useCallback(
     async (): Promise<number> => {
-      const rawNetworkPrefix = await api?.rpc.net.version();
+      const rawMagicNumber = api?.consts.ethCall.callMagicNumber;
 
-      return Number(rawNetworkPrefix.toString());
+      return Number(rawMagicNumber.toString());
     }, [api?.rpc.net]
   );
 
@@ -59,9 +59,12 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
           setErrorMessage(undefined);
         }
 
-        const networkPrefix = await fetchNetworkPrefix();
+        const magicNumber = await fetchMagicNumber();
+        const { nonce } = await api.query.system.account(signer.ss58);
+        signer.nonce = nonce.toNumber();
+
         const callPayload = u8aToHex(
-          getPayload(method, signer.nonce, networkPrefix)
+          getPayload(method, signer.nonce, magicNumber)
         );
         const callSig = await requestSignature(callPayload, signer.ethereum);
 
@@ -77,7 +80,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
         setIsBusy(false);
       }
     }
-  }, [errorMessage, method, isModalOpen, requestSignature, signer, toggleModalView, fetchNetworkPrefix]);
+  }, [errorMessage, method, isModalOpen, requestSignature, signer, toggleModalView, fetchMagicNumber]);
 
   // transaction confirmation modal
   const TransactionModal = useCallback(() => {
