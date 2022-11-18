@@ -529,7 +529,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemine',
-      RadiumBlock: 'wss://statemine.public.curie.radiumblock.xyz/ws'
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1]
   },
