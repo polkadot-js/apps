@@ -47,7 +47,7 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 64));
 
   useEffect((): void => {
-    txs && txs.length && allAccounts[0] && api.call.transactionPaymentApi &&
+    txs && txs.length && allAccounts[0] && txs[0].hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
         try {
           const paymentInfo = await txs[0].paymentInfo(allAccounts[0]);

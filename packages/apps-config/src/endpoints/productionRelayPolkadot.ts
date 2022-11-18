@@ -84,12 +84,11 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'bitgreen',
-    isUnreachable: true,
-    homepage: 'https://www.bitgreenswiss.org/crowdloan.html',
+    homepage: 'https://www.bitgreen.org',
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://bitgreen.org/ws'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
     }
   },
   {
@@ -99,8 +98,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Centrifuge',
     providers: {
       Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
-      OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws',
-      Dwellir: 'wss://centrifuge-rpc.dwellir.com'
+      OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     }
   },
   {
@@ -109,8 +107,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2002,
     text: 'Clover',
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
+      Clover: 'wss://rpc-para.clover.finance'
+      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355
     }
   },
   {
@@ -283,7 +281,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
-      'Automata 1RPC': 'wss://1rpc.io/glmr'
+      'Automata 1RPC': 'wss://1rpc.io/glmr',
+      Dwellir: 'wss://moonbeam-rpc.dwellir.com'
     }
   },
   {
@@ -332,7 +331,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355
       Parallel: 'wss://rpc.parallel.fi'
     }
   },

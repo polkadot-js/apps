@@ -23,8 +23,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
-      OnFinality: 'wss://altair.api.onfinality.io/public-ws',
-      Dwellir: 'wss://altair-rpc.dwellir.com'
+      OnFinality: 'wss://altair.api.onfinality.io/public-ws'
     }
   },
   {
@@ -102,7 +101,8 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Crust Shadow 2',
     isUnreachable: true,
     providers: {
-      Crust: 'wss://rpc-shadow.crust.network/'
+      // also duplicated right above (hence marked unreachable)
+      // Crust: 'wss://rpc-shadow.crust.network/' // https://github.com/polkadot-js/apps/issues/8355
     }
   },
   {
@@ -183,8 +183,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Integritee Network',
     providers: {
       Integritee: 'wss://kusama.api.integritee.network',
-      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws',
-      Dwellir: 'wss://integritee-ksm-rpc.dwellir.com'
+      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
     }
   },
   {
@@ -252,8 +251,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'Kintsugi BTC',
     providers: {
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-      OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws',
-      Dwellir: 'wss://kintsugi-rpc.dwellir.com'
+      OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
     }
   },
   {
@@ -324,7 +322,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -334,7 +333,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2085,
     text: 'Parallel Heiko',
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
@@ -381,7 +380,6 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2095,
     text: 'QUARTZ by UNIQUE',
     providers: {
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'

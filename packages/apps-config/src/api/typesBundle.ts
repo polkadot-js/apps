@@ -69945,6 +69945,28 @@ export const typesBundle = {
         }
       ]
     },
+    "unitnetwork-node": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
+    "unitnetwork-parachain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
     "unorthodox": {
       "types": [
         {

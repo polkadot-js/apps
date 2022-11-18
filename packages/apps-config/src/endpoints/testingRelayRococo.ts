@@ -124,7 +124,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4044,
     text: 'Frequency',
     providers: {
-      Frequency: 'wss://collator1.frequency.xyz'
+      // Frequency: 'wss://collator1.frequency.xyz' // https://github.com/polkadot-js/apps/issues/8355
     }
   },
   {
@@ -335,6 +335,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Turing Network (Staging)',
     providers: {
       OAK: 'wss://rpc.turing-staging.oak.tech'
+    }
+  },
+  {
+    info: 'rococoUnitNetwork',
+    paraId: 4168,
+    text: 'Unit Network',
+    providers: {
+      UnitNetwork: 'wss://www.unitnode3.info:443'
     }
   },
   {
