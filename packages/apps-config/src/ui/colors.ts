@@ -31,7 +31,7 @@ const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
-const chainBitgreen = '#C0FF00';
+const chainBitgreen = '#224851';
 const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
@@ -287,6 +287,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost Polkadot': chainRoccoBifrost,
   'Bifrost Stage Testnet': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': chainCalamari,
   'Calamari Parachain Development': chainCalamari,
