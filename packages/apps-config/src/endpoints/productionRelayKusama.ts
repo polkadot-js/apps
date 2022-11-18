@@ -91,7 +91,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2012,
     text: 'Crust Shadow',
     providers: {
-      // Crust: 'wss://rpc-shadow.crust.network/' // https://github.com/polkadot-js/apps/issues/8355
+      Crust: 'wss://rpc-shadow.crust.network/'
     }
   },
   {
