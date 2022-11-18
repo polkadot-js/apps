@@ -84,12 +84,11 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     info: 'bitgreen',
-    isUnreachable: true,
-    homepage: 'https://www.bitgreenswiss.org/crowdloan.html',
+    homepage: 'https://www.bitgreen.org',
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://bitgreen.org/ws'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
     }
   },
   {
