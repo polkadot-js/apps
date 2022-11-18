@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
-import { getTeleports } from './util';
+import { createOptions, getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -519,9 +519,8 @@ export const prodParasKusama: EndpointOption[] = [
   }
 ];
 
-export const prodParasKusamaCommon: EndpointOption[] = [
-  {
-    info: 'statemine',
+export const prodParasKusamaCommon = createOptions({
+  statemine: {
     paraId: 1000,
     text: 'Statemine',
     providers: {
@@ -533,8 +532,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     },
     teleport: [-1]
   },
-  {
-    info: 'encointer',
+  encointer: {
     homepage: 'https://encointer.org/',
     paraId: 1001,
     text: 'Encointer Network',
@@ -544,7 +542,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     },
     teleport: [-1]
   }
-];
+});
 
 export const prodRelayKusama: EndpointOption = {
   dnslink: 'kusama',

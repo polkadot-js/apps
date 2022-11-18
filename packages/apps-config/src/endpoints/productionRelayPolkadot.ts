@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
-import { getTeleports } from './util';
+import { createOptions, getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -388,9 +388,8 @@ export const prodParasPolkadot: EndpointOption[] = [
   }
 ];
 
-export const prodParasPolkadotCommon: EndpointOption[] = [
-  {
-    info: 'statemint',
+export const prodParasPolkadotCommon = createOptions({
+  statemint: {
     paraId: 1000,
     text: 'Statemint',
     teleport: [-1],
@@ -402,7 +401,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
     }
   }
-];
+});
 
 export const prodRelayPolkadot: EndpointOption = {
   dnslink: 'polkadot',

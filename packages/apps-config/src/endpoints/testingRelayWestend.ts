@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
-import { getTeleports } from './util';
+import { createOptions, getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -101,9 +101,8 @@ export const testParasWestend: EndpointOption[] = [
   }
 ];
 
-export const testParasWestendCommon: EndpointOption[] = [
-  {
-    info: 'westmint',
+export const testParasWestendCommon = createOptions({
+  westmint: {
     paraId: 1000,
     text: 'Westmint',
     providers: {
@@ -112,8 +111,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     },
     teleport: [-1]
   },
-  {
-    info: 'westendCollectives',
+  westendCollectives: {
     paraId: 1001,
     text: 'Collectives',
     providers: {
@@ -121,7 +119,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     },
     teleport: [-1]
   }
-];
+});
 
 export const testRelayWestend: EndpointOption = {
   dnslink: 'westend',

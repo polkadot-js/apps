@@ -4,6 +4,8 @@
 import type { TFunction } from '../types';
 import type { EndpointOption, LinkOption } from './types';
 
+import { objectSpread } from '@polkadot/util';
+
 interface SortOption {
   isUnreachable?: boolean;
 }
@@ -114,4 +116,14 @@ export function getTeleports (input: EndpointOption[]): number[] {
     .filter(({ teleport }) => !!teleport && teleport[0] === -1)
     .map(({ paraId }) => paraId)
     .filter((id): id is number => !!id);
+}
+
+export function createOptions (records: Record<string, Omit<EndpointOption, 'info'>>): EndpointOption[] {
+  return Object
+    .entries(records)
+    .reduce((all: EndpointOption[], [info, details]) => {
+      all.push(objectSpread({ info }, details));
+
+      return all;
+    }, []);
 }

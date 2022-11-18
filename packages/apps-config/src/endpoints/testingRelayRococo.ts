@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { getTeleports } from './util';
+import { createOptions, getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -371,9 +371,8 @@ export const testParasRococo: EndpointOption[] = [
   }
 ];
 
-export const testParasRococoCommon: EndpointOption[] = [
-  {
-    info: 'rococoStatemint',
+export const testParasRococoCommon = createOptions({
+  rococoStatemint: {
     paraId: 1000,
     text: 'Rockmine',
     providers: {
@@ -381,8 +380,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     teleport: [-1]
   },
-  {
-    info: 'rococoContracts',
+  rococoContracts: {
     paraId: 1002,
     text: 'Contracts',
     providers: {
@@ -390,8 +388,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     teleport: [-1]
   },
-  {
-    info: 'encointer',
+  encointer: {
     homepage: 'https://encointer.org/',
     paraId: 1003,
     text: 'Encointer Lietaer',
@@ -400,8 +397,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     teleport: [-1]
   },
-  {
-    info: 'rococoBridgehub',
+  rococoBridgehub: {
     paraId: 1013,
     text: 'Bridgehub',
     providers: {
@@ -409,7 +405,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     teleport: [-1]
   }
-];
+});
 
 export const testRelayRococo: EndpointOption = {
   dnslink: 'rococo',
