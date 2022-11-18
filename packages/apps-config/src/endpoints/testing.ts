@@ -27,7 +27,8 @@ export const testChains: EndpointOption[] = [
     info: 'aleph',
     text: 'Aleph Zero Testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
+      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
     }
   },
   {
@@ -70,14 +71,14 @@ export const testChains: EndpointOption[] = [
     info: 'edgeware',
     text: 'Beresheet',
     providers: {
-      // 'Commonwealth Labs': 'wss://beresheet.edgewa.re' // https://github.com/polkadot-js/apps/issues/7982
+      JelliedOwl: 'wss://beresheet.jelliedowl.net'
     }
   },
   {
     info: 'bifrost',
     text: 'Bifrost Stage Network',
     providers: {
-      Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
+      // Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/8139
     }
   },
   {
@@ -210,7 +211,7 @@ export const testChains: EndpointOption[] = [
     info: 'geek',
     text: 'GeekCash',
     providers: {
-      'Geek Team': 'wss://testnet.geekcash.org'
+      // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     }
   },
   {
@@ -248,7 +249,8 @@ export const testChains: EndpointOption[] = [
     info: 'joystream',
     text: 'Joystream',
     providers: {
-      Jsgenesis: 'wss://rpc.joystream.org:9944'
+      Jsgenesis: 'wss://rpc.joystream.org:9944',
+      Dwellir: 'wss://joystream-rpc.dwellir.com'
     }
   },
   {
@@ -290,7 +292,7 @@ export const testChains: EndpointOption[] = [
     info: 'klugdossier',
     text: 'Klug Dossier',
     providers: {
-      'Klug Dossier': 'wss://klugdossier.net/'
+      // 'Klug Dossier': 'wss://klugdossier.net/' // https://github.com/polkadot-js/apps/issues/8081
     }
   },
   {
@@ -325,8 +327,8 @@ export const testChains: EndpointOption[] = [
     info: 'acala',
     text: 'Mandala',
     providers: {
-      Acala: 'wss://mandala.polkawallet.io',
-      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
+      Acala: 'wss://mandala.polkawallet.io'
+      // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
     }
   },
   {
@@ -340,7 +342,7 @@ export const testChains: EndpointOption[] = [
     info: 'minix',
     text: 'MiniX Testnet',
     providers: {
-      Chainx: 'wss://minichain.coming.chat/ws'
+      // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     }
   },
   {
@@ -490,7 +492,7 @@ export const testChains: EndpointOption[] = [
     info: 'soonsocial',
     text: 'Soonsocial',
     providers: {
-      DappForce: 'wss://testnet.subsocial.network'
+      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
     }
   },
   {
@@ -518,16 +520,24 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+      // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     }
   },
   {
     info: 'subspace-gemini-1',
     text: 'Subspace Gemini 1',
     providers: {
-      'North America': 'wss://na.gemini-1b.subspace.network/ws',
-      Europe: 'wss://eu.gemini-1b.subspace.network/ws',
-      Asia: 'wss://apac.gemini-1b.subspace.network/ws'
+      Europe: 'wss://eu.gemini-1b.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-2a',
+    text: 'Subspace Gemini 2a',
+    providers: {
+      'Europe 0': 'wss://eu-0.gemini-2a.subspace.network/ws',
+      'Europe 1': 'wss://eu-1.gemini-2a.subspace.network/ws',
+      'Europe 2': 'wss://eu-2.gemini-2a.subspace.network/ws',
+      Dwelllir: 'wss://subspace-gemini-2a-rpc.dwellir.com'
     }
   },
   {
@@ -580,10 +590,17 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
+    }
+  },
+  {
     info: 'vodka',
     text: 'Vodka',
     providers: {
-      Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      // Vodka: 'wss://vodka.rpc.neatcoin.org/ws' // https://github.com/polkadot-js/apps/issues/8175
     }
   },
   {
@@ -613,7 +630,7 @@ export const testChains: EndpointOption[] = [
     info: 'zero',
     text: 'Zero Alphaville',
     providers: {
-      ZERO: 'wss://alphaville.zero.io'
+      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     }
   }
 ];

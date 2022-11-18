@@ -31,7 +31,7 @@ const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
-const chainBitgreen = '#13F513';
+const chainBitgreen = '#224851';
 const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
@@ -66,6 +66,7 @@ const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
+const chainKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const chainJupiter = '#7143ff';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -97,6 +98,7 @@ const chainMybank = '#282736';
 const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
 const chainNodle = '#1ab394';
+const chainOAK = '#A8278C';
 const chainOLI = '#8CC63F';
 const chainOmniBTC = '#6759E9';
 const chainOpal = '#3B9C9D';
@@ -142,16 +144,20 @@ const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0
 const chainSwapdex = '#E94082';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTinker = '#161616';
+const chainTinkerRococo = 'linear-gradient(90deg, rgba(253,52,166,1) 0%, rgba(22,213,239,1) 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
 const chainT0rn = '#212322';
 const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
+const chainUnitNetwork = '#a351ef';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
+const chainVara = '#32e37d';
 const chainVirto = '#063970';
 const chainVln = '#33cc33';
+const chainWatr = '#373b39';
 const chainWeb3games = '#000000';
 const chainWestend = '#da68a7';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -190,7 +196,7 @@ const nodeIpse = '#08a1e8';
 const nodeJaz = '#121212';
 const nodeJoystream = '#4038FF';
 const nodeJupiter = '#7143ff';
-const nodeKabocha = '#f53485';
+const nodeKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
@@ -230,6 +236,7 @@ const nodeSubspace = '#562b8e';
 const nodeSwapdex = '#E94082';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
+const nodeUnitNetwork = '#a351ef';
 const nodeUnique = chainUnique;
 const nodeOpal = chainOpal;
 const nodeWeb3games = '#000000';
@@ -280,6 +287,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost Polkadot': chainRoccoBifrost,
   'Bifrost Stage Testnet': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': chainCalamari,
   'Calamari Parachain Development': chainCalamari,
@@ -331,10 +339,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   HydraDX: chainSnakenet,
-  'HydraDX Hydrate': chainHydrate,
-  'HydraDX Snakenet': chainHydrate,
-  'HydraDX Snakenet Gen2': chainHydrate,
-  'HydraDX Snakenet Gen3': chainHydrate,
+  'HydraDX testnet': chainHydrate,
   Idavoll: chainIdavoll,
   'Imbue Testnet': chainImbue,
   InterBTC: chainInterbtc,
@@ -345,6 +350,8 @@ export const chainColors: Record<string, string> = Object.entries({
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
@@ -368,7 +375,6 @@ export const chainColors: Record<string, string> = Object.entries({
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
-  Lego: chainTotem,
   'Listen Network': chainListen,
   Litentry: chainLitentry,
   'Litentry-rococo': chainLitentryRococo,
@@ -398,6 +404,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
   'Nodle Testing Parachain': chainNodle,
+  'OAK Network': chainOAK,
   Odyssey: nodeOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -439,6 +446,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SORA Kusama': chainSora,
   'SORA Rococo': chainSora,
   Spanner: chainSpanner,
+  Stagex: chainTotem,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
@@ -457,6 +465,7 @@ export const chainColors: Record<string, string> = Object.entries({
   swapdex: chainSwapdex,
   t0rn: chainT0rn,
   Tick: chainRoccoTick,
+  'Tinkernet Rococo Testnet': chainTinkerRococo,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
@@ -466,9 +475,12 @@ export const chainColors: Record<string, string> = Object.entries({
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
+  UnitNetwork: chainUnitNetwork,
+  'Vara Network': chainVara,
   VirtoRococo: chainVirto,
   'VLN PC': chainVln,
   Wapex: chainTotem,
+  'Watr Network': chainWatr,
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
@@ -527,7 +539,8 @@ export const nodeColors = Object.entries({
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
-  Kabocha: nodeKabocha,
+  Kabocha: chainKabocha,
+  'Kabocha (kabsoup)': nodeKabocha,
   KICO: chainKico,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
@@ -587,6 +600,7 @@ export const nodeColors = Object.entries({
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
   'Unique Node': nodeUnique,
+  'UnitNetwork Node': nodeUnitNetwork,
   'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,

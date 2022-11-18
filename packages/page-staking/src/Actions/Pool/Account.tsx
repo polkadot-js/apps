@@ -5,7 +5,6 @@ import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-deriv
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
-import type { PalletNominationPoolsPoolMemberV0 } from './types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
@@ -42,7 +41,7 @@ function extractRoles (accountId: string, { nominator, root }: PalletNominationP
   };
 }
 
-function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsPoolMemberV0 | PalletNominationPoolsPoolMember): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
+function calcUnbonding (accountId: string, stashId: string, { activeEra }: DeriveSessionProgress, { unbondingEras }: PalletNominationPoolsPoolMember): { accountId: string, controllerId: string, redeemable: BN, stashId: string, unlocking: DeriveUnlocking[] } {
   const unlocking: DeriveUnlocking[] = [];
   const redeemable = new BN(0);
 
@@ -63,7 +62,7 @@ function calcUnbonding (accountId: string, stashId: string, { activeEra }: Deriv
   };
 }
 
-function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, nominating, reward, rewardClaimable, stashId }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nominating, stashId }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(stashId);
@@ -71,7 +70,7 @@ function Pool ({ accountId, className, info: { bonded: { points, roles }, metada
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
-  const accInfo = useAccountInfo(accountId, reward, points, rewardClaimable);
+  const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty

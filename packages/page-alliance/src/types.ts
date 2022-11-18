@@ -18,7 +18,8 @@ export interface Member {
 export interface MemberInfo {
   accountId: string;
   deposit?: BN | null;
-  isUpForKicking: boolean;
+  isRetiringAt?: BN | null;
+  isUpForKicking?: boolean;
 }
 
 export interface Rule {
