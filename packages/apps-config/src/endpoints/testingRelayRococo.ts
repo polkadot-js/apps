@@ -124,7 +124,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4044,
     text: 'Frequency',
     providers: {
-      // Frequency: 'wss://collator1.frequency.xyz' // https://github.com/polkadot-js/apps/issues/8355
+      Frequency: 'wss://rpc.rococo.frequency.xyz'
     }
   },
   {
