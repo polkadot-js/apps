@@ -129,7 +129,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'targets',
       text: t<string>('Targets')
     },
-    hasStashes && isFunction((api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
+    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
       name: 'bags',
       text: t<string>('Bags')
     },

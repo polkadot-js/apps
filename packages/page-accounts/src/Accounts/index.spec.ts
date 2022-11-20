@@ -381,6 +381,7 @@ describe('Accounts page', () => {
       mockApiHooks.setDelegations([{ asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating, isDelegating: true } as Voting]);
       mockApiHooks.setProxies([[[{ delegate: alice as unknown as AccountId, proxyType: { isAny: true, isGovernance: true, isNonTransfer: true, isStaking: true, toNumber: () => 1 } } as unknown as ProxyDefinition], new BN(1)]]);
     });
+
     describe('when genesis hash is not set', () => {
       beforeEach(async () => {
         accountsPage.renderAccountsWithDefaultAddresses(

@@ -6,5 +6,6 @@
 // e.g. light://substrate-connect/kusama/gm
 export const specs: string[] = [
   'gm',
+  'shiden',
   'tinkernet'
 ];
