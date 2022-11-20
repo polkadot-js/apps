@@ -75,6 +75,7 @@ const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainKico = '#29B58D';
+const chainKico2 = '#29B58D';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
 const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKilt} 100%)`;
@@ -358,6 +359,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Karura: chainKarura,
   Khala: chainKhala,
   KICO: chainKico,
+  KICO2: chainKico2,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
   'KILT Peregrine': chainKiltPeregrine,
@@ -544,6 +546,7 @@ export const nodeColors = Object.entries({
   Kabocha: chainKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
   KICO: chainKico,
+  KICO2: chainKico2,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
