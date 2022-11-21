@@ -10,7 +10,7 @@ import type { Referendum, ReferendumProps as Props } from '../types';
 import React, { useMemo } from 'react';
 
 import usePreimage, { getPreimageHash } from '@polkadot/app-preimages/usePreimage';
-import { CallExpander, LinkExternal, Progress } from '@polkadot/react-components';
+import { CallExpander, Progress } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
@@ -133,12 +133,6 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
           members={members}
           palletVote={palletVote}
           preimage={preimage}
-        />
-      </td>
-      <td className='links media--1000'>
-        <LinkExternal
-          data={id}
-          type='referenda'
         />
       </td>
     </>
