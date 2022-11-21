@@ -491,7 +491,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero,
-  'RioDeFi': chainRioDeFi,
+  'RioDeFi': chainRioDeFi
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
