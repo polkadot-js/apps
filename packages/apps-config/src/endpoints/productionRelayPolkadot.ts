@@ -414,7 +414,7 @@ export const prodRelayPolkadot: EndpointOption = {
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
-    RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
+    RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
     // NOTE: Keep this as the last entry, nothing after it
