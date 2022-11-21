@@ -76,7 +76,7 @@ import chainVirto from './chains/virto.png';
 import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
 import chainWestendColl from './chains/westend-collectives.png';
-import chainRioDeFi from './chains/riodefi.png';
+import chainRiodefi from './chains/riodefi.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -241,7 +241,7 @@ export const chainLogos = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   Amplitude: chainAmplitude,
-  RioDeFi: chainRioDeFi,
+  Riodefi: chainRiodefi,
   'Apron PC1': nodeApron,
   Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
@@ -471,7 +471,7 @@ export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
   'Ajuna Node': nodeAjuna,
   Amplitude: chainAmplitude,
-  RioDeFi: chainRioDeFi,
+  Riodefi: chainRiodefi,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   Arctic: nodeArctic,
@@ -696,7 +696,7 @@ export const namedLogos: Record<string, unknown> = {
   alexander: nodePolkadot,
   altair: chainAltair,
   amplitude: chainAmplitude,
-  riodefi: chainRioDeFi,
+  riodefi: chainRiodefi,
   arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
   'Ares Odyssey': nodeAresOdyssey,
