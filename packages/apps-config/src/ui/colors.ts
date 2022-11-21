@@ -435,6 +435,7 @@ export const chainColors: Record<string, string> = Object.entries({
   RILT: chainKiltRilt,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
+  Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
   Rococo: chainRocco,
   Sakura: chainSakura,
@@ -490,8 +491,7 @@ export const chainColors: Record<string, string> = Object.entries({
   WILT: chainKilt,
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
-  'ZERO.IO': chainZero,
-  'Riodefi': chainRiodefi
+  'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
