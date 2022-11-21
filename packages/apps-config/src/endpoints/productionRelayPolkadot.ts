@@ -38,7 +38,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2051,
     text: 'Ajuna Network',
     providers: {
-      // AjunaNetwork: 'wss://rpc-parachain.ajuna.network' // https://github.com/polkadot-js/apps/issues/8039
+      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
     }
   },
   {
