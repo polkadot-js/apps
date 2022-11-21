@@ -23,21 +23,24 @@ function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<P
   const [isPreimageOpen, togglePreimage] = useToggle();
 
   return (
-    <>
-      <Button
-        icon='plus'
-        isDisabled={!api.tx.democracy.notePreimage}
-        label={t<string>('Image')}
-        onClick={togglePreimage}
-      />
-      {isPreimageOpen && (
-        <PreImage
-          imageHash={imageHash}
-          isImminent={isImminent}
-          onClose={togglePreimage}
-        />
-      )}
-    </>
+    api.tx.democracy.notePreimage
+      ? (
+        <>
+          <Button
+            icon='plus'
+            label={t<string>('Image')}
+            onClick={togglePreimage}
+          />
+          {isPreimageOpen && (
+            <PreImage
+              imageHash={imageHash}
+              isImminent={isImminent}
+              onClose={togglePreimage}
+            />
+          )}
+        </>
+      )
+      : null
   );
 }
 
