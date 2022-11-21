@@ -165,6 +165,7 @@ const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainCESS = '#2269a9';
+const chainRioDeFi = '#4E7AED';
 // based on node name
 // alphabetical
 const nodeAjuna = '#161212';
@@ -489,7 +490,8 @@ export const chainColors: Record<string, string> = Object.entries({
   WILT: chainKilt,
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
-  'ZERO.IO': chainZero
+  'ZERO.IO': chainZero,
+  'RioDeFi': chainRioDeFi,
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
