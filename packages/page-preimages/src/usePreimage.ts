@@ -44,6 +44,7 @@ function createResult (api: ApiPromise, optStatus: Option<PalletPreimageRequestS
     proposal,
     proposalHash,
     proposalLength,
+    registry: api.registry,
     status
   };
 }
@@ -85,14 +86,14 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
     [hashOrBounded]
   );
 
-  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(hash && api.query.preimage.statusFor, [hash]);
+  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(hash && api.query.preimage?.statusFor, [hash]);
 
   const params = useMemo(
     () => hash && optStatus && getParams(hash, optStatus),
     [hash, optStatus]
   );
 
-  const optBytes = useCall<Option<Bytes>>(params && api.query.preimage.preimageFor, [params]);
+  const optBytes = useCall<Option<Bytes>>(params && api.query.preimage?.preimageFor, [params]);
 
   return useMemo(
     () => optBytes && optStatus && params
