@@ -241,7 +241,7 @@ export const chainLogos = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   Amplitude: chainAmplitude,
-  RioDeFi: chainRiodefi,
+  RioDeFi: chainRioDeFi,
   'Apron PC1': nodeApron,
   Arctic: nodeArctic,
   'Ares Gladios': nodeAresGladios,
