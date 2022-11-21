@@ -60,7 +60,7 @@ const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
-const chainHashed = '#9199A9'
+const chainHashed = '#9199A9';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainIdavoll = '#ff43ff';
@@ -90,7 +90,7 @@ const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitentryRococo = '#0a6a08';
 const chainLitmus = '#6822fb';
 const chainLogion = 'rgb(21, 38, 101)';
-const chainLuhn = '#2F8E85'
+const chainLuhn = '#2F8E85';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#030408';
@@ -539,7 +539,7 @@ export const nodeColors = Object.entries({
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
   'GM Collator': chainGM,
-  'Hashed Network':nodeHashed,
+  'Hashed Network': nodeHashed,
   'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
