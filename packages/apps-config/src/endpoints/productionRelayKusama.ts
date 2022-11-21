@@ -402,6 +402,7 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'http://robonomics.network/',
     paraId: 2237,
     text: 'Robonomics 2',
+    isUnreachable: true,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
