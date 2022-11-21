@@ -398,6 +398,18 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'robonomics',
+    homepage: 'http://robonomics.network/',
+    paraId: 2237,
+    text: 'Robonomics 2',
+    providers: {
+      Airalab: 'wss://kusama.rpc.robonomics.network/',
+      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
+      Samsara: 'wss://robonomics.0xsamsara.com',
+      Leemo: 'wss://robonomics.leemo.me'
+    }
+  },
+  {
     info: 'sakura',
     homepage: 'https://clover.finance/',
     isUnreachable: true,
