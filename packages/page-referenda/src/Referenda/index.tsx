@@ -53,7 +53,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
           empty={referenda && t<string>('No active referenda')}
           header={[
             [trackName || t('referenda'), 'start', 2],
-            [undefined, undefined, 3]
+            [undefined, undefined, 6]
           ]}
           key={
             trackName

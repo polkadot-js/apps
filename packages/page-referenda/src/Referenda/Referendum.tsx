@@ -5,6 +5,7 @@ import type { ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
+import { LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Killed from './RefKilled';
@@ -30,6 +31,12 @@ function Referendum (props: Props): React.ReactElement<Props> {
         <h1>{formatNumber(id)}</h1>
       </td>
       <Component {...props} />
+      <td className='links media--1000'>
+        <LinkExternal
+          data={id}
+          type='referenda'
+        />
+      </td>
     </tr>
   );
 }
