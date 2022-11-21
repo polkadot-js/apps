@@ -35,6 +35,7 @@ export default {
     council: 'council/motion',
     external: 'democracy/external',
     proposal: 'democracy/proposal',
+    referenda: 'referenda/referendum',
     referendum: 'democracy/referendum',
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
