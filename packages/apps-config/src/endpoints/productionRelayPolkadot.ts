@@ -192,6 +192,15 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'hashed',
+    homepage: 'https://hashed.network/',
+    paraId: 2093,
+    text: 'Hashed Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.hashed.network'
+    }
+  },
+  {
     info: 'hydra',
     homepage: 'https://hydradx.io/',
     paraId: 2034,
