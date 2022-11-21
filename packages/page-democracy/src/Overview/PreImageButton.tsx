@@ -7,7 +7,7 @@ import type { HexString } from '@polkadot/util/types';
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import PreImage from './PreImage';
@@ -19,12 +19,14 @@ interface Props {
 
 function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();
 
   return (
     <>
       <Button
         icon='plus'
+        isDisabled={!api.tx.democracy.notePreimage}
         label={t<string>('Image')}
         onClick={togglePreimage}
       />
