@@ -35,6 +35,7 @@ const chainBitgreen = '#224851';
 const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
+const chainCollectives = '#e6777a'; // '#dfcdfc';
 const chainCompetitorsClub = '#213830';
 const chainComposableFinance = '#C90E8A';
 const chainCrab = '#512DBC';
@@ -300,6 +301,7 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
+  Collectives: chainCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
   'Contracts on Rococo': chainRococoContracts,
