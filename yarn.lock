@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:^4.1.5":
-  version: 4.1.5
-  resolution: "@acala-network/type-definitions@npm:4.1.5"
+"@acala-network/type-definitions@npm:^4.1.8-1":
+  version: 4.1.8-1
+  resolution: "@acala-network/type-definitions@npm:4.1.8-1"
   dependencies:
     "@open-web3/orml-type-definitions": ^1.1.4
-  checksum: 1d3247a48bc24fd4692965fef3cb2cb08a6143222986b8d1d80be4679c4f11c5e71b074608b72d3d7eacce85dea6a58570bc192f9afcf8302d7bca1b1d0c5c2a
+  checksum: 1c5c80a4d6ade15a8723d634fddc93cb5554eb7e6bc42707d524f4c01521180f373affce3757ca3cb166bdb2b0a14d7b8b1980cec85b0291baf8586d9067ac91
   languageName: node
   linkType: hard
 
@@ -3140,7 +3140,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": ^4.1.5
+    "@acala-network/type-definitions": ^4.1.8-1
     "@babel/runtime": ^7.20.1
     "@bifrost-finance/type-definitions": 1.7.1
     "@crustio/type-definitions": 1.3.0
