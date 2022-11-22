@@ -33573,6 +33573,498 @@ export const typesBundle = {
         }
       ]
     },
+    "frequency": {
+      "rpc": {
+        "msa": {
+          "checkDelegations": {
+            "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
+            "params": [
+              {
+                "name": "delegator_msa_ids",
+                "type": "Vec<DelegatorId>"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              },
+              {
+                "name": "block_number",
+                "type": "BlockNumber"
+              },
+              {
+                "name": "schema_id",
+                "type": "Option<SchemaId>"
+              }
+            ],
+            "type": "Vec<(DelegatorId, bool)>"
+          },
+          "grantedSchemaIdsByMsaId": {
+            "description": "Fetch the list of schema ids that a delegator has granted to provider",
+            "params": [
+              {
+                "name": "delegator_msa_id",
+                "type": "DelegatorId"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              }
+            ],
+            "type": "Option<Vec<SchemaId>>"
+          }
+        },
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
+        "schemas": {
+          "getBySchemaId": {
+            "description": "Get a Schema by Id",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Option<SchemaResponse>"
+          },
+          "checkSchemaValidity": {
+            "description": "",
+            "params": [
+              {
+                "name": "model",
+                "type": "SchemaModel"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "runtime": {
+        "MsaRuntimeApi": [
+          {
+            "methods": {
+              "has_delegation": {
+                "description": "Check to see if a delegation existed between the given delegator and provider at a given block",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "Option<SchemaId>"
+                  }
+                ],
+                "type": "bool"
+              },
+              "get_granted_schemas_by_msa_id": {
+                "description": "Get the list of schema ids (if any) that exist in any delegation between the delegator and provider",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Vec<SchemaId>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "SchemasRuntimeApi": [
+          {
+            "methods": {
+              "get_schema_by_id": {
+                "description": "Fetch the schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
+    "frequency-rococo": {
+      "rpc": {
+        "msa": {
+          "checkDelegations": {
+            "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
+            "params": [
+              {
+                "name": "delegator_msa_ids",
+                "type": "Vec<DelegatorId>"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              },
+              {
+                "name": "block_number",
+                "type": "BlockNumber"
+              },
+              {
+                "name": "schema_id",
+                "type": "Option<SchemaId>"
+              }
+            ],
+            "type": "Vec<(DelegatorId, bool)>"
+          },
+          "grantedSchemaIdsByMsaId": {
+            "description": "Fetch the list of schema ids that a delegator has granted to provider",
+            "params": [
+              {
+                "name": "delegator_msa_id",
+                "type": "DelegatorId"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              }
+            ],
+            "type": "Option<Vec<SchemaId>>"
+          }
+        },
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
+        "schemas": {
+          "getBySchemaId": {
+            "description": "Get a Schema by Id",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Option<SchemaResponse>"
+          },
+          "checkSchemaValidity": {
+            "description": "",
+            "params": [
+              {
+                "name": "model",
+                "type": "SchemaModel"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "runtime": {
+        "MsaRuntimeApi": [
+          {
+            "methods": {
+              "has_delegation": {
+                "description": "Check to see if a delegation existed between the given delegator and provider at a given block",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "Option<SchemaId>"
+                  }
+                ],
+                "type": "bool"
+              },
+              "get_granted_schemas_by_msa_id": {
+                "description": "Get the list of schema ids (if any) that exist in any delegation between the delegator and provider",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Vec<SchemaId>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "SchemasRuntimeApi": [
+          {
+            "methods": {
+              "get_schema_by_id": {
+                "description": "Fetch the schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
     "galital": {
       "types": [
         {

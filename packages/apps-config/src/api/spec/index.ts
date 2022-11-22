@@ -44,6 +44,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import fantour from './fantour';
+import frequency from './frequency';
 import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
@@ -185,6 +186,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
+  frequency,
+  'frequency-rococo': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,
