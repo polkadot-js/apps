@@ -401,6 +401,15 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Pinknode: 'wss://public-rpc.pinknode.io/statemint',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
     }
+  },
+  {
+    info: 'polkadotCollectives',
+    paraId: 1001,
+    text: 'Collectives',
+    teleport: [-1],
+    providers: {
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+    }
   }
 ];
 
