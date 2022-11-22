@@ -13,7 +13,7 @@
   "version": "0.122.3-36-x",
   "main": "index.js",
   "dependencies": {
-    "@acala-network/type-definitions": "^4.1.5",
+    "@acala-network/type-definitions": "^4.1.8-1",
     "@babel/runtime": "^7.20.1",
     "@bifrost-finance/type-definitions": "1.7.1",
     "@crustio/type-definitions": "1.3.0",
