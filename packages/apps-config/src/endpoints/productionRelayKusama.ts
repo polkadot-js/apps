@@ -305,6 +305,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'luhn',
+    homepage: 'https://luhn.network/',
+    paraId: 2232,
+    text: 'Luhn Network',
+    providers: {
+      'Hashed Systems': 'wss://c1.luhn.network'
+    }
+  },
+  {
     info: 'mangata',
     homepage: 'https://mangata.finance',
     paraId: 2110,

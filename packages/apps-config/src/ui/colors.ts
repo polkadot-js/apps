@@ -61,6 +61,7 @@ const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
+const chainHashed = '#9199A9';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainIdavoll = '#ff43ff';
@@ -91,6 +92,7 @@ const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitentryRococo = '#0a6a08';
 const chainLitmus = '#6822fb';
 const chainLogion = 'rgb(21, 38, 101)';
+const chainLuhn = '#2F8E85';
 const chainMinix = '#5152f7';
 const chainManta = '#2070a6';
 const chainMangata = '#030408';
@@ -193,6 +195,7 @@ const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeHashed = '#59EAF6';
 const nodeHeiko = '#42d5de';
 const nodeImbue = '#baff36';
 const nodeIntegritee = '#658ea9';
@@ -207,6 +210,7 @@ const nodeKylin = '#ed007e';
 const nodeKlug = '#663399';
 const nodeKusari = '#b8860b';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const nodeLuhn = '#2DCE89';
 const nodeManta = '#2070a6';
 const nodeMathChain = '#000000';
 const nodeMd5 = '#175bae';
@@ -344,6 +348,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'GM Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
+  'Hashed Network': chainHashed,
   HydraDX: chainSnakenet,
   'HydraDX testnet': chainHydrate,
   Idavoll: chainIdavoll,
@@ -386,6 +391,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Litentry: chainLitentry,
   'Litentry-rococo': chainLitentryRococo,
   Litmus: chainLitmus,
+  'Luhn Network': chainLuhn,
   'Mangata Kusama Mainnet': chainMangata,
   'Mangata Public Testnet': chainMangata,
   'Manta Parachain': chainManta,
@@ -539,6 +545,7 @@ export const nodeColors = Object.entries({
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
   'GM Collator': chainGM,
+  'Hashed Network': nodeHashed,
   'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
@@ -560,10 +567,11 @@ export const nodeColors = Object.entries({
   'Litentry node': nodeLitentry,
   'logion Collator': chainLogion,
   'Logion Node': chainLogion,
+  'Luhn Collator': nodeLuhn,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
-  'MD5 Network': nodeMd5,
+  'MD5 Collator': nodeMd5,
   'Moonsama Development': chainMoonsama,
   'mybank.network node': nodeMybank,
   Myriad: chainMyriad,

@@ -32,6 +32,7 @@ import chainFrequency from './chains/frequency.svg';
 import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
 import chainGM from './chains/gm.png';
+import chainHashed from './chains/hashed.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKabocha from './chains/kabocha.svg';
@@ -41,6 +42,7 @@ import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
+import chainLuhn from './chains/luhn.png';
 import chainMangata from './chains/mangatax.svg';
 import chainMoonsamaDevelopment from './chains/moonsama.png';
 import chainMyriad from './chains/myriad.svg';
@@ -136,6 +138,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHashed from './nodes/hashed.png';
 import nodeHelixstreet from './nodes/helixstreet.png';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeImbue from './nodes/imbue.png';
@@ -158,6 +161,7 @@ import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
+import nodeLuhn from './nodes/luhn.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import nodeMd5 from './nodes/md5.png';
@@ -304,6 +308,7 @@ export const chainLogos = Object.entries({
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'GM Parachain': chainGM,
+  'Hashed Network': chainHashed,
   helixstreet: nodeHelixstreet,
   HydraDX: chainSnakenet,
   'HydraDX testnet': chainHydrate,
@@ -347,6 +352,7 @@ export const chainLogos = Object.entries({
   Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
+  'Luhn Network': chainLuhn,
   'Mangata Kusama Mainnet': chainMangata,
   'Mangata Public Testnet': chainMangata,
   'Manta Parachain': nodeManta,
@@ -538,6 +544,7 @@ export const nodeLogos = Object.entries({
   'GM Collator': chainGM,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  'Hashed Collator': nodeHashed,
   Helixstreet: nodeHelixstreet,
   'Idavoll Node': nodeIdavoll,
   'Imbue Node': nodeImbue,
@@ -571,6 +578,7 @@ export const nodeLogos = Object.entries({
   'Litentry node': nodeLitentry,
   'logion Collator': chainLogion,
   'Logion Node': chainLogion,
+  'Luhn Collator': nodeLuhn,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -760,6 +768,7 @@ export const namedLogos: Record<string, unknown> = {
   gm: chainGM,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  hashed: nodeHashed,
   heiko: chainParallel,
   helixstreet: nodeHelixstreet,
   hydra: chainSnakenet,
@@ -796,6 +805,7 @@ export const namedLogos: Record<string, unknown> = {
   litmus: nodeLitmus,
   logion: chainLogion,
   loomNetwork: nodeLoomNetwork,
+  luhn: nodeLuhn,
   mangata: chainMangata,
   manta: nodeManta,
   mars: nodeAresMars,
