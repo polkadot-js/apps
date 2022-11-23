@@ -245,6 +245,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'kico 2',
+    homepage: 'https://dico.io/',
+    paraId: 2235,
+    text: 'KICO 2',
+    providers: {
+      'DICO Foundation': 'wss://rpc.kico2.dico.io'
+      // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
+    }
+  },
+  {
     info: 'kintsugi',
     homepage: 'https://kintsugi.interlay.io/',
     paraId: 2092,
