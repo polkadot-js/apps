@@ -396,6 +396,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'riodefi',
+    homepage: 'https://riodefi.com',
+    paraId: 2227,
+    text: 'RioDeFi',
+    providers: {
+      RioProtocol: 'wss://rio-kusama-rpc.riocorenetwork.com'
+    }
+  },
+  {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
     paraId: 2048,

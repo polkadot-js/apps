@@ -53,6 +53,7 @@ import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
 import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
+import chainRiodefi from './chains/riodefi.png';
 import chainRocfinity from './chains/rocfinity.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoContracts from './chains/rococo-contracts.png';
@@ -402,6 +403,7 @@ export const chainLogos = Object.entries({
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
+  Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
@@ -616,6 +618,7 @@ export const nodeLogos = Object.entries({
   'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
+  Riodefi: chainRiodefi,
   robonomics: nodeRobonomics,
   Rocfinity: nodeRocfinity,
   Sakura: nodeSakura,
@@ -831,6 +834,7 @@ export const namedLogos: Record<string, unknown> = {
   quartz: nodeQuartz,
   realis: nodeRealis,
   riochain: nodeRiochain,
+  riodefi: chainRiodefi,
   robonomics: nodeRobonomics,
   rocfinity: nodeRocfinity,
   rocky: nodeCrust,

@@ -168,6 +168,7 @@ const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainCESS = '#2269a9';
+const chainRiodefi = '#4E7AED';
 // based on node name
 // alphabetical
 const nodeAjuna = '#161212';
@@ -441,6 +442,7 @@ export const chainColors: Record<string, string> = Object.entries({
   RILT: chainKiltRilt,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
+  Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
   Rococo: chainRocco,
   Sakura: chainSakura,
