@@ -63,7 +63,7 @@ function calcUnbonding (accountId: string, stashId: string, { activeEra }: Deriv
   };
 }
 
-function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nominating, stashId }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
+function Pool ({ accountId, className, info: { bonded: { points, roles }, metadata, nominating, reward, rewardClaimable, stashId }, isFirst, poolId, sessionProgress, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(stashId);
@@ -71,7 +71,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
-  const accInfo = useAccountInfo(accountId);
+  const accInfo = useAccountInfo(accountId, reward, points, rewardClaimable);
 
   const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
