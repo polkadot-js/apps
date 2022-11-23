@@ -65,10 +65,10 @@ describe('urls are not duplicated', (): void => {
   let hasDevelopment = false;
   let lastHeader = '';
   const map = allEndpoints
-    .filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
+    .filter(({ info, isDisabled, isHeader, isUnreachable, text }): boolean => {
       hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
 
-      return !hasDevelopment && !isDisabled && !isUnreachable;
+      return !hasDevelopment && !isDisabled && !isUnreachable && info !== 'nodle';
     })
     .reduce((map, { isHeader, text, value }): Record<string, string[]> => {
       if (isHeader) {

@@ -190,13 +190,6 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'myriad',
-    text: 'Myriad',
-    providers: {
-      Myriad: 'wss://ws-rpc.myriad.social'
-    }
-  },
-  {
     info: 'neatcoin',
     text: 'Neatcoin',
     providers: {
