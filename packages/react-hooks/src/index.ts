@@ -35,6 +35,7 @@ export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIpfsFetch } from './useIpfsFetch';
+export { useIpfsLink } from './useIpfsLink';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useJudgements } from './useJudgements';
 export { useLedger } from './useLedger';

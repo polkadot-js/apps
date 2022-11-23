@@ -36,6 +36,7 @@ export interface LinkOption extends Option {
   summary?: string;
   teleport?: number[];
   textBy: string;
+  textRelay?: React.ReactNode;
   value: string;
   valueRelay?: string[];
 }

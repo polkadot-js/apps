@@ -7,16 +7,20 @@ import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
-export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+export default function createOptions (api: ApiPromise, sectionName: string, filter?: (section: string, method?: string) => boolean): DropdownOptions {
   const section = api.tx[sectionName];
+  const isAllowed = !filter || filter(sectionName);
 
-  if (!section || Object.keys(section).length === 0) {
+  if (!section || Object.keys(section).length === 0 || !isAllowed) {
     return [];
   }
 
   return Object
     .keys(section)
-    .filter((s) => !s.startsWith('$'))
+    .filter((s) =>
+      !s.startsWith('$') &&
+      (!filter || filter(sectionName, s))
+    )
     .sort()
     .map((value): DropdownOption => {
       const method = section[value];

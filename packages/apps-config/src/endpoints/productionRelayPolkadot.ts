@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -27,7 +28,17 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      Dwellir: 'wss://acala-rpc.dwellir.com'
+      Dwellir: 'wss://acala-rpc.dwellir.com',
+      'Automata 1RPC': 'wss://1rpc.io/aca'
+    }
+  },
+  {
+    info: 'ajuna',
+    homepage: 'https://ajuna.io',
+    paraId: 2051,
+    text: 'Ajuna Network',
+    providers: {
+      // AjunaNetwork: 'wss://rpc-parachain.ajuna.network' // https://github.com/polkadot-js/apps/issues/8039
     }
   },
   {
@@ -46,10 +57,21 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Astar',
     providers: {
       Astar: 'wss://rpc.astar.network',
-      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+      Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/astar'
+      OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+      Pinknode: 'wss://public-rpc.pinknode.io/astar',
+      'Automata 1RPC': 'wss://1rpc.io/astr',
+      // NOTE: Keep this as the last entry, nothing after it
+      'light client': 'light://substrate-connect/polkadot/astar' // NOTE: Keep last
     }
+  },
+  {
+    info: 'aventus',
+    homepage: 'https://www.aventus.io/',
+    paraId: 2056,
+    text: 'Aventus',
+    providers: { }
   },
   {
     info: 'bifrost',
@@ -58,6 +80,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Bifrost',
     providers: {
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
+    }
+  },
+  {
+    info: 'bitgreen',
+    isUnreachable: true,
+    homepage: 'https://www.bitgreenswiss.org/crowdloan.html',
+    text: 'Bitgreen',
+    paraId: 2048,
+    providers: {
+      Bitgreen: 'wss://bitgreen.org/ws'
     }
   },
   {
@@ -76,20 +108,20 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2002,
     text: 'Clover',
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
+      Clover: 'wss://rpc-para.clover.finance'
+      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8301
     }
   },
   {
+    info: 'coinversation',
     // this is also a duplicate as a Live and Testing network -
     // it is either/or, not and
-    info: 'coinversation',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
+    isUnreachable: true,
     homepage: 'http://www.coinversation.io/',
     paraId: 2027,
     text: 'Coinversation',
     providers: {
-      Coinversation: 'wss://rpc.coinversation.io/'
+      // Coinversation: 'wss://rpc.coinversation.io/' // https://github.com/polkadot-js/apps/issues/6635
     }
   },
   {
@@ -98,8 +130,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2019,
     text: 'Composable Finance',
     providers: {
-      Composable: 'wss://rpc.composable.finance',
-      Dwellir: 'wss://composable-rpc.dwellir.com'
+      Composable: 'wss://rpc.composable.finance'
     }
   },
   {
@@ -118,17 +149,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2046,
     text: 'Darwinia',
     providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     }
   },
   {
     info: 'darwinia',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
     paraId: 2003,
-    text: 'Darwinia Para Backup',
+    text: 'Darwinia Backup',
     providers: {
-      Darwinia: 'wss://parachain-rpc.darwinia.network'
+      // 'Darwinia Network': 'wss://parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     }
   },
   {
@@ -137,7 +167,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2021,
     text: 'Efinity',
     providers: {
-      Efinity: 'wss://rpc.efinity.io'
+      Efinity: 'wss://rpc.efinity.io',
+      Dwellir: 'wss://efinity-rpc.dwellir.com',
+      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     }
   },
   {
@@ -146,7 +178,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2011,
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Equilibrium: 'wss://node.pol.equilibrium.io/',
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
     }
   },
   {
@@ -165,7 +198,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     text: 'HydraDX',
     providers: {
-      'Galactic Council': 'wss://rpc-01.hydradx.io',
+      'Galactic Council': 'wss://rpc.hydradx.cloud',
       Dwellir: 'wss://hydradx-rpc.dwellir.com'
     }
   },
@@ -195,6 +228,17 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Kapex',
     providers: {
       Totem: 'wss://k-ui.kapex.network'
+    }
+  },
+  {
+    info: 'kilt',
+    homepage: 'https://www.kilt.io/',
+    paraId: 2086,
+    text: 'KILT Spiritnet',
+    providers: {
+      'KILT Protocol': 'wss://spiritnet.kilt.io/',
+      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
+      Dwellir: 'wss://kilt-rpc.dwellir.com'
     }
   },
   {
@@ -236,9 +280,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       Blast: 'wss://moonbeam.public.blastapi.io',
-      Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
+      'Automata 1RPC': 'wss://1rpc.io/glmr'
     }
   },
   {
@@ -250,6 +294,16 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       Dwellir: 'wss://eden-rpc.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/nodle'
+    }
+  },
+  {
+    info: 'oak',
+    homepage: 'https://oak.tech',
+    isUnreachable: true,
+    paraId: 2090,
+    text: 'OAK Network',
+    providers: {
+      OAK: 'wss://rpc.oak.tech'
     }
   },
   {
@@ -265,7 +319,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'origintrail-parachain',
     homepage: 'https://parachain.origintrail.io',
-    text: 'OriginTrail Parachain',
+    text: 'OriginTrail',
     paraId: 2043,
     providers: {
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
@@ -277,7 +331,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8301
       Parallel: 'wss://rpc.parallel.fi'
     }
   },
@@ -287,7 +341,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2035,
     text: 'Phala Network',
     providers: {
-      Phala: 'wss://api.phala.network/ws'
+      Phala: 'wss://api.phala.network/ws',
+      OnFinality: 'wss://phala.api.onfinality.io/public-ws'
     }
   },
   {
@@ -314,11 +369,10 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     info: 'subgame',
     homepage: 'http://subgame.org/',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
     paraId: 2017,
     text: 'SubGame Gamma',
     providers: {
-      SubGame: 'wss://gamma.subgame.org/'
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
@@ -344,7 +398,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemint'
+      Pinknode: 'wss://public-rpc.pinknode.io/statemint',
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
     }
   }
 ];
@@ -361,9 +416,11 @@ export const prodRelayPolkadot: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.io/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'light client': 'light://substrate-connect/polkadot'
+    'Automata 1RPC': 'wss://1rpc.io/dot',
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
-  teleport: [1000],
+  teleport: getTeleports(prodParasPolkadotCommon),
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot
