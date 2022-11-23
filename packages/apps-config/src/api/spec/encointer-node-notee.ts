@@ -11,7 +11,15 @@ const definitions: OverrideBundleDefinition = {
     {
       // metadata v14 was introduced here. Hence, we don't need type overrides anymore.
       minmax: [9, undefined],
-      types: {}
+      types: {
+        CommunityIdentifier: {
+          geohash: 'GeoHash',
+          digest: 'CidDigest'
+        },
+        GeoHash: '[u8; 5]',
+        // We need to call it `CidDigest` because plain `Digest` is already a substrate type.
+        CidDigest: '[u8; 4]',
+      }
     },
     {
       // on all versions
