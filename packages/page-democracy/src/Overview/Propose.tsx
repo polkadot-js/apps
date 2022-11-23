@@ -93,17 +93,15 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps || (isFunction(api.tx.preimage?.notePreimage) && isFunction(api.tx.referenda?.submit) && !preimage)}
+          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps || (isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage) && !preimage)}
           label={t<string>('Submit proposal')}
           onStart={onClose}
           params={
             api.tx.democracy.propose.meta.args.length === 3
-              // NOTE This may get us into trouble... we need to specifically look at
-              // the actual params for externalProposeMajority to determine approach
-              ? isFunction(api.tx.preimage?.notePreimage) && isFunction(api.tx.referenda?.submit)
-                ? [preimage && { Lookup: { hash: preimage.proposalHash, len: preimage.proposalLength } }, publicProps?.length]
-                : [hash, balance, publicProps?.length]
-              : [hash, balance]
+              ? [hash, balance, publicProps?.length]
+              : isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage)
+                ? [preimage && { Lookup: { hash: preimage.proposalHash, len: preimage.proposalLength } }, balance]
+                : [hash, balance]
           }
           tx={api.tx.democracy.propose}
         />

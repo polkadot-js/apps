@@ -50,9 +50,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
 
   useEffect((): void => {
     if (isHashValid && hash) {
-      // NOTE This may get us into trouble... we need to specifically look at
-      // the actual params for externalProposeMajority to determine approach
-      const proposal = isFunction(api.tx.preimage?.notePreimage) && isFunction(api.tx.referenda?.submit)
+      const proposal = isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage)
         ? preimage && api.tx.democracy.externalProposeMajority({
           Lookup: {
             hash: preimage.proposalHash,
