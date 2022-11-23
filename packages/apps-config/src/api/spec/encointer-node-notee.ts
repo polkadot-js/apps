@@ -22,7 +22,7 @@ const definitions: OverrideBundleDefinition = {
       }
     },
     {
-      // on all versions
+      // until v14
       minmax: [0, 8],
       types: {
         ShardIdentifier: 'Hash',
