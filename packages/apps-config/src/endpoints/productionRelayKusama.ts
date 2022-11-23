@@ -386,6 +386,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'riodefi',
+    homepage: 'https://riodefi.com',
+    paraId: 2227,
+    text: 'RioDeFi',
+    providers: {
+      RioProtocol: 'wss://rio-kusama-rpc.riocorenetwork.com'
+    }
+  },
+  {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
     paraId: 2048,
@@ -515,15 +524,6 @@ export const prodParasKusama: EndpointOption[] = [
       // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'riodefi',
-    homepage: 'https://riodefi.com',
-    paraId: 2227,
-    text: 'RioDeFi',
-    providers: {
-      RioProtocol: 'wss://rio-kusama-rpc.riocorenetwork.com'
     }
   }
 ];
