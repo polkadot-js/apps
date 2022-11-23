@@ -13,6 +13,6 @@
   "rpc.header.test": "Test networks",
   "rpc.header.westend.relay": "Test Westend & parachains",
   "rpc.hosted.via": "via {{host}}",
-  "rpc.header.polymesh": "Polymesh Staging",
+  "rpc.header.polymesh": "__APP_NAME__",
   "ss58.default": "Default for the connected node"
 }

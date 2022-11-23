@@ -1,3 +1,7 @@
 node_modules
 build
 .git
+deploy/Dockerfile
+deploy/build.sh
+deploy/push.sh
+Jenkinsfile

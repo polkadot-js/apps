@@ -14,7 +14,7 @@ jobs:
     - name: install dependencies
       run: yarn
     - name: Update endpoint to testnet
-      run: APP_NAME="Polymesh Testnet" RPC_ENDPOINT="testnet-rpc.polymesh.live" sh ./scripts/updateEndpoint.sh
+      run: APP_NAME="Polymesh Testnet" RPC_HOSTNAME="testnet-rpc.polymesh.live" sh ./scripts/updateEndpoint.sh
     - name: Deployment to testnet-app.polymesh.live
       run: yarn run wrangler:testnet:publish
       env:

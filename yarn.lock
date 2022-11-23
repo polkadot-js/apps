@@ -13773,6 +13773,9 @@ fsevents@~2.3.2:
     react-is: ^18.2.0
     source-map-explorer: ^2.5.3
     styled-components: ^5.3.9
+  dependenciesMeta:
+    "@cloudflare/wrangler":
+      optional: true
   languageName: unknown
   linkType: soft
 

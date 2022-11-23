@@ -14,7 +14,7 @@ jobs:
     - name: install dependencies
       run: yarn
     - name: Update endpoint to staging
-      run: APP_NAME="Polymesh Staging" RPC_ENDPOINT="staging-rpc.polymesh.live" sh ./scripts/updateEndpoint.sh
+      run: APP_NAME="Polymesh Staging" RPC_HOSTNAME="staging-rpc.polymesh.live" sh ./scripts/updateEndpoint.sh
     - name: Deployment to staging-app.polymesh.live
       run: yarn run wrangler:staging:publish
       env:
