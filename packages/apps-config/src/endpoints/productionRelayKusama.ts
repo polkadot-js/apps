@@ -370,7 +370,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2087,
     text: 'Picasso',
     providers: {
-      Composable: 'wss://picasso-rpc.composable.finance'
+      Composable: 'wss://rpc.composablenodes.tech'
     }
   },
   {
