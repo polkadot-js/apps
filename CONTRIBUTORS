@@ -365,6 +365,7 @@
        1	tarrball                      	Grammar fix in staking tooltip (#6727)
        1	Teddy Rogers                  	Add CESS Testnet to TEST NETWORK (#7908)
        1	Teodorus Nathaniel            	Add subid link to bit country chain (#8097)
+       1	Tom                           	Add stake.plus rpc endpoints for westend, kusama, polkadot (#8291)
        1	Tore19                        	Added Stafi Network logos & endpoints (#3683)
        1	unitpdw                       	unitlogo changes 1 (#8335)
        1	Vadim                         	fix overflow issue in extensions table (#7767)
