@@ -111,8 +111,8 @@ export const prodChains: EndpointOption[] = [
     info: 'edgeware',
     text: 'Edgeware',
     providers: {
-      'Commonwealth Labs': 'wss://mainnet.edgewa.re',
       JelliedOwl: 'wss://edgeware.jelliedowl.net',
+      'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
       OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
       Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
@@ -307,6 +307,13 @@ export const prodChains: EndpointOption[] = [
     text: 'UniArts',
     providers: {
       UniArts: 'wss://mainnet.uniarts.vip:9443'
+    }
+  },
+  {
+    info: 'unitnetwork',
+    text: 'UnitNetwork',
+    providers: {
+      // UnitNetwork: 'wss://www.unitnode3.info:443'
     }
   },
   {

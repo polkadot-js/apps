@@ -27,6 +27,7 @@ export default {
     'Integritee Network (Kusama)': 'integritee',
     Interlay: 'interlay',
     KICO: 'kico',
+    KICO2: 'kico2',
     'KILT Spiritnet': 'spiritnet',
     Karura: 'karura',
     Khala: 'khala',

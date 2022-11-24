@@ -32,6 +32,7 @@ export const PolkassemblyIo = {
     bounty: 'bounty',
     council: 'motion',
     proposal: 'proposal',
+    referenda: 'referenda',
     referendum: 'referendum',
     tip: 'tip',
     treasury: 'treasury'

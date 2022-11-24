@@ -11,12 +11,12 @@ import { ApiPromise } from '@polkadot/api';
 export default function createOptions (api: ApiPromise, rpcs: Record<string, Record<string, DefinitionRpcExt>>, sectionName: string): DropdownOptions {
   const section = rpcs[sectionName];
 
-  if (!section || Object.keys((api.rpc as Record<string, Record<string, unknown>>)[sectionName]).length === 0) {
+  if (!section || Object.keys((api.rpc as unknown as Record<string, Record<string, unknown>>)[sectionName]).length === 0) {
     return [];
   }
 
   return Object
-    .keys((api.rpc as Record<string, Record<string, unknown>>)[sectionName])
+    .keys((api.rpc as unknown as Record<string, Record<string, unknown>>)[sectionName])
     .filter((s) => !s.startsWith('$'))
     .sort()
     .map((methodName) => section[methodName])

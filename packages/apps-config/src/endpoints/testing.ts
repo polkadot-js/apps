@@ -211,7 +211,7 @@ export const testChains: EndpointOption[] = [
     info: 'geek',
     text: 'GeekCash',
     providers: {
-      'Geek Team': 'wss://testnet.geekcash.org'
+      // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     }
   },
   {
@@ -492,7 +492,7 @@ export const testChains: EndpointOption[] = [
     info: 'soonsocial',
     text: 'Soonsocial',
     providers: {
-      DappForce: 'wss://testnet.subsocial.network'
+      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
     }
   },
   {
