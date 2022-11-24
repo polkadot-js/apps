@@ -22,6 +22,7 @@ const OPT_MEM = {
     const members = infos
       .map((info, i) => [info.unwrapOr(null), ids[i]])
       .filter((r): r is [PalletRankedCollectiveMemberRecord, AccountId32] => !!r[0])
+      .sort(([a], [b]) => b.rank.cmp(a.rank))
       .map(([info, accountId]): Member => ({
         accountId: accountId.toString(),
         info

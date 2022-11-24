@@ -370,7 +370,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2087,
     text: 'Picasso',
     providers: {
-      Composable: 'wss://picasso-rpc.composable.finance'
+      Composable: 'wss://rpc.composablenodes.tech'
     }
   },
   {
@@ -602,6 +602,7 @@ export const prodRelayKusama: EndpointOption = {
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
+    'Dotters Net': 'wss://rpc.dotters.network/kusama',
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/kusama' // NOTE: Keep last
   },
