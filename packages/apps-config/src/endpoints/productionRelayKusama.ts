@@ -401,7 +401,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
+      OnFinality: 'wss://quartz.api.onfinality.io/public-ws'
     }
   },
   {
