@@ -8,7 +8,6 @@ import React, { useMemo } from 'react';
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Table } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
@@ -49,11 +48,11 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
           tracks={tracks}
         />
       </Button.Group>
-      {grouped.map(({ referenda, trackId, trackName }: ReferendaGroup) => (
+      {grouped.map(({ referenda, trackName }: ReferendaGroup) => (
         <Table
           empty={referenda && t<string>('No active referenda')}
           header={[
-            [trackName ? `${formatNumber(trackId)} / ${trackName}` : t('referenda'), 'start', 2],
+            [trackName || t('referenda'), 'start', 2],
             [undefined, undefined, 6]
           ]}
           key={

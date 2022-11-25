@@ -122,7 +122,7 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
           referenda: [ref],
           track: ref.track,
           trackId: ref.trackId,
-          trackName: getTrackName(ref.track)
+          trackName: getTrackName(ref.trackId, ref.track)
         });
       } else {
         // existing group, just add the referendum
