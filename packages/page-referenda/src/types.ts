@@ -20,6 +20,7 @@ export interface ReferendaGroupKnown extends ReferendaGroup {
 }
 
 export interface Referendum {
+  decidingEnd?: BN;
   id: BN;
   info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally;
   isConvictionVote: boolean;

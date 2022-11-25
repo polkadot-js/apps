@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum } from './types';
 
@@ -13,11 +13,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import useReferendaIds from './useReferendaIds';
 import useTracks from './useTracks';
-import { getTrackName } from './util';
-
-function isConvictionVote (info: Referendum['info']): info is PalletReferendaReferendumInfoConvictionVotingTally {
-  return info.isOngoing && !(info as PalletReferendaReferendumInfoRankedCollectiveTally).asOngoing.tally.bareAyes && !!(info as PalletReferendaReferendumInfoConvictionVotingTally).asOngoing.tally.support;
-}
+import { calcDecidingEnd, getTrackName, isConvictionVote } from './util';
 
 function sortOngoing (a: Referendum, b: Referendum): number {
   const ao = a.info.asOngoing;
@@ -89,8 +85,8 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
-  if (!referenda) {
+function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
+  if (!referenda || !totalIssuance) {
     // return an empty group when we have no referenda
     return [{}];
   } else if (!tracks) {
@@ -113,6 +109,14 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
     if (trackInfo) {
       ref.trackId = trackInfo[0];
       ref.track = trackInfo[1];
+
+      if (ref.isConvictionVote && ref.info.isOngoing) {
+        const { deciding, tally } = ref.info.asOngoing;
+
+        if (deciding.isSome) {
+          ref.decidingEnd = calcDecidingEnd(totalIssuance, tally, trackInfo[1]);
+        }
+      }
 
       const group = grouped.find(({ track }) => ref.track === track);
 
@@ -150,6 +154,7 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
 
 function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], [BN, PalletReferendaTrackInfo][] | undefined] {
   const { api, isApiReady } = useApi();
+  const totalIssuance = useCall<BN>(isApiReady && api.query.balances.totalIssuance);
   const ids = useReferendaIds(palletReferenda);
   const tracks = useTracks(palletReferenda);
   const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda as 'referenda'].referendumInfoFor.multi, [ids], OPT_MULTI);
@@ -158,10 +163,10 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
     () => [
       (ids && ids.length === 0)
         ? [{ referenda: [] }]
-        : group(referenda, tracks),
+        : group(totalIssuance, referenda, tracks),
       tracks
     ],
-    [ids, referenda, tracks]
+    [ids, referenda, totalIssuance, tracks]
   );
 }
 
