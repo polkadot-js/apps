@@ -66,9 +66,7 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
         className='number'
         colSpan={3}
       />
-      <td className='number'>
-
-      </td>
+      <td className='number' />
     </>
   );
 }

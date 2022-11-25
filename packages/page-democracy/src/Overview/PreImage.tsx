@@ -138,7 +138,7 @@ export default React.memo(styled(PreImage)`
     text-align: right;
   }
 
-  .disabledLook input {
+  .disabledLook .ui.input > input {
     background: transparent;
     border-style: dashed;
     &:focus{

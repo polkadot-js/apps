@@ -32,7 +32,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    accountId && extrinsic && api.call.transactionPaymentApi &&
+    accountId && extrinsic && extrinsic.hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
         try {
           const info = await extrinsic.paymentInfo(accountId);
