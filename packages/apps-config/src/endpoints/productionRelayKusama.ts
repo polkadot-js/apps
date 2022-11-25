@@ -351,7 +351,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2085,
     text: 'Parallel Heiko',
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
