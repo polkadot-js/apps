@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -20,13 +20,23 @@ interface Props {
   poolId: BN;
 }
 
-function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, poolId }: Props): React.ReactElement<Props> | null {
+function Join ({ className, isDisabled, ownAccounts, params: { minJoinBond }, poolId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
-  const isAmountError = useAmountError(accountId, amount, minMemberBond);
+  const isAmountError = useAmountError(accountId, amount, minJoinBond);
+  const minJoinBondHint = useMemo(() => {
+    let hint = 'The initial value to assign to the pool.';
+
+    if (minJoinBond && !minJoinBond.isZero()) {
+      hint += ' It is set to the minimum bond.';
+    }
+
+    return hint;
+  },
+  [minJoinBond]);
 
   if (isDisabled) {
     return null;
@@ -36,7 +46,7 @@ function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, 
     <>
       <Button
         icon='plus'
-        isDisabled={!minMemberBond}
+        isDisabled={!minJoinBond}
         label={t<string>('Join')}
         onClick={toggleOpen}
       />
@@ -58,10 +68,10 @@ function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, 
                 withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={minJoinBondHint}>
               <InputBalance
                 autoFocus
-                defaultValue={minMemberBond}
+                defaultValue={minJoinBond}
                 isError={isAmountError}
                 label={t<string>('initial value')}
                 onChange={setAmount}
