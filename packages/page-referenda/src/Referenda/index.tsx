@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Table } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
@@ -56,7 +55,7 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
         <Table
           empty={referenda && t<string>('No active referenda')}
           header={[
-            [trackName ? <>{`${formatNumber(trackId)} / ${trackName}`}<div>{getTrackInfo(api, specName, palletReferenda, tracks, trackId?.toNumber())?.text}</div></> : t('referenda'), 'start', 7],
+            [trackName ? <>{trackName}<div>{getTrackInfo(api, specName, palletReferenda, tracks, trackId?.toNumber())?.text}</div></> : t('referenda'), 'start', 7],
             [undefined, undefined, 1]
           ]}
           key={

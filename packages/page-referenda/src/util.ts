@@ -6,14 +6,18 @@ import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { stringPascalCase } from '@polkadot/util';
+import { formatNumber, stringPascalCase } from '@polkadot/util';
 
-export function getTrackName ({ name }: PalletReferendaTrackInfo): string {
-  return name
-    .replace(/_/g, ' ')
-    .split(' ')
-    .map(stringPascalCase)
-    .join(' ');
+export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
+  return `${
+    formatNumber(trackId)
+  } / ${
+    name
+      .replace(/_/g, ' ')
+      .split(' ')
+      .map(stringPascalCase)
+      .join(' ')
+  }`;
 }
 
 export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): { origin: Record<string, string>, text?: string } | undefined {

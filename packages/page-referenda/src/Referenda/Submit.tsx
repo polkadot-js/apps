@@ -112,7 +112,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
 
   const trackOpts = useMemo(
     () => tracks && tracks.map(([id, track]) => ({
-      text: getTrackName(track),
+      text: getTrackName(id, track),
       value: id.toNumber()
     })),
     [tracks]
