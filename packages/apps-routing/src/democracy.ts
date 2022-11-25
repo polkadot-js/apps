@@ -25,7 +25,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'tx.democracy.notePreimage'
+        'tx.democracy.propose'
       ],
       needsApiCheck
     },

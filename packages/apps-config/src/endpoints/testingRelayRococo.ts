@@ -57,7 +57,7 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBifrost',
-    paraId: 2001,
+    paraId: 2030,
     text: 'Bifrost',
     providers: {
       Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws'
@@ -124,7 +124,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 4044,
     text: 'Frequency',
     providers: {
-      Frequency: 'wss://collator1.frequency.xyz'
+      Frequency: 'wss://rpc.rococo.frequency.xyz'
     }
   },
   {
@@ -326,7 +326,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2125,
     text: 'Tinkernet',
     providers: {
-      'InvArch Team': 'wss://rococo.invarch.network'
+      // 'InvArch Team': 'wss://rococo.invarch.network' // https://github.com/polkadot-js/apps/issues/8266
     }
   },
   {
@@ -335,6 +335,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Turing Network (Staging)',
     providers: {
       OAK: 'wss://rpc.turing-staging.oak.tech'
+    }
+  },
+  {
+    info: 'rococoUnitNetwork',
+    paraId: 4168,
+    text: 'Unit Network',
+    providers: {
+      UnitNetwork: 'wss://www.unitnode3.info:443'
     }
   },
   {
@@ -355,10 +363,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoZeitgeist',
-    paraId: 2050,
-    text: 'Zeitgeist PC',
+    paraId: 2101,
+    text: 'Zeitgeist Battery Station',
     providers: {
-      // Zeitggeist: 'wss://roc.zeitgeist.pm' // See https://github.com/polkadot-js/apps/issues/5842
+      Zeitgeist: 'wss://roc.zeitgeist.pm'
     }
   }
 ];
@@ -369,7 +377,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     paraId: 1000,
     text: 'Rockmine',
     providers: {
-      Parity: 'wss://rococo-statemint-rpc.polkadot.io'
+      Parity: 'wss://rococo-rockmine-rpc.polkadot.io'
     },
     teleport: [-1]
   },
@@ -389,6 +397,15 @@ export const testParasRococoCommon: EndpointOption[] = [
     text: 'Encointer Lietaer',
     providers: {
       'Encointer Association': 'wss://rococo.api.encointer.org'
+    },
+    teleport: [-1]
+  },
+  {
+    info: 'rococoBridgehub',
+    paraId: 1013,
+    text: 'Bridgehub',
+    providers: {
+      Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     teleport: [-1]
   }

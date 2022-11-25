@@ -4,6 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { Button, Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -128,4 +129,13 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Add);
+export default React.memo(styled(Add)`
+  .disabledLook .ui.input > input {
+    background: transparent;
+    border-style: dashed;
+    &:focus{
+      background: transparent;
+      border-color: #d9d8d7;
+    }
+  }
+`);

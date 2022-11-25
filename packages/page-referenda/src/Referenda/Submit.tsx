@@ -5,11 +5,13 @@ import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { PalletReferenda } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
@@ -30,7 +32,7 @@ interface Props {
 }
 
 interface HashState {
-  hash?: string;
+  hash?: HexString | null;
   isHashValid: boolean;
 }
 
@@ -94,7 +96,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
   const [defaultAtAfter, setDefaultAtAfter] = useState<DefaultAtAfter | null>(null);
-  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: null, isHashValid: false });
+  const preimage = usePreimage(hash);
 
   useEffect((): void => {
     tracks && trackId !== undefined && bestNumber && setDefaultAtAfter((prev) =>
@@ -152,7 +155,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
 
   const _onChangeHash = useCallback(
     (hash?: string) =>
-      setHash({ hash, isHashValid: isHex(hash, 256) }),
+      setHash({ hash: hash as HexString, isHashValid: isHex(hash, 256) }),
     []
   );
 
@@ -230,10 +233,10 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt}
+              isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[originParam || origin, hash, atAfter]}
+              params={[originParam || origin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>

@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { BlockNumber, Call, Scheduled } from '@polkadot/types/interfaces';
-import type { FrameSupportScheduleMaybeHashed, PalletSchedulerScheduledV3 } from '@polkadot/types/lookup';
+import type { Bytes, Option, u8, u32 } from '@polkadot/types';
+import type { BlockNumber, Call, Hash, Scheduled } from '@polkadot/types/interfaces';
+import type { PalletSchedulerScheduled } from '@polkadot/types/lookup';
+import type { Codec, ITuple } from '@polkadot/types/types';
 import type { ScheduledExt } from './types';
 
 import React, { useMemo, useRef } from 'react';
@@ -18,8 +19,28 @@ interface Props {
   className?: string;
 }
 
+// included here for backwards compat
+interface PalletSchedulerScheduledV3 extends Codec {
+  maybeId: Option<Bytes>;
+  priority: u8;
+  call: FrameSupportScheduleMaybeHashed;
+  maybePeriodic: Option<ITuple<[u32, u32]>>;
+  origin: Codec;
+}
+
+// included here for backwards compat
+interface FrameSupportScheduleMaybeHashed extends Codec {
+  // added here since we use it for detection
+  inner: Codec;
+  // enum features
+  isHash: boolean;
+  isValue: boolean;
+  asValue: Call;
+  asHash: Hash;
+}
+
 const OPT_SCHED = {
-  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduledV3>[]][]): ScheduledExt[] => {
+  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduled | PalletSchedulerScheduledV3>[]][]): ScheduledExt[] => {
     return entries
       .filter(([, all]) => all.some((o) => o.isSome))
       .reduce((items: ScheduledExt[], [key, all]): ScheduledExt[] => {
