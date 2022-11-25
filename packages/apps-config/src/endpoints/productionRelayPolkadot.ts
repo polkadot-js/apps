@@ -79,7 +79,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2030,
     text: 'Bifrost',
     providers: {
-      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
+      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
+      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     }
   },
   {
@@ -107,8 +108,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2002,
     text: 'Clover',
     providers: {
-      Clover: 'wss://rpc-para.clover.finance'
-      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355
+      Clover: 'wss://rpc-para.clover.finance',
+      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
     }
   },
   {
@@ -350,7 +351,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355
+      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
       Parallel: 'wss://rpc.parallel.fi'
     }
   },
