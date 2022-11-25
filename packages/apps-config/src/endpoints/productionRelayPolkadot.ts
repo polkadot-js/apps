@@ -79,7 +79,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2030,
     text: 'Bifrost',
     providers: {
-      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
+      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
+      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     }
   },
   {
