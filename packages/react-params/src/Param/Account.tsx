@@ -39,8 +39,6 @@ function Account (props: Props): React.ReactElement<Props> {
     [onChange]
   );
 
-  console.log(type);
-
   // special handling for MultiAddress
   if (type.type === 'MultiAddress') {
     if (!isDisabled || !value || (value as MultiAddress).type !== 'Id') {
