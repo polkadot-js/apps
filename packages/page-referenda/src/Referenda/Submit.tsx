@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -12,7 +11,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import usePreimage from '@polkadot/app-preimages/usePreimage';
-import { getGovernanceTracks } from '@polkadot/apps-config';
 import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
@@ -21,7 +19,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import { formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getTrackName } from '../util';
+import { getTrackInfo, getTrackName } from '../util';
 
 interface Props {
   className?: string;
@@ -39,27 +37,6 @@ interface HashState {
 interface DefaultAtAfter {
   defaults: [{ isValid: boolean, value: { After: BN } }];
   trackId: number;
-}
-
-function getOrigin (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): Record<string, string> | undefined {
-  let origin: Record<string, string> | undefined;
-
-  if (tracks && trackId !== undefined) {
-    const originMap = getGovernanceTracks(api, specName, palletReferenda);
-    const trackInfo = tracks.find(([id]) => id.eqn(trackId));
-
-    if (trackInfo && originMap) {
-      const trackName = trackInfo[1].name.toString();
-      const record = originMap.find(([[id, name]]) =>
-        id === trackId &&
-        name === trackName
-      );
-
-      origin = record && record[1];
-    }
-  }
-
-  return origin;
 }
 
 function getDefaultEnactment (prev: DefaultAtAfter | null, bestNumber: BN, trackId: number, tracks: [BN, PalletReferendaTrackInfo][]): DefaultAtAfter {
@@ -105,8 +82,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     );
   }, [api, bestNumber, trackId, tracks]);
 
-  const originParam = useMemo(
-    () => getOrigin(api, specName, palletReferenda, tracks, trackId),
+  const trackInfo = useMemo(
+    () => getTrackInfo(api, specName, palletReferenda, tracks, trackId),
     [api, palletReferenda, specName, trackId, tracks]
   );
 
@@ -201,7 +178,14 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 onChange={setTrack}
                 options={trackOpts}
               />
-              {!originParam && (
+              {trackInfo?.text && (
+                <Input
+                  isDisabled
+                  label={t<string>('track overview')}
+                  value={trackInfo.text}
+                />
+              )}
+              {!trackInfo?.origin && (
                 <Params
                   className='originSelect'
                   onChange={_onChangeOrigin}
@@ -233,10 +217,10 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!(originParam || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
+              isDisabled={!(trackInfo?.origin || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[originParam || origin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
+              params={[trackInfo?.origin || origin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
