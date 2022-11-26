@@ -9,16 +9,17 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 const definitions: OverrideBundleDefinition = {
   types: [
     {
-      // metadata v14 was introduced here. Hence, we don't need type overrides anymore.
+      // Metadata v14 was introduced here. Hence, we don't need type overrides anymore.
       minmax: [9, undefined],
       types: {
+        // Types for the signed extensions still need to be declared.
         CommunityIdentifier: {
           geohash: 'GeoHash',
           digest: 'CidDigest'
         },
         GeoHash: '[u8; 5]',
         // We need to call it `CidDigest` because plain `Digest` is already a substrate type.
-        CidDigest: '[u8; 4]',
+        CidDigest: '[u8; 4]'
       }
     },
     {
@@ -92,7 +93,6 @@ const definitions: OverrideBundleDefinition = {
         RegisterParticipantArgs: '(AccountId, CommunityIdentifier, Option<ProofOfAttendance<MultiSignature, AccountId>>)',
         RegisterAttestationsArgs: '(AccountId, Vec<Attestation<MultiSignature, AccountId, u64>>)',
         GrantReputationArgs: '(AccountId, CommunityIdentifier, AccountId)',
-
         BalanceType: 'i128',
         BalanceEntry: {
           principal: 'BalanceType',
@@ -112,13 +112,11 @@ const definitions: OverrideBundleDefinition = {
         OfferingData: {
           url: 'PalletString'
         },
-
         PalletString: 'Text',
         IpfsCid: 'Text',
         FixedI64F64: {
           bits: 'i128'
         },
-
         CeremonyIndexType: 'u32',
         CeremonyPhaseType: {
           _enum: ['Registering', 'Assigning', 'Attesting']
@@ -204,7 +202,6 @@ const definitions: OverrideBundleDefinition = {
           attendeePublic: 'AccountId',
           attendeeSignature: 'MultiSignature'
         },
-
         CommunityIdentifier: {
           geohash: 'GeoHash',
           digest: 'CidDigest'
@@ -238,7 +235,6 @@ const definitions: OverrideBundleDefinition = {
           theme: 'Option<Text>',
           url: 'Option<Text>'
         },
-
         SystemNumber: 'u32',
         SchedulerState: '(CeremonyIndexType, CeremonyPhaseType, SystemNumber)'
       }

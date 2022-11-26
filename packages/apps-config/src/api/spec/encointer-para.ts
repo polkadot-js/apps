@@ -18,7 +18,7 @@ const definitions: OverrideBundleDefinition = {
         },
         GeoHash: '[u8; 5]',
         // We need to call it `CidDigest` because plain `Digest` is already a substrate type.
-        CidDigest: '[u8; 4]',
+        CidDigest: '[u8; 4]'
       }
     },
     {
