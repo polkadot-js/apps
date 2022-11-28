@@ -65,18 +65,15 @@ export function calcDockInflation (api: ApiPromise, totalStaked: BN, totalIssuan
 export function useInflation (totalStaked?: BN): Inflation {
   const { api } = useApi();
   const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
-  const auctionCounter = useCall<BN>(api.query.auctions?.auctionCounter);
+    // Total yearly emission
+  const yearly = useCall<BN>(totalIssuance && totalStaked && api.rpc.staking_rewards?.yearlyEmission, [totalStaked?.toString(), totalIssuance?.toString()]);
   const [state, setState] = useState<Inflation>(EMPTY);
 
   useEffect((): void => {
-    const numAuctions = api.query.auctions
-      ? auctionCounter
-      : BN_ZERO;
-
-    numAuctions && totalIssuance && totalStaked && setState(
-      calcInflation(api, totalStaked, totalIssuance, numAuctions)
+    yearly && totalIssuance && totalStaked && setState(
+      calcDockInflation(api, totalStaked, totalIssuance, yearly)
     );
-  }, [api, auctionCounter, totalIssuance, totalStaked]);
+  }, [api, yearly, totalIssuance, totalStaked]);
 
   return state;
 }
