@@ -1,0 +1,19 @@
+name: Nightly tests run
+on:
+  schedule:
+    - cron:  '1 5 * * *'
+
+
+jobs:
+  alltests:
+    strategy:
+      matrix:
+        step: ['test:all']
+    name: ${{ matrix.step }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.step }}
+      run: |
+        yarn install --immutable | grep -v 'YN0013'
+        yarn ${{ matrix.step }}

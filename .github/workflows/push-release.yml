@@ -1,0 +1,40 @@
+name: release
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  # publish to gh-pages (& IPFS when a release is detected)
+  www:
+    strategy:
+      matrix:
+        step: ['build:www']
+    name: ${{ matrix.step }}
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - name: ${{ matrix.step }}
+      env:
+        GH_PAGES_SRC: packages/apps/build
+      run: |
+        yarn install --immutable | grep -v 'YN0013'
+        yarn ${{ matrix.step }}
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./packages/apps/build
+        cname: fe.dock.io
+
+  # dummy, GH actions fails outright when all steps are skipped (like it can be above)
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: dummy
+      run: |
+        echo "Dummy skip step"
