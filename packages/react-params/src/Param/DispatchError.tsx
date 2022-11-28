@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchError } from '@polkadot/types/interfaces';
-import type { Props } from '../types';
+import type { Props as BaseProps } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { Input } from '@polkadot/react-components';
 
@@ -12,17 +13,20 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
-interface ModuleErrorDefault {
-  isModule?: boolean
-}
-
 interface Details {
   details?: string | null;
   type?: string;
 }
 
-function isModuleError (value?: ModuleErrorDefault): value is DispatchError {
-  return !!value?.isModule;
+interface Props extends BaseProps {
+  childrenPre?: React.ReactNode;
+}
+
+function isDispatchError (value?: unknown): value is DispatchError {
+  return !!(value && (
+    (value as DispatchError).isModule ||
+    (value as DispatchError).isToken
+  ));
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -32,18 +36,25 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const { value } = props.defaultValue || {};
 
-    if (isModuleError(value as ModuleErrorDefault)) {
-      try {
-        const mod = (value as DispatchError).asModule;
-        const { documentation, name, section } = mod.registry.findMetaError(mod);
+    if (isDispatchError(value)) {
+      if (value.isModule) {
+        try {
+          const mod = value.asModule;
+          const { docs, name, section } = mod.registry.findMetaError(mod);
 
+          return setDetails({
+            details: docs.join(', '),
+            type: `${section}.${name}`
+          });
+        } catch (error) {
+          // Errors may not actually be exposed, in this case, just return the default representation
+          console.error(error);
+        }
+      } else if (value.isToken) {
         return setDetails({
-          details: documentation.join(', '),
-          type: `${section}.${name}`
+          details: value.asToken.type,
+          type: value.type
         });
-      } catch (error) {
-        // Errors may not actually be exposed, in this case, just return the default representation
-        console.error(error);
       }
     }
 
@@ -74,4 +85,8 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(ErrorDisplay);
+export default React.memo(styled(ErrorDisplay)`
+  // .ui--Labelled-content {
+  //   background: rgba(196, 0, 0, 0.1);
+  // }
+`);

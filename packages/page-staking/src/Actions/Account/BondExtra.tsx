@@ -1,17 +1,16 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AmountValidateState } from '../types';
 
-import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
@@ -27,7 +26,7 @@ function calcBalance (api: ApiPromise, stakingInfo?: DeriveStakingAccount, stash
   if (stakingInfo && stakingInfo.stakingLedger && stashBalance) {
     const sumUnlocking = (stakingInfo.unlocking || []).reduce((acc, { value }) => acc.iadd(value), new BN(0));
     const redeemable = stakingInfo.redeemable || BN_ZERO;
-    const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active.unwrap()).sub(sumUnlocking).sub(redeemable);
+    const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active?.unwrap() || BN_ZERO).sub(sumUnlocking).sub(redeemable);
 
     return available.gt(api.consts.balances.existentialDeposit)
       ? available.sub(api.consts.balances.existentialDeposit)
@@ -42,9 +41,9 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
   const { api } = useApi();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
   const currentAmount = useMemo(
-    () => stakingInfo && stakingInfo.stakingLedger?.active.unwrap(),
+    () => stakingInfo && stakingInfo.stakingLedger?.active?.unwrap(),
     [stakingInfo]
   );
 
@@ -55,8 +54,8 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
 
   return (
     <Modal
-      className='staking--BondExtra'
       header= {t<string>('Bond more funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -73,8 +72,8 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
               autoFocus
               defaultValue={startBalance}
               help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-              isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
-              label={t<string>('additional bonded funds')}
+              isError={!!amountError?.error || !maxAdditional || maxAdditional.isZero()}
+              label={t<string>('additional funds to bond')}
               labelExtra={
                 <BalanceFree
                   label={<span className='label'>{t<string>('balance')}</span>}
@@ -93,7 +92,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           </Modal.Columns>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
@@ -28,7 +28,10 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
   return (
     <>
       {isVisible && (
-        <Modal header={t<string>('Vote for defender')}>
+        <Modal
+          header={t<string>('Vote for defender')}
+          onClose={toggleVisible}
+        >
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
@@ -44,7 +47,7 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
               value={vote}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='check'

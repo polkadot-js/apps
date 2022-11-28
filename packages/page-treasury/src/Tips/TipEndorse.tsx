@@ -1,11 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
+
 import React, { useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Button, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -16,14 +18,23 @@ interface Props {
   isTipped: boolean;
   median: BN;
   members: string[];
+  recipient: string;
 }
 
-function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: Props): React.ReactElement<Props> {
+const OPT = {
+  transform: ({ freeBalance, reservedBalance }: DeriveBalancesAll): BN =>
+    freeBalance.add(reservedBalance)
+};
+
+function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, recipient }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(defaultId);
   const [value, setValue] = useState<BN | undefined>();
+  const totalBalance = useCall<BN>(api.derive.balances?.all, [recipient], OPT);
+
+  const tipTx = (api.tx.tips || api.tx.treasury).tip;
 
   return (
     <>
@@ -40,12 +51,13 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
         isDisabled={!isMember || !isTipped}
         isIcon
         params={[hash, median]}
-        tx={(api.tx.tips || api.tx.treasury).tip}
+        tx={tipTx}
         withoutLink
       />
       {isOpen && (
         <Modal
           header={t<string>('Submit tip endorsement')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -68,9 +80,12 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
                 label={t<string>('value')}
                 onChange={setValue}
               />
+              {totalBalance && totalBalance.isZero() && (
+                <MarkWarning content={t<string>('The recipient account has no balance, ensure the tip is more than the existential deposit to create the account.')} />
+              )}
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'
@@ -78,7 +93,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
               label={t<string>('Submit tip')}
               onStart={toggleOpen}
               params={[hash, value]}
-              tx={(api.tx.tips || api.tx.treasury).tip}
+              tx={tipTx}
             />
           </Modal.Actions>
         </Modal>

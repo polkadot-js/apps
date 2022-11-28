@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -13,6 +13,7 @@ import { SubmittableResult } from '@polkadot/api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
+import { getDispatchError, getIncompleteMessage } from './checks';
 import { STATUS_COMPLETE } from './constants';
 import { QueueProvider } from './Context';
 
@@ -36,7 +37,10 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
 
   const initial = status
     .reduce((result: StatusCount[], status): StatusCount[] => {
-      const prev = result.find(({ status: prev }) => prev.action === status.action && prev.status === status.status);
+      const prev = result.find(({ status: prev }) =>
+        prev.action === status.action &&
+        prev.status === status.status
+      );
 
       if (prev) {
         prev.count++;
@@ -82,27 +86,30 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
     ((result && result.events) || [])
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
-      .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-      .map(({ event: { data, method, section } }): ActionStatusPartial => {
+      .filter((record) =>
+        !!record.event &&
+        record.event.section !== 'democracy'
+      )
+      .map((record): ActionStatusPartial => {
+        const { event: { data, method, section } } = record;
+
         if (section === 'system' && method === 'ExtrinsicFailed') {
           const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
-          let message = dispatchError.type;
-
-          if (dispatchError.isModule) {
-            try {
-              const mod = dispatchError.asModule;
-              const error = dispatchError.registry.findMetaError(mod);
-
-              message = `${error.section}.${error.name}`;
-            } catch (error) {
-              // swallow
-            }
-          }
 
           return {
             action: `${section}.${method}`,
-            message,
+            message: getDispatchError(dispatchError),
             status: 'error'
+          };
+        }
+
+        const incomplete = getIncompleteMessage(record);
+
+        if (incomplete) {
+          return {
+            action: `${section}.${method}`,
+            message: incomplete,
+            status: 'eventWarn'
           };
         } else if (section === 'contracts') {
           if (method === 'ContractExecution' && data.length === 2) {
@@ -196,7 +203,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
         ...(status.map((item): QueueStatus => {
           const id = ++nextId;
           const removeItem = (): void =>
-            setStQueue([...stRef.current.filter((item): boolean => item.id !== id)]);
+            setStQueue([...stRef.current.filter((item) => item.id !== id)]);
 
           setTimeout(removeItem, REMOVE_TIMEOUT);
 
@@ -263,7 +270,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
 
       if (STATUS_COMPLETE.includes(status)) {
         setTimeout((): void => {
-          const item = txRef.current.find((item): boolean => item.id === id);
+          const item = txRef.current.find((item) => item.id === id);
 
           item && item.removeItem();
         }, REMOVE_TIMEOUT);
@@ -273,15 +280,17 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <QueueProvider value={{
-      queueAction,
-      queueExtrinsic,
-      queuePayload,
-      queueRpc,
-      queueSetTxStatus,
-      stqueue,
-      txqueue
-    }}>
+    <QueueProvider
+      value={{
+        queueAction,
+        queueExtrinsic,
+        queuePayload,
+        queueRpc,
+        queueSetTxStatus,
+        stqueue,
+        txqueue
+      }}
+    >
       {children}
     </QueueProvider>
   );

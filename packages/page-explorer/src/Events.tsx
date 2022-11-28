@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
@@ -15,14 +15,15 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  error?: Error;
   emptyLabel?: React.ReactNode;
-  events?: KeyedEvent[];
+  events?: KeyedEvent[] | null;
   eventClassName?: string;
   label?: React.ReactNode;
   title?: string;
 }
 
-function Events ({ className = '', emptyLabel, eventClassName, events, label, title = 'recent events' }: Props): React.ReactElement<Props> {
+function Events ({ className = '', title = '', emptyLabel, error, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -35,22 +36,32 @@ function Events ({ className = '', emptyLabel, eventClassName, events, label, ti
       empty={emptyLabel || t<string>('No events available')}
       header={header}
     >
-      {events && events.map(({ blockHash, blockNumber, indexes, key, record }): React.ReactNode => (
-        <tr
-          className={eventClassName}
-          key={key}
-        >
-          <td className='overflow'>
-            <Event value={record} />
-            {blockNumber && (
-              <div className='event-link'>
-                {indexes.length !== 1 && <span>({formatNumber(indexes.length)}x)&nbsp;</span>}
-                <Link to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{indexes[0]}</Link>
-              </div>
-            )}
-          </td>
-        </tr>
-      ))}
+      {error
+        ? (
+          <tr
+            className={eventClassName}
+            key='error'
+          >
+            <td>{error.message}</td>
+          </tr>
+        )
+        : events && events.map(({ blockHash, blockNumber, indexes, key, record }): React.ReactNode => (
+          <tr
+            className={eventClassName}
+            key={key}
+          >
+            <td className='overflow'>
+              <Event value={record} />
+              {blockNumber && (
+                <div className='event-link'>
+                  {indexes.length !== 1 && <span>({formatNumber(indexes.length)}x)&nbsp;</span>}
+                  <Link to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{indexes[0]}</Link>
+                </div>
+              )}
+            </td>
+          </tr>
+        ))
+      }
     </Table>
   );
 }

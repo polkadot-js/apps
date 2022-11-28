@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BareProps as Props, ThemeDef } from '@polkadot/react-components/types';
@@ -7,7 +7,7 @@ import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { getSystemChainColor } from '@polkadot/apps-config';
+import { getSystemColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -20,12 +20,14 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
-  const { systemChain, systemName } = useApi();
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const { isDevelopment, specName, systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
-    () => getSystemChainColor(systemChain, systemName),
-    [systemChain, systemName]
+    () => isDevelopment
+      ? undefined
+      : getSystemColor(systemChain, systemName, specName),
+    [isDevelopment, specName, systemChain, systemName]
   );
 
   return (
@@ -52,4 +54,8 @@ export default React.memo(styled(Apps)`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  .--hidden {
+    display: none;
+  }
 `);

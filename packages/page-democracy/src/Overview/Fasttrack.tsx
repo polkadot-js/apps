@@ -1,19 +1,22 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
+import type { HexString } from '@polkadot/util/types';
 
-import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { getFastTrackThreshold } from '@polkadot/apps-config';
+import { Button, Input, InputAddress, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
+import { BN, isString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  imageHash: Hash;
+  imageHash: Hash | HexString;
+  members: string[];
   threshold: VoteThreshold;
 }
 
@@ -22,93 +25,140 @@ interface ProposalState {
   proposalLength: number;
 }
 
-const ONE_MIN = (1 * 60) / 6;
-const DEF_DELAY = new BN(ONE_MIN);
-const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
+// default, assuming 6s blocks
+const ONE_HOUR = (60 * 60) / 6;
+const DEF_DELAY = new BN(ONE_HOUR);
+const DEF_VOTING = new BN(3 * ONE_HOUR);
 
-function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> | null {
+function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers('technicalCommittee');
   const [isFasttrackOpen, toggleFasttrack] = useToggle();
-  const [allowFast, setAllowFast] = useState(false);
   const [accountId, setAcountId] = useState<string | null>(null);
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
-  const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(DEF_VOTING);
-  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
+  const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+  const [withVote, toggleVote] = useToggle(true);
+  const modLocation = useCollectiveInstance('technicalCommittee');
+  const proposalCount = useCall<BN>(modLocation && api.query[modLocation].proposalCount);
+
   const memberThreshold = useMemo(
-    () => Math.ceil(members.length * 0.66),
-    [members]
+    () => new BN(
+      Math.ceil(
+        members.length * getFastTrackThreshold(api, !votingBlocks || api.consts.democracy.fastTrackVotingPeriod.lte(votingBlocks))
+      )
+    ),
+    [api, members, votingBlocks]
+  );
+
+  const extrinsic = useMemo(
+    (): SubmittableExtrinsic<'promise'> | null => {
+      if (!modLocation || !proposal || !proposalCount || !api.tx.utility) {
+        return null;
+      }
+
+      const proposeTx = api.tx[modLocation].propose.meta.args.length === 3
+        ? api.tx[modLocation].propose(memberThreshold, proposal, proposalLength)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore Old-type
+        : api.tx[modLocation].propose(memberThreshold, proposal);
+
+      return withVote && (members.length > 1)
+        ? api.tx.utility.batch([
+          proposeTx,
+          api.tx[modLocation].vote(proposal.method.hash, proposalCount, true)
+        ])
+        : proposeTx;
+    }, [api, members, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
   );
 
   useEffect((): void => {
-    setAllowFast(isMember && threshold.isSimplemajority);
-  }, [isMember, threshold]);
-
-  useEffect((): void => {
-    const proposal = delayBlocks && delayBlocks.gtn(0) && votingBlocks && votingBlocks.gtn(0)
+    const proposal = delayBlocks && !delayBlocks.isZero() && votingBlocks && !votingBlocks.isZero()
       ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
       : null;
 
-    setProposal({ proposal, proposalLength: proposal?.length || 0 });
-  }, [api, delayBlocks, imageHash, votingBlocks]);
+    setProposal({
+      proposal,
+      proposalLength: proposal?.length || 0
+    });
+  }, [api, delayBlocks, imageHash, members, votingBlocks]);
+
+  if (!modLocation || !api.tx.utility) {
+    return null;
+  }
 
   return (
     <>
       {isFasttrackOpen && (
         <Modal
           header={t<string>('Fast track proposal')}
-          size='small'
+          onClose={toggleFasttrack}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t<string>('Select the account you wish to make the proposal with.')}
-              label={t<string>('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            <Input
-              help={t<string>('The external proposal to send to the technical committee')}
-              isDisabled
-              label={t<string>('preimage hash')}
-              value={imageHash.toHex()}
-            />
-            <InputNumber
-              autoFocus
-              help={t<string>('The voting period to apply in blocks')}
-              label={t<string>('voting period')}
-              onChange={setVotingBlocks}
-              value={votingBlocks}
-            />
-            <InputNumber
-              help={t<string>('The delay period to apply in blocks')}
-              label={t<string>('delay')}
-              onChange={setDelayBlocks}
-              value={delayBlocks}
-            />
+            <Modal.Columns hint={t<string>('Select the committee account you wish to make the proposal with.')}>
+              <InputAddress
+                filter={members}
+                label={t<string>('propose from account')}
+                onChange={setAcountId}
+                type='account'
+                withLabel
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The external proposal to send to the technical committee')}>
+              <Input
+                isDisabled
+                label={t<string>('preimage hash')}
+                value={isString(imageHash) ? imageHash : imageHash.toHex()}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
+              <InputNumber
+                autoFocus
+                help={t<string>('The voting period to apply in blocks')}
+                isZeroable={false}
+                label={t<string>('voting period')}
+                onChange={setVotingBlocks}
+                value={votingBlocks}
+              />
+              <InputNumber
+                help={t<string>('The delay period to apply in blocks')}
+                isZeroable={false}
+                label={t<string>('delay')}
+                onChange={setDelayBlocks}
+                value={delayBlocks}
+              />
+              <InputNumber
+                defaultValue={memberThreshold}
+                isDisabled
+                label={t<string>('threshold')}
+              />
+            </Modal.Columns>
+            {(members.length > 1) && (
+              <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
+                <Toggle
+                  label={t<string>('Submit Aye vote with proposal')}
+                  onChange={toggleVote}
+                  value={withVote}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleFasttrack}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
-              icon='fast-forward'
-              isDisabled={!accountId || !proposal || !memberThreshold}
+              extrinsic={extrinsic}
+              icon='forward'
+              isDisabled={!accountId}
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
-              params={
-                api.tx.technicalCommittee.propose.meta.args.length === 3
-                  ? [memberThreshold, proposal, proposalLength]
-                  : [memberThreshold, proposal]
-              }
-              tx={api.tx.technicalCommittee.propose}
             />
           </Modal.Actions>
         </Modal>
       )}
       <Button
-        icon='fast-forward'
-        isDisabled={!allowFast}
+        icon='forward'
+        isDisabled={threshold.isSuperMajorityApprove}
         label={t<string>('Fast track')}
         onClick={toggleFasttrack}
       />

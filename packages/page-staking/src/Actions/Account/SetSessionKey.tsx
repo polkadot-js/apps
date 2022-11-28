@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo } from '../partials/types';
@@ -23,6 +23,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
   return (
     <Modal
       header={t<string>('Set Session Key')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -30,10 +31,11 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
           controllerId={controllerId}
           onChange={setTx}
           stashId={stashId}
+          withFocus
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={sessionTx}

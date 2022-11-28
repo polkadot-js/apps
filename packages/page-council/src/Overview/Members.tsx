@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -15,16 +15,17 @@ interface Props {
   allVotes?: Record<string, AccountId[]>;
   className?: string;
   electionsInfo?: DeriveElectionsInfo;
+  hasElections: boolean;
   prime?: AccountId | null;
 }
 
-function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
     [t('members'), 'start', 2],
-    [t('backing'), 'expand'],
-    [t('votes')]
+    [hasElections ? t('backing') : undefined, 'expand'],
+    [hasElections ? t('votes') : undefined]
   ]);
 
   return (

@@ -1,22 +1,22 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { formatBalance, isFunction } from '@polkadot/util';
+import { formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
 interface Props {
-  accountId?: string | null;
+  accountId: string | null;
   className?: string;
   extrinsic?: SubmittableExtrinsic | null;
   isSendable: boolean;
@@ -28,26 +28,30 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
-      setTimeout((): void => {
+    accountId && extrinsic && api.call.transactionPaymentApi &&
+      nextTick(async (): Promise<void> => {
         try {
-          extrinsic
-            .paymentInfo(accountId)
-            .then((info) => mountedRef.current && setDispatchInfo(info))
-            .catch(console.error);
+          const info = await extrinsic.paymentInfo(accountId);
+
+          mountedRef.current && setDispatchInfo(info);
         } catch (error) {
           console.error(error);
         }
-      }, 0);
+      });
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo || !extrinsic) {
     return null;
   }
+
+  const isFeeError = api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && (
+    balances.availableBalance.lte(dispatchInfo.partialFee) ||
+    balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
+  );
 
   return (
     <>
@@ -59,7 +63,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
           </Trans>
         }
       />
-      {api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && balances.availableBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit) && (
+      {isFeeError && (
         <MarkWarning content={t<string>('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>

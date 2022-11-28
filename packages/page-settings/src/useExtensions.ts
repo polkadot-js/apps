@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// Copyright 2017-2022 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -7,7 +7,7 @@ import type { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@pol
 import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { useApi } from '@polkadot/react-hooks';
+import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
 interface ExtensionKnown {
   extension: InjectedExtension;
@@ -141,7 +141,7 @@ async function getKnown (api: ApiPromise, extensions: InjectedExtension[], _: nu
 
 const EMPTY_STATE = { count: 0, extensions: [] };
 
-export default function useExtensions (): Extensions {
+function useExtensionsImpl (): Extensions {
   const { api, extensions, isApiReady, isDevelopment } = useApi();
   const [all, setAll] = useState<ExtensionKnown[] | undefined>();
   const [trigger, setTrigger] = useState(0);
@@ -167,3 +167,5 @@ export default function useExtensions (): Extensions {
     [all, api, isApiReady, isDevelopment]
   );
 }
+
+export default createNamedHook('useExtensions', useExtensionsImpl);

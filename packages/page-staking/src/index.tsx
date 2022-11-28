@@ -1,55 +1,94 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import type { ElectionStatus } from '@polkadot/types/interfaces';
+import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HelpOverlay } from '@polkadot/react-components';
-import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
+import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
-import Summary from './Overview/Summary';
 import Actions from './Actions';
-import ActionsBanner from './ActionsBanner';
+import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
-import Overview from './Overview';
 import Payouts from './Payouts';
+import Pools from './Pools';
 import Query from './Query';
 import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
+import useNominations from './useNominations';
+import useOwnPools from './useOwnPools';
 import useSortedTargets from './useSortedTargets';
+import Validators from './Validators';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
-const transformElection = {
-  transform: (status: ElectionStatus) => status.isOpen
+const OPT_MULTI = {
+  defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
+  transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
+    !!eraElectionStatus && eraElectionStatus.isOpen,
+    minValidatorBond && !minValidatorBond.isZero()
+      ? minValidatorBond
+      : undefined,
+    validators && activeValidatorIndices
+      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
+      : {}
+  ]
 };
+
+function createPathRef (basePath: string): Record<string, string | string[]> {
+  return {
+    bags: `${basePath}/bags`,
+    payout: `${basePath}/payout`,
+    pools: `${basePath}/pools`,
+    query: [
+      `${basePath}/query/:value`,
+      `${basePath}/query`
+    ],
+    slashes: `${basePath}/slashes`,
+    targets: `${basePath}/targets`
+  };
+}
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
+  const { areAccountsLoaded, hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
+  const [loadNominations, setLoadNominations] = useState(false);
+  const nominatedBy = useNominations(loadNominations);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
+  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
+    api.query.staking.eraElectionStatus,
+    api.query.staking.minCommission,
+    api.query.session.validators,
+    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
+  ], OPT_MULTI);
+  const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
+  const pathRef = useRef(createPathRef(basePath));
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
+  );
+
+  const hasStashes = useMemo(
+    () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
+    [hasAccounts, ownStashes]
   );
 
   const ownValidators = useMemo(
@@ -62,6 +101,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     []
   );
 
+  const toggleNominatedBy = useCallback(
+    () => setLoadNominations(true),
+    []
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -70,20 +114,24 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     },
     {
       name: 'actions',
-      text: t<string>('Account actions')
+      text: t<string>('Accounts')
     },
-    isFunction(api.query.staking.activeEra) && {
+    hasStashes && isFunction(api.query.staking.activeEra) && {
       name: 'payout',
       text: t<string>('Payouts')
+    },
+    isFunction(api.query.nominationPools?.minCreateBond) && {
+      name: 'pools',
+      text: t<string>('Pools')
     },
     {
       alias: 'returns',
       name: 'targets',
       text: t<string>('Targets')
     },
-    {
-      name: 'waiting',
-      text: t<string>('Waiting')
+    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
+      name: 'bags',
+      text: t<string>('Bags')
     },
     {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
@@ -95,7 +143,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -103,81 +151,76 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Tabs
         basePath={basePath}
         hidden={
-          hasAccounts
-            ? undefined
-            : HIDDEN_ACC
+          areAccountsLoaded && !hasAccounts
+            ? HIDDEN_ACC
+            : undefined
         }
         items={items}
       />
-      <Summary
-        isVisible={pathname === basePath}
-        stakingOverview={stakingOverview}
-        targets={targets}
-      />
       <Switch>
-        <Route path={`${basePath}/payout`}>
+        <Route path={pathRef.current.bags}>
+          <Bags ownStashes={ownStashes} />
+        </Route>
+        <Route path={pathRef.current.payout}>
           <Payouts
+            historyDepth={targets.historyDepth}
             isInElection={isInElection}
+            ownPools={ownPools}
             ownValidators={ownValidators}
           />
         </Route>
-        <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
+        <Route path={pathRef.current.pools}>
+          <Pools ownPools={ownPools} />
+        </Route>
+        <Route path={pathRef.current.query}>
           <Query />
         </Route>
-        <Route path={`${basePath}/slashes`}>
+        <Route path={pathRef.current.slashes}>
           <Slashes
             ownStashes={ownStashes}
             slashes={slashes}
           />
         </Route>
-        <Route path={`${basePath}/targets`}>
+        <Route path={pathRef.current.targets}>
           <Targets
             isInElection={isInElection}
+            nominatedBy={nominatedBy}
             ownStashes={ownStashes}
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
             toggleLedger={toggleLedger}
-          />
-        </Route>
-        <Route path={`${basePath}/waiting`}>
-          <Overview
-            favorites={favorites}
-            hasQueries={hasQueries}
-            isIntentions
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-            toggleLedger={toggleLedger}
+            toggleNominatedBy={toggleNominatedBy}
           />
         </Route>
       </Switch>
       <Actions
-        className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+        className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
+        minCommission={minCommission}
+        ownPools={ownPools}
         ownStashes={ownStashes}
         targets={targets}
       />
-      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
-        <ActionsBanner />
-      )}
-      <Overview
-        className={basePath === pathname ? '' : 'staking--hidden'}
+      <Validators
+        className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
+        hasAccounts={hasAccounts}
         hasQueries={hasQueries}
+        minCommission={minCommission}
+        nominatedBy={nominatedBy}
+        ownStashes={ownStashes}
+        paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
+        toggleNominatedBy={toggleNominatedBy}
       />
     </main>
   );
 }
 
 export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
-  .staking--hidden {
-    display: none;
-  }
-
   .staking--Chart {
     margin-top: 1.5rem;
 

@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, AddressSmall, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
@@ -25,7 +26,7 @@ interface Props {
   members: string[];
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
-  tip: OpenTip | OpenTipTo225;
+  tip: PalletTipsOpenTip | OpenTipTo225;
 }
 
 interface TipState {
@@ -38,11 +39,11 @@ interface TipState {
   median: BN;
 }
 
-function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
-  return !!(tip as OpenTip)?.findersFee;
+function isCurrentTip (tip: PalletTipsOpenTip | OpenTipTo225): tip is PalletTipsOpenTip {
+  return !!(tip as PalletTipsOpenTip)?.findersFee;
 }
 
-function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): TipState {
+function extractTipState (tip: PalletTipsOpenTip | OpenTipTo225, allAccounts: string[]): TipState {
   const closesAt = tip.closes.unwrapOr(null);
   let finder: AccountId | null = null;
   let deposit: Balance | null = null;
@@ -93,6 +94,18 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
 
   const [isMedianSelected, setMedianTip] = useState(false);
 
+  const renderTippers = useCallback(
+    () => tip.tips.map(([tipper, balance]) => (
+      <AddressMini
+        balance={balance}
+        key={tipper.toString()}
+        value={tipper}
+        withBalance
+      />
+    )),
+    [tip]
+  );
+
   useEffect((): void => {
     onSelect(hash, isMedianSelected, median);
   }, [hash, isMedianSelected, median, onSelect]);
@@ -106,6 +119,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   }
 
   const { reason, tips, who } = tip;
+  const recipient = who.toString();
 
   return (
     <tr className={className}>
@@ -118,23 +132,17 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='expand'>
+      <td className='expand media--1100'>
         {tips.length !== 0 && (
-          <Expander summary={
-            <>
-              <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
-              <FormatBalance value={median} />
-            </>
-          }>
-            {tips.map(([tipper, balance]) => (
-              <AddressMini
-                balance={balance}
-                key={tipper.toString()}
-                value={tipper}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <ExpanderScroll
+            renderChildren={renderTippers}
+            summary={
+              <>
+                <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+                <FormatBalance value={median} />
+              </>
+            }
+          />
         )}
       </td>
       <td className='button together'>
@@ -165,6 +173,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               isTipped={isTipped}
               median={median}
               members={members}
+              recipient={recipient}
             />
           )
           : (
@@ -196,7 +205,6 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <td className='links media--1700'>
         <LinkExternal
           data={hash}
-          isLogo
           type='tip'
         />
       </td>

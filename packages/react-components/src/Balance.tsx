@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React from 'react';
 
-import { Balance, FormatBalance } from '@polkadot/react-query';
+import { BalanceFree, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 export interface RenderProps {
@@ -63,7 +63,7 @@ function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
   return balance
     ? <>{renderProvided({ className, label, value: balance })}</>
     : (
-      <Balance
+      <BalanceFree
         className={`ui--Balance ${className}`}
         label={label}
         params={params}

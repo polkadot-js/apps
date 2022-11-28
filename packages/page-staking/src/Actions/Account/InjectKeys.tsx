@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
@@ -81,6 +81,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       header={t<string>('Inject Keys')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -117,7 +118,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           label={t<string>('Submit key')}

@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/react-query authors & contributors
+// Copyright 2017-2022 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -42,7 +43,7 @@ function formatValue (value: number, type = 's', withDecimal = false): React.Rea
 
   return withDecimal
     ? <>{before}.<div className='digit'>{post}</div> {type}</>
-    : <>{before} s</>;
+    : <>{before} {type}</>;
 }
 
 function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNode {
@@ -51,23 +52,18 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNo
       ? (value as Date).getTime()
       : bnToBn(value as number).toNumber()
   ) || 0;
-  let display = formatValue(0, 's', true);
 
-  if (now && tsValue) {
-    const elapsed = Math.max(Math.abs(now - tsValue), 0) / 1000;
-
-    if (elapsed < 15) {
-      display = formatValue(elapsed, 's', true);
-    } else if (elapsed < 60) {
-      display = formatValue(elapsed);
-    } else if (elapsed < 3600) {
-      display = formatValue(elapsed, 'min');
-    } else {
-      display = formatValue(elapsed / 3600, 'hr');
-    }
+  if (!now || !tsValue) {
+    return formatValue(0, 's', true);
   }
 
-  return display;
+  const elapsed = Math.max(Math.abs(now - tsValue), 0) / 1000;
+
+  return (elapsed < 60)
+    ? formatValue(elapsed, 's', elapsed < 15)
+    : (elapsed < 3600)
+      ? formatValue(elapsed / 60, 'min')
+      : formatValue(elapsed / 3600, 'hr');
 }
 
 tick();

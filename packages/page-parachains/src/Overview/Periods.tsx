@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { LeasePeriod } from '../types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { BN_ONE, formatNumber } from '@polkadot/util';
@@ -17,27 +17,31 @@ interface Props {
   periods: number[];
 }
 
+function getMapped (periods: number[], currentPeriod?: BN): string | undefined {
+  return currentPeriod && periods &&
+    periods
+      .reduce((all: [BN, BN][], period): [BN, BN][] => {
+        const bnp = currentPeriod.addn(period);
+
+        if (!all.length || all[all.length - 1][1].add(BN_ONE).lt(bnp)) {
+          all.push([bnp, bnp]);
+        } else {
+          all[all.length - 1][1] = bnp;
+        }
+
+        return all;
+      }, [])
+      .map(([a, b]) =>
+        a.eq(b)
+          ? formatNumber(a)
+          : `${formatNumber(a)} - ${formatNumber(b)}`
+      )
+      .join(', ');
+}
+
 function Periods ({ className, fromFirst, leasePeriod, periods }: Props): React.ReactElement<Props> {
   const mapped = useMemo(
-    () => leasePeriod?.currentPeriod && periods &&
-      periods
-        .reduce((all: [BN, BN][], period): [BN, BN][] => {
-          const bnp = leasePeriod.currentPeriod.addn(period);
-
-          if (!all.length || all[all.length - 1][1].add(BN_ONE).lt(bnp)) {
-            all.push([bnp, bnp]);
-          } else {
-            all[all.length - 1][1] = bnp;
-          }
-
-          return all;
-        }, [])
-        .map(([a, b]) =>
-          a.eq(b)
-            ? formatNumber(a)
-            : `${formatNumber(a)} - ${formatNumber(b)}`
-        )
-        .join(', '),
+    () => getMapped(periods, leasePeriod?.currentPeriod),
     [leasePeriod?.currentPeriod, periods]
   );
 

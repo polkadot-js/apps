@@ -1,33 +1,59 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { ApiPromise } from '@polkadot/api';
 import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   cap: Balance;
   className?: string;
+  needsSignature: boolean;
   paraId: ParaId;
   raised: Balance;
 }
 
-function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElement<Props> {
+// 0x, <enum byte>, hex data
+const VALID_LENGTHS = [
+  2 + 2 + (64 * 2),
+  2 + 2 + (65 * 2)
+];
+
+function verifySignature (api: ApiPromise, signature: string | null): boolean {
+  if (isHex(signature) && VALID_LENGTHS.includes(signature.length)) {
+    try {
+      api.createType('MultiSignature', signature);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return false;
+}
+
+function Contribute ({ cap, className, needsSignature, paraId, raised }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
+  const [signature, setSignature] = useState<string | null>(null);
 
-  // TODO verifier signature
+  const isSignatureError = useMemo(
+    () => needsSignature && !verifySignature(api, signature),
+    [api, needsSignature, signature]
+  );
 
   const remaining = cap.sub(raised);
   const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BalanceOf);
@@ -46,6 +72,7 @@ function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElem
         <Modal
           className={className}
           header={t<string>('Contribute to fund')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -73,6 +100,19 @@ function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElem
                 <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
               )}
             </Modal.Columns>
+            {needsSignature && (
+              <Modal.Columns hint={t<string>('The verifier signature that is to be associated with this contribution.')}>
+                <Input
+                  isError={isSignatureError}
+                  label={t<string>('verifier signature')}
+                  onChange={setSignature}
+                  placeholder={t<string>('0x...')}
+                />
+                {isSignatureError && (
+                  <MarkWarning content={t<string>('The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).')} />
+                )}
+              </Modal.Columns>
+            )}
             <Modal.Columns hint={t<string>('The above contribution should more than minimum contribution amount and less than the remaining value.')}>
               <InputBalance
                 defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
@@ -86,14 +126,14 @@ function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElem
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={isAmountError}
+              isDisabled={isAmountError || isSignatureError}
               label={t<string>('Contribute')}
               onStart={toggleOpen}
-              params={[paraId, amount, null]}
+              params={[paraId, amount, signature]}
               tx={api.tx.crowdloan.contribute}
             />
           </Modal.Actions>

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { createRef, useCallback, useState } from 'react';
@@ -100,9 +100,9 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })} >
+        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })}>
           <input {...getInputProps()} />
-          <em className='label' >
+          <em className='label'>
             {
               !file || clearContent
                 ? placeholder || t<string>('click to select or drag and drop the file here')
@@ -136,7 +136,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
 
 export default React.memo(styled(InputFile)`
   background: var(--bg-input);
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
   font-size: 1rem;
   margin: 0.25rem 0;

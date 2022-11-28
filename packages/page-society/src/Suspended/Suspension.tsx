@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, BalanceOf, BidKind } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 
 import React from 'react';
 
@@ -12,7 +13,7 @@ import BidType from '../Candidates/BidType';
 
 interface Props {
   balance?: BalanceOf;
-  bid?: BidKind;
+  bid?: PalletSocietyBidKind;
   value: AccountId;
 }
 

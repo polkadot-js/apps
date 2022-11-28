@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, SectionContext, Spinner, StatusContext } from '@polkadot/react-components';
+import { ErrorBoundary, Spinner, StatusContext, TabsContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -22,9 +22,7 @@ interface Props {
 
 const NOT_FOUND: Route = {
   Component: NotFound,
-  display: {
-    needsApi: undefined
-  },
+  display: {},
   group: 'settings',
   icon: 'times',
   isIgnored: false,
@@ -35,23 +33,34 @@ const NOT_FOUND: Route = {
 function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
-  const { api, isApiConnected, isApiReady } = useApi();
+  const { api, isApiConnected, isApiReady, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi }, icon, name, text } = useMemo(
+  const { Component, display: { needsApi, needsApiCheck, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
-      return createRoutes(t).find((route) => !!(route && app.startsWith(route.name))) || NOT_FOUND;
+      return createRoutes(t).find((r) =>
+        r &&
+        app.startsWith(r.name) &&
+        (isDevelopment || !r.display.isDevelopment)
+      ) || NOT_FOUND;
     },
-    [location, t]
+    [isDevelopment, location, t]
   );
 
-  const missingApis = findMissingApis(api, needsApi);
+  const missingApis = useMemo(
+    () => needsApi
+      ? isApiReady && isApiConnected
+        ? findMissingApis(api, needsApi, needsApiInstances, needsApiCheck)
+        : null
+      : [],
+    [api, isApiConnected, isApiReady, needsApi, needsApiCheck, needsApiInstances]
+  );
 
   return (
     <div className={className}>
-      {needsApi && (!isApiReady || !isApiConnected)
+      {!missingApis
         ? (
           <div className='connecting'>
             <Spinner label={t<string>('Initializing connection')} />
@@ -61,7 +70,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <>
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
-                <SectionContext.Provider value={{ icon, text }}>
+                <TabsContext.Provider value={{ icon, text }}>
                   {missingApis.length
                     ? (
                       <NotFound
@@ -79,7 +88,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                       />
                     )
                   }
-                </SectionContext.Provider>
+                </TabsContext.Provider>
               </ErrorBoundary>
             </Suspense>
             <Status />

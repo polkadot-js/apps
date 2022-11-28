@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../../types';
 import type { NominateInfo } from './types';
 
@@ -12,6 +13,7 @@ import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
+import PoolInfo from './PoolInfo';
 import SenderInfo from './SenderInfo';
 
 interface Props {
@@ -19,12 +21,13 @@ interface Props {
   controllerId: string;
   nominating?: string[];
   onChange: (info: NominateInfo) => void;
+  poolId?: BN;
   stashId: string;
   targets: SortedTargets;
   withSenders?: boolean;
 }
 
-function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { nominateIds = [] }, withSenders }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', controllerId, nominating, onChange, poolId, stashId, targets: { nominateIds = [] }, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
@@ -32,47 +35,65 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => nominateIds.includes(acc)),
+      ...favorites.filter((a) => nominateIds.includes(a)),
       // make sure the nominee is not in our favorites already
-      ...(nominating || []).filter((acc) => !favorites.includes(acc))
+      ...(nominating || []).filter((a) => !favorites.includes(a))
     ];
 
-    return shortlist
-      .concat(...(nominateIds.filter((acc) => !shortlist.includes(acc))));
+    return shortlist.concat(
+      ...(nominateIds.filter((a) => !shortlist.includes(a)))
+    );
   });
 
   useEffect((): void => {
     try {
       onChange({
         nominateTx: selected && selected.length
-          ? api.tx.staking.nominate(selected)
+          ? poolId
+            ? api.tx.nominationPools.nominate(poolId, selected)
+            : api.tx.staking.nominate(selected)
           : null
       });
     } catch {
       onChange({ nominateTx: null });
     }
-  }, [api, onChange, selected]);
+  }, [api, onChange, poolId, selected]);
+
+  const maxNominations = api.consts.staking.maxNominations
+    ? (api.consts.staking.maxNominations as BN).toNumber()
+    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>
       {withSenders && (
-        <SenderInfo
-          controllerId={controllerId}
-          stashId={stashId}
-        />
+        poolId
+          ? (
+            <PoolInfo
+              controllerId={controllerId}
+              poolId={poolId}
+            />
+          )
+          : (
+            <SenderInfo
+              controllerId={controllerId}
+              stashId={stashId}
+            />
+          )
       )}
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
-          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
-        </>
-      }>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
+            <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
+          </>
+        }
+      >
         <InputAddressMulti
           available={available}
           availableLabel={t<string>('candidate accounts')}
           defaultValue={nominating}
           help={t<string>('Filter available candidates based on name, address or short account index.')}
-          maxCount={MAX_NOMINATIONS}
+          maxCount={maxNominations}
           onChange={setSelected}
           valueLabel={t<string>('nominated accounts')}
         />

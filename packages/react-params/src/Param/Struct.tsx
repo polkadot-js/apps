@@ -1,18 +1,28 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props, RawParam } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
+import { Struct } from '@polkadot/types';
+import { isCodec } from '@polkadot/util';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
 import useParamDefs from './useParamDefs';
 
+function extractValues ({ isValid, value }: RawParam): RawParam[] | undefined {
+  return (isValid && isCodec(value) && value instanceof Struct)
+    ? value.toArray().map((value) => ({ isValid: true, value }))
+    : undefined;
+}
+
 function StructParam (props: Props): React.ReactElement<Props> {
   const params = useParamDefs(props.registry, props.type);
-  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, label, onChange, overrides, withLabel } = props;
+  const [values] = useState(() => extractValues(defaultValue));
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
@@ -44,6 +54,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
         overrides={overrides}
         params={params}
         registry={props.registry}
+        values={values}
       />
     </div>
   );

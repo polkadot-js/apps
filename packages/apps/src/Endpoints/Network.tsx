@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Network } from './types';
@@ -8,30 +8,31 @@ import styled from 'styled-components';
 
 import { ChainImg } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Url from './Url';
 
 interface Props {
-  affinity?: string;
+  affinity?: string; // unused - previous selection
   apiUrl: string;
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
   const _selectUrl = useCallback(
-    () => setApiUrl(
-      name,
-      affinity && providers.find(({ url }) => url === affinity)
-        ? affinity
-        : providers[0].url
-    ),
-    [affinity, name, providers, setApiUrl]
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
+    [name, providers, setApiUrl]
   );
 
   const _setApiUrl = useCallback(
@@ -40,10 +41,10 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
+    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectUrl}
+        onClick={isUnreachable ? undefined : _selectUrl}
       >
         <ChainImg
           className='endpointIcon'
@@ -51,7 +52,21 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
           logo={icon === 'local' ? 'empty' : (icon || 'empty')}
           withoutHl
         />
-        <div className='endpointValue'>{name}</div>
+        <div className='endpointValue'>
+          <div>{name}</div>
+          {isSelected && (isRelay || !!paraId) && (
+            <div className='endpointExtra'>
+              {isRelay
+                ? t<string>('Relay chain')
+                : paraId && paraId < 1000
+                  ? t<string>('{{relay}} System', { replace: { relay } })
+                  : paraId && paraId < 2000
+                    ? t<string>('{{relay}} Common', { replace: { relay } })
+                    : t<string>('{{relay}} Parachain', { replace: { relay } })
+              }
+            </div>
+          )}
+        </div>
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
@@ -74,6 +89,10 @@ export default React.memo(styled(NetworkDisplay)`
   padding: 0.375rem 0.5rem 0.375rem 1rem;
   position: relative;
 
+  &.isUnreachable {
+    opacity: 0.5;
+  }
+
   &.isSelected,
   &:hover {
     background: var(--bg-table);
@@ -91,6 +110,13 @@ export default React.memo(styled(NetworkDisplay)`
 
     &+.endpointProvider {
       margin-top: -0.125rem;
+    }
+
+    .endpointValue {
+      .endpointExtra {
+        font-size: 0.75rem;
+        opacity: 0.8;
+      }
     }
   }
 `);

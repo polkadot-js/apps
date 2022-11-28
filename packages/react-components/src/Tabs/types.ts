@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -10,6 +10,7 @@ export interface TabItem {
   count?: number;
   hasParams?: boolean;
   isExact?: boolean;
+  isHidden?: boolean;
   isRoot?: boolean;
   name: string;
   text: React.ReactNode;

@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetId } from '@polkadot/types/interfaces';
+import type { AssetInfo } from '../types';
 
 import React, { useRef } from 'react';
 
@@ -9,35 +9,32 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Asset from './Asset';
-import useAssetInfos from './useAssetInfos';
 
 interface Props {
-  assetIds?: AssetId[];
   className?: string;
+  infos?: AssetInfo[];
 }
 
-function Assets ({ assetIds, className }: Props): React.ReactElement<Props> {
+function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const assetInfos = useAssetInfos(assetIds);
 
   const headerRef = useRef([
     [t('assets'), 'start', 2],
-    [t('owner'), 'address'],
-    [t('admin'), 'address'],
-    [t('issuer'), 'address'],
-    [t('freezer'), 'address'],
-    [t('decimals')],
-    [t('symbol'), 'start'],
+    [t('owner'), 'address media--1000'],
+    [t('admin'), 'address media--1300'],
+    [t('issuer'), 'address media--1600'],
+    [t('freezer'), 'address media--1900'],
+    [t('supply')],
     []
   ]);
 
   return (
     <Table
       className={className}
-      empty={assetInfos && t<string>('No assets found')}
+      empty={infos && t<string>('No assets found')}
       header={headerRef.current}
     >
-      {assetInfos?.map((info) => (
+      {infos?.map((info) => (
         <Asset
           key={info.key}
           value={info}

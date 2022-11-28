@@ -1,14 +1,16 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber, Votes } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { CollectiveType } from './types';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useBestNumber } from './useBestNumber';
 
@@ -22,8 +24,13 @@ interface State {
 
 const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
 
-function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
-  if (!votes.end) {
+function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: CollectiveType): State {
+  const [instance] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), section) || [section];
+  const modLocation = isFunction(api.tx[instance as 'technicalCommittee']?.close)
+    ? instance
+    : null;
+
+  if (!votes.end || !modLocation) {
     return {
       hasFailed: false,
       hasPassed: false,
@@ -40,11 +47,9 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   return {
     hasFailed,
     hasPassed,
-    isCloseable: isFunction(api.tx[section].close)
-      ? api.tx[section].close.meta.args.length === 4 // current-generation
-        ? isEnd || hasPassed || hasFailed
-        : isEnd
-      : false,
+    isCloseable: api.tx[modLocation].close.meta.args.length === 4 // current-generation
+      ? isEnd || hasPassed || hasFailed
+      : isEnd,
     isVoteable: !isEnd,
     remainingBlocks: isEnd
       ? null
@@ -52,7 +57,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+function useVotingStatusImpl (votes: Votes | null | undefined, numMembers: number, section: CollectiveType): State {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 
@@ -63,3 +68,5 @@ export function useVotingStatus (votes: Votes | null | undefined, numMembers: nu
     [api, bestNumber, numMembers, section, votes]
   );
 }
+
+export const useVotingStatus = createNamedHook('useVotingStatus', useVotingStatusImpl);

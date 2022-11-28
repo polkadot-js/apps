@@ -1,14 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 import type { AmountValidateState, DestinationType } from '../types';
 import type { BondInfo } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
+import { Dropdown, InputAddress, InputBalance, MarkError, Modal, Static } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -22,7 +22,9 @@ import useUnbondDuration from '../useUnbondDuration';
 interface Props {
   className?: string;
   isNominating?: boolean;
-  minNomination?: BN;
+  minNominated?: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onChange: (info: BondInfo) => void;
 }
 
@@ -34,7 +36,7 @@ const EMPTY_INFO = {
   stashId: null
 };
 
-function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', isNominating, minNominated, minNominatorBond, minValidatorBond, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -45,7 +47,8 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
   const [destAccount, setDestAccount] = useState<string | null>(null);
   const [stashId, setStashId] = useState<string | null>(null);
   const [startBalance, setStartBalance] = useState<BN | null>(null);
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
+  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
   const bondedBlocks = useUnbondDuration();
 
   const options = useMemo(
@@ -90,15 +93,18 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
 
   const hasValue = !!amount?.gtn(0);
   const isAccount = destination === 'Account';
+  const isDestError = isAccount && destBalance && destBalance.accountId.eq(destAccount) && destBalance.freeBalance.isZero();
 
   return (
     <div className={className}>
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
-          <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
-        </>
-      }>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
+            <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
+          </>
+        }
+      >
         <InputAddress
           label={t<string>('stash account')}
           onChange={setStashId}
@@ -119,12 +125,14 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
         />
       </Modal.Columns>
       {startBalance && (
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
-            <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('The amount placed at-stake should not be your full available amount to allow for transaction fees.')}</p>
+              <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
+            </>
+          }
+        >
           <InputBalance
             autoFocus
             defaultValue={startBalance}
@@ -142,7 +150,9 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           <InputValidateAmount
             controllerId={controllerId}
             isNominating={isNominating}
-            minNomination={minNomination}
+            minNominated={minNominated}
+            minNominatorBond={minNominatorBond}
+            minValidatorBond={minValidatorBond}
             onError={setAmountError}
             stashId={stashId}
             value={amount}
@@ -174,6 +184,9 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
             type='account'
             value={destAccount}
           />
+        )}
+        {isDestError && (
+          <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
         )}
       </Modal.Columns>
     </div>

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -11,7 +11,7 @@ interface Props {
   className?: string;
   label?: React.ReactNode;
   noLabel?: boolean;
-  variant?: 'app' | 'cover' | 'push' | 'mini';
+  variant?: 'app' | 'appPadded' | 'cover' | 'push' | 'mini';
 }
 
 // prefetch
@@ -23,12 +23,12 @@ function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): R
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner${variant === 'cover' ? ' isCover' : ''}`}>
+    <div className={`${className} ui--Spinner variant-${variant}`}>
       <img
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc as string}
       />
-      {!noLabel && variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
+      {!noLabel && variant.startsWith('app') && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
@@ -39,7 +39,16 @@ export default React.memo(styled(Spinner)`
   margin: 0 auto;
   text-align: center;
 
-  &.isCover {
+  &.variant-appPadded {
+    margin-top: 0.5rem;
+  }
+
+  img {
+    border: 1px solid transparent;
+    border-radius: 10rem;
+  }
+
+  &.variant-cover {
     bottom: 0;
     left: 0;
     position: absolute;
@@ -49,11 +58,6 @@ export default React.memo(styled(Spinner)`
       border: 1 px solid white;
       margin: 0 auto;
     }
-  }
-
-  img {
-    border: 1px solid transparent;
-    border-radius: 10rem;
   }
 
   .text {

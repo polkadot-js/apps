@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-signing authors & contributors
+// Copyright 2017-2022 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer } from '@polkadot/api/types';
@@ -11,7 +11,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { isFunction, isHex, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import Unlock from './Unlock';
@@ -90,30 +90,24 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
         return;
       }
 
+      const wrapped = u8aWrapBytes(data);
+
       if (signer && isFunction(signer.signRaw)) {
         setSignature('');
 
         signer
           .signRaw({
             address: currentPair.address,
-            data: isHexData
-              ? data
-              : stringToHex(data),
+            data: u8aToHex(wrapped),
             type: 'bytes'
           })
           .then(({ signature }) => setSignature(signature))
           .catch(console.error);
       } else {
-        setSignature(u8aToHex(
-          currentPair.sign(
-            isHexData
-              ? hexToU8a(data)
-              : stringToU8a(data)
-          )
-        ));
+        setSignature(u8aToHex(currentPair.sign(wrapped)));
       }
     },
-    [currentPair, data, isHexData, isLocked, isUsable, signer]
+    [currentPair, data, isLocked, isUsable, signer]
   );
 
   const _onUnlock = useCallback(
@@ -177,7 +171,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           {isLocked && (
             <div className='unlock-overlay-warning'>
               <div className='unlock-overlay-content'>
-                {t<string>('You need to unlock this account to be able to sign data.')}<br/>
+                {t<string>('You need to unlock this account to be able to sign data.')}<br />
                 <Button.Group>
                   <Button
                     icon='unlock'

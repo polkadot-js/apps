@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DateState } from './types';
@@ -110,7 +110,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   const _setAllEventsView = useCallback(
-    (v) => setAllEventsView(v),
+    (v: boolean) => setAllEventsView(v),
     []
   );
 

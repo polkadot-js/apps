@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2022 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
-import type { Codec } from '@polkadot/types/types';
 
 import React from 'react';
 
 import { Output } from '@polkadot/react-components';
+import valueToText from '@polkadot/react-params/valueToText';
 import { isUndefined } from '@polkadot/util';
 
 interface Props {
@@ -24,15 +24,15 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
 
   return (
     <section className='rpc--Results'>
-      {filtered.map(({ error, id, result, rpc: { method, section } }): React.ReactNode => (
+      {filtered.map(({ error, id, result, rpc: { method, section, type } }): React.ReactNode => (
         <Output
           isError={!!error}
           key={id}
-          label={`${id}: ${section}.${method}`}
+          label={`${id}: ${section}.${method}: ${type}`}
           value={
             error
               ? error.message
-              : <pre>{JSON.stringify((result as Codec).toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')}</pre>
+              : <pre>{valueToText('', result as null)}</pre>
           }
         />
       ))}

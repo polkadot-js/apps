@@ -1,11 +1,10 @@
-// Copyright 2017-2021 @polkadot/test-support authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { KeyringPair } from '@polkadot/keyring/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
-
-import { ApiPromise } from '@polkadot/api';
 import { execute } from '@polkadot/test-support/transaction';
 
 import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers';

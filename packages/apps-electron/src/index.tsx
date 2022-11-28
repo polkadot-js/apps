@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import Root from '@polkadot/apps/Root';
 
@@ -23,7 +23,9 @@ if (!rootElement) {
 
 const store = new RemoteElectronStore(electronMainApi.accountStore);
 
-ReactDOM.render(
-  <Root store={store} />,
-  rootElement
+createRoot(rootElement).render(
+  <Root
+    isElectron
+    store={store}
+  />
 );

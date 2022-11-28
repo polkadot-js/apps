@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent } from '@testing-library/react';
-import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import i18next from '@polkadot/react-components/i18n';
@@ -18,6 +18,7 @@ import { mockHooks } from '@polkadot/test-support/hooks/mockHooks';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { alice, bob } from '@polkadot/test-support/keyring/addresses';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN } from '@polkadot/util';
 
 import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';
@@ -27,8 +28,12 @@ jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
 }));
 
-jest.mock('@polkadot/react-hooks/useMembers', () => ({
-  useMembers: () => mockHooks.members
+jest.mock('@polkadot/react-hooks/useCollectiveInstance', () => ({
+  useCollectiveInstance: () => 'council'
+}));
+
+jest.mock('@polkadot/react-hooks/useCollectiveMembers', () => ({
+  useCollectiveMembers: () => mockHooks.members
 }));
 
 jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
@@ -45,10 +50,10 @@ jest.mock('./hooks/useBounties', () => ({
 
 let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal;
 let augmentedApi: ApiPromise;
-let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+let aBounty: ({ status, value }?: Partial<PalletBountiesBounty>) => PalletBountiesBounty;
 let aBountyIndex: (index?: number) => BountyIndex;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
-let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
+let bountyWith: ({ status, value }: { status?: string, value?: number }) => PalletBountiesBounty;
 
 describe('Bounties', () => {
   let bountiesPage: BountiesPage;
@@ -458,8 +463,7 @@ describe('Bounties', () => {
         {
           curator: alice,
           status: 'Active',
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          updateDue: mockBountyHooks.bountyApi.bestNumber!.toNumber()
+          updateDue: mockBountyHooks.bountyApi.bestNumber?.toNumber()
         }) });
 
       bountiesPage.renderOne(bounty);

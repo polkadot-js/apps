@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { AuctionInfo, OwnedId, OwnerInfo, Winning } from '../types';
 
 import React, { useMemo, useState } from 'react';
@@ -13,7 +13,7 @@ import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
-import useRanges from '../useRanges';
+import { useLeaseRanges } from '../useLeaseRanges';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -36,7 +36,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const bestNumber = useBestNumber();
-  const ranges = useRanges();
+  const ranges = useLeaseRanges();
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [range, setRange] = useState(0);
@@ -75,7 +75,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
     <>
       <Button
         icon='plus'
-        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
+        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || !api.consts.auctions || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
         label={t<string>('Bid')}
         onClick={toggleOpen}
       />
@@ -83,6 +83,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
         <Modal
           className={className}
           header={t<string>('Place bid')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -103,7 +104,8 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
                 <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
                 <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
-            }>
+            }
+            >
               <InputBalance
                 autoFocus
                 isError={isAmountError}
@@ -119,7 +121,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

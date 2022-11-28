@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RuntimeVersion } from '@polkadot/types/interfaces';
@@ -11,14 +11,12 @@ import { useApi, useCall, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
 import Endpoints from '../Endpoints';
-import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
 }
 
 function ChainInfo ({ className }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api, isApiReady } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
   const { ipnsChain } = useIpfs();
@@ -35,7 +33,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         <div className='info media--1000'>
           <Chain className='chain' />
           {runtimeVersion && (
-            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+            <div className='runtimeVersion'>{runtimeVersion.specName.toString()}/{runtimeVersion.specVersion.toNumber()}</div>
           )}
           <BestNumber
             className='bestNumber'

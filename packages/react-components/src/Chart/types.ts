@@ -1,7 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
+
+import ChartJs from 'chart.js';
 
 export interface DoughnutValue {
   colors: string[];
@@ -41,5 +43,6 @@ export interface LineProps {
   className?: string;
   labels: string[];
   legends: string[];
+  options?: ChartJs.ChartOptions;
   values: (number | BN)[][];
 }

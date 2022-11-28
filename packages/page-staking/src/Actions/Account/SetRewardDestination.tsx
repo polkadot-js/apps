@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RewardDestination } from '@polkadot/types/interfaces';
 import type { DestinationType } from '../types';
 
 import React, { useMemo, useState } from 'react';
 
-import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import { createDestCurr } from '../destOptions';
@@ -24,6 +25,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const { api } = useApi();
   const [destination, setDestination] = useState<DestinationType>(() => ((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
   const [destAccount, setDestAccount] = useState<string | null>(() => defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
+  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
 
   const options = useMemo(
     () => createDestCurr(t),
@@ -31,10 +33,12 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   );
 
   const isAccount = destination === 'Account';
+  const isDestError = isAccount && destBalance && destBalance.accountId.eq(destAccount) && destBalance.freeBalance.isZero();
 
   return (
     <Modal
       header={t<string>('Bonding Preferences')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -69,13 +73,16 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
               value={destAccount}
             />
           )}
+          {isDestError && (
+            <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
+          )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='sign-in-alt'
-          isDisabled={!controllerId || (isAccount && !destAccount)}
+          isDisabled={!controllerId || (isAccount && (!destAccount || isDestError))}
           label={t<string>('Set reward destination')}
           onStart={onClose}
           params={[

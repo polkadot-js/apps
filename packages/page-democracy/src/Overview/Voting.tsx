@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Modal, ProposedAction, TxButton, VoteAccount, VoteValue, ConvictionDropdown } from '@polkadot/react-components';
@@ -41,6 +41,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       {isVotingOpen && (
         <Modal
           header={t<string>('Vote on proposal')}
+          onClose={toggleVoting}
           size='large'
         >
           <Modal.Content>
@@ -53,12 +54,14 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
             <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
               <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                  <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                </>
+              }
+            >
               {isCurrentVote && (
                 <VoteValue
                   accountId={accountId}
@@ -73,7 +76,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVoting}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'
@@ -104,7 +107,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
         </Modal>
       )}
       <Button
-        icon='check'
+        icon='check-to-slot'
         label={t<string>('Vote')}
         onClick={toggleVoting}
       />

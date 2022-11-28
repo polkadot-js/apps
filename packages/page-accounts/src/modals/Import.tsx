@@ -1,16 +1,17 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Dispatch, SetStateAction } from 'react';
 import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { AddressRow, Button, InputAddress, InputFile, MarkWarning, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, InputAddress, InputFile, MarkError, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { u8aToString } from '@polkadot/util';
+import { assert, nextTick, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ExternalWarning from './ExternalWarning';
@@ -28,11 +29,20 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
   try {
-    return keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+    const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+
+    if (isEthereum) {
+      assert(pair.type === 'ethereum', 'JSON File does not contain an ethereum type key pair');
+    } else {
+      assert(pair.type !== 'ethereum', 'JSON contains an ethereum keytype, this is not available on this network');
+    }
+
+    return pair;
   } catch (error) {
     console.error(error);
+    setError((error as Error).message ? (error as Error).message : (error as Error).toString());
   }
 
   return null;
@@ -40,16 +50,17 @@ function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair 
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
+  const { api, isDevelopment, isEthereum } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [pair, setPair] = useState<KeyringPair | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
   const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
   const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, apiGenesisHash)),
-    [apiGenesisHash]
+    (file: Uint8Array) => setPair(parseFile(file, setError, isEthereum, apiGenesisHash)),
+    [apiGenesisHash, isEthereum]
   );
 
   const _onChangePass = useCallback(
@@ -64,7 +75,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
@@ -89,7 +100,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         if (status.status !== 'error') {
           onClose();
         }
-      }, 0);
+      });
     },
     [onClose, onStatusChange, pair, password, t]
   );
@@ -98,6 +109,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
     <Modal
       className={className}
       header={t<string>('Add via backup file')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -118,9 +130,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             onChange={_onChangeFile}
             withLabel
           />
-          {differentGenesis && (
-            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
-          )}
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The password previously used to encrypt this account.')}>
           <Password
@@ -135,10 +144,16 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           />
         </Modal.Columns>
         <Modal.Columns>
+          {error && (
+            <MarkError content={error} />
+          )}
+          {differentGenesis && (
+            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+          )}
           <ExternalWarning />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sync'
           isBusy={isBusy}

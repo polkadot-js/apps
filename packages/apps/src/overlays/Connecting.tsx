@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -9,8 +9,8 @@ import { settings } from '@polkadot/ui-settings';
 import { useTranslation } from '../translate';
 import BaseOverlay from './Base';
 
-const wsUrl = settings.apiUrl;
-const isWs = typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
+const wsUrl = settings.apiType.param;
+const isWs = settings.apiType.type === 'json-rpc' && typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
 const isWsLocal = typeof wsUrl === 'string' && wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
 

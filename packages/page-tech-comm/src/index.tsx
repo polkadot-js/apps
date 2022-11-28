@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
+import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
 import Proposals from './Proposals';
@@ -29,7 +29,7 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const { api } = useApi();
   // SD: Added true parameter
-  const { isMember, members } = useMembers('technicalCommittee', true);
+  const { isMember, members } = useCollectiveMembers('technicalCommittee');
   const prime = useCall<AccountId | null>(api.query.technicalCommittee.prime, undefined, transformPrime) || null;
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals);
 
@@ -57,7 +57,8 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
             isMember={isMember}
             members={members}
             prime={prime}
-            proposals={proposals}
+            proposalHashes={proposals}
+            type={'membership'}
           />
         </Route>
         <Route path={basePath}>
@@ -65,8 +66,7 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
             isMember={isMember}
             members={members}
             prime={prime}
-            proposals={proposals}
-          />
+            proposalHashes={proposals} type={'membership'}          />
         </Route>
       </Switch>
     </main>

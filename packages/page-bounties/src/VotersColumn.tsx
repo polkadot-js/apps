@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -8,10 +8,8 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -37,7 +35,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
       data-testid={`voters_${option}_${accountId.toString()}`}
       key={accountId.toString()}
     >
-      <AddressSmall value={accountId}/>
+      <AddressSmall value={accountId} />
     </div>),
   [option, votes]);
 
@@ -58,7 +56,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
   );
 }
 
-export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
+export default React.memo(styled(VotersColumn)`
   width: 50%;
 
   .vote-numbers {
@@ -69,7 +67,7 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
 
   .vote-numbers-icon svg {
     max-width: 10px;
-    color: ${bountyLabelColor[theme.theme]};
+    color: var(--color-label);
   }
 
   .vote-numbers-label {
@@ -80,4 +78,4 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
     color: var(--color-label);
   }
-`));
+`);

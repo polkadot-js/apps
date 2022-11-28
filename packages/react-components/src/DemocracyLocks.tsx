@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
 import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -18,7 +19,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  value?: DeriveDemocracyLock[];
+  value?: Partial<DeriveDemocracyLock>[];
 }
 
 interface Entry {
@@ -39,17 +40,19 @@ let id = 0;
 //   - all unlockable together
 //   - all ongoing together
 //   - unlocks are displayed individually
-function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] = []): State {
+function groupLocks (t: TFunction, bestNumber: BN, locks: Partial<DeriveDemocracyLock>[] = []): State {
   return {
-    maxBalance: bnMax(...locks.map(({ balance }) => balance)),
+    maxBalance: bnMax(...locks.map(({ balance }) => balance).filter((b): b is Balance => !!b)),
     sorted: locks
-      .map((info): [DeriveDemocracyLock, BN] => [info, info.unlockAt.gt(bestNumber) ? info.unlockAt.sub(bestNumber) : BN_ZERO])
-      .sort((a, b) => a[0].referendumId.cmp(b[0].referendumId))
+      .map((info): [Partial<DeriveDemocracyLock>, BN] => [info, info.unlockAt && info.unlockAt.gt(bestNumber) ? info.unlockAt.sub(bestNumber) : BN_ZERO])
+      .sort((a, b) => (a[0].referendumId || BN_ZERO).cmp(b[0].referendumId || BN_ZERO))
       .sort((a, b) => a[1].cmp(b[1]))
       .sort((a, b) => a[0].isFinished === b[0].isFinished ? 0 : (a[0].isFinished ? -1 : 1))
-      .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished, referendumId, vote }, blocks]): Entry[] => {
+      .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished = false, referendumId, vote }, blocks]): Entry[] => {
         const isCountdown = blocks.gt(BN_ZERO);
-        const header = <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}{isDelegated && '/d'}</div>;
+        const header = referendumId && vote
+          ? <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction?.toString()}{isDelegated && '/d'}</div>
+          : <div>{t('Prior locked voting')}</div>;
         const prev = sorted.length ? sorted[sorted.length - 1] : null;
 
         if (!prev || (isCountdown || (isFinished !== prev.isFinished))) {
@@ -107,11 +110,15 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
 
   return (
     <div className={className}>
-      <Icon
-        icon='clock'
-        tooltip={trigger}
+      <FormatBalance
+        labelPost={
+          <Icon
+            icon='clock'
+            tooltip={trigger}
+          />
+        }
+        value={maxBalance}
       />
-      <FormatBalance value={maxBalance} />
       <Tooltip
         text={sorted.map(({ details, headers }, index): React.ReactNode => (
           <div
@@ -132,11 +139,6 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
 
 export default React.memo(styled(DemocracyLocks)`
   white-space: nowrap;
-
-  .ui--Icon {
-    margin-left: 0;
-    margin-right: 0.25rem;
-  }
 
   .ui--FormatBalance {
     display: inline-block;

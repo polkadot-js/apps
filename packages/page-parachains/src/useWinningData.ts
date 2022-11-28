@@ -1,18 +1,17 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
 import type { AuctionInfo, WinnerData, Winning } from './types';
 
-import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
+import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
+import { BN, BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
 import { CROWD_PREFIX } from './constants';
-import useRanges from './useRanges';
+import { useLeaseRanges } from './useLeaseRanges';
 
 const FIRST_PARAM = [0];
 
@@ -121,9 +120,10 @@ function mergeFirst (ranges: [number, number][], auctionInfo: AuctionInfo, prev:
   return prev;
 }
 
-export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
+function useWinningDataImpl (auctionInfo?: AuctionInfo): Winning[] | undefined {
   const { api } = useApi();
-  const ranges = useRanges();
+  const mountedRef = useIsMountedRef();
+  const ranges = useLeaseRanges();
   const [result, setResult] = useState<Winning[] | undefined>();
   const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
@@ -133,17 +133,17 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
 
   // should be fired once, all entries as an initial round
   useEffect((): void => {
-    auctionInfo && initialEntries && setResult(
+    mountedRef.current && auctionInfo && initialEntries && setResult(
       extractData(ranges, auctionInfo, initialEntries)
     );
-  }, [auctionInfo, initialEntries, ranges]);
+  }, [auctionInfo, initialEntries, mountedRef, ranges]);
 
   // when block 0 changes, update (typically in non-ending-period, static otherwise)
   useEffect((): void => {
-    auctionInfo && optFirstData && setResult((prev) =>
+    mountedRef.current && auctionInfo && optFirstData && setResult((prev) =>
       mergeFirst(ranges, auctionInfo, prev, optFirstData)
     );
-  }, [auctionInfo, optFirstData, ranges]);
+  }, [auctionInfo, optFirstData, mountedRef, ranges]);
 
   // on a bid event, get the new entry (assuming the event really triggered, i.e. not just a block)
   // and add it to the list when not duplicated. Additionally we cleanup after ourselves when endBlock
@@ -156,12 +156,16 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
 
       api.query.auctions
         ?.winning<Option<WinningData>>(blockOffset)
-        .then((optCurrent) => setResult((prev) =>
-          mergeCurrent(ranges, auctionInfo, prev, optCurrent, blockOffset)
-        ))
+        .then((optCurrent) =>
+          mountedRef.current && setResult((prev) =>
+            mergeCurrent(ranges, auctionInfo, prev, optCurrent, blockOffset)
+          )
+        )
         .catch(console.error);
     }
-  }, [api, bestNumber, auctionInfo, ranges, trigger, triggerRef]);
+  }, [api, bestNumber, auctionInfo, mountedRef, ranges, trigger, triggerRef]);
 
   return result;
 }
+
+export default createNamedHook('useWinningData', useWinningDataImpl);

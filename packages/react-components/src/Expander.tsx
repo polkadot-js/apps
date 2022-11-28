@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -14,7 +14,7 @@ import Icon from './Icon';
 import { useTranslation } from './translate';
 
 interface Meta {
-  documentation: Text[];
+  docs: Text[];
 }
 
 export interface Props {
@@ -30,6 +30,7 @@ export interface Props {
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
   summarySub?: React.ReactNode;
+  withBreaks?: boolean;
   withHidden?: boolean;
 }
 
@@ -44,12 +45,12 @@ function splitParts (value: string): string[] {
 }
 
 function formatMeta (meta?: Meta): React.ReactNode | null {
-  if (!meta || !meta.documentation.length) {
+  if (!meta || !meta.docs.length) {
     return null;
   }
 
-  const strings = meta.documentation.map((doc) => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc) => !doc.length);
+  const strings = meta.docs.map((d) => d.toString().trim());
+  const firstEmpty = strings.findIndex((d) => !d.length);
   const combined = (
     firstEmpty === -1
       ? strings
@@ -60,7 +61,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
@@ -85,7 +86,7 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''} ${className}`}>
+    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
       <div
         className='ui--Expander-summary'
         onClick={toggleExpanded}
@@ -136,14 +137,8 @@ export default React.memo(styled(Expander)`
     }
   }
 
-  &.hasContent .ui--Expander-summary {
-    cursor: pointer;
-  }
-
-  &.isPadded {
-    .ui--Expander-summary {
-      margin-left: 2.25rem;
-    }
+  &.withBreaks .ui--Expander-content {
+    white-space: normal;
   }
 
   .ui--Expander-summary {
@@ -183,5 +178,13 @@ export default React.memo(styled(Expander)`
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+
+  &.hasContent .ui--Expander-summary {
+    cursor: pointer;
+  }
+
+  &.isPadded .ui--Expander-summary {
+    margin-left: 2.25rem;
   }
 `);

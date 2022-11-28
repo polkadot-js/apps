@@ -1,11 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import type { BN } from '@polkadot/util';
+
+import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -13,24 +15,34 @@ interface Props {
   members: string[];
 }
 
-const MAX_REASON_LEN = 128;
+const MAX_REASON_LEN = 256;
 const MIN_REASON_LEN = 5;
 
-function TipCreate ({ members }: Props): React.ReactElement<Props> {
+function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
-  const [isMember, setIsMember] = useState(false);
   const [reason, setReason] = useState('');
   const [value, setValue] = useState<BN | undefined>();
-  const hasValue = value?.gtn(0);
-  const hasReason = reason?.length >= MIN_REASON_LEN && reason?.length <= MAX_REASON_LEN;
+  const maxReasonLen = useMemo(
+    () => Math.min(MAX_REASON_LEN, (
+      (api.consts.tips || api.consts.treasury)?.maximumReasonLength?.toNumber() ||
+      MAX_REASON_LEN
+    )),
+    [api]
+  );
+  const isMember = useMemo(
+    () => !!accountId && members.includes(accountId),
+    [accountId, members]
+  );
+  const hasValue = !!value && value.gt(BN_ZERO);
+  const hasReason = !!reason && (reason.length >= MIN_REASON_LEN) && (reason.length <= maxReasonLen);
 
-  useEffect((): void => {
-    setIsMember(members.includes(accountId || ''));
-  }, [accountId, members]);
+  if (!(api.tx.tips.tipNew || api.tx.treasury.tipNew)) {
+    return null;
+  }
 
   return (
     <>
@@ -42,6 +54,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
       {isOpen && (
         <Modal
           header={t<string>('Submit tip request')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -82,7 +95,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
               </Modal.Columns>
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

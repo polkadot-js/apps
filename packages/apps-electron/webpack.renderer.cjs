@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -17,7 +17,15 @@ module.exports = merge(
   {
     plugins: [
       // It must be placed before HtmlWebpackPlugin
-      new CopyWebpackPlugin({ patterns: [{ from: '../apps/public' }] }),
+      new CopyWebpackPlugin({
+        patterns: [{
+          from: '../apps/public',
+          globOptions: {
+            dot: true,
+            ignore: ['**/index.html']
+          }
+        }]
+      }),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Dock Node Frontend',
         inject: true,

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -13,13 +13,15 @@ import Dropdown from '../Dropdown';
 interface Props {
   api: ApiPromise;
   className?: string;
+  defaultValue?: string;
+  isDisabled?: boolean;
   isError?: boolean;
-  onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
+  onChange?: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   options: DropdownOptions;
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className = '', defaultValue, isDisabled, isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
@@ -33,6 +35,8 @@ function SelectMethod ({ api, className = '', isError, onChange, options, value 
   return (
     <Dropdown
       className={`ui--DropdownLinked-Items ${className}`}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
       isError={isError}
       onChange={onChange}
       options={options}

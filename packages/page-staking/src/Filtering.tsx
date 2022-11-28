@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
@@ -15,8 +15,8 @@ interface Props {
   className?: string;
   nameFilter: string;
   setNameFilter: (value: string, isQuery: boolean) => void;
-  setWithIdentity: (value: boolean) => void;
-  withIdentity: boolean;
+  setWithIdentity?: (value: boolean) => void;
+  withIdentity?: boolean;
 }
 
 function Filtering ({ children, className, nameFilter, setNameFilter, setWithIdentity, withIdentity }: Props): React.ReactElement<Props> | null {
@@ -47,17 +47,19 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
         onChange={_setNameFilter}
         value={nameFilter}
       />
-      <div className='staking--optionsBar'>
-        {children}
-        {api.query.identity && (
-          <Toggle
-            className='staking--buttonToggle'
-            label={t<string>('only with an identity')}
-            onChange={setWithIdentity}
-            value={withIdentity}
-          />
-        )}
-      </div>
+      {(children || setWithIdentity) && (
+        <div className='staking--optionsBar'>
+          {children}
+          {setWithIdentity && api.query.identity && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={t<string>('with an identity')}
+              onChange={setWithIdentity}
+              value={withIdentity}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,6 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { TeamState } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -12,14 +11,13 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../../translate';
 
 interface Props {
-  accountId?: string;
-  assetId?: BN;
+  accountId: string;
   className?: string;
   defaultValue: TeamState | null;
   onChange: (info: TeamState | null) => void;
 }
 
-function Team ({ accountId, assetId, className = '', defaultValue, onChange }: Props): React.ReactElement<Props> {
+function Team ({ accountId, className = '', defaultValue, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [initial] = useState(() => defaultValue);
@@ -29,13 +27,11 @@ function Team ({ accountId, assetId, className = '', defaultValue, onChange }: P
 
   useEffect((): void => {
     onChange(
-      assetId && accountId && adminId && freezerId && issuerId
-        ? adminId !== accountId || freezerId !== accountId || issuerId !== accountId
-          ? { adminId, freezerId, issuerId, teamTx: api.tx.assets.setTeam(assetId, issuerId, adminId, freezerId) }
-          : { adminId, freezerId, issuerId, teamTx: null }
+      adminId && freezerId && issuerId
+        ? { adminId, freezerId, issuerId }
         : null
     );
-  }, [api, assetId, accountId, adminId, freezerId, issuerId, onChange]);
+  }, [api, adminId, freezerId, issuerId, onChange]);
 
   return (
     <Modal.Content className={className}>
@@ -47,7 +43,7 @@ function Team ({ accountId, assetId, className = '', defaultValue, onChange }: P
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The account that is to be used for issuing for this token.')}>
+      <Modal.Columns hint={t<string>('The account that is to be used for issuing this token.')}>
         <InputAddress
           defaultValue={initial?.issuerId || accountId}
           label={t<string>('issuer account')}

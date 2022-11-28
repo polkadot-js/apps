@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import { AddressMini, Expander } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -15,6 +15,17 @@ interface Props {
 }
 
 function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
+  const renderVoters = useCallback(
+    () => voters && voters.map((who): React.ReactNode =>
+      <AddressMini
+        key={who.toString()}
+        value={who}
+        withLockedVote
+      />
+    ),
+    [voters]
+  );
+
   if (!balance || !voters || !voters.length) {
     return <><td className='all number' /><td className='number' /></>;
   }
@@ -22,15 +33,10 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
   return (
     <>
       <td className='all expand'>
-        <Expander summary={<FormatBalance value={balance} />} >
-          {voters.map((who): React.ReactNode =>
-            <AddressMini
-              key={who.toString()}
-              value={who}
-              withLockedVote
-            />
-          )}
-        </Expander>
+        <ExpanderScroll
+          renderChildren={renderVoters}
+          summary={<FormatBalance value={balance} />}
+        />
       </td>
       <td className='number'>
         {formatNumber(voters.length)}

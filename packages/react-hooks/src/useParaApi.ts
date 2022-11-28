@@ -1,65 +1,55 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { BN } from '@polkadot/util';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { typesBundle, typesChain } from '@polkadot/apps-config';
+import { ApiPromise } from '@polkadot/api';
+import { arrayShuffle } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
+import { useApiUrl } from './useApiUrl';
 import { useIsMountedRef } from './useIsMountedRef';
 import { useParaEndpoints } from './useParaEndpoints';
 
 interface Result {
   api?: ApiPromise | null;
   endpoints: LinkOption[];
+  urls: string[];
 }
 
-function disconnect (api: ApiPromise | null): void {
-  api && api.disconnect().catch(console.error);
-}
-
-export function useParaApi (paraId: BN | number): Result {
-  const apiRef = useRef<ApiPromise | null>(null);
+function useParaApiImpl (paraId: BN | number): Result {
   const mountedRef = useIsMountedRef();
   const endpoints = useParaEndpoints(paraId);
-  const [state, setState] = useState<Result>({ api: null, endpoints });
-
-  useEffect((): () => void => {
-    return (): void => {
-      disconnect(apiRef.current);
-      apiRef.current = null;
-    };
-  }, []);
-
-  const _setApi = useCallback(
-    (api: ApiPromise | null): void => {
-      disconnect(apiRef.current);
-
-      if (mountedRef.current) {
-        apiRef.current = api;
-        setState(({ endpoints }) => ({ api, endpoints }));
-      }
-    },
-    [mountedRef]
-  );
+  const [state, setState] = useState<Result>(() => ({
+    api: null,
+    endpoints,
+    urls: []
+  }));
+  const api = useApiUrl(state.urls);
 
   useEffect((): void => {
-    if (endpoints.length) {
-      ApiPromise
-        .create({
-          provider: new WsProvider(endpoints[endpoints.length - 1].value as string),
-          typesBundle,
-          typesChain
-        })
-        .then(_setApi)
-        .catch(console.error);
-    } else {
-      _setApi(null);
-    }
-  }, [_setApi, endpoints]);
+    mountedRef.current && setState({
+      api: null,
+      endpoints,
+      urls: arrayShuffle(
+        endpoints
+          .filter(({ isDisabled, isUnreachable }) => !isDisabled && !isUnreachable)
+          .map(({ value }) => value))
+    });
+  }, [endpoints, mountedRef]);
+
+  useEffect((): void => {
+    mountedRef.current && setState(({ endpoints, urls }) => ({
+      api,
+      endpoints,
+      urls
+    }));
+  }, [api, mountedRef]);
 
   return state;
 }
+
+export const useParaApi = createNamedHook('useParaApi', useParaApiImpl);

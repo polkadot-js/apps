@@ -1,7 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useState } from 'react';
+
+import { createNamedHook } from './createNamedHook';
 
 const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);
@@ -111,8 +113,10 @@ export function extractIpfsDetails (): State {
       : extractOther(url);
 }
 
-export function useIpfs (): State {
+function useIpfsImpl (): State {
   const [state] = useState(() => extractIpfsDetails());
 
   return state;
 }
+
+export const useIpfs = createNamedHook('useIpfs', useIpfsImpl);

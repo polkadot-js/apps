@@ -1,70 +1,57 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressIdentity } from '@polkadot/react-hooks/types';
-import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
-import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-components';
+import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Judgements from './Judgements';
 import RegistrarJudgement from './RegistrarJudgement';
+import UserIcon from './UserIcon';
 
 interface Props {
   address: string;
   identity?: AddressIdentity;
 }
 
+const SUBS_DISPLAY_THRESHOLD = 4;
+
 function Identity ({ address, identity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
-  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
+  const subs = useSubidentities(address);
+
+  const subsList = useMemo(() =>
+    subs?.map((sub) =>
+      <AddressMini
+        className='subs'
+        isPadded={false}
+        key={sub.toString()}
+        value={sub}
+      />
+    )
+  , [subs]
+  );
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
   }
 
   return (
-    <section>
+    <section
+      className='withDivider'
+      data-testid='identity-section'
+    >
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
-          <div>
-            <Icon icon='address-card' />
-            &nbsp;
-            {t<string>('identity')}
-          </div>
-          <Tag
-            color={
-              identity.isBad
-                ? 'red'
-                : identity.isGood
-                  ? 'green'
-                  : 'yellow'
-            }
-            isTag={false}
-            label={
-              <>
-                <b>{identity.judgements.length}&nbsp;</b>
-                {
-                  identity.judgements.length
-                    ? identity.isBad
-                      ? identity.isErroneous
-                        ? t<string>('Erroneous')
-                        : t<string>('Low quality')
-                      : identity.isKnownGood
-                        ? t<string>('Known good')
-                        : t<string>('Reasonable')
-                    : t<string>('No judgments')
-                }
-              </>
-            }
-            size='tiny'
-          />
+          {t<string>('identity')}
         </div>
         <div>
           <AvatarItem
@@ -74,14 +61,12 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               //   ? <img src={identity.image} />
               //   : <i className='icon user ui--AddressMenu-identityIcon' />
               //
-              <Icon
-                className='ui--AddressMenu-identityIcon'
-                icon='user'
-              />
+              <UserIcon />
             }
             subtitle={identity.legal}
             title={identity.display}
           />
+          <Judgements address={address} />
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>
@@ -103,7 +88,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     ? identity.email
                     : (
                       <a
-                        href={`mailto:${identity.email as string}`}
+                        href={`mailto:${identity.email}`}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -121,7 +106,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     ? identity.web
                     : (
                       <a
-                        href={(identity.web as string).replace(/^(https?:\/\/)?/g, 'https://')}
+                        href={(identity.web).replace(/^(https?:\/\/)?/g, 'https://')}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -140,9 +125,9 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     : (
                       <a
                         href={
-                          (identity.twitter as string).startsWith('https://twitter.com/')
-                            ? (identity.twitter as string)
-                            : `https://twitter.com/${identity.twitter as string}`
+                          (identity.twitter).startsWith('https://twitter.com/')
+                            ? (identity.twitter)
+                            : `https://twitter.com/${identity.twitter}`
                         }
                         rel='noopener noreferrer'
                         target='_blank'
@@ -162,26 +147,28 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               </div>
             )}
             {!!subs?.length && (
-              <div className='tr subs'>
-                {subs.length > 1
-                  ? <div className='th top'>{t<string>('subs')}</div>
-                  : <div className='th'>{t<string>('sub')}</div>
-                }
-                <div className='td'>
-                  <Expander summary={`(${subs.length})`}>
-                    <div className='body column'>
-                      {subs.map((sub) =>
-                        <AddressMini
-                          className='subs'
-                          isPadded={false}
-                          key={sub.toString()}
-                          value={sub}
-                        />
-                      )}
-                    </div>
-                  </Expander>
+              <div className='tr'>
+                <div className='th top'>{t<string>('subs')}</div>
+                <div
+                  className='td'
+                  data-testid='subs'
+                >
+                  {subs.length > SUBS_DISPLAY_THRESHOLD
+                    ? (
+                      <Expander summary={subs.length}>
+                        {subsList}
+                      </Expander>
+                    )
+                    : (
+                      <>
+                        <div className='subs-number'>{subs.length}</div>
+                        {subsList}
+                      </>
+                    )
+                  }
                 </div>
-              </div>)}
+              </div>
+            )}
           </div>
         </div>
       </div>

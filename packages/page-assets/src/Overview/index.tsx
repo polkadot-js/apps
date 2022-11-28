@@ -1,5 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { BN } from '@polkadot/util';
+import type { AssetInfo } from '../types';
 
 import React from 'react';
 
@@ -8,22 +11,25 @@ import { Button } from '@polkadot/react-components';
 import Assets from './Assets';
 import Create from './Create';
 import Summary from './Summary';
-import useAssetIds from './useAssetIds';
 
 interface Props {
   className?: string;
+  ids?: BN[];
+  infos?: AssetInfo[];
+  openId: BN;
 }
 
-function Overview ({ className }: Props): React.ReactElement<Props> {
-  const assetIds = useAssetIds();
-
+function Overview ({ className, ids, infos, openId }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <Summary numAssets={assetIds?.length} />
+      <Summary numAssets={ids?.length} />
       <Button.Group>
-        <Create assetIds={assetIds} />
+        <Create
+          assetIds={ids}
+          openId={openId}
+        />
       </Button.Group>
-      <Assets assetIds={assetIds} />
+      <Assets infos={infos} />
     </div>
   );
 }

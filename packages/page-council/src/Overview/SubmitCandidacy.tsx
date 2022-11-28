@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-council authors & contributors
+// Copyright 2017-2022 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentProps as Props } from './types';
@@ -9,13 +9,18 @@ import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/r
 import { useApi, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleElections } from '../useModuleElections';
 
-function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
+function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const [accountId, setAcountId] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState<string | null>(null);
   const { isOpen, onClose, onOpen } = useModal();
-  const modLocation = api.tx.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+  const modLocation = useModuleElections();
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -30,20 +35,22 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
               <InputAddress
                 help={t<string>('Select the account you wish to submit for candidacy.')}
                 label={t<string>('candidate account')}
-                onChange={setAcountId}
+                onChange={setAccountId}
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
-              <InputBalance
-                defaultValue={api.consts[modLocation].candidacyBond}
-                help={t<string>('The bond that is reserved')}
-                isDisabled
-                label={t<string>('candidacy bond')}
-              />
-            </Modal.Columns>
+            {api.consts[modLocation] && (
+              <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
+                <InputBalance
+                  defaultValue={api.consts[modLocation].candidacyBond}
+                  help={t<string>('The bond that is reserved')}
+                  isDisabled
+                  label={t<string>('candidacy bond')}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
-          <Modal.Actions onCancel={onClose}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!electionsInfo}
@@ -53,7 +60,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                   ? [electionsInfo?.candidates.length]
                   : []
               }
-              tx={(api.tx.electionsPhragmen || api.tx.elections).submitCandidacy}
+              tx={api.tx[modLocation].submitCandidacy}
             />
           </Modal.Actions>
         </Modal>

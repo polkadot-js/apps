@@ -1,17 +1,23 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance, FormatBalance } from '@polkadot/react-query';
-import { BN_ONE, bnToBn } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
+import { bnToBn } from '@polkadot/util';
+import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance } from '@polkadot/react-query';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import SummarySession from './SummarySession';
 import { useTranslation } from './translate';
 
-function Summary (): React.ReactElement {
+interface Props {
+  eventCount: number;
+}
+
+function Summary ({ eventCount }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
   const [ remainingSupply, setRemainingSupply ] = useState();
@@ -40,15 +46,19 @@ function Summary (): React.ReactElement {
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('last block')}>
-          <TimeNow />
-        </CardSummary>
-        <CardSummary
-          className='media--800'
-          label={t<string>('target')}
-        >
-          <BlockToTime value={BN_ONE} />
-        </CardSummary>
+        {api.query.timestamp && (
+          <>
+            <CardSummary label={t<string>('last block')}>
+              <TimeNow />
+            </CardSummary>
+            <CardSummary
+              className='media--800'
+              label={t<string>('target')}
+            >
+              <BlockToTime value={BN_ONE} />
+            </CardSummary>
+          </>
+        )}
         {api.query.balances && (
           <CardSummary
             className='media--800'
@@ -85,6 +95,12 @@ function Summary (): React.ReactElement {
         <SummarySession />
       </section>
       <section>
+        <CardSummary
+          className='media--1000'
+          label={t<string>('last events')}
+        >
+          {formatNumber(eventCount)}
+        </CardSummary>
         {api.query.grandpa && (
           <CardSummary label={t<string>('finalized')}>
             <BestFinalized />

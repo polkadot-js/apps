@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import IdentityIcon from './IdentityIcon';
 import Input from './Input';
-import addressToAddress from './util/toAddress';
+import { toAddress } from './util';
 
 interface Props {
   autoFocus?: boolean;
@@ -14,26 +14,32 @@ interface Props {
   className?: string;
   defaultValue?: string | null;
   help?: React.ReactNode;
+  isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
   label?: React.ReactNode;
+  noConvert?: boolean;
   onChange?: (address: string | null) => void;
   onEnter?: () => void;
   onEscape?: () => void;
 }
 
-function InputAddressSimple ({ autoFocus, children, className = '', defaultValue, help, isError, isFull, label, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = useCallback(
     (_address: string): void => {
-      const address = addressToAddress(_address) || null;
+      const address = toAddress(_address) || null;
+      const output = noConvert
+        ? address
+          ? _address
+          : null
+        : address;
 
-      setAddress(address);
-
-      onChange && onChange(address);
+      setAddress(output);
+      onChange && onChange(output);
     },
-    [onChange]
+    [noConvert, onChange]
   );
 
   return (
@@ -42,6 +48,7 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
         autoFocus={autoFocus}
         defaultValue={defaultValue}
         help={help}
+        isDisabled={isDisabled}
         isError={isError || !address}
         isFull={isFull}
         label={label}

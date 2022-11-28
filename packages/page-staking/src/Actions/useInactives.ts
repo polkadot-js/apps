@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/types/interfaces';
@@ -8,7 +9,8 @@ import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/t
 import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Inactives {
   nomsActive?: string[];
@@ -34,7 +36,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
 
   // all nominations that are oversubscribed
   const nomsOver = exposures
-    .map(({ others }) => others.sort((a, b) => b.value.unwrap().cmp(a.value.unwrap())))
+    .map(({ others }) => others.sort((a, b) => (b.value?.unwrap() || BN_ZERO).cmp(a.value?.unwrap() || BN_ZERO)))
     .map((others, index) =>
       !max || max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
         ? null
@@ -54,7 +56,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   // waiting if validator is inactive or we have not submitted long enough ago
   const nomsWaiting = exposures
     .map((exposure, index) =>
-      exposure.total.unwrap().isZero() || (
+      exposure.total?.unwrap().isZero() || (
         nomsInactive.includes(nominees[index]) &&
         // it could be activeEra + 1 (currentEra for last session)
         submittedIn.gte(activeEra)
@@ -80,7 +82,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   };
 }
 
-export default function useInactives (stashId: string, nominees?: string[]): Inactives {
+function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
@@ -92,7 +94,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
     if (mountedRef.current && nominees && nominees.length && indexes) {
       api
         .queryMulti(
-          [[api.query.staking.nominators, stashId] as any]
+          [[api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>]
             .concat(
               api.query.staking.erasStakers
                 ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
@@ -122,3 +124,5 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
 
   return state;
 }
+
+export default createNamedHook('useInactives', useInactivesImpl);

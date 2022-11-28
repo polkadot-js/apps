@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
+import type { CallFunction } from '@polkadot/types/types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Dropdown, Input, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
@@ -32,27 +33,39 @@ interface Option {
   value: string;
 }
 
+interface CallData {
+  callData: Call | null;
+  callError: string | null;
+  callInfo: CallFunction | null;
+}
+
+const EMPTY_CALL: CallData = {
+  callData: null,
+  callError: null,
+  callInfo: null
+};
+
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [callData, setCallData] = useState<Call | null>(null);
-  const [callWeight] = useWeight(callData);
-  const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
-  const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
+  const [callHex, setCallHex] = useState<string>('');
+  const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
+  const { encodedCallLength, weight } = useWeight(callData);
+  const [hash, setHash] = useState<string | null>(() => ongoing[0][0].toHex());
+  const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>(() => ({ isMultiCall: false, multisig: null }));
   const [isCallOverride, setCallOverride] = useState(true);
   const [others, setOthers] = useState<AccountId[]>([]);
   const [signatory, setSignatory] = useState<string | null>(null);
   const [whoFilter, setWhoFilter] = useState<string[]>([]);
   const [type, setType] = useState<string | null>('aye');
   const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const calltypes = useMemo<Option[]>(
-    () => [
-      { text: t<string>('Approve this call hash'), value: 'aye' },
-      { text: t<string>('Cancel this call hash'), value: 'nay' }
-    ],
-    [t]
-  );
+
+  const callOptRef = useRef<Option[]>([
+    { text: t<string>('Approve this call hash'), value: 'aye' },
+    { text: t<string>('Cancel this call hash'), value: 'nay' }
+  ]);
+
   const hashes = useMemo<Option[]>(
     () => ongoing.map(([h]) => ({ text: h.toHex(), value: h.toHex() })),
     [ongoing]
@@ -66,7 +79,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       isMultiCall: !!multisig && (multisig.approvals.length + 1) >= threshold,
       multisig
     });
-    setCallData(null);
+    setCallData(EMPTY_CALL);
   }, [hash, ongoing, threshold]);
 
   // the others are all the who elements, without the current signatory (re-encoded)
@@ -89,11 +102,32 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         .map((w) => api.createType('AccountId', w).toString())
         .filter((w) => allAccounts.some((a) => a === w) && multisig && (
           type === 'nay'
-            ? multisig.approvals[0].eq(w)
+            ? multisig.depositor.eq(w)
             : hasThreshold || !multisig.approvals.some((a) => a.eq(w))
         ))
     );
   }, [api, allAccounts, multisig, threshold, type, who]);
+
+  // when the hex changes, re-evaluate
+  useEffect((): void => {
+    if (callHex) {
+      try {
+        assert(isHex(callHex), 'Hex call data required');
+
+        const callData = api.createType('Call', callHex);
+
+        assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
+
+        const callInfo = api.registry.findMetaCall(callData.callIndex);
+
+        setCallData({ callData, callError: null, callInfo });
+      } catch (error) {
+        setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
+      }
+    } else {
+      setCallData(EMPTY_CALL);
+    }
+  }, [api, callHex, hash]);
 
   // based on the type, multisig, others create the tx. This can be either an approval or final call
   useEffect((): void => {
@@ -104,41 +138,27 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         ? type === 'aye'
           ? isMultiCall && isCallOverride
             ? callData
-              ? multiMod.asMulti.meta.args.length === 6
-                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, callWeight)
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
-                : multiMod.asMulti(threshold, others, multisig.when, callData)
+              ? multiMod.asMulti.meta.args.length === 5
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), weight as any)
+                : multiMod.asMulti.meta.args.length === 6
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+                  ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, weight)
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+                  : multiMod.asMulti(threshold, others, multisig.when, callData)
               : null
             : multiMod.approveAsMulti.meta.args.length === 5
-              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, callWeight)
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, weight as any)
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               : multiMod.approveAsMulti(threshold, others, multisig.when, hash)
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, callWeight, hash, isCallOverride, isMultiCall, others, multisig, threshold, type]);
-
-  // when the actual call input changes, create a call and set it
-  const _setCallData = useCallback(
-    (callHex: string): void => {
-      try {
-        assert(isHex(callHex), 'Hex call data required');
-
-        const callData = api.createType('Call', callHex);
-
-        setCallData(
-          callData.hash.eq(hash)
-            ? callData
-            : null
-        );
-      } catch (error) {
-        setCallData(null);
-      }
-    },
-    [api, hash]
-  );
+  }, [api, callData, hash, isCallOverride, isMultiCall, others, multisig, threshold, type, weight]);
 
   const isAye = type === 'aye';
 
@@ -146,24 +166,57 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     <Modal
       className={className}
       header={t<string>('Pending call hashes')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
             help={t<string>('The call hashes that have not been executed as of yet.')}
-            label={t<string>('pending hashes')}
+            label={t<string>('pending hashes {{count}}', {
+              replace: { count: hashes.length }
+            })}
             onChange={setHash}
             options={hashes}
             value={hash}
           />
         </Modal.Columns>
+        {multisig && (
+          <>
+            <Modal.Columns hint={t<string>('The creator for this multisig call')}>
+              <InputAddress
+                defaultValue={multisig.depositor}
+                isDisabled
+                label={t<string>('depositor')}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The current approvals applied to this multisig')}>
+              <Expander
+                isPadded
+                summary={t<string>('Existing approvals ({{approvals}}/{{threshold}})', {
+                  replace: {
+                    approvals: multisig.approvals.length,
+                    threshold
+                  }
+                })}
+              >
+                {multisig.approvals.map((a) =>
+                  <AddressMini
+                    isPadded={false}
+                    key={assert.toString()}
+                    value={a}
+                  />
+                )}
+              </Expander>
+            </Modal.Columns>
+          </>
+        )}
         <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
             help={t<string>('Either approve or reject this call.')}
             label={t<string>('approval type')}
             onChange={setType}
-            options={calltypes}
+            options={callOptRef.current}
             value={type}
           />
         </Modal.Columns>
@@ -181,13 +234,31 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
               <>
                 {isCallOverride && (
                   <Modal.Columns hint={t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
-                    <Input
-                      autoFocus
-                      help={t('For final approvals, the actual full call data is required to execute the transaction')}
-                      isError={!callData}
-                      label={t('call data for final approval')}
-                      onChange={_setCallData}
-                    />
+                    {callData && callInfo
+                      ? (
+                        <Expander
+                          isPadded
+                          summary={`${callInfo.section}.${callInfo.method}`}
+                          summaryMeta={callInfo.meta}
+                        >
+                          <CallDisplay
+                            className='details'
+                            value={callData}
+                          />
+                        </Expander>
+                      )
+                      : (
+                        <Input
+                          autoFocus
+                          help={t('For final approvals, the actual full call data is required to execute the transaction')}
+                          isError={!callHex || !!callError}
+                          label={t('call data for final approval')}
+                          onChange={setCallHex}
+                        />
+                      )}
+                    {callError && (
+                      <MarkError content={callError} />
+                    )}
                   </Modal.Columns>
                 )}
                 <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
@@ -207,12 +278,12 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           </>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={signatory}
           extrinsic={tx}
           icon={isAye ? 'check' : 'times'}
-          isDisabled={!tx || (isAye && !whoFilter.length)}
+          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !encodedCallLength)))}
           label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />

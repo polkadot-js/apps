@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useParaEndpoints } from '@polkadot/react-hooks';
@@ -17,12 +17,18 @@ interface Props {
 
 function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
   const endpoints = useParaEndpoints(id);
+  const links = useMemo(
+    () => endpoints.filter(({ isDisabled, isUnreachable }) => !isDisabled && !isUnreachable),
+    [endpoints]
+  );
 
   if (!endpoints.length) {
     return null;
   }
 
-  const { info, text, value } = endpoints[endpoints.length - 1];
+  const { info, text, value } = links.length
+    ? links[links.length - 1]
+    : endpoints[0];
 
   return (
     <div className={className}>
@@ -31,10 +37,15 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
         logo={info || 'empty'}
         withoutHl
       />
-      <a
-        className='chainAlign'
-        href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}
-      >{text}</a>
+      {links.length
+        ? (
+          <a
+            className='chainAlign'
+            href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}
+          >{text}</a>
+        )
+        : text
+      }
     </div>
   );
 }
@@ -47,6 +58,9 @@ export default React.memo(styled(ParaLink)`
     display: inline-block;
     height: 24px;
     line-height: 24px;
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
     vertical-align: middle;
   }
 `);

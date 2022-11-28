@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfoTyped } from './types';
@@ -63,7 +63,7 @@ function createLink (to: string, desc: string): React.ReactNode {
   return <div className='itemLink'><a href={`#/${to}`}>{desc}</a></div>;
 }
 
-function DayItem ({ className, item: { date, info, type }, showAllEvents }: Props): React.ReactElement<Props> {
+function DayItem ({ className, item: { blockNumber, date, info, type }, showAllEvents }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [description, setDescription] = useState<string>('');
@@ -183,6 +183,7 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
         <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
+      <div className='itemBlock'>#{formatNumber(blockNumber)}</div>
       {desc}
       {date && (
         <Button
@@ -205,6 +206,10 @@ export default React.memo(styled(DayItem)`
     margin-left: 0.5rem;
   }
 
+  > div.itemTime+div.itemBlock {
+    margin-left: 0.25rem;
+  }
+
   .exportCal {
     padding: 0;
     position: absolute;
@@ -220,6 +225,15 @@ export default React.memo(styled(DayItem)`
     right: 3.5rem;
   }
 
+  .itemBlock {
+    background: #aaa;
+    color: #eee;
+    font-size: 0.85rem;
+    align-self: center;
+    padding: 0.075rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
   .itemDate {
     padding: 0 0.375rem;
     border-radius: 0.25rem;
@@ -228,8 +242,8 @@ export default React.memo(styled(DayItem)`
 
   .itemTime {
     background: #999;
+    color: #eee;
     padding: 0 0.375rem;
     border-radius: 0.25rem;
-    color: #eee;
   }
 `);

@@ -1,19 +1,18 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { CallResult } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ContractPromise } from '@polkadot/api-contract';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ONE, BN_ZERO } from '@polkadot/util';
+import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import { useTranslation } from '../translate';
@@ -37,10 +36,10 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
-  const [value, isValueValid, setEndowment] = useFormField<BN>(BN_ZERO);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [params, setParams] = useState<any[]>([]);
+  const [params, setParams] = useState<unknown[]>([]);
   const [isViaCall, toggleViaCall] = useToggle();
   const weight = useWeight();
   const dbValue = useDebounce(value);
@@ -54,7 +53,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.exec(message, { gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
+        return contract.tx[message.method]({ gasLimit: weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params);
       } catch (error) {
         return null;
       }
@@ -62,14 +61,15 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   }, [accountId, contract, message, value, weight, params]);
 
   useEffect((): void => {
-    if (!accountId || !message || !dbParams || !dbValue) return;
+    if (!accountId || !message || !dbParams || !dbValue) {
+      return;
+    }
 
     contract
-      .read(message, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams)
-      .send(accountId)
-      .then(({ gasConsumed, result }) => setEstimatedWeight(
+      .query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
+      .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasConsumed
+          ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -77,11 +77,12 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !message || !value || !weight) return;
+      if (!accountId || !message || !value || !weight) {
+        return;
+      }
 
       contract
-        .read(message, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params)
-        .send(accountId)
+        .query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params)
         .then((result): void => {
           setOutcomes([{
             ...result,
@@ -97,7 +98,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           onCallResult && onCallResult(messageIndex);
         });
     },
-    [accountId, contract, message, messageIndex, onCallResult, outcomes, params, value, weight]
+    [accountId, contract.query, message, messageIndex, onCallResult, outcomes, params, value, weight]
   );
 
   const _onClearOutcome = useCallback(
@@ -107,7 +108,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   );
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || !message.isMutating);
+  const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
     <Modal
@@ -165,7 +166,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
-            onChange={setEndowment}
+            onChange={setValue}
             value={value}
           />
         )}
@@ -199,7 +200,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           </Expander>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {isViaRpc
           ? (
             <Button
