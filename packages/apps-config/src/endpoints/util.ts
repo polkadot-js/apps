@@ -81,7 +81,7 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
         ? 1
         : b.isLightClient
           ? -1
-          : 0
+          : a.textBy.localeCompare(b.textBy)
     );
 
   if (linked) {
