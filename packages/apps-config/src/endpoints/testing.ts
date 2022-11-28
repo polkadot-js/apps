@@ -18,7 +18,7 @@ export * from './testingRelayWestend';
 export const testChains: EndpointOption[] = [
   {
     info: 'dock-testnet',
-    text: 'Dock PoS Tesnet',
+    text: 'Dock PoS Testnet',
     providers: {
       'Dock Association': 'wss://knox-1.dock.io' // https://github.com/polkadot-js/apps/issues/6831
     }
