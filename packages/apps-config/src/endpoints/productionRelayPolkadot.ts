@@ -60,7 +60,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar',
       'Automata 1RPC': 'wss://1rpc.io/astr',
       // NOTE: Keep this as the last entry, nothing after it
