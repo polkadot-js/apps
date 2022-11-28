@@ -1,10 +1,12 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
+import { nextTick } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
 interface UseAddresses {
@@ -13,7 +15,7 @@ interface UseAddresses {
   isAddress: (address: string) => boolean;
 }
 
-export function useAddresses (): UseAddresses {
+function useAddressesImpl (): UseAddresses {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAddresses>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
 
@@ -29,9 +31,11 @@ export function useAddresses (): UseAddresses {
     });
 
     return (): void => {
-      setTimeout(() => subscription.unsubscribe(), 0);
+      nextTick(() => subscription.unsubscribe());
     };
   }, [mountedRef]);
 
   return state;
 }
+
+export const useAddresses = createNamedHook('useAddresses', useAddressesImpl);

@@ -1,9 +1,11 @@
 {
   "Accounts": "Accounts",
   "Developer": "Developer",
+  "Files": "Files",
   "Governance": "Governance",
   "Initializing connection": "Initializing connection",
   "Network": "Network",
+  "Relay chain": "Relay chain",
   "Settings": "Settings",
   "Switch": "Switch",
   "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.",
@@ -15,5 +17,7 @@
   "nav.wiki": "nav.wiki",
   "transfer received": "transfer received",
   "update on #{{index}}": "update on #{{index}}",
-  "version {{version}}": "version {{version}}"
+  "{{relay}} Common": "{{relay}} Common",
+  "{{relay}} Parachain": "{{relay}} Parachain",
+  "{{relay}} System": "{{relay}} System"
 }

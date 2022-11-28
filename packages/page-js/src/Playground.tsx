@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-js authors & contributors
+// Copyright 2017-2022 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -27,8 +27,8 @@ import { useTranslation } from './translate';
 interface Injected {
   api: ApiPromise;
   console: {
-    error: (...args: any[]) => void;
-    log: (...args: any[]) => void;
+    error: (...args: unknown[]) => void;
+    log: (...args: unknown[]) => void;
   };
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
@@ -44,7 +44,7 @@ const DEFAULT_NULL = { Atomics: null, Bluetooth: null, Clipboard: null, Document
 const snippets = JSON.parse(JSON.stringify(allSnippets)) as Snippet[];
 let hasSnippetWrappers = false;
 
-function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
+function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: unknown[]) => void): Injected {
   return {
     ...Object
       .keys(window)
@@ -56,8 +56,8 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
       }, { ...DEFAULT_NULL }),
     api: api.clone(),
     console: {
-      error: (...args: any[]) => hookConsole('error', args),
-      log: (...args: any[]) => hookConsole('log', args)
+      error: (...args: unknown[]) => hookConsole('error', args),
+      log: (...args: unknown[]) => hookConsole('log', args)
     },
     hashing,
     keyring: isDevelopment
@@ -130,7 +130,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const _hookConsole = useCallback(
-    (type: LogType, args: any[]): void => {
+    (type: LogType, args: unknown[]): void => {
       logs.push({ args, type });
       setLogs(logs.slice(0));
     },
@@ -150,27 +150,31 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const _runJs = useCallback(
-    async (): Promise<void> => {
-      setIsRunning(true);
-      _clearConsole();
+    (): void => {
+      async function run () {
+        setIsRunning(true);
+        _clearConsole();
 
-      injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
+        injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
 
-      await injectedRef.current.api.isReady;
+        await injectedRef.current.api.isReady;
 
-      try {
-        // squash into a single line so exceptions (with line numbers) maps to the
-        // same line/origin as we have in the editor view
-        // TODO: Make the console.error here actually return the full stack
-        const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+        try {
+          // squash into a single line so exceptions (with line numbers) maps to the
+          // same line/origin as we have in the editor view
+          // TODO: Make the console.error here actually return the full stack
+          const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
-        // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
-        new Function('injected', exec).bind({}, injectedRef.current)();
-      } catch (error) {
-        injectedRef.current.console.error(error);
+          // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
+          new Function('injected', exec).bind({}, injectedRef.current)();
+        } catch (error) {
+          injectedRef.current.console.error(error);
+        }
+
+        setIsRunning(false);
       }
 
-      setIsRunning(false);
+      run().catch(console.error);
     },
     [_clearConsole, _hookConsole, apiProps, code]
   );

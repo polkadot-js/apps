@@ -1,18 +1,21 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { BN } from '@polkadot/util';
 
 import { useMemo } from 'react';
 
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { bnToBn } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
+const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
+
 function extractRelayEndpoints (genesisHash: string): LinkOption[] {
-  return createWsEndpoints((key: string, value: string | undefined) => value || key).filter(({ genesisHashRelay }) =>
+  return endpoints.filter(({ genesisHashRelay }) =>
     genesisHash === genesisHashRelay
   );
 }
@@ -20,10 +23,12 @@ function extractRelayEndpoints (genesisHash: string): LinkOption[] {
 function extractParaEndpoints (allEndpoints: LinkOption[], paraId: BN | number): LinkOption[] {
   const numId = bnToBn(paraId).toNumber();
 
-  return allEndpoints.filter(({ paraId }) => paraId === numId);
+  return allEndpoints.filter(({ paraId }) =>
+    paraId === numId
+  );
 }
 
-function useRelayEndpoints (): LinkOption[] {
+function useRelayEndpointsImpl (): LinkOption[] {
   const { api } = useApi();
 
   return useMemo(
@@ -32,7 +37,9 @@ function useRelayEndpoints (): LinkOption[] {
   );
 }
 
-export function useParaEndpoints (paraId: BN | number): LinkOption[] {
+export const useRelayEndpoints = createNamedHook('useRelayEndpoints', useRelayEndpointsImpl);
+
+function useParaEndpointsImpl (paraId: BN | number): LinkOption[] {
   const endpoints = useRelayEndpoints();
 
   return useMemo(
@@ -41,13 +48,20 @@ export function useParaEndpoints (paraId: BN | number): LinkOption[] {
   );
 }
 
-export function useIsParasLinked (ids?: (BN | number)[] | null): Record<string, boolean> {
+export const useParaEndpoints = createNamedHook('useParaEndpoints', useParaEndpointsImpl);
+
+function useIsParasLinkedImpl (ids?: (BN | number)[] | null): Record<string, boolean> {
   const endpoints = useRelayEndpoints();
 
   return useMemo(
     () => ids
-      ? ids.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0 }), {})
+      ? ids.reduce((all: Record<string, boolean>, id) => ({
+        ...all,
+        [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0
+      }), {})
       : {},
     [endpoints, ids]
   );
 }
+
+export const useIsParasLinked = createNamedHook('useIsParasLinked', useIsParasLinkedImpl);

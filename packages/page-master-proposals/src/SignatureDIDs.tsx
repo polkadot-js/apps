@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-import { schnorrkelVerify } from '@polkadot/util-crypto/schnorrkel';
+import { sr25519Verify } from '@polkadot/util-crypto/sr25519';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
@@ -184,7 +184,7 @@ async function assertValidAuth(api, proposal, pmauth, membership, roundNo) {
 
     let srpk = pk.asSr25519.value;
     let srsig = sig.asSr25519.value;
-    let ver = schnorrkelVerify(encoded_state_change, srsig, srpk);
+    let ver = sr25519Verify(encoded_state_change, srsig, srpk);
     if (!ver) {
       throw `Signature invalid:\n` +
       `  payload: ${u8aToHex(encoded_state_change)}\n` +

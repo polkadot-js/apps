@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useMemo } from 'react';
 
-import { useAccounts, useAddresses } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useAddresses } from '@polkadot/react-hooks';
 
-export default function useKnownAddresses (exclude?: string): string[] {
+function useKnownAddressesImpl (exclude?: string): string[] {
   const { allAccounts } = useAccounts();
   const { allAddresses } = useAddresses();
 
@@ -14,3 +14,5 @@ export default function useKnownAddresses (exclude?: string): string[] {
     [allAccounts, allAddresses, exclude]
   );
 }
+
+export default createNamedHook('useKnownAddresses', useKnownAddressesImpl);

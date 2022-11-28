@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -14,8 +14,10 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Call from './Call';
+import Cid from './Cid';
 import Code from './Code';
 import DispatchError from './DispatchError';
+import DispatchResult from './DispatchResult';
 import Enum from './Enum';
 import Hash160 from './Hash160';
 import Hash256 from './Hash256';
@@ -41,18 +43,22 @@ interface TypeToComponent {
   t: string[];
 }
 
-const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
+
+const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'Address', 'LookupSource'] },
+  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
-  { c: Bytes, t: ['Bytes'] },
+  { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
   { c: Call, t: ['Call', 'Proposal'] },
+  { c: Cid, t: ['PalletAllianceCid'] },
   { c: Code, t: ['Code'] },
-  { c: DispatchError, t: ['DispatchError'] },
-  { c: Raw, t: ['Raw', 'Keys'] },
+  { c: DispatchError, t: DISPATCH_ERROR },
+  { c: DispatchResult, t: ['DispatchResult', 'Result<Null, SpRuntimeDispatchError>'] },
+  { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },
   { c: Hash160, t: ['H160'] },
@@ -83,10 +89,14 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 
 const warnList: string[] = [];
 
-function fromDef ({ displayName, info, sub, type }: TypeDef): string {
+function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
   if (displayName && SPECIAL_TYPES.includes(displayName)) {
     return displayName;
+  } else if (type.endsWith('RuntimeSessionKeys')) {
+    return 'RuntimeSessionKeys';
   }
+
+  const typeValue = lookupName || type;
 
   switch (info) {
     case TypeDefInfo.Compact:
@@ -98,70 +108,68 @@ function fromDef ({ displayName, info, sub, type }: TypeDef): string {
     case TypeDefInfo.Enum:
       return 'Enum';
 
+    case TypeDefInfo.Result: {
+      const [, errSub] = (sub as TypeDef[]);
+
+      return DISPATCH_ERROR.includes(errSub.lookupName || errSub.type)
+        ? 'DispatchResult'
+        : typeValue;
+    }
+
     case TypeDefInfo.Struct:
       return 'Struct';
 
     case TypeDefInfo.Tuple:
-      if (components[type] === Account) {
-        return type;
-      }
-
-      return 'Tuple';
+      return components[type] === Account
+        ? type
+        : 'Tuple';
 
     case TypeDefInfo.Vec:
-      if (type === 'Vec<u8>') {
-        return 'Bytes';
-      }
-
-      return ['Vec<KeyValue>'].includes(type)
-        ? 'Vec<KeyValue>'
-        : 'Vec';
+      return type === 'Vec<u8>'
+        ? 'Bytes'
+        : ['Vec<KeyValue>'].includes(type)
+          ? 'Vec<KeyValue>'
+          : 'Vec';
 
     case TypeDefInfo.VecFixed:
-      if ((sub as TypeDef).type === 'u8') {
-        return type;
-      }
-
-      return 'VecFixed';
+      return (sub as TypeDef).type === 'u8'
+        ? type
+        : 'VecFixed';
 
     default:
-      return type;
+      return typeValue;
   }
 }
 
 export default function findComponent (registry: Registry, def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const findOne = (type: string): React.ComponentType<Props> | null =>
-    overrides[type] || components[type];
+  const findOne = (type?: string): React.ComponentType<Props> | null =>
+    type
+      ? overrides[type] || components[type]
+      : null;
+
   const type = fromDef(def);
-  let Component = findOne(type);
+  let Component = findOne(def.lookupName) || findOne(type);
 
   if (!Component) {
-    let error: string | null = null;
-
     try {
       const instance = registry.createType(type as 'u32');
       const raw = getTypeDef(instance.toRawType());
 
-      Component = findOne(raw.type);
+      Component = findOne(raw.lookupName || raw.type) || findOne(fromDef(raw));
 
       if (Component) {
         return Component;
       } else if (isBn(instance)) {
         return Amount;
-      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
-        return findComponent(registry, raw, overrides);
-      } else if (raw.info === TypeDefInfo.VecFixed && (raw.sub as TypeDef).type !== 'u8') {
-        return findComponent(registry, raw, overrides);
       }
     } catch (e) {
-      error = (e as Error).message;
+      console.error(`params: findComponent: ${(e as Error).message}`);
     }
 
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      error && console.error(`params: findComponent: ${error}`);
-      console.info(`params: findComponent: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
+      console.info(`params: findComponent: No pre-defined component for type ${type} from ${TypeDefInfo[def.info]}: ${JSON.stringify(def)}`);
     }
   }
 

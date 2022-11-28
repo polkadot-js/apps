@@ -1,23 +1,32 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props, RawParam } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
+import { Tuple } from '@polkadot/types';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
 import useParamDefs from './useParamDefs';
 
-function Tuple (props: Props): React.ReactElement<Props> {
-  const params = useParamDefs(props.registry, props.type);
-  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
+function getInitialValues ({ value }: RawParam): RawParam[] {
+  return value instanceof Tuple
+    ? value.map((value: unknown) => ({ isValid: true, value }))
+    : value as RawParam[];
+}
+
+function TupleDisplay (props: Props): React.ReactElement<Props> {
+  const { className = '', defaultValue, isDisabled, label, onChange, overrides, registry, type, withLabel } = props;
+  const params = useParamDefs(registry, type);
+  const [values] = useState<RawParam[]>(() => getInitialValues(defaultValue));
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
-        isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+        isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, true),
         value: values.map(({ value }) => value)
       });
     },
@@ -39,10 +48,11 @@ function Tuple (props: Props): React.ReactElement<Props> {
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}
-        registry={props.registry}
+        registry={registry}
+        values={values}
       />
     </div>
   );
 }
 
-export default React.memo(Tuple);
+export default React.memo(TupleDisplay);

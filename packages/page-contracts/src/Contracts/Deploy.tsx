@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -8,13 +8,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
+import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isHex } from '@polkadot/util';
+import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
@@ -31,13 +30,13 @@ interface Props {
 function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [params, setParams] = useState<any[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
-  const [salt, setSalt] = useState(() => randomAsHex());
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
+  const [params, setParams] = useState<unknown[]>([]);
+  const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
+  const weight = useWeight();
 
   useEffect((): void => {
     setParams([]);
@@ -60,13 +59,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        info: message.identifier,
-        key: `${index}`,
+      ? contractAbi.constructors.map((c, index) => ({
+        info: c.identifier,
+        key: c.identifier,
         text: (
           <MessageSignature
             asConstructor
-            message={message}
+            message={c}
           />
         ),
         value: index
@@ -76,10 +75,17 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   useEffect((): void => {
-    endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
-      if (blueprint) {
+    value && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
+      if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
-          return blueprint.createContract(constructorIndex, { gasLimit: weight.weight, salt: withSalt ? salt : null, value: endowment }, ...params);
+          return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
+            gasLimit: weight.weight,
+            salt: withSalt
+              ? salt
+              : null,
+            storageDepositLimit: null,
+            value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
+          }, ...params);
         } catch (error) {
           return null;
         }
@@ -87,14 +93,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, contractAbi, constructorIndex, value, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
       if (result.contract) {
         keyring.saveContract(result.contract.address.toString(), {
           contract: {
-            abi: JSON.stringify(result.contract.abi.json),
+            abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
           name,
@@ -108,10 +114,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   const isSaltValid = !withSalt || (salt && (!salt.startsWith('0x') || isHex(salt)));
-  const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid && isSaltValid;
+  const isValid = isNameValid && isValueValid && weight.isValid && isAccountIdValid && isSaltValid;
 
   return (
-    <Modal header={t('Deploy a contract')}>
+    <Modal
+      header={t('Deploy a contract')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
@@ -156,18 +165,21 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
             <Params
               onChange={setParams}
-              params={contractAbi.constructors[constructorIndex].args}
+              params={contractAbi.constructors[constructorIndex]?.args}
               registry={contractAbi.registry}
             />
           </>
         )}
-        <InputBalance
-          help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
-          isError={!isEndowmentValid}
-          label={t<string>('endowment')}
-          onChange={setEndowment}
-          value={endowment}
-        />
+        {contractAbi?.constructors[constructorIndex].isPayable && (
+          <InputBalance
+            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+            isError={!isValueValid}
+            isZeroable
+            label={t<string>('value')}
+            onChange={setValue}
+            value={value}
+          />
+        )}
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}
@@ -188,7 +200,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           weight={weight}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           extrinsic={initTx}

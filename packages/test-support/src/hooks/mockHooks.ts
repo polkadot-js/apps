@@ -1,9 +1,10 @@
-// Copyright 2017-2021 @polkadot/test-support authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { defaultTreasury } from '@polkadot/test-support/creation/treasury/defaults';
-import { defaultMembers } from '@polkadot/test-support/keyring/addresses';
 import { extractTime } from '@polkadot/util';
+
+import { defaultTreasury } from '../creation/treasury/defaults';
+import { defaultMembers } from '../keyring/addresses';
 
 export const mockHooks = {
   blockTime: [50, '', extractTime(1)],

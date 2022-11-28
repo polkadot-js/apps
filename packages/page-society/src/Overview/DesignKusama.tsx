@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -54,6 +54,7 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
       {isShowing && (
         <Modal
           header={t('design samples')}
+          onClose={toggleDesign}
           size='large'
         >
           <Modal.Content>
@@ -64,10 +65,6 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
               width={WIDTH}
             />
           </Modal.Content>
-          <Modal.Actions
-            cancelLabel={t<string>('Close')}
-            onCancel={toggleDesign}
-          />
         </Modal>
       )}
     </>

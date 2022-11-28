@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-js authors & contributors
+// Copyright 2017-2022 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Snippet } from '@polkadot/app-js/types';
@@ -52,7 +52,7 @@ api.query.system.events((events) => {
     const types = event.typeDef;
     // show what we are busy with
     console.log(event.section + ':' + event.method + '::' + 'phase=' + phase.toString());
-    console.log(event.meta.documentation.toString());
+    console.log(event.meta.docs.toString());
     // loop through each of the parameters, displaying the type and data
     event.data.forEach((data, index) => {
       console.log(types[index].type + ';' + data.toString());

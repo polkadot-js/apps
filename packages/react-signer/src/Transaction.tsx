@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -13,6 +13,7 @@ import PaymentInfo from './PaymentInfo';
 import { useTranslation } from './translate';
 
 interface Props {
+  accountId: string | null;
   className?: string;
   currentItem: QueueTx;
   isSendable: boolean;
@@ -20,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsigned, payload }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {

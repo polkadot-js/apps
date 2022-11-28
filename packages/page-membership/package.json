@@ -1,0 +1,20 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-membership#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-membership",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-membership",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.122.3-0-x",
+  "dependencies": {
+    "@babel/runtime": "^7.20.1",
+    "@polkadot/react-components": "^0.122.3-0-x",
+    "@polkadot/react-query": "^0.122.3-0-x"
+  }
+}

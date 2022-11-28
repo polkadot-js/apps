@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -29,6 +29,7 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
       {address && (
         <Sidebar
           address={address}
+          dataTestId='account-sidebar'
           onClose={onClose}
           onUpdateName={onUpdateName}
         />

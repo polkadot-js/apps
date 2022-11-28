@@ -1,12 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VoteThreshold } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-
 import { calcPassing } from '@polkadot/api-derive/democracy/util';
-import { BN_ONE, BN_TEN, BN_ZERO } from '@polkadot/util';
+import { BN, BN_ONE, BN_TEN, BN_ZERO } from '@polkadot/util';
 
 interface Approx {
   changeAye: BN;
@@ -88,7 +86,7 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, sta
   const isPassing = calcPassing(threshold, sqrtElectorate, state);
 
   // simple case, we have an aye > nay to determine passing
-  if (threshold.isSimplemajority) {
+  if (threshold.isSimpleMajority) {
     const change = isPassing
       ? state.votedAye.sub(state.votedNay)
       : state.votedNay.sub(state.votedAye);

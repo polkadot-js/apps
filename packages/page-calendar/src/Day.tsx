@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfo } from './types';
@@ -48,19 +48,20 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
     [date, now]
   );
 
-  const viewSetter = useCallback(() => (
-    <Button
-      className='all-events-button'
-      icon={'list'}
-      onClick={() => setView(true)}
-    />
-  ), [setView]);
+  const _setView = useCallback(
+    (): void => setView(true),
+    [setView]
+  );
 
   return (
     <div className={className}>
       <h1>
         <div>
-          {viewSetter()}
+          <Button
+            className='all-events-button'
+            icon={'list'}
+            onClick={_setView}
+          />
           {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
         </div>
         <Button.Group>

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -46,6 +46,9 @@ function createWebpack () {
         new CopyWebpackPlugin({ patterns: [{ from: 'assets' }] })
       ],
       resolve: {
+        alias: {
+          '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node')
+        },
         extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },
       target: 'electron-main'

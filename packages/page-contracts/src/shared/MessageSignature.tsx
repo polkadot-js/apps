@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
@@ -7,8 +7,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Icon, Tooltip } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { encodeTypeDef } from '@polkadot/types/create';
-import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -18,7 +18,7 @@ export interface Props {
   asConstructor?: boolean;
   className?: string;
   message: AbiMessage;
-  params?: any[];
+  params?: unknown[];
   withTooltip?: boolean;
 }
 
@@ -28,12 +28,13 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, isConstructor, isMutating, method, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
+      <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
@@ -42,7 +43,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
             <span className='ui--MessageSignature-type'>
               {params && params[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
-                : encodeTypeDef(type)
+                : encodeTypeDef(api.registry, type)
               }
             </span>
             {index < (args.length) - 1 && ', '}
@@ -54,7 +55,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {encodeTypeDef(returnType)}
+            {encodeTypeDef(api.registry, returnType)}
           </span>
         </>
       )}
@@ -63,12 +64,12 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           <Icon
             className='ui--MessageSignature-mutates'
             icon='database'
-            tooltip={`mutates-${identifier}`}
+            tooltip={`mutates-${method}`}
           />
           {withTooltip && (
             <Tooltip
               text={t<string>('Mutates contract state')}
-              trigger={`mutates-${identifier}`}
+              trigger={`mutates-${method}`}
             />
           )}
         </>

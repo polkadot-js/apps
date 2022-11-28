@@ -1,17 +1,22 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
+import type { TabItem } from '@polkadot/react-components/Tabs/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 
-import Tabs from '@polkadot/react-components/Tabs';
+import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
+import { isFunction } from '@polkadot/util';
 
+import Api from './Api';
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
+import Latency from './Latency';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 import MasterMembersList from './Dock/MasterMembersList';
@@ -23,15 +28,21 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-const HIDDESN_NOBABE = ['forks'];
+function createPathRef (basePath: string): Record<string, string | string[]> {
+  return {
+    api: `${basePath}/api`,
+    forks: `${basePath}/forks`,
+    latency: `${basePath}/latency`,
+    node: `${basePath}/node`,
+    query: [
+      `${basePath}/query/:value`,
+      `${basePath}/query/`
+    ]
+  };
+}
 
-function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
-  // const { loading, error, data } = useQuery(GET_DOGS);
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
-  const itemsRef = useRef([
+function createItemsRef (t: TFunction): TabItem[] {
+  return [
     {
       isRoot: true,
       name: 'chain',
@@ -43,6 +54,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Block details')
     },
     {
+      name: 'latency',
+      text: t<string>('Latency')
+    },
+    {
       name: 'forks',
       text: t<string>('Forks')
     },
@@ -51,10 +66,21 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Node info')
     },
     {
-      name: 'master-members',
-      text: t<string>('Master Members')
-    },
-  ]);
+      // isHidden: true,
+      name: 'api',
+      text: t<string>('API stats')
+    }
+  ];
+}
+
+function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { lastHeaders } = useContext(BlockAuthorsContext);
+  const { eventCount, events } = useContext(EventsContext);
+  const itemsRef = useRef(createItemsRef(t));
+  const pathRef = useRef(createPathRef(basePath));
+  const hidden = useState(() => isFunction(api.query.babe?.authorities) ? [] : ['forks']);
 
   return (
     <main className={className}>
@@ -66,13 +92,14 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/forks`}><Forks /></Route>
-        <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
-        <Route path={`${basePath}/query`}><BlockInfo /></Route>
-        <Route path={`${basePath}/node`}><NodeInfo /></Route>
-        <Route path={`${basePath}/master-members`}><MasterMembersList /></Route>
+        <Route path={pathRef.current.api}><Api /></Route>
+        <Route path={pathRef.current.forks}><Forks /></Route>
+        <Route path={pathRef.current.latency}><Latency /></Route>
+        <Route path={pathRef.current.query}><BlockInfo /></Route>
+        <Route path={pathRef.current.node}><NodeInfo /></Route>
         <Route>
           <Main
+            eventCount={eventCount}
             events={events}
             headers={lastHeaders}
           />

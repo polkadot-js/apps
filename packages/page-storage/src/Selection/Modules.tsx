@@ -1,21 +1,23 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { TypeDef } from '@polkadot/types/types';
+import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { Button, InputStorage } from '@polkadot/react-components';
+import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
+import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
-import { isNull, isUndefined } from '@polkadot/util';
+import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -37,26 +39,29 @@ interface ValState {
   values: RawParams;
 }
 
-function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
-  return values.reduce((isValid: boolean, value): boolean => {
-    return isValid &&
-      !isUndefined(value) &&
-      !isUndefined(value.value) &&
-      value.isValid;
-  }, (
-    type.isDoubleMap
-      ? values.length === 2
-      : values.length === (type.isMap ? 1 : 0)
-  ));
+interface BlockHash {
+  blockHash: string | null;
+  textHash: string;
 }
 
-function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
+function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
+  return values.reduce((isValid: boolean, value) =>
+    isValid &&
+    !isUndefined(value) &&
+    !isUndefined(value.value) &&
+    value.isValid,
+  (values.length === (type.isPlain ? 0 : type.asMap.hashers.length)));
+}
+
+function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
   let types: string[] = [];
 
-  if (st.isDoubleMap) {
-    types = [st.asDoubleMap.key1.toString(), st.asDoubleMap.key2.toString()];
-  } else if (st.isMap) {
-    types = [st.asMap.key.toString()];
+  if (st.isMap) {
+    const { hashers, key } = st.asMap;
+
+    types = hashers.length === 1
+      ? [getSiName(registry.lookup, key)]
+      : registry.lookup.getSiType(key).def.asTuple.map((k) => getSiName(registry.lookup, k));
   }
 
   return types.map((str, index) => {
@@ -73,47 +78,113 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
   });
 }
 
-function checkIterable (type: StorageEntryTypeLatest): boolean {
-  const def = type.isMap
-    ? getTypeDef(type.asMap.key.toString())
-    : type.isDoubleMap
-      ? getTypeDef(type.asDoubleMap.key2.toString())
-      : null;
-
+function checkIterable (registry: Registry, type: StorageEntryTypeLatest): boolean {
   // in the case of Option<type> keys, we don't allow map iteration, in this case
   // we would have option for the iterable and then option for the key value
-  return !!def && def.info !== TypeDefInfo.Option;
+  if (type.isPlain) {
+    return true;
+  }
+
+  const { hashers, key } = type.asMap;
+
+  if (hashers.length === 1) {
+    return registry.lookup.getTypeDef(key).info !== TypeDefInfo.Option;
+  }
+
+  const keys = registry.lookup.getSiType(key).def.asTuple;
+
+  return registry.lookup.getTypeDef(keys[keys.length - 1]).info !== TypeDefInfo.Option;
 }
 
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
-  const isIterable = checkIterable(type);
+  const isIterable = checkIterable(api.registry, type);
 
   return {
-    defaultValues: section === 'session' && type.isDoubleMap
+    defaultValues: section === 'session' && type.isMap && api.consts.session && api.consts.session.dedupKeyPrefix
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
     isIterable,
     key,
-    params: expandParams(type, isIterable)
+    params: expandParams(api.registry, type, isIterable)
   };
 }
 
-function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function extractParams (isIterable: boolean, values: RawParams): [RawParams, boolean] {
+  const params = values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value));
+
+  return [params, params.length === values.length];
+}
+
+function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
-  const [{ isValid, values }, setValues] = useState<ValState>({ isValid: true, values: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isHeadKey: true, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
+  const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
+  const [{ blockHash, textHash }, setBlockHash] = useState<BlockHash>({ blockHash: null, textHash: '' });
+
+  const startValue = useMemo(
+    () => (
+      api.query.timestamp?.now ||
+      api.query.system?.events ||
+      api.query.substrate.changesTrieConfig
+    ),
+    [api]
+  );
+
+  const [isPartialKey, hexKey, inspect] = useMemo(
+    (): [boolean, string, Inspect | null] => {
+      if (isValid) {
+        try {
+          const [params] = extractParams(isIterable, values);
+          const args = params.map(({ value }) => value);
+          const isPartialKey = args.length !== (
+            key.creator.meta.type.isPlain
+              ? 0
+              : key.creator.meta.type.asMap.hashers.length
+          );
+          const hexKey = isPartialKey && key.creator.iterKey
+            ? key.creator.iterKey(...args).toHex()
+            : u8aToHex(compactStripLength(key.creator(...args))[1]);
+          const inspect = isPartialKey
+            ? null
+            : key.creator.inspect(...args);
+
+          return [isPartialKey, hexKey, inspect];
+        } catch {
+          // ignore
+        }
+      }
+
+      return [false, '0x', null];
+    },
+    [isIterable, isValid, key, values]
+  );
 
   const _onAdd = useCallback(
     (): void => {
+      const [params, isAtEnabled] = extractParams(isIterable, values);
+
       isValid && onAdd({
+        blockHash: isAtEnabled
+          ? blockHash
+          : null,
         isConst: false,
         key,
-        params: values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value))
+        params
       });
     },
-    [isIterable, isValid, key, onAdd, values]
+    [blockHash, isIterable, isValid, key, onAdd, values]
+  );
+
+  const _onChangeAt = useCallback(
+    (textHash: string) => setBlockHash({
+      blockHash: isHex(textHash, 256)
+        ? textHash
+        : null,
+      textHash
+    }),
+    []
   );
 
   const _onChangeValues = useCallback(
@@ -132,14 +203,21 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     [_onChangeValues, api]
   );
 
+  const isAtAllowed = useMemo(
+    () => isValid
+      ? extractParams(isIterable, values)[1]
+      : false,
+    [isIterable, isValid, values]
+  );
+
   const { creator: { meta, method, section } } = key;
 
   return (
-    <section className='storage--actionrow'>
+    <section className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
-          defaultValue={api.query.timestamp.now}
-          help={meta?.documentation.join(' ')}
+          defaultValue={startValue}
+          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />
@@ -150,6 +228,35 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           params={params}
           values={defaultValues}
         />
+        <Input
+          isDisabled={!isValid || !isAtAllowed}
+          isError={!!textHash && !blockHash}
+          label={t<string>('blockhash to query at')}
+          onChange={_onChangeAt}
+          placeholder={t<string>('0x...')}
+        />
+        <Columar
+          className='keyColumar'
+          isPadded={false}
+        >
+          <Columar.Column>
+            <Output
+              isDisabled
+              label={isPartialKey
+                ? t<string>('encoded partial key')
+                : t<string>('encoded storage key')
+              }
+              value={hexKey}
+              withCopy
+            />
+          </Columar.Column>
+          <Columar.Column>
+            <DecodeInspect
+              inspect={inspect}
+              label={t<string>('encoded key details')}
+            />
+          </Columar.Column>
+        </Columar>
       </div>
       <div className='storage--actionrow-buttons'>
         <Button
@@ -162,4 +269,12 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Modules);
+export default React.memo(styled(Modules)`
+  .ui--Column:last-child .ui--Labelled {
+    padding-left: 0.5rem;
+
+    label {
+      left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
+    }
+  }
+`);

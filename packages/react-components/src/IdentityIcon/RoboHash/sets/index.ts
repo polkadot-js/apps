@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Automatically generated, do not edit
@@ -1517,7 +1517,7 @@ import s013000015 from './set5/007-Accessories/Round-White.png';
 import s013000017 from './set5/007-Accessories/Sunglasses.png';
 import s013000018 from './set5/007-Accessories/Wayfarers.png';
 
-const sets: any[][][] = [
+const sets: unknown[][][] = [
   [
     [s000000000, s000000001, s000000002, s000000003, s000000004, s000000005, s000000006, s000000007, s000000008, s000000009],
     [s000001000, s000001001, s000001002, s000001003, s000001004, s000001005, s000001006, s000001007, s000001008, s000001009],

@@ -1,25 +1,24 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import Create from './Create';
 
 interface Props {
-  assetIds?: AssetId[];
+  assetIds?: BN[];
   className?: string;
+  openId: BN;
 }
 
-function CreateButton ({ assetIds, className }: Props): React.ReactElement<Props> {
+function CreateButton ({ assetIds, className, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [isOpen, toggleOpen] = useToggle();
 
@@ -27,7 +26,7 @@ function CreateButton ({ assetIds, className }: Props): React.ReactElement<Props
     <>
       <Button
         icon='plus'
-        isDisabled={!assetIds || !hasAccounts || !isFunction(api.tx.utility.batchAll)}
+        isDisabled={!assetIds || !hasAccounts}
         label={t<string>('Create')}
         onClick={toggleOpen}
       />
@@ -36,6 +35,7 @@ function CreateButton ({ assetIds, className }: Props): React.ReactElement<Props
           assetIds={assetIds}
           className={className}
           onClose={toggleOpen}
+          openId={openId}
         />
       )}
     </>

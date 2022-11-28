@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -12,35 +12,42 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'MultiAddress',
-        LookupSource: 'MultiAddress',
-        PoolId: 'u8',
-        PoolIdOf: 'PoolId',
-        Loans: 'u8',
-        LoansOf: 'Loans',
-        CurrencyId: 'u8',
-        CurrencyIdOf: 'CurrencyId',
-        AssetPoolId: 'u8',
-        AssetPoolIdOf: 'AssetPoolId',
+        Token: 'u8',
+        DEXShare: '(u8, u8)',
+        CurrencyId: {
+          _enum: {
+            Token: 'Token',
+            DEXShare: 'DEXShare'
+          }
+        },
+        TradingPair: '(CurrencyId, CurrencyId)',
+        CurrencyIds: { _: 'Vec<CurrencyId>' },
+        TradingPairProvisionParameters: {
+          min_contribution: '(Balance, Balance)',
+          target_provision: '(Balance, Balance)',
+          accumulated_provision: '(Balance, Balance)',
+          not_before: 'BlockNumber'
+        },
+        TradingPairStatus: {
+          _enum: {
+            NotEnabled: null,
+            Provisioning: 'TradingPairProvisionParameters',
+            Enabled: null
+          }
+        },
+        PoolId: 'CurrencyId',
         Price: 'FixedU128',
-        PriceOf: 'Price',
         OracleKey: 'u8',
-        OracleKeyOf: 'OracleKey',
         OracleValue: 'FixedU128',
-        OracleValueOf: 'OracleValue',
         Amount: 'i128',
-        AmountOf: 'Amount',
         Balance: 'u128',
-        BalanceOf: 'Balance',
         Ratio: 'FixedU128',
-        RatioOf: 'Ratio',
         InterestInfo: {
           critical_point: 'Ratio',
           base: 'Ratio',
           slope_1: 'Ratio',
           slope_2: 'Ratio'
         },
-        InterestInfoOf: 'InterestInfo',
         AssetPoolInfo: {
           maximum_total_debit_ratio: 'Ratio',
           minimum_deposit: 'Balance',
@@ -55,23 +62,19 @@ const definitions: OverrideBundleDefinition = {
           reserve_factor: 'Ratio',
           interest_info: 'InterestInfo'
         },
-        AssetPoolInfoOf: 'AssetPoolInfo',
         LoanInfo: {
           deposit: 'Balance',
           debit: 'Balance'
         },
-        LoanInfoOf: 'LoanInfo',
         TimestampedValue: {
           value: 'OracleValue',
           timestamp: 'u64'
         },
-        TimestampedValueOf: 'TimestampedValue',
         PoolInfo: {
           total_shares: 'Compact<u128>',
           total_rewards: 'Compact<u128>',
           total_withdrawn_rewards: 'Compact<u128>'
-        },
-        PoolInfoOf: 'PoolInfo'
+        }
       }
     }
   ]

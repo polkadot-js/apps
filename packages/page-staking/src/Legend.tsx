@@ -1,5 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -10,9 +12,11 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  isRelay?: boolean;
+  minCommission?: BN;
 }
 
-function Legend ({ className }: Props): React.ReactElement<Props> {
+function Legend ({ className, isRelay, minCommission }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -24,6 +28,24 @@ function Legend ({ className }: Props): React.ReactElement<Props> {
         />
         {t('Next session')}
       </span>
+      {minCommission && (
+        <span>
+          <Badge
+            color='red'
+            icon='cancel'
+          />
+          {t('Chilled')}
+        </span>
+      )}
+      {isRelay && (
+        <span>
+          <Badge
+            color='purple'
+            icon='vector-square'
+          />
+          {t('Para validator')}
+        </span>
+      )}
       <span>
         <Badge
           color='green'

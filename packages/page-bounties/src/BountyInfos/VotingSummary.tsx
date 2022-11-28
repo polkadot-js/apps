@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -8,10 +8,8 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import VotingDescriptionInfo from '@polkadot/app-bounties/BountyInfos/VotingDescriptionInfo';
-import { ThemeProps } from '@polkadot/react-components/types';
-import { useMembers } from '@polkadot/react-hooks';
+import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
 import VotingLink from './VotingLink';
 
@@ -22,7 +20,7 @@ interface Props {
 }
 
 function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
-  const { members } = useMembers();
+  const { members } = useCollectiveMembers('council');
   const { t } = useTranslation();
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
   const nays = useMemo(() => proposal?.votes?.nays?.length, [proposal]);
@@ -39,7 +37,7 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
           <div className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></div>
           <div className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
           <div className='link-info'>
-            <VotingLink/>
+            <VotingLink />
             <VotingDescriptionInfo
               proposal={proposal}
               status={status}
@@ -51,11 +49,11 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
   );
 }
 
-export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
+export default React.memo(styled(VotingSummary)`
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 1.5rem;
-    color: ${bountyLabelColor[theme.theme]}
+    color: var(--color-label);
 
     span {
       min-width: 0.5rem;
@@ -69,4 +67,4 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
     align-items: center;
     line-height: 1.5rem;
   }
-`));
+`);

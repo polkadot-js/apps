@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -7,13 +7,16 @@ import type { LedgerTypes } from '@polkadot/hw-ledger/types';
 import { useCallback, useMemo } from 'react';
 
 import { Ledger } from '@polkadot/hw-ledger';
-import networks from '@polkadot/networks';
+import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
 interface StateBase {
+  hasLedgerChain: boolean;
+  hasWebUsb: boolean;
   isLedgerCapable: boolean;
   isLedgerEnabled: boolean;
 }
@@ -23,9 +26,13 @@ interface State extends StateBase {
 }
 
 const EMPTY_STATE: StateBase = {
+  hasLedgerChain: false,
+  hasWebUsb: false,
   isLedgerCapable: false,
   isLedgerEnabled: false
 };
+
+const networks = []
 
 // TODO: Temporary
 networks.push({
@@ -69,31 +76,42 @@ networks.push({
 });
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
-const ledgerChains = networks.filter((n) => !!n.hasLedgerSupport);
+const ledgerChains = Object
+  .keys(knownGenesis)
+  .filter((n) => knownLedger[n]);
+const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
 let ledger: Ledger | null = null;
+let ledgerType: LedgerTypes | null = null;
 
 function retrieveLedger (api: ApiPromise): Ledger {
-  if (!ledger) {
+  const currType = uiSettings.ledgerConn as LedgerTypes;
+
+  if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
-    const def = ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
+    const network = ledgerChains.find((network) => knownGenesis[network].includes(genesisHex));
 
-    assert(def, `Unable to find supported chain for ${genesisHex}`);
+    assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as LedgerTypes, def.network);
+    ledger = new Ledger(currType, network);
+    ledgerType = currType;
   }
 
   return ledger;
 }
 
 function getState (api: ApiPromise): StateBase {
-  const isLedgerCapable = hasWebUsb && ledgerChains.map(({ genesisHash }) => genesisHash[0]).includes(api.genesisHash.toHex());
+  const hasLedgerChain = ledgerHashes.includes(api.genesisHash.toHex());
+  const isLedgerCapable = hasWebUsb && hasLedgerChain;
+
   return {
+    hasLedgerChain,
+    hasWebUsb,
     isLedgerCapable,
     isLedgerEnabled: isLedgerCapable && uiSettings.ledgerConn !== 'none'
   };
 }
 
-export function useLedger (): State {
+function useLedgerImpl (): State {
   const { api, isApiReady } = useApi();
 
   const getLedger = useCallback(
@@ -106,3 +124,5 @@ export function useLedger (): State {
     [api, getLedger, isApiReady]
   );
 }
+
+export const useLedger = createNamedHook('useLedger', useLedgerImpl);

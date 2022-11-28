@@ -1,33 +1,35 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Weight } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { UseWeight } from './types';
 
-import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
-import { useApi, useBlockTime } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBlockInterval } from '@polkadot/react-hooks';
+import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN_MILLION, BN_TEN, BN_ZERO } from '@polkadot/util';
 
-export default function useWeight (): UseWeight {
+function useWeightImpl (): UseWeight {
   const { api } = useApi();
-  const [blockTime] = useBlockTime();
+  const blockTime = useBlockInterval();
   const [megaGas, _setMegaGas] = useState<BN>(
-    (api.consts.system.blockWeights
-      ? api.consts.system.blockWeights.maxBlock
-      : api.consts.system.maximumBlockWeight as Weight
-    ).div(BN_MILLION).div(BN_TEN)
+    convertWeight(
+      api.consts.system.blockWeights
+        ? api.consts.system.blockWeights.maxBlock
+        : api.consts.system.maximumBlockWeight as Weight
+    ).v1Weight.div(BN_MILLION).div(BN_TEN)
   );
   const [isEmpty, setIsEmpty] = useState(false);
 
   const setMegaGas = useCallback(
-    (value?: BN | undefined) => _setMegaGas(value || (
-      (api.consts.system.blockWeights
-        ? api.consts.system.blockWeights.maxBlock
-        : api.consts.system.maximumBlockWeight as Weight
-      ).div(BN_MILLION).div(BN_TEN)
-    )),
+    (value?: BN | undefined) =>
+      _setMegaGas(value || convertWeight(
+        api.consts.system.blockWeights
+          ? api.consts.system.blockWeights.maxBlock
+          : api.consts.system.maximumBlockWeight as Weight
+      ).v1Weight.div(BN_MILLION).div(BN_TEN)),
     [api]
   );
 
@@ -39,12 +41,12 @@ export default function useWeight (): UseWeight {
 
     if (megaGas) {
       weight = megaGas.mul(BN_MILLION);
-      executionTime = weight.muln(blockTime).div(
+      executionTime = weight.mul(blockTime).div(convertWeight(
         api.consts.system.blockWeights
           ? api.consts.system.blockWeights.maxBlock
           : api.consts.system.maximumBlockWeight as Weight
-      ).toNumber();
-      percentage = (executionTime / blockTime) * 100;
+      ).v1Weight).toNumber();
+      percentage = (executionTime / blockTime.toNumber()) * 100;
 
       // execution is 2s of 6s blocks, i.e. 1/3
       executionTime = executionTime / 3000;
@@ -63,3 +65,5 @@ export default function useWeight (): UseWeight {
     };
   }, [api, blockTime, isEmpty, megaGas, setIsEmpty, setMegaGas]);
 }
+
+export default createNamedHook('useWeight', useWeightImpl);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-storage authors & contributors
+// Copyright 2017-2022 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentProps as Props } from '../types';
@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 
 function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
+  const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>(() => ({ isValid: false, key: new Uint8Array([]) }));
 
   const _onAdd = useCallback(
     (): void => {

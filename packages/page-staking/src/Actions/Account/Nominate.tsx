@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../../types';
 import type { NominateInfo } from '../partials/types';
 
@@ -17,11 +18,12 @@ interface Props {
   controllerId: string;
   nominating?: string[];
   onClose: () => void;
+  poolId?: BN;
   stashId: string;
   targets: SortedTargets;
 }
 
-function Nominate ({ className = '', controllerId, nominating, onClose, stashId, targets }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className = '', controllerId, nominating, onClose, poolId, stashId, targets }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [{ nominateTx }, setTx] = useState<NominateInfo>({});
 
@@ -29,6 +31,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
     <Modal
       className={className}
       header={t<string>('Nominate Validators')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -37,12 +40,13 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
           controllerId={controllerId}
           nominating={nominating}
           onChange={setTx}
+          poolId={poolId}
           stashId={stashId}
           targets={targets}
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={nominateTx}

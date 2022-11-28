@@ -1,24 +1,24 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BountyApi } from './hooks/useBounties';
+
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN, formatNumber } from '@polkadot/util';
 
-import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
-  activeBounties?: number;
   className?: string;
+  info: BountyApi;
 }
 
-function Summary ({ activeBounties, className = '' }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, childCount } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { bestNumber, bounties, bountyIndex } = useBounties();
   const { spendPeriod } = useTreasury();
 
   const totalValue = useMemo(
@@ -29,12 +29,19 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
   return (
     <SummaryBox className={`ui--BountySummary ${className}`}>
       <section>
-        <CardSummary label={t<string>('active')}>
-          {activeBounties}
-        </CardSummary>
-        {activeBounties !== undefined && (
+        {bounties && (
+          <CardSummary label={t<string>('active')}>
+            {formatNumber(bounties.length)}
+          </CardSummary>
+        )}
+        {bountyCount && bounties && (
           <CardSummary label={t<string>('past')}>
-            {bountyIndex?.subn(activeBounties).toString()}
+            {formatNumber(bountyCount.subn(bounties.length))}
+          </CardSummary>
+        )}
+        {childCount && (
+          <CardSummary label={t<string>('children')}>
+            {formatNumber(childCount)}
           </CardSummary>
         )}
       </section>
@@ -47,7 +54,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
         </CardSummary>
       </section>
       <section>
-        {bestNumber && spendPeriod.gtn(0) && (
+        {bestNumber && !spendPeriod.isZero() && (
           <CardSummary
             label={t<string>('funding period')}
             progress={{

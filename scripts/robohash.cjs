@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
 const path = require('path');
 
-const HEADER = `// Copyright 2017-2021 @polkadot/react-components authors & contributors
+const HEADER = `// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Automatically generated, do not edit`;

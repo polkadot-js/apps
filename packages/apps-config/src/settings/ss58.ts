@@ -1,16 +1,22 @@
-// Copyright 2017-2021 @polkadot/ui-settings authors & contributors
+// Copyright 2017-2022 @polkadot/ui-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+import type { TFunction } from '../types';
 import type { Option } from './types';
 
-import known from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 
-const networks = known.map(({ displayName, network, prefix }) => ({
-  info: network,
-  text: displayName,
-  value: prefix
-}));
+const networks = selectableNetworks
+  .map(({ displayName, network, prefix }) => ({
+    info: network,
+    text: displayName,
+    value: prefix
+  }))
+  .sort((a, b) =>
+    [0, 2, 42].includes(a.value) || [0, 2, 42].includes(b.value)
+      ? 0
+      : a.text.localeCompare(b.text)
+  );
 
 // Definitions here are with the following values -
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos

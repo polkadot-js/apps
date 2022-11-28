@@ -1,12 +1,10 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
 import AddressMini from './AddressMini';
 import Toggle from './Toggle';
@@ -24,7 +22,7 @@ interface Props {
 
 function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
+  const info = useDeriveAccountInfo(address);
 
   const isVisible = useMemo(
     () => info ? checkVisibility(api, address, info, filter, false) : true,

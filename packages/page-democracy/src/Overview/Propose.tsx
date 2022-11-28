@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
+
 import React, { useCallback, useState } from 'react';
 
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
@@ -40,6 +41,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
     <Modal
       className={className}
       header={t<string>('Submit proposal')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -61,6 +63,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           <Input
             autoFocus
             help={t<string>('The preimage hash of the proposal')}
+            isError={!isHashValid}
             label={t<string>('preimage hash')}
             onChange={_onChangeHash}
             value={hash}
@@ -82,7 +85,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

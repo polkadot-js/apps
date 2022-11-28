@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodeStored } from './types';
@@ -42,7 +42,7 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
           <p>{t<string>('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='trash'
           label={t<string>('Remove')}

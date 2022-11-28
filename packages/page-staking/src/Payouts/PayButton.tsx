@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
@@ -60,7 +60,13 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const extrinsics = useTxBatch(txs, { batchSize: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64) });
+  const batchOpts = useMemo(
+    () => ({
+      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+    }),
+    [api]
+  );
+  const extrinsics = useTxBatch(txs, batchOpts);
 
   useEffect((): void => {
     payout && setTxs(
@@ -76,6 +82,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         <Modal
           className={className}
           header={t<string>('Payout all stakers')}
+          onClose={togglePayout}
           size='large'
         >
           <Modal.Content>
@@ -87,12 +94,14 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
-                <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
+                  <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
+                </>
+              }
+            >
               {Array.isArray(payout)
                 ? (
                   <Static
@@ -118,7 +127,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               }
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={togglePayout}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               extrinsic={extrinsics}

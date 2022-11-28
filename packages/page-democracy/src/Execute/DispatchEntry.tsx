@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveDispatch } from '@polkadot/api-derive/types';
@@ -47,7 +47,6 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
       <td className='links media--1000'>
         <LinkExternal
           data={index}
-          isLogo
           type='referendum'
         />
       </td>

@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import networks from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 import { Dropdown, MarkError, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -14,6 +14,7 @@ interface Props {
   onChange: (string: string) => void;
   seedType: string;
 }
+const networks = []
 
 // TODO: Temporary
 networks.push({

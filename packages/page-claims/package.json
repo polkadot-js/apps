@@ -1,11 +1,20 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-claims#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-claims",
   "private": true,
-  "version": "0.86.3-56",
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-claims",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.122.3-0-x",
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.86.3-56",
+    "@babel/runtime": "^7.20.1",
+    "@polkadot/react-components": "^0.122.3-0-x",
     "secp256k1": "^3.8.0"
   }
 }

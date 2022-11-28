@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -6,7 +6,7 @@ import type { Option } from '@polkadot/types';
 import type { AccountId, SocietyVote } from '@polkadot/types/interfaces';
 import type { VoteType } from '../types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -25,7 +25,11 @@ interface Props {
 
 function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.query.society.votes.multi, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])], {
+  const keys = useMemo(
+    () => [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])],
+    [accountId, allMembers]
+  );
+  const votes = useCall<VoteType[]>(api.query.society.votes.multi, keys, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])

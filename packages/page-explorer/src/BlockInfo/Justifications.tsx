@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Tuple } from '@polkadot/types';
@@ -38,7 +38,9 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([[t('justifications'), 'start']]);
+  const headerRef = useRef([
+    [t('justifications'), 'start']
+  ]);
 
   const justifications = value.unwrapOr(null);
 

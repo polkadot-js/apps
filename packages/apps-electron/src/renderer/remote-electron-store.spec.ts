@@ -1,5 +1,7 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 import { RemoteElectronStore } from './remote-electron-store';
 
@@ -79,7 +81,7 @@ describe('Remote Electron Store', () => {
       accountStore.set.mockResolvedValue(null);
       const cb = jest.fn();
 
-      remoteStore.set('1', 'a' as any, cb);
+      remoteStore.set('1', 'a' as unknown as KeyringJson, cb);
       await Promise.resolve();
 
       expect(accountStore.set).toBeCalledWith('1', 'a');

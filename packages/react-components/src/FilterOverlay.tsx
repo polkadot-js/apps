@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -56,6 +56,14 @@ export default React.memo(styled(FilterOverlay)`
   @media (max-width: ${({ theme }: ThemeProps) => theme.contentMaxWidth}) {
     right: 1.5rem;
   };
+
+  .ui--Labelled label {
+    display: none;
+  }
+
+  && .ui--Input {
+    margin: 0.29rem 0;
+  }
 
   /* hardcoded: var(--width-full) doesn't work in media */
   @media (max-width: 1750px) {

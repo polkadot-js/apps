@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
@@ -37,7 +37,7 @@ function parseFile (raw: Uint8Array): Parsed {
     assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
 
     const encKey = createParam(key);
-    const encValue = createParam(value);
+    const encValue = createParam(value, true);
 
     isValid = isValid && encKey.isValid && encValue.isValid;
 

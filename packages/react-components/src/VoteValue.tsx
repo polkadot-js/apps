@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -21,6 +21,7 @@ interface Props {
 }
 
 interface ValueState {
+  defaultValue: BN;
   maxValue: BN;
   selectedId?: string | null;
   value: BN;
@@ -29,23 +30,25 @@ interface ValueState {
 function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
   const value = allBalances.lockedBalance;
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
+  const defaultValue = value.isZero()
+    ? maxValue.gt(existential)
+      ? maxValue.sub(existential)
+      : BN_ZERO
+    : value;
 
   return {
+    defaultValue,
     maxValue,
     selectedId,
-    value: value.isZero()
-      ? maxValue.gt(existential)
-        ? maxValue.sub(existential)
-        : BN_ZERO
-      : value
+    value: defaultValue
   };
 }
 
 function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const [{ maxValue, selectedId, value }, setValue] = useState<ValueState>({ maxValue: BN_ZERO, value: BN_ZERO });
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
+  const [{ defaultValue, maxValue, selectedId, value }, setValue] = useState<ValueState>({ defaultValue: BN_ZERO, maxValue: BN_ZERO, value: BN_ZERO });
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
@@ -78,9 +81,9 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
       defaultValue={
         isDisabled
           ? undefined
-          : value
+          : defaultValue
       }
-      help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
+      help={t<string>('The amount that is associated with this vote. This value is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
       label={t<string>('vote value')}

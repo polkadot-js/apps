@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, Props, RawParam } from '../types';
@@ -14,32 +14,50 @@ import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 
-function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
+function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {
     name: `${index}: ${name || type.type}`,
     type
   };
 }
 
+export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
+  if (prev.length === max) {
+    return prev;
+  }
+
+  const params: ParamDef[] = [];
+
+  for (let index = 0; index < max; index++) {
+    params.push(getParam(inputParams, index));
+  }
+
+  return params;
+}
+
+export function getValues ({ value }: RawParam): RawParam[] {
+  return Array.isArray(value)
+    ? value.map((value: RawParam) =>
+      isUndefined(value) || isUndefined(value.isValid)
+        ? { isValid: !isUndefined(value), value }
+        : value
+    )
+    : [];
+}
+
 function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const inputParams = useParamDefs(registry, type);
-  const [count, setCount] = useState(0);
-  const [params, setParams] = useState<ParamDef[]>([]);
-  const [values, setValues] = useState<RawParam[]>([]);
+  const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
+  const [count, setCount] = useState(() => values.length);
+  const [params, setParams] = useState<ParamDef[]>(() => getParams(inputParams, [], count));
 
   // build up the list of parameters we are using
   useEffect((): void => {
-    if (inputParams.length) {
-      const max = isDisabled ? (defaultValue.value as RawParam[] || []).length : count;
-      const params: ParamDef[] = [];
-
-      for (let index = 0; index < max; index++) {
-        params.push(generateParam(inputParams, index));
-      }
-
-      setParams(params);
-    }
+    inputParams.length &&
+      setParams((prev) =>
+        getParams(inputParams, prev, isDisabled ? (defaultValue.value as RawParam[] || []).length : count)
+      );
   }, [count, defaultValue, isDisabled, inputParams]);
 
   // when !isDisable, generating an input list based on count
@@ -58,24 +76,12 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
 
         return values.slice(0, count);
       });
-  }, [count, inputParams, isDisabled, registry]);
-
-  // when isDisabled, set the values based on the defaultValue input
-  useEffect((): void => {
-    isDisabled &&
-      setValues(
-        (defaultValue.value as RawParam[] || []).map((value: RawParam) =>
-          isUndefined(value) || isUndefined(value.isValid)
-            ? { isValid: !isUndefined(value), value }
-            : value
-        )
-      );
-  }, [defaultValue, isDisabled]);
+  }, [count, defaultValue, inputParams, isDisabled, registry]);
 
   // when our values has changed, alert upstream
   useEffect((): void => {
     onChange && onChange({
-      isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+      isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, true),
       value: values.map(({ value }) => value)
     });
   }, [values, onChange]);

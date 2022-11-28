@@ -1,26 +1,19 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
 export interface InfoState {
   accountId: string;
-  assetId: BN;
-  createTx: SubmittableExtrinsic<'promise'>;
-  minBalance: BN;
-}
-
-export interface MetadataState {
   assetDecimals: BN;
+  assetId: BN;
   assetName: string;
   assetSymbol: string;
-  metadataTx: SubmittableExtrinsic<'promise'>;
+  minBalance: BN;
 }
 
 export interface TeamState {
   adminId: string;
   issuerId: string;
   freezerId: string;
-  teamTx: SubmittableExtrinsic<'promise'> | null;
 }

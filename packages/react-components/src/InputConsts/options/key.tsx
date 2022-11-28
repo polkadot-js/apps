@@ -1,12 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
+import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
 import type { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { getSiName } from '@polkadot/types/metadata/util';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.consts[sectionName];
@@ -17,6 +18,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
 
   return Object
     .keys(section)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((value): DropdownOption => {
       const method = (section[value] as ConstantCodec);
@@ -29,13 +31,13 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}: {method.meta.type.toString()}
+            {value}: {getSiName(api.registry.lookup, method.meta.type)}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || method.meta.name).toString()}
+            {(method.meta.docs[0] || method.meta.name).toString()}
           </div>
         ],
         value

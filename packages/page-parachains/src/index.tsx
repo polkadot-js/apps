@@ -1,12 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import '@polkadot/api-augment/substrate';
 
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -43,7 +44,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const proposals = useProposals();
   const actionsQueue = useActionsQueue();
   const upcomingIds = useUpcomingIds();
-  const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
+  const paraIds = useCall<ParaId[]>(api.query.paras.parachains);
 
   const items = useRef([
     {
@@ -98,7 +99,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       </Switch>
       <Overview
         actionsQueue={actionsQueue}
-        className={pathname === basePath ? '' : 'parachains--hidden'}
+        className={pathname === basePath ? '' : '--hidden'}
         leasePeriod={leasePeriod}
         paraIds={paraIds}
         proposals={proposals}
@@ -106,16 +107,13 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       />
       <Parathreads
         actionsQueue={actionsQueue}
-        className={pathname === `${basePath}/parathreads` ? '' : 'parachains--hidden'}
+        className={pathname === `${basePath}/parathreads` ? '' : '--hidden'}
         ids={upcomingIds}
         leasePeriod={leasePeriod}
+        ownedIds={ownedIds}
       />
     </main>
   );
 }
 
-export default React.memo(styled(ParachainsApp)`
-  .parachains--hidden {
-    display: none;
-  }
-`);
+export default React.memo(ParachainsApp);

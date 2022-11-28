@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
@@ -18,7 +18,12 @@ interface Props {
 
 function Bounties ({ className }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { bestNumber, bounties } = useBounties();
+  const info = useBounties();
+
+  const sorted = useMemo(
+    () => info && info.bounties && [...info.bounties].sort((a, b) => b.index.cmp(a.index)),
+    [info]
+  );
 
   const headerRef = useRef([
     [t('bounties'), 'start', 3],
@@ -29,30 +34,26 @@ function Bounties ({ className }: Props): React.ReactElement {
 
   return (
     <div className={className}>
-      <Summary activeBounties={bounties?.length}/>
+      <Summary info={info} />
       <Button.Group>
         <BountyCreate />
       </Button.Group>
       <Table
         className='bounties-table-wrapper'
-        empty={bounties && t<string>('No open bounties')}
+        empty={sorted && t<string>('No open bounties')}
         header={headerRef.current}
+        withCollapsibleRows
       >
-        {bounties && bestNumber &&
-          bounties
-            .sort((a, b) => b.index.cmp(a.index))
-            .map(({ bounty, description, index, proposals }, count) => (
-              <Bounty
-                bestNumber={bestNumber}
-                bounty={bounty}
-                description={description}
-                index={index}
-                isEven={!!(count % 2)}
-                key={index.toNumber()}
-                proposals={proposals}
-              />
-            ))
-        }
+        {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
+          <Bounty
+            bestNumber={info.bestNumber}
+            bounty={bounty}
+            description={description}
+            index={index}
+            key={index.toNumber()}
+            proposals={proposals}
+          />
+        ))}
       </Table>
     </div>
   );

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
+import { nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -32,7 +33,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   const _doBackup = useCallback(
     (): void => {
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           const addressKeyring = address && keyring.getPair(address);
           const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
@@ -49,7 +50,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
 
         setIsBusy(false);
         onClose();
-      }, 0);
+      });
     },
     [address, onClose, password]
   );
@@ -58,6 +59,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Backup account')}
+      onClose={onClose}
     >
       <Modal.Content>
         <AddressRow
@@ -80,7 +82,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           </div>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='download'
           isBusy={isBusy}

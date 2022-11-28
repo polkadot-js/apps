@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Proposal } from '@polkadot/types/interfaces';
+import type { Call } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
 import { formatNumber, isString } from '@polkadot/util';
 
-import Call from './Call';
+import CallDisplay from './Call';
 import Expander from './Expander';
 import { useTranslation } from './translate';
 import TreasuryProposal from './TreasuryProposal';
@@ -17,7 +17,7 @@ import { isTreasuryProposalVote } from './util';
 
 interface Props {
   className?: string;
-  proposal?: Proposal | null;
+  proposal?: Call | null;
   idNumber: BN | number | string;
   withLinks?: boolean;
   expandNested?: boolean;
@@ -55,7 +55,7 @@ function ProposedAction ({ className = '', expandNested, idNumber, proposal, wit
               proposalId={proposal.args[0].toString()}
             />
           )
-          : <Call value={proposal} />
+          : <CallDisplay value={proposal} />
         }
       </Expander>
     </div>
@@ -66,7 +66,7 @@ export default React.memo(styled(ProposedAction)`
   margin-left: 2rem;
 
   .ui--ProposedAction-extrinsic {
-    .ui--Params-Content {
+    > .ui--Params-Content {
       padding-left: 0;
     }
   }

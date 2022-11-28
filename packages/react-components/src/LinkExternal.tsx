@@ -1,9 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkTypes } from '@polkadot/apps-config/links/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -16,7 +16,8 @@ interface Props {
   className?: string;
   data: BN | number | string;
   hash?: string;
-  isLogo?: boolean;
+  isText?: boolean;
+  isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
 }
@@ -25,7 +26,7 @@ interface Props {
 //   return `${name[0]}${name[name.length - 1]}`;
 // }
 
-function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
@@ -44,9 +45,14 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
           target='_blank'
           title={`${name}, ${url}`}
         >
-          {isLogo
-            ? <img src={logo} />
-            : name
+          {isText
+            ? name
+            : (
+              <img
+                className={`${isSidebar ? ' isSidebar' : ''}`}
+                src={logo}
+              />
+            )
           }
         </a>
       );
@@ -54,12 +60,12 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isLogo, isSmall, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
-    () => genLinks(systemChain, { data, hash, isLogo, type }),
-    [systemChain, data, hash, isLogo, type]
+    () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
+    [systemChain, data, hash, isSidebar, isText, type]
   );
 
   if (!links.length) {
@@ -67,8 +73,8 @@ function LinkExternal ({ className = '', data, hash, isLogo, isSmall, type }: Pr
   }
 
   return (
-    <div className={`${className}${isLogo ? ' isLogo' : ''}${isSmall ? ' isSmall' : ''}`}>
-      {!(isLogo || isSmall) && <div>{t<string>('View this externally')}</div>}
+    <div className={`${className} ${isText ? 'isText' : 'isLogo'}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
+      {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
       <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );
@@ -83,12 +89,8 @@ export default React.memo(styled(LinkExternal)`
     text-align: center;
   }
 
-  &.isLogo {
-    line-height: 1;
-
-    .links {
-      white-space: nowrap;
-    }
+  &.isSidebar {
+    text-align: center;
   }
 
   .links {
@@ -98,6 +100,11 @@ export default React.memo(styled(LinkExternal)`
       filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
+
+      &.isSidebar {
+        height: 2rem;
+        width: 2rem;
+      }
 
       &:hover {
         filter: grayscale(0) opacity(1);
@@ -111,6 +118,14 @@ export default React.memo(styled(LinkExternal)`
 
     span+span {
       margin-left: 0.3rem;
+    }
+  }
+
+  &.isLogo {
+    line-height: 1;
+
+    .links {
+      white-space: nowrap;
     }
   }
 `);

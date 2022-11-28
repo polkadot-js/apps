@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -18,8 +18,6 @@ interface Props {
   currentItem: QueueTx;
 }
 
-const NOOP = () => undefined;
-
 async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>): Promise<void> {
   currentItem.txStartCb && currentItem.txStartCb();
 
@@ -29,7 +27,7 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
     }));
   } catch (error) {
     console.error('send: error:', error);
-    queueSetTxStatus(currentItem.id, 'error', {}, error);
+    queueSetTxStatus(currentItem.id, 'error', {}, error as Error);
 
     currentItem.txFailedCb && currentItem.txFailedCb(null);
   }
@@ -39,17 +37,6 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [isRenderError, toggleRenderError] = useToggle();
-
-  const _onCancel = useCallback(
-    (): void => {
-      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
-
-      queueSetTxStatus(id, 'cancelled');
-      signerCb(id, null);
-      txFailedCb(null);
-    },
-    [currentItem, queueSetTxStatus]
-  );
 
   const _onSend = useCallback(
     async (): Promise<void> => {
@@ -70,7 +57,7 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
           />
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions onCancel={_onCancel}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           isDisabled={isRenderError}

@@ -1,24 +1,23 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { StorageKey } from '@polkadot/types';
-import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { Campaign, LeasePeriod } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
+import { AddressMini, Expander, Icon, ParaLink, Spinner, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
-import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
 import Refund from './Refund';
+import useContributions from './useContributions';
 
 interface Props {
+  bestHash?: string;
   bestNumber?: BN;
   className?: string;
   isOngoing?: boolean;
@@ -26,46 +25,18 @@ interface Props {
   value: Campaign;
 }
 
-interface Contributions {
-  uniqueKeys: string[];
-  myAccounts: string[];
+interface LastChange {
+  prevHash: string;
+  prevLength: number;
 }
 
-const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
-
-function extractContributors (allAccounts: string[], keys: StorageKey[]): Contributions {
-  const uniqueKeys = keys.map((k) => k.toHex());
-  const contributors = keys.map((k) => encodeAddress(k));
-
-  return {
-    myAccounts: contributors.filter((c) => allAccounts.includes(c)),
-    uniqueKeys
-  };
-}
-
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, value: { info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, isAccount } = useAccounts();
-  const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan?.Contributed, api.events.crowdloan?.Withdrew, api.events.crowdloan?.AllRefunded, api.events.crowdloan?.PartiallyRefunded], useCallback(
-    ({ event: { data } }: EventRecord) =>
-      ((data.length === 1
-        ? data[0] // AllRefunded, PartiallyRefunded [ParaId]
-        : data[1] // Contributed, Withdrew [AccountId, ParaId, Balance]
-      ) as ParaId).eq(paraId),
-    [paraId]
-  ));
-
-  useEffect((): void => {
-    trigger &&
-      api.rpc.childstate
-        .getKeys(childKey, '0x')
-        .then((keys) => setContributors(
-          extractContributors(allAccounts, keys))
-        )
-        .catch(console.error);
-  }, [allAccounts, api, childKey, trigger]);
+  const { isAccount } = useAccounts();
+  const endpoints = useParaEndpoints(paraId);
+  const { blockHash, contributorsHex, hasLoaded, myAccounts, myAccountsHex, myContributions } = useContributions(paraId);
+  const [lastChange, setLastChange] = useState<LastChange>(() => ({ prevHash: '', prevLength: 0 }));
 
   const isDepositor = useMemo(
     () => isAccount(depositor.toString()),
@@ -88,12 +59,23 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
 
   const hasEnded = !blocksLeft && !!leasePeriod && (
     isWinner
-      ? leasePeriod.currentPeriod.gt(lastSlot)
-      : leasePeriod.currentPeriod.gt(firstSlot)
+      ? leasePeriod.currentPeriod.gt(lastPeriod)
+      : leasePeriod.currentPeriod.gt(firstPeriod)
   );
   const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
-  const canDissolve = raised.isZero() && hasEnded;
+  const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
+  const homepage = endpoints.length !== 0 && endpoints[0].homepage;
+
+  useEffect((): void => {
+    setLastChange((prev): LastChange => {
+      const prevLength = contributorsHex.length;
+
+      return prev.prevLength !== prevLength
+        ? { prevHash: blockHash, prevLength }
+        : prev;
+    });
+  }, [contributorsHex, blockHash]);
 
   return (
     <tr className={className}>
@@ -111,52 +93,73 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
             : t<string>('Ended')
         }
       </td>
-      <td className='address media--1400'><AddressMini value={depositor} /></td>
-      <td className='all number together media--1100'>
+      <td className='address media--2000'><AddressMini value={depositor} /></td>
+      <td className='all number together media--1200'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
         #{formatNumber(end)}
       </td>
       <td className='number all together'>
-        {firstSlot.eq(lastSlot)
-          ? formatNumber(firstSlot)
-          : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        {firstPeriod.eq(lastPeriod)
+          ? formatNumber(firstPeriod)
+          : `${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`
         }
       </td>
       <td className='number together'>
         <FormatBalance
           value={raised}
           withCurrency={false}
-        />&nbsp;/&nbsp;<FormatBalance
-          value={cap}
-        />
+        />&nbsp;/&nbsp;<FormatBalance value={cap} />
         <div>{percentage}</div>
-      </td>
-      <td className='number'>
-        {uniqueKeys.length !== 0 && (
-          formatNumber(uniqueKeys.length)
+        {myAccounts.length !== 0 && (
+          <Expander
+            summary={t<string>('My contributions ({{count}})', { replace: { count: myAccounts.length } })}
+            withBreaks
+          >
+            {myAccounts.map((a, index) => (
+              <AddressMini
+                balance={myContributions[myAccountsHex[index]]}
+                key={a}
+                value={a}
+                withBalance
+              />
+            ))}
+          </Expander>
         )}
       </td>
-      <td className='badge'>
-        <Icon
-          color={myAccounts.length ? 'green' : 'gray'}
-          icon='asterisk'
-        />
+      <td className='number together media--1100'>
+        {!hasLoaded
+          ? <Spinner noLabel />
+          : (
+            <>
+              {bestHash && (
+                <Icon
+                  color={
+                    lastChange.prevHash === bestHash
+                      ? 'green'
+                      : 'transparent'
+                  }
+                  icon='chevron-up'
+                  isPadded
+                />
+              )}
+              {contributorsHex.length !== 0 && (
+                formatNumber(contributorsHex.length)
+              )}
+            </>
+          )}
       </td>
-      <td className='button media--1300'>
-        {canWithdraw && uniqueKeys.length !== 0 && (
-          <Refund
-            allAccounts={uniqueKeys}
-            myAccounts={myAccounts}
-            paraId={paraId}
-          />
+      <td className='button media--1000'>
+        {canWithdraw && contributorsHex.length !== 0 && (
+          <Refund paraId={paraId} />
         )}
         {canDissolve && (
           <TxButton
             accountId={depositor}
+            className='media--1400'
             icon='times'
-            isDisabled={!isDepositor}
+            isDisabled={!(isDepositor || hasEnded)}
             label={
               isEnded
                 ? t<string>('Close')
@@ -169,9 +172,19 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         {isOngoing && canContribute && (
           <Contribute
             cap={cap}
+            needsSignature={verifier.isSome}
             paraId={paraId}
             raised={raised}
           />
+        )}
+        {isOngoing && homepage && (
+          <div>
+            <a
+              href={homepage}
+              rel='noopener noreferrer'
+              target='_blank'
+            >{t<string>('Homepage')}</a>&nbsp;&nbsp;&nbsp;
+          </div>
         )}
       </td>
     </tr>

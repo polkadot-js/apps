@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bid } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid } from '@polkadot/types/lookup';
 
 import React, { useRef } from 'react';
 
@@ -18,12 +18,13 @@ interface Props {
 function Bids ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bids = useCall<Bid[]>(api.query.society.bids);
+  const bids = useCall<PalletSocietyBid[]>(api.query.society.bids);
 
   const headerRef = useRef([
     [t('bids'), 'start'],
     [t('bid kind'), 'start', 2],
     [t('value')],
+    [t('tip')],
     []
   ]);
 

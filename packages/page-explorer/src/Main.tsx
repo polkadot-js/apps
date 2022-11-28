@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
@@ -15,15 +15,16 @@ import Query from './Query';
 import Summary from './Summary';
 
 interface Props {
+  eventCount: number;
   events: KeyedEvent[];
   headers: HeaderExtended[];
 }
 
-function Main ({ events, headers }: Props): React.ReactElement<Props> {
+function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
       <Query />
-      <Summary />
+      <Summary eventCount={eventCount} />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

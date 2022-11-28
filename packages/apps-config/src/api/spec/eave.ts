@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -207,6 +207,7 @@ const definitions: OverrideBundleDefinition = {
         LiquidityPoolConfig_: 'PoolConfig',
         LiquidityPool_: 'LiquidityPool',
         LookupSource: 'MultiAddress',
+        NomineeId: 'AccountId',
         NFTBalance: 'u128',
         OptionRate: 'Option<Rate>',
         OptionRatio: 'Option<Ratio>',
@@ -390,7 +391,7 @@ const definitions: OverrideBundleDefinition = {
             LDOT: 3,
             XBTC: 4,
             RENBTC: 5,
-            POLKABTC: 6,
+            INTERBTC: 6,
             PLM: 7,
             PHA: 8,
             HDT: 9,

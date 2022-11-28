@@ -1,12 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
-
-import { ThemeProps } from '@polkadot/react-components/types';
-
-import { bountyLabelColor } from './theme';
 
 interface Props {
   className?: string;
@@ -18,15 +14,16 @@ function Description ({ className = '', dataTestId = '', description }: Props): 
   return (
     <div
       className={className}
-      data-testid={dataTestId}>
+      data-testid={dataTestId}
+    >
       {description}
     </div>
   );
 }
 
-export default React.memo(styled(Description)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Description)`
   margin-top: 0.28rem;
   font-size: 0.7rem;
   line-height: 0.85rem;
-  color: ${bountyLabelColor[theme.theme]};
-`));
+  color: var(--color-label);
+`);

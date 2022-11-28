@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from './types';
 
 import React from 'react';
 import ReactMd from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
@@ -15,6 +16,8 @@ interface Props {
   className?: string;
   md: string;
 }
+
+const rehypePlugins = [rehypeRaw];
 
 function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> {
   const [isVisible, toggleVisible] = useToggle();
@@ -36,9 +39,10 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
         </div>
         <ReactMd
           className='help-content'
-          escapeHtml={false}
-          source={md}
-        />
+          rehypePlugins={rehypePlugins}
+        >
+          {md}
+        </ReactMd>
       </div>
     </div>
   );

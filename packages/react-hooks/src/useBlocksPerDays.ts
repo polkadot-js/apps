@@ -1,24 +1,22 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useApi } from '@polkadot/react-hooks';
+import { BN, bnToBn } from '@polkadot/util';
 
-const DEFAULT_TIME = new BN(6000);
-const A_DAY = new BN(24 * 60 * 60 * 1000);
+import { createNamedHook } from './createNamedHook';
+import { useBlockInterval } from './useBlockInterval';
 
-export function useBlocksPerDays (days = 1): BN {
-  const { api } = useApi();
+export const A_DAY = new BN(24 * 60 * 60 * 1000);
+
+function useBlocksPerDaysImpl (days: BN | number = 1): BN {
+  const blockTime = useBlockInterval();
 
   return useMemo(
-    () => A_DAY.muln(days).div(
-      api.consts.babe?.expectedBlockTime ||
-      api.consts.difficulty?.targetBlockTime ||
-      api.consts.timestamp?.minimumPeriod.muln(2) ||
-      DEFAULT_TIME
-    ),
-    [api, days]
+    () => A_DAY.mul(bnToBn(days)).div(blockTime),
+    [blockTime, days]
   );
 }
+
+export const useBlocksPerDays = createNamedHook('useBlocksPerDays', useBlocksPerDaysImpl);
