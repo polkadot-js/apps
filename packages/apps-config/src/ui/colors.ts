@@ -3,7 +3,6 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
-import nodeBasiliskRococo from './logos/nodes/basilisk-rococo-bg.png';
 import { sanitize } from './util';
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -29,7 +28,7 @@ const chainAutomataContextFree = '#EC7032';
 const chainBajun = '#161212';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
-const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
+const chainBasiliskTestnet = '#000000';
 const chainBeastEave = '#900048';
 const chainBitgreen = '#13F513';
 const chainBrainstorm = '#161616';
