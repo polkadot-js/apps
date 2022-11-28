@@ -12,7 +12,8 @@ export interface Cid {
 
 export interface Member {
   accountId: string;
-  role: PalletAllianceMemberRole['type'];
+  // Founder here is deprecated
+  role: PalletAllianceMemberRole['type'] | 'Founder';
 }
 
 export interface MemberInfo {
