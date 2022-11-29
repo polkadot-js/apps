@@ -82,8 +82,11 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
   const { api } = useApi();
 
   const hash = useMemo(
-    () => hashOrBounded && getPreimageHash(hashOrBounded),
-    [hashOrBounded]
+    // we need a hash _and_ be on the newset supported version of the pallet
+    // (after the application of bounded calls)
+    () => api.query.preimage?.preimageFor?.creator.meta.type.isMap && api.registry.lookup.getTypeDef(api.query.preimage.preimageFor.creator.meta.type.asMap.key).type === '(H256,u32)' && hashOrBounded &&
+      getPreimageHash(hashOrBounded),
+    [api, hashOrBounded]
   );
 
   const optStatus = useCall<Option<PalletPreimageRequestStatus>>(hash && api.query.preimage?.statusFor, [hash]);
