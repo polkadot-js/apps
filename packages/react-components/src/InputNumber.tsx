@@ -73,10 +73,10 @@ function getRegex (isDecimal: boolean, isSigned: boolean): RegExp {
 }
 
 function getSiOptions (symbol: string, decimals?: number): { text: string; value: string }[] {
-  return formatBalance.getOptions(decimals).map(({ power, value }): { text: string; value: string } => ({
+  return formatBalance.getOptions(decimals).map(({ power, text, value }): { text: string; value: string } => ({
     text: power === 0
       ? symbol
-      : value + (symbol || ''),
+      : text,
     value
   }));
 }
