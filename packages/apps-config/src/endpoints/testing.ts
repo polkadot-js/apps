@@ -537,9 +537,7 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-gemini-2a',
     text: 'Subspace Gemini 2a',
     providers: {
-      'Europe 0': 'wss://eu-0.gemini-2a.subspace.network/ws',
-      'Europe 1': 'wss://eu-1.gemini-2a.subspace.network/ws',
-      'Europe 2': 'wss://eu-2.gemini-2a.subspace.network/ws',
+      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws',
       Dwelllir: 'wss://subspace-gemini-2a-rpc.dwellir.com'
     }
   },
