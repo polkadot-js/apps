@@ -117,7 +117,7 @@ export default React.memo(styled(InputBalance)`
         top: 50%;
         transform: translateY(-50%);
         left: 0.5rem;
-        width: 3rem;
+        width: 4rem;
       }
     }
   }
