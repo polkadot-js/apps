@@ -48,9 +48,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
-  const si = isDisabled
-    ? formatBalance.calcSi(value.toString(), decimals)
-    : formatBalance.findSi('-');
+  const si = formatBalance.findSi('-');
 
   return [
     formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(/,/g, isDisabled ? ',' : ''),
@@ -117,7 +115,7 @@ export default React.memo(styled(InputBalance)`
         top: 50%;
         transform: translateY(-50%);
         left: 0.5rem;
-        width: 3rem;
+        width: 4rem;
       }
     }
   }
