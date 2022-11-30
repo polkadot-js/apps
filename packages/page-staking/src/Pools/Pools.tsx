@@ -42,7 +42,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
   const filtered = useMemo(
     () => ownPools && ids
       ? typeIndex === 2
-        ? ids.filter((id) => id.toNumber() <= 10)
+        ? ids.filter((id) => id.toNumber() >= 2 && id.toNumber() <= 11)
         : typeIndex === 1
           ? ids
           : ids.filter((id) => ownPools.some(({ poolId }) => id.eq(poolId)))
