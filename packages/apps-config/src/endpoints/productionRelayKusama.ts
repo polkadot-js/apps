@@ -250,8 +250,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2235,
     text: 'KICO 2',
     providers: {
-      'DICO Foundation': 'wss://rpc.kico2.dico.io'
-      // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
+      // 'DICO Foundation': 'wss://rpc.kico2.dico.io' // https://github.com/polkadot-js/apps/issues/8415
     }
   },
   {
@@ -352,7 +351,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2085,
     text: 'Parallel Heiko',
     providers: {
-      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
@@ -401,8 +400,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws'
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
+      // OnFinality: 'wss://quartz.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable
     }
   },
   {
@@ -411,7 +410,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2227,
     text: 'RioDeFi',
     providers: {
-      RioProtocol: 'wss://rio-kusama-rpc.riocorenetwork.com'
+      RioProtocol: 'wss://rio-kusama.riocorenetwork.com'
     }
   },
   {

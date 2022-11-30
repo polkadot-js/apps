@@ -33317,12 +33317,115 @@ export const typesBundle = {
       "types": [
         {
           "minmax": [
-            0,
+            9,
             null
           ],
           "types": {
-            "Address": "MultiAddress",
-            "LookupSource": "MultiAddress",
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]"
+          }
+        },
+        {
+          "minmax": [
+            0,
+            8
+          ],
+          "types": {
+            "ShardIdentifier": "Hash",
+            "GetterArgs": "(AccountId, CommunityIdentifier)",
+            "Enclave": {
+              "pubkey": "AccountId",
+              "mrenclave": "Hash",
+              "timestamp": "u64",
+              "url": "Text"
+            },
+            "PublicGetter": {
+              "_enum": {
+                "total_issuance": "CommunityIdentifier",
+                "participant_count": "CommunityIdentifier",
+                "meetup_count": "CommunityIdentifier",
+                "ceremony_reward": "CommunityIdentifier",
+                "location_tolerance": "CommunityIdentifier",
+                "time_tolerance": "CommunityIdentifier",
+                "scheduler_state": "CommunityIdentifier"
+              }
+            },
+            "TrustedGetter": {
+              "_enum": {
+                "balance": "(AccountId, CommunityIdentifier)",
+                "participant_index": "(AccountId, CommunityIdentifier)",
+                "meetup_index": "(AccountId, CommunityIdentifier)",
+                "attestations": "(AccountId, CommunityIdentifier)",
+                "meetup_registry": "(AccountId, CommunityIdentifier)"
+              }
+            },
+            "TrustedGetterSigned": {
+              "getter": "TrustedGetter",
+              "signature": "Signature"
+            },
+            "Getter": {
+              "_enum": {
+                "public": "PublicGetter",
+                "trusted": "TrustedGetterSigned"
+              }
+            },
+            "ClientRequest": {
+              "_enum": {
+                "PubKeyWorker": null,
+                "MuRaPortWorker": null,
+                "StfState": "(Getter, ShardIdentifier)"
+              }
+            },
+            "WorkerEncoded": "Vec<u8>",
+            "Request": {
+              "shard": "ShardIdentifier",
+              "cyphertext": "WorkerEncoded"
+            },
+            "TrustedCallSigned": {
+              "call": "TrustedCall",
+              "nonce": "u32",
+              "signature": "Signature"
+            },
+            "TrustedCall": {
+              "_enum": {
+                "balance_transfer": "BalanceTransferArgs",
+                "ceremonies_register_participant": "RegisterParticipantArgs",
+                "ceremonies_register_attestations": "RegisterAttestationsArgs",
+                "ceremonies_grant_reputation": "GrantReputationArgs"
+              }
+            },
+            "BalanceTransferArgs": "(AccountId, AccountId, CommunityIdentifier, BalanceType)",
+            "RegisterParticipantArgs": "(AccountId, CommunityIdentifier, Option<ProofOfAttendance<MultiSignature, AccountId>>)",
+            "RegisterAttestationsArgs": "(AccountId, Vec<Attestation<MultiSignature, AccountId, u64>>)",
+            "GrantReputationArgs": "(AccountId, CommunityIdentifier, AccountId)",
+            "BalanceType": "i128",
+            "BalanceEntry": {
+              "principal": "BalanceType",
+              "lastUpdate": "BlockNumber"
+            },
+            "Demurrage": "BalanceType",
+            "BusinessIdentifier": {
+              "communityIdentifier": "CommunityIdentifier",
+              "controller": "AccountId"
+            },
+            "OfferingIdentifier": "u32",
+            "BusinessData": {
+              "url": "PalletString",
+              "last_oid": "u32"
+            },
+            "OfferingData": {
+              "url": "PalletString"
+            },
+            "PalletString": "Text",
+            "IpfsCid": "Text",
+            "FixedI64F64": {
+              "bits": "i128"
+            },
+            "CeremonyIndexType": "u32",
             "CeremonyPhaseType": {
               "_enum": [
                 "Registering",
@@ -33330,24 +33433,11 @@ export const typesBundle = {
                 "Attesting"
               ]
             },
-            "CeremonyIndexType": "u32",
             "ParticipantIndexType": "u64",
             "MeetupIndexType": "u64",
             "AttestationIndexType": "u64",
-            "CurrencyIdentifier": "Hash",
-            "BalanceType": "i128",
-            "BalanceEntry": {
-              "principal": "i128",
-              "last_update": "BlockNumber"
-            },
-            "CurrencyCeremony": {
-              "cid": "CurrencyIdentifier",
-              "cindex": "CeremonyIndexType"
-            },
-            "Location": {
-              "lat": "i64",
-              "lon": "i64"
-            },
+            "MeetupAssignment": "(MeetupIndexType, Option<Location>)",
+            "MeetupTimeOffsetType": "i32",
             "Reputation": {
               "_enum": [
                 "Unverified",
@@ -33356,36 +33446,126 @@ export const typesBundle = {
                 "VerifiedLinked"
               ]
             },
-            "CurrencyPropertiesType": {
-              "name_utf8": "Text",
-              "demurrage_per_block": "i128"
+            "CommunityReputation": {
+              "communityIdentifier": "CommunityIdentifier",
+              "reputation": "Reputation"
             },
             "ClaimOfAttendance": {
-              "claimant_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "currency_identifier": "CurrencyIdentifier",
-              "meetup_index": "MeetupIndexType",
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
               "location": "Location",
               "timestamp": "Moment",
-              "number_of_participants_confirmed": "u32"
+              "numberOfParticipantsConfirmed": "u32",
+              "claimantSignature": "Option<MultiSignature>"
+            },
+            "ClaimOfAttendanceSigningPayload": {
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
+              "location": "Location",
+              "timestamp": "Moment",
+              "numberOfParticipantsConfirmed": "u32"
+            },
+            "AssignmentCount": {
+              "bootstrappers": "ParticipantIndexType",
+              "reputables": "ParticipantIndexType",
+              "endorsees": "ParticipantIndexType",
+              "newbies": "ParticipantIndexType"
+            },
+            "Assignment": {
+              "bootstrappersReputables": "AssignmentParams",
+              "endorsees": "AssignmentParams",
+              "newbies": "AssignmentParams",
+              "locations": "AssignmentParams"
+            },
+            "AssignmentParams": {
+              "m": "u64",
+              "s1": "u64",
+              "s2": "u64"
+            },
+            "CommunityCeremonyStats": {
+              "communityCeremony": "(CommunityIdentifier, CeremonyIndexType)",
+              "assignment": "Assignment",
+              "assignmentCount": "AssignmentCount",
+              "meetupCount": "MeetupIndexType",
+              "meetups": "Vec<Meetup>"
+            },
+            "Meetup": {
+              "index": "MeetupIndexType",
+              "location": "LocationRpc",
+              "time": "Moment",
+              "registrations": "Vec<(AccountId, ParticipantRegistration)>"
+            },
+            "ParticipantRegistration": {
+              "index": "ParticipantIndexType",
+              "registrationType": "RegistrationType"
+            },
+            "RegistrationType": {
+              "_enum": [
+                "Bootstrapper",
+                "Reputable",
+                "Endorsee",
+                "Newbie"
+              ]
             },
             "Attestation": {
               "claim": "ClaimOfAttendance",
-              "signature": "Signature",
+              "signature": "MultiSignature",
               "public": "AccountId"
             },
             "ProofOfAttendance": {
-              "prover_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "currency_identifier": "CurrencyIdentifier",
-              "attendee_public": "AccountId",
-              "attendee_signature": "Signature"
+              "proverPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "attendeePublic": "AccountId",
+              "attendeeSignature": "MultiSignature"
             },
-            "ShopIdentifier": "Text",
-            "ArticleIdentifier": "Text"
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]",
+            "CommunityCeremony": "(CommunityIdentifier,CeremonyIndexType)",
+            "NominalIncomeType": "BalanceType",
+            "DegreeRpc": "Text",
+            "DegreeFixed": "i128",
+            "Location": {
+              "lat": "DegreeFixed",
+              "lon": "DegreeFixed"
+            },
+            "LocationRpc": {
+              "lat": "DegreeRpc",
+              "lon": "DegreeRpc"
+            },
+            "CidName": {
+              "cid": "CommunityIdentifier",
+              "name": "Text"
+            },
+            "CommunityMetadataType": {
+              "name": "Text",
+              "symbol": "Text",
+              "assets": "Text",
+              "theme": "Option<Text>",
+              "url": "Option<Text>"
+            },
+            "SystemNumber": "u32",
+            "SchedulerState": "(CeremonyIndexType, CeremonyPhaseType, SystemNumber)"
           }
         }
-      ]
+      ],
+      "signedExtensions": {
+        "ChargeAssetTxPayment": {
+          "extrinsic": {
+            "tip": "Compact<Balance>",
+            "assetId": "Option<CommunityIdentifier>"
+          },
+          "payload": {}
+        }
+      }
     },
     "encointer-node-teeproxy": {
       "types": [
@@ -33437,12 +33617,115 @@ export const typesBundle = {
       "types": [
         {
           "minmax": [
-            0,
+            3,
             null
           ],
           "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId",
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]"
+          }
+        },
+        {
+          "minmax": [
+            0,
+            2
+          ],
+          "types": {
+            "ShardIdentifier": "Hash",
+            "GetterArgs": "(AccountId, CommunityIdentifier)",
+            "Enclave": {
+              "pubkey": "AccountId",
+              "mrenclave": "Hash",
+              "timestamp": "u64",
+              "url": "Text"
+            },
+            "PublicGetter": {
+              "_enum": {
+                "total_issuance": "CommunityIdentifier",
+                "participant_count": "CommunityIdentifier",
+                "meetup_count": "CommunityIdentifier",
+                "ceremony_reward": "CommunityIdentifier",
+                "location_tolerance": "CommunityIdentifier",
+                "time_tolerance": "CommunityIdentifier",
+                "scheduler_state": "CommunityIdentifier"
+              }
+            },
+            "TrustedGetter": {
+              "_enum": {
+                "balance": "(AccountId, CommunityIdentifier)",
+                "participant_index": "(AccountId, CommunityIdentifier)",
+                "meetup_index": "(AccountId, CommunityIdentifier)",
+                "attestations": "(AccountId, CommunityIdentifier)",
+                "meetup_registry": "(AccountId, CommunityIdentifier)"
+              }
+            },
+            "TrustedGetterSigned": {
+              "getter": "TrustedGetter",
+              "signature": "Signature"
+            },
+            "Getter": {
+              "_enum": {
+                "public": "PublicGetter",
+                "trusted": "TrustedGetterSigned"
+              }
+            },
+            "ClientRequest": {
+              "_enum": {
+                "PubKeyWorker": null,
+                "MuRaPortWorker": null,
+                "StfState": "(Getter, ShardIdentifier)"
+              }
+            },
+            "WorkerEncoded": "Vec<u8>",
+            "Request": {
+              "shard": "ShardIdentifier",
+              "cyphertext": "WorkerEncoded"
+            },
+            "TrustedCallSigned": {
+              "call": "TrustedCall",
+              "nonce": "u32",
+              "signature": "Signature"
+            },
+            "TrustedCall": {
+              "_enum": {
+                "balance_transfer": "BalanceTransferArgs",
+                "ceremonies_register_participant": "RegisterParticipantArgs",
+                "ceremonies_register_attestations": "RegisterAttestationsArgs",
+                "ceremonies_grant_reputation": "GrantReputationArgs"
+              }
+            },
+            "BalanceTransferArgs": "(AccountId, AccountId, CommunityIdentifier, BalanceType)",
+            "RegisterParticipantArgs": "(AccountId, CommunityIdentifier, Option<ProofOfAttendance<MultiSignature, AccountId>>)",
+            "RegisterAttestationsArgs": "(AccountId, Vec<Attestation<MultiSignature, AccountId, u64>>)",
+            "GrantReputationArgs": "(AccountId, CommunityIdentifier, AccountId)",
+            "BalanceType": "i128",
+            "BalanceEntry": {
+              "principal": "BalanceType",
+              "lastUpdate": "BlockNumber"
+            },
+            "Demurrage": "BalanceType",
+            "BusinessIdentifier": {
+              "communityIdentifier": "CommunityIdentifier",
+              "controller": "AccountId"
+            },
+            "OfferingIdentifier": "u32",
+            "BusinessData": {
+              "url": "PalletString",
+              "last_oid": "u32"
+            },
+            "OfferingData": {
+              "url": "PalletString"
+            },
+            "PalletString": "Text",
+            "IpfsCid": "Text",
+            "FixedI64F64": {
+              "bits": "i128"
+            },
+            "CeremonyIndexType": "u32",
             "CeremonyPhaseType": {
               "_enum": [
                 "Registering",
@@ -33450,24 +33733,11 @@ export const typesBundle = {
                 "Attesting"
               ]
             },
-            "CeremonyIndexType": "u32",
             "ParticipantIndexType": "u64",
             "MeetupIndexType": "u64",
             "AttestationIndexType": "u64",
-            "CommunityIdentifier": "Hash",
-            "BalanceType": "i128",
-            "BalanceEntry": {
-              "principal": "i128",
-              "last_update": "BlockNumber"
-            },
-            "CommunityCeremony": {
-              "cid": "CommunityIdentifier",
-              "cindex": "CeremonyIndexType"
-            },
-            "Location": {
-              "lat": "i64",
-              "lon": "i64"
-            },
+            "MeetupAssignment": "(MeetupIndexType, Option<Location>)",
+            "MeetupTimeOffsetType": "i32",
             "Reputation": {
               "_enum": [
                 "Unverified",
@@ -33476,43 +33746,126 @@ export const typesBundle = {
                 "VerifiedLinked"
               ]
             },
-            "CommunityPropertiesType": {
-              "name_utf8": "Text",
-              "demurrage_per_block": "i128"
+            "CommunityReputation": {
+              "communityIdentifier": "CommunityIdentifier",
+              "reputation": "Reputation"
             },
             "ClaimOfAttendance": {
-              "claimant_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "community_identifier": "CommunityIdentifier",
-              "meetup_index": "MeetupIndexType",
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
               "location": "Location",
               "timestamp": "Moment",
-              "number_of_participants_confirmed": "u32"
+              "numberOfParticipantsConfirmed": "u32",
+              "claimantSignature": "Option<MultiSignature>"
+            },
+            "ClaimOfAttendanceSigningPayload": {
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
+              "location": "Location",
+              "timestamp": "Moment",
+              "numberOfParticipantsConfirmed": "u32"
+            },
+            "AssignmentCount": {
+              "bootstrappers": "ParticipantIndexType",
+              "reputables": "ParticipantIndexType",
+              "endorsees": "ParticipantIndexType",
+              "newbies": "ParticipantIndexType"
+            },
+            "Assignment": {
+              "bootstrappersReputables": "AssignmentParams",
+              "endorsees": "AssignmentParams",
+              "newbies": "AssignmentParams",
+              "locations": "AssignmentParams"
+            },
+            "AssignmentParams": {
+              "m": "u64",
+              "s1": "u64",
+              "s2": "u64"
+            },
+            "CommunityCeremonyStats": {
+              "communityCeremony": "(CommunityIdentifier, CeremonyIndexType)",
+              "assignment": "Assignment",
+              "assignmentCount": "AssignmentCount",
+              "meetupCount": "MeetupIndexType",
+              "meetups": "Vec<Meetup>"
+            },
+            "Meetup": {
+              "index": "MeetupIndexType",
+              "location": "LocationRpc",
+              "time": "Moment",
+              "registrations": "Vec<(AccountId, ParticipantRegistration)>"
+            },
+            "ParticipantRegistration": {
+              "index": "ParticipantIndexType",
+              "registrationType": "RegistrationType"
+            },
+            "RegistrationType": {
+              "_enum": [
+                "Bootstrapper",
+                "Reputable",
+                "Endorsee",
+                "Newbie"
+              ]
             },
             "Attestation": {
               "claim": "ClaimOfAttendance",
-              "signature": "Signature",
+              "signature": "MultiSignature",
               "public": "AccountId"
             },
             "ProofOfAttendance": {
-              "prover_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "community_identifier": "CommunityIdentifier",
-              "attendee_public": "AccountId",
-              "attendee_signature": "Signature"
+              "proverPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "attendeePublic": "AccountId",
+              "attendeeSignature": "MultiSignature"
             },
-            "ShopIdentifier": "Text",
-            "ArticleIdentifier": "Text",
-            "PersonhoodUniquenessRating": "Vec<u8>",
-            "SybilResponse": {
-              "_enum": [
-                "Unused",
-                "Faucet"
-              ]
-            }
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]",
+            "CommunityCeremony": "(CommunityIdentifier,CeremonyIndexType)",
+            "NominalIncomeType": "BalanceType",
+            "DegreeRpc": "Text",
+            "DegreeFixed": "i128",
+            "Location": {
+              "lat": "DegreeFixed",
+              "lon": "DegreeFixed"
+            },
+            "LocationRpc": {
+              "lat": "DegreeRpc",
+              "lon": "DegreeRpc"
+            },
+            "CidName": {
+              "cid": "CommunityIdentifier",
+              "name": "Text"
+            },
+            "CommunityMetadataType": {
+              "name": "Text",
+              "symbol": "Text",
+              "assets": "Text",
+              "theme": "Option<Text>",
+              "url": "Option<Text>"
+            },
+            "SystemNumber": "u32",
+            "SchedulerState": "(CeremonyIndexType, CeremonyPhaseType, SystemNumber)"
           }
         }
-      ]
+      ],
+      "signedExtensions": {
+        "ChargeAssetTxPayment": {
+          "extrinsic": {
+            "tip": "Compact<Balance>",
+            "assetId": "Option<CommunityIdentifier>"
+          },
+          "payload": {}
+        }
+      }
     },
     "fantour": {
       "types": [
