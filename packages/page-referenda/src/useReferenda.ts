@@ -114,7 +114,9 @@ function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: [BN, Pall
         const { deciding, tally } = ref.info.asOngoing;
 
         if (deciding.isSome) {
-          ref.decidingEnd = calcDecidingEnd(totalIssuance, tally, trackInfo[1]);
+          const { since } = deciding.unwrap();
+
+          ref.decidingEnd = calcDecidingEnd(totalIssuance, tally, trackInfo[1], since);
         }
       }
 

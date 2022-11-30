@@ -168,7 +168,17 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
   throw new Error(`Unknown curve found ${curve.type}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function calcDecidingEnd (totalIssuance: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { minApproval, minSupport }: PalletReferendaTrackInfo): BN | undefined {
+export function calcDecidingEnd (totalIssuance: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo, since: BN): BN | undefined {
+  if (isConvictionTally(tally)) {
+    const { ayes, nays, support } = tally;
+
+    return since.add(
+      bnMax(
+        curveDelay(minApproval, ayes.mul(BN_BILLION).div(ayes.add(nays))),
+        curveDelay(minSupport, support.mul(BN_BILLION).div(totalIssuance))
+      ).mul(decisionPeriod).div(BN_BILLION)
+    );
+  }
+
   return undefined;
 }
