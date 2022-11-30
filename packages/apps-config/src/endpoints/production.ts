@@ -43,7 +43,7 @@ export const prodChains: EndpointOption[] = [
     info: 'centrifuge',
     text: 'Centrifuge Standalone [Archived]',
     providers: {
-      Centrifuge: 'wss://fullnode.centrifuge.io'
+      // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     }
   },
   {
@@ -57,14 +57,14 @@ export const prodChains: EndpointOption[] = [
     info: 'competitors-club',
     text: 'Competitors Club',
     providers: {
-      'Competitors Club': 'wss://node0.competitors.club/wss'
+      // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     }
   },
   {
     info: 'creditcoin',
     text: 'Creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     }
   },
   {
@@ -112,24 +112,23 @@ export const prodChains: EndpointOption[] = [
     text: 'Edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet.edgewa.re',
+      JelliedOwl: 'wss://edgeware.jelliedowl.net',
       OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
       Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
   {
     info: 'efinity',
-    isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
     text: 'Efinity',
     providers: {
-      Efinity: 'wss://rpc.efinity.io'
+      // Efinity: 'wss://rpc.efinity.io' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
     info: 'equilibrium',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.equilibrium.io'
+      // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
     }
   },
   {
@@ -141,10 +140,9 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'hanonycash',
-    isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     text: 'Hanonycash',
     providers: {
-      Hanonycash: 'wss://rpc.hanonycash.com'
+      // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     }
   },
   {
@@ -179,10 +177,9 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'minix',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
     text: 'MiniX',
     providers: {
-      ChainX: 'wss://minichain-mainnet.coming.chat/ws'
+      // ChainX: 'wss://minichain-mainnet.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/7182
     }
   },
   {
@@ -211,7 +208,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Nodle',
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
+      OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     }
   },
   {
@@ -238,10 +235,9 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'robonomics',
-    isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
     text: 'Robonomics',
     providers: {
-      Airalab: 'wss://kusama.rpc.robonomics.network/'
+      // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
@@ -258,15 +254,15 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+      // Soramitsu: 'wss://ws.alb.sora.org', // https://github.com/polkadot-js/apps/issues/7786
       OnFinality: 'wss://sora.api.onfinality.io/public-ws'
     }
   },
   {
     info: 'spanner',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
     text: 'Spanner',
     providers: {
-      Spanner: 'wss://wss.spannerprotocol.com'
+      // Spanner: 'wss://wss.spannerprotocol.com' // https://github.com/polkadot-js/apps/issues/6547
     }
   },
   {
@@ -288,7 +284,7 @@ export const prodChains: EndpointOption[] = [
     info: 'subsocial',
     text: 'Subsocial',
     providers: {
-      DappForce: 'wss://rpc.subsocial.network'
+      // DappForce: 'wss://rpc.subsocial.network' // https://github.com/polkadot-js/apps/issues/8046
     }
   },
   {
@@ -314,10 +310,9 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'westlake',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7293
     text: 'Westlake',
     providers: {
-      DataHighway: 'wss://westlake.datahighway.com'
+      // DataHighway: 'wss://westlake.datahighway.com' // https://github.com/polkadot-js/apps/issues/7293
     }
   }
 ];

@@ -6,6 +6,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -37,7 +38,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           pair.decodePkcs8(password);
         } catch (error) {
@@ -48,7 +49,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
 
         setIsBusy(false);
         onUnlock();
-      }, 0);
+      });
     },
     [onUnlock, pair, password]
   );

@@ -1,0 +1,18 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-preimages#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-preimages",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-preimages",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.122.2",
+  "dependencies": {
+    "@babel/runtime": "^7.20.1"
+  }
+}

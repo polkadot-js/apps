@@ -26,6 +26,10 @@ function dispatchResult ({ data: [result] }: Event): string | null {
   return extractError(result as DispatchResult);
 }
 
+function dispatchResultCouncil ({ data: [, result] }: Event): string | null {
+  return extractError(result as DispatchResult);
+}
+
 // [approving, timepoint, multisig, callHash, result]
 function dispatchResultMulti ({ data: [,,,, result] }: Event): string | null {
   return extractError(result as DispatchResult);
@@ -43,11 +47,18 @@ function xcmAttempted ({ data: [outcome] }: Event): string | null {
   return null;
 }
 
+const collective: Record<string, EventCheck> = {
+  Executed: dispatchResultCouncil
+};
+
 const xcmPallet: Record<string, EventCheck> = {
   Attempted: xcmAttempted
 };
 
 const CHECKS: Record<string, Record<string, EventCheck>> = {
+  allianceMotion: collective,
+  council: collective,
+  membership: collective,
   multisig: {
     MultisigExecuted: dispatchResultMulti
   },
@@ -59,6 +70,7 @@ const CHECKS: Record<string, Record<string, EventCheck>> = {
     Sudid: dispatchResult,
     SudoAsDone: dispatchResult
   },
+  technicalCommittee: collective,
   utility: {
     BatchInterrupted: batchInterrupted,
     DispatchedAs: dispatchResult
