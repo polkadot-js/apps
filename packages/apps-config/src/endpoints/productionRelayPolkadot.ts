@@ -60,6 +60,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       Pinknode: 'wss://public-rpc.pinknode.io/astar',
       'Automata 1RPC': 'wss://1rpc.io/astr',
       // NOTE: Keep this as the last entry, nothing after it
@@ -108,8 +109,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2002,
     text: 'Clover',
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
+      Clover: 'wss://rpc-para.clover.finance'
+      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
     }
   },
   {
@@ -351,7 +352,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
       Parallel: 'wss://rpc.parallel.fi'
     }
   },

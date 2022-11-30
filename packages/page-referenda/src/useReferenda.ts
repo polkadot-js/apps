@@ -126,7 +126,7 @@ function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: [BN, Pall
           referenda: [ref],
           track: ref.track,
           trackId: ref.trackId,
-          trackName: getTrackName(ref.track)
+          trackName: getTrackName(ref.trackId, ref.track)
         });
       } else {
         // existing group, just add the referendum

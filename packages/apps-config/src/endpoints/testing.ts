@@ -499,7 +499,10 @@ export const testChains: EndpointOption[] = [
     info: 'sora-substrate',
     text: 'SORA-staging',
     providers: {
-      Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #2': 'wss://ws.framenode-2.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #3': 'wss://ws.framenode-3.s2.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #4': 'wss://ws.framenode-4.s2.stg1.sora2.soramitsu.co.jp'
     }
   },
   {
@@ -534,9 +537,7 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-gemini-2a',
     text: 'Subspace Gemini 2a',
     providers: {
-      'Europe 0': 'wss://eu-0.gemini-2a.subspace.network/ws',
-      'Europe 1': 'wss://eu-1.gemini-2a.subspace.network/ws',
-      'Europe 2': 'wss://eu-2.gemini-2a.subspace.network/ws',
+      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws',
       Dwelllir: 'wss://subspace-gemini-2a-rpc.dwellir.com'
     }
   },

@@ -4,15 +4,16 @@
 import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Table } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
 import useSummary from '../useSummary';
+import { getTrackInfo } from '../util';
 import Referendum from './Referendum';
 import Submit from './Submit';
 import Summary from './Summary';
@@ -28,6 +29,7 @@ interface Props {
 
 function Referenda ({ className, members, palletReferenda, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, specName } = useApi();
   const { allAccounts } = useAccounts();
   const [grouped, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, grouped);
@@ -53,8 +55,8 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
         <Table
           empty={referenda && t<string>('No active referenda')}
           header={[
-            [trackName ? `${formatNumber(trackId)} / ${trackName}` : t('referenda'), 'start', 2],
-            [undefined, undefined, 6]
+            [trackName ? <>{trackName}<div>{getTrackInfo(api, specName, palletReferenda, tracks, trackId?.toNumber())?.text}</div></> : t('referenda'), 'start', 7],
+            [undefined, undefined, 1]
           ]}
           key={
             trackName
@@ -78,4 +80,11 @@ function Referenda ({ className, members, palletReferenda, palletVote }: Props):
   );
 }
 
-export default React.memo(Referenda);
+export default React.memo(styled(Referenda)`
+  th > h1 > div {
+    display: inline-block;
+    font-size: 1rem;
+    padding-left: 1.5rem;
+    text-overflow: ellipsis;
+  }
+`);
