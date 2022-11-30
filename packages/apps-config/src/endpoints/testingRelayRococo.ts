@@ -21,7 +21,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2124,
     text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://pencol-roc-00.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
     }
   },
   {
