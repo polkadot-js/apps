@@ -357,6 +357,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    info: 'pendulum',
+    homepage: 'https://pendulumchain.org/',
+    paraId: 2094,
+    text: 'Pendulum',
+    isUnreachable: true,
+    providers: {
+      PendulumChain: 'wss://rpc.pendulumchain.tech'
+    }
+  },
+  {
     info: 'phala',
     homepage: 'https://phala.network',
     paraId: 2035,
