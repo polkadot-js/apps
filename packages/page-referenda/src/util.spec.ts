@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import { BN_BILLION, BN_ZERO, bnToBn } from '@polkadot/util';
 
-import { curveThreshold } from './util';
+import { curveDelay, curveThreshold } from './util';
 
 function curveLinear (ceil: BN | string | number, floor: BN | string | number, length: BN | string | number): PalletReferendaCurve {
   return {
@@ -34,7 +34,7 @@ function curveReciprocal (factor: BN | string | number, xOffset: BN | string | n
   } as PalletReferendaCurve;
 }
 
-// We don't currenbtly have curves on Kusama for this, so needs a check
+// We don't currently have curves on Kusama for this, so needs a check
 // function curveStepped (begin: BN | string | number, end: BN | string | number, period: BN | string | number, step: BN | string | number): PalletReferendaCurve {
 //   return {
 //     asSteppedDecreasing: {
@@ -110,4 +110,28 @@ describe('curveThreshold', (): void => {
   // describe('Stepped', (): void => {
 
   // });
+});
+
+describe('curveDelay', (): void => {
+  describe('LinearDecreasing', (): void => {
+    // linear support curve from root track on Kusama
+    const rootCurve = curveLinear(BN_BILLION.divn(2), BN_ZERO, BN_BILLION);
+
+    it('has the correct result for 25%', (): void => {
+      expect(
+        curveDelay(rootCurve, percentValue(25)).toString()
+      ).toEqual('500000000'); // 50% through
+    });
+  });
+
+  describe('Reciprocal', (): void => {
+    // linear approval curve from root track on Kusama
+    const rootCurve = curveReciprocal(222_222_224, 333_333_335, 333_333_332);
+
+    it('has the correct result for 75%', (): void => {
+      expect(
+        curveDelay(rootCurve, percentValue(75)).toString()
+      ).toEqual('200000000'); // 20% through
+    });
+  });
 });
