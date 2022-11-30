@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Bytes, Option, u8, u32 } from '@polkadot/types';
 import type { BlockNumber, Call, Hash, Scheduled } from '@polkadot/types/interfaces';
-import type { PalletSchedulerScheduled } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, PalletSchedulerScheduled } from '@polkadot/types/lookup';
 import type { Codec, ITuple } from '@polkadot/types/types';
 import type { ScheduledExt } from './types';
 
@@ -40,7 +41,7 @@ interface FrameSupportScheduleMaybeHashed extends Codec {
 }
 
 const OPT_SCHED = {
-  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduled | PalletSchedulerScheduledV3>[]][]): ScheduledExt[] => {
+  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled | PalletSchedulerScheduled | PalletSchedulerScheduledV3>[]][], api: ApiPromise): ScheduledExt[] => {
     return entries
       .filter(([, all]) => all.some((o) => o.isSome))
       .reduce((items: ScheduledExt[], [key, all]): ScheduledExt[] => {
@@ -55,6 +56,12 @@ const OPT_SCHED = {
             if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).inner) {
               if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).isValue) {
                 call = (callOrEnum as unknown as FrameSupportScheduleMaybeHashed).asValue;
+              } else if ((callOrEnum as unknown as FrameSupportPreimagesBounded).isInline) {
+                try {
+                  call = api.registry.createType('Call', (callOrEnum as unknown as FrameSupportPreimagesBounded).asInline.toHex());
+                } catch (error) {
+                  console.error(error);
+                }
               }
             } else {
               call = callOrEnum as Call;
