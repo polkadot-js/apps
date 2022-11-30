@@ -53,6 +53,7 @@ import chainOpal from './chains/opal-logo.png';
 import chainOriginTrail from './chains/origintrail.png';
 import chainOriginTrailTestnet from './chains/origintrail-testnet.png';
 import chainParallel from './chains/parallel.svg';
+import chainPendulum from './chains/pendulum.svg';
 import chainPicasso from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRiodefi from './chains/riodefi.png';
@@ -394,6 +395,7 @@ export const chainLogos = Object.entries({
   'Parallel Heiko': chainParallel,
   'Parallel Heiko Dev': chainParallel,
   'Parami PC2': nodeParami,
+  Pendulum: chainPendulum,
   Phala: nodePhala,
   'PHOENIX PC1': nodePhoenix,
   Picasso: chainPicasso,
@@ -607,6 +609,7 @@ export const nodeLogos = Object.entries({
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
+  Pendulum: chainPendulum,
   Phala: nodePhala,
   phala: nodePhala,
   'Phala Collator': nodePhala,
@@ -831,6 +834,7 @@ export const namedLogos: Record<string, unknown> = {
   pangolin: nodePangolin,
   pangoro: nodePangoro,
   parallel: chainParallel,
+  pendulum: chainPendulum,
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainPicasso,
