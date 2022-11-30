@@ -53,12 +53,11 @@ export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
     const { ceil, floor, length } = curve.asLinearDecreasing;
 
     // *ceil - (x.min(*length).saturating_div(*length, Down) * (*ceil - *floor))
+    // NOTE: We first multiply, then divide (since we work with fractions)
     return ceil.sub(
       bnMin(x, length)
+        .mul(ceil.sub(floor))
         .div(length)
-        .mul(
-          ceil.sub(floor)
-        )
     );
   } else if (curve.isSteppedDecreasing) {
     const { begin, end, period, step } = curve.asSteppedDecreasing;
@@ -69,9 +68,9 @@ export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
       begin.sub(
         bnMin(
           begin,
-          step.mul(
-            x.div(period)
-          )
+          step
+            .mul(x)
+            .div(period)
         )
       )
     );
@@ -84,14 +83,10 @@ export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
     //   .unwrap_or_else(Perbill::one)
     return bnMin(
       BN_BILLION,
-      bnMax(
-        BN_ZERO,
-        factor
-          .div(
-            x.add(xOffset)
-          )
-          .add(yOffset)
-      )
+      factor
+        .mul(BN_BILLION)
+        .div(x.add(xOffset))
+        .add(yOffset)
     );
   }
 
@@ -115,10 +110,8 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
         ? BN_ZERO
         : ceil
           .sub(y)
-          .div(
-            ceil.sub(floor)
-          )
-          .mul(length);
+          .mul(length)
+          .div(ceil.sub(floor));
   } else if (curve.isSteppedDecreasing) {
     const { begin, end, period, step } = curve.asSteppedDecreasing;
 
@@ -129,16 +122,17 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
     // }
     return y.lt(end)
       ? BN_BILLION
-      : period.mul(
-        begin
-          .sub(bnMin(y, begin))
-          .add(
-            step.isZero()
-              ? step
-              : step.sub(BN_ONE)
-          )
-          .div(step)
-      );
+      : period
+        .mul(
+          begin
+            .sub(bnMin(y, begin))
+            .add(
+              step.isZero()
+                ? step
+                : step.sub(BN_ONE)
+            )
+        )
+        .div(step);
   } else if (curve.asReciprocal) {
     const { factor, xOffset, yOffset } = curve.asReciprocal;
 
@@ -149,14 +143,10 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
     //   .unwrap_or_else(Perbill::one)
     return bnMin(
       BN_BILLION,
-      bnMax(
-        BN_ZERO,
-        factor
-          .div(
-            y.sub(yOffset)
-          )
-          .sub(xOffset)
-      )
+      factor
+        .mul(BN_BILLION)
+        .div(y.sub(yOffset))
+        .sub(xOffset)
     );
   }
 
