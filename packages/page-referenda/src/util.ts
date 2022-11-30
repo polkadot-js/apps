@@ -84,11 +84,14 @@ export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
     //   .unwrap_or_else(Perbill::one)
     return bnMin(
       BN_BILLION,
-      factor
-        .div(
-          x.add(xOffset)
-        )
-        .add(yOffset)
+      bnMax(
+        BN_ZERO,
+        factor
+          .div(
+            x.add(xOffset)
+          )
+          .add(yOffset)
+      )
     );
   }
 
@@ -146,11 +149,14 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
     //   .unwrap_or_else(Perbill::one)
     return bnMin(
       BN_BILLION,
-      factor
-        .div(
-          y.sub(yOffset)
-        )
-        .sub(xOffset)
+      bnMax(
+        BN_ZERO,
+        factor
+          .div(
+            y.sub(yOffset)
+          )
+          .sub(xOffset)
+      )
     );
   }
 
