@@ -48,7 +48,14 @@ export function isConvictionVote (info: PalletReferendaReferendumInfoConvictionV
   return info.isOngoing && isConvictionTally(info.asOngoing.tally);
 }
 
-export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
+export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN): BN {
+  // if divisor is zero, we return the max
+  if (div.isZero()) {
+    return BN_BILLION;
+  }
+
+  const x = input.mul(BN_BILLION).div(div);
+
   if (curve.isLinearDecreasing) {
     const { ceil, floor, length } = curve.asLinearDecreasing;
 
@@ -93,7 +100,14 @@ export function curveThreshold (curve: PalletReferendaCurve, x: BN): BN {
   throw new Error(`Unknown curve found ${curve.type}`);
 }
 
-export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
+export function curveDelay (curve: PalletReferendaCurve, input: BN, div: BN): BN {
+  // if divisor is zero, we return the max
+  if (div.isZero()) {
+    return BN_BILLION;
+  }
+
+  const y = input.mul(BN_BILLION).div(div);
+
   if (curve.isLinearDecreasing) {
     const { ceil, floor, length } = curve.asLinearDecreasing;
 
@@ -169,16 +183,18 @@ export function curveDelay (curve: PalletReferendaCurve, y: BN): BN {
 }
 
 export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo, since: BN): BN | undefined {
-  if (isConvictionTally(tally)) {
-    const { ayes, nays, support } = tally;
+  const support = isConvictionTally(tally)
+    ? tally.support
+    : tally.bareAyes;
 
-    return since.add(
-      bnMax(
-        curveDelay(minApproval, ayes.mul(BN_BILLION).div(ayes.add(nays))),
-        curveDelay(minSupport, support.mul(BN_BILLION).div(totalEligible))
-      ).mul(decisionPeriod).div(BN_BILLION)
-    );
-  }
-
-  return undefined;
+  return since.add(
+    decisionPeriod
+      .mul(
+        bnMax(
+          curveDelay(minApproval, tally.ayes, tally.ayes.add(tally.nays)),
+          curveDelay(minSupport, support, totalEligible)
+        )
+      )
+      .div(BN_BILLION)
+  );
 }

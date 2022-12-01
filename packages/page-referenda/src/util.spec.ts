@@ -49,10 +49,6 @@ function curveReciprocal (factor: BN | string | number, xOffset: BN | string | n
 //   } as PalletReferendaCurve;
 // }
 
-function hrsValue (hrs: number): BN {
-  return BN_BILLION.muln(hrs).divn(672);
-}
-
 function percentValue (percent: number): BN {
   return BN_BILLION.muln(percent).divn(100);
 }
@@ -64,19 +60,19 @@ describe('curveThreshold', (): void => {
 
     it('has a correct starting point', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(0)).toString()
+        curveThreshold(rootCurve, bnToBn(0), bnToBn(672)).toString()
       ).toEqual(percentValue(50).toString());
     });
 
     it('has the correct midpoint', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(672 / 2)).toString()
+        curveThreshold(rootCurve, bnToBn(672 / 2), bnToBn(672)).toString()
       ).toEqual(percentValue(25).toString());
     });
 
     it('has a correct ending point', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(672)).toString()
+        curveThreshold(rootCurve, bnToBn(672), bnToBn(672)).toString()
       ).toEqual(percentValue(0).toString());
     });
   });
@@ -87,22 +83,22 @@ describe('curveThreshold', (): void => {
 
     it('has a correct starting point', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(0)).toString()
+        curveThreshold(rootCurve, bnToBn(0), bnToBn(672)).toString()
       ).toEqual(percentValue(100).toString());
     });
 
     it('has the correct midpoints', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(12)).toString()
+        curveThreshold(rootCurve, bnToBn(12), bnToBn(672)).toString()
       ).toEqual('966101697'); // 96.61%
       expect(
-        curveThreshold(rootCurve, hrsValue(336)).toString()
+        curveThreshold(rootCurve, bnToBn(336), bnToBn(672)).toString()
       ).toEqual(percentValue(60).toString());
     });
 
     it('has a correct ending point', (): void => {
       expect(
-        curveThreshold(rootCurve, hrsValue(672)).toString()
+        curveThreshold(rootCurve, bnToBn(672), bnToBn(672)).toString()
       ).toEqual('499999999');
     });
   });
@@ -119,7 +115,7 @@ describe('curveDelay', (): void => {
 
     it('has the correct result for 25%', (): void => {
       expect(
-        curveDelay(rootCurve, percentValue(25)).toString()
+        curveDelay(rootCurve, bnToBn(25), bnToBn(100)).toString()
       ).toEqual('500000000'); // 50% through
     });
   });
@@ -130,7 +126,7 @@ describe('curveDelay', (): void => {
 
     it('has the correct result for 75%', (): void => {
       expect(
-        curveDelay(rootCurve, percentValue(75)).toString()
+        curveDelay(rootCurve, bnToBn(75), bnToBn(100)).toString()
       ).toEqual('200000000'); // 20% through
     });
   });
