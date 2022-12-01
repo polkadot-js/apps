@@ -1,4 +1,4 @@
-    3854	Jaco                          	Display inline scheduler entries (#8448)
+    3855	Jaco                          	Adjust preimage detection (#8460)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
