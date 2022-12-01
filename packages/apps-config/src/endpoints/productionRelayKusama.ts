@@ -158,7 +158,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2123,
     text: 'GM',
     providers: {
-      GMorDieDAO: 'wss://kusama.gmordie.com',
+      // GMorDieDAO: 'wss://kusama.gmordie.com', // https://github.com/polkadot-js/apps/issues/8457
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
       TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
       Leemo: 'wss://leemo.gmordie.com',
