@@ -3501,7 +3501,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@^0.121.2-74-x, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@^0.121.2-63-x, @polkadot/react-components@^0.121.2-74-x, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
@@ -3613,7 +3613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-query@^0.121.2-74-x, @polkadot/react-query@workspace:packages/react-query":
+"@polkadot/react-query@^0.121.2-63-x, @polkadot/react-query@^0.121.2-74-x, @polkadot/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   dependencies:

@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { nodeColors } from '@polkadot/apps-config/ui/colors';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
@@ -110,6 +111,7 @@ import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
+import supersig from './supersig.ts';
 import swapdex from './swapdex';
 import t0rn from './t0rn';
 import ternoa from './ternoa';
@@ -265,6 +267,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
+  supersig,
   swapdex,
   t0rn,
   ternoa,
