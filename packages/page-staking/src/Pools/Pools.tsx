@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 import type { OwnPool } from '../types';
 import type { Params } from './types';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { arrayFlatten } from '@polkadot/util';
@@ -14,6 +14,7 @@ import { useTranslation } from '../translate';
 import Create from './Create';
 import Pool from './Pool';
 import useMembers from './useMembers';
+import {useApi} from "@polkadot/react-hooks";
 
 interface Props {
   className?: string;

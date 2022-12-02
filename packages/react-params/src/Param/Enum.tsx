@@ -137,7 +137,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           overrides={overrides}
           params={current}
           registry={registry}
-          values={initialValues}
+          values={initialParams}
         />
       )}
     </Bare>
