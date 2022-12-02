@@ -64,11 +64,6 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     [api, runtimeVersion]
   );
 
-  const systemEvents = useMemo(
-    () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
-    [events]
-  );
-
   useEffect((): void => {
     value && Promise
       .all([

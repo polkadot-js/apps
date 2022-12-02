@@ -8,13 +8,13 @@ import type { Params } from './types';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { arrayFlatten } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Create from './Create';
 import Pool from './Pool';
 import useMembers from './useMembers';
-import {useApi} from "@polkadot/react-hooks";
 
 interface Props {
   className?: string;
