@@ -1,7 +1,9 @@
 {
   "Allowed to vote on motions": "Allowed to vote on motions",
+  "Announce retirement": "Announce retirement",
   "Announcements ({{count}})": "Announcements ({{count}})",
   "Current prime member, default voting": "Current prime member, default voting",
+  "Is retiring": "Is retiring",
   "Join": "Join",
   "Join alliance": "Join alliance",
   "Motions ({{count}})": "Motions ({{count}})",
@@ -28,6 +30,7 @@
   "members": "members",
   "no": "no",
   "prime voter": "prime voter",
+  "retirting": "retirting",
   "role": "role",
   "rule": "rule",
   "version": "version",

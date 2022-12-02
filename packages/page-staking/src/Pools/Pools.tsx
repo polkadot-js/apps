@@ -5,10 +5,9 @@ import type { BN } from '@polkadot/util';
 import type { OwnPool } from '../types';
 import type { Params } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 import { arrayFlatten } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

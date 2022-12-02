@@ -12,10 +12,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.preimage.notePreimage',
-        // only enable when we have referenda (or ranked would be applicable as
-        // well, we basically want to disable on all Gov1 chains)
-        'tx.referenda.submit'
+        'tx.preimage.notePreimage'
       ]
     },
     group: 'governance',

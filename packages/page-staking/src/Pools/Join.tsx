@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';

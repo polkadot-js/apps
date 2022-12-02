@@ -6,8 +6,9 @@ import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Council from './Council';
@@ -22,7 +23,9 @@ interface Props {
 
 function ProposalDisplay ({ className = '', isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
+  const hasCouncil = isFunction(api.tx.council?.propose);
   const hasProposals = useMemo(
     () => !!council
       .map(({ votes }) => votes ? votes.index.toNumber() : -1)
@@ -49,15 +52,17 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <FormatBalance value={proposal.bond} />
       </td>
       <td className={hasProposals ? 'middle' : 'button'}>
-        {hasProposals
-          ? <a href='#/council/motions'>{t('Voting')}</a>
-          : withSend && (
-            <Council
-              id={id}
-              isDisabled={!isMember}
-              members={members}
-            />
-          )
+        {hasCouncil
+          ? hasProposals
+            ? <a href='#/council/motions'>{t('Voting')}</a>
+            : withSend && (
+              <Council
+                id={id}
+                isDisabled={!isMember}
+                members={members}
+              />
+            )
+          : null
         }
       </td>
       <td className='links'>
