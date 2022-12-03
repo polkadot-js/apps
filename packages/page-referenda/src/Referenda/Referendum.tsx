@@ -18,7 +18,7 @@ const Components: Record<string, React.ComponentType<Props>> = {
 };
 
 function Referendum (props: Props): React.ReactElement<Props> {
-  const { className, value: { id, info }, palletReferenda } = props;
+  const { className, palletReferenda, value: { id, info } } = props;
 
   const Component = useMemo(
     () => Components[info.type] || Tuple,
