@@ -18,52 +18,62 @@ const KUSAMA: Record<string, TrackInfo[]> = {
 
       id: 0,
       name: 'candidates',
-      origin: { Origins: 'FellowshipInitiates' }
+      origin: { Origins: 'FellowshipInitiates' },
+      text: 'Origin commanded by any members of the Polkadot Fellowship (no Dan grade needed)'
     },
     {
       id: 1,
       name: 'members',
-      origin: { Origins: 'Fellowship1Dan' }
+      origin: { Origins: 'Fellowship1Dan' },
+      text: 'Origin commanded by rank 1 of the Polkadot Fellowship and with a success of 1'
     },
     {
       id: 2,
       name: 'proficients',
-      origin: { Origins: 'Fellowship2Dan' }
+      origin: { Origins: 'Fellowship2Dan' },
+      text: 'Origin commanded by rank 2 of the Polkadot Fellowship and with a success of 2'
     },
     {
       id: 3,
       name: 'fellows',
-      origin: { Origins: 'Fellowship3Dan' }
+      origin: { Origins: 'Fellowship3Dan' },
+      text: 'Origin commanded by Polkadot Fellows (3rd Dan fellows or greater)'
     },
     {
       id: 4,
       name: 'senior fellows',
-      origin: { Origins: 'Fellowship4Dan' }
+      origin: { Origins: 'Fellowship4Dan' },
+      text: 'Origin commanded by rank 4 of the Polkadot Fellowship and with a success of 4'
     },
     {
       id: 5,
       name: 'experts',
-      origin: { Origins: 'Fellowship5Dan' }
+      origin: { Origins: 'Fellowship5Dan' },
+      text: 'Origin commanded by Polkadot Experts (5th Dan fellows or greater)'
     },
     {
       id: 6,
       name: 'senior experts',
-      origin: { Origins: 'Fellowship6Dan' }
+      origin: { Origins: 'Fellowship6Dan' },
+      text: 'Origin commanded by rank 6 of the Polkadot Fellowship and with a success of 6'
     },
     {
       id: 7,
       name: 'masters',
-      origin: { Origins: 'Fellowship7Dan' }
+      origin: { Origins: 'Fellowship7Dan' },
+      text: 'Origin commanded by Polkadot Masters (7th Dan fellows of greater)'
     },
     {
       id: 8,
       name: 'senior masters',
-      origin: { Origins: 'Fellowship8Dan' }
+      origin: { Origins: 'Fellowship8Dan' },
+      text: 'Origin commanded by rank 8 of the Polkadot Fellowship and with a success of 8'
     },
     {
       id: 9,
       name: 'grand masters',
-      origin: { Origins: 'Fellowship9Dan' }
+      origin: { Origins: 'Fellowship9Dan' },
+      text: 'Origin commanded by rank 9 of the Polkadot Fellowship and with a success of 9'
     }
   ],
   referenda: [
@@ -76,7 +86,7 @@ const KUSAMA: Record<string, TrackInfo[]> = {
       id: 1,
       name: 'whitelisted_caller',
       origin: { Origins: 'WhitelistedCaller' },
-      text: 'Origin commanded by any members of the Polkadot Fellowship (no Dan grade needed)'
+      text: 'Origin able to dispatch a whitelisted call'
     },
     {
       id: 10,
