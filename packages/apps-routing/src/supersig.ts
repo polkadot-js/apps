@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { ApiPromise } from '@polkadot/api';
+// import type { ApiPromise } from '@polkadot/api';
 import type { Route } from './types';
 
 import Component, { useCounter } from '@polkadot/app-supersig';
 
-// Add functions for supersig apps-routing here. 
-//...
-//...
-//...
-//...
-
+// Add functions for supersig apps-routing here.
+// ...
+// ...
+// ...
+// ...
 
 // function needsApiCheck (api: ApiPromise): boolean {
 //   try {
@@ -33,9 +32,9 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         // 'tx.democracy.notePreimage'
-      ],
+      ]
       // needsApiCheck
-    
+
     },
     group: 'accounts',
     icon: 'people-line',

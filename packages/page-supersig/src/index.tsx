@@ -5,8 +5,9 @@ import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
+
 import basicMd from './md/basic.md';
-import Execute from './Execute';
+// import Execute from './Execute';
 import Overview from './Overview';
 import { useTranslation } from './translate';
 
@@ -33,7 +34,7 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
       name: 'proposals',
       text: t<string>('Proposals')
     }
-  ], [, t]);
+  ], [t]);
 
   return (
     <main className='supersig--App'>
@@ -42,7 +43,7 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={items}
       />
-       <Overview />
+      <Overview />
       <Switch>
         <Route path={`${basePath}/supersigs`}>
           <Overview />
