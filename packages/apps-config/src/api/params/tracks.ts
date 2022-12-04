@@ -5,10 +5,12 @@ import type { ApiPromise } from '@polkadot/api';
 
 import { KUSAMA_GENESIS } from '../constants';
 
+type Origin = { system: string } | { Origins: string };
+
 interface TrackInfo {
   id: number;
   name: string;
-  origin: { system: string } | { Origins: string };
+  origin: Origin | Origin[];
   text?: string;
 }
 
@@ -36,7 +38,10 @@ const KUSAMA: Record<string, TrackInfo[]> = {
     {
       id: 3,
       name: 'fellows',
-      origin: { Origins: 'Fellowship3Dan' },
+      origin: [
+        { Origins: 'Fellowship3Dan' },
+        { Origins: 'Fellows' }
+      ],
       text: 'Origin commanded by Polkadot Fellows (3rd Dan fellows or greater)'
     },
     {
@@ -48,7 +53,10 @@ const KUSAMA: Record<string, TrackInfo[]> = {
     {
       id: 5,
       name: 'experts',
-      origin: { Origins: 'Fellowship5Dan' },
+      origin: [
+        { Origins: 'Fellowship5Dan' },
+        { Origins: 'FellowshipExperts' }
+      ],
       text: 'Origin commanded by Polkadot Experts (5th Dan fellows or greater)'
     },
     {
@@ -60,7 +68,10 @@ const KUSAMA: Record<string, TrackInfo[]> = {
     {
       id: 7,
       name: 'masters',
-      origin: { Origins: 'Fellowship7Dan' },
+      origin: [
+        { Origins: 'Fellowship7Dan' },
+        { Origins: 'FellowshipMasters' }
+      ],
       text: 'Origin commanded by Polkadot Masters (7th Dan fellows of greater)'
     },
     {

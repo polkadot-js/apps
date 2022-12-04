@@ -110,12 +110,38 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     [api, palletReferenda]
   );
 
+  const originOptions = useMemo(
+    () => trackInfo && Array.isArray(trackInfo.origin)
+      ? trackInfo.origin.map((records, index) => ({
+        text: Object.values(records)[0],
+        value: index + 1
+      }))
+      : null,
+    [trackInfo]
+  );
+
+  const selectedOrigin = useMemo(
+    () => !trackInfo?.origin || Array.isArray(trackInfo?.origin)
+      ? origin
+      : trackInfo.origin,
+    [origin, trackInfo]
+  );
+
   const trackOpts = useMemo(
     () => tracks && tracks.map(([id, track]) => ({
       text: getTrackName(id, track),
       value: id.toNumber()
     })),
     [tracks]
+  );
+
+  const _onChangeOriginMulti = useCallback(
+    (value: number) => setOrigin(
+      trackInfo && Array.isArray(trackInfo.origin)
+        ? trackInfo.origin[value - 1]
+        : null
+    ),
+    [trackInfo]
   );
 
   const _onChangeOrigin = useCallback(
@@ -192,6 +218,14 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                   params={originType}
                 />
               )}
+              {originOptions && (
+                <Dropdown
+                  defaultValue={originOptions[0].value}
+                  label={t<string>('track origin')}
+                  onChange={_onChangeOriginMulti}
+                  options={originOptions}
+                />
+              )}
             </Modal.Columns>
             {bestNumber && defaultAtAfter && (
               <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
@@ -217,10 +251,10 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!(trackInfo?.origin || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
+              isDisabled={!selectedOrigin || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[trackInfo?.origin || origin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
+              params={[selectedOrigin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
