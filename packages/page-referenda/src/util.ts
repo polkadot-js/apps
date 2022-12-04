@@ -20,8 +20,8 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): { origin: Record<string, string>, text?: string } | undefined {
-  let info: { origin: Record<string, string>, text?: string } | undefined;
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): { origin: Record<string, string> | Record<string, string>[], text?: string } | undefined {
+  let info: { origin: Record<string, string> | Record<string, string>[], text?: string } | undefined;
 
   if (tracks && trackId !== undefined) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
