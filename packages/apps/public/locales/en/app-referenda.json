@@ -27,6 +27,7 @@
   "The deposit will be registered from this account and the balance lock will be applied here.": "The deposit will be registered from this account and the balance lock will be applied here.",
   "The hash of the preimage for the proposal as previously submitted or intended.": "The hash of the preimage for the proposal as previously submitted or intended.",
   "The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.": "The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.",
+  "The moment of enactment, either at a specific block, or after a specific number of blocks.": "The moment of enactment, either at a specific block, or after a specific number of blocks.",
   "The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.": "The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.",
   "The preimage hash of the proposal": "The preimage hash of the proposal",
   "The proposal will be registered from this account and the balance lock will be applied here.": "The proposal will be registered from this account and the balance lock will be applied here.",
