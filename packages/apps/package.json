@@ -13,12 +13,12 @@
   "type": "module",
   "version": "0.122.3-74-x",
   "dependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.20.5",
     "@babel/polyfill": "^7.12.1",
-    "@babel/runtime": "^7.20.1",
+    "@babel/runtime": "^7.20.6",
     "@polkadot/apps-config": "^0.122.3-74-x",
     "@polkadot/apps-routing": "^0.122.3-74-x",
-    "@polkadot/dev": "^0.67.163",
+    "@polkadot/dev": "^0.67.167",
     "@polkadot/react-api": "^0.122.3-74-x",
     "@polkadot/react-components": "^0.122.3-74-x",
     "@polkadot/react-hooks": "^0.122.3-74-x",
@@ -26,7 +26,7 @@
     "@polkadot/react-query": "^0.122.3-74-x",
     "@polkadot/react-signer": "^0.122.3-74-x",
     "punycode": "^2.1.1",
-    "query-string": "^7.1.1"
+    "query-string": "^7.1.3"
   },
   "devDependencies": {
     "@types/punycode": "^2.1.0",
