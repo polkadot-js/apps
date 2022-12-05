@@ -346,6 +346,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'myriad-tesnet',
+    text: 'Myriad Testnet',
+    providers: {
+      Myriad: 'wss://ws-rpc.testnet.myriad.social'
+    }
+  },
+  {
     info: 'moonbaseAlpha',
     text: 'Moonbase Alpha',
     providers: {

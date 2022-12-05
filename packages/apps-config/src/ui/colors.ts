@@ -416,6 +416,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
+  Myriad: chainMyriad,
+  'Myriad Testnet': chainMyriad,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
