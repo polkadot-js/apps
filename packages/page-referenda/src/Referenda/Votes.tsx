@@ -5,12 +5,13 @@ import type { PalletConvictionVotingTally, PalletRankedCollectiveTally } from '@
 import type { BN } from '@polkadot/util';
 import type { PalletVote } from '../types';
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { Expander } from '@polkadot/react-components';
+import { AddressMini, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
+import useVotes from './useVotes';
 
 interface Props {
   className?: string;
@@ -20,12 +21,49 @@ interface Props {
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
 }
 
-function Votes ({ className = '', isConvictionVote, tally }: Props): React.ReactElement<Props> {
+function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const votes = useVotes(palletVote, id, isConvictionVote);
+
+  const [ayes, nays] = useMemo(
+    () => votes
+      ? Object.entries(votes).reduce<[string[], string[]]>(([ayes, nays], [accountId, vote]) => {
+        if (vote.isAye) {
+          ayes.push(accountId);
+        } else {
+          nays.push(accountId);
+        }
+
+        return [ayes, nays];
+      }, [[], []])
+      : [],
+    [votes]
+  );
+
+  const renderAyes = useCallback(
+    () => ayes?.map((a) => (
+      <AddressMini
+        key={a}
+        value={a}
+      />
+    )),
+    [ayes]
+  );
+
+  const renderNays = useCallback(
+    () => nays?.map((a) => (
+      <AddressMini
+        key={a}
+        value={a}
+      />
+    )),
+    [nays]
+  );
 
   return (
     <td className={`${className} expand`}>
       <Expander
+        renderChildren={ayes && ayes.length !== 0 && renderAyes}
         summary={
           isConvictionVote
             ? (
@@ -38,6 +76,7 @@ function Votes ({ className = '', isConvictionVote, tally }: Props): React.React
         }
       />
       <Expander
+        renderChildren={nays && nays.length !== 0 && renderNays}
         summary={
           isConvictionVote
             ? (

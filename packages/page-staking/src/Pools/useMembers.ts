@@ -86,7 +86,7 @@ function interleave (prev: MembersMap, additions: MembersMapEntry[]): MembersMap
 function useMembersImpl (): MembersMap | undefined {
   const { api } = useApi();
   const [membersMap, setMembersMap] = useState<MembersMap | undefined>();
-  const queryMap = useMapEntries(api.query.nominationPools.poolMembers, OPT_ENTRIES);
+  const queryMap = useMapEntries(api.query.nominationPools.poolMembers, [], OPT_ENTRIES);
   const ids = useEventChanges([
     api.events.nominationPools.Bonded
   ], filterEvents, EMPTY_START);

@@ -31,7 +31,7 @@ function filterEvents (records: EventRecord[]): Changes<u32> {
 
 function usePoolIdsImpl (): u32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.nominationPools.bondedPools, OPT_KEYS);
+  const startValue = useMapKeys(api.query.nominationPools.bondedPools, [], OPT_KEYS);
 
   return useEventChanges([
     api.events.nominationPools.Created,

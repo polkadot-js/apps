@@ -31,7 +31,7 @@ function filter (records: EventRecord[]): Changes<u32> {
 
 function useReferendaIdsImpl (palletReferenda: PalletReferenda): BN[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query[palletReferenda].referendumInfoFor, OPT_ID);
+  const startValue = useMapKeys(api.query[palletReferenda].referendumInfoFor, [], OPT_ID);
 
   return useEventChanges([
     api.events[palletReferenda].Submitted
