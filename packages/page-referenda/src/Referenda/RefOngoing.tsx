@@ -66,7 +66,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       prepareEnd
     },
     proposalHash,
-    shortHash: `${proposalHash.slice(0, 8)}…${proposalHash.slice(-6)}`,
+    shortHash: `${proposalHash.slice(0, 10)}…${proposalHash.slice(-8)}`,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
   };
 }

@@ -18,7 +18,7 @@ const Components: Record<string, React.ComponentType<Props>> = {
 };
 
 function Referendum (props: Props): React.ReactElement<Props> {
-  const { className, value: { id, info } } = props;
+  const { className, palletReferenda, value: { id, info } } = props;
 
   const Component = useMemo(
     () => Components[info.type] || Tuple,
@@ -34,7 +34,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
       <td className='links media--1000'>
         <LinkExternal
           data={id}
-          type='referenda'
+          type={palletReferenda}
         />
       </td>
     </tr>

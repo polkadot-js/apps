@@ -114,6 +114,7 @@ const chainPangolin = '#4B30DD';
 const chainPangoro = '#4B30DD';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
+const chainPendulum = '#49E2FD';
 const chainPicasso = '#000000';
 const chainPichiu = '#ed007e';
 const chainPhala = '#c6fa4c';
@@ -432,6 +433,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
+  Pendulum: chainPendulum,
   Phala: chainPhala,
   PHOENIX: chainPhoenix,
   Picasso: chainPicasso,

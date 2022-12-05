@@ -10,6 +10,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import usePreimage from '../usePreimage';
+import Hash from './Hash';
 
 interface Props {
   className?: string;
@@ -22,9 +23,9 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
 
   return (
     <tr className={ className }>
-      <td>{value}</td>
+      <Hash value={value} />
       <td className='all'>
-        {info && info.proposal && (
+        {info?.proposal && (
           <CallExpander
             labelHash={t<string>('proposal')}
             value={info.proposal}
@@ -32,10 +33,10 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
         )}
       </td>
       <td className='number'>
-        {info && info.bytes && formatNumber(info.bytes.length)}
+        {info?.bytes && formatNumber(info.bytes.length)}
       </td>
       <td className='number'>
-        {info && info.status && info.status.type}
+        {info?.status?.type}
       </td>
       <td className='number'>
         {info && info.count !== 0 && formatNumber(info.count)}
