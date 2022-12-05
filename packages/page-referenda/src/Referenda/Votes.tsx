@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u32 } from '@polkadot/types';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletVote } from '../types';
@@ -27,11 +28,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
 
   const [ayes, nays] = useMemo(
     () => votes
-      ? Object.entries(votes).reduce<[string[], string[]]>(([ayes, nays], [accountId, vote]) => {
+      ? Object.entries(votes).reduce<[[string, u32][], [string, u32][]]>(([ayes, nays], [accountId, vote]) => {
         if (vote.isAye) {
-          ayes.push(accountId);
+          ayes.push([accountId, vote.asAye]);
         } else {
-          nays.push(accountId);
+          nays.push([accountId, vote.asNay]);
         }
 
         return [ayes, nays];
@@ -41,7 +42,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
   );
 
   const renderAyes = useCallback(
-    () => ayes?.map((a) => (
+    () => ayes?.map(([a]) => (
       <AddressMini
         key={a}
         value={a}
@@ -51,7 +52,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
   );
 
   const renderNays = useCallback(
-    () => nays?.map((a) => (
+    () => nays?.map(([a]) => (
       <AddressMini
         key={a}
         value={a}
