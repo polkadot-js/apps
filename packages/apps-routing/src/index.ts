@@ -54,18 +54,22 @@ export default function create (t: TFunction): Routes {
     teleport(t),
     staking(t),
     collator(t),
-    democracy(t),
+    // governance v2
     referenda(t),
-    council(t),
-    treasury(t),
-    bounties(t),
-    techcomm(t),
     membership(t),
     alliance(t),
     fellowship(t),
     ranked(t),
     preimages(t),
     whitelist(t),
+    // old v1 governance
+    democracy(t),
+    council(t),
+    techcomm(t),
+    // other governance-related
+    treasury(t),
+    bounties(t),
+    // others
     parachains(t),
     gilt(t),
     assets(t),
