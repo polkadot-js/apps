@@ -20,9 +20,11 @@ const OPT_MULTI = {
       ? {
         bonded: optBonded.unwrap(),
         metadata: metadata.length
-          ? metadata.isUtf8
-            ? metadata.toUtf8()
-            : metadata.toString()
+          ? transformName(
+            metadata.isUtf8
+              ? metadata.toUtf8()
+              : metadata.toString()
+          )
           : null,
         nominating: optNominating
           .unwrapOr({ targets: [] })
@@ -32,6 +34,14 @@ const OPT_MULTI = {
       }
       : null
 };
+
+function transformName (input: string): string {
+  const mid = input.replace(/[^\x20-\x7E]/g, '');
+
+  return (mid.length > 64)
+    ? `${mid.substring(0, 64)}…`
+    : mid;
+}
 
 function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
   const { api } = useApi();
