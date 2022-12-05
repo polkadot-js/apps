@@ -16,7 +16,7 @@ import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
-import { formatNumber, isHex } from '@polkadot/util';
+import { BN_HUNDRED, BN_ONE, formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { getTrackInfo, getTrackName } from '../util';
@@ -39,24 +39,16 @@ interface DefaultAtAfter {
   trackId: number;
 }
 
-function getDefaultEnactment (prev: DefaultAtAfter | null, bestNumber: BN, trackId: number, tracks: [BN, PalletReferendaTrackInfo][]): DefaultAtAfter {
+function getDefaultEnactment (prev: DefaultAtAfter | null, trackId: number): DefaultAtAfter {
   if (prev && prev.trackId === trackId) {
     return prev;
   }
-
-  const track = tracks.find(([id]) => id.eqn(trackId));
 
   return {
     defaults: [{
       isValid: true,
       value: {
-        After: track
-          ? bestNumber
-            .add(track[1].preparePeriod)
-            .add(track[1].decisionPeriod)
-            .add(track[1].confirmPeriod)
-            .add(track[1].minEnactmentPeriod)
-          : bestNumber.addn(1000)
+        After: BN_HUNDRED
       }
     }],
     trackId
@@ -77,10 +69,10 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const preimage = usePreimage(hash);
 
   useEffect((): void => {
-    tracks && trackId !== undefined && bestNumber && setDefaultAtAfter((prev) =>
-      getDefaultEnactment(prev, bestNumber, trackId, tracks)
+    trackId !== undefined && setDefaultAtAfter((prev) =>
+      getDefaultEnactment(prev, trackId)
     );
-  }, [api, bestNumber, trackId, tracks]);
+  }, [trackId]);
 
   const trackInfo = useMemo(
     () => getTrackInfo(api, specName, palletReferenda, tracks, trackId),
@@ -91,7 +83,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     () => !bestNumber || !atAfter || (
       (atAfter as { At: BN }).At
         ? (atAfter as { At: BN }).At.lte(bestNumber)
-        : (atAfter as { After: BN }).After.lte(bestNumber)
+        : (atAfter as { After: BN }).After.lt(BN_ONE)
     ),
     [atAfter, bestNumber]
   );
@@ -228,7 +220,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               )}
             </Modal.Columns>
             {bestNumber && defaultAtAfter && (
-              <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
+              <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific number of blocks.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
                 <Params
                   className='timeSelect'
                   isError={isInvalidAt}
