@@ -3,13 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
-import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ApiInterfaceRx, SubmittableExtrinsic } from '@polkadot/api/types';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import interbtc from '@interlay/interbtc-types';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
+import { ApiPromise } from '@polkadot/api';
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { memo } from '@polkadot/api-derive/util';
 import { TypeRegistry, U128 } from '@polkadot/types';
@@ -64,10 +64,27 @@ export function getBalance (
   );
 }
 
+export function transferBalance (
+  account: string,
+  amount: number,
+  api: ApiPromise
+): SubmittableExtrinsic<'promise'> | undefined {
+  if (!api) {
+    return;
+  }
+
+  const nativeToken = api.registry.chainTokens[0] || formatBalance.getDefaults().unit;
+
+  return api.tx.tokens.transfer(account, { Token: nativeToken }, amount);
+}
+
 const definitions: OverrideBundleDefinition = {
   derives: {
     balances: {
-      all: getBalance
+      all: getBalance,
+      transfer: transferBalance,
+      transferAll: transferBalance,
+      transferKeepAlive: transferBalance
     }
   },
 
