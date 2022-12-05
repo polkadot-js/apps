@@ -13,7 +13,6 @@ export default {
     'Bajun Network': 'bajun',
     Bifrost: 'bifrost',
     'Calamari Parachain': 'calamari',
-    crust: 'crust',
     Efinity: 'efinity',
     'Equilibrium parachain': 'equilibrium',
     GM: 'gmordie',
@@ -22,14 +21,12 @@ export default {
     'InvArch Tinker Network': 'invarch-tinkernet',
     Karura: 'karura',
     Khala: 'khala',
-    kintsugi: 'kintsugi',
     Kusama: 'kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
     'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
-    opal: 'opal',
     Phala: 'phala',
     Polkadot: 'polkadot',
     'QUARTZ by UNIQUE': 'quartz',
@@ -38,10 +35,13 @@ export default {
     Shiden: 'shiden',
     Statemine: 'statemine',
     Statemint: 'statemint',
-    UNIQUE: 'unique'
+    UNIQUE: 'unique',
+    crust: 'crust',
+    kintsugi: 'kintsugi',
+    opal: 'opal'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://calamar.app/${chain}/${path}${data.toString()}`,
+    `https://calamar.app/${chain}/${path}${data.toString()}&source=polkadotjs`,
   isActive: true,
   logo: externalLogos.calamar as string,
   paths: {
