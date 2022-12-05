@@ -9,7 +9,7 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import useHashes from '../useHashes';
-import Hash from './Hash';
+import Call from './Call';
 import Summary from './Summary';
 
 interface Props {
@@ -23,7 +23,8 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const hashes = useHashes();
 
   const headerRef = useRef([
-    [t('hashes'), 'start']
+    [t('calls'), 'start'],
+    [undefined, 'all']
   ]);
 
   return (
@@ -35,7 +36,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         header={headerRef.current}
       >
         {hashes && hashes.map((h) => (
-          <Hash
+          <Call
             key={h}
             value={h}
           />
