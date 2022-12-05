@@ -1,8 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletVote } from '../types';
 
@@ -10,6 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useVotes from './useVotes';
@@ -22,49 +22,61 @@ interface Props {
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
 }
 
+function renderMini (list?: [string, BN][]): React.ReactNode[] | undefined {
+  return list
+    ?.sort(([, a], [, b]) => b.cmp(a))
+    .map(([a]) => (
+      <AddressMini
+        key={a}
+        value={a}
+      />
+    ));
+}
+
+function extractVotes (votes: Record<string, PalletRankedCollectiveVoteRecord> = {}): [[string, BN][]?, [string, BN][]?] {
+  const ayes: [string, BN][] = [];
+  const nays: [string, BN][] = [];
+  const entries = Object.entries(votes);
+
+  for (let i = 0; i < entries.length; i++) {
+    const [accountId, vote] = entries[i];
+
+    if (vote.isAye) {
+      ayes.push([accountId, vote.asAye]);
+    } else {
+      nays.push([accountId, vote.asNay]);
+    }
+  }
+
+  return [
+    ayes.length ? ayes : undefined,
+    nays.length ? nays : undefined
+  ];
+}
+
 function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const votes = useVotes(palletVote, id, isConvictionVote);
 
   const [ayes, nays] = useMemo(
-    () => votes
-      ? Object.entries(votes).reduce<[[string, u32][], [string, u32][]]>(([ayes, nays], [accountId, vote]) => {
-        if (vote.isAye) {
-          ayes.push([accountId, vote.asAye]);
-        } else {
-          nays.push([accountId, vote.asNay]);
-        }
-
-        return [ayes, nays];
-      }, [[], []])
-      : [],
+    () => extractVotes(votes),
     [votes]
   );
 
   const renderAyes = useCallback(
-    () => ayes?.map(([a]) => (
-      <AddressMini
-        key={a}
-        value={a}
-      />
-    )),
+    () => renderMini(ayes),
     [ayes]
   );
 
   const renderNays = useCallback(
-    () => nays?.map(([a]) => (
-      <AddressMini
-        key={a}
-        value={a}
-      />
-    )),
+    () => renderMini(nays),
     [nays]
   );
 
   return (
     <td className={`${className} expand`}>
       <Expander
-        renderChildren={ayes && ayes.length !== 0 && renderAyes}
+        renderChildren={ayes && renderAyes}
         summary={
           isConvictionVote
             ? (
@@ -73,11 +85,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
                 <div><FormatBalance value={tally.ayes} /></div>
               </>
             )
-            : t<string>('Aye {{count}}', { replace: { count: tally.ayes.toNumber() } })
+            : t<string>('Aye {{count}}', { replace: { count: formatNumber(tally.ayes) } })
         }
       />
       <Expander
-        renderChildren={nays && nays.length !== 0 && renderNays}
+        renderChildren={nays && renderNays}
         summary={
           isConvictionVote
             ? (
@@ -86,7 +98,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
                 <div><FormatBalance value={tally.nays} /></div>
               </>
             )
-            : t<string>('Nay {{count}}', { replace: { count: tally.nays.toNumber() } })
+            : t<string>('Nay {{count}}', { replace: { count: formatNumber(tally.nays) } })
         }
       />
     </td>
