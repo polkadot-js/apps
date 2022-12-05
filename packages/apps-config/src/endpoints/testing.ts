@@ -27,7 +27,7 @@ export const testChains: EndpointOption[] = [
     info: 'aleph',
     text: 'Aleph Zero Testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
     }
   },
   {
