@@ -6,6 +6,8 @@ import type { ScheduledExt } from './types';
 
 import React from 'react';
 
+import Hash from '@polkadot/app-preimages/Preimages/Hash';
+import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -16,22 +18,23 @@ interface Props {
   value: ScheduledExt;
 }
 
-function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic } }: Props): React.ReactElement<Props> {
+function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic, preimageHash } }: Props): React.ReactElement<Props> {
+  const preimage = usePreimage(preimageHash);
+
   const period = maybePeriodic.unwrapOr(null);
   const name = maybeId.unwrapOr(null);
 
   return (
     <tr className={className}>
       <td className='all'>
-        <CallExpander value={call} />
+        <CallExpander value={call || preimage?.proposal} />
       </td>
-      <td className='start'>
-        {name && (
-          name.isAscii
-            ? name.toUtf8()
-            : name.toHex()
-        )}
-      </td>
+      {name
+        ? name.isAscii
+          ? <td className='start'>{name.toUtf8()}</td>
+          : <Hash value={name.toHex()} />
+        : <td />
+      }
       <td className='number together'>
         {bestNumber && (
           <>
