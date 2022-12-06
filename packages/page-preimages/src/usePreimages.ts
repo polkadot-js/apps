@@ -32,7 +32,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
 
 function usePreimagesImpl (): HexString[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.preimage.statusFor, OPT_HASH);
+  const startValue = useMapKeys(api.query.preimage.statusFor, [], OPT_HASH);
   const hashes = useEventChanges([
     api.events.preimage.Cleared,
     api.events.preimage.Noted

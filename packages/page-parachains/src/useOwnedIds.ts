@@ -61,7 +61,7 @@ function useOwnedIdsImpl (): OwnedId[] {
     api.events.registrar.Registered,
     api.events.registrar.Reserved
   ]);
-  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, OPT_ENTRIES, trigger.blockHash);
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, [], OPT_ENTRIES, trigger.blockHash);
   const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], OPT_HASHES);
 
   return useMemo(

@@ -47,7 +47,7 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
     .map(([, v]) => v);
 }
 
-export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise) => Changes<T>, startValue?: T[]): T[] | undefined {
+export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, startValue?: T[], additional?: A): T[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<T[] | undefined>();
   const { blockHash, events } = useEventTrigger(checks);
@@ -59,8 +59,8 @@ export function useEventChanges <T extends Codec> (checks: EventCheck[], filter:
 
   // add/remove any additional items detected (only when actual events occur)
   useEffect((): void => {
-    blockHash && setState((prev) => interleave(prev, filter(events, api)));
-  }, [api, blockHash, events, filter]);
+    blockHash && setState((prev) => interleave(prev, filter(events, api, additional)));
+  }, [additional, api, blockHash, events, filter]);
 
   return state;
 }
