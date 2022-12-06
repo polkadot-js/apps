@@ -346,13 +346,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'myriad-tesnet',
-    text: 'Myriad Testnet',
-    providers: {
-      Myriad: 'wss://ws-rpc.testnet.myriad.social'
-    }
-  },
-  {
     info: 'moonbaseAlpha',
     text: 'Moonbase Alpha',
     providers: {
@@ -367,6 +360,13 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
+    }
+  },
+  {
+    info: 'myriad-tesnet',
+    text: 'Myriad Testnet',
+    providers: {
+      Myriad: 'wss://ws-rpc.testnet.myriad.social'
     }
   },
   {
