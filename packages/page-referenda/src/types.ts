@@ -32,15 +32,21 @@ export interface Referendum {
   trackGraph?: CurveGraph;
 }
 
-export interface ReferendumProps {
+export interface BaseReferendumProps {
   className?: string;
   isMember: boolean;
   members?: string[];
+  onExpand?: () => void;
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
   trackInfo?: TrackInfo;
   value: Referendum;
+}
+
+export interface ReferendumProps extends BaseReferendumProps {
+  isExpanded: boolean;
+  toggleExpanded: () => void;
 }
 
 export interface Summary {

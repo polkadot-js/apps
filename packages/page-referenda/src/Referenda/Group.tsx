@@ -1,9 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types';
+import type { PalletReferenda, PalletVote, ReferendaGroup, TrackDescription } from '../types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -22,7 +21,7 @@ interface Props extends ReferendaGroup {
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
-  tracks?: [BN, PalletReferendaTrackInfo][] | undefined;
+  tracks?: TrackDescription[] | undefined;
 }
 
 function Group ({ className, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
@@ -40,13 +39,14 @@ function Group ({ className, isMember, members, palletReferenda, palletVote, ran
       empty={referenda && t<string>('No active referenda')}
       header={[
         [trackName ? <>{trackName}<div>{trackInfo?.text}</div></> : t('referenda'), 'start', 7],
-        [undefined, undefined, 1]
+        [undefined, undefined, 3]
       ]}
       key={
         trackName
           ? `track:${trackName}`
           : 'untracked'
       }
+      withCollapsibleRows
     >
       {referenda && referenda.map((r) => (
         <Referendum

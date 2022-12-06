@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RawParam } from '@polkadot/react-params/types';
-import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda } from '../types';
+import type { PalletReferenda, TrackDescription } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -26,7 +25,7 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
-  tracks?: [BN, PalletReferendaTrackInfo][];
+  tracks?: TrackDescription[];
 }
 
 interface HashState {
@@ -120,8 +119,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 
   const trackOpts = useMemo(
-    () => tracks && tracks.map(([id, track]) => ({
-      text: getTrackName(id, track),
+    () => tracks && tracks.map(({ id, info }) => ({
+      text: getTrackName(id, info),
       value: id.toNumber()
     })),
     [tracks]

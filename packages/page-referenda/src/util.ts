@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { CurveGraph, TrackInfo } from './types';
+import type { CurveGraph, TrackDescription, TrackInfo } from './types';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, stringPascalCase } from '@polkadot/util';
@@ -22,15 +22,15 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): TrackInfo | undefined {
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfo | undefined {
   let info: TrackInfo | undefined;
 
   if (tracks && trackId !== undefined) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
-    const trackInfo = tracks.find(([id]) => id.eqn(trackId));
+    const trackInfo = tracks.find(({ id }) => id.eqn(trackId));
 
     if (trackInfo && originMap) {
-      const trackName = trackInfo[1].name.toString();
+      const trackName = trackInfo.info.name.toString();
 
       info = originMap.find(({ id, name }) =>
         id === trackId &&
@@ -205,16 +205,16 @@ export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletR
   const approval = new Array<BN>(100);
   const support = new Array<BN>(100);
   const x = new Array<BN>(100);
-  const current = new BN(0);
   const step = decisionPeriod.divn(CALC_CURVE_LENGTH);
   const last = CALC_CURVE_LENGTH - 1;
+  let current = new BN(0);
 
   for (let i = 0; i < last; i++) {
     approval[i] = curveThreshold(minApproval, current, decisionPeriod);
     support[i] = curveThreshold(minSupport, current, decisionPeriod);
     x[i] = current;
 
-    current.iadd(step);
+    current = current.add(step);
   }
 
   // since we may be lossy with the step, we explicitly calc the final point at 100%
