@@ -30,6 +30,7 @@ import ranked from './ranked';
 import referenda from './referenda';
 import rpc from './rpc';
 import runtime from './runtime';
+import scheduler from './scheduler';
 import settings from './settings';
 import signing from './signing';
 import society from './society';
@@ -75,6 +76,7 @@ export default function create (t: TFunction): Routes {
     assets(t),
     nfts(t),
     society(t),
+    scheduler(t),
     calendar(t),
     contracts(t),
     storage(t),

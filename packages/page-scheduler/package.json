@@ -1,11 +1,11 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-files#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-scheduler#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/app-files",
+  "name": "@polkadot/app-scheduler",
   "private": true,
   "repository": {
-    "directory": "packages/page-files",
+    "directory": "packages/page-scheduler",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
@@ -13,7 +13,6 @@
   "type": "module",
   "version": "0.122.3-84-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.6",
-    "@polkadot/react-components": "^0.122.3-84-x"
+    "@babel/runtime": "^7.20.6"
   }
 }
