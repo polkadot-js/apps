@@ -196,11 +196,11 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 onChange={setTrack}
                 options={trackOpts}
               />
-              {trackInfo?.text && (
+              {false && trackInfo?.text && (
                 <Input
                   isDisabled
                   label={t<string>('track overview')}
-                  value={trackInfo.text}
+                  value={trackInfo?.text}
                 />
               )}
               {!trackInfo?.origin && (
