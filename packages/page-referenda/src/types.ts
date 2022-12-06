@@ -10,6 +10,7 @@ export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCo
 
 export interface ReferendaGroup {
   track?: PalletReferendaTrackInfo;
+  trackGraph?: CurveGraph;
   trackId?: BN;
   trackName?: string;
   referenda?: Referendum[];
@@ -27,6 +28,7 @@ export interface Referendum {
   key: string;
   track?: PalletReferendaTrackInfo;
   trackId?: BN;
+  trackGraph?: CurveGraph;
 }
 
 export interface ReferendumProps {
@@ -42,4 +44,16 @@ export interface Summary {
   deciding?: BN;
   refActive?: number;
   refCount?: BN;
+}
+
+export interface CurveGraph {
+  approval: BN[];
+  support: BN[];
+  x: BN[];
+}
+
+export interface TrackDescription {
+  graph: CurveGraph;
+  id: BN;
+  info: PalletReferendaTrackInfo;
 }

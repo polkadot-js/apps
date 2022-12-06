@@ -3,10 +3,12 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import type { CurveGraph } from './types';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, stringPascalCase } from '@polkadot/util';
+import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, stringPascalCase } from '@polkadot/util';
+
+const CALC_CURVE_LENGTH = 100;
 
 export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
   return `${
@@ -197,4 +199,28 @@ export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiv
       )
       .div(BN_BILLION)
   );
+}
+
+export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo): CurveGraph {
+  const approval = new Array<BN>(100);
+  const support = new Array<BN>(100);
+  const x = new Array<BN>(100);
+  const current = new BN(0);
+  const step = decisionPeriod.divn(CALC_CURVE_LENGTH);
+  const last = CALC_CURVE_LENGTH - 1;
+
+  for (let i = 0; i < last; i++) {
+    approval[i] = curveThreshold(minApproval, current, decisionPeriod);
+    support[i] = curveThreshold(minSupport, current, decisionPeriod);
+    x[i] = current;
+
+    current.iadd(step);
+  }
+
+  // since we may be lossy with the step, we explicitly calc the final point at 100%
+  approval[last] = curveThreshold(minApproval, decisionPeriod, decisionPeriod);
+  support[last] = curveThreshold(minSupport, decisionPeriod, decisionPeriod);
+  x[last] = decisionPeriod;
+
+  return { approval, support, x };
 }
