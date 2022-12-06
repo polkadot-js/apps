@@ -4,6 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { TrackInfo } from './types';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { formatNumber, stringPascalCase } from '@polkadot/util';
@@ -20,8 +21,8 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): { origin: Record<string, string> | Record<string, string>[], text?: string } | undefined {
-  let info: { origin: Record<string, string> | Record<string, string>[], text?: string } | undefined;
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: [BN, PalletReferendaTrackInfo][], trackId?: number): TrackInfo | undefined {
+  let info: TrackInfo | undefined;
 
   if (tracks && trackId !== undefined) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
