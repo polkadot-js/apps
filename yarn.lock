@@ -3050,6 +3050,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-scheduler@workspace:packages/page-scheduler":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-scheduler@workspace:packages/page-scheduler"
+  dependencies:
+    "@babel/runtime": ^7.20.6
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-settings@workspace:packages/page-settings":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-settings@workspace:packages/page-settings"
