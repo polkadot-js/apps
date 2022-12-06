@@ -31,7 +31,7 @@ interface Expanded {
   tallyTotal: BN;
 }
 
-function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackInfo, decidingEnd?: BN): Expanded {
+function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
   const ongoing = info.asOngoing;
   const proposalHash = getPreimageHash(ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash);
   let prepareEnd: BN | null = null;
@@ -49,7 +49,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
         confirmEnd = d.confirming.unwrap().add(track.confirmPeriod);
       } else {
         // we are still deciding
-        decideEnd = decidingEnd || d.since.add(track.decisionPeriod);
+        decideEnd = d.since.add(track.decisionPeriod);
       }
     } else {
       // we are still preparing
@@ -71,12 +71,12 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
   };
 }
 
-function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { decidingEnd, id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const { ongoing: { decisionDeposit, submissionDeposit, tally }, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, tallyTotal } = useMemo(
-    () => expandOngoing(info, track, decidingEnd),
-    [decidingEnd, info, track]
+    () => expandOngoing(info, track),
+    [info, track]
   );
 
   const preimage = usePreimage(proposalHash);
