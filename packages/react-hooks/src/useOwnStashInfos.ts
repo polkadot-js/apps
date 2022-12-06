@@ -16,6 +16,7 @@ import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
 import { useOwnStashes } from './useOwnStashes';
+import { useValueMemo } from './useValueMemo';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;
@@ -101,7 +102,7 @@ function useOwnStashInfosImpl (): StakerState[] | undefined {
     };
   }, [api, mountedRef, ownStashes]);
 
-  return useMemo(
+  const result = useMemo(
     () => ownStashes && queried && ownStashes.length === Object.keys(queried).length
       ? ownStashes
         .filter(([stashId]) => queried[stashId])
@@ -109,6 +110,8 @@ function useOwnStashInfosImpl (): StakerState[] | undefined {
       : undefined,
     [allAccounts, ownStashes, queried]
   );
+
+  return useValueMemo(result);
 }
 
 export const useOwnStashInfos = createNamedHook('useOwnStashInfos', useOwnStashInfosImpl);

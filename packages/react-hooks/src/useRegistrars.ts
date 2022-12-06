@@ -11,6 +11,7 @@ import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { useValueMemo } from './useValueMemo';
 
 interface RegistrarNull {
   address: string | null;
@@ -29,7 +30,7 @@ function useRegistrarsImpl (skipQuery?: boolean): State {
   const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
 
   // determine if we have a registrar or not - registrars are allowed to approve
-  return useMemo(
+  const result = useMemo(
     (): State => {
       const registrars = (query || [])
         .map((registrar, index): RegistrarNull => ({
@@ -47,6 +48,8 @@ function useRegistrarsImpl (skipQuery?: boolean): State {
     },
     [allAccounts, hasAccounts, query]
   );
+
+  return useValueMemo(result);
 }
 
 export const useRegistrars = createNamedHook('useRegistrars', useRegistrarsImpl);

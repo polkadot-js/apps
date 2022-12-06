@@ -10,14 +10,16 @@ import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
+import { useValueMemo } from './useValueMemo';
 
 type ExtrinsicCheck = SubmittableExtrinsicFunction<'promise'> | false | undefined | null;
 
-function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
+function useExtrinsicTriggerImpl (_checks: ExtrinsicCheck[]): string {
   const { api } = useApi();
   const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
   const block = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
+  const checks = useValueMemo(_checks);
 
   useEffect((): void => {
     mountedRef.current && block && block.extrinsics && block.extrinsics.filter(({ extrinsic }) =>

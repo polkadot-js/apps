@@ -13,6 +13,7 @@ import { isFunction } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useEventTrigger } from './useEventTrigger';
+import { useValueMemo } from './useValueMemo';
 
 export interface Changes<T extends Codec> {
   added?: T[];
@@ -46,24 +47,30 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
     )
     .map(([, v]) => v);
 
-  return adjusted.length !== existing.length || adjusted.find((e, i) => !e.eq(existing[i]))
+  return adjusted.length !== existing.length || adjusted.some((a, i) => !a.eq(existing[i]))
     ? adjusted
     : existing;
 }
 
-export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, startValue?: T[], additional?: A): T[] | undefined {
+export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, _startValue?: T[], _additional?: A): T[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<T[] | undefined>();
   const { blockHash, events } = useEventTrigger(checks);
+  const startValue = useValueMemo(_startValue);
+  const additional = useValueMemo(_additional);
 
   // when startValue changes, we do a full refresh
   useEffect((): void => {
-    startValue && setState((prev) => interleave(prev, { added: startValue }));
+    startValue && setState((prev) =>
+      interleave(prev, { added: startValue })
+    );
   }, [startValue]);
 
   // add/remove any additional items detected (only when actual events occur)
   useEffect((): void => {
-    blockHash && setState((prev) => interleave(prev, filter(events, api, additional)));
+    blockHash && setState((prev) =>
+      interleave(prev, filter(events, api, additional))
+    );
   }, [additional, api, blockHash, events, filter]);
 
   return state;

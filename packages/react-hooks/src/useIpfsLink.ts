@@ -4,6 +4,7 @@
 import { useMemo } from 'react';
 
 import { createNamedHook } from './createNamedHook';
+import { useValueMemo } from './useValueMemo';
 
 interface Result {
   ipfsHash: string;
@@ -12,7 +13,7 @@ interface Result {
 }
 
 function useIpfsLinkImpl (ipfsHash?: string | null): Result | null {
-  return useMemo(
+  const result = useMemo(
     () => ipfsHash
       ? {
         ipfsHash,
@@ -23,6 +24,8 @@ function useIpfsLinkImpl (ipfsHash?: string | null): Result | null {
       : null,
     [ipfsHash]
   );
+
+  return useValueMemo(result);
 }
 
 export const useIpfsLink = createNamedHook('useIpfsLink', useIpfsLinkImpl);

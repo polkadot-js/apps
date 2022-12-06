@@ -60,7 +60,7 @@ function extractLocalIpns (url: string): State {
 }
 
 function extractOther (url: string): State {
-  const isIpfs = SECTIONS.some((part) => url.includes(part));
+  const isIpfs = SECTIONS.some((p) => url.includes(p));
   const isIpns = url.includes(SECTIONS[1]);
 
   // individual sections, with the index of the ipfs portion

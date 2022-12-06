@@ -10,6 +10,7 @@ import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { useValueMemo } from './useValueMemo';
 
 interface Result {
   isMember: boolean;
@@ -32,8 +33,7 @@ function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { allAccounts } = useAccounts();
   const members = useCall(api.derive[collective as 'council']?.members, [], OPT_MEM);
   const prime = useCall(api.derive[collective as 'council']?.prime, [], OPT_PRM);
-
-  return useMemo(
+  const result = useMemo(
     () => ({
       isMember: (members || []).some((a) => allAccounts.includes(a)),
       members: (members || []),
@@ -41,6 +41,8 @@ function useCollectiveMembersImpl (collective: CollectiveType): Result {
     }),
     [allAccounts, members, prime]
   );
+
+  return useValueMemo(result);
 }
 
 export const useCollectiveMembers = createNamedHook('useCollectiveMembers', useCollectiveMembersImpl);

@@ -12,6 +12,7 @@ import { BN, BN_MAX_INTEGER, BN_ONE, bnMin, bnToBn, extractTime } from '@polkado
 import { createNamedHook } from './createNamedHook';
 import { useTranslation } from './translate';
 import { useBlockInterval } from './useBlockInterval';
+import { useValueMemo } from './useValueMemo';
 
 type Result = [number, string, Time];
 
@@ -57,11 +58,12 @@ function calcResult (blockTime: BN, blocks: BN, t: TFunction): Result {
 function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();
   const blockTime = useBlockInterval(apiOverride);
-
-  return useMemo(
+  const result = useMemo(
     () => calcResult(blockTime, bnToBn(blocks), t),
     [blockTime, blocks, t]
   );
+
+  return useValueMemo(result);
 }
 
 export const useBlockTime = createNamedHook('useBlockTime', useBlockTimeImpl);

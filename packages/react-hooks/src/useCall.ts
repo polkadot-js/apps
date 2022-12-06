@@ -10,7 +10,7 @@ import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
-import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
+import { isFunction, isNull, isUndefined, nextTick, stringify } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -75,8 +75,8 @@ function isQuery (fn: unknown): fn is QueryableStorageEntry<'promise', []> {
 // extract the serialized and mapped params, all ready for use in our call
 function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
   return [
-    JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
-    params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
+    stringify({ f: (fn as { name: string })?.name, p: params }),
+    params.length === 0 || !params.some((p) => isNull(p) || isUndefined(p))
       ? paramMap(params)
       : null
   ];

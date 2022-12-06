@@ -10,6 +10,7 @@ import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { useValueMemo } from './useValueMemo';
 
 type IsInKeyring = boolean;
 
@@ -24,7 +25,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
     if (ledger.isSome) {
       const stashId = ledger.unwrap().stash.toString();
 
-      !result.some(([accountId]) => accountId === stashId) && result.push([stashId, false]);
+      !result.some(([a]) => a === stashId) && result.push([stashId, false]);
     }
   });
 
@@ -43,7 +44,7 @@ function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | un
   const ownBonded = useCall<Option<AccountId>[]>(ids.length !== 0 && api.query.staking?.bonded.multi, [ids]);
   const ownLedger = useCall<Option<StakingLedger>[]>(ids.length !== 0 && api.query.staking?.ledger.multi, [ids]);
 
-  return useMemo(
+  const result = useMemo(
     () => ids.length
       ? ownBonded && ownLedger
         ? getStashes(ids, ownBonded, ownLedger)
@@ -51,19 +52,22 @@ function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | un
       : [],
     [ids, ownBonded, ownLedger]
   );
+
+  return useValueMemo(result);
 }
 
 export const useOwnStashes = createNamedHook('useOwnStashes', useOwnStashesImpl);
 
 function useOwnStashIdsImpl (additional?: string[]): string[] | undefined {
   const ownStashes = useOwnStashes(additional);
-
-  return useMemo(
+  const result = useMemo(
     () => ownStashes
       ? ownStashes.map(([stashId]) => stashId)
       : undefined,
     [ownStashes]
   );
+
+  return useValueMemo(result);
 }
 
 export const useOwnStashIds = createNamedHook('useOwnStashIds', useOwnStashIdsImpl);

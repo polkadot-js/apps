@@ -9,11 +9,11 @@ import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
+import { useValueMemo } from './useValueMemo';
 
 function useCollectiveInstanceImpl (instanceType: CollectiveType, instanceIndex?: number): CollectiveType | null {
   const { api } = useApi();
-
-  return useMemo(
+  const type = useMemo(
     (): CollectiveType | null => {
       const index = instanceIndex || 0;
       const instances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), instanceType);
@@ -27,6 +27,8 @@ function useCollectiveInstanceImpl (instanceType: CollectiveType, instanceIndex?
     },
     [api, instanceIndex, instanceType]
   );
+
+  return useValueMemo(type);
 }
 
 export const useCollectiveInstance = createNamedHook('useCollectiveInstance', useCollectiveInstanceImpl);

@@ -101,8 +101,8 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
     setName(name || '');
 
     if (identity) {
-      const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
-      const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
+      const judgements = identity.judgements.filter(([, j]) => !j.isFeePaid);
+      const isKnownGood = judgements.some(([, j]) => j.isKnownGood);
 
       setIdentity({
         ...identity,

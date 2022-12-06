@@ -9,6 +9,7 @@ import { getPosition } from '@polkadot/react-components/Popup/utils';
 import { createNamedHook } from './createNamedHook';
 import { useElementPosition } from './useElementPosition';
 import { useScroll } from './useScroll';
+import { useValueMemo } from './useValueMemo';
 import { useWindowSize } from './useWindowSize';
 
 interface Coord {
@@ -42,10 +43,12 @@ function usePopupWindowImpl (windowRef: React.RefObject<HTMLDivElement>, trigger
     }
   }, [position, scrollY, triggerPosition, verticalPosition, windowPosition, windowSize]);
 
-  return useMemo(
+  const result = useMemo(
     () => ({ renderWindowPosition, verticalPosition }),
     [renderWindowPosition, verticalPosition]
   );
+
+  return useValueMemo(result);
 }
 
 export const usePopupWindow = createNamedHook('usePopupWindow', usePopupWindowImpl);

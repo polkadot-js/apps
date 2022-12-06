@@ -11,6 +11,7 @@ import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
+import { useValueMemo } from './useValueMemo';
 
 export type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
@@ -29,7 +30,7 @@ const IDENTITY_FILTER = () => true;
 function useEventTriggerImpl (_checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
   const { api } = useApi();
   const [state, setState] = useState(() => EMPTY_RESULT);
-  const [checks] = useState(() => _checks);
+  const checks = useValueMemo(_checks);
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
 

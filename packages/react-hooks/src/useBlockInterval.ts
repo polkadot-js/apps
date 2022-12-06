@@ -10,6 +10,7 @@ import { BN, BN_THOUSAND, BN_TWO, bnMin } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { A_DAY } from './useBlocksPerDays';
+import { useValueMemo } from './useValueMemo';
 
 // Some chains incorrectly use these, i.e. it is set to values such as 0 or even 2
 // Use a low minimum validity threshold to check these against
@@ -39,11 +40,12 @@ function calcInterval (api: ApiPromise): BN {
 
 function useBlockIntervalImpl (apiOverride?: ApiPromise | null): BN {
   const { api } = useApi();
-
-  return useMemo(
+  const interval = useMemo(
     () => calcInterval(apiOverride || api),
     [api, apiOverride]
   );
+
+  return useValueMemo(interval);
 }
 
 export const useBlockInterval = createNamedHook('useBlockInterval', useBlockIntervalImpl);

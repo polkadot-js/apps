@@ -66,6 +66,7 @@ export { useTeleport } from './useTeleport';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
 export { useTxBatch } from './useTxBatch';
+export { useValueMemo } from './useValueMemo';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';
 export { useWindowSize } from './useWindowSize';
