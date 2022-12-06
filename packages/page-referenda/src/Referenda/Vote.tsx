@@ -3,9 +3,9 @@
 
 import type { Preimage } from '@polkadot/app-preimages/types';
 import type { BN } from '@polkadot/util';
-import type { PalletVote } from '../types';
+import type { PalletVote, TrackInfo } from '../types';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
@@ -19,16 +19,48 @@ interface Props {
   members?: string[];
   palletVote: PalletVote;
   preimage?: Preimage;
+  ranks?: BN[];
+  trackInfo?: TrackInfo;
 }
 
-function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage }: Props): React.ReactElement<Props> | null {
+function filterMembers (allAccounts: string[], members?: string[], ranks?: BN[], trackInfo?: TrackInfo): string[] | undefined {
+  if (members) {
+    const accounts = members.filter((a) => allAccounts.includes(a));
+
+    if (ranks && trackInfo && trackInfo.compare) {
+      const cmp = trackInfo.compare;
+
+      return accounts.filter((_, i) => cmp(ranks[i]));
+    }
+
+    return accounts;
+  }
+
+  return members;
+}
+
+function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage, ranks, trackInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
+  const { allAccounts, hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
   const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
+
+  const filteredMembers = useMemo(
+    () => filterMembers(allAccounts, members, ranks, trackInfo),
+    [allAccounts, members, ranks, trackInfo]
+  );
+
+  const isDisabled = useMemo(
+    () => !isMember || (
+      members && filteredMembers
+        ? !filteredMembers.length
+        : false
+    ),
+    [filteredMembers, isMember, members]
+  );
 
   if (!hasAccounts) {
     return null;
@@ -53,7 +85,7 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
             )}
             <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
               <VoteAccount
-                filter={members}
+                filter={filteredMembers}
                 onChange={setAccountId}
               />
             </Modal.Columns>
@@ -84,7 +116,6 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
             <TxButton
               accountId={accountId}
               icon='ban'
-              isDisabled={!isMember}
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={
@@ -97,7 +128,6 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
             <TxButton
               accountId={accountId}
               icon='check'
-              isDisabled={!isMember}
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={
@@ -112,6 +142,7 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
       )}
       <Button
         icon='check-to-slot'
+        isDisabled={isDisabled}
         label={t<string>('Vote')}
         onClick={toggleVoting}
       />

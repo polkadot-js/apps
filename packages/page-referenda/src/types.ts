@@ -9,6 +9,7 @@ export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda
 export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
 
 export interface ReferendaGroup {
+  key: string;
   track?: PalletReferendaTrackInfo;
   trackId?: BN;
   trackName?: string;
@@ -34,6 +35,8 @@ export interface ReferendumProps {
   members?: string[];
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
+  ranks?: BN[];
+  trackInfo?: TrackInfo;
   value: Referendum;
 }
 
@@ -41,4 +44,10 @@ export interface Summary {
   deciding?: BN;
   refActive?: number;
   refCount?: BN;
+}
+
+export interface TrackInfo {
+  compare?: (input: BN) => boolean;
+  origin: Record<string, string> | Record<string, string>[];
+  text?: string;
 }

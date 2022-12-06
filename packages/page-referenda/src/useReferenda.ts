@@ -92,14 +92,14 @@ const OPT_MULTI = {
 function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
   if (!referenda) {
     // return an empty group when we have no referenda
-    return [{}];
+    return [{ key: 'empty' }];
   } else if (!tracks) {
     // if we have no tracks, we just return the referenda sorted
-    return [{ referenda: referenda.sort(sortReferenda) }];
+    return [{ key: 'referenda', referenda: referenda.sort(sortReferenda) }];
   }
 
   const grouped: ReferendaGroupKnown[] = [];
-  const other: ReferendaGroupKnown = { referenda: [] };
+  const other: ReferendaGroupKnown = { key: 'referenda', referenda: [] };
 
   // sort the referenda by track inside groups
   for (let i = 0; i < referenda.length; i++) {
@@ -119,6 +119,7 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
       if (!group) {
         // we don't have a group as of yet, create one
         grouped.push({
+          key: `track:${ref.trackId.toString()}`,
           referenda: [ref],
           track: ref.track,
           trackId: ref.trackId,
@@ -157,7 +158,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
   return useMemo(
     () => [
       (ids && ids.length === 0)
-        ? [{ referenda: [] }]
+        ? [{ key: 'referenda', referenda: [] }]
         : group(referenda, tracks),
       tracks
     ],
