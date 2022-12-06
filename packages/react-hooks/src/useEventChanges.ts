@@ -36,7 +36,7 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
     delete map[v.toHex()];
   });
 
-  return Object
+  const adjusted = Object
     .entries(map)
     .sort((a, b) =>
       // for BN-like objects, we use the built-in compare for sorting
@@ -45,6 +45,10 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
         : a[0].localeCompare(b[0])
     )
     .map(([, v]) => v);
+
+  return adjusted.length !== existing.length || adjusted.find((e, i) => !e.eq(existing[i]))
+    ? adjusted
+    : existing;
 }
 
 export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, startValue?: T[], additional?: A): T[] | undefined {
