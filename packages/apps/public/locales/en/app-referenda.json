@@ -1,4 +1,5 @@
 {
+  "All active/available tracks": "All active/available tracks",
   "Aye": "Aye",
   "Aye {{count}}": "Aye {{count}}",
   "Confirming": "Confirming",
@@ -49,6 +50,7 @@
   "referenda": "referenda",
   "referendum id": "referendum id",
   "refund from account": "refund from account",
+  "selected track": "selected track",
   "send from account": "send from account",
   "submission deposit": "submission deposit",
   "submission track": "submission track",
