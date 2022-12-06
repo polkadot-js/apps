@@ -71,7 +71,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
   };
 }
 
-function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const { ongoing: { decisionDeposit, submissionDeposit, tally }, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, tallyTotal } = useMemo(
@@ -133,6 +133,8 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
           members={members}
           palletVote={palletVote}
           preimage={preimage}
+          ranks={ranks}
+          trackInfo={trackInfo}
         />
       </td>
     </>
