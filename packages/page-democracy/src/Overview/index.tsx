@@ -31,11 +31,13 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Summary referendumCount={referendums?.length} />
       <Button.Group>
-        <Button
-          icon='plus'
-          label={t<string>('Submit preimage')}
-          onClick={togglePreimage}
-        />
+        {api.tx.democracy.notePreimage && (
+          <Button
+            icon='plus'
+            label={t<string>('Submit preimage')}
+            onClick={togglePreimage}
+          />
+        )}
         <Button
           icon='plus'
           label={t<string>('Submit proposal')}

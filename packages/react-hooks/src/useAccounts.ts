@@ -6,7 +6,7 @@ import type { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
-import { u8aToHex } from '@polkadot/util';
+import { nextTick, u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { createNamedHook } from './createNamedHook';
@@ -41,7 +41,7 @@ function useAccountsImpl (): UseAccounts {
     );
 
     return (): void => {
-      setTimeout(() => subscription.unsubscribe(), 0);
+      nextTick(() => subscription.unsubscribe());
     };
   }, [mountedRef]);
 

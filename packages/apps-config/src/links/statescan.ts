@@ -7,6 +7,7 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    Litentry: 'litentry',
     Statemine: 'statemine',
     Westmint: 'westmint'
   },

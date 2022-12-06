@@ -12,13 +12,15 @@ export interface Cid {
 
 export interface Member {
   accountId: string;
-  role: PalletAllianceMemberRole['type'];
+  // Founder here is deprecated
+  role: PalletAllianceMemberRole['type'] | 'Founder';
 }
 
 export interface MemberInfo {
   accountId: string;
   deposit?: BN | null;
-  isUpForKicking: boolean;
+  isRetiringAt?: BN | null;
+  isUpForKicking?: boolean;
 }
 
 export interface Rule {

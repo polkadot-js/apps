@@ -1,5 +1,117 @@
 # CHANGELOG
 
+## 0.122.2 Nov 7, 2022
+
+Changes:
+
+- Bump Electron packages to workaround/fix 0.122.1 Mac issues
+
+
+## 0.122.1 Nov 7, 2022
+
+Contributed:
+
+- Add Zeitgeist to Subsquare links (Thanks to https://github.com/wliyongfeng)
+- Add Centrifuge & Altair to Subsquare links (Thanks to https://github.com/wliyongfeng)
+- Add Litentry/Litmus Statescan links (Thanks to https://github.com/wliyongfeng)
+- Add Rococo MD5 parachain (Thanks to https://github.com/3yekn)
+- Add Rococo Frequency parachain (Thanks to https://github.com/saraswatpuneet)
+- Add Rococo Tinkernet pareachain (Thanks to https://github.com/arrudagates)
+- Add Rococo Watr parachain (Thanks to https://github.com/NachoPal)
+- Add Rococo HydraX parachain (Thanks to https://github.com/green-jay)
+- Update Subscan links (Thanks to https://github.com/carlhong)
+- Updata Subscan logo (Thanks to https://github.com/carlhong)
+- Fix Darwinia Subscan link (Thanks to https://github.com/JayJay1024)
+- Add Root chain types (Thanks to https://github.com/aidan-starke)
+- Add Adjuna parachain (Thanks to https://github.com/darkfriend77)
+- Add support for parachain light clients (Thanks to https://github.com/arrudagates)
+- Update OnFinality Pichiu endpoint (Thanks to https://github.com/banananeko)
+- Add OnFinality Invarch Tinker endpoint (Thanks to https://github.com/banananeko)
+- Add OnFinality Bajun endpoint (Thanks to https://github.com/cowboy-bebug)
+- Add OnFinality Phala endpoint (Thanks to https://github.com/banananeko)
+- Add long-term Rococo Bajun id (Thanks to https://github.com/cowboy-bebug)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Add Radiumblock endpoint for Statemint (Thanks to https://github.com/radiumb)
+- Add Adventus parachain info (Thanks to https://github.com/nahuseyoum)
+- Add additional Edgeware endpoint (Thanks to https://github.com/JelliedOwl)
+- Updata Galactic Council endpoints (Thanks to https://github.com/lumir-mrkva)
+- Add Robonomics & Integritee endpoints (Thanks to https://github.com/Ank4n)
+- Adjust Subspace Gemini 1 endpoitns (Thanks to https://github.com/nazar-pc)
+- Add Subspace Gemini 2a endpoints (Thanks to https://github.com/nazar-pc)
+- Update KILT types to latest (Thanks to https://github.com/ntn-x2)
+- Add Subid link for Bitcountry (Thanks to https://github.com/teodorus-nathaniel)
+- Add Polkadot Bitgreen parachain (Thanks to https://github.com/abhath-labs)
+- Update Rocfinity logo (Thanks to https://github.com/leonardocustodio)
+- Update Logion types (Thanks to https://github.com/gdethier)
+- Add OAK chain (Thanks to https://github.com/justinzhou93)
+- Add Totem StageX network (Thanks to https://github.com/chrisdcosta)
+- Update Kusama/Rococo Kabocha (Thans to https://github.com/decentration)
+- Remove Dwellir endpoints for Composanle & Picaso (Thanks to https://github.com/benjichat)
+- Add Dwellir endpoints for Altair & Centrifuge (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Joystream (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Subspace Gemini 2a (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Alpeh Zero (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Equilibrium (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Moonbeam & Moonriver (Thanks to https://github.com/Maharacha)
+- Add Automata endpoint (Thanks to https://github.com/smilenow)
+- New endpoint for Beresheet (Thanks to https://github.com/ShankarWarang)
+- Add Leemo endpoint for GM (Thanks to https://github.com/Leemo94)
+- Add Crust Shadow 2 loan info (Thanks to https://github.com/mmyyrroonn)
+- Add Genshiro 2 loan info (Thanks to https://github.com/alex-nax)
+- Move KILT parachain to Polkadot (Thanks to https://github.com/wischli)
+- Update Amplitude endpoint (Thanks to https://github.com/gonzamontiel)
+- Add DAO IPCI endpoint (Thanks to https://github.com/PavelSheremetev)
+- Update Rococo Zeitgeist para (Thanks to https://github.com/sea212)
+- Update Parity Rockmine endpoint (Thanks to https://github.com/PierreBesson)
+- Add Samsara Robonomics endpoint (Thanks to https://github.com/0xSamsara)
+- Update Robonomics endpoints (Thanks to https://github.com/Leemo94)
+- Light client support for Shiden & Astar (Thanks to https://github.com/gluneau)
+- Updates to Shiden & Astar bootnodes (Thanks to https://github.com/gluneau)
+- Updata & fix Khala types (Thanks to https://github.com/jasl)
+- Add Rococo Briodgehub parachain (Thanks to https://github.com/lazam)
+- Add Vara network (Thanks to https://github.com/EugenWay)
+- Add identity icon override for Litentry (Thanks to https://github.com/Kailai-Wang)
+- Updata Amplitude endpoint (Thanks to https://github.com/gonzamontiel)
+
+Changes:
+
+- Retrieve light client specs via async import
+- Pass alliance retiringAt info as available
+- Retrieve pending pool info via runtime call
+- Update Governance 2 UI with track info (latest APIs)
+- Support for new preimages pallet structure
+- Adjust identity judgements with new hash parameter
+- Cater for Weight V2 usage
+- Disable unreachable endpoints
+
+
+## 0.121.1 Aug 22, 2022
+
+Contributed:
+
+- Update Logion types (Thanks to https://github.com/gdethier)
+- Update Bit Country Pioneer logo (Thanks to https://github.com/mikejamesli)
+- Add Rococo Amplitude (Thanks to https://github.com/gonzamontiel)
+- Add Kusama Snow (Thanks to https://github.com/0xrust)
+- Add Rococo Confti (Thanks to https://github.com/cheft)
+- Update Kusama GM endpoint (Thanks to https://github.com/arrudagates)
+- Adjust Unique lookup key (Thanks to https://github.com/ashkuc)
+- Add derive mapping for interlay testnets (Thanks to https://github.com/bvotteler)
+- Update Genshiro types (Thanks to https://github.com/pr0fedt)
+- Add BLD nodes endpoint for GM (Thanks to https://github.com/arrudagates)
+- Add TerraBioDAO endpoint for GM (Thanks to https://github.com/koutakou)
+- Add OnFinality endpoint for Efinity (Thanks to https://github.com/banananeko)
+- Add RadiumBlock endpoint for Statemine (Thanks to https://github.com/radiumb)
+- Update Moonbeam types bundle (Thanks to https://github.com/hyd628)
+- Add Dwellir endpoints for Acala and Karura (Thanks to https://github.com/benjichat)
+
+Changes:
+
+- Ajust display for endpoints (Relay, Parachains, Common)
+- Adjust check for availability of payment queries (via runtime)
+- Disable unreachable endpoints
+
+
 ## 0.120.1 Aug 8, 2022
 
 Contributed:

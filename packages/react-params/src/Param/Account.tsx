@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { MultiAddress } from '@polkadot/types/interfaces';
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -9,6 +10,7 @@ import { InputAddress } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
+import Enum from './Enum';
 
 function isValidAddress (value?: string | null): boolean {
   if (value) {
@@ -24,7 +26,8 @@ function isValidAddress (value?: string | null): boolean {
   return false;
 }
 
-function Account ({ className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function Account (props: Props): React.ReactElement<Props> {
+  const { className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, type, withLabel } = props;
   const [defaultValue] = useState(() => (value as string)?.toString());
 
   const _onChange = useCallback(
@@ -35,6 +38,13 @@ function Account ({ className = '', defaultValue: { value }, isDisabled, isError
       }),
     [onChange]
   );
+
+  // special handling for MultiAddress
+  if (type.type === 'MultiAddress') {
+    if (!isDisabled || !value || (value as MultiAddress).type !== 'Id') {
+      return <Enum {...props} />;
+    }
+  }
 
   return (
     <Bare className={className}>

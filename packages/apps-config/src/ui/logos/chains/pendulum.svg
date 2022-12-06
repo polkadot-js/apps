@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="158px" height="158px" viewBox="0 0 158 158" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Pendulum symbol</title>
+    <g id="Pendulum-symbol" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(10.000000, 10.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M69,0 C107.107648,0 138,30.8923523 138,69 C138,107.107648 107.107648,138 69,138 C30.8923523,138 0,107.107648 0,69 C0,30.8923523 30.8923523,0 69,0 Z M69,13.543457 C38.372197,13.543457 13.543457,38.372197 13.543457,69 C13.543457,99.627803 38.372197,124.456543 69,124.456543 C99.627803,124.456543 124.456543,99.627803 124.456543,69 C124.456543,38.372197 99.627803,13.543457 69,13.543457 Z" id="Combined-Shape"></path>
+            <rect id="Rectangle" transform="translate(69.000000, 69.000000) rotate(23.500000) translate(-69.000000, -69.000000) " x="62.2282715" y="26.5" width="13.543457" height="85"></rect>
+        </g>
+    </g>
+</svg>

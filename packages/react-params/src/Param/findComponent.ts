@@ -48,7 +48,7 @@ const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'B
 const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
+  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource', 'MultiAddress'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },

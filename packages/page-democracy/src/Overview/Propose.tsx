@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useState } from 'react';
 
+import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { isHex } from '@polkadot/util';
+import { isFunction, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -18,7 +20,7 @@ interface Props {
 }
 
 interface HashState {
-  hash?: string;
+  hash?: HexString;
   isHashValid: boolean;
 }
 
@@ -27,11 +29,13 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+  const [{ hash, isHashValid }, setHash] = useState<HashState>({ isHashValid: false });
   const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
+  const preimage = usePreimage(hash);
 
   const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
+    (hash?: string): void =>
+      setHash({ hash: hash as HexString, isHashValid: isHex(hash, 256) }),
     []
   );
 
@@ -63,6 +67,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           <Input
             autoFocus
             help={t<string>('The preimage hash of the proposal')}
+            isError={!isHashValid}
             label={t<string>('preimage hash')}
             onChange={_onChangeHash}
             value={hash}
@@ -88,13 +93,15 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps}
+          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps || (isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage) && !preimage)}
           label={t<string>('Submit proposal')}
           onStart={onClose}
           params={
             api.tx.democracy.propose.meta.args.length === 3
               ? [hash, balance, publicProps?.length]
-              : [hash, balance]
+              : isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage)
+                ? [preimage && { Lookup: { hash: preimage.proposalHash, len: preimage.proposalLength } }, balance]
+                : [hash, balance]
           }
           tx={api.tx.democracy.propose}
         />
