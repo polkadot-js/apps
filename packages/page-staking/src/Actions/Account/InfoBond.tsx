@@ -27,7 +27,7 @@ function InfoBond ({ minBond, stakingInfo }: Props): React.ReactElement<Props> |
   return isBelow
     ? <article className={'mark'}>
       <Icon icon='circle-info' />
-      {t<string>('Your bonded amount is below the on-chain minimum threshold of {{minBond}}. If you would like to change the nominee, use nomination pools', { replace: { minBond: formatBalance(minBond) } })}
+      {t<string>('Your bonded amount is below the on-chain minimum threshold of {{minBond}} for direct validator nomination. If you would like to change the nominee, use nomination pools where that threshold is lower.', { replace: { minBond: formatBalance(minBond) } })}
     </article>
     : null;
 }
