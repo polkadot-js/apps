@@ -34,6 +34,7 @@ export interface Referendum {
 
 export interface BaseReferendumProps {
   className?: string;
+  eligibleIssuance?: BN;
   isMember: boolean;
   members?: string[];
   onExpand?: () => void;

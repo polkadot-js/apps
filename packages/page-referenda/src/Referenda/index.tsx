@@ -9,7 +9,8 @@ import styled from 'styled-components';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
 import { Button, Dropdown } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
@@ -30,10 +31,18 @@ interface Props {
 
 function Referenda ({ className, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
+  const inactiveIssuance = useCall<BN>(api.query.balances.inactiveIssuance);
   const { allAccounts } = useAccounts();
   const [grouped, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, grouped);
   const [trackSelected, setTrackSelected] = useState(-1);
+
+  const eligibleIssuance = useMemo(
+    () => totalIssuance?.sub(inactiveIssuance || BN_ZERO),
+    [inactiveIssuance, totalIssuance]
+  );
 
   const trackOpts = useMemo(
     () => [{ text: t<string>('All active/available tracks'), value: -1 }].concat(
@@ -82,6 +91,7 @@ function Referenda ({ className, members, palletReferenda, palletVote, ranks }: 
       </Button.Group>
       {filtered.map(({ key, referenda, trackId, trackName }: ReferendaGroup) => (
         <Group
+          eligibleIssuance={eligibleIssuance}
           isMember={isMember}
           key={key}
           members={members}

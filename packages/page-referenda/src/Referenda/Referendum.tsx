@@ -8,7 +8,7 @@ import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '
 import React, { useMemo } from 'react';
 
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_MILLION, BN_THOUSAND, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -73,9 +73,7 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
 
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
-  const { className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
+  const { className = '', eligibleIssuance, palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const Component = useMemo(
@@ -84,8 +82,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartProps = useMemo(
-    () => totalIssuance && trackGraph && getChartProps(totalIssuance, isConvictionVote, info, trackGraph),
-    [info, isConvictionVote, totalIssuance, trackGraph]
+    () => eligibleIssuance && trackGraph && getChartProps(eligibleIssuance, isConvictionVote, info, trackGraph),
+    [eligibleIssuance, info, isConvictionVote, trackGraph]
   );
 
   const chartLegend = useMemo(
