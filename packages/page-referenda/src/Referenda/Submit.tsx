@@ -30,8 +30,13 @@ interface Props {
 }
 
 interface HashState {
-  hash?: HexString | null;
-  isHashValid: boolean;
+  imageHash?: HexString | null;
+  isImageHashValid: boolean;
+}
+
+interface ImageState {
+  imageLen: number;
+  isImageLenValid: boolean;
 }
 
 interface DefaultAtAfter {
@@ -65,14 +70,19 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
   const [defaultAtAfter, setDefaultAtAfter] = useState<DefaultAtAfter | null>(null);
-  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: null, isHashValid: false });
-  const preimage = usePreimage(hash);
+  const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
+  const [{ imageLen, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: 0, isImageLenValid: false });
+  const preimage = usePreimage(imageHash);
 
   useEffect((): void => {
     trackId !== undefined && setDefaultAtAfter((prev) =>
       getDefaultEnactment(prev, trackId)
     );
   }, [trackId]);
+
+  useEffect((): void => {
+    preimage?.proposalLength && setImageLen({ imageLen: preimage?.proposalLength.toNumber(), isImageLenValid: true });
+  }, [preimage]);
 
   const trackInfo = useMemo(
     () => getTrackInfo(api, specName, palletReferenda, tracks, trackId),
@@ -148,9 +158,31 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     []
   );
 
-  const _onChangeHash = useCallback(
-    (hash?: string) =>
-      setHash({ hash: hash as HexString, isHashValid: isHex(hash, 256) }),
+  const _onChangeImageHash = useCallback(
+    (h?: string) =>
+      setImageHash({
+        imageHash: h as HexString,
+        isImageHashValid: isHex(h, 256)
+      }),
+    []
+  );
+
+  const _onChangeImageLen = useCallback(
+    (l?: string): void => {
+      try {
+        const imageLen = parseInt(l || '0', 10);
+
+        setImageLen({
+          imageLen,
+          isImageLenValid: Number.isInteger(imageLen)
+        });
+      } catch {
+        setImageLen({
+          imageLen: 0,
+          isImageLenValid: false
+        });
+      }
+    },
     []
   );
 
@@ -183,10 +215,19 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               <Input
                 autoFocus
                 help={t<string>('The preimage hash of the proposal')}
-                isError={!isHashValid}
+                isError={!isImageHashValid}
                 label={t<string>('preimage hash')}
-                onChange={_onChangeHash}
-                value={hash}
+                onChange={_onChangeImageHash}
+                value={imageHash || ''}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The value will be populated when a valid on-chain hash exists in preimages')}>
+              <Input
+                help={t<string>('The preimage length of the proposal')}
+                key='inputLength'
+                label={t<string>('preimage length')}
+                onChange={_onChangeImageLen}
+                value={imageLen.toString()}
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
@@ -243,10 +284,18 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!selectedOrigin || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
+              isDisabled={!selectedOrigin || !atAfter || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[selectedOrigin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
+              params={[
+                selectedOrigin,
+                {
+                  Lookup: preimage
+                    ? { hash: preimage.proposalHash, len: imageLen }
+                    : { hash: imageHash, len: imageLen }
+                },
+                atAfter
+              ]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
