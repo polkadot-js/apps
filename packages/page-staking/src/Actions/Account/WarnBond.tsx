@@ -7,6 +7,8 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo } from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option, u8 } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -18,10 +20,13 @@ interface Props {
 
 function WarnBond ({ minBond, stakingInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+
+  const chillThreshold = useCall<Option<u8>>(api.query.staking.chillThreshold);
 
   const isBelow = useMemo(
-    () => minBond && stakingInfo && stakingInfo.stakingLedger.active.unwrap().lt(minBond),
-    [minBond, stakingInfo]
+    () => chillThreshold && chillThreshold.isSome && minBond && stakingInfo && stakingInfo.stakingLedger.active.unwrap().lt(minBond),
+    [minBond, stakingInfo, chillThreshold]
   );
 
   return isBelow

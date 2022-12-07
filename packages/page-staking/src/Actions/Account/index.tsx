@@ -11,6 +11,7 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
+import InfoBond from '@polkadot/app-staking/Actions/Account/InfoBond';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
@@ -229,6 +230,10 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   minBond={targets.minNominatorBond}
                   stakingInfo={stakingAccount}
                 />
+                <InfoBond
+                  minBond={targets.minNominatorBond}
+                  stakingInfo={stakingAccount}
+                />
               </>
             )}
           </td>
@@ -368,5 +373,9 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
+  }
+  
+  .fa-circle-info {
+    margin-right: 0.5rem;
   }
 `);
