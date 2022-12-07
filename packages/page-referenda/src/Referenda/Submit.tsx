@@ -170,7 +170,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const _onChangeImageLen = useCallback(
     (l?: string): void => {
       try {
-        const imageLen = parseInt(l || '0', 10);
+        const imageLen = Number.parseInt(l || '0', 10);
 
         setImageLen({
           imageLen,
