@@ -8,12 +8,19 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-// TODO keep track of all tracks to get the number of deciding
+function calcActive (grouped: ReferendaGroup[] = []): number {
+  return grouped.reduce((total, { referenda = [] }) =>
+    total + referenda.filter((r) =>
+      r.info.isOngoing
+    ).length,
+  0);
+}
+
 function useSummaryImpl (palletReferenda: PalletReferenda, grouped?: ReferendaGroup[] | undefined): Summary {
   const { api } = useApi();
   const refCount = useCall<u32>(api.query[palletReferenda].referendumCount);
   const refActive = useMemo(
-    () => grouped && grouped.reduce((total, { referenda }) => total + (referenda ? referenda.length : 0), 0),
+    () => calcActive(grouped),
     [grouped]
   );
 
