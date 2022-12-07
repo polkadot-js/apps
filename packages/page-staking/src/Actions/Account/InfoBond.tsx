@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import Banner from '@polkadot/app-accounts/Accounts/Banner';
+import Icon from '@polkadot/react-components/Icon';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -25,9 +25,10 @@ function InfoBond ({ minBond, stakingInfo }: Props): React.ReactElement<Props> |
   );
 
   return isBelow
-    ? <Banner>
+    ? <article className={'mark'}>
+      <Icon icon='circle-info' />
       {t<string>('Your bonded amount is below the on-chain minimum threshold of {{minBond}}. If you would like to change the nominee, use nomination pools', { replace: { minBond: formatBalance(minBond) } })}
-    </Banner>
+    </article>
     : null;
 }
 
