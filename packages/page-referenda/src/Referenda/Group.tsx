@@ -15,8 +15,8 @@ import { getTrackInfo } from '../util';
 import Referendum from './Referendum';
 
 interface Props extends ReferendaGroup {
+  activeIssuance?: BN;
   className?: string;
-  eligibleIssuance?: BN;
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
@@ -25,7 +25,7 @@ interface Props extends ReferendaGroup {
   tracks?: TrackDescription[] | undefined;
 }
 
-function Group ({ className, eligibleIssuance, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
+function Group ({ activeIssuance, className, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, specName } = useApi();
 
@@ -51,7 +51,7 @@ function Group ({ className, eligibleIssuance, isMember, members, palletReferend
     >
       {referenda && referenda.map((r) => (
         <Referendum
-          eligibleIssuance={eligibleIssuance}
+          activeIssuance={activeIssuance}
           isMember={isMember}
           key={r.key}
           members={members}

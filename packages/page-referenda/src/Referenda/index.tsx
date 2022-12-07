@@ -32,15 +32,15 @@ interface Props {
 function Referenda ({ className, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
-  const inactiveIssuance = useCall<BN>(api.query.balances.inactiveIssuance);
+  const totalIssuance = useCall<BN | undefined>(api.query.balances.totalIssuance);
+  const inactiveIssuance = useCall<BN | undefined>(api.query.balances.inactiveIssuance);
   const { allAccounts } = useAccounts();
   const [grouped, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, grouped);
   const [trackSelected, setTrackSelected] = useState(-1);
 
-  const eligibleIssuance = useMemo(
-    () => totalIssuance?.sub(inactiveIssuance || BN_ZERO),
+  const activeIssuance = useMemo(
+    () => totalIssuance && totalIssuance.sub(inactiveIssuance || BN_ZERO),
     [inactiveIssuance, totalIssuance]
   );
 
@@ -91,7 +91,7 @@ function Referenda ({ className, members, palletReferenda, palletVote, ranks }: 
       </Button.Group>
       {filtered.map(({ key, referenda, trackId, trackName }: ReferendaGroup) => (
         <Group
-          eligibleIssuance={eligibleIssuance}
+          activeIssuance={activeIssuance}
           isMember={isMember}
           key={key}
           members={members}

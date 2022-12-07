@@ -73,7 +73,7 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
 
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', eligibleIssuance, palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
+  const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const Component = useMemo(
@@ -82,8 +82,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartProps = useMemo(
-    () => eligibleIssuance && trackGraph && getChartProps(eligibleIssuance, isConvictionVote, info, trackGraph),
-    [eligibleIssuance, info, isConvictionVote, trackGraph]
+    () => activeIssuance && trackGraph && getChartProps(activeIssuance, isConvictionVote, info, trackGraph),
+    [activeIssuance, info, isConvictionVote, trackGraph]
   );
 
   const chartLegend = useMemo(
