@@ -1,4 +1,4 @@
-    3870	Jaco                          	Disable ranked voting (based on compares) (#8493)
+    3872	Jaco                          	Optional (or pre-filled) preimage length (#8497)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
