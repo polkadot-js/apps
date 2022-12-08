@@ -21,7 +21,10 @@ const COMPONENTS: Record<string, React.ComponentType<ReferendumProps>> = {
   Ongoing
 };
 
-const COLORS = [['#8c8c00', '#8c8c8c'], ['#008c8c', '#8c8c8c']];
+const COLORS = ['#8c8c8c', '#9c3333', '#339c33'];
+const PT_CUR = 0;
+const PT_NEG = 1;
+const PT_POS = 2;
 
 const OPTIONS = {
   animation: {
@@ -50,20 +53,27 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
         ? (tally as PalletConvictionVotingTally).support
         : (tally as PalletRankedCollectiveTally).bareAyes;
       const labels: string[] = [];
-      const values: number[][][] = [[[], []], [[], []]];
+      const values: number[][][] = [[[], [], []], [[], [], []]];
 
       for (let i = 0; i < approval.length; i++) {
         labels.push(formatNumber(since.add(x[i])));
-        values[0][0].push(approval[i].div(BN_MILLION).toNumber() / 10);
-        values[0][1].push(tally.ayes.isZero() ? 0 : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10);
 
-        values[1][0].push(support[i].div(BN_MILLION).toNumber() / 10);
-        values[1][1].push(currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10);
+        const appr = approval[i].div(BN_MILLION).toNumber() / 10;
+        const appc = tally.ayes.isZero() ? 0 : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
+
+        values[0][PT_CUR][i] = appr;
+        values[0][appc < appr ? PT_NEG : PT_POS][i] = appc;
+
+        const supr = support[i].div(BN_MILLION).toNumber() / 10;
+        const supc = totalEligible.isZero() ? 0 : currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10;
+
+        values[1][PT_CUR][i] = supr;
+        values[1][supc < supr ? PT_NEG : PT_POS][i] = supc;
       }
 
       return [
-        { colors: COLORS[0], labels, options: OPTIONS, values: values[0] },
-        { colors: COLORS[1], labels, options: OPTIONS, values: values[1] }
+        { colors: COLORS, labels, options: OPTIONS, values: values[0] },
+        { colors: COLORS, labels, options: OPTIONS, values: values[1] }
       ];
     }
   }
@@ -90,11 +100,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
     () => [
       [
         t<string>('minimum approval'),
-        t<string>('current approval')
+        t<string>('current approval (failing)'),
+        t<string>('current approval (passing)')
       ],
       [
         t<string>('minimum support'),
-        t<string>('current support')
+        t<string>('current support (failing)'),
+        t<string>('current support (passing)')
       ]
     ],
     [t]
