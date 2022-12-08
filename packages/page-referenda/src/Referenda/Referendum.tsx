@@ -138,28 +138,26 @@ function Referendum (props: Props): React.ReactElement<Props> {
           )}
         </td>
       </tr>
-      {chartProps && (
-        <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-          {isExpanded && (
-            <td colSpan={10}>
-              <Columar>
-                <Columar.Column>
-                  <Chart.Line
-                    legends={chartLegend[0]}
-                    {...chartProps[0]}
-                  />
-                </Columar.Column>
-                <Columar.Column>
-                  <Chart.Line
-                    legends={chartLegend[1]}
-                    {...chartProps[1]}
-                  />
-                </Columar.Column>
-              </Columar>
-            </td>
-          )}
-        </tr>
-      )}
+      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        {chartProps && isExpanded && (
+          <td colSpan={10}>
+            <Columar>
+              <Columar.Column>
+                <Chart.Line
+                  legends={chartLegend[0]}
+                  {...chartProps[0]}
+                />
+              </Columar.Column>
+              <Columar.Column>
+                <Chart.Line
+                  legends={chartLegend[1]}
+                  {...chartProps[1]}
+                />
+              </Columar.Column>
+            </Columar>
+          </td>
+        )}
+      </tr>
     </>
   );
 }
