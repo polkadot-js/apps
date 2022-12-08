@@ -10,7 +10,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-84-x",
+  "version": "0.122.3-88-x",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "^4.1.8-1",
@@ -50,6 +50,6 @@
     "lodash": "^4.17.21",
     "moonbeam-types-bundle": "2.0.9",
     "pontem-types-bundle": "1.0.15",
-    "rxjs": "^7.5.7"
+    "rxjs": "^7.6.0"
   }
 }
