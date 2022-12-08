@@ -69,7 +69,7 @@
     "@babel/runtime": "^7.20.6",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.67.167",
+    "@polkadot/dev": "^0.67.169",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.2.4",
@@ -117,6 +117,6 @@
     "@polkadot/wasm-crypto": "^6.4.1",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.3.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   }
 }
