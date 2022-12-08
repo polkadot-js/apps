@@ -31,7 +31,12 @@ const OPTIONS = {
     duration: 0
   },
   aspectRatio: 2.5,
-  maintainAspectRatio: true
+  maintainAspectRatio: true,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
 };
 
 interface ChartResult {
