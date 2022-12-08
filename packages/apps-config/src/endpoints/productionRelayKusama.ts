@@ -599,6 +599,7 @@ export const prodRelayKusama: EndpointOption = {
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
+    Masternode24: 'wss://rpc-kusama.masternode24.com',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
     'Dotters Net': 'wss://rpc.dotters.network/kusama',
