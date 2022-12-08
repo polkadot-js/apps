@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-87-x",
+  "version": "0.122.3-88-x",
   "dependencies": {
     "@babel/runtime": "^7.20.6",
     "@polkadot/hw-ledger": "^10.2.1",
-    "@polkadot/react-components": "^0.122.3-87-x"
+    "@polkadot/react-components": "^0.122.3-88-x"
   }
 }
