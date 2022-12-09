@@ -40,4 +40,4 @@ function IsFinalizedImpl ({ blockNumber, hash }: Props): boolean | undefined {
   return isFinalized;
 }
 
-export default createNamedHook('IsFinalized', IsFinalizedImpl);
+export default createNamedHook('useIsFinalized', IsFinalizedImpl);

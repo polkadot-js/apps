@@ -7,7 +7,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { AddressMini, Digits, Icon } from '@polkadot/react-components';
-import IsFinalized from '@polkadot/react-query/IsFinalized';
+import useIsFinalized from '@polkadot/react-query/useIsFinalized';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -15,12 +15,8 @@ interface Props {
 }
 
 function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
-  if (!value) {
-    return null;
-  }
-
   const hashHex = value.hash.toHex();
-  const isFinalized = IsFinalized({ blockNumber: value.number.unwrap(), hash: hashHex });
+  const isFinalized = useIsFinalized({ blockNumber: value.number.unwrap(), hash: hashHex });
 
   return (
     <tr>
