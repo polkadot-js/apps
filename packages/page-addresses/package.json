@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-91-x",
+  "version": "0.122.3-92-x",
   "dependencies": {
     "@babel/runtime": "^7.20.6",
-    "@polkadot/react-components": "^0.122.3-91-x",
+    "@polkadot/react-components": "^0.122.3-92-x",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
