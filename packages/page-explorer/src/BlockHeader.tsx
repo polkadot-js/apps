@@ -3,30 +3,24 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { AddressMini, Digits, Icon } from '@polkadot/react-components';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import IsFinalized from '@polkadot/react-query/IsFinalized';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
   value: HeaderExtended;
-  bestNumberFinalized?: BlockNumber;
 }
 
-function BlockHeader ({ bestNumberFinalized, value }: Props): React.ReactElement<Props> | null {
-  const isFinalized = useMemo(() => {
-    return bestNumberFinalized && bestNumberFinalized.toNumber() >= value.number.toNumber();
-  },
-  [bestNumberFinalized, value]
-  );
-
+function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   const hashHex = value.hash.toHex();
+  const isFinalized = IsFinalized({ blockNumber: value.number.unwrap(), hash: hashHex });
 
   return (
     <tr>

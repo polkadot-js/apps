@@ -9,9 +9,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AddressSmall, Columar, LinkExternal, MarkWarning, Table } from '@polkadot/react-components';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import IsFinalized from '@polkadot/react-query/IsFinalized';
 import { formatNumber } from '@polkadot/util';
 
 import Events from '../Events';
@@ -56,7 +56,6 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
   const [blkError, setBlkError] = useState<Error | null | undefined>(error);
   const [evtError, setEvtError] = useState<Error | null | undefined>();
-  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized);
 
   const [isVersionCurrent, maxBlockWeight] = useMemo(
     () => [
@@ -112,15 +111,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
 
-  const isFinalized = useMemo(() => {
-    if (bestNumberFinalized && blockNumber) {
-      return bestNumberFinalized.toNumber() >= blockNumber.toNumber();
-    }
-
-    return undefined;
-  },
-  [bestNumberFinalized, blockNumber]
-  );
+  const isFinalized = IsFinalized({ blockNumber, hash: value });
 
   return (
     <div className={className}>

@@ -6,8 +6,6 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BlockHeader from './BlockHeader';
 import { useTranslation } from './translate';
@@ -18,8 +16,6 @@ interface Props {
 
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized);
 
   const headerRef = useRef([
     [t('recent blocks'), 'start', 4]
@@ -34,7 +30,6 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
         .filter((header) => !!header)
         .map((header): React.ReactNode => (
           <BlockHeader
-            bestNumberFinalized={bestNumberFinalized}
             key={header.number.toString()}
             value={header}
           />
