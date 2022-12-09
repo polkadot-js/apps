@@ -100,6 +100,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Centrifuge',
     providers: {
       Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
+      Masternode24: 'wss://rpc-centrifuge.masternode24.com',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     }
   },
