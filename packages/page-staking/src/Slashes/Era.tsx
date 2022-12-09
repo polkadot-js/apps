@@ -53,7 +53,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       replace: {
         era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
           ? slash.era.toString()
-          : slash.era.sub(api.consts.staking.slashDeferDuration.add(BN_ONE)).toString()
+          : slash.era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE).toString()
       }
     }), 'start', 3],
     [t('reporters'), 'address'],
