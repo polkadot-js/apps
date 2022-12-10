@@ -45,8 +45,8 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       const d = deciding.unwrap();
 
       if (d.confirming.isSome) {
-        // we are confirming
-        confirmEnd = d.confirming.unwrap().add(track.confirmPeriod);
+        // we are confirming (it details the actual end-block)
+        confirmEnd = d.confirming.unwrap(); // .add(track.confirmPeriod);
       } else {
         // we are still deciding
         decideEnd = d.since.add(track.decisionPeriod);
