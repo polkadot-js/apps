@@ -100,6 +100,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio',
+    text: 'DeBio',
+    providers: {
+      DeBio: 'wss://ws-rpc.debio.network'
+    }
+  },
+  {
     info: 'dock-pos-mainnet',
     text: 'Dock',
     providers: {
