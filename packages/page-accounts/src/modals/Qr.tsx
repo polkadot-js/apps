@@ -31,7 +31,7 @@ interface Address {
   address: string;
   isAddress: boolean;
   scanned: Scanned | null;
-  warning?: string;
+  warning?: string | null;
 }
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
@@ -61,14 +61,17 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           ? scanned.content
           : keyring.createFromUri(scanned.content, {}, 'sr25519').address,
         isAddress: scanned.isAddress,
-        scanned
+        scanned,
+        warning: scanned.genesisHash && !api.genesisHash.eq(scanned.genesisHash)
+          ? 'The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be available on this chain.'
+          : null
       });
 
       if (scanned.name) {
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange]
+    [_onNameChange, api]
   );
 
   const _onError = useCallback(
