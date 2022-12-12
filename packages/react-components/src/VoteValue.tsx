@@ -29,14 +29,16 @@ interface ValueState {
   value: BN;
 }
 
-function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
+function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
   const value = allBalances.lockedBalance;
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
-  const defaultValue = value.isZero()
-    ? maxValue.gt(existential)
-      ? maxValue.sub(existential)
-      : BN_ZERO
-    : value;
+  const defaultValue = noDefault
+    ? BN_ZERO
+    : value.isZero()
+      ? maxValue.gt(existential)
+        ? maxValue.sub(existential)
+        : BN_ZERO
+      : value;
 
   return {
     defaultValue,
@@ -56,10 +58,10 @@ function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChang
     // if the set accountId changes and the new balances is for that id, set it
     allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
       state.selectedId !== accountId
-        ? getValues(accountId, isCouncil, allBalances, api.consts.balances.existentialDeposit)
+        ? getValues(accountId, isCouncil, noDefault, allBalances, api.consts.balances.existentialDeposit)
         : state
     );
-  }, [allBalances, accountId, api, isCouncil]);
+  }, [allBalances, accountId, api, isCouncil, noDefault]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
@@ -81,7 +83,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChang
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={
-        isDisabled || noDefault
+        isDisabled
           ? undefined
           : defaultValue
       }
