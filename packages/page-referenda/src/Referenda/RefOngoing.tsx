@@ -42,17 +42,17 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
     const { deciding, submitted } = ongoing;
 
     if (deciding.isSome) {
-      const d = deciding.unwrap();
+      const { confirming, since } = deciding.unwrap();
 
-      if (d.confirming.isSome) {
-        // we are confirming (it details the actual end-block)
-        confirmEnd = d.confirming.unwrap(); // .add(track.confirmPeriod);
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
       } else {
-        // we are still deciding
-        decideEnd = d.since.add(track.decisionPeriod);
+        // we are still deciding, start + length
+        decideEnd = since.add(track.decisionPeriod);
       }
     } else {
-      // we are still preparing
+      // we are still preparing, start + length
       prepareEnd = submitted.add(track.preparePeriod);
     }
   }
