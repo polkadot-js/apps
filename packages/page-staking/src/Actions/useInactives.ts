@@ -31,6 +31,8 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
 
     const { lastNonzeroSlash } = slashes[index].unwrap();
 
+    // to be chilled, we have a slash era and it is later than the submission era
+    // (if submitted in the same, the nomination will only take effect after the era)
     return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gt(submittedIn);
   });
 
