@@ -5,7 +5,7 @@ import type { VoteTypeProps as Props } from './types';
 
 import React, { useEffect } from 'react';
 
-function VoteBasic ({ id, isAye, onChange }: Props): React.ReactElement<Props> | null {
+function VoteBasic ({ id, isAye = false, onChange }: Props): React.ReactElement<Props> | null {
   useEffect((): void => {
     onChange([
       id,
