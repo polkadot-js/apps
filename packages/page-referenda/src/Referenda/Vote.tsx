@@ -182,6 +182,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                 <VoteBasic
                   accountId={accountId}
                   id={id}
+                  isAye={voteTypeIndex === 0}
                   onChange={setParams}
                 />
               )
