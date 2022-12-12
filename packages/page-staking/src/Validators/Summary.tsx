@@ -1,8 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { SortedTargets } from '../types';
+import type { EraValidators, SortedTargets } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -16,28 +15,22 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   nominators?: string[];
-  stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
+  eraValidators: EraValidators;
 }
 
-function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', eraValidators, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <SummaryBox className={className}>
       <section>
-        <CardSummary label={t<string>('validators')}>
-          {stakingOverview
-            ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
-            : <Spinner noLabel />
-          }
-        </CardSummary>
         <CardSummary
           className='media--900'
-          label={t<string>('waiting')}
+          label={t<string>('era validators')}
         >
-          {waitingIds
-            ? formatNumber(waitingIds.length)
+          {eraValidators
+            ? formatNumber(eraValidators.reserved.length + eraValidators.nonReserved.length)
             : <Spinner noLabel />
           }
         </CardSummary>
