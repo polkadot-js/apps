@@ -31,7 +31,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
 
     const { lastNonzeroSlash } = slashes[index].unwrap();
 
-    return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gte(submittedIn);
+    return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gt(submittedIn);
   });
 
   // all nominations that are oversubscribed
