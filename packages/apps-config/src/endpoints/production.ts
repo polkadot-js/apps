@@ -153,6 +153,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'joystream',
+    text: 'Joystream',
+    providers: {
+      Jsgenesis: 'wss://rpc.joystream.org'
+    }
+  },
+  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
