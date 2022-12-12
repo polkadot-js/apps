@@ -4,7 +4,7 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressRow, Button, Input, InputAddress, MarkWarning, Modal, QrScanAddress } from '@polkadot/react-components';
@@ -44,6 +44,11 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
 
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
 
+  const scannedGenesisWarn = useMemo(
+    () => !!scanned && !!scanned.genesisHash && !api.genesisHash.eq(scanned.genesisHash),
+    [scanned, api]
+  );
+
   const _onNameChange = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
     []
@@ -61,17 +66,14 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           ? scanned.content
           : keyring.createFromUri(scanned.content, {}, 'sr25519').address,
         isAddress: scanned.isAddress,
-        scanned,
-        warning: scanned.genesisHash && !api.genesisHash.eq(scanned.genesisHash)
-          ? 'The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be available on this chain.'
-          : null
+        scanned
       });
 
       if (scanned.name) {
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange, api]
+    [_onNameChange]
   );
 
   const _onError = useCallback(
@@ -143,6 +145,9 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   onEnter={_onSave}
                   value={name}
                 />
+                {scannedGenesisWarn && (
+                  <MarkWarning content={t<string>('The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be usable on this chain.')} />
+                )}
               </Modal.Columns>
               {!isAddress && (
                 <PasswordInput
