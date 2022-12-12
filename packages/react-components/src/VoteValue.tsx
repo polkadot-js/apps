@@ -17,6 +17,8 @@ interface Props {
   accountId?: string | null;
   autoFocus?: boolean;
   isCouncil?: boolean;
+  label?: string;
+  noDefault?: boolean;
   onChange: (value: BN) => void;
 }
 
@@ -44,7 +46,7 @@ function getValues (selectedId: string | null | undefined, isCouncil: boolean | 
   };
 }
 
-function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
@@ -79,14 +81,14 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={
-        isDisabled
+        isDisabled || noDefault
           ? undefined
           : defaultValue
       }
       help={t<string>('The amount that is associated with this vote. This value is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
-      label={t<string>('vote value')}
+      label={label || t<string>('vote value')}
       labelExtra={
         <BalanceVoting
           isCouncil={isCouncil}
