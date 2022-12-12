@@ -62,6 +62,23 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
     [filteredMembers, isMember, members]
   );
 
+  const [paramsAbstain, paramsAye, paramsNay] = useMemo(
+    () => [
+      // only available on conviction votes
+      // FIXME: We want to do vote splits as well
+      isConvictionVote
+        ? [id, { SplitAbstain: { abstain: balance } }]
+        : null,
+      isConvictionVote
+        ? [id, { Standard: { balance, vote: { aye: true, conviction } } }]
+        : [id, true],
+      isConvictionVote
+        ? [id, { Standard: { balance, vote: { aye: false, conviction } } }]
+        : [id, false]
+    ],
+    [balance, conviction, id, isConvictionVote]
+  );
+
   if (!hasAccounts) {
     return null;
   }
@@ -113,16 +130,22 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
             )}
           </Modal.Content>
           <Modal.Actions>
+            {isConvictionVote && paramsAbstain && (
+              <TxButton
+                accountId={accountId}
+                icon='pause'
+                label={t<string>('Abstain')}
+                onStart={toggleVoting}
+                params={paramsAbstain}
+                tx={api.tx[palletVote].vote}
+              />
+            )}
             <TxButton
               accountId={accountId}
               icon='ban'
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
-              params={
-                isConvictionVote
-                  ? [id, { Standard: { balance, vote: { aye: false, conviction } } }]
-                  : [id, false]
-              }
+              params={paramsNay}
               tx={api.tx[palletVote].vote}
             />
             <TxButton
@@ -130,11 +153,7 @@ function Voting ({ id, isConvictionVote, isMember, members, palletVote, preimage
               icon='check'
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
-              params={
-                isConvictionVote
-                  ? [id, { Standard: { balance, vote: { aye: true, conviction } } }]
-                  : [id, true]
-              }
+              params={paramsAye}
               tx={api.tx[palletVote].vote}
             />
           </Modal.Actions>
