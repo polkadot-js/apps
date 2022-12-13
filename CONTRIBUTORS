@@ -1,4 +1,4 @@
-    3888	Jaco                          	Adjust QR genesisHash warning (#8523)
+    3889	Jaco                          	Adjust TS target (#8527)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
