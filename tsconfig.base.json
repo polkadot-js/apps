@@ -102,6 +102,7 @@
       "@polkadot/test-support/": ["test-support/src/"],
       "@polkadot/test-support/*": ["test-support/src/*"]
     },
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "target": "es2015"
 	}
  }
