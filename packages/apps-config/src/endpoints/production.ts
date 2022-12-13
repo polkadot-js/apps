@@ -185,8 +185,8 @@ export const prodChains: EndpointOption[] = [
     info: 'mathchain',
     text: 'MathChain',
     providers: {
-      MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
-      'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
+      // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
