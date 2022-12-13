@@ -1,10 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="158px" height="158px" viewBox="0 0 158 158" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Pendulum symbol</title>
-    <g id="Pendulum-symbol" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(10.000000, 10.000000)" fill="#000000" fill-rule="nonzero">
-            <path d="M69,0 C107.107648,0 138,30.8923523 138,69 C138,107.107648 107.107648,138 69,138 C30.8923523,138 0,107.107648 0,69 C0,30.8923523 30.8923523,0 69,0 Z M69,13.543457 C38.372197,13.543457 13.543457,38.372197 13.543457,69 C13.543457,99.627803 38.372197,124.456543 69,124.456543 C99.627803,124.456543 124.456543,99.627803 124.456543,69 C124.456543,38.372197 99.627803,13.543457 69,13.543457 Z" id="Combined-Shape"></path>
-            <rect id="Rectangle" transform="translate(69.000000, 69.000000) rotate(23.500000) translate(-69.000000, -69.000000) " x="62.2282715" y="26.5" width="13.543457" height="85"></rect>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 384 384" style="enable-background:new 0 0 384 384;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#DAE9EB;}
+	.st2{fill:#32253E;}
+</style>
+<g>
+	<g>
+		<path class="st1" d="M193.8,64c-52-0.9-96.5,41.6-97.7,93.6c-0.9,35.3,17.3,66.4,44.9,83.8c1.3,0.8,3.1,0.3,3.8-1.1l21.6-43.1
+			c3.2-6.3,2.7-13.9-1.2-19.8c-3.3-5.1-5.2-11.2-5.1-17.7c0.2-16.8,13.5-30.7,30.2-31.6c19.3-1,35.2,15.1,33.7,34.5
+			c-1.2,15.6-13.8,28.1-29.3,29.4c-0.1,0-0.2,0-0.3,0c-7.1,0.5-13.4,4.6-16.6,11L156.2,246c-0.7,1.4,0,3.1,1.4,3.6
+			c10.9,4.2,22.7,6.4,35.1,6.4c52.5-0.3,95.4-43.4,95.4-95.9C288.2,107.6,246.1,64.9,193.8,64z"/>
+		<circle class="st1" cx="128.1" cy="288" r="32"/>
+	</g>
+</g>
 </svg>
