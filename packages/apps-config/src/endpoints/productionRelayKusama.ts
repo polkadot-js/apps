@@ -545,7 +545,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2094,
     text: 'Unorthodox',
     providers: {
-      'Standard Protocol': 'wss://rpc.kusama.standard.tech'
+      // 'Standard Protocol': 'wss://rpc.kusama.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
