@@ -52,6 +52,7 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
             members={members && members.memberIds}
             palletReferenda={palletPoll}
             palletVote={palletColl}
+            ranks={members && members.memberRanks}
           />
         </Route>
         <Route>

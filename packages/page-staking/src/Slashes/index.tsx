@@ -10,7 +10,7 @@ import React, { useMemo, useState } from 'react';
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
-import { BN, formatNumber } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Era from './Era';
@@ -102,7 +102,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
       .map(({ era }) =>
         api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
           ? era
-          : era.sub(api.consts.staking.slashDeferDuration)
+          : era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE)
       )
       .map((era) => ({
         text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),

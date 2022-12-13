@@ -4,6 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletRankedCollectiveMemberRecord } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { Member, PalletColl } from './types';
 
 import { useMemo } from 'react';
@@ -14,6 +15,7 @@ import useMembersIds from './useMemberIds';
 
 interface Result {
   memberIds: string[];
+  memberRanks: BN[];
   members: Member[];
 }
 
@@ -27,10 +29,10 @@ const OPT_MEM = {
         accountId: accountId.toString(),
         info
       }));
-    const memberIds = members.map(({ accountId }) => accountId);
 
     return {
-      memberIds,
+      memberIds: members.map(({ accountId }) => accountId),
+      memberRanks: members.map(({ info }) => info.rank),
       members
     };
   },
@@ -44,7 +46,7 @@ function useMembersImpl (collective: PalletColl): Result | undefined {
 
   return useMemo(
     () => ids && ids.length === 0
-      ? { memberIds: [], members: [] }
+      ? { memberIds: [], memberRanks: [], members: [] }
       : result,
     [ids, result]
   );

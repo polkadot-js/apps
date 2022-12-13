@@ -25,6 +25,7 @@ import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainRococoDali from './chains/dali.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
+import chainDeBio from './chains/debio.svg';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
@@ -294,6 +295,8 @@ export const chainLogos = Object.entries({
   DataHighway: nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  DeBio: chainDeBio,
+  'DeBio Testnet': chainDeBio,
   'Dolphin Testnet': nodeDolphin,
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
@@ -378,6 +381,7 @@ export const chainLogos = Object.entries({
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
   Myriad: chainMyriad,
+  'Myriad Testnet': chainMyriad,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -529,6 +533,7 @@ export const nodeLogos = Object.entries({
   'DataHighway Parachain Collator': nodeDataHighway,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  DeBio: chainDeBio,
   'Dock Full Node': nodeDockMainnet,
   'Dock Node': nodeDockMainnet,
   'Dora Factory': chainDorafactory,
@@ -592,6 +597,7 @@ export const nodeLogos = Object.entries({
   Moonrock: nodeMoonrock,
   'Moonsama Development': chainMoonsamaDevelopment,
   'mybank.network': mybank,
+  Myriad: chainMyriad,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -750,6 +756,8 @@ export const namedLogos: Record<string, unknown> = {
   DaliTestnet: nodeDaliTestnet,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
+  debio: chainDeBio,
+  'debio-testnet': chainDeBio,
   'dock-pos-mainnet': nodeDockMainnet,
   'dock-pos-testnet': nodeDockTestnet,
   dolphin: nodeDolphin,
@@ -823,6 +831,7 @@ export const namedLogos: Record<string, unknown> = {
   moonshadow,
   mybank,
   myriad: chainMyriad,
+  'myriad-testnet': chainMyriad,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   oak: chainOAK,

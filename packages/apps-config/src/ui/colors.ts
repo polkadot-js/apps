@@ -48,6 +48,7 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = '#FF0083';
 const chainDali = '#000000';
+const chainDeBio = '#FF56E0';
 const chainDolphin = '#000000';
 const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
@@ -331,6 +332,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  DeBio: chainDeBio,
+  'DeBio Testnet': chainDeBio,
   Dolphin: chainDolphin,
   'Dolphin Testnet': chainDolphin,
   'Dora Factory': chainDorafactory,
@@ -416,6 +419,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonsama Development': chainMoonsama,
   Moonshadow: nodeMoonbeam,
   'mybank.network Testnet': chainMybank,
+  Myriad: chainMyriad,
+  'Myriad Testnet': chainMyriad,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
@@ -537,6 +542,7 @@ export const nodeColors = Object.entries({
   'Crown Sterling': nodeCrownSterling,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
+  DeBio: chainDeBio,
   'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,

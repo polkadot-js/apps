@@ -21,6 +21,7 @@ interface Props {
 
 interface HashState {
   encodedHash: string;
+  encodedLength: number;
   encodedProposal: string;
   storageFee: BN;
 }
@@ -32,11 +33,15 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTxSudo } = useApi();
   const [isAddOpen, toggleAdd] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: BN_ZERO });
+  const [{ encodedHash, encodedLength, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedLength: 0, encodedProposal: '', storageFee: BN_ZERO });
   const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'>>();
 
   useEffect((): void => {
+    // get the proposal in hex format, i.e. we don't want the length prefix
     const encodedProposal = (proposal as SubmittableExtrinsic<'promise'>)?.method.toHex() || '';
+
+    // we are dealing with hex values here, so subtrack the prefix (+ 2 chars per byte)
+    const encodedLength = Math.max(0, Math.round((encodedProposal.length - 2) / 2));
 
     // we currently don't have a constant exposed, or rather, maybe somewhere else...
     // const storageFee = api.consts.democracy.preimageByteDeposit.mul(
@@ -45,7 +50,7 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
     //     : BN_ZERO
     // );
 
-    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee: BN_ZERO });
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedLength, encodedProposal, storageFee: BN_ZERO });
   }, [api, proposal]);
 
   const isMatched = imageHash
@@ -94,6 +99,13 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
                 isDisabledError={!isMatched}
                 label={t<string>('preimage hash')}
                 value={encodedHash}
+              />
+              <Input
+                className='disabledLook'
+                help={t<string>('The encoded length of the selected proposal, as available on-chain')}
+                isDisabledError={!isMatched}
+                label={t<string>('preimage length')}
+                value={encodedLength.toString()}
               />
             </Modal.Columns>
             {!storageFee.isZero() && (

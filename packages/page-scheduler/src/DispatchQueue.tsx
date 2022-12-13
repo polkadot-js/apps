@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveDispatch } from '@polkadot/api-derive/types';
@@ -8,8 +8,8 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
 import DispatchEntry from './DispatchEntry';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

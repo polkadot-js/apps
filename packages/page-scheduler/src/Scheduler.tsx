@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -13,8 +13,8 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
 import ScheduledView from './Scheduled';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
@@ -52,6 +52,7 @@ const OPT_SCHED = {
           .map((o) => o.unwrap())
           .reduce((items: ScheduledExt[], { call: callOrEnum, maybeId, maybePeriodic, priority }, index) => {
             let call: Call | null = null;
+            let preimageHash: FrameSupportPreimagesBounded | undefined;
 
             if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).inner) {
               if ((callOrEnum as unknown as FrameSupportScheduleMaybeHashed).isValue) {
@@ -62,12 +63,14 @@ const OPT_SCHED = {
                 } catch (error) {
                   console.error(error);
                 }
+              } else if ((callOrEnum as unknown as FrameSupportPreimagesBounded).isLookup) {
+                preimageHash = (callOrEnum as unknown as FrameSupportPreimagesBounded);
               }
             } else {
               call = callOrEnum as Call;
             }
 
-            items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, priority });
+            items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, preimageHash, priority });
 
             return items;
           }, items);

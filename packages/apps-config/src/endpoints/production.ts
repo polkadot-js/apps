@@ -100,6 +100,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio',
+    text: 'DeBio',
+    providers: {
+      DeBio: 'wss://ws-rpc.debio.network'
+    }
+  },
+  {
     info: 'dock-pos-mainnet',
     text: 'Dock',
     providers: {
@@ -143,6 +150,13 @@ export const prodChains: EndpointOption[] = [
     text: 'Hanonycash',
     providers: {
       // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+    }
+  },
+  {
+    info: 'joystream',
+    text: 'Joystream',
+    providers: {
+      Jsgenesis: 'wss://rpc.joystream.org'
     }
   },
   {

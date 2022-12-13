@@ -137,6 +137,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio-testnet',
+    text: 'DeBio Testnet',
+    providers: {
+      DeBio: 'wss://ws-rpc.testnet.debio.network'
+    }
+  },
+  {
     info: 'dock-testnet',
     text: 'Dock',
     providers: {
@@ -246,14 +253,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'joystream',
-    text: 'Joystream',
-    providers: {
-      Jsgenesis: 'wss://rpc.joystream.org:9944',
-      Dwellir: 'wss://joystream-rpc.dwellir.com'
-    }
-  },
-  {
     info: 'jupiter',
     text: 'Jupiter',
     providers: {
@@ -360,6 +359,13 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
+    }
+  },
+  {
+    info: 'myriad-tesnet',
+    text: 'Myriad Testnet',
+    providers: {
+      Myriad: 'wss://ws-rpc.testnet.myriad.social'
     }
   },
   {

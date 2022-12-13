@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RawParam } from '@polkadot/react-params/types';
-import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda } from '../types';
+import type { PalletReferenda, TrackDescription } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -16,7 +15,7 @@ import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
-import { formatNumber, isHex } from '@polkadot/util';
+import { BN_HUNDRED, BN_ONE, formatNumber, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { getTrackInfo, getTrackName } from '../util';
@@ -26,12 +25,17 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
-  tracks?: [BN, PalletReferendaTrackInfo][];
+  tracks?: TrackDescription[];
 }
 
 interface HashState {
-  hash?: HexString | null;
-  isHashValid: boolean;
+  imageHash?: HexString | null;
+  isImageHashValid: boolean;
+}
+
+interface ImageState {
+  imageLen: number;
+  isImageLenValid: boolean;
 }
 
 interface DefaultAtAfter {
@@ -39,24 +43,16 @@ interface DefaultAtAfter {
   trackId: number;
 }
 
-function getDefaultEnactment (prev: DefaultAtAfter | null, bestNumber: BN, trackId: number, tracks: [BN, PalletReferendaTrackInfo][]): DefaultAtAfter {
+function getDefaultEnactment (prev: DefaultAtAfter | null, trackId: number): DefaultAtAfter {
   if (prev && prev.trackId === trackId) {
     return prev;
   }
-
-  const track = tracks.find(([id]) => id.eqn(trackId));
 
   return {
     defaults: [{
       isValid: true,
       value: {
-        After: track
-          ? bestNumber
-            .add(track[1].preparePeriod)
-            .add(track[1].decisionPeriod)
-            .add(track[1].confirmPeriod)
-            .add(track[1].minEnactmentPeriod)
-          : bestNumber.addn(1000)
+        After: BN_HUNDRED
       }
     }],
     trackId
@@ -73,14 +69,19 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [atAfter, setAtAfter] = useState<RawParam['value'] | null>(null);
   const [defaultAtAfter, setDefaultAtAfter] = useState<DefaultAtAfter | null>(null);
-  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: null, isHashValid: false });
-  const preimage = usePreimage(hash);
+  const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
+  const [{ imageLen, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: 0, isImageLenValid: false });
+  const preimage = usePreimage(imageHash);
 
   useEffect((): void => {
-    tracks && trackId !== undefined && bestNumber && setDefaultAtAfter((prev) =>
-      getDefaultEnactment(prev, bestNumber, trackId, tracks)
+    trackId !== undefined && setDefaultAtAfter((prev) =>
+      getDefaultEnactment(prev, trackId)
     );
-  }, [api, bestNumber, trackId, tracks]);
+  }, [trackId]);
+
+  useEffect((): void => {
+    preimage?.proposalLength && setImageLen({ imageLen: preimage?.proposalLength.toNumber(), isImageLenValid: true });
+  }, [preimage]);
 
   const trackInfo = useMemo(
     () => getTrackInfo(api, specName, palletReferenda, tracks, trackId),
@@ -91,7 +92,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     () => !bestNumber || !atAfter || (
       (atAfter as { At: BN }).At
         ? (atAfter as { At: BN }).At.lte(bestNumber)
-        : (atAfter as { After: BN }).After.lte(bestNumber)
+        : (atAfter as { After: BN }).After.lt(BN_ONE)
     ),
     [atAfter, bestNumber]
   );
@@ -110,12 +111,38 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     [api, palletReferenda]
   );
 
+  const originOptions = useMemo(
+    () => trackInfo && Array.isArray(trackInfo.origin)
+      ? trackInfo.origin.map((records, index) => ({
+        text: Object.values(records)[0],
+        value: index + 1
+      }))
+      : null,
+    [trackInfo]
+  );
+
+  const selectedOrigin = useMemo(
+    () => !trackInfo?.origin || Array.isArray(trackInfo?.origin)
+      ? origin
+      : trackInfo.origin,
+    [origin, trackInfo]
+  );
+
   const trackOpts = useMemo(
-    () => tracks && tracks.map(([id, track]) => ({
-      text: getTrackName(id, track),
+    () => tracks && tracks.map(({ id, info }) => ({
+      text: getTrackName(id, info),
       value: id.toNumber()
     })),
     [tracks]
+  );
+
+  const _onChangeOriginMulti = useCallback(
+    (value: number) => setOrigin(
+      trackInfo && Array.isArray(trackInfo.origin)
+        ? trackInfo.origin[value - 1]
+        : null
+    ),
+    [trackInfo]
   );
 
   const _onChangeOrigin = useCallback(
@@ -130,9 +157,31 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     []
   );
 
-  const _onChangeHash = useCallback(
-    (hash?: string) =>
-      setHash({ hash: hash as HexString, isHashValid: isHex(hash, 256) }),
+  const _onChangeImageHash = useCallback(
+    (h?: string) =>
+      setImageHash({
+        imageHash: h as HexString,
+        isImageHashValid: isHex(h, 256)
+      }),
+    []
+  );
+
+  const _onChangeImageLen = useCallback(
+    (l?: string): void => {
+      try {
+        const imageLen = Number.parseInt(l || '0', 10);
+
+        setImageLen({
+          imageLen,
+          isImageLenValid: Number.isInteger(imageLen)
+        });
+      } catch {
+        setImageLen({
+          imageLen: 0,
+          isImageLenValid: false
+        });
+      }
+    },
     []
   );
 
@@ -165,10 +214,19 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               <Input
                 autoFocus
                 help={t<string>('The preimage hash of the proposal')}
-                isError={!isHashValid}
+                isError={!isImageHashValid}
                 label={t<string>('preimage hash')}
-                onChange={_onChangeHash}
-                value={hash}
+                onChange={_onChangeImageHash}
+                value={imageHash || ''}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The value will be populated when a valid on-chain hash exists in preimages')}>
+              <Input
+                help={t<string>('The preimage length of the proposal')}
+                key='inputLength'
+                label={t<string>('preimage length')}
+                onChange={_onChangeImageLen}
+                value={imageLen.toString()}
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
@@ -178,11 +236,11 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 onChange={setTrack}
                 options={trackOpts}
               />
-              {trackInfo?.text && (
+              {false && trackInfo?.text && (
                 <Input
                   isDisabled
                   label={t<string>('track overview')}
-                  value={trackInfo.text}
+                  value={trackInfo?.text}
                 />
               )}
               {!trackInfo?.origin && (
@@ -192,9 +250,17 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                   params={originType}
                 />
               )}
+              {originOptions && (
+                <Dropdown
+                  defaultValue={originOptions[0].value}
+                  label={t<string>('track origin')}
+                  onChange={_onChangeOriginMulti}
+                  options={originOptions}
+                />
+              )}
             </Modal.Columns>
             {bestNumber && defaultAtAfter && (
-              <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific block. Currently at #{{bestNumber}}, the selected block should be after the current best.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
+              <Modal.Columns hint={t<string>('The moment of enactment, either at a specific block, or after a specific number of blocks.', { replace: { bestNumber: formatNumber(bestNumber) } })}>
                 <Params
                   className='timeSelect'
                   isError={isInvalidAt}
@@ -217,10 +283,18 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!(trackInfo?.origin || origin) || !atAfter || !isHashValid || !accountId || isInvalidAt || !preimage?.proposalHash}
+              isDisabled={!selectedOrigin || !atAfter || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
               onStart={toggleSubmit}
-              params={[trackInfo?.origin || origin, { Lookup: { hash: preimage?.proposalHash, len: preimage?.proposalLength } }, atAfter]}
+              params={[
+                selectedOrigin,
+                {
+                  Lookup: preimage
+                    ? { hash: preimage.proposalHash, len: imageLen }
+                    : { hash: imageHash, len: imageLen }
+                },
+                atAfter
+              ]}
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
