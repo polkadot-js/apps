@@ -54,6 +54,7 @@ const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
+const chainEthos = '#203050';
 const chainFantour = '#5a189a';
 const chainFrequency = '#4b64ff';
 const chainFrequencyRococo = '#29fd47';
@@ -343,6 +344,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
+  'Ethos Testnet': chainEthos,
   'Fantour Development': chainFantour,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequencyRococo,

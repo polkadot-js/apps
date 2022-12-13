@@ -23,6 +23,7 @@ import chainComposableFinance from './chains/composableFinance.png';
 import chainCreditcoin from './chains/creditcoin.png';
 import chainCreditcoinTest from './chains/creditcoin-test.png';
 import chainCrownSterling from './chains/crown-sterling.png';
+import chainEthos from './chains/jur.png';
 import chainRococoDali from './chains/dali.png';
 import chainRoccoDataHighway from './chains/datahighway.png';
 import chainDeBio from './chains/debio.svg';
@@ -304,6 +305,7 @@ export const chainLogos = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
+  'Ethos Testnet': chainEthos,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequency,
   Galital: nodeGalital,
@@ -544,6 +546,7 @@ export const nodeLogos = Object.entries({
   'Efinity Node': nodeEfinity,
   'Encointer collator': nodeEncointer,
   'Encointer Node noTEE': nodeEncointer,
+  'Ethos Testnet': chainEthos,
   'Fantour Node': nodeFantour,
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
@@ -886,6 +889,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
+  rococoEthos: chainEthos,
   rococoFrequency: chainFrequency,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
