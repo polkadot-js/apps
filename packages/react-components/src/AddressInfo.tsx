@@ -15,7 +15,7 @@ import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, formatBalance, formatNumber, isObject } from '@polkadot/util';
+import { BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
 import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
@@ -51,6 +51,7 @@ interface Props {
   address: string;
   balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
+  classLocksFor?: [BN, BN][];
   className?: string;
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
@@ -222,7 +223,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -430,6 +431,21 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         </React.Fragment>
       );
     }
+
+    if (classLocksFor && (classLocksFor.length !== 0)) {
+      const max = classLocksFor.reduce((max, [, value]) => bnMax(max, value), BN_ZERO);
+
+      allItems.push(
+        <React.Fragment key={9}>
+          <Label label={t<string>('referenda')} />
+          <FormatBalance
+            className='result'
+            labelPost={<IconVoid />}
+            value={max}
+          />
+        </React.Fragment>
+      );
+    }
   }
 
   if (withBalanceToggle) {
@@ -461,7 +477,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, classLocksFor, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -472,7 +488,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
-  const baseOpts = { address, balanceDisplay, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
+  const baseOpts = { address, balanceDisplay, bestNumber, classLocksFor, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 
   withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
@@ -490,6 +506,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   const lookup = useRef<Record<string, string>>({
     democrac: t<string>('via Democracy/Vote'),
     phrelect: t<string>('via Council/Vote'),
+    pyconvot: t<string>('via Referenda/Vote'),
     'staking ': t<string>('via Staking/Bond'),
     'vesting ': t<string>('via Vesting')
   });
@@ -626,6 +643,11 @@ export default withMulti(
     ['query.democracy.votingOf', {
       paramName: 'address',
       propName: 'votingOf',
+      skipIf: skipStakingIf
+    }],
+    ['query.convictionVoting.classLocksFor', {
+      paramName: 'address',
+      propName: 'classLocksFor',
       skipIf: skipStakingIf
     }]
   )
