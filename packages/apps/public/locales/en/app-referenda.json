@@ -49,6 +49,7 @@
   "Vote on referendum": "Vote on referendum",
   "abstain vote value": "abstain vote value",
   "active": "active",
+  "active issuance": "active issuance",
   "aye vote value": "aye vote value",
   "conviction": "conviction",
   "current approval (failing)": "current approval (failing)",
@@ -57,6 +58,7 @@
   "current support (passing)": "current support (passing)",
   "decision deposit": "decision deposit",
   "deposit from account": "deposit from account",
+  "inactive issuance": "inactive issuance",
   "minimum approval": "minimum approval",
   "minimum support": "minimum support",
   "nay vote value": "nay vote value",
@@ -73,6 +75,7 @@
   "submission deposit": "submission deposit",
   "submission track": "submission track",
   "total": "total",
+  "total issuance": "total issuance",
   "track origin": "track origin",
   "track overview": "track overview",
   "transferrable": "transferrable"

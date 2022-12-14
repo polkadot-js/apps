@@ -1,4 +1,4 @@
-    3892	Jaco                          	Adjust voting modal (buttons for non-conv.) (#8533)
+    3893	Jaco                          	Display inactive issuance summary (#8534)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
