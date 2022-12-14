@@ -21,17 +21,6 @@ interface Props {
   withIssuance?: boolean;
 }
 
-function displayBalance (value?: BN): React.ReactNode {
-  return value
-    ? (
-      <FormatBalance
-        value={value}
-        withSi
-      />
-    )
-    : <Spinner noLabel />;
-}
-
 function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, summary: { refActive, refCount }, withIssuance }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
@@ -53,15 +42,30 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
       </section>
       {withIssuance && (
         <section>
-          <CardSummary label={t<string>('total issuance')}>
-            {displayBalance(issuanceTotal)}
-          </CardSummary>
-          <CardSummary label={t<string>('inactive issuance')}>
-            {displayBalance(issuanceInactive)}
-          </CardSummary>
-          <CardSummary label={t<string>('active issuance')}>
-            {displayBalance(issuanceActive)}
-          </CardSummary>
+          {issuanceTotal && (
+            <CardSummary label={t<string>('total issuance')}>
+              <FormatBalance
+                value={issuanceTotal}
+                withSi
+              />
+            </CardSummary>
+          )}
+          {issuanceInactive && (
+            <CardSummary label={t<string>('inactive issuance')}>
+              <FormatBalance
+                value={issuanceInactive}
+                withSi
+              />
+            </CardSummary>
+          )}
+          {issuanceActive && (
+            <CardSummary label={t<string>('active issuance')}>
+              <FormatBalance
+                value={issuanceActive}
+                withSi
+              />
+            </CardSummary>
+          )}
         </section>
       )}
     </SummaryBox>
