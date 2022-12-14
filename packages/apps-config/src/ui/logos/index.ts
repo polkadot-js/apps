@@ -9,6 +9,7 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chain3dpass from './chains/3dpass.png';
 import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
@@ -712,6 +713,8 @@ export const specLogos = Object.entries({
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
+  '3dpass': chain3dpass,
+  '3dpass-testnet': chain3dpass,
   acala: chainAcala,
   ajuna: nodeAjuna,
   aleph: chainAleph,

@@ -17,6 +17,13 @@ export * from './productionRelayPolkadot';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
   {
+    info: '3dpass',
+    text: '3DPass',
+    providers: {
+      '3dpass': 'wss://rpc2.3dpass.org'
+    }
+  },
+  {
     info: 'aleph',
     text: 'Aleph Zero',
     providers: {

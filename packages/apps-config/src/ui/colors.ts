@@ -15,6 +15,7 @@ const emptyColor = '#99999';
 // based on chain name
 // alphabetical
 const chainSherpax = '#6bbee8';
+const chain3dpass = '#323232';
 const chainAcala = '#645AFF';
 const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
@@ -270,6 +271,8 @@ export { emptyColor };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
+  '3DP testnet': chain3dpass,
+  '3dpass - The Ledger of Things': chain3dpass,
   Acala: chainAcala,
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
