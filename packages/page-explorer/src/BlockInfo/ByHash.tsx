@@ -8,9 +8,10 @@ import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, LinkExternal, MarkWarning, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
+import useIsFinalized from '@polkadot/react-query/useIsFinalized';
 import { formatNumber } from '@polkadot/util';
 
 import Events from '../Events';
@@ -110,6 +111,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
 
+  const isFinalized = useIsFinalized({ blockNumber, hash: value });
+
   return (
     <div className={className}>
       <Summary
@@ -117,6 +120,16 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         maxBlockWeight={maxBlockWeight}
         signedBlock={getBlock}
       />
+      {isFinalized !== undefined && !isFinalized &&
+        <MarkWarning
+          className='warning centered'
+          content='Block not finalized!'
+        />}
+      {isFinalized === undefined &&
+      <MarkWarning
+        className='warning centered'
+        content='Retrieving finalization status...'
+      />}
       <Table
         header={header}
         isFixed

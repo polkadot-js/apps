@@ -6,7 +6,8 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressMini, Digits } from '@polkadot/react-components';
+import { AddressMini, Digits, Icon } from '@polkadot/react-components';
+import useIsFinalized from '@polkadot/react-query/useIsFinalized';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -14,11 +15,8 @@ interface Props {
 }
 
 function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
-  if (!value) {
-    return null;
-  }
-
   const hashHex = value.hash.toHex();
+  const isFinalized = useIsFinalized({ blockNumber: value.number.unwrap(), hash: hashHex });
 
   return (
     <tr>
@@ -30,6 +28,14 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
         {value.author && (
           <AddressMini value={value.author} />
         )}
+      </td>
+      <td className='finalizedIcon'>
+        {isFinalized
+          ? <Icon
+            className='highlight--color'
+            icon='fa-solid fa-circle-check'
+          />
+          : null}
       </td>
     </tr>
   );
