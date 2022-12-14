@@ -35,7 +35,7 @@ const ItemFile = styled.tr`
 
 const shortStr = (name: string, count = 6): string => {
   if (name.length > (count * 2)) {
-    return `${name.substr(0, count)}...${name.substr(name.length - count)}`;
+    return `${name.substring(0, count)}...${name.substring(name.length - count)}`;
   }
 
   return name;
@@ -212,6 +212,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const _export = useCallback(() => {
     const blob = new Blob([JSON.stringify(wFiles.files)], { type: 'application/json; charset=utf-8' });
 
+    // eslint-disable-next-line deprecation/deprecation
     FileSaver.saveAs(blob, 'files.json');
   }, [wFiles]);
 

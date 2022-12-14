@@ -25,6 +25,7 @@ function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]
       if (filtered.length) {
         Promise
           .all(filtered.map(({ parentHash, sessionIndex }): Promise<u32> =>
+            // eslint-disable-next-line deprecation/deprecation
             api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.sub(BN_ONE), accountId)
           ))
           .then((historic): void => {
