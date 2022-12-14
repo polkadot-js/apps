@@ -5,12 +5,12 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletConvictionVotingVoteCasting, PalletConvictionVotingVoteVoting, PalletReferendaReferendumInfoConvictionVotingTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, PalletVote } from './types';
+import type { Lock, PalletReferenda, PalletVote } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_MAX_INTEGER, BN_ZERO } from '@polkadot/util';
+import { BN_MAX_INTEGER } from '@polkadot/util';
 
 const OPT_CLASS = {
   transform: (locks: [BN, BN][]): BN[] =>
@@ -69,39 +69,75 @@ function getRefParams (votes?: [classId: BN, refIds: BN[], casting: PalletConvic
   return undefined;
 }
 
-function getResult (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], PalletConvictionVotingVoteCasting][], referenda: [BN, PalletReferendaReferendumInfoConvictionVotingTally][]) {
-  const lockPeriod = api.consts[palletVote].voteLockingPeriod;
+function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], PalletConvictionVotingVoteCasting][], referenda: [BN, PalletReferendaReferendumInfoConvictionVotingTally][]): Lock[] {
+  const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
+  const locks: Lock[] = [];
 
   for (let i = 0; i < votes.length; i++) {
     const [,, casting] = votes[i];
 
     for (let i = 0; i < casting.votes.length; i++) {
-      const [refId, votes] = casting.votes[i];
+      const [refId, accountVote] = casting.votes[i];
       const refInfo = referenda.find(([id]) => id.eq(refId));
 
       if (refInfo) {
         const [, tally] = refInfo;
-        let endBlock: BN;
+        let total: BN | undefined;
+        let endBlock: BN| undefined;
+        let conviction = 0;
+
+        if (accountVote.isStandard) {
+          const { balance, vote } = accountVote.asStandard;
+
+          total = balance;
+
+          if ((tally.isApproved && vote.isAye) || (tally.isRejected && vote.isNay)) {
+            conviction = vote.conviction.index;
+          }
+        } else if (accountVote.isSplit || accountVote.isSplitAbstain) {
+          const { aye, nay } = accountVote.isSplit
+            ? accountVote.asSplit
+            : accountVote.asSplitAbstain;
+
+          total = aye.add(nay);
+        } else {
+          console.error(`Unable to handle ${accountVote.type}`);
+        }
 
         if (tally.isOngoing) {
           endBlock = BN_MAX_INTEGER;
-        } else if (tally.isCancelled || tally.isKilled || tally.isTimedOut) {
-          endBlock = BN_ZERO;
-        } else if (tally.isApproved) {
-
-        } else if (tally.isRejected) {
-
+        } else if (tally.isKilled) {
+          endBlock = tally.asKilled;
+        } else if (tally.isCancelled || tally.isTimedOut) {
+          endBlock = tally.isCancelled
+            ? tally.asCancelled[0]
+            : tally.asTimedOut[0];
+        } else if (tally.isApproved || tally.isRejected) {
+          endBlock = lockPeriod
+            .muln(conviction)
+            .add(
+              tally.isApproved
+                ? tally.asApproved[0]
+                : tally.asRejected[0]
+            );
         } else {
           console.error(`Unable to handle ${tally.type}`);
+        }
+
+        if (total && endBlock) {
+          locks.push({ endBlock, total });
         }
       }
     }
   }
+
+  return locks;
 }
 
-function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string, isActive = true) {
+function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string, isActive = true): Lock[] | undefined {
   const { api } = useApi();
 
+  // retrieve the locks for the account (all classes) via the accountId
   const lockParams = useMemo(
     () => [accountId],
     [accountId]
@@ -109,6 +145,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
 
   const lockClasses = useCall<BN[] | undefined>(isActive && api.query[palletVote].classLocksFor, lockParams, OPT_CLASS);
 
+  // retrieve the specific votes casted over the classes & accountId
   const voteParams = useMemo(
     () => getVoteParams(accountId, lockClasses),
     [accountId, lockClasses]
@@ -116,6 +153,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
 
   const votes = useCall<[BN, BN[], PalletConvictionVotingVoteCasting][] | undefined>(voteParams && api.query[palletVote].votingFor.multi, voteParams, OPT_VOTES);
 
+  // retrieve the referendums that were voted on
   const refParams = useMemo(
     () => getRefParams(votes),
     [votes]
@@ -123,9 +161,10 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
 
   const referenda = useCall(refParams && api.query[palletReferenda].referendumInfoFor.multi, refParams, OPT_REFS);
 
+  // combine the referenda outcomes and the votes into locks
   return useMemo(
-    () => votes && referenda && getResult(api, palletReferenda, votes, referenda),
-    [api, palletReferenda, referenda, votes]
+    () => votes && referenda && getLocks(api, palletVote, votes, referenda),
+    [api, palletVote, referenda, votes]
   );
 }
 
