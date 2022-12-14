@@ -33,6 +33,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Referenda
+        isConvictionVote
         palletReferenda='referenda'
         palletVote='convictionVoting'
       />

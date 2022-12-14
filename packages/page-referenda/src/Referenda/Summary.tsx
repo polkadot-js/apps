@@ -1,21 +1,38 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { Summary as SummaryType } from '../types';
 
 import React from 'react';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  issuanceActive?: BN;
+  issuanceInactive?: BN;
+  issuanceTotal?: BN;
   summary: SummaryType;
+  withIssuance?: boolean;
 }
 
-function Summary ({ className, summary: { refActive, refCount } }: Props): React.ReactElement<Props> {
+function displayBalance (value?: BN): React.ReactNode {
+  return value
+    ? (
+      <FormatBalance
+        value={value}
+        withSi
+      />
+    )
+    : <Spinner noLabel />;
+}
+
+function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, summary: { refActive, refCount }, withIssuance }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -34,6 +51,19 @@ function Summary ({ className, summary: { refActive, refCount } }: Props): React
           }
         </CardSummary>
       </section>
+      {withIssuance && (
+        <section>
+          <CardSummary label={t<string>('total issuance')}>
+            {displayBalance(issuanceTotal)}
+          </CardSummary>
+          <CardSummary label={t<string>('inactive issuance')}>
+            {displayBalance(issuanceInactive)}
+          </CardSummary>
+          <CardSummary label={t<string>('active issuance')}>
+            {displayBalance(issuanceActive)}
+          </CardSummary>
+        </section>
+      )}
     </SummaryBox>
   );
 }
