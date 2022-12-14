@@ -15,7 +15,7 @@ export default function createItem (option: KeyringSectionOption, isUppercase = 
       <KeyPair
         address={option.key || ''}
         isUppercase={isUppercase}
-        name={name}
+        name={option.name}
       />
     )
   };

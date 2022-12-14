@@ -125,7 +125,7 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
     }
 
     const div = new BN(input.replace(/\.\d*$/, ''));
-    const modString = input.replace(/^\d+\./, '').substr(0, api.registry.chainDecimals[0]);
+    const modString = input.replace(/^\d+\./, '').substring(0, api.registry.chainDecimals[0]);
     const mod = new BN(modString);
 
     result = div

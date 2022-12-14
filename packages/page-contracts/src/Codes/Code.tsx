@@ -88,7 +88,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         />
       </td>
       <td className='together codeHash'>
-        <div>{`${code.json.codeHash.substr(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>
+        <div>{`${code.json.codeHash.slice(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>
         <CopyButton value={code.json.codeHash} />
       </td>
       <td className='start together'>

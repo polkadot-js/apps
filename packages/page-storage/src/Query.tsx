@@ -117,6 +117,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
           params: isEntries
             ? [key.entries, ...values]
             : blockHash
+              // eslint-disable-next-line deprecation/deprecation
               ? [key.at, blockHash, ...values]
               : [key, ...values],
           withIndicator: true

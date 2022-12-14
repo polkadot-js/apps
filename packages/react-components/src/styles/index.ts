@@ -21,7 +21,7 @@ const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
 const VERY_DARK = 16;
 
-const defaultHighlight = '#f19135'; // '#f19135'; // #999
+const defaultHighlight = '#f19135';
 
 function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
@@ -30,7 +30,7 @@ function getHighlight (uiHighlight: string | undefined): string {
 function countBrightness (uiHighlight: string | undefined): number {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
 
-  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substring(p, p + 2), 16) * FACTORS[index]), 0);
 }
 
 function getContrast (uiHighlight: string | undefined): string {

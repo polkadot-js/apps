@@ -25,6 +25,7 @@ export function useMapEntries <T = any> (entry: QueryableStorageEntry<'promise'>
 
         (
           at && at !== '0'
+            // eslint-disable-next-line deprecation/deprecation
             ? entry.entriesAt(at, ...params)
             : entry.entries(...params)
         ).then((entries) => setState(
