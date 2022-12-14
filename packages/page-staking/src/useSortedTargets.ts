@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
 import type { Option, u32 } from '@polkadot/types';
-import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
+import type { EraValidators, SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import { useMemo } from 'react';
 
@@ -283,6 +283,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
+  const eraValidators = useCall<EraValidators>(api.query.elections.currentEraValidators);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
@@ -297,6 +298,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     (): SortedTargets => ({
       counterForNominators,
       counterForValidators,
+      eraValidators,
       historyDepth: api.consts.staking.historyDepth || historyDepth,
       inflation,
       maxNominatorsCount,
@@ -311,7 +313,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
           : baseInfo
       )
     }),
-    [api, baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
+    [api, baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, eraValidators]
   );
 }
 

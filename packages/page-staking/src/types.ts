@@ -7,6 +7,8 @@ import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, Session
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
+import { Vec } from '@polkadot/types';
+
 export type Nominators = Record<string, string[]>;
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
@@ -46,6 +48,11 @@ interface ValidatorInfoRank {
   rankReward: number;
 }
 
+export interface EraValidators {
+  reserved: Vec<AccountId>;
+  nonReserved: Vec<AccountId>;
+}
+
 export interface ValidatorInfo extends ValidatorInfoRank {
   accountId: AccountId;
   bondOther: BN;
@@ -78,6 +85,7 @@ export interface SortedTargets {
   avgStaked?: BN;
   counterForNominators?: BN;
   counterForValidators?: BN;
+  eraValidators?: EraValidators;
   electedIds?: string[];
   historyDepth?: BN;
   inflation: Inflation;

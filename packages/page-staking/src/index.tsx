@@ -73,7 +73,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [loadNominations, setLoadNominations] = useState(false);
   const nominatedBy = useNominations(loadNominations);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
+  const [isInElection, minCommission] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
     api.query.staking.eraElectionStatus,
     api.query.staking.minCommission,
     api.query.session.validators,
@@ -225,10 +225,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         favorites={favorites}
         hasAccounts={hasAccounts}
         hasQueries={hasQueries}
-        minCommission={minCommission}
         nominatedBy={nominatedBy}
         ownStashes={ownStashes}
-        paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
