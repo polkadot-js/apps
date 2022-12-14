@@ -43,12 +43,14 @@ function Summary ({ eventCount }: Props): React.ReactElement {
             >
               <TotalIssuance />
             </CardSummary>
-            <CardSummary
-              className='media--1300'
-              label={t<string>('inactive issuance')}
-            >
-              <TotalInactive />
-            </CardSummary>
+            {!!api.query.balances.inactiveIssuance && (
+              <CardSummary
+                className='media--1300'
+                label={t<string>('inactive issuance')}
+              >
+                <TotalInactive />
+              </CardSummary>
+            )}
           </>
         )}
       </section>
