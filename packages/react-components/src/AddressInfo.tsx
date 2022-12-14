@@ -15,7 +15,7 @@ import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
+import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
 import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
@@ -53,7 +53,7 @@ interface Props {
   children?: React.ReactNode;
   classLocksFor?: [BN, BN][];
   className?: string;
-  convictionLocks?: { endBlock: BN, total: BN }[];
+  convictionLocks?: { endBlock: BN, refId: BN, total: BN }[];
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
@@ -224,7 +224,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; convictionLocks?: { endBlock: BN; total: BN }[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; convictionLocks?: { endBlock: BN; refId: BN; total: BN }[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -446,14 +446,17 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                 ? (
                   <>
                     <Icon
-                      icon='info-circle'
+                      icon='clock'
                       tooltip={`${address}-conviction-locks-trigger`}
                     />
                     <Tooltip
-                      text={convictionLocks.map(({ endBlock, total }, index): React.ReactNode => (
+                      text={convictionLocks.map(({ endBlock, refId, total }, index): React.ReactNode => (
                         <div key={index}>
-                          {formatBalance(total, { forceUnit: '-' })
-                          }<div className='faded'>{t('until block')}&nbsp;{formatNumber(endBlock)}</div>
+                          #{refId.toString()} {formatBalance(total, { forceUnit: '-' })
+                          }<div className='faded'>{endBlock.eq(BN_MAX_INTEGER)
+                            ? t('ongoing referendum')
+                            : <>{t('block')}&nbsp;{formatNumber(endBlock)}{endBlock.gt(bestNumber) && <>,&nbsp;<BlockToTime value={endBlock.sub(bestNumber)} /></>}</>
+                          }</div>
                         </div>
                       ))}
                       trigger={`${address}-conviction-locks-trigger`}

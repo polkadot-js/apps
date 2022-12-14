@@ -125,7 +125,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
         }
 
         if (total && endBlock) {
-          locks.push({ endBlock, total });
+          locks.push({ endBlock, refId, total });
         }
       }
     }
