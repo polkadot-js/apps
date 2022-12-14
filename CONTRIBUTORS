@@ -324,6 +324,7 @@
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
        1	Mickaël Canu                  	fix error on validator word (#7110)
        1	Mickael Faust                 	Added TerraBioDAO to the GM nodes list (#8010)
+       1	Mikhail Fedosov               	feat: add 3dpass network (#8540)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
