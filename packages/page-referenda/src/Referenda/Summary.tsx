@@ -58,7 +58,7 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
               />
             </CardSummary>
           )}
-          {issuanceActive && (
+          {issuanceActive && issuanceInactive && (
             <CardSummary label={t<string>('active issuance')}>
               <FormatBalance
                 value={issuanceActive}
