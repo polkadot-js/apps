@@ -15,6 +15,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
+import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
