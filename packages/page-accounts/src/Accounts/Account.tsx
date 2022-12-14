@@ -136,6 +136,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const convictionLocks = useAccountLocks('referenda', 'convictionVoting', address, isExpanded);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -692,6 +693,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
+            convictionLocks={convictionLocks}
             withBalance={BAL_OPTS_EXPANDED}
             withExtended={false}
           />
