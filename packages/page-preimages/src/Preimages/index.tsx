@@ -25,6 +25,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('preimages'), 'start', 2],
+    [undefined, 'media--1300'],
     [t('size')],
     [t('status')],
     [t('count')]

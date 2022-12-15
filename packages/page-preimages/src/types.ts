@@ -9,11 +9,17 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
 export interface Preimage {
+  deposit?: {
+    amount: BN;
+    who: string;
+  };
   count: number;
   bytes: Bytes | null;
   proposal: Call | null;
+  proposalError: string | null;
   proposalHash: HexString;
   proposalLength: BN;
+  proposalWarning: string | null;
   registry: Registry;
   status: PalletPreimageRequestStatus | null;
 }
