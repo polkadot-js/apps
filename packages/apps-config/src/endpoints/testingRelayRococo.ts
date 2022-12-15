@@ -19,7 +19,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'rococoAcurast',
     paraId: 4191,
-    text: 'Acurast Rococo Testnet',
+    text: 'Acurast Testnet',
     providers: {
       Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
     }
