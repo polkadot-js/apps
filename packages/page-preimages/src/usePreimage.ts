@@ -116,6 +116,7 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
 function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): Preimage | undefined {
   const { api } = useApi();
 
+  // retrieve the status using only the hash of the image
   const paramsStatus = useMemo(
     // we need a hash _and_ be on the newest supported version of the pallet
     // (after the application of bounded calls)
@@ -127,19 +128,17 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
 
   const optStatus = useCall<Option<PalletPreimageRequestStatus>>(paramsStatus && api.query.preimage?.statusFor, paramsStatus);
 
+  // from the retrieved status (if any), get the on-chain stored bytes
   const paramsBytes = useMemo(
-    () => paramsStatus && optStatus
-      ? getBytesParams(paramsStatus[0], optStatus)
-      : undefined,
+    () => paramsStatus && optStatus && getBytesParams(paramsStatus[0], optStatus),
     [optStatus, paramsStatus]
   );
 
   const optBytes = useCall<Option<Bytes>>(paramsBytes && api.query.preimage?.preimageFor, paramsBytes && paramsBytes.params);
 
+  // extract all the preimage info we have retrieved
   return useMemo(
-    () => optBytes && optStatus && paramsBytes
-      ? createResult(api, optStatus, optBytes, paramsBytes)
-      : undefined,
+    () => optBytes && optStatus && paramsBytes && createResult(api, optStatus, optBytes, paramsBytes),
     [api, optBytes, optStatus, paramsBytes]
   );
 }
