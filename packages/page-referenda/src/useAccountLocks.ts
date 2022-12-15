@@ -145,7 +145,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
     [accountId]
   );
 
-  const lockClasses = useCall<BN[] | undefined>(isActive && api.query[palletVote].classLocksFor, lockParams, OPT_CLASS);
+  const lockClasses = useCall<BN[] | undefined>(isActive && api.query[palletVote]?.classLocksFor, lockParams, OPT_CLASS);
 
   // retrieve the specific votes casted over the classes & accountId
   const voteParams = useMemo(
@@ -153,7 +153,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
     [accountId, lockClasses]
   );
 
-  const votes = useCall<[BN, BN[], PalletConvictionVotingVoteCasting][] | undefined>(voteParams && api.query[palletVote].votingFor.multi, voteParams, OPT_VOTES);
+  const votes = useCall<[BN, BN[], PalletConvictionVotingVoteCasting][] | undefined>(voteParams && api.query[palletVote]?.votingFor.multi, voteParams, OPT_VOTES);
 
   // retrieve the referendums that were voted on
   const refParams = useMemo(
@@ -161,7 +161,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
     [votes]
   );
 
-  const referenda = useCall(refParams && api.query[palletReferenda].referendumInfoFor.multi, refParams, OPT_REFS);
+  const referenda = useCall(refParams && api.query[palletReferenda]?.referendumInfoFor.multi, refParams, OPT_REFS);
 
   // combine the referenda outcomes and the votes into locks
   return useMemo(
