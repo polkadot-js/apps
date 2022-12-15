@@ -12,6 +12,15 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_MAX_INTEGER } from '@polkadot/util';
 
+interface WithAbstain {
+  asSplitAbstain: {
+    abstain: BN;
+    aye: BN;
+    nay: BN;
+  };
+  isSplitAbstain: boolean;
+}
+
 const OPT_CLASS = {
   transform: (locks: [BN, BN][]): BN[] =>
     locks.map(([classId]) => classId)
@@ -100,8 +109,9 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
           const { aye, nay } = accountVote.asSplit;
 
           total = aye.add(nay);
-        } else if (accountVote.isSplitAbstain) {
-          const { abstain, aye, nay } = accountVote.asSplitAbstain;
+        } else if ((accountVote as unknown as WithAbstain).isSplitAbstain) {
+          // FIXME Once we have updated the API with latest metadata, this won't be needed
+          const { abstain, aye, nay } = (accountVote as unknown as WithAbstain).asSplitAbstain;
 
           total = aye.add(nay).add(abstain);
         } else {
