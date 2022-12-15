@@ -17,6 +17,14 @@ import { getTeleports } from './util';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'rococoAcurast',
+    paraId: 4191,
+    text: 'Acurast Testnet',
+    providers: {
+      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+    }
+  },
+  {
     info: 'rococoAmplitude',
     paraId: 2124,
     text: 'Amplitude testnet (Foucoco)',

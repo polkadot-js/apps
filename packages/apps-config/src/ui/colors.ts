@@ -17,6 +17,7 @@ const emptyColor = '#99999';
 const chainSherpax = '#6bbee8';
 const chain3dpass = '#323232';
 const chainAcala = '#645AFF';
+const chainAcurastRococoTestnet = '#000000';
 const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
@@ -277,6 +278,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
+  'Acurast Rococo Testnet': chainAcurastRococoTestnet,
   'Ajuna Testnet': chainAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
