@@ -9,7 +9,7 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import useHashes from '../useHashes';
-import Call from './Call';
+import Details from './Details';
 import Summary from './Summary';
 
 interface Props {
@@ -36,7 +36,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         header={headerRef.current}
       >
         {hashes && hashes.map((h) => (
-          <Call
+          <Details
             key={h}
             value={h}
           />

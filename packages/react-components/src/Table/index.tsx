@@ -152,6 +152,10 @@ export default React.memo(styled(Table)`
       text-align: left;
       vertical-align: middle;
 
+      > article.mark {
+        margin-left: 0rem;
+      }
+
       &:first-child {
         border-left: 1px solid var(--border-table);
       }

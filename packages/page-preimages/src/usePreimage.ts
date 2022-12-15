@@ -19,13 +19,19 @@ function createResult (api: ApiPromise, optStatus: Option<PalletPreimageRequestS
   const bytes = optBytes.unwrapOr(null);
   let count = 0;
   let proposal: Call | null = null;
+  let proposalError: string | null = null;
+  let proposalWarning: string | null = null;
 
   if (bytes) {
     try {
       proposal = api.registry.createType('Call', bytes.toU8a(true));
     } catch (error) {
       console.error(error);
+
+      proposalError = 'Unable to decode preimage bytes into valid Call';
     }
+  } else {
+    proposalWarning = 'No preimage bytes found';
   }
 
   if (status && status.isRequested) {
@@ -42,8 +48,10 @@ function createResult (api: ApiPromise, optStatus: Option<PalletPreimageRequestS
     bytes,
     count,
     proposal,
+    proposalError,
     proposalHash,
     proposalLength,
+    proposalWarning,
     registry: api.registry,
     status
   };

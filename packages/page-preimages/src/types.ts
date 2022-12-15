@@ -12,8 +12,10 @@ export interface Preimage {
   count: number;
   bytes: Bytes | null;
   proposal: Call | null;
+  proposalError: string | null;
   proposalHash: HexString;
   proposalLength: BN;
+  proposalWarning: string | null;
   registry: Registry;
   status: PalletPreimageRequestStatus | null;
 }
