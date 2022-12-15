@@ -96,12 +96,14 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
             conviction = vote.conviction.index;
             locked = vote.conviction.type;
           }
-        } else if (accountVote.isSplit || accountVote.isSplitAbstain) {
-          const { aye, nay } = accountVote.isSplit
-            ? accountVote.asSplit
-            : accountVote.asSplitAbstain;
+        } else if (accountVote.isSplit) {
+          const { aye, nay } = accountVote.asSplit;
 
           total = aye.add(nay);
+        } else if (accountVote.isSplitAbstain) {
+          const { abstain, aye, nay } = accountVote.asSplitAbstain;
+
+          total = aye.add(nay).add(abstain);
         } else {
           console.error(`Unable to handle ${accountVote.type}`);
         }
