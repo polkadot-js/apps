@@ -53,7 +53,7 @@ interface Props {
   children?: React.ReactNode;
   classLocksFor?: [BN, BN][];
   className?: string;
-  convictionLocks?: { endBlock: BN, refId: BN, total: BN }[];
+  convictionLocks?: RefLock[];
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
@@ -64,6 +64,13 @@ interface Props {
   withHexSessionId?: (string | null)[];
   withValidatorPrefs?: boolean | ValidatorPrefsType;
   withLabel?: boolean;
+}
+
+interface RefLock {
+  endBlock: BN;
+  locked: string;
+  refId: BN;
+  total: BN;
 }
 
 const DEFAULT_BALANCES: BalanceActiveType = {
@@ -224,7 +231,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; convictionLocks?: { endBlock: BN; refId: BN; total: BN }[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -450,12 +457,15 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                       tooltip={`${address}-conviction-locks-trigger`}
                     />
                     <Tooltip
-                      text={convictionLocks.map(({ endBlock, refId, total }, index): React.ReactNode => (
+                      text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
                         <div key={index}>
-                          #{refId.toString()} {formatBalance(total, { forceUnit: '-' })
-                          }<div className='faded'>{endBlock.eq(BN_MAX_INTEGER)
-                            ? t('ongoing referendum')
-                            : <>{t('block')}&nbsp;{formatNumber(endBlock)}{endBlock.gt(bestNumber) && <>,&nbsp;<BlockToTime value={endBlock.sub(bestNumber)} /></>}</>
+                          <div>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
+                          <div className='faded'>{
+                            endBlock.eq(BN_MAX_INTEGER)
+                              ? t('ongoing referendum')
+                              : bestNumber.gte(endBlock)
+                                ? t('lock expired')
+                                : <>{t('block')}&nbsp;{formatNumber(endBlock)}{endBlock.gt(bestNumber) && <>,&nbsp;<BlockToTime value={endBlock.sub(bestNumber)} /></>}</>
                           }</div>
                         </div>
                       ))}

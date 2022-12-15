@@ -85,6 +85,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
         let total: BN | undefined;
         let endBlock: BN| undefined;
         let conviction = 0;
+        let locked = 'None';
 
         if (accountVote.isStandard) {
           const { balance, vote } = accountVote.asStandard;
@@ -93,6 +94,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
 
           if ((tally.isApproved && vote.isAye) || (tally.isRejected && vote.isNay)) {
             conviction = vote.conviction.index;
+            locked = vote.conviction.type;
           }
         } else if (accountVote.isSplit || accountVote.isSplitAbstain) {
           const { aye, nay } = accountVote.isSplit
@@ -125,7 +127,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
         }
 
         if (total && endBlock) {
-          locks.push({ endBlock, refId, total });
+          locks.push({ endBlock, locked, refId, total });
         }
       }
     }
