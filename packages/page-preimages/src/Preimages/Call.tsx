@@ -28,15 +28,14 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
                 value={value.proposal}
               />
             )}
-            {(value.proposalError && (
-              <MarkError content={value.proposalError} />
-            )) || (value.proposalWarning && (
-              <MarkWarning content={value.proposalWarning} />
-            ))}
+            {
+              (value.proposalError && <MarkError content={value.proposalError} />) ||
+              (value.proposalWarning && <MarkWarning content={value.proposalWarning} />)
+            }
           </>
         )}
       </td>
-      <td className=''>
+      <td className='media--1300'>
         {value?.deposit && (
           <AddressMini
             balance={value.deposit.amount}

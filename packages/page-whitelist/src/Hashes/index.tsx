@@ -25,7 +25,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('calls'), 'start'],
     [undefined, 'all'],
-    []
+    [undefined, 'media--1300']
   ]);
 
   return (
