@@ -51,7 +51,6 @@ interface Props {
   address: string;
   balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
-  classLocksFor?: [BN, BN][];
   className?: string;
   convictionLocks?: RefLock[];
   democracyLocks?: DeriveDemocracyLock[];
@@ -231,7 +230,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; classLocksFor?: [BN, BN][]; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -440,8 +439,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       );
     }
 
-    if (classLocksFor && (classLocksFor.length !== 0)) {
-      const max = classLocksFor.reduce((max, [, value]) => bnMax(max, value), BN_ZERO);
+    if (convictionLocks && convictionLocks.length) {
+      const max = convictionLocks.reduce((max, { total }) => bnMax(max, total), BN_ZERO);
 
       allItems.push(
         <React.Fragment key={9}>
@@ -449,35 +448,32 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           <FormatBalance
             className='result'
             labelPost={
-              convictionLocks && convictionLocks.length
-                ? (
-                  <>
-                    <Icon
-                      icon='clock'
-                      tooltip={`${address}-conviction-locks-trigger`}
-                    />
-                    <Tooltip
-                      text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
-                        <div key={index}>
-                          <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
-                          <div className='faded nowrap'>{
-                            endBlock.eq(BN_MAX_INTEGER)
-                              ? t('ongoing referendum')
-                              : bestNumber.gte(endBlock)
-                                ? t('lock expired')
-                                : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
-                                  <BlockToTime
-                                    isInline
-                                    value={endBlock.sub(bestNumber)}
-                                  /></>
-                          }</div>
-                        </div>
-                      ))}
-                      trigger={`${address}-conviction-locks-trigger`}
-                    />
-                  </>
-                )
-                : <IconVoid />}
+              <>
+                <Icon
+                  icon='clock'
+                  tooltip={`${address}-conviction-locks-trigger`}
+                />
+                <Tooltip
+                  text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
+                    <div key={index}>
+                      <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
+                      <div className='faded nowrap'>{
+                        endBlock.eq(BN_MAX_INTEGER)
+                          ? t('ongoing referendum')
+                          : bestNumber.gte(endBlock)
+                            ? t('lock expired')
+                            : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
+                              <BlockToTime
+                                isInline
+                                value={endBlock.sub(bestNumber)}
+                              /></>
+                      }</div>
+                    </div>
+                  ))}
+                  trigger={`${address}-conviction-locks-trigger`}
+                />
+              </>
+            }
             value={max}
           />
         </React.Fragment>
@@ -514,7 +510,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, classLocksFor, convictionLocks, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -525,7 +521,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
-  const baseOpts = { address, balanceDisplay, bestNumber, classLocksFor, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
+  const baseOpts = { address, balanceDisplay, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 
   withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
@@ -688,11 +684,6 @@ export default withMulti(
     ['query.democracy.votingOf', {
       paramName: 'address',
       propName: 'votingOf',
-      skipIf: skipStakingIf
-    }],
-    ['query.convictionVoting.classLocksFor', {
-      paramName: 'address',
-      propName: 'classLocksFor',
       skipIf: skipStakingIf
     }]
   )

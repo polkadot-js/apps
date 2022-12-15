@@ -148,7 +148,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
   return locks;
 }
 
-function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string, isActive = true): Lock[] | undefined {
+function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string): Lock[] | undefined {
   const { api } = useApi();
 
   // retrieve the locks for the account (all classes) via the accountId
@@ -157,7 +157,7 @@ function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: Pall
     [accountId]
   );
 
-  const lockClasses = useCall<BN[] | undefined>(isActive && api.query[palletVote]?.classLocksFor, lockParams, OPT_CLASS);
+  const lockClasses = useCall<BN[] | undefined>(lockParams && api.query[palletVote]?.classLocksFor, lockParams, OPT_CLASS);
 
   // retrieve the specific votes casted over the classes & accountId
   const voteParams = useMemo(
