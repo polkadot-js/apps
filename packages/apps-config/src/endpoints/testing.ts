@@ -17,6 +17,13 @@ export * from './testingRelayWestend';
 // IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
   {
+    info: '3dpass-testnet',
+    text: '3DPass Testnet',
+    providers: {
+      '3dpass': 'wss://test-rpc.3dpass.org'
+    }
+  },
+  {
     info: 'ajuna',
     text: 'Ajuna Testnet',
     providers: {
@@ -579,7 +586,7 @@ export const testChains: EndpointOption[] = [
     info: 'uniarts',
     text: 'UniArts',
     providers: {
-      UniArts: 'wss://testnet.uniarts.network'
+      // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     }
   },
   {

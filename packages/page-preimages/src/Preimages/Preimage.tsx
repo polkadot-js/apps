@@ -5,11 +5,10 @@ import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
-import { CallExpander } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import usePreimage from '../usePreimage';
+import Call from './Call';
 import Hash from './Hash';
 
 interface Props {
@@ -18,20 +17,12 @@ interface Props {
 }
 
 function Preimage ({ className, value }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const info = usePreimage(value);
 
   return (
     <tr className={ className }>
       <Hash value={value} />
-      <td className='all'>
-        {info?.proposal && (
-          <CallExpander
-            labelHash={t<string>('proposal')}
-            value={info.proposal}
-          />
-        )}
-      </td>
+      <Call value={info} />
       <td className='number'>
         {info?.bytes && formatNumber(info.bytes.length)}
       </td>
