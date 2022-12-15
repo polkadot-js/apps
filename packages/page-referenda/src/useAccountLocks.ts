@@ -60,7 +60,7 @@ const OPT_REFS = {
 
 function getVoteParams (accountId: string, lockClasses?: BN[]): [[accountId: string, classId: BN][]] | undefined {
   if (lockClasses) {
-    return [lockClasses.map((classId) => [accountId, classId])]
+    return [lockClasses.map((classId) => [accountId, classId])];
   }
 
   return undefined;
