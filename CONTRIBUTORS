@@ -1,4 +1,4 @@
-    3898	Jaco                          	Chilled filtering adjustments (no-auto, recent Substrate) (#8551)
+    3899	Jaco                          	Adjust w/ function detection for proxy & multisig (#8552)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
