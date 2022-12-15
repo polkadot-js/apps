@@ -459,13 +459,17 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                     <Tooltip
                       text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
                         <div key={index}>
-                          <div>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
-                          <div className='faded'>{
+                          <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
+                          <div className='faded nowrap'>{
                             endBlock.eq(BN_MAX_INTEGER)
                               ? t('ongoing referendum')
                               : bestNumber.gte(endBlock)
                                 ? t('lock expired')
-                                : <>{t('block')}&nbsp;{formatNumber(endBlock)}{endBlock.gt(bestNumber) && <>,&nbsp;<BlockToTime value={endBlock.sub(bestNumber)} /></>}</>
+                                : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
+                                  <BlockToTime
+                                    isInline
+                                    value={endBlock.sub(bestNumber)}
+                                  /></>
                           }</div>
                         </div>
                       ))}
@@ -594,6 +598,14 @@ export default withMulti(
 
     &:not(.ui--AddressInfo-expander) {
       justify-content: flex-end;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+
+      .ui--FormatBalance {
+        display: inline-block;
+      }
     }
 
     .column {
