@@ -430,7 +430,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemint',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     }
   },
   {
