@@ -586,7 +586,7 @@ export const testChains: EndpointOption[] = [
     info: 'uniarts',
     text: 'UniArts',
     providers: {
-      UniArts: 'wss://testnet.uniarts.network'
+      // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     }
   },
   {
