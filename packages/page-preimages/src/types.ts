@@ -9,6 +9,10 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
 export interface Preimage {
+  deposit?: {
+    amount: BN;
+    who: string;
+  };
   count: number;
   bytes: Bytes | null;
   proposal: Call | null;
