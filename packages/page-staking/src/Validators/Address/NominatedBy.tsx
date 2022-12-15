@@ -1,12 +1,14 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SlashingSpans } from '@polkadot/types/interfaces';
 import type { NominatedBy as NominatedByType } from '../../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -35,12 +37,13 @@ function extractFunction (all: string[]): null | [number, () => React.ReactNode[
     : null;
 }
 
-function extractChilled (nominators: NominatedByType[] = [], slashingSpans?: SlashingSpans | null): Chilled {
-  const chilled = slashingSpans
+function extractChilled (api: ApiPromise, nominators: NominatedByType[] = [], slashingSpans?: SlashingSpans | null): Chilled {
+  // NOTE With the introduction of the SlashReported event,
+  // nominators are not auto-chilled on validator slash
+  const chilled = slashingSpans && !api.events.staking.SlashReported
     ? nominators
       .filter(({ submittedIn }) =>
-        !slashingSpans.lastNonzeroSlash.isZero() &&
-        slashingSpans.lastNonzeroSlash.gte(submittedIn)
+        slashingSpans.lastNonzeroSlash.gt(submittedIn)
       )
       .map(({ nominatorId }) => nominatorId)
     : [];
@@ -57,10 +60,11 @@ function extractChilled (nominators: NominatedByType[] = [], slashingSpans?: Sla
 
 function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   const { active, chilled } = useMemo(
-    () => extractChilled(nominators, slashingSpans),
-    [nominators, slashingSpans]
+    () => extractChilled(api, nominators, slashingSpans),
+    [api, nominators, slashingSpans]
   );
 
   return (
