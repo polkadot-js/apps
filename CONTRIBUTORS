@@ -1,4 +1,4 @@
-    3894	Jaco                          	Basic referenda locks display (#8535)
+    3895	Jaco                          	Disable unreachable endpoints (#8542)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
