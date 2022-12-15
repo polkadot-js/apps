@@ -37,7 +37,7 @@ function createResult (api: ApiPromise, optStatus: Option<PalletPreimageRequestS
     } catch (error) {
       console.error(error);
 
-      proposalError = 'Unable to decode preimage bytes into valid Call';
+      proposalError = 'Unable to decode preimage bytes into a valid Call';
     }
   } else {
     proposalWarning = 'No preimage bytes found';
