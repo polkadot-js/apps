@@ -21,18 +21,19 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
     <>
       <td className={`${className} all`}>
         {value && (
-          value.proposal
-            ? (
+          <>
+            {value.proposal && (
               <CallExpander
                 labelHash={t<string>('call')}
                 value={value.proposal}
               />
-            )
-            : (value.proposalError && (
+            )}
+            {(value.proposalError && (
               <MarkError content={value.proposalError} />
             )) || (value.proposalWarning && (
               <MarkWarning content={value.proposalWarning} />
-            ))
+            ))}
+          </>
         )}
       </td>
       <td className=''>

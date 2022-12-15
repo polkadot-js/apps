@@ -30,6 +30,10 @@ function createResult (api: ApiPromise, optStatus: Option<PalletPreimageRequestS
   if (bytes) {
     try {
       proposal = api.registry.createType('Call', bytes.toU8a(true));
+
+      if (proposal.encodedLength !== proposalLength.toNumber()) {
+        proposalWarning = 'Bytes length does not match on-chain preimage length';
+      }
     } catch (error) {
       console.error(error);
 
