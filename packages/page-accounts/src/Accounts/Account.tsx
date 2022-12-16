@@ -106,10 +106,10 @@ function calcUnbonding (stakingInfo?: DeriveStakingAccount) {
   return total;
 }
 
-function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> | null {
-  return api.tx.utility
+function createClearDemocracyTx (api: ApiPromise, address: string, ids: BN[]): SubmittableExtrinsic<'promise'> | null {
+  return api.tx.utility && ids.length
     ? api.tx.utility.batch(
-      unlockableIds
+      ids
         .map((id) => api.tx.democracy.removeVote(id))
         .concat(api.tx.democracy.unlock(address))
     )
@@ -117,7 +117,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
 }
 
 function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN][], palletReferenda = 'convictionVoting'): SubmittableExtrinsic<'promise'> | null {
-  if (!api.tx.utility) {
+  if (!api.tx.utility || !ids.length) {
     return null;
   }
 
