@@ -596,7 +596,7 @@ export const prodRelayKusama: EndpointOption = {
     Parity: 'wss://kusama-rpc.polkadot.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
-    RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
+    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
