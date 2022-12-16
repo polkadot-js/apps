@@ -21,7 +21,8 @@ const COMPONENTS: Record<string, React.ComponentType<ReferendumProps>> = {
   Ongoing
 };
 
-const COLORS = ['#8c8c8c', '#9c3333', '#339c33'];
+const VAL_COLORS = ['rgba(140, 140, 140, 0.65)', '#9c3333', '#339c33'];
+const BOX_COLORS = ['rgba(140, 140, 140, 0.2)', 'rgba(140, 0, 0, 0.2)', 'rgba(0, 140, 0, 0.2)'];
 const PT_CUR = 0;
 const PT_NEG = 1;
 const PT_POS = 2;
@@ -30,7 +31,7 @@ const OPTIONS = {
   animation: {
     duration: 0
   },
-  aspectRatio: 2.5,
+  aspectRatio: 2.25,
   maintainAspectRatio: true,
   scales: {
     y: {
@@ -40,16 +41,20 @@ const OPTIONS = {
 };
 
 interface ChartResult {
-  colors: string[];
   labels: string[];
-  options: typeof OPTIONS;
   values: number[][];
 }
 
 interface ChartResultExt extends ChartResult {
+  changeX: number;
   currentY: number;
   since: BN;
   trackGraph: CurveGraph;
+}
+
+interface ChartProps extends ChartResult {
+  colors: string[];
+  options: typeof OPTIONS;
 }
 
 function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
@@ -71,24 +76,30 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
       const appc = tally.ayes.isZero()
         ? 0
         : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
+      let appx = -1;
+      let supx = -1;
 
       for (let i = 0; i < approval.length; i++) {
         labels.push(formatNumber(since.add(x[i])));
 
         const appr = approval[i].div(BN_MILLION).toNumber() / 10;
+        const appn = appc < appr;
 
         values[0][PT_CUR][i] = appr;
-        values[0][appc < appr ? PT_NEG : PT_POS][i] = appc;
+        values[0][appn ? PT_NEG : PT_POS][i] = appc;
+        appx = (appn || appx !== -1) ? appx : i;
 
         const supr = support[i].div(BN_MILLION).toNumber() / 10;
+        const supn = supc < supr;
 
         values[1][PT_CUR][i] = supr;
-        values[1][supc < supr ? PT_NEG : PT_POS][i] = supc;
+        values[1][supn ? PT_NEG : PT_POS][i] = supc;
+        supx = (supn || supx !== -1) ? supx : i;
       }
 
       return [
-        { colors: COLORS, currentY: appc, labels, options: OPTIONS, since, trackGraph, values: values[0] },
-        { colors: COLORS, currentY: supc, labels, options: OPTIONS, since, trackGraph, values: values[1] }
+        { changeX: appx, currentY: appc, labels, since, trackGraph, values: values[0] },
+        { changeX: supx, currentY: supc, labels, since, trackGraph, values: values[1] }
       ];
     }
   }
@@ -96,39 +107,71 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
   return null;
 }
 
-function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartResult[] {
-  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): ChartResult => {
+function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartProps[] {
+  return chartProps.map(({ changeX, currentY, labels, since, trackGraph: { x }, values }, index): ChartProps => {
     const currentX = 100 * (
       bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
     );
+    const swapX = changeX === -1
+      ? -1
+      : 100 * (changeX / x.length);
 
     return {
-      colors,
+      colors: VAL_COLORS,
       labels,
       options: objectSpread({
         plugins: {
           annotation: {
-            annotations: {
-              box1: {
-                backgroundColor: 'rgba(140, 140, 140, 0.25)',
-                type: 'box',
-                xMax: currentX,
-                xMin: 0,
-                yMax: index === 0
-                  ? 100
-                  : 50,
-                yMin: 0
-              }
-              // point1: {
-              //   backgroundColor: 'rgba(255, 99, 132, 0.25)',
-              //   type: 'point',
-              //   xValue: currentX,
-              //   yValue: currentY
-              // }
-            }
+            annotations: objectSpread(
+              {
+                past: {
+                  backgroundColor: BOX_COLORS[0],
+                  borderWidth: 0,
+                  type: 'box',
+                  xMax: currentX,
+                  xMin: 0,
+                  yMax: index === 0
+                    ? 100
+                    : 50,
+                  yMin: 0
+                }
+              },
+              swapX !== -1 && swapX > currentX
+                ? {
+                  negative: {
+                    backgroundColor: BOX_COLORS[1],
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: swapX,
+                    xMin: 0,
+                    yMax: currentY,
+                    yMin: 0
+                  }
+                }
+                : {},
+              swapX !== -1
+                ? {
+                  positive: {
+                    backgroundColor: BOX_COLORS[2],
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: 100,
+                    xMin: swapX,
+                    yMax: currentY,
+                    yMin: 0
+                  }
+                }
+                : {}
+            )
+            // point1: {
+            //   backgroundColor: 'rgba(255, 99, 132, 0.25)',
+            //   type: 'point',
+            //   xValue: currentX,
+            //   yValue: currentY
+            // }
           }
         }
-      }, options),
+      }, OPTIONS),
       values
     };
   });
