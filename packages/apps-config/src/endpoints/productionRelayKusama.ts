@@ -193,7 +193,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
-      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8553
       // NOTE: Keep this as the last entry, nothing after it
       'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
@@ -581,8 +581,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1001,
     text: 'Encointer Network',
     providers: {
-      'Encointer Association': 'wss://kusama.api.encointer.org',
-      OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
+      'Encointer Association': 'wss://kusama.api.encointer.org'
+      // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
   }
