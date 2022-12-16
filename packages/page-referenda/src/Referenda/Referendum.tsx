@@ -47,6 +47,7 @@ interface ChartResult {
 }
 
 interface ChartResultExt extends ChartResult {
+  currentY: number;
   since: BN;
   trackGraph: CurveGraph;
 }
@@ -64,26 +65,30 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
         : (tally as PalletRankedCollectiveTally).bareAyes;
       const labels: string[] = [];
       const values: number[][][] = [[[], [], []], [[], [], []]];
+      const supc = totalEligible.isZero()
+        ? 0
+        : currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10;
+      const appc = tally.ayes.isZero()
+        ? 0
+        : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
 
       for (let i = 0; i < approval.length; i++) {
         labels.push(formatNumber(since.add(x[i])));
 
         const appr = approval[i].div(BN_MILLION).toNumber() / 10;
-        const appc = tally.ayes.isZero() ? 0 : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
 
         values[0][PT_CUR][i] = appr;
         values[0][appc < appr ? PT_NEG : PT_POS][i] = appc;
 
         const supr = support[i].div(BN_MILLION).toNumber() / 10;
-        const supc = totalEligible.isZero() ? 0 : currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10;
 
         values[1][PT_CUR][i] = supr;
         values[1][supc < supr ? PT_NEG : PT_POS][i] = supc;
       }
 
       return [
-        { colors: COLORS, labels, options: OPTIONS, since, trackGraph, values: values[0] },
-        { colors: COLORS, labels, options: OPTIONS, since, trackGraph, values: values[1] }
+        { colors: COLORS, currentY: appc, labels, options: OPTIONS, since, trackGraph, values: values[0] },
+        { colors: COLORS, currentY: supc, labels, options: OPTIONS, since, trackGraph, values: values[1] }
       ];
     }
   }
@@ -92,31 +97,41 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
 }
 
 function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartResult[] {
-  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): ChartResult => ({
-    colors,
-    labels,
-    options: objectSpread({
-      plugins: {
-        annotation: {
-          annotations: {
-            box1: {
-              backgroundColor: 'rgba(140, 140, 140, 0.25)',
-              type: 'box',
-              xMax: 100 * (
-                bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
-              ),
-              xMin: 0,
-              yMax: index === 0
-                ? 100
-                : 50,
-              yMin: 0
+  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): ChartResult => {
+    const currentX = 100 * (
+      bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
+    );
+
+    return {
+      colors,
+      labels,
+      options: objectSpread({
+        plugins: {
+          annotation: {
+            annotations: {
+              box1: {
+                backgroundColor: 'rgba(140, 140, 140, 0.25)',
+                type: 'box',
+                xMax: currentX,
+                xMin: 0,
+                yMax: index === 0
+                  ? 100
+                  : 50,
+                yMin: 0
+              }
+              // point1: {
+              //   backgroundColor: 'rgba(255, 99, 132, 0.25)',
+              //   type: 'point',
+              //   xValue: currentX,
+              //   yValue: currentY
+              // }
             }
           }
         }
-      }
-    }, options),
-    values
-  }));
+      }, options),
+      values
+    };
+  });
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
