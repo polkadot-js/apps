@@ -8,8 +8,8 @@ import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '
 import React, { useMemo } from 'react';
 
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
-import { BN_MILLION, BN_THOUSAND, formatNumber } from '@polkadot/util';
+import { useBestNumber, useToggle } from '@polkadot/react-hooks';
+import { BN_MILLION, BN_THOUSAND, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
@@ -46,7 +46,13 @@ interface ChartResult {
   values: number[][];
 }
 
-function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResult[] | null {
+interface ChartResultExt extends ChartResult {
+  currentY: number;
+  since: BN;
+  trackGraph: CurveGraph;
+}
+
+function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
   if (totalEligible && isConvictionVote && info.isOngoing) {
     const ongoing = info.asOngoing;
 
@@ -59,26 +65,30 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
         : (tally as PalletRankedCollectiveTally).bareAyes;
       const labels: string[] = [];
       const values: number[][][] = [[[], [], []], [[], [], []]];
+      const supc = totalEligible.isZero()
+        ? 0
+        : currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10;
+      const appc = tally.ayes.isZero()
+        ? 0
+        : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
 
       for (let i = 0; i < approval.length; i++) {
         labels.push(formatNumber(since.add(x[i])));
 
         const appr = approval[i].div(BN_MILLION).toNumber() / 10;
-        const appc = tally.ayes.isZero() ? 0 : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
 
         values[0][PT_CUR][i] = appr;
         values[0][appc < appr ? PT_NEG : PT_POS][i] = appc;
 
         const supr = support[i].div(BN_MILLION).toNumber() / 10;
-        const supc = totalEligible.isZero() ? 0 : currentSupport.mul(BN_THOUSAND).div(totalEligible).toNumber() / 10;
 
         values[1][PT_CUR][i] = supr;
         values[1][supc < supr ? PT_NEG : PT_POS][i] = supc;
       }
 
       return [
-        { colors: COLORS, labels, options: OPTIONS, values: values[0] },
-        { colors: COLORS, labels, options: OPTIONS, values: values[1] }
+        { colors: COLORS, currentY: appc, labels, options: OPTIONS, since, trackGraph, values: values[0] },
+        { colors: COLORS, currentY: supc, labels, options: OPTIONS, since, trackGraph, values: values[1] }
       ];
     }
   }
@@ -86,8 +96,47 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
   return null;
 }
 
+function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartResult[] {
+  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): ChartResult => {
+    const currentX = 100 * (
+      bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
+    );
+
+    return {
+      colors,
+      labels,
+      options: objectSpread({
+        plugins: {
+          annotation: {
+            annotations: {
+              box1: {
+                backgroundColor: 'rgba(140, 140, 140, 0.25)',
+                type: 'box',
+                xMax: currentX,
+                xMin: 0,
+                yMax: index === 0
+                  ? 100
+                  : 50,
+                yMin: 0
+              }
+              // point1: {
+              //   backgroundColor: 'rgba(255, 99, 132, 0.25)',
+              //   type: 'point',
+              //   xValue: currentX,
+              //   yValue: currentY
+              // }
+            }
+          }
+        }
+      }, options),
+      values
+    };
+  });
+}
+
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const bestNumber = useBestNumber();
   const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
@@ -99,6 +148,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const chartProps = useMemo(
     () => activeIssuance && trackGraph && getChartProps(activeIssuance, isConvictionVote, info, trackGraph),
     [activeIssuance, info, isConvictionVote, trackGraph]
+  );
+
+  const annotatedChartProps = useMemo(
+    () => bestNumber && chartProps && annotateChart(bestNumber, chartProps),
+    [bestNumber, chartProps]
   );
 
   const chartLegend = useMemo(
@@ -143,20 +197,20 @@ function Referendum (props: Props): React.ReactElement<Props> {
           )}
         </td>
       </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
+      <tr className={`${className} ${annotatedChartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        {annotatedChartProps && isExpanded && (
           <td colSpan={10}>
             <Columar>
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
-                  {...chartProps[0]}
+                  {...annotatedChartProps[0]}
                 />
               </Columar.Column>
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
-                  {...chartProps[1]}
+                  {...annotatedChartProps[1]}
                 />
               </Columar.Column>
             </Columar>
