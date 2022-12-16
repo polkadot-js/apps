@@ -43,12 +43,15 @@ interface ChartResult {
   colors: string[];
   labels: string[];
   options: typeof OPTIONS;
-  since: BN;
-  trackGraph: CurveGraph;
   values: number[][];
 }
 
-function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResult[] | null {
+interface ChartResultExt extends ChartResult {
+  since: BN;
+  trackGraph: CurveGraph;
+}
+
+function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
   if (totalEligible && isConvictionVote && info.isOngoing) {
     const ongoing = info.asOngoing;
 
@@ -88,8 +91,8 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
   return null;
 }
 
-function annotateChart (bestNumber: BN, chartProps: ChartResult[]): Omit<ChartResult, 'since' | 'trackGraph'>[] {
-  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): Omit<ChartResult, 'since' | 'trackGraph'> => ({
+function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartResult[] {
+  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): ChartResult => ({
     colors,
     labels,
     options: objectSpread({
