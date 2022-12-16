@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -43,6 +44,11 @@ interface DefaultAtAfter {
   trackId: number;
 }
 
+interface TrackOpt {
+  text: React.ReactNode;
+  value: number;
+}
+
 function getDefaultEnactment (prev: DefaultAtAfter | null, trackId: number): DefaultAtAfter {
   if (prev && prev.trackId === trackId) {
     return prev;
@@ -57,6 +63,25 @@ function getDefaultEnactment (prev: DefaultAtAfter | null, trackId: number): Def
     }],
     trackId
   };
+}
+
+function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[]): undefined | TrackOpt[] {
+  return tracks && tracks.map(({ id, info }): TrackOpt => {
+    const trackInfo = getTrackInfo(api, specName, palletReferenda, tracks, id.toNumber());
+    const trackName = getTrackName(id, info);
+
+    return {
+      text: trackInfo?.text
+        ? (
+          <div className='trackOption'>
+            <div className='normal'>{trackName}</div>
+            <div className='faded'>{trackInfo.text}</div>
+          </div>
+        )
+        : trackName,
+      value: id.toNumber()
+    };
+  });
 }
 
 function Submit ({ className = '', isMember, members, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
@@ -129,11 +154,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 
   const trackOpts = useMemo(
-    () => tracks && tracks.map(({ id, info }) => ({
-      text: getTrackName(id, info),
-      value: id.toNumber()
-    })),
-    [tracks]
+    () => getTrackOptions(api, specName, palletReferenda, tracks),
+    [api, palletReferenda, specName, tracks]
   );
 
   const _onChangeOriginMulti = useCallback(
@@ -210,7 +232,14 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}</p>
+                  <p>{t<string>('The length value witll be auto-populated from the on-chain value if is is found.')}</p>
+                </>
+              }
+            >
               <Input
                 autoFocus
                 help={t<string>('The preimage hash of the proposal')}
@@ -219,8 +248,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 onChange={_onChangeImageHash}
                 value={imageHash || ''}
               />
-            </Modal.Columns>
-            <Modal.Columns hint={t<string>('The value will be populated when a valid on-chain hash exists in preimages')}>
               <Input
                 help={t<string>('The preimage length of the proposal')}
                 key='inputLength'
@@ -314,6 +341,13 @@ export default React.memo(styled(Submit)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
+    }
+  }
+
+  .trackOption {
+    .faded {
+      margin-top: 0.25rem;
+      opacity: 0.5;
     }
   }
 `);

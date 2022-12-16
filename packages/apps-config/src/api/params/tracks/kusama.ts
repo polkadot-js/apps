@@ -29,7 +29,9 @@ const SPEND_LIMITS = {
 };
 
 function formatSpend (mul: number, value: BN): string {
-  return formatBalance(value.muln(mul), FMT_OPTS);
+  // We lose the decimals here... depending on chain config, this could be non-optimal
+  // (A simple formatBalance(value.muln(mul), FMT_OPTS) formats to 4 decimals)
+  return `${formatBalance(value.muln(mul), FMT_OPTS).split('.')[0]} ${FMT_OPTS.withUnit}`;
 }
 
 function compareFellowshipRank (trackId: number): (rank: BN) => boolean {
@@ -124,7 +126,8 @@ export const kusama: Record<string, TrackInfo[]> = {
     {
       id: 0,
       name: 'root',
-      origin: { system: 'Root' }
+      origin: { system: 'Root' },
+      text: 'Origin for the system root'
     },
     {
       id: 1,
