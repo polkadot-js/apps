@@ -31897,7 +31897,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            33
+            33,
+            35
           ],
           "types": {
             "Address": "MultiAddress",
@@ -32120,6 +32121,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            36,
             36
           ],
           "types": {
@@ -32491,6 +32493,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            37,
             37
           ],
           "types": {
@@ -32869,6 +32872,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            38,
             38
           ],
           "types": {
@@ -33242,7 +33246,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            39
+            39,
+            43
           ],
           "types": {
             "Address": "MultiAddress",
@@ -33285,6 +33290,7 @@ export const typesBundle = {
                 "X25519": "Bytes32"
               }
             },
+            "DispatchError": "DispatchErrorPre6",
             "SigValue": {
               "_enum": {
                 "Sr25519": "Bytes64",
@@ -33308,20 +33314,30 @@ export const typesBundle = {
               "accountId": "AccountId",
               "docRef": "OffChainDidDocRef"
             },
-            "OnChainDidDetails": {
+            "StoredOnChainDidDetails": {
+              "nonce": "BlockNumber",
               "lastKeyId": "IncId",
               "activeControllerKeys": "u32",
               "activeControllers": "u32"
-            },
-            "StoredOnChainDidDetails": {
-              "nonce": "BlockNumber",
-              "data": "OnChainDidDetails"
             },
             "StoredDidDetails": {
               "_enum": {
                 "OffChain": "OffChainDidDetails",
                 "OnChain": "StoredOnChainDidDetails"
               }
+            },
+            "HighRateRewardsState": {
+              "_enum": {
+                "None": null,
+                "StartingInNextEra": "HighRateRewardsStartingInNextEra",
+                "Active": "HighRateRewardsActive"
+              }
+            },
+            "HighRateRewardsStartingInNextEra": {
+              "duration": "u16"
+            },
+            "HighRateRewardsActive": {
+              "endsAfter": "u16"
             },
             "VerRelType": "u16",
             "ServiceEndpointType": "u16",
@@ -33393,7 +33409,7 @@ export const typesBundle = {
             },
             "AddRegistry": {
               "id": "RegistryId",
-              "registry": "Registry"
+              "newRegistry": "Registry"
             },
             "RevokeRaw": {
               "registryId": "RegistryId",
@@ -33917,7 +33933,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            33
+            33,
+            35
           ],
           "types": {
             "Address": "MultiAddress",
@@ -34140,6 +34157,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            36,
             36
           ],
           "types": {
@@ -34511,6 +34529,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            37,
             37
           ],
           "types": {
@@ -34889,6 +34908,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            38,
             38
           ],
           "types": {
@@ -35262,7 +35282,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            39
+            39,
+            43
           ],
           "types": {
             "Address": "MultiAddress",
@@ -35305,6 +35326,7 @@ export const typesBundle = {
                 "X25519": "Bytes32"
               }
             },
+            "DispatchError": "DispatchErrorPre6",
             "SigValue": {
               "_enum": {
                 "Sr25519": "Bytes64",
@@ -35328,20 +35350,30 @@ export const typesBundle = {
               "accountId": "AccountId",
               "docRef": "OffChainDidDocRef"
             },
-            "OnChainDidDetails": {
+            "StoredOnChainDidDetails": {
+              "nonce": "BlockNumber",
               "lastKeyId": "IncId",
               "activeControllerKeys": "u32",
               "activeControllers": "u32"
-            },
-            "StoredOnChainDidDetails": {
-              "nonce": "BlockNumber",
-              "data": "OnChainDidDetails"
             },
             "StoredDidDetails": {
               "_enum": {
                 "OffChain": "OffChainDidDetails",
                 "OnChain": "StoredOnChainDidDetails"
               }
+            },
+            "HighRateRewardsState": {
+              "_enum": {
+                "None": null,
+                "StartingInNextEra": "HighRateRewardsStartingInNextEra",
+                "Active": "HighRateRewardsActive"
+              }
+            },
+            "HighRateRewardsStartingInNextEra": {
+              "duration": "u16"
+            },
+            "HighRateRewardsActive": {
+              "endsAfter": "u16"
             },
             "VerRelType": "u16",
             "ServiceEndpointType": "u16",
@@ -35413,7 +35445,7 @@ export const typesBundle = {
             },
             "AddRegistry": {
               "id": "RegistryId",
-              "registry": "Registry"
+              "newRegistry": "Registry"
             },
             "RevokeRaw": {
               "registryId": "RegistryId",
@@ -35937,7 +35969,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            33
+            33,
+            35
           ],
           "types": {
             "Address": "MultiAddress",
@@ -36160,6 +36193,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            36,
             36
           ],
           "types": {
@@ -36531,6 +36565,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            37,
             37
           ],
           "types": {
@@ -36909,6 +36944,7 @@ export const typesBundle = {
         },
         {
           "minmax": [
+            38,
             38
           ],
           "types": {
@@ -37282,7 +37318,8 @@ export const typesBundle = {
         },
         {
           "minmax": [
-            39
+            39,
+            43
           ],
           "types": {
             "Address": "MultiAddress",
@@ -37325,6 +37362,7 @@ export const typesBundle = {
                 "X25519": "Bytes32"
               }
             },
+            "DispatchError": "DispatchErrorPre6",
             "SigValue": {
               "_enum": {
                 "Sr25519": "Bytes64",
@@ -37348,20 +37386,30 @@ export const typesBundle = {
               "accountId": "AccountId",
               "docRef": "OffChainDidDocRef"
             },
-            "OnChainDidDetails": {
+            "StoredOnChainDidDetails": {
+              "nonce": "BlockNumber",
               "lastKeyId": "IncId",
               "activeControllerKeys": "u32",
               "activeControllers": "u32"
-            },
-            "StoredOnChainDidDetails": {
-              "nonce": "BlockNumber",
-              "data": "OnChainDidDetails"
             },
             "StoredDidDetails": {
               "_enum": {
                 "OffChain": "OffChainDidDetails",
                 "OnChain": "StoredOnChainDidDetails"
               }
+            },
+            "HighRateRewardsState": {
+              "_enum": {
+                "None": null,
+                "StartingInNextEra": "HighRateRewardsStartingInNextEra",
+                "Active": "HighRateRewardsActive"
+              }
+            },
+            "HighRateRewardsStartingInNextEra": {
+              "duration": "u16"
+            },
+            "HighRateRewardsActive": {
+              "endsAfter": "u16"
             },
             "VerRelType": "u16",
             "ServiceEndpointType": "u16",
@@ -37433,7 +37481,7 @@ export const typesBundle = {
             },
             "AddRegistry": {
               "id": "RegistryId",
-              "registry": "Registry"
+              "newRegistry": "Registry"
             },
             "RevokeRaw": {
               "registryId": "RegistryId",
