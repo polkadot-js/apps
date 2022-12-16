@@ -73,3 +73,11 @@ export interface TrackInfo {
   origin: Record<string, string> | Record<string, string>[];
   text?: string;
 }
+
+export interface Lock {
+  classId: BN;
+  endBlock: BN;
+  locked: string;
+  refId: BN;
+  total: BN;
+}
