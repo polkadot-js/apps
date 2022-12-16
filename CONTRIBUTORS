@@ -1,4 +1,4 @@
-    3903	Jaco                          	Add elapsed overlays on referenda graphs (#8557)
+    3904	Jaco                          	Gov2 lock calcs (per account) (#8537)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
