@@ -8,8 +8,8 @@ import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '
 import React, { useMemo } from 'react';
 
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
-import { BN_MILLION, BN_THOUSAND, formatNumber } from '@polkadot/util';
+import { useBestNumber, useToggle } from '@polkadot/react-hooks';
+import { BN_MILLION, BN_THOUSAND, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
@@ -43,6 +43,8 @@ interface ChartResult {
   colors: string[];
   labels: string[];
   options: typeof OPTIONS;
+  since: BN;
+  trackGraph: CurveGraph;
   values: number[][];
 }
 
@@ -77,8 +79,8 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
       }
 
       return [
-        { colors: COLORS, labels, options: OPTIONS, values: values[0] },
-        { colors: COLORS, labels, options: OPTIONS, values: values[1] }
+        { colors: COLORS, labels, options: OPTIONS, since, trackGraph, values: values[0] },
+        { colors: COLORS, labels, options: OPTIONS, since, trackGraph, values: values[1] }
       ];
     }
   }
@@ -86,8 +88,37 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
   return null;
 }
 
+function annotateChart (bestNumber: BN, chartProps: ChartResult[]): Omit<ChartResult, 'since' | 'trackGraph'>[] {
+  return chartProps.map(({ colors, labels, options, since, trackGraph: { x }, values }, index): Omit<ChartResult, 'since' | 'trackGraph'> => ({
+    colors,
+    labels,
+    options: objectSpread({
+      plugins: {
+        annotation: {
+          annotations: {
+            box1: {
+              backgroundColor: 'rgba(140, 140, 140, 0.25)',
+              type: 'box',
+              xMax: 100 * (
+                bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
+              ),
+              xMin: 0,
+              yMax: index === 0
+                ? 100
+                : 50,
+              yMin: 0
+            }
+          }
+        }
+      }
+    }, options),
+    values
+  }));
+}
+
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const bestNumber = useBestNumber();
   const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
@@ -99,6 +130,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const chartProps = useMemo(
     () => activeIssuance && trackGraph && getChartProps(activeIssuance, isConvictionVote, info, trackGraph),
     [activeIssuance, info, isConvictionVote, trackGraph]
+  );
+
+  const annotatedChartProps = useMemo(
+    () => bestNumber && chartProps && annotateChart(bestNumber, chartProps),
+    [bestNumber, chartProps]
   );
 
   const chartLegend = useMemo(
@@ -143,20 +179,20 @@ function Referendum (props: Props): React.ReactElement<Props> {
           )}
         </td>
       </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
+      <tr className={`${className} ${annotatedChartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        {annotatedChartProps && isExpanded && (
           <td colSpan={10}>
             <Columar>
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
-                  {...chartProps[0]}
+                  {...annotatedChartProps[0]}
                 />
               </Columar.Column>
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
-                  {...chartProps[1]}
+                  {...annotatedChartProps[1]}
                 />
               </Columar.Column>
             </Columar>
