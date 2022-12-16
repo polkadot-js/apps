@@ -54,6 +54,11 @@ interface DemocracyUnlockable {
   ids: BN[];
 }
 
+interface ReferendaUnlockable {
+  referendaUnlockTx: SubmittableExtrinsic<'promise'> | null;
+  ids: [classId: BN, refId: BN][];
+}
+
 const BAL_OPTS_DEFAULT = {
   available: false,
   bonded: false,
@@ -111,6 +116,28 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
     : null;
 }
 
+function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN][], palletReferenda = 'convictionVoting'): SubmittableExtrinsic<'promise'> | null {
+  if (!api.tx.utility) {
+    return null;
+  }
+
+  const inner = ids.map(([classId, refId]) => api.tx[palletReferenda].removeVote(classId, refId));
+
+  ids
+    .reduce((all: BN[], [classId]) => {
+      if (!all.find((id) => id.eq(classId))) {
+        all.push(classId);
+      }
+
+      return all;
+    }, [])
+    .forEach((classId): void => {
+      inner.push(api.tx[palletReferenda].unlock(classId, address));
+    });
+
+  return api.tx.utility.batch(inner);
+}
+
 async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
   const ledger = getLedger();
 
@@ -137,7 +164,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const convictionLocks = useAccountLocks('referenda', 'convictionVoting', address);
-  const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
+  const [{ democracyUnlockTx }, setDemocracyUnlock] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
+  const [{ referendaUnlockTx }, setReferandaUnlock] = useState<ReferendaUnlockable>({ ids: [], referendaUnlockTx: null });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -174,7 +202,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   }, [address, api, balancesAll, setBalance, stakingInfo]);
 
   useEffect((): void => {
-    bestNumber && democracyLocks && setUnlockableIds(
+    bestNumber && democracyLocks && setDemocracyUnlock(
       (prev): DemocracyUnlockable => {
         const ids = democracyLocks
           .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
@@ -191,6 +219,25 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       }
     );
   }, [address, api, bestNumber, democracyLocks]);
+
+  useEffect((): void => {
+    bestNumber && convictionLocks && setReferandaUnlock(
+      (prev): ReferendaUnlockable => {
+        const ids = convictionLocks
+          .filter(({ endBlock }) => endBlock.gt(BN_ZERO) && bestNumber.gt(endBlock))
+          .map(({ classId, refId }): [classId: BN, refId: BN] => [classId, refId]);
+
+        if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {
+          return prev;
+        }
+
+        return {
+          ids,
+          referendaUnlockTx: createClearReferendaTx(api.api, address, ids)
+        };
+      }
+    );
+  }, [address, api, bestNumber, convictionLocks]);
 
   const isVisible = useMemo(
     () => calcVisible(filter, accName, tags),
@@ -231,6 +278,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       extrinsic: democracyUnlockTx
     }),
     [address, democracyUnlockTx, queueExtrinsic]
+  );
+
+  const _clearReferendaLocks = useCallback(
+    () => referendaUnlockTx && queueExtrinsic({
+      accountId: address,
+      extrinsic: referendaUnlockTx
+    }),
+    [address, referendaUnlockTx, queueExtrinsic]
   );
 
   const _vestingVest = useCallback(
@@ -276,6 +331,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           key='clearDemocracy'
           label={t('Clear expired democracy locks')}
           onClick={_clearDemocracyLocks}
+        />
+      ),
+      isFunction(api.api.tx.convictionVoting?.unlock) && referendaUnlockTx && (
+        <Menu.Item
+          icon='broom'
+          key='clearReferenda'
+          label={t('Clear expired referenda locks')}
+          onClick={_clearReferendaLocks}
         />
       ),
       isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
@@ -400,7 +463,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;

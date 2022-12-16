@@ -78,12 +78,12 @@ function getRefParams (votes?: [classId: BN, refIds: BN[], casting: PalletConvic
   return undefined;
 }
 
-function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], PalletConvictionVotingVoteCasting][], referenda: [BN, PalletReferendaReferendumInfoConvictionVotingTally][]): Lock[] {
+function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN, refIds: BN[], casting: PalletConvictionVotingVoteCasting][], referenda: [BN, PalletReferendaReferendumInfoConvictionVotingTally][]): Lock[] {
   const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
   const locks: Lock[] = [];
 
   for (let i = 0; i < votes.length; i++) {
-    const [,, casting] = votes[i];
+    const [classId,, casting] = votes[i];
 
     for (let i = 0; i < casting.votes.length; i++) {
       const [refId, accountVote] = casting.votes[i];
@@ -139,7 +139,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [BN, BN[], Pa
         }
 
         if (total && endBlock) {
-          locks.push({ endBlock, locked, refId, total });
+          locks.push({ classId, endBlock, locked, refId, total });
         }
       }
     }

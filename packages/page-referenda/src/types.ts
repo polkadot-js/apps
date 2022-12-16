@@ -75,6 +75,7 @@ export interface TrackInfo {
 }
 
 export interface Lock {
+  classId: BN;
   endBlock: BN;
   locked: string;
   refId: BN;
