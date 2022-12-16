@@ -11,6 +11,7 @@
 import { sanitize } from '../util';
 import chain3dpass from './chains/3dpass.png';
 import chainAcala from './chains/acala.svg';
+import chainAcurast from './chains/acurast.png';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAmplitude from './chains/amplitude.svg';
@@ -243,6 +244,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Acurast Rococo Testnet': chainAcurast,
   'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
@@ -486,6 +488,7 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
+  'Acurast Parachain Collator': chainAcurast,
   'Ajuna Node': nodeAjuna,
   Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
@@ -868,6 +871,7 @@ export const namedLogos: Record<string, unknown> = {
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
+  rococoAcurast: chainAcurast,
   rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,

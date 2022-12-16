@@ -1,4 +1,4 @@
-    3896	Jaco                          	Display Call hashes on disabled items (#8544)
+    3903	Jaco                          	Add elapsed overlays on referenda graphs (#8557)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
@@ -324,6 +324,7 @@
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
        1	Mickaël Canu                  	fix error on validator word (#7110)
        1	Mickael Faust                 	Added TerraBioDAO to the GM nodes list (#8010)
+       1	Mike Godenzi                  	Acurast added to Rococo (#8546)
        1	Mikhail Fedosov               	feat: add 3dpass network (#8540)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)

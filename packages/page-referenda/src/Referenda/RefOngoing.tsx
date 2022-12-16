@@ -95,6 +95,14 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
           : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
       </td>
+      <Deposits
+        canDeposit
+        decision={decisionDeposit}
+        id={id}
+        palletReferenda={palletReferenda}
+        submit={submissionDeposit}
+        track={track}
+      />
       <RefEnd
         label={
           confirmEnd
@@ -104,14 +112,6 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               : t<string>('Preparing')
         }
         when={periodEnd}
-      />
-      <Deposits
-        canDeposit
-        decision={decisionDeposit}
-        id={id}
-        palletReferenda={palletReferenda}
-        submit={submissionDeposit}
-        track={track}
       />
       <Votes
         id={id}
