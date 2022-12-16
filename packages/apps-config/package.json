@@ -20,7 +20,7 @@
     "@darwinia/types": "2.8.10",
     "@darwinia/types-known": "2.8.10",
     "@digitalnative/type-definitions": "1.1.27",
-    "@docknetwork/node-types": "0.13.0",
+    "@docknetwork/node-types": "0.15.0",
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.4.14",
     "@interlay/interbtc-types": "1.9.0",
