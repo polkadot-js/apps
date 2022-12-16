@@ -124,6 +124,17 @@ function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
           annotation: {
             annotations: objectSpread(
               {
+                negative: {
+                  backgroundColor: BOX_COLORS[1],
+                  borderWidth: 0,
+                  type: 'box',
+                  xMax: swapX === -1
+                    ? 100
+                    : swapX,
+                  xMin: 0,
+                  yMax: currentY,
+                  yMin: 0
+                },
                 past: {
                   backgroundColor: BOX_COLORS[0],
                   borderWidth: 0,
@@ -136,19 +147,6 @@ function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
                   yMin: 0
                 }
               },
-              swapX !== -1 && swapX > currentX
-                ? {
-                  negative: {
-                    backgroundColor: BOX_COLORS[1],
-                    borderWidth: 0,
-                    type: 'box',
-                    xMax: swapX,
-                    xMin: 0,
-                    yMax: currentY,
-                    yMin: 0
-                  }
-                }
-                : {},
               swapX !== -1
                 ? {
                   positive: {
