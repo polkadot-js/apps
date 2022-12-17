@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
@@ -35,8 +36,8 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
   );
 
   const proxiedAccounts = Object.keys(proxies);
-  const isAmountError = !amount || amount.isZero() || amount.lt(api.consts.gilt.minFreeze);
-  const isDurationError = !duration || !duration.gte(BN_ONE) || duration.gt(api.consts.gilt.queueCount);
+  const isAmountError = !amount || amount.isZero() || amount.lt(api.consts.gilt.minFreeze as u128);
+  const isDurationError = !duration || !duration.gte(BN_ONE) || duration.gt(api.consts.gilt.queueCount as u128);
 
   return (
     <>

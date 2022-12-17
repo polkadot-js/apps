@@ -50,8 +50,6 @@ function createVoteOpts (api: ApiPromise, t: TFunction): { text: string, value: 
   let hasAbstain = false;
 
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error This issue will go way with the correct types
     hasAbstain = !!api.createType('PalletConvictionVotingVoteAccountVote', { SplitAbstain: { abstain: 1 } }).isSplitAbstain;
   } catch {
     hasAbstain = false;
