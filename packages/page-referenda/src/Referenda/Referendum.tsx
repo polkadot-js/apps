@@ -6,6 +6,7 @@ import type { BN } from '@polkadot/util';
 import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '../types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { useBestNumber, useToggle } from '@polkadot/react-hooks';
@@ -41,6 +42,11 @@ const OPTIONS = {
 };
 
 interface ChartResult {
+  progress: {
+    percent: number;
+    value: BN;
+    total: BN;
+  };
   labels: string[];
   values: number[][];
 }
@@ -57,7 +63,7 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
+function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
   if (totalEligible && isConvictionVote && info.isOngoing) {
     const ongoing = info.asOngoing;
 
@@ -98,8 +104,8 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
       }
 
       return [
-        { changeX: appx, currentY: appc, labels, since, trackGraph, values: values[0] },
-        { changeX: supx, currentY: supc, labels, since, trackGraph, values: values[1] }
+        { changeX: appx, currentY: appc, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, trackGraph, values: values[0] },
+        { changeX: supx, currentY: supc, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, trackGraph, values: values[1] }
       ];
     }
   }
@@ -107,8 +113,8 @@ function getChartProps (totalEligible: BN, isConvictionVote: boolean, info: Pall
   return null;
 }
 
-function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartProps[] {
-  return chartProps.map(({ changeX, currentY, labels, since, trackGraph: { x }, values }, index): ChartProps => {
+function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProps[] {
+  return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
     const currentX = 100 * (
       bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
     );
@@ -161,15 +167,10 @@ function annotateChart (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
                 }
                 : {}
             )
-            // point1: {
-            //   backgroundColor: 'rgba(255, 99, 132, 0.25)',
-            //   type: 'point',
-            //   xValue: currentX,
-            //   yValue: currentY
-            // }
           }
         }
       }, OPTIONS),
+      progress,
       values
     };
   });
@@ -186,14 +187,14 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [info]
   );
 
-  const chartProps = useMemo(
-    () => activeIssuance && trackGraph && getChartProps(activeIssuance, isConvictionVote, info, trackGraph),
+  const chartResult = useMemo(
+    () => activeIssuance && trackGraph && getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
     [activeIssuance, info, isConvictionVote, trackGraph]
   );
 
-  const annotatedChartProps = useMemo(
-    () => bestNumber && chartProps && annotateChart(bestNumber, chartProps),
-    [bestNumber, chartProps]
+  const chartProps = useMemo(
+    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult),
+    [bestNumber, chartResult]
   );
 
   const chartLegend = useMemo(
@@ -238,20 +239,22 @@ function Referendum (props: Props): React.ReactElement<Props> {
           )}
         </td>
       </tr>
-      <tr className={`${className} ${annotatedChartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {annotatedChartProps && isExpanded && (
+      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        {chartProps && isExpanded && (
           <td colSpan={10}>
             <Columar>
-              <Columar.Column>
+              <Columar.Column className='chartColumn'>
+                <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
                 <Chart.Line
                   legends={chartLegend[0]}
-                  {...annotatedChartProps[0]}
+                  {...chartProps[0]}
                 />
               </Columar.Column>
-              <Columar.Column>
+              <Columar.Column className='chartColumn'>
+                <h1>{t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}</h1>
                 <Chart.Line
                   legends={chartLegend[1]}
-                  {...annotatedChartProps[1]}
+                  {...chartProps[1]}
                 />
               </Columar.Column>
             </Columar>
@@ -262,4 +265,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Referendum);
+export default React.memo(styled(Referendum)`
+  .chartColumn {
+    h1 {
+      font-size: 1.25rem;
+      margin-bottom: 0;
+      margin-top: 1rem;
+      text-align: center;
+    }
+  }
+`);
