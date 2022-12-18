@@ -126,12 +126,13 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
 
 function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProps[] {
   return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
-    const currentX = 100 * (
+    const maxX = labels.length;
+    const currentX = maxX * (
       bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
     );
     const swapX = changeX === -1
       ? -1
-      : 100 * (changeX / x.length);
+      : maxX * (changeX / x.length);
 
     return {
       colors: VAL_COLORS,
@@ -146,7 +147,7 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
                   borderWidth: 0,
                   type: 'box',
                   xMax: swapX === -1
-                    ? 100
+                    ? maxX
                     : swapX,
                   xMin: 0,
                   yMax: currentY,
@@ -170,7 +171,7 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
                     backgroundColor: BOX_COLORS[2],
                     borderWidth: 0,
                     type: 'box',
-                    xMax: 100,
+                    xMax: maxX,
                     xMin: swapX,
                     yMax: currentY,
                     yMin: 0
