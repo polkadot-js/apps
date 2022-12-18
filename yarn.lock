@@ -3027,6 +3027,7 @@ __metadata:
   resolution: "@polkadot/app-referenda@workspace:packages/page-referenda"
   dependencies:
     "@babel/runtime": ^7.20.6
+    chart.js: ^3.9.1
   languageName: unknown
   linkType: soft
 

@@ -49,7 +49,8 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
         </tr>
       )
     ],
-    [isExpanded, toggleExpanded, trackInfo])
+    [isExpanded, toggleExpanded, trackInfo]
+  );
 
   const [header, key] = useMemo(
     () => [

@@ -8,7 +8,7 @@ import type { CurveGraph, TrackDescription, TrackInfoExt } from './types';
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpread, stringPascalCase } from '@polkadot/util';
 
-const CALC_CURVE_LENGTH = 100;
+const CURVE_LENGTH = 100;
 
 export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
   return `${
@@ -205,11 +205,11 @@ export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiv
 }
 
 export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo): CurveGraph {
-  const approval = new Array<BN>(100);
-  const support = new Array<BN>(100);
-  const x = new Array<BN>(100);
-  const step = decisionPeriod.divn(CALC_CURVE_LENGTH);
-  const last = CALC_CURVE_LENGTH - 1;
+  const approval = new Array<BN>(CURVE_LENGTH);
+  const support = new Array<BN>(CURVE_LENGTH);
+  const x = new Array<BN>(CURVE_LENGTH);
+  const step = decisionPeriod.divn(CURVE_LENGTH);
+  const last = CURVE_LENGTH - 1;
   let current = new BN(0);
 
   for (let i = 0; i < last; i++) {

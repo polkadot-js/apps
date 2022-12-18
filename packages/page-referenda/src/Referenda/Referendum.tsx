@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ChartOptions } from 'chart.js';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '../types';
@@ -28,11 +29,21 @@ const PT_CUR = 0;
 const PT_NEG = 1;
 const PT_POS = 2;
 
-const OPTIONS = {
+const OPTIONS: ChartOptions = {
   animation: {
     duration: 0
   },
   aspectRatio: 2.25,
+  elements: {
+    point: {
+      hoverRadius: 6,
+      radius: 0
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  },
   maintainAspectRatio: true,
   scales: {
     y: {

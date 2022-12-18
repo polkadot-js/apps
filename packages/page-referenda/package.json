@@ -14,5 +14,8 @@
   "version": "0.122.3-132-x",
   "dependencies": {
     "@babel/runtime": "^7.20.6"
+  },
+  "devDependencies": {
+    "chart.js": "^3.9.1"
   }
 }
