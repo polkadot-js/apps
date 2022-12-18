@@ -121,11 +121,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoEthos',
-    homepage: 'https://jur.io/',
     paraId: 2095,
     text: 'Ethos',
     providers: {
-      Jur: 'ws://127.0.0.1:8844'
+      Jur: 'wss://ethos.jur.io'
     }
   },
   {
