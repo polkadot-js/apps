@@ -23,7 +23,7 @@ const COMPONENTS: Record<string, React.ComponentType<ReferendumProps>> = {
   Ongoing
 };
 
-const VAL_COLORS = ['rgba(140, 140, 140, 0.65)', '#9c3333', '#339c33'];
+const VAL_COLORS = ['#ff8c00', '#9c3333', '#339c33'];
 const BOX_COLORS = ['rgba(140, 140, 140, 0.2)', 'rgba(140, 0, 0, 0.2)', 'rgba(0, 140, 0, 0.2)'];
 const PT_CUR = 0;
 const PT_NEG = 1;
