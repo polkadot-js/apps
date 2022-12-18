@@ -112,6 +112,8 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
     [index, events, maxBlockWeight]
   );
 
+  const callName = `${section}.${method}`;
+
   return (
     <tr
       className={className}
@@ -122,10 +124,11 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         colSpan={2}
       >
         <Expander
-          summary={`${section}.${method}`}
+          summary={callName}
           summaryMeta={meta}
         >
           <Call
+            callName={callName}
             className='details'
             mortality={mortality}
             tip={value.tip?.toBn()}

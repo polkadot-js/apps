@@ -7,8 +7,8 @@ import type { PalletReferenda, PalletVote, ReferendaGroup, TrackDescription } fr
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { ExpandButton, Table } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { getTrackInfo } from '../util';
@@ -28,25 +28,51 @@ interface Props extends ReferendaGroup {
 function Group ({ activeIssuance, className, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, specName } = useApi();
+  const [isExpanded, toggleExpanded] = useToggle();
 
   const trackInfo = useMemo(
     () => getTrackInfo(api, specName, palletReferenda, tracks, trackId?.toNumber()),
     [api, specName, palletReferenda, tracks, trackId]
   );
 
+  const [headerButton, headerChildren] = useMemo(
+    () => [
+      false && trackInfo && (
+        <ExpandButton
+          expanded={isExpanded}
+          onClick={toggleExpanded}
+        />
+      ),
+      isExpanded && trackInfo && (
+        <tr>
+          <th colSpan={9}>Hello expanded</th>
+        </tr>
+      )
+    ],
+    [isExpanded, toggleExpanded, trackInfo]
+  );
+
+  const [header, key] = useMemo(
+    () => [
+      [
+        [trackName ? <>{trackName}<div>{trackInfo?.text}</div></> : t('referenda'), 'start', 5],
+        [undefined, 'number', 3],
+        [headerButton]
+      ],
+      trackName
+        ? `track:${trackName}`
+        : 'untracked'
+    ],
+    [headerButton, t, trackInfo, trackName]
+  );
+
   return (
     <Table
       className={className}
       empty={referenda && t<string>('No active referenda')}
-      header={[
-        [trackName ? <>{trackName}<div>{trackInfo?.text}</div></> : t('referenda'), 'start', 7],
-        [undefined, undefined, 3]
-      ]}
-      key={
-        trackName
-          ? `track:${trackName}`
-          : 'untracked'
-      }
+      header={header}
+      headerChildren={headerChildren}
+      key={key}
       withCollapsibleRows
     >
       {referenda && referenda.map((r) => (
@@ -72,5 +98,10 @@ export default React.memo(styled(Group)`
     font-size: 1rem;
     padding-left: 1.5rem;
     text-overflow: ellipsis;
+  }
+
+  th.number h1 {
+    display: inline-block;
+    opacity: 0.75;
   }
 `);

@@ -29,14 +29,16 @@ function CallExpander ({ children, className = '', labelHash, value, withHash }:
   }
 
   const { meta, method, section } = call;
+  const callName = `${section}.${method}`;
 
   return (
     <div className={`ui--CallExpander ${className}`}>
       <Expander
-        summaryHead={<div>{section}.{method}</div>}
+        summaryHead={<div>{callName}</div>}
         summaryMeta={meta}
       >
         <CallDisplay
+          callName={callName}
           labelHash={labelHash}
           value={value}
           withHash={withHash}

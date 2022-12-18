@@ -24,6 +24,7 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
 
   const call = value as Extrinsic;
   const { method, section } = call.registry.findMetaCall(call.callIndex);
+  const callName = `${section}.${method}`;
 
   return (
     <Bare>
@@ -32,9 +33,10 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
         label={label}
         withLabel={withLabel}
       >
-        {section}.{method}
+        {callName}
       </Static>
       <Call
+        callName={callName}
         labelHash={t<string>('call hash / {{section}}.{{method}}', { replace: { method, section } })}
         noIndent
         value={call}
