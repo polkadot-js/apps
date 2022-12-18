@@ -3,10 +3,10 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { CurveGraph, TrackDescription, TrackInfo } from './types';
+import type { CurveGraph, TrackDescription, TrackInfoExt } from './types';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, stringPascalCase } from '@polkadot/util';
+import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpread, stringPascalCase } from '@polkadot/util';
 
 const CALC_CURVE_LENGTH = 100;
 
@@ -22,20 +22,23 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfo | undefined {
-  let info: TrackInfo | undefined;
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+  let info: TrackInfoExt | undefined;
 
   if (tracks && trackId !== undefined) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
-    const trackInfo = tracks.find(({ id }) => id.eqn(trackId));
+    const track = tracks.find(({ id }) => id.eqn(trackId));
 
-    if (trackInfo && originMap) {
-      const trackName = trackInfo.info.name.toString();
-
-      info = originMap.find(({ id, name }) =>
+    if (track && originMap) {
+      const trackName = track.info.name.toString();
+      const base = originMap.find(({ id, name }) =>
         id === trackId &&
         name === trackName
       );
+
+      if (base) {
+        info = objectSpread<TrackInfoExt>({ track }, base);
+      }
     }
   }
 

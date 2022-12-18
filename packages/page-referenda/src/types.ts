@@ -74,6 +74,10 @@ export interface TrackInfo {
   text?: string;
 }
 
+export interface TrackInfoExt extends TrackInfo {
+  track: TrackDescription;
+}
+
 export interface Lock {
   classId: BN;
   endBlock: BN;

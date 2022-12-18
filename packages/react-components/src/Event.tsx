@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DecodedEvent } from '@polkadot/api-contract/types';
+import type { ComponentMap } from '@polkadot/react-params/types';
 import type { Bytes } from '@polkadot/types';
 import type { Event } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
@@ -10,6 +11,7 @@ import React, { useMemo } from 'react';
 
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
+import BalanceParam from '@polkadot/react-params/Param/Balance';
 
 import { useTranslation } from './translate';
 import { getContractAbi } from './util';
@@ -17,6 +19,7 @@ import { getContractAbi } from './util';
 export interface Props {
   children?: React.ReactNode;
   className?: string;
+  eventName?: string;
   value: Event;
 }
 
@@ -29,7 +32,19 @@ interface AbiEvent extends DecodedEvent {
   values: Value[];
 }
 
-function EventDisplay ({ children, className = '', value }: Props): React.ReactElement<Props> {
+const BALANCE_EVENTS = [
+  'balances.Deposit', 'balances.Endowed', 'balances.Transfer', 'balances.Withdraw',
+  'staking.Bonded', 'staking.Rewarded', 'staking.Unbonded', 'staking.Withdrawn',
+  'transactionPayment.TransactionFeePaid',
+  'treasury.Deposit'
+];
+
+const BALANCE_OVERRIDE: ComponentMap = {
+  'Compact<u128>': BalanceParam,
+  u128: BalanceParam
+};
+
+function EventDisplay ({ children, className = '', eventName, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const names = value.data.names;
   const params = value.typeDef.map((type, i) => ({
@@ -37,6 +52,13 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
     type
   }));
   const values = value.data.map((value) => ({ isValid: true, value }));
+
+  const overrides = useMemo(
+    () => eventName && BALANCE_EVENTS.includes(eventName)
+      ? BALANCE_OVERRIDE
+      : undefined,
+    [eventName]
+  );
 
   const abiEvent = useMemo(
     (): AbiEvent | null => {
@@ -72,6 +94,7 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
       {children}
       <Params
         isDisabled
+        overrides={overrides}
         params={params}
         values={values}
       >

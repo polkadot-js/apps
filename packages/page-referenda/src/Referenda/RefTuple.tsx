@@ -49,7 +49,10 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
 
   return (
     <>
-      <td className='all' />
+      <td
+        className='all'
+        colSpan={4}
+      />
       <Deposits
         canRefund
         decision={decision}
@@ -61,10 +64,6 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
       <RefEnd
         label={info.type}
         when={when}
-      />
-      <td
-        className='number'
-        colSpan={4}
       />
     </>
   );
