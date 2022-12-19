@@ -47,7 +47,7 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = 32 as BitLength;
+const DEFAULT_BITLENGTH = 32;
 
 export class TokenUnit {
   public static abbr = 'Unit';

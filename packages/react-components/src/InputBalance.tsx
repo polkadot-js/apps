@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SiDef } from '@polkadot/util/types';
-import type { BitLength } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -37,7 +36,7 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = 128 as BitLength;
+const DEFAULT_BITLENGTH = 128;
 
 function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {
