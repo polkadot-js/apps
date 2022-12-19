@@ -241,6 +241,7 @@
        1	Andrew Jones                  	Fix upload and deploy contract(s) after rename (#1346)
        1	Antonio                       	chore: update KILT types to v0.2 (#8094)
        1	Antonio                       	Update type-definitions dependency and remove outdated type definitions (#8456)
+       1	Ayush                         	Ethos added to Rococo (#8571)
        1	Bart200c                      	add kylin network (#7865)
        1	Bill Laboon                   	Add explanation that Docker port is 80 (#1480)
        1	BoBin                         	Add subscan rococo extra link (#4439)

@@ -36635,6 +36635,17 @@ export const typesBundle = {
         }
       ]
     },
+    "jur-chain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
     "kerria": {
       "rpc": {
         "oracle": {
