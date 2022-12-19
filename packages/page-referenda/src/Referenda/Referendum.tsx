@@ -3,7 +3,7 @@
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import type { TFunction } from 'react-i18next';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { CurveGraph, ReferendumProps as Props } from '../types';
 
@@ -26,7 +26,12 @@ const COMPONENTS: Record<string, React.ComponentType<Props>> = {
 };
 
 const VAL_COLORS = ['#ff8c00', '#9c3333', '#339c33'];
-const BOX_COLORS = ['rgba(140, 140, 140, 0.2)', 'rgba(140, 0, 0, 0.2)', 'rgba(0, 140, 0, 0.2)'];
+const BOX_COLORS = {
+  conf: 'rgba(255, 140, 0, 0.1)',
+  fail: 'rgba(140, 0, 0, 0.2)',
+  pass: 'rgba(0, 140, 0, 0.2)',
+  past: 'rgba(140, 140, 140, 0.2)'
+};
 const PT_CUR = 0;
 const PT_NEG = 1;
 const PT_POS = 2;
@@ -67,6 +72,7 @@ interface ChartResult {
 interface ChartResultExt extends ChartResult {
   changeX: number;
   currentY: number;
+  endConfirm: BN | null;
   since: BN;
 }
 
@@ -103,7 +109,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
     if (ongoing.deciding.isSome) {
       const { approval, support, x } = trackGraph;
       const { deciding, tally } = ongoing;
-      const { since } = deciding.unwrap();
+      const { confirming, since } = deciding.unwrap();
+      const endConfirm = confirming.unwrapOr(null);
       const currentSupport = isConvictionVote
         ? (tally as PalletConvictionVotingTally).support
         : (tally as PalletRankedCollectiveTally).bareAyes;
@@ -137,8 +144,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
       }
 
       return [
-        { changeX: appx, currentY: appc, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
-        { changeX: supx, currentY: supc, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
+        { changeX: appx, currentY: appc, endConfirm, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
+        { changeX: supx, currentY: supc, endConfirm, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
       ];
     }
   }
@@ -146,10 +153,15 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], { x }: CurveGraph, t: TFunction): ChartProps[] {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
   const tooltipTitle = createTitleCallback(bestNumber, blockInterval, t);
+  const changeXMax = chartProps.reduce((max, { changeX }) =>
+    max === -1 || changeX === -1
+      ? -1
+      : Math.max(max, changeX),
+  0);
 
-  return chartProps.map(({ changeX, currentY, labels, progress, since, values }, index): ChartProps => {
+  return chartProps.map(({ changeX, currentY, endConfirm, labels, progress, since, values }, index): ChartProps => {
     const maxX = labels.length;
     const maxY = index === 0
       ? 100
@@ -163,6 +175,11 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const swapX = changeX === -1
       ? -1
       : maxX * (changeX / x.length);
+    const confirmMaxX = endConfirm || (
+      changeXMax === -1
+        ? null
+        : x[changeXMax].add(since).add(track.confirmPeriod)
+    );
 
     return {
       colors: VAL_COLORS,
@@ -173,7 +190,7 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
             annotations: objectSpread(
               {
                 past: {
-                  backgroundColor: BOX_COLORS[0],
+                  backgroundColor: BOX_COLORS.past,
                   borderWidth: 0,
                   type: 'box',
                   xMax: blockToX(bestNumber),
@@ -182,9 +199,22 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
                   yMin: 0
                 }
               },
+              confirmMaxX
+                ? {
+                  conf: {
+                    backgroundColor: BOX_COLORS.conf,
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: blockToX(confirmMaxX),
+                    xMin: blockToX(confirmMaxX.sub(track.confirmPeriod)),
+                    yMax: maxY,
+                    yMin: 0
+                  }
+                }
+                : {},
               {
                 fail: {
-                  backgroundColor: BOX_COLORS[1],
+                  backgroundColor: BOX_COLORS.fail,
                   borderWidth: 0,
                   type: 'box',
                   xMax: swapX === -1
@@ -198,7 +228,7 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
               swapX !== -1
                 ? {
                   pass: {
-                    backgroundColor: BOX_COLORS[2],
+                    backgroundColor: BOX_COLORS.pass,
                     borderWidth: 0,
                     type: 'box',
                     xMax: maxX,
@@ -227,7 +257,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
   const blockInterval = useBlockInterval();
-  const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
+  const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, track, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const Component = useMemo(
@@ -242,9 +272,9 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && isExpanded && trackGraph &&
-      getChartProps(bestNumber, blockInterval, chartResult, trackGraph, t),
-    [bestNumber, blockInterval, chartResult, isExpanded, t, trackGraph]
+    () => bestNumber && chartResult && isExpanded && track && trackGraph &&
+      getChartProps(bestNumber, blockInterval, chartResult, track, trackGraph, t),
+    [bestNumber, blockInterval, chartResult, isExpanded, t, track, trackGraph]
   );
 
   const chartLegend = useMemo(
