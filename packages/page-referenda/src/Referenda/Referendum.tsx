@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
-import { BN_MILLION, BN_THOUSAND, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
+import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
@@ -187,11 +187,12 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const swapX = changeX === -1
       ? -1
       : maxX * (changeX / x.length);
+    const enactX = changeXMax !== -1 && bnMax(bestNumber, x[changeXMax].add(since));
     const confirmX = endConfirm
       ? [endConfirm.sub(track.confirmPeriod), endConfirm, endConfirm.add(track.minEnactmentPeriod)]
-      : changeXMax === -1
-        ? null
-        : [x[changeXMax].add(since), x[changeXMax].add(since).add(track.confirmPeriod), x[changeXMax].add(since).add(track.confirmPeriod).add(track.minEnactmentPeriod)];
+      : enactX
+        ? [enactX, enactX.add(track.confirmPeriod), enactX.add(track.confirmPeriod).add(track.minEnactmentPeriod)]
+        : null;
     const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
       confirmX && blockNumber.gte(confirmX[0])
         ? blockNumber.lte(confirmX[1])
