@@ -1,4 +1,4 @@
-    3911	Jaco                          	Display time delays in referenda tooltip headers (#8575)
+    3912	Jaco                          	Only fully calculate ref graphs on expand (#8576)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
