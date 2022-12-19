@@ -44,6 +44,8 @@ interface CallState {
   values: RawParam[];
 }
 
+const allComponents = objectSpread<ComponentMap>({}, paramComponents, balanceCallsOverrides);
+
 function isValuesValid (params: ParamDef[], values: RawParam[]): boolean {
   return values.reduce((isValid, value): boolean =>
     isValid &&
@@ -97,13 +99,9 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, filter, isDisabled, isEr
   }, [extrinsic, onChange, onError, values]);
 
   const overrides = useMemo(
-    () => {
-      const callName = `${extrinsic.fn.section}.${extrinsic.fn.method}`;
-
-      return balanceCalls.includes(callName)
-        ? objectSpread<ComponentMap>({}, paramComponents, balanceCallsOverrides)
-        : paramComponents;
-    },
+    () => balanceCalls.includes(`${extrinsic.fn.section}.${extrinsic.fn.method}`)
+      ? allComponents
+      : paramComponents,
     [extrinsic]
   );
 
