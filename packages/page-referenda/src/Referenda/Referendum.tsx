@@ -3,9 +3,9 @@
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import type { TFunction } from 'react-i18next';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '../types';
+import type { CurveGraph, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -13,20 +13,26 @@ import styled from 'styled-components';
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
-import { BN_MILLION, BN_THOUSAND, BN_ZERO, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
+import { BN_MILLION, BN_THOUSAND, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
 import Ongoing from './RefOngoing';
 import Tuple from './RefTuple';
 
-const COMPONENTS: Record<string, React.ComponentType<ReferendumProps>> = {
+const COMPONENTS: Record<string, React.ComponentType<Props>> = {
   Killed,
   Ongoing
 };
 
 const VAL_COLORS = ['#ff8c00', '#9c3333', '#339c33'];
-const BOX_COLORS = ['rgba(140, 140, 140, 0.2)', 'rgba(140, 0, 0, 0.2)', 'rgba(0, 140, 0, 0.2)'];
+const BOX_COLORS = {
+  conf: 'rgba(255, 140, 0, 0.1)',
+  enac: 'rgba(0, 0, 140, 0.1)',
+  fail: 'rgba(140, 0, 0, 0.02)',
+  pass: 'rgba(0, 140, 0, 0.02)',
+  past: 'rgba(140, 140, 140, 0.2)'
+};
 const PT_CUR = 0;
 const PT_NEG = 1;
 const PT_POS = 2;
@@ -67,8 +73,8 @@ interface ChartResult {
 interface ChartResultExt extends ChartResult {
   changeX: number;
   currentY: number;
+  endConfirm: BN | null;
   since: BN;
-  trackGraph: CurveGraph;
 }
 
 interface ChartProps extends ChartResult {
@@ -76,18 +82,27 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function tooltipTitle (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
-  return (items: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
-    const label = items[0].label;
-
+function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, extraFn: (blockNumber: BN) => string): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
+  return ([{ label }]: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
     try {
-      const blocks = bnToBn(label.replace(/,/g, '')).sub(bestNumber);
+      const blockNumber = bnToBn(label.replace(/,/g, ''));
+      const extraTitle = extraFn(blockNumber);
 
-      if (blocks.gt(BN_ZERO)) {
+      if (blockNumber.gt(bestNumber)) {
+        const blocks = blockNumber.sub(bestNumber);
         const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
         const calc = calcBlockTime(blockInterval, blocks, t);
+        const result = [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
 
-        return [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
+        if (extraTitle) {
+          result.push(extraTitle);
+        }
+
+        return result;
+      }
+
+      if (extraTitle) {
+        return [`#${label}`, extraTitle];
       }
     } catch {
       // ignore
@@ -104,7 +119,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
     if (ongoing.deciding.isSome) {
       const { approval, support, x } = trackGraph;
       const { deciding, tally } = ongoing;
-      const { since } = deciding.unwrap();
+      const { confirming, since } = deciding.unwrap();
+      const endConfirm = confirming.unwrapOr(null);
       const currentSupport = isConvictionVote
         ? (tally as PalletConvictionVotingTally).support
         : (tally as PalletRankedCollectiveTally).bareAyes;
@@ -138,8 +154,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
       }
 
       return [
-        { changeX: appx, currentY: appc, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, trackGraph, values: values[0] },
-        { changeX: supx, currentY: supc, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, trackGraph, values: values[1] }
+        { changeX: appx, currentY: appc, endConfirm, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
+        { changeX: supx, currentY: supc, endConfirm, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
       ];
     }
   }
@@ -147,15 +163,41 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTitle: (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[]): ChartProps[] {
-  return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
+  const changeXMax = chartProps.reduce((max, { changeX }) =>
+    max === -1 || changeX === -1
+      ? -1
+      : Math.max(max, changeX),
+  0);
+
+  return chartProps.map(({ changeX, currentY, endConfirm, labels, progress, since, values }, index): ChartProps => {
     const maxX = labels.length;
-    const currentX = maxX * (
-      bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
-    );
+    const maxY = index === 0
+      ? 100
+      : 50;
+
+    const blockToX = (value: BN) =>
+      Math.max(0, Math.min(maxX, maxX * (
+        value.sub(since).toNumber() / x[x.length - 1].toNumber()
+      )));
+
     const swapX = changeX === -1
       ? -1
       : maxX * (changeX / x.length);
+    const confirmX = endConfirm
+      ? [endConfirm.sub(track.confirmPeriod), endConfirm, endConfirm.add(track.minEnactmentPeriod)]
+      : changeXMax === -1
+        ? null
+        : [x[changeXMax].add(since), x[changeXMax].add(since).add(track.confirmPeriod), x[changeXMax].add(since).add(track.confirmPeriod).add(track.minEnactmentPeriod)];
+    const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
+      confirmX && blockNumber.gte(confirmX[0])
+        ? blockNumber.lte(confirmX[1])
+          ? t('Confirmation period')
+          : blockNumber.lte(confirmX[2])
+            ? t('Enactment period')
+            : ''
+        : ''
+    );
 
     return {
       colors: VAL_COLORS,
@@ -165,8 +207,41 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTit
           annotation: {
             annotations: objectSpread(
               {
-                negative: {
-                  backgroundColor: BOX_COLORS[1],
+                past: {
+                  backgroundColor: BOX_COLORS.past,
+                  borderWidth: 0,
+                  type: 'box',
+                  xMax: blockToX(bestNumber),
+                  xMin: 0,
+                  yMax: maxY,
+                  yMin: 0
+                }
+              },
+              confirmX
+                ? {
+                  conf: {
+                    backgroundColor: BOX_COLORS.conf,
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: blockToX(confirmX[1]),
+                    xMin: blockToX(confirmX[0]),
+                    yMax: maxY,
+                    yMin: 0
+                  },
+                  enac: {
+                    backgroundColor: BOX_COLORS.enac,
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: blockToX(confirmX[2]),
+                    xMin: blockToX(confirmX[1]),
+                    yMax: maxY,
+                    yMin: 0
+                  }
+                }
+                : {},
+              {
+                fail: {
+                  backgroundColor: BOX_COLORS.fail,
                   borderWidth: 0,
                   type: 'box',
                   xMax: swapX === -1
@@ -175,23 +250,12 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTit
                   xMin: 0,
                   yMax: currentY,
                   yMin: 0
-                },
-                past: {
-                  backgroundColor: BOX_COLORS[0],
-                  borderWidth: 0,
-                  type: 'box',
-                  xMax: currentX,
-                  xMin: 0,
-                  yMax: index === 0
-                    ? 100
-                    : 50,
-                  yMin: 0
                 }
               },
               swapX !== -1
                 ? {
-                  positive: {
-                    backgroundColor: BOX_COLORS[2],
+                  pass: {
+                    backgroundColor: BOX_COLORS.pass,
                     borderWidth: 0,
                     type: 'box',
                     xMax: maxX,
@@ -205,7 +269,7 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTit
           },
           tooltip: {
             callbacks: {
-              title: tooltipTitle
+              title
             }
           }
         }
@@ -220,7 +284,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
   const blockInterval = useBlockInterval();
-  const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
+  const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, track, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const Component = useMemo(
@@ -229,13 +293,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartResult = useMemo(
-    () => activeIssuance && trackGraph && getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
+    () => activeIssuance && trackGraph &&
+      getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
     [activeIssuance, info, isConvictionVote, trackGraph]
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult, tooltipTitle(bestNumber, blockInterval, t)),
-    [bestNumber, blockInterval, chartResult, t]
+    () => bestNumber && chartResult && isExpanded && track && trackGraph &&
+      getChartProps(bestNumber, blockInterval, chartResult, track, trackGraph, t),
+    [bestNumber, blockInterval, chartResult, isExpanded, t, track, trackGraph]
   );
 
   const chartLegend = useMemo(
@@ -260,11 +326,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
-        <Component
-          isExpanded={isExpanded}
-          toggleExpanded={toggleExpanded}
-          {...props}
-        />
+        <Component {...props} />
         <td className='links media--1000'>
           <LinkExternal
             data={id}
@@ -272,7 +334,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
           />
         </td>
         <td className='links media--1000'>
-          {chartProps && (
+          {chartResult && (
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleExpanded}
