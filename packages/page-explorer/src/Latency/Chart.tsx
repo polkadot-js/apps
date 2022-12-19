@@ -21,7 +21,31 @@ const OPTIONS = {
     duration: 0
   },
   aspectRatio: 6,
-  maintainAspectRatio: true
+  maintainAspectRatio: true,
+  plugins: {
+    crosshair: {
+      line: {
+        color: '#ff8c00',
+        dashPattern: [5, 5],
+        width: 2
+      },
+      snapping: {
+        enabled: true
+      },
+      sync: {
+        enabled: true,
+        group: Date.now()
+      },
+      // this would be nice, but atm just doesn't quite
+      // seem or feel intuitive...
+      zoom: {
+        enabled: false
+      }
+    },
+    tooltip: {
+      intersect: false
+    }
+  }
 };
 
 function ChartDisplay ({ className, colors, legends, title, value: { labels, values } }: Props): React.ReactElement<Props> {

@@ -36,6 +36,22 @@ interface Config {
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
 const chartOptions: ChartOptions = {
+  animation: {
+    duration: 0
+  },
+  elements: {
+    point: {
+      hoverRadius: 6,
+      radius: 0
+    }
+  },
+  hover: {
+    intersect: false
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  },
   plugins: {
     legend: {
       display: false

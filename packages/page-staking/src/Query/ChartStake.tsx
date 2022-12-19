@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber } from './util';
+import { balanceToNumber, chartOptions } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
@@ -82,6 +82,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
             colors={COLORS_STAKE}
             labels={labels}
             legends={legends}
+            options={chartOptions}
             values={chart}
           />
         )

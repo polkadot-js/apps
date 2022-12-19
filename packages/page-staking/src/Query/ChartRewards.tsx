@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber } from './util';
+import { balanceToNumber, chartOptions } from './util';
 
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 
@@ -92,6 +92,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
             colors={COLORS_REWARD}
             labels={labels}
             legends={legends}
+            options={chartOptions}
             values={chart}
           />
         )
