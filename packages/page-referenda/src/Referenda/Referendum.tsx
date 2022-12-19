@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
-import { BN_MILLION, BN_THOUSAND, BN_ZERO, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
+import { BN_MILLION, BN_THOUSAND, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
@@ -28,8 +28,9 @@ const COMPONENTS: Record<string, React.ComponentType<Props>> = {
 const VAL_COLORS = ['#ff8c00', '#9c3333', '#339c33'];
 const BOX_COLORS = {
   conf: 'rgba(255, 140, 0, 0.1)',
-  fail: 'rgba(140, 0, 0, 0.2)',
-  pass: 'rgba(0, 140, 0, 0.2)',
+  enac: 'rgba(0, 0, 140, 0.1)',
+  fail: 'rgba(140, 0, 0, 0.02)',
+  pass: 'rgba(0, 140, 0, 0.02)',
   past: 'rgba(140, 140, 140, 0.2)'
 };
 const PT_CUR = 0;
@@ -81,18 +82,27 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function createTitleCallback (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
-  return (items: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
-    const label = items[0].label;
-
+function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, extraFn: (blockNumber: BN) => string): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
+  return ([{ label }]: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
     try {
-      const blocks = bnToBn(label.replace(/,/g, '')).sub(bestNumber);
+      const blockNumber = bnToBn(label.replace(/,/g, ''));
+      const extraTitle = extraFn(blockNumber);
 
-      if (blocks.gt(BN_ZERO)) {
+      if (blockNumber.gt(bestNumber)) {
+        const blocks = blockNumber.sub(bestNumber);
         const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
         const calc = calcBlockTime(blockInterval, blocks, t);
+        const result = [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
 
-        return [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
+        if (extraTitle) {
+          result.push(extraTitle);
+        }
+
+        return result;
+      }
+
+      if (extraTitle) {
+        return [`#${label}`, extraTitle];
       }
     } catch {
       // ignore
@@ -154,7 +164,6 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
 }
 
 function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
-  const tooltipTitle = createTitleCallback(bestNumber, blockInterval, t);
   const changeXMax = chartProps.reduce((max, { changeX }) =>
     max === -1 || changeX === -1
       ? -1
@@ -175,10 +184,19 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const swapX = changeX === -1
       ? -1
       : maxX * (changeX / x.length);
-    const confirmMaxX = endConfirm || (
-      changeXMax === -1
+    const confirmX = endConfirm
+      ? [endConfirm.sub(track.confirmPeriod), endConfirm, endConfirm.add(track.minEnactmentPeriod)]
+      : changeXMax === -1
         ? null
-        : x[changeXMax].add(since).add(track.confirmPeriod)
+        : [x[changeXMax].add(since), x[changeXMax].add(since).add(track.confirmPeriod), x[changeXMax].add(since).add(track.confirmPeriod).add(track.minEnactmentPeriod)];
+    const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
+      confirmX && blockNumber.gte(confirmX[0])
+        ? blockNumber.lte(confirmX[1])
+          ? t('Confirmation period')
+          : blockNumber.lte(confirmX[2])
+            ? t('Enactment period')
+            : ''
+        : ''
     );
 
     return {
@@ -199,14 +217,23 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
                   yMin: 0
                 }
               },
-              confirmMaxX
+              confirmX
                 ? {
                   conf: {
                     backgroundColor: BOX_COLORS.conf,
                     borderWidth: 0,
                     type: 'box',
-                    xMax: blockToX(confirmMaxX),
-                    xMin: blockToX(confirmMaxX.sub(track.confirmPeriod)),
+                    xMax: blockToX(confirmX[1]),
+                    xMin: blockToX(confirmX[0]),
+                    yMax: maxY,
+                    yMin: 0
+                  },
+                  enac: {
+                    backgroundColor: BOX_COLORS.enac,
+                    borderWidth: 0,
+                    type: 'box',
+                    xMax: blockToX(confirmX[2]),
+                    xMin: blockToX(confirmX[1]),
                     yMax: maxY,
                     yMin: 0
                   }
@@ -242,7 +269,7 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
           },
           tooltip: {
             callbacks: {
-              title: tooltipTitle
+              title
             }
           }
         }
