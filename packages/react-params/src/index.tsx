@@ -88,8 +88,6 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    overrides && console.log(overrides);
-
     return (
       <Holder
         className={className}

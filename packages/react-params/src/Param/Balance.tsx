@@ -5,7 +5,8 @@ import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 
-import { InputBalance } from '@polkadot/react-components';
+// circular dep :(
+import InputBalance from '@polkadot/react-components/InputBalance';
 import { BN } from '@polkadot/util';
 
 import Bare from './Bare';
