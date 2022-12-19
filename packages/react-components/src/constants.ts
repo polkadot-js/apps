@@ -18,15 +18,25 @@ export const rewardDestinationOptions = [
 ];
 
 export const balanceCalls = [
+  'auctions.bid',
   'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferKeepAlive',
+  'bounties.proposeBounty', 'bounties.proposeCurator',
+  'childBounties.proposeCurator',
+  'claims.mintClaim',
+  'convictionVoting.delegate',
   'crowdloan.contribute', 'crowdloan.create', 'crowdloan.edit',
   'democracy.delegate', 'democracy.propose',
+  'identity.requestJudgement', 'identity.setFee',
   'nominationPools.bondExtra', 'nominationPools.join', 'nominationPools.unbond',
+  'phragmenElection.vote',
+  'society.bid', 'society.vouch',
   'staking.bond', 'staking.bondExtra', 'staking.rebond', 'staking.unbond',
+  'tips.tip', 'tips.tipNew',
   'treasury.proposeSpend', 'treasury.spend',
   'vesting.forceVestedTransfer', 'vesting.vestedTransfer'
 ];
 
+// needs expansion with events from above
 export const balanceEvents = [
   'balances.Deposit', 'balances.Endowed', 'balances.Transfer', 'balances.Withdraw',
   'staking.Bonded', 'staking.Rewarded', 'staking.Unbonded', 'staking.Withdrawn',
