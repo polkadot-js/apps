@@ -1,7 +1,8 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChartOptions } from 'chart.js';
+import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
+import type { TFunction } from 'react-i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '../types';
@@ -10,8 +11,9 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
-import { useBestNumber, useToggle } from '@polkadot/react-hooks';
-import { BN_MILLION, BN_THOUSAND, formatNumber, objectSpread } from '@polkadot/util';
+import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
+import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
+import { BN_MILLION, BN_THOUSAND, BN_ZERO, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Killed from './RefKilled';
@@ -74,6 +76,26 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
+function tooltipAfterTitle (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string {
+  return (items: TooltipItem<keyof ChartTypeRegistry>[]): string => {
+    try {
+      const blocks = bnToBn(items[0].label.replace(/,/g, '')).sub(bestNumber);
+
+      if (blocks.gt(BN_ZERO)) {
+        return calcBlockTime(blockInterval, blocks, t)[1];
+      }
+    } catch {
+      // ignore
+    }
+
+    return '';
+  };
+}
+
+function tooltipTitle (items: TooltipItem<keyof ChartTypeRegistry>[]): string {
+  return `#${items[0].label}`;
+}
+
 function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
   if (totalEligible && isConvictionVote && info.isOngoing) {
     const ongoing = info.asOngoing;
@@ -124,7 +146,7 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProps[] {
+function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], afterTitle: (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[]): ChartProps[] {
   return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
     const maxX = labels.length;
     const currentX = maxX * (
@@ -179,6 +201,12 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
                 }
                 : {}
             )
+          },
+          tooltip: {
+            callbacks: {
+              afterTitle,
+              title: tooltipTitle
+            }
           }
         }
       }, OPTIONS),
@@ -191,6 +219,7 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[]): ChartProp
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
+  const blockInterval = useBlockInterval();
   const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 
@@ -205,8 +234,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult),
-    [bestNumber, chartResult]
+    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult, tooltipAfterTitle(bestNumber, blockInterval, t)),
+    [bestNumber, blockInterval, chartResult, t]
   );
 
   const chartLegend = useMemo(
