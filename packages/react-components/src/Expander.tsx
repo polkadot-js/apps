@@ -11,7 +11,6 @@ import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
-import { useTranslation } from './translate';
 
 interface Meta {
   docs: Text[];
@@ -62,7 +61,6 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
 }
 
 function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -70,14 +68,9 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
     [isExpanded, renderChildren]
   );
 
-  const headerMain = useMemo(
-    () => summary || formatMeta(summaryMeta),
-    [summary, summaryMeta]
-  );
-
   const headerSub = useMemo(
-    () => summary ? (formatMeta(summaryMeta) || summarySub) : null,
-    [summary, summaryMeta, summarySub]
+    () => formatMeta(summaryMeta) || summarySub,
+    [summaryMeta, summarySub]
   );
 
   const hasContent = useMemo(
@@ -99,8 +92,8 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
             />
           )}
           {summaryHead}
-          {headerMain || t<string>('Details')}
-          {headerSub && (
+          {summary}
+          {isExpanded && headerSub && (
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
           )}
         </div>
