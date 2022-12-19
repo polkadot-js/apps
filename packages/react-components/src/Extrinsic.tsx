@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { RawParam } from '@polkadot/react-params/types';
+import type { ComponentMap, RawParam } from '@polkadot/react-params/types';
 import type { TypeDef } from '@polkadot/types/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
-import { isUndefined } from '@polkadot/util';
+import { isUndefined, objectSpread } from '@polkadot/util';
 
+import { balanceCalls, balanceCallsOverrides } from './constants';
 import InputExtrinsic from './InputExtrinsic';
 import paramComponents from './Params';
 
@@ -95,6 +96,17 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, filter, isDisabled, isEr
     onChange(method);
   }, [extrinsic, onChange, onError, values]);
 
+  const overrides = useMemo(
+    () => {
+      const callName = `${extrinsic.fn.section}.${extrinsic.fn.method}`;
+
+      return balanceCalls.includes(callName)
+        ? objectSpread<ComponentMap>({}, paramComponents, balanceCallsOverrides)
+        : paramComponents;
+    },
+    [extrinsic]
+  );
+
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>) =>
       setDisplay((prev): CallState =>
@@ -131,7 +143,7 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, filter, isDisabled, isEr
         onChange={_setValues}
         onEnter={onEnter}
         onEscape={onEscape}
-        overrides={paramComponents}
+        overrides={overrides}
         params={params}
         values={values}
       />

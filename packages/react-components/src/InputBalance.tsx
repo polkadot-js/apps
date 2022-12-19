@@ -7,7 +7,6 @@ import type { BitLength } from './types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BitLengthOption } from '@polkadot/react-components/constants';
 import { BN, BN_TEN, formatBalance, isString, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
@@ -38,7 +37,7 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
+const DEFAULT_BITLENGTH = 128 as BitLength;
 
 function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {

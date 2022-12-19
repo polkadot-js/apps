@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
-import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
@@ -48,7 +47,7 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
+const DEFAULT_BITLENGTH = 32 as BitLength;
 
 export class TokenUnit {
   public static abbr = 'Unit';
