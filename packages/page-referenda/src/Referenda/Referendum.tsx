@@ -38,23 +38,7 @@ const PT_NEG = 1;
 const PT_POS = 2;
 
 const OPTIONS: ChartOptions = {
-  animation: {
-    duration: 0
-  },
   aspectRatio: 2.25,
-  elements: {
-    point: {
-      hoverRadius: 6,
-      radius: 0
-    }
-  },
-  hover: {
-    intersect: false
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
   maintainAspectRatio: true,
   scales: {
     y: {

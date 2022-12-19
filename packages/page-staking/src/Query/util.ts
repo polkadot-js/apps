@@ -11,13 +11,6 @@ interface ToBN {
 }
 
 export const chartOptions = {
-  hover: {
-    intersect: false
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
   plugins: {
     crosshair: {
       line: {
