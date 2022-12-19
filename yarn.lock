@@ -3519,10 +3519,12 @@ __metadata:
     "@polkadot/ui-settings": ^2.9.14
     "@polkadot/util": ^10.2.1
     "@polkadot/util-crypto": ^10.2.1
+    "@types/chartjs-plugin-crosshair": ^1.1.1
     "@types/codeflask": ^1.4.3
     "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^3.9.1
     chartjs-plugin-annotation: ^2.1.0
+    chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
     i18next: ^21.10.0
     i18next-browser-languagedetector: ^6.1.8
@@ -4477,12 +4479,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chart.js@npm:^2.9.37":
+"@types/chart.js@npm:*, @types/chart.js@npm:^2.9.37":
   version: 2.9.37
   resolution: "@types/chart.js@npm:2.9.37"
   dependencies:
     moment: ^2.10.2
   checksum: 5626a8cc3b410c9f2668ee7efd5b1b408f7de814608f83f9fdb349f59e3c7f5eb7199e73b41e6634c24b4ccb8d3846b290264df8d4224d184f63b095f82cfb94
+  languageName: node
+  linkType: hard
+
+"@types/chartjs-plugin-crosshair@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@types/chartjs-plugin-crosshair@npm:1.1.1"
+  dependencies:
+    "@types/chart.js": "*"
+  checksum: 3574680b395f01b5979c52758d57e2c5ed19a5a88e1e17497c005c4b1991933e78b5c1d7c749af0fc38c4fcd5cb501e05054b04ad531f45d54e12ed3ba48b499
   languageName: node
   linkType: hard
 
@@ -7365,6 +7376,15 @@ __metadata:
   peerDependencies:
     chart.js: ">=3.7.0"
   checksum: fa6ad1a121c4f9feae991ebf05daaef1da7e1b64721d76f222c33ca54d69a1eb9854beee697ec8509a2578af3560a7fe276b2b597faa7c1435eb6cdf7e022811
+  languageName: node
+  linkType: hard
+
+"chartjs-plugin-crosshair@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "chartjs-plugin-crosshair@npm:1.2.0"
+  peerDependencies:
+    chart.js: ^3.4.0
+  checksum: f5cd3171d479d012f40915ae3d3baa35b7c726d1a67f99f0d55c6042c45e7adc807f832a73a3d0924d91035d9198f6ef388f05a95ba05a2e0dbe479a350515ba
   languageName: node
   linkType: hard
 

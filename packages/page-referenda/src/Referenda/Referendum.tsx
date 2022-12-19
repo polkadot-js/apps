@@ -48,6 +48,9 @@ const OPTIONS: ChartOptions = {
       radius: 0
     }
   },
+  hover: {
+    intersect: false
+  },
   interaction: {
     intersect: false,
     mode: 'index'
@@ -163,7 +166,7 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], refId: BN, track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
   const changeXMax = chartProps.reduce((max, { changeX }) =>
     max === -1 || changeX === -1
       ? -1
@@ -267,10 +270,29 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
                 : {}
             )
           },
+          crosshair: {
+            line: {
+              color: '#ff8c00',
+              dashPattern: [5, 5],
+              width: 2
+            },
+            snapping: {
+              enabled: true
+            },
+            sync: {
+              group: refId.toNumber()
+            },
+            // this would be nice, but atm just doesn't quite
+            // seem or feel intuitive...
+            zoom: {
+              enabled: false
+            }
+          },
           tooltip: {
             callbacks: {
               title
-            }
+            },
+            intersect: false
           }
         }
       }, OPTIONS),
@@ -300,8 +322,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   const chartProps = useMemo(
     () => bestNumber && chartResult && isExpanded && track && trackGraph &&
-      getChartProps(bestNumber, blockInterval, chartResult, track, trackGraph, t),
-    [bestNumber, blockInterval, chartResult, isExpanded, t, track, trackGraph]
+      getChartProps(bestNumber, blockInterval, chartResult, id, track, trackGraph, t),
+    [bestNumber, blockInterval, chartResult, id, isExpanded, t, track, trackGraph]
   );
 
   const chartLegend = useMemo(
