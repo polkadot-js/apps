@@ -54,6 +54,7 @@ interface Extracted {
 
 const BALANCE_CALLS = [
   'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferKeepAlive',
+  'bounties.proposeBounty', 'bounties.proposeCurator',
   'crowdloan.contribute', 'crowdloan.create', 'crowdloan.edit',
   'democracy.delegate', 'democracy.propose',
   'nominationPools.bondExtra', 'nominationPools.join', 'nominationPools.unbond',
