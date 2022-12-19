@@ -76,24 +76,25 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function tooltipAfterTitle (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string {
-  return (items: TooltipItem<keyof ChartTypeRegistry>[]): string => {
+function tooltipTitle (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
+  return (items: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
+    const label = items[0].label;
+
     try {
-      const blocks = bnToBn(items[0].label.replace(/,/g, '')).sub(bestNumber);
+      const blocks = bnToBn(label.replace(/,/g, '')).sub(bestNumber);
 
       if (blocks.gt(BN_ZERO)) {
-        return calcBlockTime(blockInterval, blocks, t)[1];
+        const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
+        const calc = calcBlockTime(blockInterval, blocks, t);
+
+        return [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
       }
     } catch {
       // ignore
     }
 
-    return '';
+    return `#${label}`;
   };
-}
-
-function tooltipTitle (items: TooltipItem<keyof ChartTypeRegistry>[]): string {
-  return `#${items[0].label}`;
 }
 
 function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
@@ -146,7 +147,7 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], afterTitle: (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[]): ChartProps[] {
+function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTitle: (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[]): ChartProps[] {
   return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
     const maxX = labels.length;
     const currentX = maxX * (
@@ -204,7 +205,6 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], afterTitle
           },
           tooltip: {
             callbacks: {
-              afterTitle,
               title: tooltipTitle
             }
           }
@@ -234,7 +234,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult, tooltipAfterTitle(bestNumber, blockInterval, t)),
+    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult, tooltipTitle(bestNumber, blockInterval, t)),
     [bestNumber, blockInterval, chartResult, t]
   );
 
