@@ -10,6 +10,7 @@ import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { chartOptions } from './util';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 
@@ -67,6 +68,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
             colors={COLORS_POINTS}
             labels={labels}
             legends={legendsRef.current}
+            options={chartOptions}
             values={chart}
           />
         )
