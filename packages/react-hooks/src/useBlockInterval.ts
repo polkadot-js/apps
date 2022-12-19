@@ -14,7 +14,7 @@ import { A_DAY } from './useBlocksPerDays';
 // Some chains incorrectly use these, i.e. it is set to values such as 0 or even 2
 // Use a low minimum validity threshold to check these against
 const THRESHOLD = BN_THOUSAND.div(BN_TWO);
-const DEFAULT_TIME = new BN(6_000);
+const DEFAULT_TIME = new BN(1_000);
 
 function calcInterval (api: ApiPromise): BN {
   return bnMin(A_DAY, (

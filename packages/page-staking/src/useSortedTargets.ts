@@ -117,7 +117,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN, withReturns?: boolean): [ValidatorInfo[], Record<string, BN>] {
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, lastEra }: LastEra, historyDepth?: BN, withReturns?: boolean): [ValidatorInfo[], Record<string, BN>] {
   const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
@@ -173,8 +173,8 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       key,
       knownLength: activeEra.sub(stakingLedger.claimedRewards[0] || activeEra),
       // only use if it is more recent than historyDepth
-      lastPayout: earliestEra && lastEraPayout && lastEraPayout.gt(earliestEra) && !sessionLength.eq(BN_ONE)
-        ? lastEra.sub(lastEraPayout).mul(eraLength)
+      lastPayout: earliestEra && lastEraPayout && lastEraPayout.gt(earliestEra)
+        ? lastEraPayout
         : undefined,
       minNominated,
       numNominators: (exposure.others || []).length,
