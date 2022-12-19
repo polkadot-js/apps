@@ -5,7 +5,7 @@ import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import type { TFunction } from 'react-i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { BaseReferendumProps as Props, CurveGraph, ReferendumProps } from '../types';
+import type { CurveGraph, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ import Killed from './RefKilled';
 import Ongoing from './RefOngoing';
 import Tuple from './RefTuple';
 
-const COMPONENTS: Record<string, React.ComponentType<ReferendumProps>> = {
+const COMPONENTS: Record<string, React.ComponentType<Props>> = {
   Killed,
   Ongoing
 };
@@ -68,7 +68,6 @@ interface ChartResultExt extends ChartResult {
   changeX: number;
   currentY: number;
   since: BN;
-  trackGraph: CurveGraph;
 }
 
 interface ChartProps extends ChartResult {
@@ -76,7 +75,7 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function tooltipTitle (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
+function createTitleCallback (bestNumber: BN, blockInterval: BN, t: TFunction): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
   return (items: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
     const label = items[0].label;
 
@@ -138,8 +137,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
       }
 
       return [
-        { changeX: appx, currentY: appc, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, trackGraph, values: values[0] },
-        { changeX: supx, currentY: supc, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, trackGraph, values: values[1] }
+        { changeX: appx, currentY: appc, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
+        { changeX: supx, currentY: supc, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
       ];
     }
   }
@@ -147,12 +146,20 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTitle: (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[]): ChartProps[] {
-  return chartProps.map(({ changeX, currentY, labels, progress, since, trackGraph: { x }, values }, index): ChartProps => {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], { x }: CurveGraph, t: TFunction): ChartProps[] {
+  const tooltipTitle = createTitleCallback(bestNumber, blockInterval, t);
+
+  return chartProps.map(({ changeX, currentY, labels, progress, since, values }, index): ChartProps => {
     const maxX = labels.length;
-    const currentX = maxX * (
-      bestNumber.sub(since.add(x[0])).toNumber() / x[x.length - 1].sub(x[0]).toNumber()
-    );
+    const maxY = index === 0
+      ? 100
+      : 50;
+
+    const blockToX = (value: BN) =>
+      Math.max(0, Math.min(maxX, maxX * (
+        value.sub(since).toNumber() / x[x.length - 1].toNumber()
+      )));
+
     const swapX = changeX === -1
       ? -1
       : maxX * (changeX / x.length);
@@ -165,7 +172,18 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTit
           annotation: {
             annotations: objectSpread(
               {
-                negative: {
+                past: {
+                  backgroundColor: BOX_COLORS[0],
+                  borderWidth: 0,
+                  type: 'box',
+                  xMax: blockToX(bestNumber),
+                  xMin: 0,
+                  yMax: maxY,
+                  yMin: 0
+                }
+              },
+              {
+                fail: {
                   backgroundColor: BOX_COLORS[1],
                   borderWidth: 0,
                   type: 'box',
@@ -175,22 +193,11 @@ function getChartProps (bestNumber: BN, chartProps: ChartResultExt[], tooltipTit
                   xMin: 0,
                   yMax: currentY,
                   yMin: 0
-                },
-                past: {
-                  backgroundColor: BOX_COLORS[0],
-                  borderWidth: 0,
-                  type: 'box',
-                  xMax: currentX,
-                  xMin: 0,
-                  yMax: index === 0
-                    ? 100
-                    : 50,
-                  yMin: 0
                 }
               },
               swapX !== -1
                 ? {
-                  positive: {
+                  pass: {
                     backgroundColor: BOX_COLORS[2],
                     borderWidth: 0,
                     type: 'box',
@@ -229,13 +236,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartResult = useMemo(
-    () => activeIssuance && trackGraph && getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
+    () => activeIssuance && trackGraph &&
+      getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
     [activeIssuance, info, isConvictionVote, trackGraph]
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && getChartProps(bestNumber, chartResult, tooltipTitle(bestNumber, blockInterval, t)),
-    [bestNumber, blockInterval, chartResult, t]
+    () => bestNumber && chartResult && isExpanded && trackGraph &&
+      getChartProps(bestNumber, blockInterval, chartResult, trackGraph, t),
+    [bestNumber, blockInterval, chartResult, isExpanded, t, trackGraph]
   );
 
   const chartLegend = useMemo(
@@ -260,11 +269,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
-        <Component
-          isExpanded={isExpanded}
-          toggleExpanded={toggleExpanded}
-          {...props}
-        />
+        <Component {...props} />
         <td className='links media--1000'>
           <LinkExternal
             data={id}
@@ -272,7 +277,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
           />
         </td>
         <td className='links media--1000'>
-          {chartProps && (
+          {chartResult && (
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleExpanded}
