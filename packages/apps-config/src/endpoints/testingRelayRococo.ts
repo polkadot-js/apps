@@ -128,6 +128,14 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoEthos',
+    paraId: 2095,
+    text: 'Ethos',
+    providers: {
+      Jur: 'wss://ethos.jur.io'
+    }
+  },
+  {
     info: 'rococoFrequency',
     paraId: 4044,
     text: 'Frequency',

@@ -38,6 +38,7 @@ import chainGM from './chains/gm.png';
 import chainHashed from './chains/hashed.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
+import chainEthos from './chains/jur.png';
 import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
@@ -307,6 +308,7 @@ export const chainLogos = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
+  'Ethos Testnet': chainEthos,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequency,
   Galital: nodeGalital,
@@ -568,6 +570,7 @@ export const nodeLogos = Object.entries({
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
+  'Jur Collator': chainEthos,
   Kabocha: nodeKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
   Kerria: nodeParallel,
@@ -893,6 +896,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
+  rococoEthos: chainEthos,
   rococoFrequency: chainFrequency,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
