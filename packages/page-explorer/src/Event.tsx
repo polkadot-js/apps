@@ -18,6 +18,7 @@ function Event ({ className = '', value: { event } }: Props): React.ReactElement
   return (
     <Expander
       className={className}
+      isLeft
       summary={eventName}
       summaryMeta={event.meta}
     >
