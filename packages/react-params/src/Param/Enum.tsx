@@ -12,7 +12,6 @@ import { isObject } from '@polkadot/util';
 
 import Params from '../';
 import Bare from './Bare';
-import Static from './Static';
 
 interface Option {
   text?: string;
@@ -82,6 +81,10 @@ function EnumParam (props: Props): React.ReactElement<Props> {
 
   const _onChange = useCallback(
     (value: string): void => {
+      if (isDisabled) {
+        return;
+      }
+
       const newType = subTypes.find(({ name }) => name === value) || null;
 
       setCurrent(
@@ -100,22 +103,22 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         );
       }
     },
-    [subTypes]
+    [isDisabled, subTypes]
   );
 
   const _onChangeParam = useCallback(
     ([{ isValid, value }]: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       current && onChange && onChange({
         isValid,
         value: { [current[0].name as string]: value }
       });
     },
-    [current, onChange]
+    [current, isDisabled, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <Bare className={className}>
@@ -132,6 +135,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isDisabled={isDisabled}
           isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}

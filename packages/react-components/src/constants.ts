@@ -23,9 +23,9 @@ export const balanceCalls = [
   'bounties.proposeBounty', 'bounties.proposeCurator',
   'childBounties.proposeCurator',
   'claims.mintClaim',
-  'convictionVoting.delegate',
+  'convictionVoting.delegate', 'convictionVoting.vote',
   'crowdloan.contribute', 'crowdloan.create', 'crowdloan.edit',
-  'democracy.delegate', 'democracy.propose',
+  'democracy.delegate', 'democracy.propose', 'democracy.vote',
   'identity.requestJudgement', 'identity.setFee',
   'nominationPools.bondExtra', 'nominationPools.join', 'nominationPools.unbond',
   'phragmenElection.vote',
@@ -38,16 +38,21 @@ export const balanceCalls = [
 
 // needs expansion with events from above
 export const balanceEvents = [
-  'balances.Deposit', 'balances.Endowed', 'balances.Transfer', 'balances.Withdraw',
+  'auctions.BidAccepted', 'auctions.ReserveConfiscated', 'auctions.Reserved', 'auctions.Unreserved',
+  'balances.Deposit', 'balances.Endowed', 'balances.Transfer', 'balances.Unreserved', 'balances.Withdraw',
+  'bounties.BountyClaimed', 'bounties.BountyRejected',
+  'claims.Claimed',
+  'convictionVoting.Voted',
+  'crowdloan.Contributed', 'crowdloan.Withdrew',
+  'democracy.Voted',
   'staking.Bonded', 'staking.Rewarded', 'staking.Unbonded', 'staking.Withdrawn',
   'transactionPayment.TransactionFeePaid',
   'treasury.Deposit'
 ];
 
 export const balanceCallsOverrides: ComponentMap = {
-  'Compact<u128>': BalanceParam
-};
-
-export const balanceEventsOverrides: ComponentMap = {
+  'Compact<u128>': BalanceParam,
   u128: BalanceParam
 };
+
+export const balanceEventsOverrides = balanceCallsOverrides;
