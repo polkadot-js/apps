@@ -172,13 +172,11 @@ export default React.memo(styled(Call)`
     word-wrap: unset;
   }
 
-  .ui--Extrinsic--toplevel.noIndent {
-    margin-top: 0.25rem;
+  .ui--Extrinsic--toplevel {
+    margin-top: 0;
   }
 
   .ui--Extrinsic--toplevel:not(.noIndent) {
-    margin-top: 0.75rem;
-
     .ui--Labelled {
       padding-left: 0;
 

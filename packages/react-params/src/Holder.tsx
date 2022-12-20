@@ -21,7 +21,11 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 
 export default React.memo(styled(Holder)`
   &.withBorder {
-    border-left: 0.25rem solid #f2f2f2;
+    padding-left: 0.25rem;
+
+    .ui--Params-Content {
+      border-left: 0.25rem solid #f2f2f2;
+    }
   }
 
   &.withoutBorder {
@@ -48,7 +52,11 @@ export default React.memo(styled(Holder)`
 
   .ui--Params-Content {
     box-sizing: border-box;
-    padding: 0 0 0 1.75rem;
+    padding: 0;
+
+    .ui--Params-Content {
+      margin-left: 1.75rem;
+    }
   }
 
   .ui--Param-text {
