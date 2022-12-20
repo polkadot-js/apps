@@ -104,8 +104,7 @@ export default React.memo(styled(Labelled)`
       }
 
       &.isOuter {
-        margin-bottom: 0.125rem;
-        margin-top: 0.25rem;
+        margin: 0.25rem 0;
       }
 
       .labelExtra {
