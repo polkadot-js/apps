@@ -10,10 +10,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Params from '@polkadot/react-params';
-import BalanceParam from '@polkadot/react-params/Param/Balance';
 import { FormatBalance } from '@polkadot/react-query';
 import { Enum, getTypeDef } from '@polkadot/types';
 
+import { balanceCalls, balanceCallsOverrides } from './constants';
 import Static from './Static';
 import { useTranslation } from './translate';
 
@@ -52,22 +52,6 @@ interface Extracted {
   values: Value[];
 }
 
-const BALANCE_CALLS = [
-  'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferKeepAlive',
-  'bounties.proposeBounty', 'bounties.proposeCurator',
-  'convictionVoting.delegate',
-  'crowdloan.contribute', 'crowdloan.create', 'crowdloan.edit',
-  'democracy.delegate', 'democracy.propose',
-  'nominationPools.bondExtra', 'nominationPools.join', 'nominationPools.unbond',
-  'staking.bond', 'staking.bondExtra', 'staking.rebond', 'staking.unbond',
-  'treasury.proposeSpend', 'treasury.spend',
-  'vesting.forceVestedTransfer', 'vesting.vestedTransfer'
-];
-
-const BALANCE_OVERRIDE: ComponentMap = {
-  'Compact<u128>': BalanceParam
-};
-
 function isExtrinsic (value: IExtrinsic | IMethod): value is IExtrinsic {
   return !!(value as IExtrinsic).signature;
 }
@@ -79,8 +63,8 @@ function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
 }
 
 function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean, callName?: string): Extracted {
-  const overrides = callName && BALANCE_CALLS.includes(callName)
-    ? BALANCE_OVERRIDE
+  const overrides = callName && balanceCalls.includes(callName)
+    ? balanceCallsOverrides
     : undefined;
   const params = value.meta.args.map(({ name, type }): Param => ({
     name: name.toString(),
