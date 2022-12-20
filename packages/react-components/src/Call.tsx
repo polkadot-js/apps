@@ -6,7 +6,7 @@ import type { ExtrinsicSignature } from '@polkadot/types/interfaces';
 import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import Params from '@polkadot/react-params';
@@ -100,18 +100,8 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
     setExtracted(extractState(value, withHash, withSignature, callName));
   }, [callName, value, withHash, withSignature]);
 
-  return (
-    <div className={`ui--Extrinsic ${className}`}>
-      <Params
-        isDisabled
-        onError={onError}
-        overrides={overrides}
-        params={params}
-        registry={value.registry}
-        values={values}
-        withBorder={withBorder}
-      />
-      {children}
+  const inner = useMemo(
+    () => (
       <div className={`ui--Extrinsic--toplevel${noIndent ? ' noIndent' : ''}`}>
         {signature && (
           <Static
@@ -144,6 +134,25 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           />
         )}
       </div>
+    ),
+    [hash, labelHash, labelSignature, mortality, noIndent, signature, signatureType, t, tip]
+  );
+
+  return (
+    <div className={`ui--Extrinsic ${className}`}>
+      <Params
+        isDisabled
+        onError={onError}
+        overrides={overrides}
+        params={params}
+        registry={value.registry}
+        values={values}
+        withBorder={withBorder}
+      >
+        {children}
+        {noIndent && inner}
+      </Params>
+      {!noIndent && inner}
     </div>
   );
 }
@@ -158,6 +167,16 @@ export default React.memo(styled(Call)`
 
   .ui--Extrinsic--toplevel {
     margin-top: 0;
+
+    .ui--Labelled {
+      &:last-child > .ui--Labelled-content > .ui--Static {
+        margin-bottom: 0;
+      }
+
+      > .ui--Labelled-content > .ui--Static {
+        background: var(--bg-static-extra);
+      }
+    }
   }
 
   .ui--Extrinsic--toplevel:not(.noIndent) {
@@ -167,6 +186,14 @@ export default React.memo(styled(Call)`
       > label {
         left: 1.55rem !important;
       }
+
+      + .ui--Labelled > .ui--Labelled-content > .ui--Static {
+        margin-top: 0;
+      }
     }
+  }
+
+  > .ui--Params {
+    margin-top: -0.25rem;
   }
 `);
