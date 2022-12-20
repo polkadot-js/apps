@@ -28,7 +28,9 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
 
   if (!proposal) {
     return (
-      <h3>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</h3>
+      <div className={`ui--ProposedAction ${className}`}>
+        <h1>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</h1>
+      </div>
     );
   }
 
@@ -47,6 +49,11 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
 
 export default React.memo(styled(ProposedAction)`
   margin-left: 2rem;
+
+  > h1 {
+    font-size: 1.25rem;
+    text-transform: none;
+  }
 
   .ui--ProposedAction-extrinsic {
     > .ui--Params-Content {
