@@ -11,12 +11,14 @@ import Expander from './Expander';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  idString?: string;
   labelHash?: React.ReactNode;
+  stringId?: string;
   value?: Call | null;
   withHash?: boolean;
 }
 
-function CallExpander ({ children, className = '', labelHash, value, withHash }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', labelHash, stringId, value, withHash }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value && value.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -34,7 +36,7 @@ function CallExpander ({ children, className = '', labelHash, value, withHash }:
   return (
     <div className={`ui--CallExpander ${className}`}>
       <Expander
-        summaryHead={<div>{callName}</div>}
+        summaryHead={<div>{stringId && `#${stringId}: `}{callName}</div>}
         summaryMeta={meta}
       >
         <CallDisplay
