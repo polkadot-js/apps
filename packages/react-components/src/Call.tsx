@@ -6,7 +6,7 @@ import type { ExtrinsicSignature } from '@polkadot/types/interfaces';
 import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Params from '@polkadot/react-params';
@@ -100,44 +100,6 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
     setExtracted(extractState(value, withHash, withSignature, callName));
   }, [callName, value, withHash, withSignature]);
 
-  const inner = useMemo(
-    () => (
-      <div className={`ui--Extrinsic--toplevel${noIndent ? ' noIndent' : ''}`}>
-        {signature && (
-          <Static
-            className='hash'
-            label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
-            value={signature}
-            withCopy
-          />
-        )}
-        {hash && (
-          <Static
-            className='hash'
-            label={labelHash || t<string>('extrinsic hash')}
-            value={hash}
-            withCopy
-          />
-        )}
-        {mortality && (
-          <Static
-            className='mortality'
-            label={t<string>('lifetime')}
-            value={mortality}
-          />
-        )}
-        {tip?.gtn(0) && (
-          <Static
-            className='tip'
-            label={t<string>('tip')}
-            value={<FormatBalance value={tip} />}
-          />
-        )}
-      </div>
-    ),
-    [hash, labelHash, labelSignature, mortality, noIndent, signature, signatureType, t, tip]
-  );
-
   return (
     <div className={`ui--Extrinsic ${className}`}>
       <Params
@@ -150,9 +112,39 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
         withBorder={withBorder}
       >
         {children}
-        {noIndent && inner}
+        <div className={`ui--Extrinsic--toplevel${noIndent ? ' noIndent' : ''}`}>
+          {signature && (
+            <Static
+              className='hash'
+              label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+              value={signature}
+              withCopy
+            />
+          )}
+          {hash && (
+            <Static
+              className='hash'
+              label={labelHash || t<string>('extrinsic hash')}
+              value={hash}
+              withCopy
+            />
+          )}
+          {mortality && (
+            <Static
+              className='mortality'
+              label={t<string>('lifetime')}
+              value={mortality}
+            />
+          )}
+          {tip?.gtn(0) && (
+            <Static
+              className='tip'
+              label={t<string>('tip')}
+              value={<FormatBalance value={tip} />}
+            />
+          )}
+        </div>
       </Params>
-      {!noIndent && inner}
     </div>
   );
 }
@@ -175,16 +167,6 @@ export default React.memo(styled(Call)`
 
       > .ui--Labelled-content > .ui--Static {
         background: var(--bg-static-extra);
-      }
-    }
-  }
-
-  .ui--Extrinsic--toplevel:not(.noIndent) {
-    .ui--Labelled {
-      padding-left: 0;
-
-      > label {
-        left: 1.55rem !important;
       }
 
       + .ui--Labelled > .ui--Labelled-content > .ui--Static {
