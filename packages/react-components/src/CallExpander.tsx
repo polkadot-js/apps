@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
@@ -12,11 +13,16 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   labelHash?: React.ReactNode;
+  labelSignature?: React.ReactNode;
+  mortality?: string;
+  tip?: BN;
   value?: Call | null;
+  withBorder?: boolean;
   withHash?: boolean;
+  withSignature?: boolean;
 }
 
-function CallExpander ({ children, className = '', labelHash, value, withHash }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', labelHash, labelSignature, mortality, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value && value.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -40,8 +46,13 @@ function CallExpander ({ children, className = '', labelHash, value, withHash }:
         <CallDisplay
           callName={callName}
           labelHash={labelHash}
+          labelSignature={labelSignature}
+          mortality={mortality}
+          tip={tip}
           value={value}
+          withBorder={withBorder}
           withHash={withHash}
+          withSignature={withSignature}
         />
         {children}
       </Expander>
