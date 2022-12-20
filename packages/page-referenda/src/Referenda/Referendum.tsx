@@ -61,6 +61,7 @@ interface ChartResultExt extends ChartResult {
   changeX: number;
   currentY: number;
   endConfirm: BN | null;
+  points: BN[];
   since: BN;
 }
 
@@ -99,7 +100,7 @@ function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, e
   };
 }
 
-function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, trackGraph: CurveGraph): ChartResultExt[] | null {
+function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, track: PalletReferendaTrackInfo, trackGraph: CurveGraph): ChartResultExt[] | null {
   if (totalEligible && isConvictionVote && info.isOngoing) {
     const ongoing = info.asOngoing;
 
@@ -121,9 +122,11 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
         : tally.ayes.mul(BN_THOUSAND).div(tally.ayes.add(tally.nays)).toNumber() / 10;
       let appx = -1;
       let supx = -1;
+      const points: BN[] = [];
 
       for (let i = 0; i < approval.length; i++) {
         labels.push(formatNumber(since.add(x[i])));
+        points.push(x[i]);
 
         const appr = approval[i].div(BN_MILLION).toNumber() / 10;
         const appn = appc < appr;
@@ -140,9 +143,35 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
         supx = (supn || supx !== -1) ? supx : i;
       }
 
+      const step = x[1].sub(x[0]);
+      const lastIndex = x.length - 1;
+      const lastBlock = endConfirm?.add(track.minEnactmentPeriod);
+
+      // if the confirmation end is later than shown on our graph, we extend it
+      if (lastBlock?.gt(since.add(x[lastIndex]))) {
+        let currentBlock = x[lastIndex].add(since).add(step);
+
+        do {
+          labels.push(formatNumber(currentBlock));
+          points.push(currentBlock.sub(since));
+
+          // adjust approvals (no curve adjustment)
+          // values[0][0].push(values[0][0][lastIndex]);
+          values[0][1].push(values[0][1][lastIndex]);
+          values[0][2].push(values[0][2][lastIndex]);
+
+          // // adjust support
+          // values[1][0].push(values[1][0][lastIndex]);
+          values[1][1].push(values[1][1][lastIndex]);
+          values[1][2].push(values[1][2][lastIndex]);
+
+          currentBlock = currentBlock.add(step);
+        } while (currentBlock.lt(lastBlock));
+      }
+
       return [
-        { changeX: appx, currentY: appc, endConfirm, labels, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
-        { changeX: supx, currentY: supc, endConfirm, labels, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
+        { changeX: appx, currentY: appc, endConfirm, labels, points, progress: { percent: appc, total: ongoing.tally.ayes.add(ongoing.tally.nays), value: ongoing.tally.ayes }, since, values: values[0] },
+        { changeX: supx, currentY: supc, endConfirm, labels, points, progress: { percent: supc, total: totalEligible, value: currentSupport }, since, values: values[1] }
       ];
     }
   }
@@ -150,14 +179,14 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], refId: BN, track: PalletReferendaTrackInfo, { x }: CurveGraph, t: TFunction): ChartProps[] {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], refId: BN, track: PalletReferendaTrackInfo, t: TFunction): ChartProps[] {
   const changeXMax = chartProps.reduce((max, { changeX }) =>
     max === -1 || changeX === -1
       ? -1
       : Math.max(max, changeX),
   0);
 
-  return chartProps.map(({ changeX, currentY, endConfirm, labels, progress, since, values }, index): ChartProps => {
+  return chartProps.map(({ changeX, currentY, endConfirm, labels, points, progress, since, values }, index): ChartProps => {
     const maxX = labels.length;
     const maxY = index === 0
       ? 100
@@ -165,13 +194,13 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
 
     const blockToX = (value: BN) =>
       Math.max(0, Math.min(maxX, maxX * (
-        value.sub(since).toNumber() / x[x.length - 1].toNumber()
+        value.sub(since).toNumber() / points[points.length - 1].toNumber()
       )));
 
     const swapX = changeX === -1
       ? -1
-      : maxX * (changeX / x.length);
-    const enactX = changeXMax !== -1 && bnMax(bestNumber, x[changeXMax].add(since));
+      : maxX * (changeX / points.length);
+    const enactX = changeXMax !== -1 && bnMax(bestNumber, points[changeXMax].add(since));
     const confirmX = endConfirm
       ? [endConfirm.sub(track.confirmPeriod), endConfirm, endConfirm.add(track.minEnactmentPeriod)]
       : enactX
@@ -300,15 +329,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const chartResult = useMemo(
-    () => activeIssuance && trackGraph &&
-      getChartResult(activeIssuance, isConvictionVote, info, trackGraph),
-    [activeIssuance, info, isConvictionVote, trackGraph]
+    () => activeIssuance && track && trackGraph &&
+      getChartResult(activeIssuance, isConvictionVote, info, track, trackGraph),
+    [activeIssuance, info, isConvictionVote, track, trackGraph]
   );
 
   const chartProps = useMemo(
-    () => bestNumber && chartResult && isExpanded && track && trackGraph &&
-      getChartProps(bestNumber, blockInterval, chartResult, id, track, trackGraph, t),
-    [bestNumber, blockInterval, chartResult, id, isExpanded, t, track, trackGraph]
+    () => bestNumber && chartResult && isExpanded && track &&
+      getChartProps(bestNumber, blockInterval, chartResult, id, track, t),
+    [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
   const chartLegend = useMemo(
