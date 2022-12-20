@@ -44,6 +44,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   return (
     <div className={`ui--CallExpander ${className}`}>
       <Expander
+        isLeft
         summaryHead={
           isHeader
             ? <h1>{stringId && `#${stringId}: `}{callName}</h1>

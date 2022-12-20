@@ -113,7 +113,10 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
       {value?.map((log, index) => (
         <tr key={`log:${index}`}>
           <td className='overflow'>
-            <Expander summary={log.type.toString()}>
+            <Expander
+              isLeft
+              summary={log.type.toString()}
+            >
               {formatItem(log)}
             </Expander>
           </td>
