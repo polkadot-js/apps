@@ -35,13 +35,26 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
   return (
     <div className={`ui--ProposedAction ${className}`}>
       <CallExpander
+        isHeader
         labelHash={t<string>('preimage')}
         stringId={stringId}
         value={proposal}
+        withHash
       />
     </div>
   );
 }
 
 export default React.memo(styled(ProposedAction)`
+  margin-left: 2rem;
+
+  .ui--ProposedAction-extrinsic {
+    > .ui--Params-Content {
+      padding-left: 0;
+    }
+  }
+
+  .ui--ProposedAction-header {
+    margin-bottom: 1rem;
+  }
 `);

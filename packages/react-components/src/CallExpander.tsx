@@ -5,6 +5,7 @@ import type { Call, Extrinsic } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import CallDisplay from './Call';
 import Expander from './Expander';
@@ -13,6 +14,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   idString?: string;
+  isHeader?: boolean;
   labelHash?: React.ReactNode;
   labelSignature?: React.ReactNode;
   mortality?: string;
@@ -24,7 +26,7 @@ interface Props {
   withSignature?: boolean;
 }
 
-function CallExpander ({ children, className = '', labelHash, labelSignature, mortality, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value && value.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -42,7 +44,11 @@ function CallExpander ({ children, className = '', labelHash, labelSignature, mo
   return (
     <div className={`ui--CallExpander ${className}`}>
       <Expander
-        summaryHead={<div>{stringId && `#${stringId}: `}{callName}</div>}
+        summaryHead={
+          isHeader
+            ? <h1>{stringId && `#${stringId}: `}{callName}</h1>
+            : <div>{stringId && `#${stringId}: `}{callName}</div>
+        }
         summaryMeta={meta}
       >
         <CallDisplay
@@ -62,4 +68,11 @@ function CallExpander ({ children, className = '', labelHash, labelSignature, mo
   );
 }
 
-export default React.memo(CallExpander);
+export default React.memo(styled(CallExpander)`
+  .ui--Expander-summary-header {
+    h1 {
+      font-size: 1.25rem;
+      text-transform: none;
+    }
+  }
+`);
