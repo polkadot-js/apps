@@ -103,6 +103,10 @@ export default React.memo(styled(Labelled)`
         }
       }
 
+      &.isOuter {
+        margin: 0.25rem 0;
+      }
+
       .labelExtra {
         color: rgba(78, 78, 78, .85);
         font-weight: var(--font-weight-normal);
