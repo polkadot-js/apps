@@ -1,7 +1,8 @@
 // Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Call } from '@polkadot/types/interfaces';
+import type { Call, Extrinsic } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
@@ -13,12 +14,17 @@ interface Props {
   className?: string;
   idString?: string;
   labelHash?: React.ReactNode;
+  labelSignature?: React.ReactNode;
+  mortality?: string;
   stringId?: string;
-  value?: Call | null;
+  tip?: BN;
+  value?: Call | Extrinsic | null;
+  withBorder?: boolean;
   withHash?: boolean;
+  withSignature?: boolean;
 }
 
-function CallExpander ({ children, className = '', labelHash, stringId, value, withHash }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', labelHash, labelSignature, mortality, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value && value.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -42,8 +48,13 @@ function CallExpander ({ children, className = '', labelHash, stringId, value, w
         <CallDisplay
           callName={callName}
           labelHash={labelHash}
+          labelSignature={labelSignature}
+          mortality={mortality}
+          tip={tip}
           value={value}
+          withBorder={withBorder}
           withHash={withHash}
+          withSignature={withSignature}
         />
         {children}
       </Expander>

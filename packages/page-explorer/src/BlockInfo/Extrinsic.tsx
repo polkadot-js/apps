@@ -8,7 +8,7 @@ import type { ICompact, INumber } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, CallExpander, LinkExternal } from '@polkadot/react-components';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 
@@ -75,7 +75,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
     [value, withLink]
   );
 
-  const { meta, method, section } = useMemo(
+  const { method, section } = useMemo(
     () => value.registry.findMetaCall(value.callIndex),
     [value]
   );
@@ -112,8 +112,6 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
     [index, events, maxBlockWeight]
   );
 
-  const callName = `${section}.${method}`;
-
   return (
     <tr
       className={className}
@@ -123,20 +121,14 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         className='top'
         colSpan={2}
       >
-        <Expander
-          summary={callName}
-          summaryMeta={meta}
-        >
-          <Call
-            callName={callName}
-            className='details'
-            mortality={mortality}
-            tip={value.tip?.toBn()}
-            value={value}
-            withHash
-            withSignature
-          />
-        </Expander>
+        <CallExpander
+          className='details'
+          mortality={mortality}
+          tip={value.tip?.toBn()}
+          value={value}
+          withHash
+          withSignature
+        />
         {link && (
           <a
             className='isDecoded'
