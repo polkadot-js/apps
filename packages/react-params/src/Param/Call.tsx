@@ -38,7 +38,6 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
       <Call
         callName={callName}
         labelHash={t<string>('call hash / {{section}}.{{method}}', { replace: { method, section } })}
-        noIndent
         value={call}
         withHash
       />

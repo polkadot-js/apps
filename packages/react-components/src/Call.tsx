@@ -24,7 +24,6 @@ export interface Props {
   labelHash?: React.ReactNode;
   labelSignature?: React.ReactNode;
   mortality?: string;
-  noIndent?: boolean;
   onError?: () => void;
   value: IExtrinsic | IMethod;
   withBorder?: boolean;
@@ -92,7 +91,7 @@ function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSign
   return { hash, overrides, params, signature, signatureType, values };
 }
 
-function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, noIndent, onError, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> {
+function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ hash, overrides, params, signature, signatureType, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], signature: null, signatureType: null, values: [] });
 
@@ -112,20 +111,20 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
         withBorder={withBorder}
       >
         {children}
-        <div className={`ui--Extrinsic--toplevel${noIndent ? ' noIndent' : ''}`}>
-          {signature && (
-            <Static
-              className='hash'
-              label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
-              value={signature}
-              withCopy
-            />
-          )}
+        <div className='ui--Extrinsic--toplevel'>
           {hash && (
             <Static
               className='hash'
               label={labelHash || t<string>('extrinsic hash')}
               value={hash}
+              withCopy
+            />
+          )}
+          {signature && (
+            <Static
+              className='hash'
+              label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+              value={signature}
               withCopy
             />
           )}
