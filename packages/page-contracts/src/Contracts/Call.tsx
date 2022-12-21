@@ -83,7 +83,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         } else {
           setEstimatedWeight(
             result.isOk
-              ? gasRequired
+              ? gasRequired.refTime.toBn()
               : null
           );
         }
@@ -191,6 +191,14 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         <InputMegaGas
           estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
+          estimatedWeightV2={message.isMutating
+            ? estimatedWeightV2
+            : api.registry.createType('WeightV2', {
+              proofSize: new BN(1_000_000),
+              refTIme: MAX_CALL_WEIGHT
+            })
+          }
+          help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />

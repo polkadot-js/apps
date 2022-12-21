@@ -14,8 +14,8 @@ import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
-  estimatedWeight?: BN
-  estimatedWeightV2?: WeightV2;
+  estimatedWeight?: BN | null;
+  estimatedWeightV2?: WeightV2 | null;
   help: React.ReactNode;
   isCall?: boolean;
   weight: UseWeight;
