@@ -88,7 +88,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
     try {
       contract = code && contractAbi?.constructors[constructorIndex]?.method && value
         ? code.tx[contractAbi.constructors[constructorIndex].method]({
-          gasLimit: weight.weight,
+          gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
           storageDepositLimit: null,
           value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
         }, ...params)

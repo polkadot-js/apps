@@ -79,7 +79,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
-            gasLimit: weight.weight,
+            gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
             salt: withSalt
               ? salt
               : null,
