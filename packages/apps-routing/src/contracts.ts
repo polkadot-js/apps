@@ -23,13 +23,14 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      needsAccounts: true,
+      needsAccounts: false,
       needsApi: [
         'tx.contracts.instantiateWithCode'
       ],
       needsApiCheck
     },
     group: 'developer',
+    href: 'http://contracts-ui.substrate.io/',
     icon: 'compress',
     name: 'contracts',
     text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
