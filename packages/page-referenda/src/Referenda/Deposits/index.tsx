@@ -1,12 +1,11 @@
 // Copyright 2017-2022 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../../types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { AddressMini } from '@polkadot/react-components';
@@ -18,7 +17,7 @@ interface Props {
   canDeposit?: boolean;
   canRefund?: boolean;
   className?: string;
-  decision: Option<PalletReferendaDeposit> | null;
+  decision: PalletReferendaDeposit | null;
   id: BN;
   palletReferenda: PalletReferenda;
   submit: PalletReferendaDeposit | null;
@@ -26,26 +25,21 @@ interface Props {
 }
 
 function Deposits ({ canDeposit, canRefund, className = '', decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
-  const [valSubmit, valDeposit] = useMemo(
-    () => [submit, decision && decision.unwrapOr(null)],
-    [decision, submit]
-  );
-
   return (
     <td className={`${className} address`}>
-      {valSubmit && (
+      {submit && (
         <AddressMini
-          balance={valSubmit.amount}
-          value={valSubmit.who}
+          balance={submit.amount}
+          value={submit.who}
           withBalance
         />
       )}
-      {valDeposit
+      {decision
         ? (
           <>
             <AddressMini
-              balance={valDeposit.amount}
-              value={valDeposit.who}
+              balance={decision.amount}
+              value={decision.who}
               withBalance
             />
             {canRefund && (

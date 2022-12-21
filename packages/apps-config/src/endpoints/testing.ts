@@ -17,6 +17,13 @@ export * from './testingRelayWestend';
 // IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
   {
+    info: '3dpass-testnet',
+    text: '3DPass Testnet',
+    providers: {
+      '3dpass': 'wss://test-rpc.3dpass.org'
+    }
+  },
+  {
     info: 'ajuna',
     text: 'Ajuna Testnet',
     providers: {
@@ -483,8 +490,7 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     }
   },
   {
@@ -543,8 +549,7 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-gemini-2a',
     text: 'Subspace Gemini 2a',
     providers: {
-      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws',
-      Dwelllir: 'wss://subspace-gemini-2a-rpc.dwellir.com'
+      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     }
   },
   {
@@ -579,7 +584,7 @@ export const testChains: EndpointOption[] = [
     info: 'uniarts',
     text: 'UniArts',
     providers: {
-      UniArts: 'wss://testnet.uniarts.network'
+      // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     }
   },
   {

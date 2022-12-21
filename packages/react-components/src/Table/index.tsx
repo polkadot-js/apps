@@ -16,6 +16,7 @@ interface TableProps {
   filter?: React.ReactNode;
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
+  headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
   legend?: React.ReactNode;
@@ -34,7 +35,7 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
@@ -45,7 +46,9 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
           filter={filter}
           header={header}
           isEmpty={isEmpty}
-        />
+        >
+          {headerChildren}
+        </Head>
         <Body
           empty={empty}
           emptySpinner={emptySpinner}
@@ -151,6 +154,10 @@ export default React.memo(styled(Table)`
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
+
+      > article.mark {
+        margin-left: 0rem;
+      }
 
       &:first-child {
         border-left: 1px solid var(--border-table);

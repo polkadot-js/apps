@@ -17,6 +17,13 @@ export * from './productionRelayPolkadot';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
   {
+    info: '3dpass',
+    text: '3DPass',
+    providers: {
+      '3dpass': 'wss://rpc2.3dpass.org'
+    }
+  },
+  {
     info: 'aleph',
     text: 'Aleph Zero',
     providers: {
@@ -185,8 +192,8 @@ export const prodChains: EndpointOption[] = [
     info: 'mathchain',
     text: 'MathChain',
     providers: {
-      MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
-      'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
+      // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {

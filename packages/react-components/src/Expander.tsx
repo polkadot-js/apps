@@ -11,7 +11,6 @@ import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
-import { useTranslation } from './translate';
 
 interface Meta {
   docs: Text[];
@@ -23,6 +22,7 @@ export interface Props {
   help?: string;
   helpIcon?: IconName;
   isOpen?: boolean;
+  isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
   renderChildren?: () => React.ReactNode;
@@ -61,8 +61,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -70,14 +69,9 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
     [isExpanded, renderChildren]
   );
 
-  const headerMain = useMemo(
-    () => summary || formatMeta(summaryMeta),
-    [summary, summaryMeta]
-  );
-
   const headerSub = useMemo(
-    () => summary ? (formatMeta(summaryMeta) || summarySub) : null,
-    [summary, summaryMeta, summarySub]
+    () => formatMeta(summaryMeta) || summarySub,
+    [summaryMeta, summarySub]
   );
 
   const hasContent = useMemo(
@@ -85,12 +79,31 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
     [children, renderChildren]
   );
 
+  const icon = useMemo(
+    () => (
+      <Icon
+        color={
+          hasContent
+            ? undefined
+            : 'transparent'
+        }
+        icon={
+          isExpanded
+            ? 'caret-up'
+            : 'caret-down'
+        }
+      />
+    ),
+    [hasContent, isExpanded]
+  );
+
   return (
     <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
       <div
-        className='ui--Expander-summary'
+        className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}
       >
+        {isLeft && icon}
         <div className='ui--Expander-summary-header'>
           {help && (
             <LabelHelp
@@ -99,19 +112,12 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
             />
           )}
           {summaryHead}
-          {headerMain || t<string>('Details')}
-          {headerSub && (
+          {summary}
+          {isExpanded && headerSub && (
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
           )}
         </div>
-        <Icon
-          color={hasContent ? undefined : 'transparent'}
-          icon={
-            isExpanded
-              ? 'caret-up'
-              : 'caret-down'
-          }
-        />
+        {!isLeft && icon}
       </div>
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children || demandChildren}</div>
@@ -130,7 +136,7 @@ export default React.memo(styled(Expander)`
   }
 
   &.isExpanded .ui--Expander-content {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
 
     .body.column {
       justify-content: end;
@@ -160,8 +166,15 @@ export default React.memo(styled(Expander)`
     }
 
     .ui--Icon {
-      margin-left: 0.75rem;
       vertical-align: middle;
+    }
+
+    &:not(.isLeft) > .ui--Icon {
+      margin-left: 0.75rem;
+    }
+
+    &.isLeft > .ui--Icon {
+      margin-right: 0.75rem;
     }
 
     .ui--LabelHelp {

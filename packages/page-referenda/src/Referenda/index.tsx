@@ -23,13 +23,14 @@ export { useCounterNamed as useCounter } from '../useCounter';
 
 interface Props {
   className?: string;
+  isConvictionVote?: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
 }
 
-function Referenda ({ className, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
+function Referenda ({ className, isConvictionVote, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<BN | undefined>(api.query.balances.totalIssuance);
@@ -72,7 +73,13 @@ function Referenda ({ className, members, palletReferenda, palletVote, ranks }: 
 
   return (
     <div className={className}>
-      <Summary summary={summary} />
+      <Summary
+        issuanceActive={activeIssuance}
+        issuanceInactive={inactiveIssuance}
+        issuanceTotal={totalIssuance}
+        summary={summary}
+        withIssuance={isConvictionVote}
+      />
       <Button.Group>
         <Dropdown
           className='topDropdown'

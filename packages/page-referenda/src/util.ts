@@ -3,12 +3,12 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { CurveGraph, TrackDescription, TrackInfo } from './types';
+import type { CurveGraph, TrackDescription, TrackInfoExt } from './types';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
-import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, stringPascalCase } from '@polkadot/util';
+import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpread, stringPascalCase } from '@polkadot/util';
 
-const CALC_CURVE_LENGTH = 100;
+const CURVE_LENGTH = 500;
 
 export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
   return `${
@@ -22,20 +22,23 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfo | undefined {
-  let info: TrackInfo | undefined;
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+  let info: TrackInfoExt | undefined;
 
   if (tracks && trackId !== undefined) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
-    const trackInfo = tracks.find(({ id }) => id.eqn(trackId));
+    const track = tracks.find(({ id }) => id.eqn(trackId));
 
-    if (trackInfo && originMap) {
-      const trackName = trackInfo.info.name.toString();
-
-      info = originMap.find(({ id, name }) =>
+    if (track && originMap) {
+      const trackName = track.info.name.toString();
+      const base = originMap.find(({ id, name }) =>
         id === trackId &&
         name === trackName
       );
+
+      if (base) {
+        info = objectSpread<TrackInfoExt>({ track }, base);
+      }
     }
   }
 
@@ -202,11 +205,11 @@ export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiv
 }
 
 export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo): CurveGraph {
-  const approval = new Array<BN>(100);
-  const support = new Array<BN>(100);
-  const x = new Array<BN>(100);
-  const step = decisionPeriod.divn(CALC_CURVE_LENGTH);
-  const last = CALC_CURVE_LENGTH - 1;
+  const approval = new Array<BN>(CURVE_LENGTH);
+  const support = new Array<BN>(CURVE_LENGTH);
+  const x = new Array<BN>(CURVE_LENGTH);
+  const step = decisionPeriod.divn(CURVE_LENGTH);
+  const last = CURVE_LENGTH - 1;
   let current = new BN(0);
 
   for (let i = 0; i < last; i++) {

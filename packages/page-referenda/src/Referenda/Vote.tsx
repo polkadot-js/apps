@@ -15,7 +15,6 @@ import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import VoteAbstain from './VoteAbstain';
-import VoteBasic from './VoteBasic';
 import VoteSplit from './VoteSplit';
 import VoteStandard from './VoteStandard';
 
@@ -47,33 +46,26 @@ function filterMembers (allAccounts: string[], members?: string[], ranks?: BN[],
   return members;
 }
 
-function createVoteOpts (api: ApiPromise, t: TFunction, isConvictionVote: boolean): { text: string, value: string }[] {
+function createVoteOpts (api: ApiPromise, t: TFunction): { text: string, value: string }[] {
   let hasAbstain = false;
 
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error This issue will go way with the correct types
     hasAbstain = !!api.createType('PalletConvictionVotingVoteAccountVote', { SplitAbstain: { abstain: 1 } }).isSplitAbstain;
   } catch {
     hasAbstain = false;
   }
 
-  return isConvictionVote
-    ? hasAbstain
-      ? [
-        { text: t<string>('Aye'), value: 'aye' },
-        { text: t<string>('Nay'), value: 'nay' },
-        { text: t<string>('Split'), value: 'split' },
-        { text: t<string>('Abstain'), value: 'abstain' }
-      ]
-      : [
-        { text: t<string>('Aye'), value: 'aye' },
-        { text: t<string>('Nay'), value: 'nay' },
-        { text: t<string>('Split'), value: 'split' }
-      ]
+  return hasAbstain
+    ? [
+      { text: t<string>('Aye'), value: 'aye' },
+      { text: t<string>('Nay'), value: 'nay' },
+      { text: t<string>('Split'), value: 'split' },
+      { text: t<string>('Abstain'), value: 'abstain' }
+    ]
     : [
       { text: t<string>('Aye'), value: 'aye' },
-      { text: t<string>('Nay'), value: 'nay' }
+      { text: t<string>('Nay'), value: 'nay' },
+      { text: t<string>('Split'), value: 'split' }
     ];
 }
 
@@ -89,8 +81,8 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   // Create the options for the vote toggle using the type of vote and also inspecting
   // the actual support of the on-chain runtime (e.g. Abstentions)
   const voteTypeOpts = useMemo(
-    () => createVoteOpts(api, t, isConvictionVote),
-    [api, isConvictionVote, t]
+    () => createVoteOpts(api, t),
+    [api, t]
   );
 
   const filteredMembers = useMemo(
@@ -116,7 +108,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
       {isVotingOpen && (
         <Modal
           className={className}
-          header={t<string>('Vote on proposal')}
+          header={t<string>('Vote on referendum')}
           onClose={toggleVoting}
           size='large'
         >
@@ -135,68 +127,87 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                 onChange={setAccountId}
               />
             </Modal.Columns>
-            <Modal.Columns
-              className='centerVoteType'
-              hint={t<string>('The type of vote that you wish to cast on the referendum.')}
-            >
-              <ToggleGroup
-                onChange={setVoteTypeIndex}
-                options={voteTypeOpts}
-                value={voteTypeIndex}
-              />
-            </Modal.Columns>
-            {isConvictionVote
-              ? voteTypeIndex === 0
-                ? (
-                  <VoteStandard
-                    accountId={accountId}
-                    id={id}
-                    isAye
-                    onChange={setParams}
+            {isConvictionVote && (
+              <>
+                <Modal.Columns
+                  className='centerVoteType'
+                  hint={t<string>('The type of vote that you wish to cast on the referendum.')}
+                >
+                  <ToggleGroup
+                    onChange={setVoteTypeIndex}
+                    options={voteTypeOpts}
+                    value={voteTypeIndex}
                   />
-                )
-                : voteTypeIndex === 1
+                </Modal.Columns>
+                {voteTypeIndex === 0
                   ? (
                     <VoteStandard
                       accountId={accountId}
                       id={id}
+                      isAye
                       onChange={setParams}
                     />
                   )
-                  : voteTypeIndex === 2
+                  : voteTypeIndex === 1
                     ? (
-                      <VoteSplit
+                      <VoteStandard
                         accountId={accountId}
                         id={id}
                         onChange={setParams}
                       />
                     )
-                    : (
-                      <VoteAbstain
-                        accountId={accountId}
-                        id={id}
-                        onChange={setParams}
-                      />
-                    )
-              : (
-                <VoteBasic
-                  accountId={accountId}
-                  id={id}
-                  isAye={voteTypeIndex === 0}
-                  onChange={setParams}
-                />
-              )
-            }
+                    : voteTypeIndex === 2
+                      ? (
+                        <VoteSplit
+                          accountId={accountId}
+                          id={id}
+                          onChange={setParams}
+                        />
+                      )
+                      : (
+                        <VoteAbstain
+                          accountId={accountId}
+                          id={id}
+                          onChange={setParams}
+                        />
+                      )
+                }
+              </>
+            )}
           </Modal.Content>
           <Modal.Actions>
-            <TxButton
-              accountId={accountId}
-              icon='check-to-slot'
-              label={t<string>('Vote')}
-              onStart={toggleVoting}
-              params={params}
-              tx={api.tx[palletVote].vote}
-            />
+            {isConvictionVote
+              ? (
+                <TxButton
+                  accountId={accountId}
+                  icon='check-to-slot'
+                  label={t<string>('Vote')}
+                  onStart={toggleVoting}
+                  params={params}
+                  tx={api.tx[palletVote].vote}
+                />
+              )
+              : (
+                <>
+                  <TxButton
+                    accountId={accountId}
+                    icon='ban'
+                    label={t<string>('Vote Nay')}
+                    onStart={toggleVoting}
+                    params={[id, false]}
+                    tx={api.tx[palletVote].vote}
+                  />
+                  <TxButton
+                    accountId={accountId}
+                    icon='check'
+                    label={t<string>('Vote Aye')}
+                    onStart={toggleVoting}
+                    params={[id, true]}
+                    tx={api.tx[palletVote].vote}
+                  />
+                </>
+              )
+            }
           </Modal.Actions>
         </Modal>
       )}

@@ -193,7 +193,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
-      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8553
       // NOTE: Keep this as the last entry, nothing after it
       'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
@@ -340,8 +340,7 @@ export const prodParasKusama: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonriver',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -545,7 +544,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2094,
     text: 'Unorthodox',
     providers: {
-      'Standard Protocol': 'wss://rpc.kusama.standard.tech'
+      // 'Standard Protocol': 'wss://rpc.kusama.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
@@ -581,8 +580,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1001,
     text: 'Encointer Network',
     providers: {
-      'Encointer Association': 'wss://kusama.api.encointer.org',
-      OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
+      'Encointer Association': 'wss://kusama.api.encointer.org'
+      // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
   }
@@ -597,7 +596,7 @@ export const prodRelayKusama: EndpointOption = {
     Parity: 'wss://kusama-rpc.polkadot.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
-    RadiumBlock: 'wss://kusama.public.curie.radiumblock.xyz/ws',
+    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',

@@ -5,34 +5,24 @@ import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
+import Call from '@polkadot/app-preimages/Preimages/Call';
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
 import usePreimage from '@polkadot/app-preimages/usePreimage';
-import { CallExpander } from '@polkadot/react-components';
-
-import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
   value: HexString;
 }
 
-function Call ({ className, value }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function Details ({ className, value }: Props): React.ReactElement<Props> {
   const info = usePreimage(value);
 
   return (
     <tr className={ className }>
       <Hash value={value} />
-      <td className='all'>
-        {info?.proposal && (
-          <CallExpander
-            labelHash={t<string>('call')}
-            value={info.proposal}
-          />
-        )}
-      </td>
+      <Call value={info} />
     </tr>
   );
 }
 
-export default React.memo(Call);
+export default React.memo(Details);

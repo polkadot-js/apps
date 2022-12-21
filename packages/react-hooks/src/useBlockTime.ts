@@ -13,9 +13,9 @@ import { createNamedHook } from './createNamedHook';
 import { useTranslation } from './translate';
 import { useBlockInterval } from './useBlockInterval';
 
-type Result = [number, string, Time];
+type Result = [blockInterval: number, timeStr: string, time: Time];
 
-function calcResult (blockTime: BN, blocks: BN, t: TFunction): Result {
+export function calcBlockTime (blockTime: BN, blocks: BN, t: TFunction): Result {
   // in the case of excessively large locks, limit to the max JS integer value
   const value = bnMin(BN_MAX_INTEGER, blockTime.mul(blocks)).toNumber();
 
@@ -59,7 +59,7 @@ function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromis
   const blockTime = useBlockInterval(apiOverride);
 
   return useMemo(
-    () => calcResult(blockTime, bnToBn(blocks), t),
+    () => calcBlockTime(blockTime, bnToBn(blocks), t),
     [blockTime, blocks, t]
   );
 }

@@ -9,6 +9,7 @@ import type { Codec } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 
 import { Input } from '@polkadot/react-components';
+import { balanceEvents, balanceEventsOverrides } from '@polkadot/react-components/constants';
 import Params from '@polkadot/react-params';
 
 import { useTranslation } from './translate';
@@ -17,6 +18,7 @@ import { getContractAbi } from './util';
 export interface Props {
   children?: React.ReactNode;
   className?: string;
+  eventName?: string;
   value: Event;
 }
 
@@ -29,7 +31,7 @@ interface AbiEvent extends DecodedEvent {
   values: Value[];
 }
 
-function EventDisplay ({ children, className = '', value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className = '', eventName, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const names = value.data.names;
   const params = value.typeDef.map((type, i) => ({
@@ -37,6 +39,13 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
     type
   }));
   const values = value.data.map((value) => ({ isValid: true, value }));
+
+  const overrides = useMemo(
+    () => eventName && balanceEvents.includes(eventName)
+      ? balanceEventsOverrides
+      : undefined,
+    [eventName]
+  );
 
   const abiEvent = useMemo(
     (): AbiEvent | null => {
@@ -72,6 +81,7 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
       {children}
       <Params
         isDisabled
+        overrides={overrides}
         params={params}
         values={values}
       >

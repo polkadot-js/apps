@@ -9,13 +9,14 @@ import Icon from '../Icon';
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
   header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ children, className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
@@ -52,6 +53,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
           </th>
         )}
       </tr>
+      {children}
     </thead>
   );
 }
@@ -100,7 +102,8 @@ export default React.memo(styled(Head)`
       padding: 0;
     }
 
-    &.expand {
+    &.expand,
+    &.number {
       text-align: right;
     }
 

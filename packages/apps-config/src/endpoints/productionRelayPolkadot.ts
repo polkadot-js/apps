@@ -302,8 +302,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
-      'Automata 1RPC': 'wss://1rpc.io/glmr',
-      Dwellir: 'wss://moonbeam-rpc.dwellir.com'
+      'Automata 1RPC': 'wss://1rpc.io/glmr'
     }
   },
   {
@@ -430,7 +429,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemint',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.xyz/ws'
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     }
   },
   {

@@ -10,7 +10,6 @@ import { isCodec } from '@polkadot/util';
 
 import Params from '../';
 import Base from './Base';
-import Static from './Static';
 import useParamDefs from './useParamDefs';
 
 function extractValues ({ isValid, value }: RawParam): RawParam[] | undefined {
@@ -26,6 +25,10 @@ function StructParam (props: Props): React.ReactElement<Props> {
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       onChange && onChange({
         isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
         value: params.reduce((value: Record<string, unknown>, { name }, index): Record<string, unknown> => {
@@ -35,12 +38,8 @@ function StructParam (props: Props): React.ReactElement<Props> {
         }, {})
       });
     },
-    [params, onChange]
+    [isDisabled, params, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <div className='ui--Params-Struct'>
@@ -50,6 +49,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
         withLabel={withLabel}
       />
       <Params
+        isDisabled={isDisabled}
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}

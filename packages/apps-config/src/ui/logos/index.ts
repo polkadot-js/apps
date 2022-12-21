@@ -9,7 +9,9 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chain3dpass from './chains/3dpass.png';
 import chainAcala from './chains/acala.svg';
+import chainAcurast from './chains/acurast.png';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAmplitude from './chains/amplitude.svg';
@@ -36,6 +38,7 @@ import chainGM from './chains/gm.png';
 import chainHashed from './chains/hashed.png';
 import chainHydrate from './chains/hydrate.png';
 import chainInterlay from './chains/interlay.svg';
+import chainEthos from './chains/jur.png';
 import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
@@ -242,6 +245,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Acurast Rococo Testnet': chainAcurast,
   'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
@@ -304,6 +308,7 @@ export const chainLogos = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
+  'Ethos Testnet': chainEthos,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequency,
   Galital: nodeGalital,
@@ -485,6 +490,7 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
+  'Acurast Parachain Collator': chainAcurast,
   'Ajuna Node': nodeAjuna,
   Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
@@ -564,6 +570,7 @@ export const nodeLogos = Object.entries({
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
+  'Jur Collator': chainEthos,
   Kabocha: nodeKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
   Kerria: nodeParallel,
@@ -712,6 +719,8 @@ export const specLogos = Object.entries({
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
+  '3dpass': chain3dpass,
+  '3dpass-testnet': chain3dpass,
   acala: chainAcala,
   ajuna: nodeAjuna,
   aleph: chainAleph,
@@ -865,6 +874,7 @@ export const namedLogos: Record<string, unknown> = {
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: chainAcala,
+  rococoAcurast: chainAcurast,
   rococoAmplitude: chainAmplitude,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
@@ -886,6 +896,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDolphin: nodeDolphin,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointer,
+  rococoEthos: chainEthos,
   rococoFrequency: chainFrequency,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,

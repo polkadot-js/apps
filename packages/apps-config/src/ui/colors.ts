@@ -15,7 +15,9 @@ const emptyColor = '#99999';
 // based on chain name
 // alphabetical
 const chainSherpax = '#6bbee8';
+const chain3dpass = '#323232';
 const chainAcala = '#645AFF';
+const chainAcurastRococoTestnet = '#000000';
 const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
@@ -54,6 +56,7 @@ const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
+const chainEthos = '#203050';
 const chainFantour = '#5a189a';
 const chainFrequency = '#4b64ff';
 const chainFrequencyRococo = '#29fd47';
@@ -270,10 +273,13 @@ export { emptyColor };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
+  '3DP testnet': chain3dpass,
+  '3dpass - The Ledger of Things': chain3dpass,
   Acala: chainAcala,
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
+  'Acurast Rococo Testnet': chainAcurastRococoTestnet,
   'Ajuna Testnet': chainAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
@@ -343,6 +349,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
+  'Ethos Testnet': chainEthos,
   'Fantour Development': chainFantour,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequencyRococo,

@@ -1,8 +1,38 @@
 // Copyright 2017-2022 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
 import type { TrackInfo } from './types';
+
+import { BN, formatBalance } from '@polkadot/util';
+
+// hardcoded here since this is static (hopefully no re-denomination anytime...)
+const FMT_OPTS = {
+  decimals: 12,
+  forceUnit: '-',
+  withSi: true,
+  withUnit: 'KSM'
+};
+
+// https://github.com/paritytech/polkadot/blob/6e3f2c5b4b6e6927915de2f784e1d831717760fa/runtime/kusama/constants/src/lib.rs#L28-L32
+const UNITS = new BN(1_000_000_000_000);
+const QUID = UNITS.divn(30);
+const GRAND = QUID.muln(1_000);
+
+// https://github.com/paritytech/polkadot/blob/6e3f2c5b4b6e6927915de2f784e1d831717760fa/runtime/kusama/src/governance/origins.rs#L170-L179
+const SPEND_LIMITS = {
+  BigSpender: formatSpend(1_000, GRAND),
+  BigTipper: formatSpend(1, GRAND),
+  MediumSpender: formatSpend(100, GRAND),
+  SmallSpender: formatSpend(10, GRAND),
+  SmallTipper: formatSpend(250, QUID),
+  Treasurer: formatSpend(10_000, GRAND)
+};
+
+function formatSpend (mul: number, value: BN): string {
+  // We lose the decimals here... depending on chain config, this could be non-optimal
+  // (A simple formatBalance(value.muln(mul), FMT_OPTS) formats to 4 decimals)
+  return `${formatBalance(value.muln(mul), FMT_OPTS).split('.')[0]} ${FMT_OPTS.withUnit}`;
+}
 
 function compareFellowshipRank (trackId: number): (rank: BN) => boolean {
   return (rank: BN): boolean =>
@@ -96,7 +126,8 @@ export const kusama: Record<string, TrackInfo[]> = {
     {
       id: 0,
       name: 'root',
-      origin: { system: 'Root' }
+      origin: { system: 'Root' },
+      text: 'Origin for the system root'
     },
     {
       id: 1,
@@ -156,31 +187,31 @@ export const kusama: Record<string, TrackInfo[]> = {
       id: 30,
       name: 'small_tipper',
       origin: { Origins: 'SmallTipper' },
-      text: 'Origin able to spend up to 1 KSM from the treasury at once'
+      text: `Origin able to spend up to ${SPEND_LIMITS.SmallTipper} from the treasury at once`
     },
     {
       id: 31,
       name: 'big_tipper',
       origin: { Origins: 'BigTipper' },
-      text: 'Origin able to spend up to 5 KSM from the treasury at once'
+      text: `Origin able to spend up to ${SPEND_LIMITS.BigTipper} from the treasury at once`
     },
     {
       id: 32,
       name: 'small_spender',
       origin: { Origins: 'SmallSpender' },
-      text: 'Origin able to spend up to 50 KSM from the treasury at once'
+      text: `Origin able to spend up to ${SPEND_LIMITS.SmallSpender} from the treasury at once`
     },
     {
       id: 33,
       name: 'medium_spender',
       origin: { Origins: 'MediumSpender' },
-      text: 'Origin able to spend up to 500 KSM from the treasury at once'
+      text: `Origin able to spend up to ${SPEND_LIMITS.MediumSpender} from the treasury at once`
     },
     {
       id: 34,
       name: 'big_spender',
       origin: { Origins: 'BigSpender' },
-      text: 'Origin able to spend up to 5,000 KSM from the treasury at once'
+      text: `Origin able to spend up to ${SPEND_LIMITS.BigSpender} from the treasury at once`
     }
   ]
 };

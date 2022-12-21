@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
-import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { Referendum, ReferendumProps as Props } from '../types';
@@ -15,11 +15,12 @@ import { CallExpander, Progress } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
 import RefEnd from './RefEnd';
+import { unwrapDeposit } from './util';
 import Vote from './Vote';
 import Votes from './Votes';
 
 interface Expanded {
-  ongoing: Referendum['info']['asOngoing'];
+  decisionDeposit: PalletReferendaDeposit | null;
   periods: {
     periodEnd: BN | null;
     prepareEnd: BN | null;
@@ -28,6 +29,8 @@ interface Expanded {
   };
   proposalHash: HexString;
   shortHash: string;
+  submissionDeposit: PalletReferendaDeposit | null;
+  tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
   tallyTotal: BN;
 }
 
@@ -58,7 +61,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
   }
 
   return {
-    ongoing,
+    decisionDeposit: unwrapDeposit(ongoing.decisionDeposit),
     periods: {
       confirmEnd,
       decideEnd,
@@ -67,6 +70,8 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
     },
     proposalHash,
     shortHash: `${proposalHash.slice(0, 10)}…${proposalHash.slice(-8)}`,
+    submissionDeposit: unwrapDeposit(ongoing.submissionDeposit),
+    tally: ongoing.tally,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
   };
 }
@@ -74,7 +79,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
 function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const { ongoing: { decisionDeposit, submissionDeposit, tally }, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, tallyTotal } = useMemo(
+  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, submissionDeposit, tally, tallyTotal } = useMemo(
     () => expandOngoing(info, track),
     [info, track]
   );
@@ -95,6 +100,14 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
           : t('preimage {{shortHash}}', { replace: { shortHash } })
         }
       </td>
+      <Deposits
+        canDeposit
+        decision={decisionDeposit}
+        id={id}
+        palletReferenda={palletReferenda}
+        submit={submissionDeposit}
+        track={track}
+      />
       <RefEnd
         label={
           confirmEnd
@@ -104,14 +117,6 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               : t<string>('Preparing')
         }
         when={periodEnd}
-      />
-      <Deposits
-        canDeposit
-        decision={decisionDeposit}
-        id={id}
-        palletReferenda={palletReferenda}
-        submit={submissionDeposit}
-        track={track}
       />
       <Votes
         id={id}

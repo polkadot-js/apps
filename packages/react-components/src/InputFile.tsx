@@ -48,7 +48,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
     let hex = u8aToString(data);
 
     while (hex[hex.length - 1] === STR_NL) {
-      hex = hex.substr(0, hex.length - 1);
+      hex = hex.substring(0, hex.length - 1);
     }
 
     if (isHex(hex)) {
