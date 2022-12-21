@@ -584,6 +584,14 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
+  },
+  {
+    info: 'kusamaBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
