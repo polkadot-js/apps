@@ -22,6 +22,7 @@ export interface Props {
   help?: string;
   helpIcon?: IconName;
   isOpen?: boolean;
+  isHeader?: boolean;
   isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
@@ -61,7 +62,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -98,20 +99,22 @@ function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, i
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
+    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isHeader ? ' isHeader' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
       <div
         className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}
       >
         {isLeft && icon}
         <div className='ui--Expander-summary-header'>
-          {help && (
-            <LabelHelp
-              help={help}
-              icon={helpIcon}
-            />
-          )}
-          {summaryHead}
+          <div className='ui--Expander-summary-title'>
+            {help && (
+              <LabelHelp
+                help={help}
+                icon={helpIcon}
+              />
+            )}
+            {summaryHead}
+          </div>
           {summary}
           {isExpanded && headerSub && (
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
@@ -140,6 +143,14 @@ export default React.memo(styled(Expander)`
 
     .body.column {
       justify-content: end;
+    }
+  }
+
+  &.isHeader {
+    margin-left: 2rem;
+
+    .ui--Expander-summary-title {
+      font-size: 1.1rem;
     }
   }
 

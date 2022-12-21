@@ -5,7 +5,6 @@ import type { Call } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { formatNumber, isString, isUndefined } from '@polkadot/util';
 
@@ -29,7 +28,7 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
   if (!proposal) {
     return (
       <div className={`ui--ProposedAction ${className}`}>
-        <h1>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</h1>
+        <div>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</div>
       </div>
     );
   }
@@ -47,21 +46,4 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
   );
 }
 
-export default React.memo(styled(ProposedAction)`
-  margin-left: 2rem;
-
-  > h1 {
-    font-size: 1.25rem;
-    text-transform: none;
-  }
-
-  .ui--ProposedAction-extrinsic {
-    > .ui--Params-Content {
-      padding-left: 0;
-    }
-  }
-
-  .ui--ProposedAction-header {
-    margin-bottom: 1rem;
-  }
-`);
+export default React.memo(ProposedAction);
