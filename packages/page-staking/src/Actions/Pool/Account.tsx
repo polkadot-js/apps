@@ -8,6 +8,7 @@ import type { SortedTargets } from '../../types';
 
 import React, { useCallback, useContext, useMemo } from 'react';
 
+import useAccountInfoManualRewards from '@polkadot/app-staking/Actions/Pool/useAccountInfoManualRewards';
 import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -19,7 +20,9 @@ import Nominate from '../Account/Nominate';
 import useSlashingSpans from '../useSlashingSpans';
 import BondExtra from './BondExtra';
 import Unbond from './Unbond';
-import useAccountInfo from './useAccountInfo';
+
+// TODO use pendingRewards API with Substrate >= 9.29
+// import useAccountInfo from './useAccountInfo';
 
 interface Props {
   accountId: string;
@@ -70,7 +73,10 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
-  const accInfo = useAccountInfo(accountId);
+
+  // TODO use pendingRewards API with Substrate >= 9.29
+  // const accInfo = useAccountInfo(accountId);
+  const accInfo = useAccountInfoManualRewards(accountId, poolId);
 
   const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
