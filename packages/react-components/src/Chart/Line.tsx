@@ -83,9 +83,14 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
     return chartData;
   }, { datasets: [] as Dataset[], labels });
 
+  const finalOptions = objectSpread<ChartOptions>({}, chartOptions, options);
+
+  // Re-sperad plugins for deep(er) copy
+  finalOptions.plugins = objectSpread({}, chartOptions.plugins, options.plugins);
+
   return {
     chartData,
-    chartOptions: objectSpread({}, chartOptions, options)
+    chartOptions: finalOptions
   };
 }
 
