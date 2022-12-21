@@ -42,7 +42,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   const callName = `${section}.${method}`;
 
   return (
-    <div className={`ui--CallExpander ${className}${isHeader ? ' isHeader' : ''}`}>
+    <div className={`ui--CallExpander ${className}`}>
       <Expander
         isHeader={isHeader}
         isLeft
