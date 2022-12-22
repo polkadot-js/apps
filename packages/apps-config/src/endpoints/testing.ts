@@ -358,7 +358,8 @@ export const testChains: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet',
+      UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     }
   },
   {
