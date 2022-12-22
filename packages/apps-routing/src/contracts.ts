@@ -6,6 +6,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Route } from './types';
 
 import Component from '@polkadot/app-contracts';
+import { settings } from '@polkadot/ui-settings';
 import { assertReturn } from '@polkadot/util';
 
 function needsApiCheck (api: ApiPromise): boolean {
@@ -20,16 +21,24 @@ function needsApiCheck (api: ApiPromise): boolean {
 }
 
 export default function create (t: TFunction): Route {
+  let href = 'https://contracts-ui.substrate.io/';
+  const websocket = settings.get().apiUrl;
+
+  if (websocket.length > 0) {
+    href = href + `?rpc=${websocket}`;
+  }
+
   return {
     Component,
     display: {
-      needsAccounts: true,
+      needsAccounts: false,
       needsApi: [
         'tx.contracts.instantiateWithCode'
       ],
       needsApiCheck
     },
     group: 'developer',
+    href,
     icon: 'compress',
     name: 'contracts',
     text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })

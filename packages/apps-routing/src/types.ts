@@ -32,6 +32,7 @@ export interface Route {
   name: string;
   text: string;
   useCounter?: () => number | string | null;
+  href?: string;
 }
 
 export type Routes = Route[];
