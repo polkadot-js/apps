@@ -5,8 +5,7 @@ import type { TFunction } from 'i18next';
 
 import React, { useRef } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
-import { useApi, useBlockInterval } from '@polkadot/react-hooks';
+import { useBlockInterval } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN } from '@polkadot/util';
 
@@ -19,23 +18,19 @@ export interface Props {
   label?: React.ReactNode;
   onChange?: (value: number) => void;
   value?: number;
-  voteLockingPeriod?: BN;
+  voteLockingPeriod: BN;
 }
 
 const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
 
-function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, voteLockingPeriod?: BN): { text: string; value: number }[] {
+function createOptions (blockTime: BN, voteLockingPeriod: BN, t: TFunction): { text: string; value: number }[] {
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x duration ({{period}})', {
         replace: {
           lock,
-          period: calcBlockTime(blockTime, bnLock.mul(
-            voteLockingPeriod ||
-            api.consts.democracy.voteLockingPeriod ||
-            api.consts.democracy.enactmentPeriod
-          ), t)[1],
+          period: calcBlockTime(blockTime, bnLock.mul(voteLockingPeriod), t)[1],
           value
         }
       }),
@@ -45,11 +40,9 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, voteLockin
 }
 
 function Convictions ({ className = '', help, label, onChange, value, voteLockingPeriod }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const { t } = useTranslation();
   const blockTime = useBlockInterval();
-
-  const optionsRef = useRef(createOptions(api, t, blockTime, voteLockingPeriod));
+  const optionsRef = useRef(createOptions(blockTime, voteLockingPeriod, t));
 
   return (
     <Dropdown

@@ -100,6 +100,10 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
             label={t<string>('conviction')}
             onChange={setConviction}
             value={conviction}
+            voteLockingPeriod={
+              api.consts.democracy.voteLockingPeriod ||
+              api.consts.democracy.enactmentPeriod
+            }
           />
         </Modal.Columns>
       </Modal.Content>

@@ -11,7 +11,7 @@ import { ConvictionDropdown, Modal, VoteValue } from '@polkadot/react-components
 import { useTranslation } from '../translate';
 
 interface Props extends VoteTypeProps {
-  voteLockingPeriod?: BN;
+  voteLockingPeriod: BN;
 }
 
 function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Props): React.ReactElement<Props> {
