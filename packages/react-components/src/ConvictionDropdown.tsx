@@ -7,7 +7,7 @@ import React, { useRef } from 'react';
 
 import { useBlockInterval } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
-import { BN } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';
@@ -21,16 +21,18 @@ export interface Props {
   voteLockingPeriod: BN;
 }
 
-const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
+const CONVICTIONS = [1, 2, 4, 8, 16, 32].map((lock, index): [value: number, duration: number, durationBn: BN] => [index + 1, lock, new BN(lock)]);
 
 function createOptions (blockTime: BN, voteLockingPeriod: BN, t: TFunction): { text: string; value: number }[] {
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
-      text: t<string>('{{value}}x voting balance, locked for {{lock}}x duration ({{period}})', {
+    ...CONVICTIONS.map(([value, duration, durationBn]): { text: string; value: number } => ({
+      text: t<string>('{{value}}x voting balance, locked for {{duration}}x duration{{period}}', {
         replace: {
-          lock,
-          period: calcBlockTime(blockTime, bnLock.mul(voteLockingPeriod), t)[1],
+          duration,
+          period: voteLockingPeriod && voteLockingPeriod.gt(BN_ZERO)
+            ? ` (${calcBlockTime(blockTime, durationBn.mul(voteLockingPeriod), t)[1]})`
+            : '',
           value
         }
       }),
