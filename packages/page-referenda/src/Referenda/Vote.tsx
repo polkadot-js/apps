@@ -4,6 +4,7 @@
 import type { TFunction } from 'react-i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { Preimage } from '@polkadot/app-preimages/types';
+import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletVote, TrackInfo } from '../types';
 
@@ -27,6 +28,7 @@ interface Props {
   palletVote: PalletVote;
   preimage?: Preimage;
   ranks?: BN[];
+  track?: PalletReferendaTrackInfo;
   trackInfo?: TrackInfo;
 }
 
@@ -69,7 +71,7 @@ function createVoteOpts (api: ApiPromise, t: TFunction): { text: string, value: 
     ];
 }
 
-function Voting ({ className, id, isConvictionVote, isMember, members, palletVote, preimage, ranks, trackInfo }: Props): React.ReactElement<Props> | null {
+function Voting ({ className, id, isConvictionVote, isMember, members, palletVote, preimage, ranks, track, trackInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -146,6 +148,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                       id={id}
                       isAye
                       onChange={setParams}
+                      track={track}
                     />
                   )
                   : voteTypeIndex === 1
@@ -154,6 +157,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                         accountId={accountId}
                         id={id}
                         onChange={setParams}
+                        track={track}
                       />
                     )
                     : voteTypeIndex === 2

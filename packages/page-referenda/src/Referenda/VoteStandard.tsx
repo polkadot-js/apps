@@ -1,8 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { VoteTypeProps as Props } from './types';
+import type { VoteTypeProps } from './types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -10,7 +11,11 @@ import { ConvictionDropdown, Modal, VoteValue } from '@polkadot/react-components
 
 import { useTranslation } from '../translate';
 
-function VoteStandard ({ accountId, id, isAye, onChange }: Props): React.ReactElement<Props> {
+interface Props extends VoteTypeProps {
+  track?: PalletReferendaTrackInfo;
+}
+
+function VoteStandard ({ accountId, id, isAye, onChange, track }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [balance, setBalance] = useState<BN | undefined>();
   const [conviction, setConviction] = useState(0);
@@ -47,6 +52,7 @@ function VoteStandard ({ accountId, id, isAye, onChange }: Props): React.ReactEl
         onChange={setBalance}
       />
       <ConvictionDropdown
+        enactmentPeriod={track?.minEnactmentPeriod}
         help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
         label={t<string>('conviction')}
         onChange={setConviction}
