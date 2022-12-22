@@ -35,7 +35,7 @@ interface Config {
 
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
-const chartOptions: ChartOptions = {
+const baseOptions: ChartOptions = {
   animation: {
     duration: 0
   },
@@ -83,14 +83,12 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
     return chartData;
   }, { datasets: [] as Dataset[], labels });
 
-  const finalOptions = objectSpread<ChartOptions>({}, chartOptions, options);
-
-  // Re-sperad plugins for deep(er) copy
-  finalOptions.plugins = objectSpread({}, chartOptions.plugins, options.plugins);
-
   return {
     chartData,
-    chartOptions: finalOptions
+    chartOptions: objectSpread<ChartOptions>({}, baseOptions, options, {
+      // Re-spread plugins for deep(er) copy
+      plugins: objectSpread({}, baseOptions.plugins, options.plugins)
+    })
   };
 }
 
