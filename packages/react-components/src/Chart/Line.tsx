@@ -85,7 +85,7 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
 
   return {
     chartData,
-    chartOptions: objectSpread<ChartOptions>({}, baseOptions, options, {
+    chartOptions: objectSpread({}, baseOptions, options, {
       // Re-spread plugins for deep(er) copy
       plugins: objectSpread({}, baseOptions.plugins, options.plugins)
     })
