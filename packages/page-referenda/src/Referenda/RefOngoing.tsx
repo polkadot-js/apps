@@ -139,7 +139,6 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
           palletVote={palletVote}
           preimage={preimage}
           ranks={ranks}
-          track={track}
           trackInfo={trackInfo}
         />
       </td>
