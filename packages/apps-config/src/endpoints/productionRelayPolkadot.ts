@@ -304,7 +304,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
-      
+
     }
   },
   {
