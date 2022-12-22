@@ -71,7 +71,7 @@ function createVoteOpts (api: ApiPromise, t: TFunction): { text: string, value: 
     ];
 }
 
-function Voting ({ className, id, isConvictionVote, isMember, members, palletVote, preimage, ranks, track, trackInfo }: Props): React.ReactElement<Props> | null {
+function Voting ({ className, id, isConvictionVote, isMember, members, palletVote, preimage, ranks, trackInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -148,7 +148,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                       id={id}
                       isAye
                       onChange={setParams}
-                      track={track}
+                      voteLockingPeriod={api.consts.convictionVoting.voteLockingPeriod}
                     />
                   )
                   : voteTypeIndex === 1
@@ -157,7 +157,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                         accountId={accountId}
                         id={id}
                         onChange={setParams}
-                        track={track}
+                        voteLockingPeriod={api.consts.convictionVoting.voteLockingPeriod}
                       />
                     )
                     : voteTypeIndex === 2

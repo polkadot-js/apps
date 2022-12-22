@@ -15,16 +15,16 @@ import { useTranslation } from './translate';
 
 export interface Props {
   className?: string;
-  enactmentPeriod?: BN;
   help?: string
   label?: React.ReactNode;
   onChange?: (value: number) => void;
   value?: number;
+  voteLockingPeriod?: BN;
 }
 
 const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
 
-function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, enactmentPeriod?: BN): { text: string; value: number }[] {
+function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, voteLockingPeriod?: BN): { text: string; value: number }[] {
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
@@ -32,7 +32,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, enactmentP
         replace: {
           lock,
           period: calcBlockTime(blockTime, bnLock.mul(
-            enactmentPeriod ||
+            voteLockingPeriod ||
             api.consts.democracy.voteLockingPeriod ||
             api.consts.democracy.enactmentPeriod
           ), t)[1],
@@ -44,12 +44,12 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: BN, enactmentP
   ];
 }
 
-function Convictions ({ className = '', enactmentPeriod, help, label, onChange, value }: Props): React.ReactElement<Props> | null {
+function Convictions ({ className = '', help, label, onChange, value, voteLockingPeriod }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
   const blockTime = useBlockInterval();
 
-  const optionsRef = useRef(createOptions(api, t, blockTime, enactmentPeriod));
+  const optionsRef = useRef(createOptions(api, t, blockTime, voteLockingPeriod));
 
   return (
     <Dropdown
