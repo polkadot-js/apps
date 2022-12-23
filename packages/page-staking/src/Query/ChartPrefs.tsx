@@ -4,7 +4,7 @@
 import type { DeriveStakerPrefs } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_BILLION } from '@polkadot/util';
@@ -42,8 +42,8 @@ function extractPrefs (prefs: DeriveStakerPrefs[] = []): ChartInfo {
   });
 
   return {
-    chart: [idxSet, avgSet],
-    labels
+    labels,
+    values: [idxSet, avgSet]
   };
 }
 
@@ -52,11 +52,15 @@ function ChartPrefs ({ validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const stakerPrefs = useCall<DeriveStakerPrefs[]>(api.derive.staking.stakerPrefs, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { chart, labels } = useMemo(
-    () => extractPrefs(stakerPrefs),
-    [stakerPrefs]
-  );
+  useEffect((): void => {
+    setChart({ labels: [], values: [] });
+  }, [validatorId]);
+
+  useEffect((): void => {
+    setChart(extractPrefs(stakerPrefs));
+  }, [stakerPrefs]);
 
   const legendsRef = useRef([
     t<string>('commission'),
@@ -65,11 +69,10 @@ function ChartPrefs ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <Chart
+      chart={chart}
       colors={COLORS_POINTS}
       header={t<string>('commission')}
-      labels={labels}
       legends={legendsRef.current}
-      values={chart}
     />
   );
 }

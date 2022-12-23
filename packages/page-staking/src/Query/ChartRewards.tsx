@@ -4,7 +4,7 @@
 import type { DeriveEraRewards, DeriveOwnSlashes, DeriveStakerPoints } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
@@ -54,8 +54,8 @@ function extractRewards (erasRewards: DeriveEraRewards[] = [], ownSlashes: Deriv
   });
 
   return {
-    chart: [slashSet, rewardSet, avgSet],
-    labels
+    labels,
+    values: [slashSet, rewardSet, avgSet]
   };
 }
 
@@ -66,16 +66,20 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, params);
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
   const { currency, divisor } = useMemo(() => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), []);
 
-  const { chart, labels } = useMemo(
-    () => extractRewards(erasRewards, ownSlashes, stakerPoints, divisor),
-    [divisor, erasRewards, ownSlashes, stakerPoints]
-  );
+  useEffect((): void => {
+    setChart({ labels: [], values: [] });
+  }, [validatorId]);
+
+  useEffect((): void => {
+    setChart(extractRewards(erasRewards, ownSlashes, stakerPoints, divisor));
+  }, [divisor, erasRewards, ownSlashes, stakerPoints]);
 
   const legends = useMemo(() => [
     t<string>('{{currency}} slashed', { replace: { currency } }),
@@ -85,11 +89,10 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <Chart
+      chart={chart}
       colors={COLORS_REWARD}
       header={t<string>('rewards & slashes')}
-      labels={labels}
       legends={legends}
-      values={chart}
     />
   );
 }

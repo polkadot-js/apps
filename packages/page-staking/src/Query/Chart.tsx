@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LineData } from './types';
+import type { ChartInfo } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -9,15 +9,14 @@ import styled from 'styled-components';
 import { Chart, Spinner } from '@polkadot/react-components';
 
 interface Props {
+  chart: ChartInfo;
   className?: string;
   colors: (string | undefined)[];
   header: string;
-  labels: string[];
   legends: string[];
-  values: LineData;
 }
 
-function ChartDisplay ({ className = '', colors, header, labels, legends, values }: Props): React.ReactElement<Props> {
+function ChartDisplay ({ chart: { labels, values }, className = '', colors, header, legends }: Props): React.ReactElement<Props> {
   const isLoading = useMemo(
     () => labels.length === 0 || values.length === 0 || !values[0] || values[0].length !== labels.length,
     [labels, values]

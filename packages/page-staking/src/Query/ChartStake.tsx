@@ -4,7 +4,7 @@
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
@@ -46,8 +46,8 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
   });
 
   return {
-    chart: [cliSet, expSet, avgSet],
-    labels
+    labels,
+    values: [cliSet, expSet, avgSet]
   };
 }
 
@@ -56,16 +56,20 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), []);
 
-  const { chart, labels } = useMemo(
-    () => extractStake(ownExposures, divisor),
-    [divisor, ownExposures]
-  );
+  useEffect((): void => {
+    setChart({ labels: [], values: [] });
+  }, [validatorId]);
+
+  useEffect((): void => {
+    setChart(extractStake(ownExposures, divisor));
+  }, [divisor, ownExposures]);
 
   const legends = useMemo(() => [
     t<string>('{{currency}} clipped', { replace: { currency } }),
@@ -75,11 +79,10 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <Chart
+      chart={chart}
       colors={COLORS_STAKE}
       header={t<string>('elected stake')}
-      labels={labels}
       legends={legends}
-      values={chart}
     />
   );
 }
