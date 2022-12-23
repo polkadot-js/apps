@@ -6,12 +6,12 @@ import type { ChartInfo, LineDataEntry, Props } from './types';
 
 import React, { useMemo } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber, chartOptions } from './util';
+import Chart from './Chart';
+import { balanceToNumber } from './util';
 
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 
@@ -84,21 +84,13 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   ], [currency, t]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('rewards & slashes')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_REWARD}
-            labels={labels}
-            legends={legends}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      colors={COLORS_REWARD}
+      header={t<string>('rewards & slashes')}
+      labels={labels}
+      legends={legends}
+      values={chart}
+    />
   );
 }
 

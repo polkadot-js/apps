@@ -6,12 +6,12 @@ import type { ChartInfo, LineDataEntry, Props } from './types';
 
 import React, { useMemo } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber, chartOptions } from './util';
+import Chart from './Chart';
+import { balanceToNumber } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
@@ -74,21 +74,13 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   ], [currency, t]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('elected stake')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_STAKE}
-            labels={labels}
-            legends={legends}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      colors={COLORS_STAKE}
+      header={t<string>('elected stake')}
+      labels={labels}
+      legends={legends}
+      values={chart}
+    />
   );
 }
 

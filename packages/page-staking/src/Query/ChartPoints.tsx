@@ -6,11 +6,10 @@ import type { ChartInfo, LineDataEntry, Props } from './types';
 
 import React, { useMemo, useRef } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { chartOptions } from './util';
+import Chart from './Chart';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 
@@ -60,21 +59,13 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('era points')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_POINTS}
-            labels={labels}
-            legends={legendsRef.current}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      colors={COLORS_POINTS}
+      header={t<string>('era points')}
+      labels={labels}
+      legends={legendsRef.current}
+      values={chart}
+    />
   );
 }
 
