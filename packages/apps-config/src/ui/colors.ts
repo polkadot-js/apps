@@ -30,6 +30,7 @@ const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBajun = '#161212';
 const chainBitCountry = '#191a2e';
+const chainBittensor = '#4e4e4e';
 const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
@@ -306,6 +307,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
+  'Bittensor': chainBittensor,
+  'Bittensor Testnet': chainBittensor,
   'Calamari Parachain': chainCalamari,
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
