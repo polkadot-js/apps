@@ -40,7 +40,7 @@ export default React.memo(styled(ButtonGroup)`
     display: inline-block;
   }
 
-  .ui--ToggleGroup {
+  .ui--ToggleGroup, .ui--Dropdown {
     float: left;
   }
 `);

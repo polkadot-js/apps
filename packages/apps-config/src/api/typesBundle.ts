@@ -33317,12 +33317,115 @@ export const typesBundle = {
       "types": [
         {
           "minmax": [
-            0,
+            9,
             null
           ],
           "types": {
-            "Address": "MultiAddress",
-            "LookupSource": "MultiAddress",
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]"
+          }
+        },
+        {
+          "minmax": [
+            0,
+            8
+          ],
+          "types": {
+            "ShardIdentifier": "Hash",
+            "GetterArgs": "(AccountId, CommunityIdentifier)",
+            "Enclave": {
+              "pubkey": "AccountId",
+              "mrenclave": "Hash",
+              "timestamp": "u64",
+              "url": "Text"
+            },
+            "PublicGetter": {
+              "_enum": {
+                "total_issuance": "CommunityIdentifier",
+                "participant_count": "CommunityIdentifier",
+                "meetup_count": "CommunityIdentifier",
+                "ceremony_reward": "CommunityIdentifier",
+                "location_tolerance": "CommunityIdentifier",
+                "time_tolerance": "CommunityIdentifier",
+                "scheduler_state": "CommunityIdentifier"
+              }
+            },
+            "TrustedGetter": {
+              "_enum": {
+                "balance": "(AccountId, CommunityIdentifier)",
+                "participant_index": "(AccountId, CommunityIdentifier)",
+                "meetup_index": "(AccountId, CommunityIdentifier)",
+                "attestations": "(AccountId, CommunityIdentifier)",
+                "meetup_registry": "(AccountId, CommunityIdentifier)"
+              }
+            },
+            "TrustedGetterSigned": {
+              "getter": "TrustedGetter",
+              "signature": "Signature"
+            },
+            "Getter": {
+              "_enum": {
+                "public": "PublicGetter",
+                "trusted": "TrustedGetterSigned"
+              }
+            },
+            "ClientRequest": {
+              "_enum": {
+                "PubKeyWorker": null,
+                "MuRaPortWorker": null,
+                "StfState": "(Getter, ShardIdentifier)"
+              }
+            },
+            "WorkerEncoded": "Vec<u8>",
+            "Request": {
+              "shard": "ShardIdentifier",
+              "cyphertext": "WorkerEncoded"
+            },
+            "TrustedCallSigned": {
+              "call": "TrustedCall",
+              "nonce": "u32",
+              "signature": "Signature"
+            },
+            "TrustedCall": {
+              "_enum": {
+                "balance_transfer": "BalanceTransferArgs",
+                "ceremonies_register_participant": "RegisterParticipantArgs",
+                "ceremonies_register_attestations": "RegisterAttestationsArgs",
+                "ceremonies_grant_reputation": "GrantReputationArgs"
+              }
+            },
+            "BalanceTransferArgs": "(AccountId, AccountId, CommunityIdentifier, BalanceType)",
+            "RegisterParticipantArgs": "(AccountId, CommunityIdentifier, Option<ProofOfAttendance<MultiSignature, AccountId>>)",
+            "RegisterAttestationsArgs": "(AccountId, Vec<Attestation<MultiSignature, AccountId, u64>>)",
+            "GrantReputationArgs": "(AccountId, CommunityIdentifier, AccountId)",
+            "BalanceType": "i128",
+            "BalanceEntry": {
+              "principal": "BalanceType",
+              "lastUpdate": "BlockNumber"
+            },
+            "Demurrage": "BalanceType",
+            "BusinessIdentifier": {
+              "communityIdentifier": "CommunityIdentifier",
+              "controller": "AccountId"
+            },
+            "OfferingIdentifier": "u32",
+            "BusinessData": {
+              "url": "PalletString",
+              "last_oid": "u32"
+            },
+            "OfferingData": {
+              "url": "PalletString"
+            },
+            "PalletString": "Text",
+            "IpfsCid": "Text",
+            "FixedI64F64": {
+              "bits": "i128"
+            },
+            "CeremonyIndexType": "u32",
             "CeremonyPhaseType": {
               "_enum": [
                 "Registering",
@@ -33330,24 +33433,11 @@ export const typesBundle = {
                 "Attesting"
               ]
             },
-            "CeremonyIndexType": "u32",
             "ParticipantIndexType": "u64",
             "MeetupIndexType": "u64",
             "AttestationIndexType": "u64",
-            "CurrencyIdentifier": "Hash",
-            "BalanceType": "i128",
-            "BalanceEntry": {
-              "principal": "i128",
-              "last_update": "BlockNumber"
-            },
-            "CurrencyCeremony": {
-              "cid": "CurrencyIdentifier",
-              "cindex": "CeremonyIndexType"
-            },
-            "Location": {
-              "lat": "i64",
-              "lon": "i64"
-            },
+            "MeetupAssignment": "(MeetupIndexType, Option<Location>)",
+            "MeetupTimeOffsetType": "i32",
             "Reputation": {
               "_enum": [
                 "Unverified",
@@ -33356,36 +33446,126 @@ export const typesBundle = {
                 "VerifiedLinked"
               ]
             },
-            "CurrencyPropertiesType": {
-              "name_utf8": "Text",
-              "demurrage_per_block": "i128"
+            "CommunityReputation": {
+              "communityIdentifier": "CommunityIdentifier",
+              "reputation": "Reputation"
             },
             "ClaimOfAttendance": {
-              "claimant_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "currency_identifier": "CurrencyIdentifier",
-              "meetup_index": "MeetupIndexType",
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
               "location": "Location",
               "timestamp": "Moment",
-              "number_of_participants_confirmed": "u32"
+              "numberOfParticipantsConfirmed": "u32",
+              "claimantSignature": "Option<MultiSignature>"
+            },
+            "ClaimOfAttendanceSigningPayload": {
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
+              "location": "Location",
+              "timestamp": "Moment",
+              "numberOfParticipantsConfirmed": "u32"
+            },
+            "AssignmentCount": {
+              "bootstrappers": "ParticipantIndexType",
+              "reputables": "ParticipantIndexType",
+              "endorsees": "ParticipantIndexType",
+              "newbies": "ParticipantIndexType"
+            },
+            "Assignment": {
+              "bootstrappersReputables": "AssignmentParams",
+              "endorsees": "AssignmentParams",
+              "newbies": "AssignmentParams",
+              "locations": "AssignmentParams"
+            },
+            "AssignmentParams": {
+              "m": "u64",
+              "s1": "u64",
+              "s2": "u64"
+            },
+            "CommunityCeremonyStats": {
+              "communityCeremony": "(CommunityIdentifier, CeremonyIndexType)",
+              "assignment": "Assignment",
+              "assignmentCount": "AssignmentCount",
+              "meetupCount": "MeetupIndexType",
+              "meetups": "Vec<Meetup>"
+            },
+            "Meetup": {
+              "index": "MeetupIndexType",
+              "location": "LocationRpc",
+              "time": "Moment",
+              "registrations": "Vec<(AccountId, ParticipantRegistration)>"
+            },
+            "ParticipantRegistration": {
+              "index": "ParticipantIndexType",
+              "registrationType": "RegistrationType"
+            },
+            "RegistrationType": {
+              "_enum": [
+                "Bootstrapper",
+                "Reputable",
+                "Endorsee",
+                "Newbie"
+              ]
             },
             "Attestation": {
               "claim": "ClaimOfAttendance",
-              "signature": "Signature",
+              "signature": "MultiSignature",
               "public": "AccountId"
             },
             "ProofOfAttendance": {
-              "prover_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "currency_identifier": "CurrencyIdentifier",
-              "attendee_public": "AccountId",
-              "attendee_signature": "Signature"
+              "proverPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "attendeePublic": "AccountId",
+              "attendeeSignature": "MultiSignature"
             },
-            "ShopIdentifier": "Text",
-            "ArticleIdentifier": "Text"
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]",
+            "CommunityCeremony": "(CommunityIdentifier,CeremonyIndexType)",
+            "NominalIncomeType": "BalanceType",
+            "DegreeRpc": "Text",
+            "DegreeFixed": "i128",
+            "Location": {
+              "lat": "DegreeFixed",
+              "lon": "DegreeFixed"
+            },
+            "LocationRpc": {
+              "lat": "DegreeRpc",
+              "lon": "DegreeRpc"
+            },
+            "CidName": {
+              "cid": "CommunityIdentifier",
+              "name": "Text"
+            },
+            "CommunityMetadataType": {
+              "name": "Text",
+              "symbol": "Text",
+              "assets": "Text",
+              "theme": "Option<Text>",
+              "url": "Option<Text>"
+            },
+            "SystemNumber": "u32",
+            "SchedulerState": "(CeremonyIndexType, CeremonyPhaseType, SystemNumber)"
           }
         }
-      ]
+      ],
+      "signedExtensions": {
+        "ChargeAssetTxPayment": {
+          "extrinsic": {
+            "tip": "Compact<Balance>",
+            "assetId": "Option<CommunityIdentifier>"
+          },
+          "payload": {}
+        }
+      }
     },
     "encointer-node-teeproxy": {
       "types": [
@@ -33437,12 +33617,115 @@ export const typesBundle = {
       "types": [
         {
           "minmax": [
-            0,
+            3,
             null
           ],
           "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId",
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]"
+          }
+        },
+        {
+          "minmax": [
+            0,
+            2
+          ],
+          "types": {
+            "ShardIdentifier": "Hash",
+            "GetterArgs": "(AccountId, CommunityIdentifier)",
+            "Enclave": {
+              "pubkey": "AccountId",
+              "mrenclave": "Hash",
+              "timestamp": "u64",
+              "url": "Text"
+            },
+            "PublicGetter": {
+              "_enum": {
+                "total_issuance": "CommunityIdentifier",
+                "participant_count": "CommunityIdentifier",
+                "meetup_count": "CommunityIdentifier",
+                "ceremony_reward": "CommunityIdentifier",
+                "location_tolerance": "CommunityIdentifier",
+                "time_tolerance": "CommunityIdentifier",
+                "scheduler_state": "CommunityIdentifier"
+              }
+            },
+            "TrustedGetter": {
+              "_enum": {
+                "balance": "(AccountId, CommunityIdentifier)",
+                "participant_index": "(AccountId, CommunityIdentifier)",
+                "meetup_index": "(AccountId, CommunityIdentifier)",
+                "attestations": "(AccountId, CommunityIdentifier)",
+                "meetup_registry": "(AccountId, CommunityIdentifier)"
+              }
+            },
+            "TrustedGetterSigned": {
+              "getter": "TrustedGetter",
+              "signature": "Signature"
+            },
+            "Getter": {
+              "_enum": {
+                "public": "PublicGetter",
+                "trusted": "TrustedGetterSigned"
+              }
+            },
+            "ClientRequest": {
+              "_enum": {
+                "PubKeyWorker": null,
+                "MuRaPortWorker": null,
+                "StfState": "(Getter, ShardIdentifier)"
+              }
+            },
+            "WorkerEncoded": "Vec<u8>",
+            "Request": {
+              "shard": "ShardIdentifier",
+              "cyphertext": "WorkerEncoded"
+            },
+            "TrustedCallSigned": {
+              "call": "TrustedCall",
+              "nonce": "u32",
+              "signature": "Signature"
+            },
+            "TrustedCall": {
+              "_enum": {
+                "balance_transfer": "BalanceTransferArgs",
+                "ceremonies_register_participant": "RegisterParticipantArgs",
+                "ceremonies_register_attestations": "RegisterAttestationsArgs",
+                "ceremonies_grant_reputation": "GrantReputationArgs"
+              }
+            },
+            "BalanceTransferArgs": "(AccountId, AccountId, CommunityIdentifier, BalanceType)",
+            "RegisterParticipantArgs": "(AccountId, CommunityIdentifier, Option<ProofOfAttendance<MultiSignature, AccountId>>)",
+            "RegisterAttestationsArgs": "(AccountId, Vec<Attestation<MultiSignature, AccountId, u64>>)",
+            "GrantReputationArgs": "(AccountId, CommunityIdentifier, AccountId)",
+            "BalanceType": "i128",
+            "BalanceEntry": {
+              "principal": "BalanceType",
+              "lastUpdate": "BlockNumber"
+            },
+            "Demurrage": "BalanceType",
+            "BusinessIdentifier": {
+              "communityIdentifier": "CommunityIdentifier",
+              "controller": "AccountId"
+            },
+            "OfferingIdentifier": "u32",
+            "BusinessData": {
+              "url": "PalletString",
+              "last_oid": "u32"
+            },
+            "OfferingData": {
+              "url": "PalletString"
+            },
+            "PalletString": "Text",
+            "IpfsCid": "Text",
+            "FixedI64F64": {
+              "bits": "i128"
+            },
+            "CeremonyIndexType": "u32",
             "CeremonyPhaseType": {
               "_enum": [
                 "Registering",
@@ -33450,24 +33733,11 @@ export const typesBundle = {
                 "Attesting"
               ]
             },
-            "CeremonyIndexType": "u32",
             "ParticipantIndexType": "u64",
             "MeetupIndexType": "u64",
             "AttestationIndexType": "u64",
-            "CommunityIdentifier": "Hash",
-            "BalanceType": "i128",
-            "BalanceEntry": {
-              "principal": "i128",
-              "last_update": "BlockNumber"
-            },
-            "CommunityCeremony": {
-              "cid": "CommunityIdentifier",
-              "cindex": "CeremonyIndexType"
-            },
-            "Location": {
-              "lat": "i64",
-              "lon": "i64"
-            },
+            "MeetupAssignment": "(MeetupIndexType, Option<Location>)",
+            "MeetupTimeOffsetType": "i32",
             "Reputation": {
               "_enum": [
                 "Unverified",
@@ -33476,43 +33746,126 @@ export const typesBundle = {
                 "VerifiedLinked"
               ]
             },
-            "CommunityPropertiesType": {
-              "name_utf8": "Text",
-              "demurrage_per_block": "i128"
+            "CommunityReputation": {
+              "communityIdentifier": "CommunityIdentifier",
+              "reputation": "Reputation"
             },
             "ClaimOfAttendance": {
-              "claimant_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "community_identifier": "CommunityIdentifier",
-              "meetup_index": "MeetupIndexType",
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
               "location": "Location",
               "timestamp": "Moment",
-              "number_of_participants_confirmed": "u32"
+              "numberOfParticipantsConfirmed": "u32",
+              "claimantSignature": "Option<MultiSignature>"
+            },
+            "ClaimOfAttendanceSigningPayload": {
+              "claimantPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "meetupIndex": "MeetupIndexType",
+              "location": "Location",
+              "timestamp": "Moment",
+              "numberOfParticipantsConfirmed": "u32"
+            },
+            "AssignmentCount": {
+              "bootstrappers": "ParticipantIndexType",
+              "reputables": "ParticipantIndexType",
+              "endorsees": "ParticipantIndexType",
+              "newbies": "ParticipantIndexType"
+            },
+            "Assignment": {
+              "bootstrappersReputables": "AssignmentParams",
+              "endorsees": "AssignmentParams",
+              "newbies": "AssignmentParams",
+              "locations": "AssignmentParams"
+            },
+            "AssignmentParams": {
+              "m": "u64",
+              "s1": "u64",
+              "s2": "u64"
+            },
+            "CommunityCeremonyStats": {
+              "communityCeremony": "(CommunityIdentifier, CeremonyIndexType)",
+              "assignment": "Assignment",
+              "assignmentCount": "AssignmentCount",
+              "meetupCount": "MeetupIndexType",
+              "meetups": "Vec<Meetup>"
+            },
+            "Meetup": {
+              "index": "MeetupIndexType",
+              "location": "LocationRpc",
+              "time": "Moment",
+              "registrations": "Vec<(AccountId, ParticipantRegistration)>"
+            },
+            "ParticipantRegistration": {
+              "index": "ParticipantIndexType",
+              "registrationType": "RegistrationType"
+            },
+            "RegistrationType": {
+              "_enum": [
+                "Bootstrapper",
+                "Reputable",
+                "Endorsee",
+                "Newbie"
+              ]
             },
             "Attestation": {
               "claim": "ClaimOfAttendance",
-              "signature": "Signature",
+              "signature": "MultiSignature",
               "public": "AccountId"
             },
             "ProofOfAttendance": {
-              "prover_public": "AccountId",
-              "ceremony_index": "CeremonyIndexType",
-              "community_identifier": "CommunityIdentifier",
-              "attendee_public": "AccountId",
-              "attendee_signature": "Signature"
+              "proverPublic": "AccountId",
+              "ceremonyIndex": "CeremonyIndexType",
+              "communityIdentifier": "CommunityIdentifier",
+              "attendeePublic": "AccountId",
+              "attendeeSignature": "MultiSignature"
             },
-            "ShopIdentifier": "Text",
-            "ArticleIdentifier": "Text",
-            "PersonhoodUniquenessRating": "Vec<u8>",
-            "SybilResponse": {
-              "_enum": [
-                "Unused",
-                "Faucet"
-              ]
-            }
+            "CommunityIdentifier": {
+              "geohash": "GeoHash",
+              "digest": "CidDigest"
+            },
+            "GeoHash": "[u8; 5]",
+            "CidDigest": "[u8; 4]",
+            "CommunityCeremony": "(CommunityIdentifier,CeremonyIndexType)",
+            "NominalIncomeType": "BalanceType",
+            "DegreeRpc": "Text",
+            "DegreeFixed": "i128",
+            "Location": {
+              "lat": "DegreeFixed",
+              "lon": "DegreeFixed"
+            },
+            "LocationRpc": {
+              "lat": "DegreeRpc",
+              "lon": "DegreeRpc"
+            },
+            "CidName": {
+              "cid": "CommunityIdentifier",
+              "name": "Text"
+            },
+            "CommunityMetadataType": {
+              "name": "Text",
+              "symbol": "Text",
+              "assets": "Text",
+              "theme": "Option<Text>",
+              "url": "Option<Text>"
+            },
+            "SystemNumber": "u32",
+            "SchedulerState": "(CeremonyIndexType, CeremonyPhaseType, SystemNumber)"
           }
         }
-      ]
+      ],
+      "signedExtensions": {
+        "ChargeAssetTxPayment": {
+          "extrinsic": {
+            "tip": "Compact<Balance>",
+            "assetId": "Option<CommunityIdentifier>"
+          },
+          "payload": {}
+        }
+      }
     },
     "fantour": {
       "types": [
@@ -36199,877 +36552,6 @@ export const typesBundle = {
         }
       ]
     },
-    "joystream-node": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "ActorId": "u64",
-            "MemberId": "u64",
-            "BlockAndTime": {
-              "block": "u32",
-              "time": "u64"
-            },
-            "ThreadId": "u64",
-            "PostId": "u64",
-            "InputValidationLengthConstraint": {
-              "min": "u16",
-              "max_min_diff": "u16"
-            },
-            "WorkingGroup": {
-              "_enum": [
-                "Forum",
-                "Storage",
-                "Content",
-                "OperationsAlpha",
-                "Gateway",
-                "Distribution",
-                "OperationsBeta",
-                "OperationsGamma",
-                "Membership"
-              ]
-            },
-            "BalanceKind": {
-              "_enum": [
-                "Positive",
-                "Negative"
-              ]
-            },
-            "Address": "AccountId",
-            "LookupSource": "AccountId",
-            "ChannelId": "u64",
-            "Url": "Text",
-            "Membership": {
-              "handle_hash": "Bytes",
-              "root_account": "AccountId",
-              "controller_account": "AccountId",
-              "verified": "bool",
-              "invites": "u32"
-            },
-            "StakingAccountMemberBinding": {
-              "member_id": "MemberId",
-              "confirmed": "bool"
-            },
-            "BuyMembershipParameters": {
-              "root_account": "AccountId",
-              "controller_account": "AccountId",
-              "handle": "Option<Text>",
-              "metadata": "Bytes",
-              "referrer_id": "Option<MemberId>"
-            },
-            "InviteMembershipParameters": {
-              "inviting_member_id": "MemberId",
-              "root_account": "AccountId",
-              "controller_account": "AccountId",
-              "handle": "Option<Text>",
-              "metadata": "Bytes"
-            },
-            "CouncilStageAnnouncing": {
-              "candidatesCount": "u64"
-            },
-            "CouncilStageElection": {
-              "candidatesCount": "u64"
-            },
-            "CouncilStageUpdate": {
-              "stage": "CouncilStage",
-              "changed_at": "u32"
-            },
-            "CouncilStage": {
-              "_enum": {
-                "Announcing": "CouncilStageAnnouncing",
-                "Election": "CouncilStageElection",
-                "Idle": "Null"
-              }
-            },
-            "Candidate": {
-              "staking_account_id": "AccountId",
-              "reward_account_id": "AccountId",
-              "cycle_id": "u64",
-              "stake": "u32",
-              "vote_power": "VotePower",
-              "note_hash": "Option<Hash>"
-            },
-            "CouncilMemberOf": {
-              "staking_account_id": "AccountId",
-              "reward_account_id": "AccountId",
-              "membership_id": "MemberId",
-              "stake": "u128",
-              "last_payment_block": "u32",
-              "unpaid_reward": "u128"
-            },
-            "CastVoteOf": {
-              "commitment": "Hash",
-              "cycle_id": "u64",
-              "stake": "u128",
-              "vote_for": "Option<MemberId>"
-            },
-            "ForumUserId": "u64",
-            "ModeratorId": "u64",
-            "CategoryId": "u64",
-            "PostReactionId": "u64",
-            "Category": {
-              "title_hash": "Hash",
-              "description_hash": "Hash",
-              "archived": "bool",
-              "num_direct_subcategories": "u32",
-              "num_direct_threads": "u32",
-              "num_direct_moderators": "u32",
-              "parent_category_id": "Option<CategoryId>",
-              "sticky_thread_ids": "Vec<ThreadId>"
-            },
-            "Thread": {
-              "category_id": "CategoryId",
-              "author_id": "ForumUserId",
-              "poll": "Option<Poll>",
-              "cleanup_pay_off": "u128",
-              "number_of_posts": "u64"
-            },
-            "Post": {
-              "thread_id": "ThreadId",
-              "text_hash": "Hash",
-              "author_id": "ForumUserId",
-              "cleanup_pay_off": "u128",
-              "last_edited": "u32"
-            },
-            "PollAlternative": {
-              "alternative_text_hash": "Hash",
-              "vote_count": "u32"
-            },
-            "Poll": {
-              "description_hash": "Hash",
-              "end_time": "u64",
-              "poll_alternatives": "Vec<PollAlternative>"
-            },
-            "PrivilegedActor": {
-              "_enum": {
-                "Lead": "Null",
-                "Moderator": "ModeratorId"
-              }
-            },
-            "PollInput": {
-              "description": "Bytes",
-              "end_time": "u64",
-              "poll_alternatives": "Vec<Bytes>"
-            },
-            "ThreadOf": {
-              "category_id": "CategoryId",
-              "author_id": "ForumUserId",
-              "poll": "Option<Poll>",
-              "cleanup_pay_off": "u128",
-              "number_of_posts": "u64"
-            },
-            "ExtendedPostId": {
-              "category_id": "CategoryId",
-              "thread_id": "ThreadId",
-              "post_id": "PostId"
-            },
-            "ApplicationId": "u64",
-            "Application": {
-              "role_account_id": "AccountId",
-              "reward_account_id": "AccountId",
-              "staking_account_id": "AccountId",
-              "member_id": "MemberId",
-              "description_hash": "Bytes",
-              "opening_id": "OpeningId"
-            },
-            "ApplicationInfo": {
-              "application_id": "ApplicationId",
-              "application": "Application"
-            },
-            "ApplicationIdSet": "BTreeSet<ApplicationId>",
-            "ApplicationIdToWorkerIdMap": "BTreeMap<ApplicationId,WorkerId>",
-            "WorkerId": "u64",
-            "Worker": {
-              "member_id": "MemberId",
-              "role_account_id": "AccountId",
-              "staking_account_id": "AccountId",
-              "reward_account_id": "AccountId",
-              "started_leaving_at": "Option<u32>",
-              "job_unstaking_period": "u32",
-              "reward_per_block": "Option<u128>",
-              "missed_reward": "Option<u128>",
-              "created_at": "u32"
-            },
-            "WorkerInfo": {
-              "worker_id": "WorkerId",
-              "worker": "Worker"
-            },
-            "Opening": {
-              "opening_type": "OpeningType",
-              "created": "u32",
-              "description_hash": "Bytes",
-              "stake_policy": "StakePolicy",
-              "reward_per_block": "Option<u128>",
-              "creation_stake": "u128"
-            },
-            "OpeningId": "u64",
-            "StakePolicy": {
-              "stake_amount": "u128",
-              "leaving_unstaking_period": "u32"
-            },
-            "StakeParameters": {
-              "stake": "u128",
-              "staking_account_id": "AccountId"
-            },
-            "StorageProviderId": "u64",
-            "OpeningType": {
-              "_enum": {
-                "Leader": "Null",
-                "Regular": "Null"
-              }
-            },
-            "ApplyOnOpeningParameters": {
-              "member_id": "MemberId",
-              "opening_id": "OpeningId",
-              "role_account_id": "AccountId",
-              "reward_account_id": "AccountId",
-              "description": "Bytes",
-              "stake_parameters": "StakeParameters"
-            },
-            "Penalty": {
-              "slashing_text": "Text",
-              "slashing_amount": "u128"
-            },
-            "RewardPaymentType": {
-              "_enum": [
-                "MissedReward",
-                "RegularReward"
-              ]
-            },
-            "StorageBucketId": "u64",
-            "StorageBucketsPerBagValueConstraint": {
-              "min": "u64",
-              "max_min_diff": "u64"
-            },
-            "DataObjectId": "u64",
-            "DynamicBagId": {
-              "_enum": {
-                "Member": "MemberId",
-                "Channel": "u64"
-              }
-            },
-            "Voucher": {
-              "sizeLimit": "u64",
-              "objectsLimit": "u64",
-              "sizeUsed": "u64",
-              "objectsUsed": "u64"
-            },
-            "DynamicBagType": {
-              "_enum": [
-                "Member",
-                "Channel"
-              ]
-            },
-            "DynamicBagCreationPolicy": {
-              "numberOfStorageBuckets": "u64",
-              "families": "BTreeMap<DistributionBucketFamilyId,u32>"
-            },
-            "DynamicBagDeletionPrize": {
-              "account_id": "GenericAccountId",
-              "prize": "u128"
-            },
-            "DynamicBagDeletionPrizeRecord": {
-              "account_id": "GenericAccountId",
-              "prize": "u128"
-            },
-            "Bag": {
-              "stored_by": "BTreeSet<StorageBucketId>",
-              "distributed_by": "BTreeSet<DistributionBucketId>",
-              "deletion_prize": "Option<u128>",
-              "objects_total_size": "u64",
-              "objects_number": "u64"
-            },
-            "StorageBucket": {
-              "operator_status": "StorageBucketOperatorStatus",
-              "accepting_new_bags": "bool",
-              "voucher": "Voucher",
-              "assigned_bags": "u64"
-            },
-            "StaticBagId": {
-              "_enum": {
-                "Council": "Null",
-                "WorkingGroup": "WorkingGroup"
-              }
-            },
-            "Static": {
-              "_enum": {
-                "Council": "Null",
-                "WorkingGroup": "WorkingGroup"
-              }
-            },
-            "Dynamic": {
-              "_enum": {
-                "Member": "MemberId",
-                "Channel": "u64"
-              }
-            },
-            "BagId": {
-              "_enum": {
-                "Static": "Static",
-                "Dynamic": "Dynamic"
-              }
-            },
-            "DataObjectCreationParameters": {
-              "size": "u64",
-              "ipfsContentId": "Bytes"
-            },
-            "BagIdType": {
-              "_enum": {
-                "Static": "Static",
-                "Dynamic": "Dynamic"
-              }
-            },
-            "UploadParameters": {
-              "bagId": "BagId",
-              "objectCreationList": "Vec<DataObjectCreationParameters>",
-              "deletionPrizeSourceAccountId": "GenericAccountId",
-              "expectedDataSizeFee": "u128"
-            },
-            "StorageBucketIdSet": "BTreeSet<StorageBucketId>",
-            "DataObjectIdSet": "BTreeSet<DataObjectId>",
-            "ContentIdSet": "BTreeSet<Cid>",
-            "Cid": "Bytes",
-            "StorageBucketOperatorStatus": {
-              "_enum": {
-                "Missing": "Null",
-                "InvitedStorageWorker": "WorkerId",
-                "StorageWorker": "(WorkerId,GenericAccountId)"
-              }
-            },
-            "DataObject": {
-              "accepted": "bool",
-              "deletion_prize": "u128",
-              "size": "u64",
-              "ipfsContentId": "Bytes"
-            },
-            "DistributionBucketId": {
-              "distribution_bucket_family_id": "DistributionBucketFamilyId",
-              "distribution_bucket_index": "DistributionBucketIndex"
-            },
-            "DistributionBucketIndex": "u64",
-            "DistributionBucketFamilyId": "u64",
-            "DistributionBucket": {
-              "accepting_new_bags": "bool",
-              "distributing": "bool",
-              "pending_invitations": "BTreeSet<WorkerId>",
-              "operators": "BTreeSet<WorkerId>",
-              "assigned_bags": "u64"
-            },
-            "DistributionBucketFamily": {
-              "next_distribution_bucket_index": "DistributionBucketIndex"
-            },
-            "DataObjectIdMap": "BTreeMap<DataObjectId,DataObject>",
-            "DistributionBucketIndexSet": "BTreeSet<DistributionBucketIndex>",
-            "DynamicBagCreationPolicyDistributorFamiliesMap": "BTreeMap<DistributionBucketFamilyId,u32>",
-            "ParticipantId": "u64",
-            "Title": "Text",
-            "UpdatedTitle": "Option<Text>",
-            "UpdatedBody": "Option<Text>",
-            "ReplyId": "u64",
-            "Reply": {
-              "text_hash": "Hash",
-              "owner": "ParticipantId",
-              "parent_id": "PostId"
-            },
-            "ReplyToDelete": {
-              "post_id": "PostId",
-              "reply_id": "ReplyId",
-              "hide": "bool"
-            },
-            "ProposalId": "u32",
-            "ProposalStatus": {
-              "_enum": {
-                "Active": "Null",
-                "PendingExecution": "u32",
-                "PendingConstitutionality": "Null"
-              }
-            },
-            "ProposalOf": {
-              "parameters": "ProposalParameters",
-              "proposerId": "MemberId",
-              "activatedAt": "u32",
-              "status": "ProposalStatus",
-              "votingResults": "VotingResults",
-              "exactExecutionBlock": "Option<u32>",
-              "nrOfCouncilConfirmations": "u32",
-              "stakingAccountId": "Option<AccountId>"
-            },
-            "ProposalDetails": {
-              "_enum": {
-                "Signal": "Text",
-                "RuntimeUpgrade": "Bytes",
-                "FundingRequest": "Vec<FundingRequestParameters>",
-                "SetMaxValidatorCount": "u32",
-                "CreateWorkingGroupLeadOpening": "CreateOpeningParameters",
-                "FillWorkingGroupLeadOpening": "FillOpeningParameters",
-                "UpdateWorkingGroupBudget": "(Balance,WorkingGroup,BalanceKind)",
-                "DecreaseWorkingGroupLeadStake": "(WorkerId,Balance,WorkingGroup)",
-                "SlashWorkingGroupLead": "(WorkerId,Balance,WorkingGroup)",
-                "SetWorkingGroupLeadReward": "(WorkerId,Option<Balance>,WorkingGroup)",
-                "TerminateWorkingGroupLead": "TerminateRoleParameters",
-                "AmendConstitution": "Text",
-                "CancelWorkingGroupLeadOpening": "(OpeningId,WorkingGroup)",
-                "SetMembershipPrice": "u128",
-                "SetCouncilBudgetIncrement": "u128",
-                "SetCouncilorReward": "u128",
-                "SetInitialInvitationBalance": "u128",
-                "SetInitialInvitationCount": "u32",
-                "SetMembershipLeadInvitationQuota": "u32",
-                "SetReferralCut": "u8",
-                "CreateBlogPost": "(Text,Text)",
-                "EditBlogPost": "(PostId,Option<Text>,Option<Text>)",
-                "LockBlogPost": "PostId",
-                "UnlockBlogPost": "PostId",
-                "VetoProposal": "ProposalId"
-              }
-            },
-            "ProposalDetailsOf": {
-              "_enum": {
-                "Signal": "Text",
-                "RuntimeUpgrade": "Bytes",
-                "FundingRequest": "Vec<FundingRequestParameters>",
-                "SetMaxValidatorCount": "u32",
-                "CreateWorkingGroupLeadOpening": "CreateOpeningParameters",
-                "FillWorkingGroupLeadOpening": "FillOpeningParameters",
-                "UpdateWorkingGroupBudget": "(Balance,WorkingGroup,BalanceKind)",
-                "DecreaseWorkingGroupLeadStake": "(WorkerId,Balance,WorkingGroup)",
-                "SlashWorkingGroupLead": "(WorkerId,Balance,WorkingGroup)",
-                "SetWorkingGroupLeadReward": "(WorkerId,Option<Balance>,WorkingGroup)",
-                "TerminateWorkingGroupLead": "TerminateRoleParameters",
-                "AmendConstitution": "Text",
-                "CancelWorkingGroupLeadOpening": "(OpeningId,WorkingGroup)",
-                "SetMembershipPrice": "u128",
-                "SetCouncilBudgetIncrement": "u128",
-                "SetCouncilorReward": "u128",
-                "SetInitialInvitationBalance": "u128",
-                "SetInitialInvitationCount": "u32",
-                "SetMembershipLeadInvitationQuota": "u32",
-                "SetReferralCut": "u8",
-                "CreateBlogPost": "(Text,Text)",
-                "EditBlogPost": "(PostId,Option<Text>,Option<Text>)",
-                "LockBlogPost": "PostId",
-                "UnlockBlogPost": "PostId",
-                "VetoProposal": "ProposalId"
-              }
-            },
-            "VotingResults": {
-              "abstensions": "u32",
-              "approvals": "u32",
-              "rejections": "u32",
-              "slashes": "u32"
-            },
-            "ProposalParameters": {
-              "votingPeriod": "u32",
-              "gracePeriod": "u32",
-              "approvalQuorumPercentage": "u32",
-              "approvalThresholdPercentage": "u32",
-              "slashingQuorumPercentage": "u32",
-              "slashingThresholdPercentage": "u32",
-              "requiredStake": "Option<u128>",
-              "constitutionality": "u32"
-            },
-            "GeneralProposalParameters": {
-              "member_id": "MemberId",
-              "title": "Text",
-              "description": "Text",
-              "staking_account_id": "Option<AccountId>",
-              "exact_execution_block": "Option<u32>"
-            },
-            "VoteKind": {
-              "_enum": [
-                "Approve",
-                "Reject",
-                "Slash",
-                "Abstain"
-              ]
-            },
-            "DiscussionThread": {
-              "activated_at": "u32",
-              "author_id": "u64",
-              "mode": "ThreadMode"
-            },
-            "DiscussionPost": {
-              "author_id": "u64"
-            },
-            "CreateOpeningParameters": {
-              "description": "Bytes",
-              "stake_policy": "StakePolicy",
-              "reward_per_block": "Option<u128>",
-              "working_group": "WorkingGroup"
-            },
-            "FillOpeningParameters": {
-              "opening_id": "OpeningId",
-              "successful_application_id": "ApplicationId",
-              "working_group": "WorkingGroup"
-            },
-            "TerminateRoleParameters": {
-              "worker_id": "WorkerId",
-              "slashing_amount": "Option<u128>",
-              "working_group": "WorkingGroup"
-            },
-            "ProposalDecision": {
-              "_enum": {
-                "Canceled": "Null",
-                "CanceledByRuntime": "Null",
-                "Vetoed": "Null",
-                "Rejected": "Null",
-                "Slashed": "Null",
-                "Expired": "Null",
-                "Approved": "Approved"
-              }
-            },
-            "ExecutionFailed": {
-              "error": "Text"
-            },
-            "Approved": {
-              "_enum": [
-                "PendingExecution",
-                "PendingConstitutionality"
-              ]
-            },
-            "SetLeadParams": "(MemberId,AccountId)",
-            "ThreadMode": {
-              "_enum": {
-                "Open": "Null",
-                "Closed": "Vec<MemberId>"
-              }
-            },
-            "ExecutionStatus": {
-              "_enum": {
-                "Executed": "Null",
-                "ExecutionFailed": "ExecutionFailed"
-              }
-            },
-            "FundingRequestParameters": {
-              "account": "AccountId",
-              "amount": "u128"
-            },
-            "ReferendumStageVoting": {
-              "started": "u32",
-              "winning_target_count": "u64",
-              "current_cycle_id": "u64"
-            },
-            "ReferendumStageRevealing": {
-              "started": "u32",
-              "winning_target_count": "u64",
-              "intermediate_winners": "Vec<OptionResult>",
-              "current_cycle_id": "u64"
-            },
-            "ReferendumStage": {
-              "_enum": {
-                "Inactive": "Null",
-                "Voting": "ReferendumStageVoting",
-                "Revealing": "ReferendumStageRevealing"
-              }
-            },
-            "OptionResult": {
-              "option_id": "MemberId",
-              "vote_power": "VotePower"
-            },
-            "VotePower": "u128",
-            "ConstitutionInfo": {
-              "text_hash": "Hash"
-            },
-            "BountyId": "u64",
-            "EntryId": "u64",
-            "BountyActor": {
-              "_enum": {
-                "Council": "Null",
-                "Member": "MemberId"
-              }
-            },
-            "AssuranceContractType_Closed": "BTreeSet<MemberId>",
-            "AssuranceContractType": {
-              "_enum": {
-                "Open": "Null",
-                "Closed": "AssuranceContractType_Closed"
-              }
-            },
-            "FundingType_Limited": {
-              "min_funding_amount": "u128",
-              "max_funding_amount": "u128",
-              "funding_period": "u32"
-            },
-            "FundingType_Perpetual": {
-              "target": "u128"
-            },
-            "FundingType": {
-              "_enum": {
-                "Perpetual": "FundingType_Perpetual",
-                "Limited": "FundingType_Limited"
-              }
-            },
-            "BountyCreationParameters": {
-              "oracle": "BountyActor",
-              "contract_type": "AssuranceContractType",
-              "creator": "BountyActor",
-              "cherry": "u128",
-              "entrant_stake": "u128",
-              "funding_type": "FundingType",
-              "work_period": "u32",
-              "judging_period": "u32"
-            },
-            "OracleWorkEntryJudgment_Winner": {
-              "reward": "u128"
-            },
-            "OracleWorkEntryJudgment": {
-              "_enum": {
-                "Winner": "OracleWorkEntryJudgment_Winner",
-                "Rejected": "Null"
-              }
-            },
-            "OracleJudgment": "BTreeMap<EntryId,OracleWorkEntryJudgment>",
-            "Entry": {
-              "member_id": "MemberId",
-              "staking_account_id": "AccountId",
-              "submitted_at": "u32",
-              "work_submitted": "bool",
-              "oracle_judgment_result": "Option<OracleWorkEntryJudgment>"
-            },
-            "BountyMilestone_Created": {
-              "created_at": "u32",
-              "has_contributions": "bool"
-            },
-            "BountyMilestone_BountyMaxFundingReached": {
-              "max_funding_reached_at": "u32"
-            },
-            "BountyMilestone_WorkSubmitted": {
-              "work_period_started_at": "u32"
-            },
-            "BountyMilestone_JudgmentSubmitted": {
-              "successful_bounty": "bool"
-            },
-            "BountyMilestone": {
-              "_enum": {
-                "Created": "BountyMilestone_Created",
-                "BountyMaxFundingReached": "BountyMilestone_BountyMaxFundingReached",
-                "WorkSubmitted": "BountyMilestone_WorkSubmitted",
-                "JudgmentSubmitted": "BountyMilestone_JudgmentSubmitted"
-              }
-            },
-            "Bounty": {
-              "creation_params": "BountyCreationParameters",
-              "total_funding": "u128",
-              "milestone": "BountyMilestone",
-              "active_work_entry_count": "u32"
-            },
-            "CuratorId": "u64",
-            "CuratorGroupId": "u64",
-            "CuratorGroup": {
-              "curators": "BTreeSet<CuratorId>",
-              "active": "bool"
-            },
-            "ContentActor": {
-              "_enum": {
-                "Curator": "(CuratorGroupId,CuratorId)",
-                "Member": "MemberId",
-                "Lead": "Null"
-              }
-            },
-            "StorageAssets": {
-              "object_creation_list": "Vec<DataObjectCreationParameters>",
-              "expected_data_size_fee": "u128"
-            },
-            "Channel": {
-              "owner": "ChannelOwner",
-              "num_videos": "u64",
-              "is_censored": "bool",
-              "reward_account": "Option<GenericAccountId>",
-              "collaborators": "BTreeSet<MemberId>",
-              "moderators": "BTreeSet<MemberId>",
-              "cumulative_payout_earned": "u128"
-            },
-            "ChannelOwner": {
-              "_enum": {
-                "Member": "MemberId",
-                "Curators": "CuratorGroupId"
-              }
-            },
-            "ChannelCategoryId": "u64",
-            "ChannelCategory": {},
-            "ChannelCategoryCreationParameters": {
-              "meta": "Bytes"
-            },
-            "ChannelCategoryUpdateParameters": {
-              "new_meta": "Bytes"
-            },
-            "ChannelCreationParameters": {
-              "assets": "Option<StorageAssets>",
-              "meta": "Option<Bytes>",
-              "reward_account": "Option<GenericAccountId>",
-              "collaborators": "BTreeSet<MemberId>",
-              "moderators": "BTreeSet<MemberId>"
-            },
-            "ChannelUpdateParameters": {
-              "assets_to_upload": "Option<StorageAssets>",
-              "new_meta": "Option<Bytes>",
-              "reward_account": "Option<Option<GenericAccountId>>",
-              "assets_to_remove": "BTreeSet<DataObjectId>",
-              "collaborators": "Option<BTreeSet<MemberId>>"
-            },
-            "Video": {
-              "in_channel": "ChannelId",
-              "is_censored": "bool",
-              "enable_comments": "bool",
-              "video_post_id": "Option<VideoPostId>",
-              "nft_status": "Option<OwnedNft>"
-            },
-            "VideoId": "u64",
-            "VideoCategoryId": "u64",
-            "VideoCategory": {},
-            "VideoCategoryCreationParameters": {
-              "meta": "Bytes"
-            },
-            "VideoCategoryUpdateParameters": {
-              "new_meta": "Bytes"
-            },
-            "VideoCreationParameters": {
-              "assets": "Option<StorageAssets>",
-              "meta": "Option<Bytes>",
-              "enable_comments": "bool",
-              "auto_issue_nft": "Option<NftIssuanceParameters>"
-            },
-            "VideoUpdateParameters": {
-              "assets_to_upload": "Option<StorageAssets>",
-              "new_meta": "Option<Bytes>",
-              "assets_to_remove": "BTreeSet<DataObjectId>",
-              "enable_comments": "Option<bool>",
-              "auto_issue_nft": "Option<NftIssuanceParameters>"
-            },
-            "MaxNumber": "u32",
-            "IsCensored": "bool",
-            "VideoPostId": "u64",
-            "ReactionId": "u64",
-            "VideoPostType": {
-              "_enum": {
-                "Description": "Null",
-                "Comment": "VideoPostId"
-              }
-            },
-            "VideoPost": {
-              "author": "ContentActor",
-              "bloat_bond": "u128",
-              "replies_count": "VideoPostId",
-              "post_type": "VideoPostType",
-              "video_reference": "VideoId"
-            },
-            "Side": {
-              "_enum": [
-                "Left",
-                "Right"
-              ]
-            },
-            "ProofElement": {
-              "hash": "Hash",
-              "side": "Side"
-            },
-            "VideoPostCreationParameters": {
-              "post_type": "VideoPostType",
-              "video_reference": "VideoId"
-            },
-            "VideoPostDeletionParameters": {
-              "witness": "Option<Hash>",
-              "rationale": "Option<Bytes>"
-            },
-            "PullPayment": {
-              "channel_id": "ChannelId",
-              "cumulative_payout_claimed": "u128",
-              "reason": "Hash"
-            },
-            "ModeratorSet": "BTreeSet<MemberId>",
-            "Royalty": "Perbill",
-            "EnglishAuctionParams": {
-              "starting_price": "u128",
-              "buy_now_price": "Option<u128>",
-              "whitelist": "BTreeSet<MemberId>",
-              "starts_at": "Option<u32>",
-              "duration": "u32",
-              "extension_period": "u32",
-              "min_bid_step": "u128"
-            },
-            "OpenAuctionParams": {
-              "starting_price": "u128",
-              "buy_now_price": "Option<u128>",
-              "starts_at": "Option<u32>",
-              "whitelist": "BTreeSet<MemberId>",
-              "bid_lock_duration": "u32"
-            },
-            "EnglishAuction": {
-              "starting_price": "u128",
-              "buy_now_price": "Option<u128>",
-              "whitelist": "BTreeSet<MemberId>",
-              "end": "u32",
-              "start": "u32",
-              "extension_period": "u32",
-              "min_bid_step": "u128",
-              "top_bid": "Option<EnglishAuctionBid>"
-            },
-            "OpenAuction": {
-              "starting_price": "u128",
-              "buy_now_price": "Option<u128>",
-              "whitelist": "BTreeSet<MemberId>",
-              "bid_lock_duration": "u32",
-              "auction_id": "OpenAuctionId",
-              "start": "u32"
-            },
-            "OpenAuctionBid": {
-              "amount": "u128",
-              "made_at_block": "u32",
-              "auction_id": "OpenAuctionId"
-            },
-            "EnglishAuctionBid": {
-              "amount": "u128",
-              "bidder_id": "MemberId"
-            },
-            "TransactionalStatus": {
-              "_enum": {
-                "Idle": "Null",
-                "InitiatedOfferToMember": "(MemberId,Option<u128>)",
-                "EnglishAuction": "EnglishAuction",
-                "OpenAuction": "OpenAuction",
-                "BuyNow": "u128"
-              }
-            },
-            "NftOwner": {
-              "_enum": {
-                "ChannelOwner": "Null",
-                "Member": "MemberId"
-              }
-            },
-            "OwnedNft": {
-              "owner": "NftOwner",
-              "transactional_status": "TransactionalStatus",
-              "creator_royalty": "Option<Royalty>",
-              "open_auctions_nonce": "OpenAuctionId"
-            },
-            "CurrencyOf": "u128",
-            "CurrencyAmount": "u128",
-            "InitTransactionalStatus": {
-              "_enum": {
-                "Idle": "Null",
-                "BuyNow": "u128",
-                "InitiatedOfferToMember": "(MemberId,Option<u128>)",
-                "EnglishAuction": "EnglishAuctionParams",
-                "OpenAuction": "OpenAuctionParams"
-              }
-            },
-            "NftIssuanceParameters": {
-              "royalty": "Option<Royalty>",
-              "nft_metadata": "Bytes",
-              "non_channel_owner": "Option<MemberId>",
-              "init_transactional_status": "InitTransactionalStatus"
-            },
-            "NftMetadata": "Vec<u8>",
-            "OpenAuctionId": "u64",
-            "AccountInfo": "AccountInfoWithRefCount",
-            "ValidatorPrefs": "ValidatorPrefsWithCommission"
-          }
-        }
-      ]
-    },
     "jupiter-prep": {
       "types": [
         {
@@ -37150,6 +36632,17 @@ export const typesBundle = {
             "LookupSource": "MultiAddress",
             "Address": "MultiAddress"
           }
+        }
+      ]
+    },
+    "jur-chain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
         }
       ]
     },
@@ -38081,3223 +37574,175 @@ export const typesBundle = {
         }
       ]
     },
-    "kilt-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            8
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithDualRefCount",
-            "Address": "AccountId",
-            "Attestation": {
-              "ctypeHash": "Hash",
-              "attester": "AccountId",
-              "delegationId": "Option<DelegationNodeId>",
-              "revoked": "bool"
-            },
-            "Balance": "u128",
-            "DelegationNode": {
-              "rootId": "DelegationNodeId",
-              "parent": "Option<DelegationNodeId>",
-              "owner": "AccountId",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "DelegationNodeId": "Hash",
-            "DelegationRoot": {
-              "ctypeHash": "Hash",
-              "owner": "AccountId",
-              "revoked": "bool"
-            },
-            "DidRecord": {
-              "signKey": "Hash",
-              "boxKey": "Hash",
-              "docRef": "Option<Vec<u8>>"
-            },
-            "Index": "u64",
-            "LookupSource": "AccountId",
-            "Permissions": "u32",
-            "PublicBoxKey": "Hash",
-            "PublicSigningKey": "Hash",
-            "Signature": "MultiSignature",
-            "XCurrencyId": {
-              "chainId": "ChainId",
-              "currencyId": "Vec<u8>"
-            },
-            "ChainId": {
-              "_enum": {
-                "RelayChain": "Null",
-                "ParaChain": "ParaId"
-              }
-            },
-            "CurrencyIdOf": "CurrencyId",
-            "CurrencyId": {
-              "_enum": {
-                "DOT": 0,
-                "KSM": 1,
-                "KILT": 2
-              }
-            },
-            "XcmError": {
-              "_enum": {
-                "Undefined": 0,
-                "Unimplemented": 1,
-                "UnhandledXcmVersion": 2,
-                "UnhandledXcmMessage": 3,
-                "UnhandledEffect": 4,
-                "EscalationOfPrivilege": 5,
-                "UntrustedReserveLocation": 6,
-                "UntrustedTeleportLocation": 7,
-                "DestinationBufferOverflow": 8,
-                "CannotReachDestination": 9,
-                "MultiLocationFull": 10,
-                "FailedToDecode": 11,
-                "BadOrigin": 12,
-                "ExceedsMaxMessageSize": 13,
-                "FailedToTransactAsset": 14
-              }
-            },
-            "ReferendumInfo": {
-              "_enum": {
-                "Ongoing": "ReferendumStatus",
-                "Finished": "ReferendumInfoFinished"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            9,
-            9
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "DidIdentifierOf",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "DidIdentifierOf",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "DidIdentifierOf",
-            "DelegationSignature": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10,
-            11
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            12,
-            16
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            }
-          }
-        },
-        {
-          "minmax": [
-            17,
-            17
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            19,
-            19
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "Vec<Url>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "ApplicationJson",
-                "ApplicationJsonLd"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            20,
-            20
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "OrderedSet<Stake, MaxCollatorsPerDelegator>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "OrderedSet<Stake, MaxDelegatorsPerCollator>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "publicKeysToRemove": "DidVerificationKeysToRevoke",
-              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "ApplicationJson",
-                "ApplicationJsonLd"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxCollatorCandidates": "u32",
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
-          }
-        },
-        {
-          "minmax": [
-            21,
-            22
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxCollatorCandidates": "u32",
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
-          }
-        },
-        {
-          "minmax": [
-            23,
-            24
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            25,
-            2699
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf",
-              "submitter": "AccountId"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            2700,
-            10710
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool",
-              "deposit": "Deposit"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails",
-              "deposit": "Deposit"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "KeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxPublicKeysPerDidExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "DidAlreadyDeleted": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce",
-                "TransactionExpired"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "lastTxCounter": "u64",
-              "deposit": "Deposit"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf",
-              "blockNumber": "BlockNumber",
-              "submitter": "AccountId"
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "submitter": "AccountId",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2",
-                "V3"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "Deposit": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10720,
-            10899
-          ],
-          "types": {
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10900,
-            null
-          ],
-          "types": {
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            }
-          }
-        }
-      ],
-      "runtime": {
-        "DidApi": [
-          {
-            "methods": {
-              "query_did_by_w3n": {
-                "description": "Return the information relative to the owner of the provided web3name, if any.",
-                "params": [
-                  {
-                    "name": "name",
-                    "type": "Text"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did_by_account_id": {
-                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did": {
-                "description": "Return the information relative to the owner of the provided DID, if present.",
-                "params": [
-                  {
-                    "name": "did",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "ParachainStakingApi": [
-          {
-            "methods": {
-              "get_staking_rates": {
-                "description": "Calculate the current staking and reward rates for collators and delegators",
-                "params": [],
-                "type": "StakingRates"
-              },
-              "get_unclaimed_staking_rewards": {
-                "description": "Calculate the claimable staking rewards for a given account address",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Balance"
-              }
-            },
-            "version": 1
-          }
-        ]
-      },
-      "rpc": {
-        "did": {
-          "query": {
-            "description": "Return the DID information linked to the provided DID identifier, if found.",
-            "params": [
-              {
-                "name": "did",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByWeb3Name": {
-            "description": "Return the DID information linked to the provided web3name, if found.",
-            "params": [
-              {
-                "name": "name",
-                "type": "String"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByAccount": {
-            "description": "Return the DID information linked to the provided account, if found.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          }
-        }
-      }
-    },
     "kilt-spiritnet": {
+      "runtime": {
+        "DidApi": [
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              }
+            },
+            "version": 1
+          },
+          {
+            "methods": {
+              "query_did_by_w3n": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_did_by_account_id": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_did": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              }
+            },
+            "version": 2
+          }
+        ],
+        "Did": [
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              }
+            },
+            "version": 1
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              }
+            },
+            "version": 2
+          }
+        ],
+        "Staking": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
       "types": [
         {
           "minmax": [
@@ -42180,34 +38625,12 @@ export const typesBundle = {
               "endpointUrl": "Option<Url>",
               "lastTxCounter": "u64"
             },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
             "DidVerificationKeyUpdateAction": {
               "_enum": {
                 "Ignore": "Null",
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
             },
             "DidAuthorizedCallOperation": {
               "did": "DidIdentifierOf",
@@ -42436,13 +38859,6 @@ export const typesBundle = {
               "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
               "endpointUrl": "Option<Url>",
               "lastTxCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
             },
             "DidAuthorizedCallOperation": {
               "did": "DidIdentifierOf",
@@ -42743,11 +39159,6 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -42995,7 +39406,6 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
-            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -43057,14 +39467,6 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "publicKeysToRemove": "DidVerificationKeysToRevoke",
-              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -43315,19 +39717,6 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -43384,7 +39773,6 @@ export const typesBundle = {
                 "V2"
               ]
             },
-            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -43726,11 +40114,6 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -43810,12 +40193,6 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -43841,22 +40218,6 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -43917,11 +40278,6 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -43935,12 +40291,6 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -43970,8 +40320,6 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -44248,72 +40596,32 @@ export const typesBundle = {
         {
           "minmax": [
             10720,
+            10750
+          ],
+          "types": {
+            "DidApiAccountId": "AccountId32",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10800,
             10899
           ],
           "types": {
+            "DidApiAccountId": "AccountId32",
             "RawDidLinkedInfo": {
               "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
+              "accounts": "Vec<DidApiAccountId>",
               "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -44329,69 +40637,13 @@ export const typesBundle = {
             null
           ],
           "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
             "RawDidLinkedInfo": {
               "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
+              "accounts": "Vec<DidApiAccountId>",
               "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -44401,117 +40653,7 @@ export const typesBundle = {
             }
           }
         }
-      ],
-      "runtime": {
-        "DidApi": [
-          {
-            "methods": {
-              "query_did_by_w3n": {
-                "description": "Return the information relative to the owner of the provided web3name, if any.",
-                "params": [
-                  {
-                    "name": "name",
-                    "type": "Text"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did_by_account_id": {
-                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did": {
-                "description": "Return the information relative to the owner of the provided DID, if present.",
-                "params": [
-                  {
-                    "name": "did",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "ParachainStakingApi": [
-          {
-            "methods": {
-              "get_staking_rates": {
-                "description": "Calculate the current staking and reward rates for collators and delegators",
-                "params": [],
-                "type": "StakingRates"
-              },
-              "get_unclaimed_staking_rewards": {
-                "description": "Calculate the claimable staking rewards for a given account address",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Balance"
-              }
-            },
-            "version": 1
-          }
-        ]
-      },
-      "rpc": {
-        "did": {
-          "query": {
-            "description": "Return the DID information linked to the provided DID identifier, if found.",
-            "params": [
-              {
-                "name": "did",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByWeb3Name": {
-            "description": "Return the DID information linked to the provided web3name, if found.",
-            "params": [
-              {
-                "name": "name",
-                "type": "String"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByAccount": {
-            "description": "Return the DID information linked to the provided account, if found.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          }
-        }
-      }
+      ]
     },
     "kintsugi-parachain": {
       "types": [
@@ -46887,3222 +43029,6 @@ export const typesBundle = {
           }
         }
       ]
-    },
-    "mashnet-node": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            8
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithDualRefCount",
-            "Address": "AccountId",
-            "Attestation": {
-              "ctypeHash": "Hash",
-              "attester": "AccountId",
-              "delegationId": "Option<DelegationNodeId>",
-              "revoked": "bool"
-            },
-            "Balance": "u128",
-            "DelegationNode": {
-              "rootId": "DelegationNodeId",
-              "parent": "Option<DelegationNodeId>",
-              "owner": "AccountId",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "DelegationNodeId": "Hash",
-            "DelegationRoot": {
-              "ctypeHash": "Hash",
-              "owner": "AccountId",
-              "revoked": "bool"
-            },
-            "DidRecord": {
-              "signKey": "Hash",
-              "boxKey": "Hash",
-              "docRef": "Option<Vec<u8>>"
-            },
-            "Index": "u64",
-            "LookupSource": "AccountId",
-            "Permissions": "u32",
-            "PublicBoxKey": "Hash",
-            "PublicSigningKey": "Hash",
-            "Signature": "MultiSignature",
-            "XCurrencyId": {
-              "chainId": "ChainId",
-              "currencyId": "Vec<u8>"
-            },
-            "ChainId": {
-              "_enum": {
-                "RelayChain": "Null",
-                "ParaChain": "ParaId"
-              }
-            },
-            "CurrencyIdOf": "CurrencyId",
-            "CurrencyId": {
-              "_enum": {
-                "DOT": 0,
-                "KSM": 1,
-                "KILT": 2
-              }
-            },
-            "XcmError": {
-              "_enum": {
-                "Undefined": 0,
-                "Unimplemented": 1,
-                "UnhandledXcmVersion": 2,
-                "UnhandledXcmMessage": 3,
-                "UnhandledEffect": 4,
-                "EscalationOfPrivilege": 5,
-                "UntrustedReserveLocation": 6,
-                "UntrustedTeleportLocation": 7,
-                "DestinationBufferOverflow": 8,
-                "CannotReachDestination": 9,
-                "MultiLocationFull": 10,
-                "FailedToDecode": 11,
-                "BadOrigin": 12,
-                "ExceedsMaxMessageSize": 13,
-                "FailedToTransactAsset": 14
-              }
-            },
-            "ReferendumInfo": {
-              "_enum": {
-                "Ongoing": "ReferendumStatus",
-                "Finished": "ReferendumInfoFinished"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            9,
-            9
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "DidIdentifierOf",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "DidIdentifierOf",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "DidIdentifierOf",
-            "DelegationSignature": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10,
-            11
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            12,
-            16
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "rootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "owner": "DelegatorIdOf",
-              "permissions": "Permissions",
-              "revoked": "bool"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            }
-          }
-        },
-        {
-          "minmax": [
-            17,
-            17
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidCreationOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "DidVerificationKey",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateOperation": {
-              "did": "DidIdentifierOf",
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>",
-              "txCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidDeletionOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidVerificationKeyUpdateAction": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newEndpointUrl": "Option<Url>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "newEndpointUrl": "Option<Url>"
-            }
-          }
-        },
-        {
-          "minmax": [
-            19,
-            19
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
-              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
-              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "Vec<Url>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "ApplicationJson",
-                "ApplicationJsonLd"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            20,
-            20
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "OrderedSet<Stake, MaxCollatorsPerDelegator>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "OrderedSet<Stake, MaxDelegatorsPerCollator>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAttestationKey": "Option<DidVerificationKey>",
-              "newDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "DidUpdateDetails": {
-              "newAuthenticationKey": "Option<DidVerificationKey>",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
-              "publicKeysToRemove": "DidVerificationKeysToRevoke",
-              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "ApplicationJson",
-                "ApplicationJsonLd"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxCollatorCandidates": "u32",
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
-          }
-        },
-        {
-          "minmax": [
-            21,
-            22
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxCollatorCandidates": "u32",
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
-          }
-        },
-        {
-          "minmax": [
-            23,
-            24
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            25,
-            2699
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null",
-                "MaxPublicKeysPerDidKeyIdentifierExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "MaxOldAttestationKeysExceeded": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "serviceEndpoints": "Option<ServiceEndpoints>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf",
-              "submitter": "AccountId"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>",
-              "newServiceEndpoints": "Option<ServiceEndpoints>"
-            },
-            "ServiceEndpoints": {
-              "contentHash": "Hash",
-              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
-              "contentType": "ContentType"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "ContentType": {
-              "_enum": [
-                "application/json",
-                "application/ld+json"
-              ]
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            }
-          }
-        },
-        {
-          "minmax": [
-            2700,
-            10710
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool",
-              "deposit": "Deposit"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "DidSignature",
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
-              "details": "DelegationDetails",
-              "deposit": "Deposit"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "KeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxPublicKeysPerDidExceeded": "Null",
-                "MaxTotalKeyAgreementKeysExceeded": "Null",
-                "DidAlreadyDeleted": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce",
-                "TransactionExpired"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "DidKeyAgreementKeys",
-              "capabilityDelegationKey": "Option<KeyIdOf>",
-              "assertionMethodKey": "Option<KeyIdOf>",
-              "publicKeys": "DidPublicKeyMap",
-              "lastTxCounter": "u64",
-              "deposit": "Deposit"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf",
-              "blockNumber": "BlockNumber",
-              "submitter": "AccountId"
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
-            },
-            "DidCreationDetails": {
-              "did": "DidIdentifierOf",
-              "submitter": "AccountId",
-              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
-              "newAssertionMethodKey": "Option<DidVerificationKey>",
-              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
-            },
-            "DidFragmentUpdateAction_ServiceEndpoints": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "ServiceEndpoints",
-                "Delete": "Null"
-              }
-            },
-            "DidFragmentUpdateAction_DidVerificationKey": {
-              "_enum": {
-                "Ignore": "Null",
-                "Change": "DidVerificationKey",
-                "Delete": "Null"
-              }
-            },
-            "DidStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2",
-                "V3"
-              ]
-            },
-            "MaxDelegatorsPerCollator": "u32",
-            "MaxCollatorsPerDelegator": "u32",
-            "StakingStorageVersion": {
-              "_enum": [
-                "V1_0_0",
-                "V2_0_0",
-                "V3_0_0",
-                "V4",
-                "V5"
-              ]
-            },
-            "MaxDelegatedAttestations": "u32",
-            "MaxClaims": "u32",
-            "MaxChildren": "u32",
-            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
-            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
-            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
-            "MaxNewKeyAgreementKeys": "u32",
-            "MaxTotalKeyAgreementKeys": "u32",
-            "MaxVerificationKeysToRevoke": "u32",
-            "MaxPublicKeysPerDid": "u32",
-            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
-            "MinCollators": "u32",
-            "MaxTopCandidates": "u32",
-            "Candidate": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "status": "CandidateStatus"
-            },
-            "CandidateStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "Deposit": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10720,
-            10899
-          ],
-          "types": {
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            }
-          }
-        },
-        {
-          "minmax": [
-            10900,
-            null
-          ],
-          "types": {
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<RawServiceEndpoints>",
-              "details": "RawDidDetails"
-            },
-            "RawServiceEndpoints": {
-              "id": "Text",
-              "serviceTypes": "Vec<Text>",
-              "urls": "Vec<Text>"
-            },
-            "RawDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, DidDidDetailsDidPublicKeyDetails<BlockNumber>>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "DidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<AccountId32>",
-              "w3n": "Option<String>",
-              "serviceEndpoints": "Vec<RpcServiceEndpoint>",
-              "details": "RpcDidDetails"
-            },
-            "RpcServiceEndpoint": {
-              "id": "String",
-              "serviceTypes": "Vec<String>",
-              "urls": "Vec<String>"
-            },
-            "RpcDidDetails": {
-              "authenticationKey": "Hash",
-              "keyAgreementKeys": "BTreeSet<Hash>",
-              "delegationKey": "Option<Hash>",
-              "attestationKey": "Option<Hash>",
-              "publicKeys": "BTreeMap<Hash, RpcPublicKeyDetails>",
-              "lastTxCounter": "BlockNumber",
-              "deposit": "KiltSupportDeposit<AccountId32, Balance>"
-            },
-            "RpcPublicKeyDetails": {
-              "key": "RpcDidPublicKey",
-              "blockNumber": "BlockNumber"
-            },
-            "RpcDidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "RpcDidVerificationKey",
-                "PublicEncryptionKey": "RpcDidEncryptionKey"
-              }
-            },
-            "RpcDidVerificationKey": {
-              "_enum": {
-                "Ed25519": "AccountId32",
-                "Sr25519": "AccountId32",
-                "Ecdsa": "AccountId33"
-              }
-            },
-            "RpcDidEncryptionKey": {
-              "_enum": {
-                "X25519": "AccountId32"
-              }
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            }
-          }
-        }
-      ],
-      "runtime": {
-        "DidApi": [
-          {
-            "methods": {
-              "query_did_by_w3n": {
-                "description": "Return the information relative to the owner of the provided web3name, if any.",
-                "params": [
-                  {
-                    "name": "name",
-                    "type": "Text"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did_by_account_id": {
-                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              },
-              "query_did": {
-                "description": "Return the information relative to the owner of the provided DID, if present.",
-                "params": [
-                  {
-                    "name": "did",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Option<RawDidLinkedInfo<AccountId32, AccountId32, AccountId32, Balance, Key, BlockNumber>>"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "ParachainStakingApi": [
-          {
-            "methods": {
-              "get_staking_rates": {
-                "description": "Calculate the current staking and reward rates for collators and delegators",
-                "params": [],
-                "type": "StakingRates"
-              },
-              "get_unclaimed_staking_rewards": {
-                "description": "Calculate the claimable staking rewards for a given account address",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Balance"
-              }
-            },
-            "version": 1
-          }
-        ]
-      },
-      "rpc": {
-        "did": {
-          "query": {
-            "description": "Return the DID information linked to the provided DID identifier, if found.",
-            "params": [
-              {
-                "name": "did",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByWeb3Name": {
-            "description": "Return the DID information linked to the provided web3name, if found.",
-            "params": [
-              {
-                "name": "name",
-                "type": "String"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          },
-          "queryByAccount": {
-            "description": "Return the DID information linked to the provided account, if found.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId32"
-              },
-              {
-                "name": "at",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<DidLinkedInfo>"
-          }
-        }
-      }
     },
     "mathchain": {
       "types": [

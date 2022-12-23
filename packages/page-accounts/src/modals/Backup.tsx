@@ -39,6 +39,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
           const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
+          // eslint-disable-next-line deprecation/deprecation
           FileSaver.saveAs(blob, `${address}.json`);
         } catch (error) {
           setBackupFailed(true);

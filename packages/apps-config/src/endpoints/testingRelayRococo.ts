@@ -17,11 +17,19 @@ import { getTeleports } from './util';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'rococoAcurast',
+    paraId: 4191,
+    text: 'Acurast Testnet',
+    providers: {
+      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+    }
+  },
+  {
     info: 'rococoAmplitude',
     paraId: 2124,
-    text: 'Amplitude',
+    text: 'Amplitude testnet (Foucoco)',
     providers: {
-      PendulumChain: 'wss://pencol-roc-00.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
     }
   },
   {
@@ -117,6 +125,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Eggnet',
     providers: {
       // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
+    }
+  },
+  {
+    info: 'rococoEthos',
+    paraId: 2095,
+    text: 'Ethos',
+    providers: {
+      Jur: 'wss://ethos.jur.io'
     }
   },
   {

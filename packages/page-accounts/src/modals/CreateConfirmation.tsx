@@ -24,7 +24,7 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
 
   const splitSeed = seed && seed.split(' ');
   const shortSeed = isHex(seed)
-    ? `${seed.substr(10)} … ${seed.substr(-8)}`
+    ? `${seed.slice(10)} … ${seed.slice(-8)}`
     : splitSeed && splitSeed.map((value, index) => (index % 3) ? '…' : value).join(' ');
 
   return (

@@ -33,7 +33,7 @@ function useUpomingIdsImpl (): ParaId[] | undefined {
     api.events.registrar.Registered
   ]);
 
-  return useMapEntries(api.query.paras.paraLifecycles, OPT_ENTRIES, trigger.blockHash);
+  return useMapEntries(api.query.paras.paraLifecycles, [], OPT_ENTRIES, trigger.blockHash);
 }
 
 export default createNamedHook('useUpomingIds', useUpomingIdsImpl);

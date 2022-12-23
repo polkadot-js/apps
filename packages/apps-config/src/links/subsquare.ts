@@ -34,6 +34,7 @@ export default {
     bounty: 'treasury/bounty',
     council: 'council/motion',
     external: 'democracy/external',
+    fellowshipReferenda: 'fellowship/referendum',
     proposal: 'democracy/proposal',
     referenda: 'referenda/referendum',
     referendum: 'democracy/referendum',

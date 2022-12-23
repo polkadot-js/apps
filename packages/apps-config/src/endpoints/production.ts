@@ -17,6 +17,13 @@ export * from './productionRelayPolkadot';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
   {
+    info: '3dpass',
+    text: '3DPass',
+    providers: {
+      '3dpass': 'wss://rpc2.3dpass.org'
+    }
+  },
+  {
     info: 'aleph',
     text: 'Aleph Zero',
     providers: {
@@ -100,6 +107,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio',
+    text: 'DeBio',
+    providers: {
+      DeBio: 'wss://ws-rpc.debio.network'
+    }
+  },
+  {
     info: 'dock-pos-mainnet',
     text: 'Dock',
     providers: {
@@ -146,6 +160,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'joystream',
+    text: 'Joystream',
+    providers: {
+      Jsgenesis: 'wss://rpc.joystream.org'
+    }
+  },
+  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
@@ -171,8 +192,8 @@ export const prodChains: EndpointOption[] = [
     info: 'mathchain',
     text: 'MathChain',
     providers: {
-      MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
-      'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
+      // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
@@ -254,9 +275,7 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-      // Soramitsu: 'wss://ws.alb.sora.org', // https://github.com/polkadot-js/apps/issues/7786
       OnFinality: 'wss://sora.api.onfinality.io/public-ws'
-      // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
     }
   },
   {

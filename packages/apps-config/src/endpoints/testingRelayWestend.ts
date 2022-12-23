@@ -71,7 +71,7 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2094,
     text: 'Standard ',
     providers: {
-      'Standard Protocol': 'wss://rpc.westend.standard.tech'
+      // 'Standard Protocol': 'wss://rpc.westend.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {

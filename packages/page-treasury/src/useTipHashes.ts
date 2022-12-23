@@ -19,7 +19,7 @@ function useTipHashesImpl (): string[] | undefined {
     api.events.tips?.TipRetracted
   ]);
 
-  return useMapKeys((api.query.tips || api.query.treasury)?.tips, OPT, trigger.blockHash);
+  return useMapKeys((api.query.tips || api.query.treasury)?.tips, [], OPT, trigger.blockHash);
 }
 
 export default createNamedHook('useTipHashes', useTipHashesImpl);

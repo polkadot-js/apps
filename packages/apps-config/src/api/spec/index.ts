@@ -57,9 +57,9 @@ import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
-import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
+import jur from './jur';
 import khala from './khala';
 import kilt from './kilt';
 import konomi from './konomi';
@@ -203,12 +203,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-standalone': interbtc,
   'interlay-parachain': interbtc,
   'ipse-node': ipse,
-  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  'jur-chain': jur,
   kerria: parallel,
   khala,
-  'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
   'kintsugi-parachain': interbtc,
   konomi,
@@ -223,7 +222,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
-  'mashnet-node': kilt,
   mathchain,
   'mathchain-galois': galois,
   moonbase: moonbeam,

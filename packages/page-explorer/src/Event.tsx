@@ -13,16 +13,20 @@ interface Props {
 }
 
 function Event ({ className = '', value: { event } }: Props): React.ReactElement<Props> {
+  const eventName = `${event.section}.${event.method}`;
+
   return (
     <Expander
       className={className}
-      summary={`${event.section}.${event.method}`}
+      isLeft
+      summary={eventName}
       summaryMeta={event.meta}
     >
       {event.data.length
         ? (
           <EventDisplay
             className='details'
+            eventName={eventName}
             value={event}
           />
         )

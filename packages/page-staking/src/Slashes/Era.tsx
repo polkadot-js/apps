@@ -8,7 +8,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { BN_ONE, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Row from './Row';
@@ -53,7 +53,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       replace: {
         era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
           ? slash.era.toString()
-          : slash.era.sub(api.consts.staking.slashDeferDuration).toString()
+          : slash.era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE).toString()
       }
     }), 'start', 3],
     [t('reporters'), 'address'],
