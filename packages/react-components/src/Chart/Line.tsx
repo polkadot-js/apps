@@ -10,6 +10,7 @@ import * as Chart from 'react-chartjs-2';
 
 import { isBn, objectSpread } from '@polkadot/util';
 
+import ErrorBoundary from '../ErrorBoundary';
 import { alphaColor } from './utils';
 
 interface State {
@@ -126,12 +127,14 @@ function LineChart ({ className, colors, labels, legends, options, values }: Lin
 
   return (
     <div className={className}>
-      <Chart.Line
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        data={chartData as any}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        options={chartOptions as any}
-      />
+      <ErrorBoundary>
+        <Chart.Line
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          data={chartData as any}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          options={chartOptions as any}
+        />
+      </ErrorBoundary>
     </div>
   );
 }

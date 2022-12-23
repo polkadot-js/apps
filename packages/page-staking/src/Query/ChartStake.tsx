@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
-import type { ChartInfo, LineDataEntry, Props } from './types';
+import type { LineData, Props } from './types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -15,11 +15,10 @@ import { balanceToNumber } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
-function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartInfo {
-  const labels: string[] = [];
-  const cliSet: LineDataEntry = [];
-  const expSet: LineDataEntry = [];
-  const avgSet: LineDataEntry = [];
+function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor: BN): LineData {
+  const cliSet = new Array<number>(labels.length);
+  const expSet = new Array<number>(labels.length);
+  const avgSet = new Array<number>(labels.length);
   const [total, avgCount] = exposures.reduce(([total, avgCount], { clipped }) => {
     const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
 
@@ -38,25 +37,24 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
     const avg = avgCount > 0
       ? Math.ceil(total * 100 / avgCount) / 100
       : 0;
+    const index = labels.indexOf(era.toHuman());
 
-    labels.push(era.toHuman());
-    avgSet.push(avg);
-    cliSet.push(cli);
-    expSet.push(exp);
+    if (index !== -1) {
+      avgSet[index] = avg;
+      cliSet[index] = cli;
+      expSet[index] = exp;
+    }
   });
 
-  return {
-    labels,
-    values: [cliSet, expSet, avgSet]
-  };
+  return [cliSet, expSet, avgSet];
 }
 
-function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
+function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
-  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
+  const [values, setValues] = useState<LineData>([]);
 
   const { currency, divisor } = useMemo(
     () => ({
@@ -67,13 +65,13 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   );
 
   useEffect(
-    () => setChart({ labels: [], values: [] }),
+    () => setValues([]),
     [validatorId]
   );
 
   useEffect(
-    () => setChart(extractStake(ownExposures, divisor)),
-    [divisor, ownExposures]
+    () => ownExposures && setValues(extractStake(labels, ownExposures, divisor)),
+    [labels, divisor, ownExposures]
   );
 
   const legends = useMemo(() => [
@@ -84,10 +82,11 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <Chart
-      chart={chart}
       colors={COLORS_STAKE}
       header={t<string>('elected stake')}
+      labels={labels}
       legends={legends}
+      values={values}
     />
   );
 }

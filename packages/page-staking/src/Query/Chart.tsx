@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChartInfo } from './types';
+import type { LineData } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -9,16 +9,17 @@ import styled from 'styled-components';
 import { Chart, Spinner } from '@polkadot/react-components';
 
 interface Props {
-  chart: ChartInfo;
   className?: string;
   colors: (string | undefined)[];
   header: string;
+  labels: string[];
   legends: string[];
+  values: LineData;
 }
 
-function ChartDisplay ({ chart: { labels, values }, className = '', colors, header, legends }: Props): React.ReactElement<Props> {
+function ChartDisplay ({ className = '', colors, header, labels, legends, values }: Props): React.ReactElement<Props> {
   const isLoading = useMemo(
-    () => labels.length === 0 || values.length === 0 || !values[0] || values[0].length !== labels.length,
+    () => !labels || labels.length === 0 || !values || values.length === 0 || !values[0] || !values[0].length,
     [labels, values]
   );
 
@@ -31,17 +32,19 @@ function ChartDisplay ({ chart: { labels, values }, className = '', colors, head
         legends={legends}
         values={values}
       />
-      {isLoading && <Spinner />}
+      {isLoading && (
+        <Spinner />
+      )}
     </div>
   );
 }
 
 export default React.memo(styled(ChartDisplay)`
-  position: relative;
-
   &.isLoading {
+    position: relative;
+
     canvas, h1 {
-      opacity: 0.5;
+      opacity: 0.25;
     }
 
     .ui--Spinner {
