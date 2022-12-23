@@ -193,7 +193,7 @@ export const prodParasKusama: EndpointOption[] = [
     text: 'InvArch Tinkernet',
     providers: {
       'InvArch Team': 'wss://tinker.invarch.network',
-      // OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8553
+      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
       // NOTE: Keep this as the last entry, nothing after it
       'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
