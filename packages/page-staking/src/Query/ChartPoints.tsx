@@ -49,13 +49,15 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
   const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  useEffect((): void => {
-    setChart({ labels: [], values: [] });
-  }, [validatorId]);
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
 
-  useEffect((): void => {
-    setChart(extractPoints(stakerPoints));
-  }, [stakerPoints]);
+  useEffect(
+    () => setChart(extractPoints(stakerPoints)),
+    [stakerPoints]
+  );
 
   const legendsRef = useRef([
     t<string>('points'),

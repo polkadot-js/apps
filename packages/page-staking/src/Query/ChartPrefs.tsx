@@ -54,13 +54,15 @@ function ChartPrefs ({ validatorId }: Props): React.ReactElement<Props> {
   const stakerPrefs = useCall<DeriveStakerPrefs[]>(api.derive.staking.stakerPrefs, params);
   const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  useEffect((): void => {
-    setChart({ labels: [], values: [] });
-  }, [validatorId]);
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
 
-  useEffect((): void => {
-    setChart(extractPrefs(stakerPrefs));
-  }, [stakerPrefs]);
+  useEffect(
+    () => setChart(extractPrefs(stakerPrefs)),
+    [stakerPrefs]
+  );
 
   const legendsRef = useRef([
     t<string>('commission'),

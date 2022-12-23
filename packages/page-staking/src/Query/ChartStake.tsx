@@ -58,18 +58,23 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
   const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
-    currency: formatBalance.getDefaults().unit,
-    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), []);
+  const { currency, divisor } = useMemo(
+    () => ({
+      currency: formatBalance.getDefaults().unit,
+      divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+    }),
+    []
+  );
 
-  useEffect((): void => {
-    setChart({ labels: [], values: [] });
-  }, [validatorId]);
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
 
-  useEffect((): void => {
-    setChart(extractStake(ownExposures, divisor));
-  }, [divisor, ownExposures]);
+  useEffect(
+    () => setChart(extractStake(ownExposures, divisor)),
+    [divisor, ownExposures]
+  );
 
   const legends = useMemo(() => [
     t<string>('{{currency}} clipped', { replace: { currency } }),

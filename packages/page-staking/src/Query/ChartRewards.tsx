@@ -68,18 +68,23 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
   const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { currency, divisor } = useMemo(() => ({
-    currency: formatBalance.getDefaults().unit,
-    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), []);
+  const { currency, divisor } = useMemo(
+    () => ({
+      currency: formatBalance.getDefaults().unit,
+      divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+    }),
+    []
+  );
 
-  useEffect((): void => {
-    setChart({ labels: [], values: [] });
-  }, [validatorId]);
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
 
-  useEffect((): void => {
-    setChart(extractRewards(erasRewards, ownSlashes, stakerPoints, divisor));
-  }, [divisor, erasRewards, ownSlashes, stakerPoints]);
+  useEffect(
+    () => setChart(extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)),
+    [divisor, erasRewards, ownSlashes, stakerPoints]
+  );
 
   const legends = useMemo(() => [
     t<string>('{{currency}} slashed', { replace: { currency } }),
