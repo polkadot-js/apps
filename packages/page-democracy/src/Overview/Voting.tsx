@@ -74,6 +74,10 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 label={t<string>('conviction')}
                 onChange={setConviction}
                 value={conviction}
+                voteLockingPeriod={
+                  api.consts.democracy.voteLockingPeriod ||
+                  api.consts.democracy.enactmentPeriod
+                }
               />
             </Modal.Columns>
           </Modal.Content>
