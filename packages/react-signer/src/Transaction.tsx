@@ -5,6 +5,7 @@ import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import { CallExpander, Modal } from '@polkadot/react-components';
 
@@ -39,7 +40,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
       {!isUnsigned && !payload && (
         <PaymentInfo
           accountId={accountId}
-          className='tx-details'
+          className='paymentInfo'
           extrinsic={extrinsic}
           isHeader
           tip={tip}
@@ -49,4 +50,8 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
   );
 }
 
-export default React.memo(Transaction);
+export default React.memo(styled(Transaction)`
+  .paymentInfo {
+    margin-top: 0.5rem;
+  }
+`);
