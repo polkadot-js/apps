@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
-import type { ChartInfo, LineDataEntry, Props } from './types';
+import type { LineData, Props } from './types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -13,10 +13,9 @@ import Chart from './Chart';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 
-function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
-  const labels: string[] = [];
-  const avgSet: LineDataEntry = [];
-  const idxSet: LineDataEntry = [];
+function extractPoints (labels: string[], points: DeriveStakerPoints[]): LineData {
+  const avgSet = new Array<number>(labels.length);
+  const idxSet = new Array<number>(labels.length);
   const [total, avgCount] = points.reduce(([total, avgCount], { points }) => {
     if (points.gtn(0)) {
       total += points.toNumber();
@@ -30,33 +29,32 @@ function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
     const avg = avgCount > 0
       ? Math.ceil(total * 100 / avgCount) / 100
       : 0;
+    const index = labels.indexOf(era.toHuman());
 
-    labels.push(era.toHuman());
-    avgSet.push(avg);
-    idxSet.push(points);
+    if (index !== -1) {
+      avgSet[index] = avg;
+      idxSet[index] = points.toNumber();
+    }
   });
 
-  return {
-    labels,
-    values: [idxSet, avgSet]
-  };
+  return [idxSet, avgSet];
 }
 
-function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
+function ChartPoints ({ labels, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
-  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
+  const [values, setValues] = useState<LineData>([]);
 
   useEffect(
-    () => setChart({ labels: [], values: [] }),
+    () => setValues([]),
     [validatorId]
   );
 
   useEffect(
-    () => setChart(extractPoints(stakerPoints)),
-    [stakerPoints]
+    () => stakerPoints && setValues(extractPoints(labels, stakerPoints)),
+    [labels, stakerPoints]
   );
 
   const legendsRef = useRef([
@@ -66,11 +64,11 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <Chart
-      chart={chart}
       colors={COLORS_POINTS}
       header={t<string>('era points')}
+      labels={labels}
       legends={legendsRef.current}
-      values={chart}
+      values={values}
     />
   );
 }

@@ -5,6 +5,7 @@ import type { BN } from '@polkadot/util';
 
 export interface Props {
   className?: string;
+  labels: string[];
   validatorId: string;
 }
 
