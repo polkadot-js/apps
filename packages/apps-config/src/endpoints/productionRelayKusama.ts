@@ -428,7 +428,7 @@ export const prodParasKusama: EndpointOption[] = [
   {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
-    paraId: 2237,
+    paraId: 2240,
     text: 'Robonomics 2',
     isUnreachable: true,
     providers: {
