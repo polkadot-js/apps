@@ -399,4 +399,8 @@ export default React.memo(styled(Referendum)`
       text-align: center;
     }
   }
+
+  .shortHash {
+    font: var(--font-mono);
+  }
 `);

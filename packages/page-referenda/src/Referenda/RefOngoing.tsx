@@ -97,7 +97,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : t('preimage {{shortHash}}', { replace: { shortHash } })
+          : <div className='shortHash'>{shortHash}</div>
         }
       </td>
       <Deposits
