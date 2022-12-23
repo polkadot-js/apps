@@ -49,7 +49,7 @@ export const prodChains: EndpointOption[] = [
     info: 'bittensor',
     text: 'Bittensor',
     providers: {
-      'Opentensor Foundation': 'wss://archivelb.nakamoto.opentensor.ai:9943',
+      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     }
   },
   {
