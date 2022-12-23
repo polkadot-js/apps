@@ -35,7 +35,7 @@ interface Config {
 
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
-const chartOptions: ChartOptions = {
+const BASE_OPTS: ChartOptions = {
   animation: {
     duration: 0
   },
@@ -53,8 +53,29 @@ const chartOptions: ChartOptions = {
     mode: 'index'
   },
   plugins: {
+    crosshair: {
+      line: {
+        color: '#ff8c00',
+        dashPattern: [5, 5],
+        width: 2
+      },
+      snap: {
+        enabled: true
+      },
+      sync: {
+        enabled: true
+      },
+      // this would be nice, but atm just doesn't quite
+      // seem or feel intuitive...
+      zoom: {
+        enabled: false
+      }
+    },
     legend: {
       display: false
+    },
+    tooltip: {
+      intersect: false
     }
   },
   scales: {
@@ -85,7 +106,15 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
 
   return {
     chartData,
-    chartOptions: objectSpread({}, chartOptions, options)
+    chartOptions: objectSpread({}, BASE_OPTS, options, {
+      // Re-spread plugins for deep(er) copy
+      plugins: objectSpread({}, BASE_OPTS.plugins, options.plugins, {
+        // Same applied to plugins, we may want specific values
+        annotation: objectSpread({}, BASE_OPTS.plugins?.annotation, options.plugins?.annotation),
+        crosshair: objectSpread({}, BASE_OPTS.plugins?.crosshair, options.plugins?.crosshair),
+        tooltip: objectSpread({}, BASE_OPTS.plugins?.tooltip, options.plugins?.tooltip)
+      })
+    })
   };
 }
 

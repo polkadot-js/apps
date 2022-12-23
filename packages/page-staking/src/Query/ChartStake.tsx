@@ -4,14 +4,14 @@
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber, chartOptions } from './util';
+import Chart from './Chart';
+import { balanceToNumber } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
@@ -46,8 +46,8 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
   });
 
   return {
-    chart: [cliSet, expSet, avgSet],
-    labels
+    labels,
+    values: [cliSet, expSet, avgSet]
   };
 }
 
@@ -56,14 +56,23 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
-    currency: formatBalance.getDefaults().unit,
-    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), []);
+  const { currency, divisor } = useMemo(
+    () => ({
+      currency: formatBalance.getDefaults().unit,
+      divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+    }),
+    []
+  );
 
-  const { chart, labels } = useMemo(
-    () => extractStake(ownExposures, divisor),
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
+
+  useEffect(
+    () => setChart(extractStake(ownExposures, divisor)),
     [divisor, ownExposures]
   );
 
@@ -74,21 +83,12 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   ], [currency, t]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('elected stake')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_STAKE}
-            labels={labels}
-            legends={legends}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      chart={chart}
+      colors={COLORS_STAKE}
+      header={t<string>('elected stake')}
+      legends={legends}
+    />
   );
 }
 

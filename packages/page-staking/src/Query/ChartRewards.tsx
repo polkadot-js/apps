@@ -4,14 +4,14 @@
 import type { DeriveEraRewards, DeriveOwnSlashes, DeriveStakerPoints } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { balanceToNumber, chartOptions } from './util';
+import Chart from './Chart';
+import { balanceToNumber } from './util';
 
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 
@@ -54,8 +54,8 @@ function extractRewards (erasRewards: DeriveEraRewards[] = [], ownSlashes: Deriv
   });
 
   return {
-    chart: [slashSet, rewardSet, avgSet],
-    labels
+    labels,
+    values: [slashSet, rewardSet, avgSet]
   };
 }
 
@@ -66,14 +66,23 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, params);
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { currency, divisor } = useMemo(() => ({
-    currency: formatBalance.getDefaults().unit,
-    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), []);
+  const { currency, divisor } = useMemo(
+    () => ({
+      currency: formatBalance.getDefaults().unit,
+      divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+    }),
+    []
+  );
 
-  const { chart, labels } = useMemo(
-    () => extractRewards(erasRewards, ownSlashes, stakerPoints, divisor),
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
+
+  useEffect(
+    () => setChart(extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)),
     [divisor, erasRewards, ownSlashes, stakerPoints]
   );
 
@@ -84,21 +93,12 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   ], [currency, t]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('rewards & slashes')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_REWARD}
-            labels={labels}
-            legends={legends}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      chart={chart}
+      colors={COLORS_REWARD}
+      header={t<string>('rewards & slashes')}
+      legends={legends}
+    />
   );
 }
 

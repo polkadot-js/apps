@@ -13,6 +13,6 @@ export type LineDataEntry = (BN | number)[];
 export type LineData = LineDataEntry[];
 
 export interface ChartInfo {
-  chart: LineData;
   labels: string[];
+  values: LineData;
 }

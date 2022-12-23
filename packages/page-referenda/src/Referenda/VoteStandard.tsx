@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { VoteTypeProps as Props } from './types';
+import type { VoteTypeProps } from './types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -10,7 +10,11 @@ import { ConvictionDropdown, Modal, VoteValue } from '@polkadot/react-components
 
 import { useTranslation } from '../translate';
 
-function VoteStandard ({ accountId, id, isAye, onChange }: Props): React.ReactElement<Props> {
+interface Props extends VoteTypeProps {
+  voteLockingPeriod?: BN;
+}
+
+function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [balance, setBalance] = useState<BN | undefined>();
   const [conviction, setConviction] = useState(0);
@@ -51,6 +55,7 @@ function VoteStandard ({ accountId, id, isAye, onChange }: Props): React.ReactEl
         label={t<string>('conviction')}
         onChange={setConviction}
         value={conviction}
+        voteLockingPeriod={voteLockingPeriod}
       />
     </Modal.Columns>
   );

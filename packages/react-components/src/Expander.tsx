@@ -45,7 +45,7 @@ function splitParts (value: string): string[] {
   return ['[', ']'].reduce((result: string[], sep) => splitSingle(result, sep), [value]);
 }
 
-function formatMeta (meta?: Meta): React.ReactNode | null {
+function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
   if (!meta || !meta.docs.length) {
     return null;
   }
@@ -59,7 +59,10 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
   const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
 
-  return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
+  return [
+    parts[0].split(/[.(]/)[0],
+    <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>
+  ];
 }
 
 function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
@@ -70,8 +73,8 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
     [isExpanded, renderChildren]
   );
 
-  const headerSub = useMemo(
-    () => formatMeta(summaryMeta) || summarySub,
+  const [headerSubMini, headerSub] = useMemo(
+    () => formatMeta(summaryMeta) || [summarySub, summarySub],
     [summaryMeta, summarySub]
   );
 
@@ -116,8 +119,8 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
             {summaryHead}
           </div>
           {summary}
-          {isExpanded && headerSub && (
-            <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
+          {headerSub && (
+            <div className='ui--Expander-summary-header-sub'>{isExpanded ? headerSub : headerSubMini}</div>
           )}
         </div>
         {!isLeft && icon}

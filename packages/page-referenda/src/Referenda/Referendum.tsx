@@ -285,28 +285,14 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
             )
           },
           crosshair: {
-            line: {
-              color: '#ff8c00',
-              dashPattern: [5, 5],
-              width: 2
-            },
-            snapping: {
-              enabled: true
-            },
             sync: {
               group: refId.toNumber()
-            },
-            // this would be nice, but atm just doesn't quite
-            // seem or feel intuitive...
-            zoom: {
-              enabled: false
             }
           },
           tooltip: {
             callbacks: {
               title
-            },
-            intersect: false
+            }
           }
         }
       }, OPTIONS),
