@@ -4,13 +4,12 @@
 import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { chartOptions } from './util';
+import Chart from './Chart';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 
@@ -38,8 +37,8 @@ function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
   });
 
   return {
-    chart: [idxSet, avgSet],
-    labels
+    labels,
+    values: [idxSet, avgSet]
   };
 }
 
@@ -48,9 +47,15 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
+  const [chart, setChart] = useState<ChartInfo>({ labels: [], values: [] });
 
-  const { chart, labels } = useMemo(
-    () => extractPoints(stakerPoints),
+  useEffect(
+    () => setChart({ labels: [], values: [] }),
+    [validatorId]
+  );
+
+  useEffect(
+    () => setChart(extractPoints(stakerPoints)),
     [stakerPoints]
   );
 
@@ -60,21 +65,13 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <div className='staking--Chart'>
-      <h1>{t<string>('era points')}</h1>
-      {labels.length
-        ? (
-          <Chart.Line
-            colors={COLORS_POINTS}
-            labels={labels}
-            legends={legendsRef.current}
-            options={chartOptions}
-            values={chart}
-          />
-        )
-        : <Spinner />
-      }
-    </div>
+    <Chart
+      chart={chart}
+      colors={COLORS_POINTS}
+      header={t<string>('era points')}
+      legends={legendsRef.current}
+      values={chart}
+    />
   );
 }
 
