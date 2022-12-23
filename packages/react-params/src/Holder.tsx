@@ -13,7 +13,7 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className} ${withBorder ? 'withBorder' : 'withoutBorder'} ${withPadding ? 'withPadding' : ''}`}>
+    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}`}>
       {children}
     </div>
   );
@@ -21,16 +21,15 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 
 export default React.memo(styled(Holder)`
   &.withBorder {
-    padding-left: 0.25rem;
+    padding-left: 1.5rem;
 
     .ui--Params-Content {
       border-left: 0.25rem solid #f2f2f2;
-    }
-  }
 
-  &.withoutBorder {
-    margin-left: -1.75rem;
-    padding: 0;
+      .ui--Params.withBorder {
+        padding-left: 0.25rem;
+      }
+    }
   }
 
   &.withPadding {

@@ -15,7 +15,7 @@ import Param from './index';
 
 const DEF_VALUE = { isValid: true, value: undefined };
 
-function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
+function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive, withOptionNaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(() => withOptionActive || !!(_defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome) || false);
   const [defaultValue] = useState(
@@ -48,6 +48,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
         onEscape={onEscape}
         registry={registry}
         type={sub as TypeDef}
+        withOptionNaked={withOptionNaked}
       />
       {!isDisabled && (
         <Toggle

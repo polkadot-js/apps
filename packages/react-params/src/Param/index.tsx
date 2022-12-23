@@ -23,7 +23,7 @@ function formatJSON (input: string): string {
     .replace(/,/g, ', ');
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type, withOptionNaked }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
     [registry, type, overrides]
@@ -73,6 +73,7 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isInOption,
         overrides={overrides}
         registry={registry}
         type={type}
+        withOptionNaked={withOptionNaked}
       />
     );
 }

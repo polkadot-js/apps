@@ -33,7 +33,6 @@ function Unknown (props: Props): React.ReactElement<Props> {
       onEnter={onEnter}
       onEscape={onEscape}
       type={type}
-      withLength={false}
     />
   );
 }

@@ -44,7 +44,8 @@ export interface Props {
   // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
   registry: Registry;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
+  withOptionNaked?: boolean;
   withLabel?: boolean;
 }
 
@@ -65,4 +66,9 @@ export interface ExpandedCid {
     digest: HexString;
   };
   version: 0 | 1;
+}
+
+export interface TypeDefExt extends TypeDef {
+  withOptionActive?: boolean;
+  withOptionNaked?: boolean;
 }
