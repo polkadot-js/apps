@@ -308,6 +308,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Bittensor': chainBittensor,
+  'Nakamoto Bittensor Mainnet': chainBittensor,
   'Bittensor Testnet': chainBittensor,
   'Calamari Parachain': chainCalamari,
   'Calamari Parachain Development': chainCalamari,
