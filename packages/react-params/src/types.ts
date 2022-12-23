@@ -69,5 +69,4 @@ export interface ExpandedCid {
 
 export interface TypeDefExt extends TypeDef {
   withOptionActive?: boolean;
-  withOptionNaked?: boolean;
 }
