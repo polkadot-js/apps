@@ -66,7 +66,6 @@ function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterabl
     if (isIterable && index === (types.length - 1)) {
       type = getTypeDef(`Option<${str}>`);
       type.withOptionActive = true;
-      type.withOptionNaked = true;
     } else {
       type = getTypeDef(str);
     }

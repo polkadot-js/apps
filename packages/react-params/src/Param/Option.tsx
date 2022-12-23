@@ -2,21 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, TypeDef } from '@polkadot/types/types';
-import type { Props } from '../types';
+import type { Props, RawParamOnChangeValue } from '../types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
-import { objectSpread } from '@polkadot/util';
+import { isU8a, u8aConcat } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Param from './index';
 
 const DEF_VALUE = { isValid: true, value: undefined };
+const OPT_PREFIX = new Uint8Array([1]);
 
-function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive, withOptionNaked } }: Props): React.ReactElement<Props> {
+function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(() => withOptionActive || !!(_defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome) || false);
   const [defaultValue] = useState(
@@ -28,10 +29,6 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
       )
       : DEF_VALUE
   );
-  const subType = useMemo(
-    () => objectSpread<TypeDef>({}, sub, { withOptionNaked }),
-    [sub, withOptionNaked]
-  );
 
   useEffect((): void => {
     !isActive && onChange && onChange({
@@ -40,19 +37,32 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
     });
   }, [isActive, onChange]);
 
+  const _onChange = useCallback(
+    (value: RawParamOnChangeValue) =>
+      onChange && onChange(
+        value.isValid && isU8a(value.value) && !withOptionActive && isActive
+          ? { isValid: true, value: u8aConcat(OPT_PREFIX, value.value) }
+          : value
+      ),
+    [isActive, onChange, withOptionActive]
+  );
+
   return (
     <div className={className}>
       <Param
-        defaultValue={isActive ? defaultValue : DEF_VALUE}
+        defaultValue={
+          isActive
+            ? defaultValue
+            : DEF_VALUE}
         isDisabled={isDisabled || !isActive}
         isInOption
         isOptional={!isActive && !isDisabled}
         name={name}
-        onChange={onChange}
+        onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
         registry={registry}
-        type={subType}
+        type={sub as TypeDef}
       />
       {!isDisabled && (
         <Toggle
