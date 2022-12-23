@@ -45,7 +45,6 @@ export interface Props {
   overrides?: ComponentMap;
   registry: Registry;
   type: TypeDefExt;
-  withOptionNaked?: boolean;
   withLabel?: boolean;
 }
 

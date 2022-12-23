@@ -4,11 +4,12 @@
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { Props } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
+import { objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Param from './index';
@@ -26,6 +27,10 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
           : DEF_VALUE
       )
       : DEF_VALUE
+  );
+  const subType = useMemo(
+    () => objectSpread<TypeDef>({}, sub, { withOptionNaked }),
+    [sub, withOptionNaked]
   );
 
   useEffect((): void => {
@@ -47,8 +52,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
         onEnter={onEnter}
         onEscape={onEscape}
         registry={registry}
-        type={sub as TypeDef}
-        withOptionNaked={withOptionNaked}
+        type={subType}
       />
       {!isDisabled && (
         <Toggle

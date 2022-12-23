@@ -68,7 +68,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
     : [value === '0x', false, new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength, withOptionNaked }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, length = -1, onChange, onEnter, onEscape, size = 'full', type: { withOptionNaked }, validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
     (): string | undefined => {

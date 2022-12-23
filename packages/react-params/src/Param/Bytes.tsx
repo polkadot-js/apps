@@ -13,7 +13,7 @@ import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, type, withLabel, withOptionNaked }: Props): React.ReactElement<Props> {
+function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setFileInput] = useState(false);
@@ -59,7 +59,6 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
             type={type}
             withLabel={withLabel}
             withLength
-            withOptionNaked={withOptionNaked}
           />
         )
       }
