@@ -133,19 +133,27 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
 }
 
 export default React.memo(styled(Expander)`
-  max-width: 100%;
+  max-width: 60rem;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  &:not(.isExpanded) .ui--Expander-content {
-    display: none;
+  &:not(.isExpanded) {
+    .ui--Expander-content {
+      display: none;
+    }
+
+    .ui--Expander-summary-header-sub {
+      max-width: 35rem;
+    }
   }
 
-  &.isExpanded .ui--Expander-content {
-    margin-top: 0.75rem;
+  &.isExpanded {
+    .ui--Expander-content {
+      margin-top: 0.75rem;
 
-    .body.column {
-      justify-content: end;
+      .body.column {
+        justify-content: end;
+      }
     }
   }
 
