@@ -133,7 +133,7 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
 }
 
 export default React.memo(styled(Expander)`
-  max-width: 100%;
+  max-width: 60rem;
   overflow: hidden;
   text-overflow: ellipsis;
 
