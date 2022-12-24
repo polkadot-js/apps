@@ -20,8 +20,9 @@ interface V2Weight {
   proofSize: ICompact<INumber>;
 }
 
-interface V2WeightConstruct {
+export interface V2WeightConstruct {
   refTime: BN | ICompact<INumber>;
+  proofSize?: BN | ICompact<INumber>
 }
 
 interface Result {
@@ -30,6 +31,11 @@ interface Result {
   v1Weight: BN;
   v2Weight: V2WeightConstruct;
   weight: BN | V2WeightConstruct;
+}
+
+interface WeightResult {
+  v1Weight: BN;
+  v2Weight: V2WeightConstruct;
 }
 
 // a random address that we are using for our queries
@@ -42,7 +48,7 @@ const EMPTY_STATE: Partial<Result> = {
 };
 
 // return both v1 & v2 weight structures (would depend on actual use)
-export function convertWeight (weight: V1Weight | V2Weight): { v1Weight: BN, v2Weight: V2WeightConstruct } {
+export function convertWeight (weight: V1Weight | V2Weight): WeightResult {
   if ((weight as V2Weight).proofSize) {
     const refTime = (weight as V2Weight).refTime.toBn();
 
