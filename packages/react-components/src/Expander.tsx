@@ -110,14 +110,14 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
         {isLeft && icon}
         <div className='ui--Expander-summary-header'>
           <div className='ui--Expander-summary-title'>
-            {help && (
-              <LabelHelp
-                help={help}
-                icon={helpIcon}
-              />
-            )}
             {summaryHead}
           </div>
+          {help && (
+            <LabelHelp
+              help={help}
+              icon={helpIcon}
+            />
+          )}
           {summary}
           {headerSub && (
             <div className='ui--Expander-summary-header-sub'>{isExpanded ? headerSub : headerSubMini}</div>

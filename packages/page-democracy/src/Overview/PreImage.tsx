@@ -8,7 +8,7 @@ import type { HexString } from '@polkadot/util/types';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Extrinsic, InputAddress, InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ZERO, isString } from '@polkadot/util';
@@ -94,12 +94,11 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
             label={t<string>('propose')}
             onChange={setProposal}
           />
-          <Input
-            className='disabledLook'
+          <Static
             help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-            isDisabledError={!isMatched}
             label={t<string>('preimage hash')}
             value={encodedHash}
+            withCopy
           />
         </Modal.Columns>
         {!isImminent && storageFee && (
@@ -136,15 +135,5 @@ export default React.memo(styled(PreImage)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;
-  }
-
-  .disabledLook .ui.input > input {
-    background: transparent;
-    border-style: dashed;
-
-    &:focus{
-      background: transparent;
-      border-color: #d9d8d7;
-    }
   }
 `);
