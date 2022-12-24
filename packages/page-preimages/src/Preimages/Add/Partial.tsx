@@ -59,7 +59,7 @@ function getState (api: ApiPromise, proposal?: SubmittableExtrinsic<'promise'>):
   };
 }
 
-function Proposal ({ className, onChange }: Props): React.ReactElement<Props> {
+function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [{ encodedHash, encodedLength, storageFee }, setState] = useState<HashState>(EMPTY_PROPOSAL);
@@ -124,4 +124,4 @@ function Proposal ({ className, onChange }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Proposal);
+export default React.memo(Partial);
