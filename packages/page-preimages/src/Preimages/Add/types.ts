@@ -9,6 +9,6 @@ export interface HashState {
   encodedHash: HexString;
   encodedLength: number;
   encodedProposal?: HexString | null;
-  extrinsic?: SubmittableExtrinsic<'promise'> | null;
+  notePreimageTx?: SubmittableExtrinsic<'promise'> | null;
   storageFee: BN;
 }

@@ -21,7 +21,7 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isAddOpen, toggleAdd] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ encodedHash, extrinsic }, setProposal] = useState<HashState>(EMPTY_PROPOSAL);
+  const [{ encodedHash, notePreimageTx }, setProposal] = useState<HashState>(EMPTY_PROPOSAL);
 
   const isMatched = !!imageHash || imageHash === encodedHash;
 
@@ -54,9 +54,9 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
           <Modal.Actions>
             <TxButton
               accountId={accountId}
-              extrinsic={extrinsic}
+              extrinsic={notePreimageTx}
               icon='plus'
-              isDisabled={!accountId || !isMatched || !extrinsic}
+              isDisabled={!accountId || !isMatched || !notePreimageTx}
               label={t<string>('Submit preimage')}
               onStart={toggleAdd}
             />

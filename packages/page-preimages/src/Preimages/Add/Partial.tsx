@@ -27,7 +27,7 @@ export const EMPTY_PROPOSAL: HashState = {
   encodedHash: EMPTY_HASH,
   encodedLength: 0,
   encodedProposal: null,
-  extrinsic: null,
+  notePreimageTx: null,
   storageFee: BN_ZERO
 };
 
@@ -35,14 +35,14 @@ function getState (api: ApiPromise, proposal?: SubmittableExtrinsic<'promise'>):
   let encodedHash = EMPTY_HASH;
   let encodedProposal: HexString | null = null;
   let encodedLength = 0;
-  let extrinsic: SubmittableExtrinsic<'promise'> | null = null;
+  let notePreimageTx: SubmittableExtrinsic<'promise'> | null = null;
   let storageFee = BN_ZERO;
 
   if (proposal) {
     encodedProposal = proposal.method.toHex();
     encodedLength = Math.ceil((encodedProposal.length - 2) / 2);
     encodedHash = blake2AsHex(encodedProposal);
-    extrinsic = api.tx.preimage.notePreimage(encodedProposal);
+    notePreimageTx = api.tx.preimage.notePreimage(encodedProposal);
 
     // we currently don't have a constant exposed, however match to Substrate
     storageFee = ((api.consts.preimage?.baseDeposit || BN_ZERO) as unknown as BN).add(
@@ -54,7 +54,7 @@ function getState (api: ApiPromise, proposal?: SubmittableExtrinsic<'promise'>):
     encodedHash,
     encodedLength,
     encodedProposal,
-    extrinsic,
+    notePreimageTx,
     storageFee
   };
 }
