@@ -4,9 +4,8 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
@@ -93,19 +92,17 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
                 label={t<string>('propose')}
                 onChange={setProposal}
               />
-              <Input
-                className='disabledLook'
+              <Static
                 help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-                isDisabledError={!isMatched}
                 label={t<string>('preimage hash')}
                 value={encodedHash}
+                withCopy
               />
-              <Input
-                className='disabledLook'
+              <Static
                 help={t<string>('The encoded length of the selected proposal, as available on-chain')}
-                isDisabledError={!isMatched}
                 label={t<string>('preimage length')}
                 value={encodedLength.toString()}
+                withCopy
               />
             </Modal.Columns>
             {!storageFee.isZero() && (
@@ -141,13 +138,4 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Add)`
-  .disabledLook .ui.input > input {
-    background: transparent;
-    border-style: dashed;
-    &:focus{
-      background: transparent;
-      border-color: #d9d8d7;
-    }
-  }
-`);
+export default React.memo(Add);
