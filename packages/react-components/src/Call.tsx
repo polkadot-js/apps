@@ -149,11 +149,12 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
 }
 
 export default React.memo(styled(Call)`
-  .hash .ui--Static {
+  .ui--Labelled.hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: unset;
     word-wrap: unset;
+    white-space: nowrap;
   }
 
   .ui--Extrinsic--toplevel {

@@ -155,6 +155,10 @@ export default React.memo(styled(Expander)`
         justify-content: end;
       }
     }
+
+    .ui--Params.withBorder {
+      padding-left: 0.25rem;
+    }
   }
 
   &.isHeader {
