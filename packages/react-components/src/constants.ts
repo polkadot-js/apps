@@ -39,7 +39,7 @@ export const balanceCalls = [
 // needs expansion with events from above
 export const balanceEvents = [
   'auctions.BidAccepted', 'auctions.ReserveConfiscated', 'auctions.Reserved', 'auctions.Unreserved',
-  'balances.Deposit', 'balances.Endowed', 'balances.Transfer', 'balances.Unreserved', 'balances.Withdraw',
+  'balances.Deposit', 'balances.DustLost', 'balances.Endowed', 'balances.Transfer', 'balances.Unreserved', 'balances.Withdraw',
   'bounties.BountyClaimed', 'bounties.BountyRejected',
   'claims.Claimed',
   'convictionVoting.Voted',
