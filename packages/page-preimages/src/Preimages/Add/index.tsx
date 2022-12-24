@@ -5,7 +5,7 @@ import type { HashState } from './types';
 
 import React, { useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
@@ -21,7 +21,7 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isAddOpen, toggleAdd] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ encodedHash, extrinsic, storageFee }, setProposal] = useState<HashState>(EMPTY_PROPOSAL);
+  const [{ encodedHash, extrinsic }, setProposal] = useState<HashState>(EMPTY_PROPOSAL);
 
   const isMatched = !!imageHash || imageHash === encodedHash;
 
@@ -50,16 +50,6 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
               />
             </Modal.Columns>
             <Proposal onChange={setProposal} />
-            {!storageFee.isZero() && (
-              <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
-                <InputBalance
-                  defaultValue={storageFee}
-                  help={t<string>('The amount reserved to store this image')}
-                  isDisabled
-                  label={t<string>('calculated storage fee')}
-                />
-              </Modal.Columns>
-            )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton

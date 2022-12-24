@@ -9,7 +9,7 @@ import type { HashState } from './types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Extrinsic, Modal, Static } from '@polkadot/react-components';
+import { Extrinsic, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -62,7 +62,7 @@ function getState (api: ApiPromise, proposal?: SubmittableExtrinsic<'promise'>):
 function Proposal ({ className, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
-  const [{ encodedHash, encodedLength }, setState] = useState<HashState>(EMPTY_PROPOSAL);
+  const [{ encodedHash, encodedLength, storageFee }, setState] = useState<HashState>(EMPTY_PROPOSAL);
 
   const changeState = useCallback(
     (state: HashState): void => {
@@ -79,33 +79,48 @@ function Proposal ({ className, onChange }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <Modal.Columns
-      className={className}
-      hint={
-        <>
-          <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
-          <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
-        </>
-      }
-    >
-      <Extrinsic
-        defaultValue={apiDefaultTxSudo}
-        label={t<string>('propose')}
-        onChange={setProposal}
-      />
-      <Static
-        help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-        label={t<string>('preimage hash')}
-        value={encodedHash}
-        withCopy
-      />
-      <Static
-        help={t<string>('The encoded length of the selected proposal, as available on-chain')}
-        label={t<string>('preimage length')}
-        value={encodedLength}
-        withCopy
-      />
-    </Modal.Columns>
+    <>
+      <Modal.Columns
+        className={className}
+        hint={
+          <>
+            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
+          </>
+        }
+      >
+        <Extrinsic
+          defaultValue={apiDefaultTxSudo}
+          label={t<string>('propose')}
+          onChange={setProposal}
+        />
+        <Static
+          help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
+          label={t<string>('preimage hash')}
+          value={encodedHash}
+          withCopy
+        />
+        <Static
+          help={t<string>('The encoded length of the selected proposal, as available on-chain')}
+          label={t<string>('preimage length')}
+          value={encodedLength}
+          withCopy
+        />
+      </Modal.Columns>
+      {!storageFee.isZero() && (
+        <Modal.Columns
+          className={className}
+          hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}
+        >
+          <InputBalance
+            defaultValue={storageFee}
+            help={t<string>('The amount reserved to store this image')}
+            isDisabled
+            label={t<string>('calculated storage fee')}
+          />
+        </Modal.Columns>
+      )}
+    </>
   );
 }
 
