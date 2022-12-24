@@ -219,8 +219,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'HydraDX',
     providers: {
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      Dwellir: 'wss://hydradx-rpc.dwellir.com',
-      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws'
+      Dwellir: 'wss://hydradx-rpc.dwellir.com'
+      // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623
     }
   },
   {
