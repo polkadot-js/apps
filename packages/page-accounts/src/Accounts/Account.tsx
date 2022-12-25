@@ -678,12 +678,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               {proxy && proxy[0].length !== 0 && api.api.tx.utility && (
                 <Badge
                   className='information'
-                  hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-                    replace: {
-                      proxyNumber: proxy[0].length
-                    }
-                  })}
-                  hoverAction={t<string>('Manage proxy')}
+                  hover={
+                    proxy[0].length === 1
+                      ? t<string>('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
+                      : t<string>('This account has a proxy set')
+                  }
+                  hoverAction={t<string>('Manage proxies')}
                   icon='sitemap'
                   onClick={toggleProxyOverview}
                 />
