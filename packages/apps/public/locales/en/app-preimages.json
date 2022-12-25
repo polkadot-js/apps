@@ -5,6 +5,7 @@
   "Submit preimage": "Submit preimage",
   "The account you want to register the preimage from": "The account you want to register the preimage from",
   "The amount reserved to store this image": "The amount reserved to store this image",
+  "The calculated storage costs based on the base and the per-bytes fee.": "The calculated storage costs based on the base and the per-bytes fee.",
   "The calculated storage costs based on the size and the per-bytes fee.": "The calculated storage costs based on the size and the per-bytes fee.",
   "The encoded length of the selected proposal, as available on-chain": "The encoded length of the selected proposal, as available on-chain",
   "The hash of the selected proposal, use it for submitting the proposal": "The hash of the selected proposal, use it for submitting the proposal",
