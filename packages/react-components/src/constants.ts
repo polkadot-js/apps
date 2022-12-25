@@ -45,6 +45,7 @@ export const balanceEvents = [
   'convictionVoting.Voted',
   'crowdloan.Contributed', 'crowdloan.Withdrew',
   'democracy.Voted',
+  'referenda.DecisionDepositPlaced', 'referenda.DecisionDepositRefunded', 'referenda.DepositSlashed', 'referenda.SubmissionDepositRefunded',
   'staking.Bonded', 'staking.Rewarded', 'staking.Unbonded', 'staking.Withdrawn',
   'transactionPayment.TransactionFeePaid',
   'treasury.Deposit'
