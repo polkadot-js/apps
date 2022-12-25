@@ -28,7 +28,8 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
     [undefined, 'media--1300'],
     [t('size')],
     [t('status')],
-    [t('count')]
+    [t('count'), 'media--1400'],
+    []
   ]);
 
   return (

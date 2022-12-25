@@ -9,6 +9,7 @@ import { formatNumber } from '@polkadot/util';
 
 import usePreimage from '../usePreimage';
 import Call from './Call';
+import Free from './Free';
 import Hash from './Hash';
 
 interface Props {
@@ -29,8 +30,11 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
       <td className='number'>
         {info?.status?.type}
       </td>
-      <td className='number'>
+      <td className='number media--1400'>
         {info && info.count !== 0 && formatNumber(info.count)}
+      </td>
+      <td className='button'>
+        {info && <Free value={info} />}
       </td>
     </tr>
   );

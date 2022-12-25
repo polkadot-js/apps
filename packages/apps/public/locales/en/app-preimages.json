@@ -10,6 +10,7 @@
   "The hash of the selected proposal, use it for submitting the proposal": "The hash of the selected proposal, use it for submitting the proposal",
   "The image (proposal) will be stored on-chain against the hash of the contents.": "The image (proposal) will be stored on-chain against the hash of the contents.",
   "This account will pay the fees for the preimage, based on the size thereof.": "This account will pay the fees for the preimage, based on the size thereof.",
+  "Unnote": "Unnote",
   "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.": "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.",
   "calculated storage fee": "calculated storage fee",
   "call": "call",
