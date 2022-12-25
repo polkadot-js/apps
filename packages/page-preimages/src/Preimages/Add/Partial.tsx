@@ -103,14 +103,14 @@ function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
         <Static
           help={t<string>('The encoded length of the selected proposal, as available on-chain')}
           label={t<string>('preimage length')}
-          value={encodedLength}
+          value={encodedLength || '0'}
           withCopy
         />
       </Modal.Columns>
       {!storageFee.isZero() && (
         <Modal.Columns
           className={className}
-          hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}
+          hint={t<string>('The calculated storage costs based on the base and the per-bytes fee.')}
         >
           <InputBalance
             defaultValue={storageFee}
