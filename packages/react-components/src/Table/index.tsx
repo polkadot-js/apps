@@ -194,6 +194,10 @@ export default React.memo(styled(Table)`
         padding: 0.5rem;
       }
 
+      &.balance {
+        min-width: 20rem;
+      }
+
       &.button {
         padding: 0.25rem 0.5rem;
         text-align: right;
