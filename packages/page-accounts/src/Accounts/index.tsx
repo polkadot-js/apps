@@ -163,7 +163,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         multisig: [[t('multisig')]],
         proxied: [[t('proxied')]],
         qr: [[t('via qr')]],
-        testing: [[t('testing')]]
+        testing: [[t('development')]]
       };
 
       Object.values(ret).forEach((a): void => {
