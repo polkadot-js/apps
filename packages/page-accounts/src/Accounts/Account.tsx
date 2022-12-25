@@ -663,8 +663,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   hover={t<string>('Multisig approvals pending')}
                   hoverAction={t<string>('View pending approvals')}
                   icon='file-signature'
-                  info={multiInfos.length}
-                  isBlock
                   onClick={toggleMultisig}
                 />
               )}
@@ -674,7 +672,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   hover={t<string>('This account has a governance delegation')}
                   hoverAction={t<string>('Manage delegation')}
                   icon='calendar-check'
-                  isBlock
                   onClick={toggleDelegate}
                 />
               )}
@@ -686,9 +683,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                       proxyNumber: proxy[0].length
                     }
                   })}
-                  hoverAction={t<string>('Proxy overview')}
+                  hoverAction={t<string>('Manage proxy')}
                   icon='sitemap'
-                  isBlock
                   onClick={toggleProxyOverview}
                 />
               )}
