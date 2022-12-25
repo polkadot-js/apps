@@ -162,7 +162,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         injected: [[t('extension')]],
         multisig: [[t('multisig')]],
         proxied: [[t('proxied')]],
-        qr: [[t('qr')]],
+        qr: [[t('via qr')]],
         testing: [[t('testing')]]
       };
 
