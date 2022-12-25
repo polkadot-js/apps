@@ -8,6 +8,7 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   is60?: boolean;
+  isFull?: boolean;
   isPadded?: boolean;
 }
 
@@ -28,9 +29,9 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, isPadded = true }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, isFull, isPadded = true }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columnar ${is60 ? 'is60' : 'is50'} ${isPadded ? 'isPadded' : ''} ${className}`}>
+    <div className={`ui--Columar ${isFull ? 'isFull' : is60 ? 'is60' : 'is50'} ${isPadded ? 'isPadded' : ''} ${className}`}>
       {children}
     </div>
   );
@@ -61,6 +62,15 @@ const ColumarStyled = React.memo(styled(Columar)`
       @media (min-width: 1025px) {
         max-width: 40%;
         min-width: 40%;
+      }
+    }
+  }
+
+  &.Full {
+    .ui--Column {
+      @media (min-width: 1025px) {
+        max-width: 100%;
+        min-width: 100%;
       }
     }
   }

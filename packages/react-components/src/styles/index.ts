@@ -492,6 +492,16 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     margin-bottom: 0.25rem;
   }
 
+  h5 {
+    color: var(--color-label);
+    font-style: normal;
+    font-weight: var(--font-weight-normal);
+    font-size: 0.714rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
   h1 {
     font-size: 1.75rem;
     text-transform: lowercase;

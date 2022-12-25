@@ -171,9 +171,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         a[0][2] = 3;
 
         a.push(
-          [t('type'), 'media--1100'],
-          [t('transactions'), 'media--1500'],
-          [t('balances'), 'balances'],
+          [undefined, 'balances'],
           []
         );
       });
@@ -387,9 +385,5 @@ export default React.memo(styled(Overview)`
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-
-  td.indicators {
-    min-width: 10rem;
   }
 `);

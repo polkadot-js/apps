@@ -30,6 +30,7 @@ export interface BalanceActiveType {
   bonded?: boolean | BN[];
   extraInfo?: [React.ReactNode, React.ReactNode][];
   locked?: boolean;
+  nonce?: boolean;
   redeemable?: boolean;
   reserved?: boolean;
   total?: boolean;
@@ -481,6 +482,18 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     }
   }
 
+  if (balancesAll && (balancesAll as DeriveBalancesAll).accountNonce && balanceDisplay.nonce) {
+    allItems.push(
+      <React.Fragment key={10}>
+        <Label label={t<string>('transactions')} />
+        <div className='result'>
+          {formatNumber((balancesAll as DeriveBalancesAll).accountNonce)}
+          <IconVoid />
+        </div>
+      </React.Fragment>
+    );
+  }
+
   if (withBalanceToggle) {
     return (
       <React.Fragment key={formatIndex}>
@@ -640,6 +653,14 @@ export default withMulti(
           padding-right: 0.5rem;
           text-align: right;
           vertical-align: middle;
+
+          // from h5
+          font-style: normal;
+          font-weight: var(--font-weight-normal);
+          font-size: 0.714rem;
+          line-height: 1rem;
+          text-transform: uppercase;
+          margin-bottom: 0.25rem;
 
           .help.circle.icon {
             display: none;

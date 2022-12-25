@@ -156,7 +156,7 @@ export default React.memo(styled(Member)`
       margin-top: 0.5rem;
     }
 
-    .ui--Columnar {
+    .ui--Columar {
       flex-wrap: unset;
 
       .ui--Column {

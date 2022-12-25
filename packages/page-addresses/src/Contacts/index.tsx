@@ -28,9 +28,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('contacts'), 'start', 2],
-    [t('transactions'), 'number media--1500'],
-    [t('balances'), 'balances'],
-    [undefined, 'media--1400'],
+    [undefined, 'balances'],
     []
   ]);
 
