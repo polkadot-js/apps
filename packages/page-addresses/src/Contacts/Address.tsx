@@ -9,10 +9,10 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,6 +25,29 @@ interface Props {
 }
 
 const isEditable = true;
+
+const BALANCE_OPTS = {
+  available: true,
+  bonded: true,
+  locked: true,
+  nonce: true,
+  redeemable: true,
+  reserved: true,
+  total: false,
+  unlocking: true,
+  vested: true
+};
+
+const BALANCE_OPTS_ONLY = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -193,31 +216,12 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </>
           )}
         </td>
-        <td className='number media--1500'>
-          {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-        </td>
         <td className='balance'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={{
-              available: false,
-              bonded: false,
-              locked: false,
-              redeemable: false,
-              reserved: false,
-              total: true,
-              unlocking: false,
-              vested: false
-            }}
+            withBalance={BALANCE_OPTS_ONLY}
             withExtended={false}
-          />
-        </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            type='address'
           />
         </td>
         <td className='fast-actions-addresses'>
@@ -244,32 +248,35 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
-        <td>
-          <div
-            className='tags'
-            data-testid='tags'
-          >
-            <Tags
-              value={tags}
-              withTitle
-            />
-          </div>
+        <td className='top'>
+          <Columar isFull>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                isMain
+                type='address'
+              />
+            </Columar.Column>
+          </Columar>
+          <Columar>
+            <Columar.Column>
+              <div
+                className='tags'
+                data-testid='tags'
+              >
+                <Tags
+                  value={tags}
+                  withTitle
+                />
+              </div>
+            </Columar.Column>
+          </Columar>
         </td>
-        <td className='number media--1500' />
-        <td>
+        <td className='top'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={{
-              available: true,
-              bonded: true,
-              locked: true,
-              redeemable: true,
-              reserved: true,
-              total: false,
-              unlocking: true,
-              vested: true
-            }}
+            withBalance={BALANCE_OPTS}
             withExtended={false}
           />
         </td>
@@ -293,6 +300,10 @@ export default React.memo(styled(Address)`
     min-height: 1.5rem;
   }
 
+  .ui--Columar {
+    margin: 0.5rem 0 1.5rem 0;
+  }
+
   && td.button {
     padding-bottom: 0.5rem;
   }
@@ -314,13 +325,6 @@ export default React.memo(styled(Address)`
       .send-button {
         min-width: 6.5rem;
       }
-    }
-  }
-
-  && .ui--AddressInfo .ui--FormatBalance {
-    .ui--Icon, .icon-void {
-      margin-left: 0.7rem;
-      margin-right: 0.3rem
     }
   }
 `);

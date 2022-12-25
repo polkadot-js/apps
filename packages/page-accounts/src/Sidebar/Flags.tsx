@@ -107,16 +107,6 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
 }
 
 export default React.memo(styled(Flags)`
-  h5 {
-    text-align: left;
-    font-style: normal;
-    font-weight: var(--font-weight-bold);
-    font-size: 0.714rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
   .ui--Tag {
     margin: 0.2rem 1rem 0.2rem 0.571rem;
   }
