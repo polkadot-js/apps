@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import Columar from '../Columar';
 import Body from './Body';
 import Foot from './Foot';
 import Head from './Head';
@@ -19,6 +20,7 @@ interface TableProps {
   headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
+  isSplit?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
   withCollapsibleRows: boolean;
@@ -35,32 +37,72 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
+  const splitBody = useMemo(
+    (): [React.ReactNode[], React.ReactNode[]] | null => {
+      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
+        return null;
+      }
+
+      const half = Math.ceil(bodyChildren.length / 2);
+
+      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
+    },
+    [bodyChildren, isEmpty, isSplit]
+  );
 
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
-        <Head
-          filter={filter}
-          header={header}
-          isEmpty={isEmpty}
-        >
-          {headerChildren}
-        </Head>
-        <Body
-          empty={empty}
-          emptySpinner={emptySpinner}
-          noBodyTag={noBodyTag}
-        >
-          {bodyChildren}
-        </Body>
-        <Foot
-          footer={footer}
-          isEmpty={isEmpty}
-        />
-      </table>
+      {splitBody
+        ? (
+          <Columar isPaddedSmall>
+            <Columar.Column>
+              <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${withCollapsibleRows ? 'withCollapsibleRows' : ''}`}>
+                <Head header={header}>
+                  {headerChildren}
+                </Head>
+                <Body>
+                  {splitBody[0]}
+                </Body>
+              </table>
+            </Columar.Column>
+            <Columar.Column>
+              <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${withCollapsibleRows ? 'withCollapsibleRows' : ''}`}>
+                <Head header={header}>
+                  {headerChildren}
+                </Head>
+                <Body>
+                  {splitBody[1]}
+                </Body>
+              </table>
+            </Columar.Column>
+          </Columar>
+        )
+        : (
+          <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${withCollapsibleRows ? 'withCollapsibleRows' : ''}`}>
+            <Head
+              filter={filter}
+              header={header}
+              isEmpty={isEmpty}
+            >
+              {headerChildren}
+            </Head>
+            <Body
+              empty={empty}
+              emptySpinner={emptySpinner}
+              noBodyTag={noBodyTag}
+            >
+              {bodyChildren}
+            </Body>
+            <Foot
+              footer={footer}
+              isEmpty={isEmpty}
+            />
+          </table>
+        )
+      }
     </div>
   );
 }
@@ -86,14 +128,7 @@ export default React.memo(styled(Table)`
     }
 
     &.isInline {
-      &.highlight--bg-faint,
-      &.highlight--bg-faint::before {
-        background: transparent;
-      }
-
       tbody tr {
-        background: transparent;
-
         td {
           border-top-width: 1px;
           padding: 0.25rem 0.75rem;
@@ -129,20 +164,8 @@ export default React.memo(styled(Table)`
       }
     }
 
-    &.withCollapsibleRows tbody tr {
-      background-color: unset;
-
-      &:nth-child(4n - 2),
-      &:nth-child(4n - 3) {
-        background-color: var(--bg-table);
-      }
-    }
-
-    &:not(.withCollapsibleRows) tbody tr {
-      &.isOdd,
-      &:nth-child(odd):not(.isEven) {
-        background: var(--bg-table);
-      }
+    tbody tr {
+      background-color: var(--bg-table);
     }
   }
 
@@ -150,7 +173,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 1px solid var(--border-table);
+      border-bottom: 0.25rem solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -310,11 +333,11 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      &:first-child {
-        td {
-          border-top: 0.25rem solid var(--bg-page);
-        }
+      td {
+        border-bottom: 0.25rem solid var(--border-table);
+      }
 
+      &:first-child {
         td:first-child {
           border-top-left-radius: 0.25rem;
         }
@@ -326,8 +349,6 @@ export default React.memo(styled(Table)`
 
       &:last-child {
         td {
-          border-bottom: 1px solid var(--border-table);
-
           &:first-child {
             border-bottom-left-radius: 0.25rem;
           }

@@ -138,9 +138,9 @@ export default React.memo(styled(Head)`
     background: var(--bg-table);
     text-transform: lowercase;
 
-    &:first-child {
+    &:last-child {
       th {
-        border-top: 1px solid var(--border-table);
+        border-bottom: 0.25rem solid var(--border-table);
       }
     }
 

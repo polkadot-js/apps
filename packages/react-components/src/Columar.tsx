@@ -10,6 +10,7 @@ interface Props {
   is60?: boolean;
   isFull?: boolean;
   isPadded?: boolean;
+  isPaddedSmall?: boolean;
 }
 
 interface ColumnProps {
@@ -21,6 +22,8 @@ type ColumarType = React.ComponentType<Props> & {
   Column: React.ComponentType<ColumnProps>;
 };
 
+const MIN_WIDTH = '1200px';
+
 function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Column ${className}`}>
@@ -29,9 +32,9 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, isFull, isPadded = true }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, isFull, isPadded = true, isPaddedSmall }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${isFull ? 'isFull' : is60 ? 'is60' : 'is50'} ${isPadded ? 'isPadded' : ''} ${className}`}>
+    <div className={`ui--Columar ${isFull ? 'isFull' : (is60 ? 'is60' : 'is50')} ${isPaddedSmall ? 'isPaddedSmall' : (isPadded ? 'isPadded' : '')} ${className}`}>
       {children}
     </div>
   );
@@ -43,61 +46,83 @@ const ColumarStyled = React.memo(styled(Columar)`
 
   &.is50 {
     .ui--Column {
-      @media (min-width: 1025px) {
+      @media (min-width: ${MIN_WIDTH}) {
         max-width: 50%;
         min-width: 50%;
+        width: 50%;
       }
     }
   }
 
   &.is60 {
     .ui--Column:first-child {
-      @media (min-width: 1025px) {
+      @media (min-width: ${MIN_WIDTH}) {
         max-width: 60%;
         min-width: 60%;
+        width: 60%;
       }
     }
 
     .ui--Column:last-child {
-      @media (min-width: 1025px) {
+      @media (min-width: ${MIN_WIDTH}) {
         max-width: 40%;
         min-width: 40%;
+        width: 40%;
       }
     }
   }
 
-  &.Full {
+  &.isFull {
     .ui--Column {
-      @media (min-width: 1025px) {
+      @media (min-width: ${MIN_WIDTH}) {
         max-width: 100%;
         min-width: 100%;
+        width: 100%;
       }
     }
   }
 
   &.isPadded .ui--Column {
-    padding: 0 0.75rem;
+    @media (min-width: ${MIN_WIDTH}) {
+      padding: 0 0.75rem;
+    }
+  }
+
+  &.isPaddedSmall .ui--Column {
+    @media (min-width: ${MIN_WIDTH}) {
+      padding: 0 0.125rem;
+    }
+
+    &:last-child {
+      table thead {
+        display: none;
+
+        @media (min-width: ${MIN_WIDTH}) {
+          display: table-header-group;
+          visibility: hidden;
+        }
+      }
+    }
+  }
+
+  .ui--Column {
+    box-sizing: border-box;
+    flex: 0 0;
+    max-width: 100%;
+    min-width: 100%;
+    margin: 0;
+    width: 100%;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 `) as unknown as ColumarType;
 
-ColumarStyled.Column = React.memo(styled(Column)`
-  box-sizing: border-box;
-  max-width: 100%;
-  flex: 1 1;
-  margin: 0;
-
-  &:first-child {
-    padding-left: 0;
-  }
-
-  &:last-child {
-    padding-right: 0;
-  }
-
-  @media (min-width: 1025px) {
-    max-width: 50%;
-    min-width: 50%;
-  }
-`);
+ColumarStyled.Column = React.memo(Column);
 
 export default ColumarStyled;
