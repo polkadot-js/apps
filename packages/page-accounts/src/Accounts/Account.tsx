@@ -479,114 +479,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={_onFavorite}
           />
         </td>
-        <td className='together'>
-          <div className='badges'>
-            <div className='info'>
-              {meta.genesisHash
-                ? <Badge color='transparent' />
-                : isDevelopment
-                  ? (
-                    <Badge
-                      className='warning'
-                      hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
-                      icon='wrench'
-                    />
-                  )
-                  : (
-                    <Badge
-                      className='warning'
-                      hover={
-                        <div>
-                          <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                          <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
-                        </div>
-                      }
-                      icon='exclamation-triangle'
-                    />
-                  )
-              }
-              {recoveryInfo && (
-                <Badge
-                  className='recovery'
-                  hover={
-                    <div>
-                      <p>{t<string>('This account is recoverable, with the following friends:')}</p>
-                      <div>
-                        {recoveryInfo.friends.map((friend, index): React.ReactNode => (
-                          <AddressSmall
-                            key={index}
-                            value={friend}
-                          />
-                        ))}
-                      </div>
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td>{t<string>('threshold')}</td>
-                            <td>{formatNumber(recoveryInfo.threshold)}</td>
-                          </tr>
-                          <tr>
-                            <td>{t<string>('delay')}</td>
-                            <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
-                          </tr>
-                          <tr>
-                            <td>{t<string>('deposit')}</td>
-                            <td>{formatBalance(recoveryInfo.deposit)}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  }
-                  icon='redo'
-                />
-              )}
-              {isProxied && !proxyInfo.hasOwned && (
-                <Badge
-                  className='important'
-                  hover={t<string>('Proxied account has no owned proxies')}
-                  icon='sitemap'
-                  info='0'
-                />
-              )}
-            </div>
-            <div className='action'>
-              {multiInfos && multiInfos.length !== 0 && (
-                <Badge
-                  className='important'
-                  color='purple'
-                  hover={t<string>('Multisig approvals pending')}
-                  hoverAction={t<string>('View pending approvals')}
-                  icon='file-signature'
-                  info={multiInfos.length}
-                  onClick={toggleMultisig}
-                />
-              )}
-              {delegation?.accountDelegated && (
-                <Badge
-                  className='information'
-                  hover={t<string>('This account has a governance delegation')}
-                  hoverAction={t<string>('Manage delegation')}
-                  icon='calendar-check'
-                  onClick={toggleDelegate}
-                />
-              )}
-              {!!proxy?.[0].length && api.api.tx.utility && (
-                <Badge
-                  className='information'
-                  hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-                    replace: {
-                      proxyNumber: proxy[0].length
-                    }
-                  })}
-                  hoverAction={t<string>('Proxy overview')}
-                  icon='sitemap'
-                  onClick={toggleProxyOverview}
-                />
-              )}
-            </div>
-          </div>
-        </td>
-        <td className='address'>
+        <td className='address all'>
           <AddressSmall
             parentAddress={meta.parentAddress}
             value={address}
@@ -692,13 +585,119 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
         </td>
-        <td className='number'>
+        <td className='together indicators'>
+          <div className='badges'>
+            <div className='info'>
+              {meta.genesisHash
+                ? <Badge color='transparent' />
+                : isDevelopment
+                  ? (
+                    <Badge
+                      className='warning'
+                      hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                      icon='wrench'
+                    />
+                  )
+                  : (
+                    <Badge
+                      className='warning'
+                      hover={
+                        <div>
+                          <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                          <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                        </div>
+                      }
+                      icon='exclamation-triangle'
+                    />
+                  )
+              }
+              {recoveryInfo && (
+                <Badge
+                  className='recovery'
+                  hover={
+                    <div>
+                      <p>{t<string>('This account is recoverable, with the following friends:')}</p>
+                      <div>
+                        {recoveryInfo.friends.map((friend, index): React.ReactNode => (
+                          <AddressSmall
+                            key={index}
+                            value={friend}
+                          />
+                        ))}
+                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>{t<string>('threshold')}</td>
+                            <td>{formatNumber(recoveryInfo.threshold)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('delay')}</td>
+                            <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('deposit')}</td>
+                            <td>{formatBalance(recoveryInfo.deposit)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                  icon='redo'
+                />
+              )}
+              {isProxied && !proxyInfo.hasOwned && (
+                <Badge
+                  className='important'
+                  hover={t<string>('Proxied account has no owned proxies')}
+                  icon='sitemap'
+                  info='0'
+                />
+              )}
+            </div>
+            <div className='action'>
+              {multiInfos && multiInfos.length !== 0 && (
+                <Badge
+                  className='important'
+                  color='purple'
+                  hover={t<string>('Multisig approvals pending')}
+                  hoverAction={t<string>('View pending approvals')}
+                  icon='file-signature'
+                  onClick={toggleMultisig}
+                />
+              )}
+              {delegation?.accountDelegated && (
+                <Badge
+                  className='information'
+                  hover={t<string>('This account has a governance delegation')}
+                  hoverAction={t<string>('Manage delegation')}
+                  icon='calendar-check'
+                  onClick={toggleDelegate}
+                />
+              )}
+              {proxy && proxy[0].length !== 0 && api.api.tx.utility && (
+                <Badge
+                  className='information'
+                  hover={
+                    proxy[0].length === 1
+                      ? t<string>('This account has a proxy set')
+                      : t<string>('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
+                  }
+                  hoverAction={t<string>('Manage proxies')}
+                  icon='sitemap'
+                  onClick={toggleProxyOverview}
+                />
+              )}
+            </div>
+          </div>
+        </td>
+        <td className='number media--1100'>
           <CryptoType accountId={address} />
         </td>
         <td className='number media--1500'>
           {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
         </td>
-        <td className='number'>
+        <td className='balance'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}

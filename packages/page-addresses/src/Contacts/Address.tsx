@@ -170,7 +170,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             onClick={_onFavorite}
           />
         </td>
-        <td className='address'>
+        <td className='address all'>
           <AddressSmall value={address} />
           {address && current && (
             <>
@@ -196,7 +196,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         <td className='number media--1500'>
           {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
         </td>
-        <td className='number'>
+        <td className='balance'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
