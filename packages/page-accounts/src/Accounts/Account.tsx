@@ -589,7 +589,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <div className='badges'>
             <div className='info'>
               {meta.genesisHash
-                ? null
+                ? <Badge color='transparent' />
                 : isDevelopment
                   ? (
                     <Badge
@@ -664,6 +664,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   hoverAction={t<string>('View pending approvals')}
                   icon='file-signature'
                   info={multiInfos.length}
+                  isBlock
                   onClick={toggleMultisig}
                 />
               )}
@@ -673,10 +674,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   hover={t<string>('This account has a governance delegation')}
                   hoverAction={t<string>('Manage delegation')}
                   icon='calendar-check'
+                  isBlock
                   onClick={toggleDelegate}
                 />
               )}
-              {!!proxy?.[0].length && api.api.tx.utility && (
+              {proxy && proxy[0].length !== 0 && api.api.tx.utility && (
                 <Badge
                   className='information'
                   hover={t<string>('This account has {{proxyNumber}} proxy set.', {
@@ -686,6 +688,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   })}
                   hoverAction={t<string>('Proxy overview')}
                   icon='sitemap'
+                  isBlock
                   onClick={toggleProxyOverview}
                 />
               )}

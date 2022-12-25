@@ -17,13 +17,14 @@ interface Props {
   hoverAction?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
+  isBlock?: boolean;
   isSmall?: boolean;
   onClick?: () => void;
 }
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isBlock, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const badgeTestId = `${icon ? `${icon}-` : ''}badge`;
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
@@ -48,7 +49,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isBlock ? ' isBlock' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
       data-testid={badgeTestId}
       onClick={hoverAction ? undefined : onClick}
     >
@@ -92,6 +93,10 @@ export default React.memo(styled(Badge)`
 
   &.isTooltip {
     cursor: help;
+  }
+
+  &.isBlock {
+    display: block;
   }
 
   .ui--Icon {
