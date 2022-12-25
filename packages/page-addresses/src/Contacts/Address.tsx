@@ -194,7 +194,10 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           />
         </td>
         <td className='address all'>
-          <AddressSmall value={address} />
+          <AddressSmall
+            value={address}
+            withShortAddress
+          />
           {address && current && (
             <>
               {isForgetOpen && (
