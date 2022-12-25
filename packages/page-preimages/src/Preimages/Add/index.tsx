@@ -23,7 +23,7 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [{ encodedHash, notePreimageTx }, setProposal] = useState<HashState>(EMPTY_PROPOSAL);
 
-  const isMatched = !!imageHash || imageHash === encodedHash;
+  const isMatched = !imageHash || imageHash === encodedHash;
 
   return (
     <>
