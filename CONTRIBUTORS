@@ -1,4 +1,4 @@
-    3941	Jaco                          	Adjust council/staking accounts tables (#8632)
+    3942	Jaco                          	Bump api (#8633)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
