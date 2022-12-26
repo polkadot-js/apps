@@ -480,7 +480,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={_onFavorite}
           />
         </td>
-        <td className='address all'>
+        <td className='address all relative'>
           <AddressSmall
             parentAddress={meta.parentAddress}
             value={address}
@@ -585,32 +585,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               onClose={toggleUndelegate}
             />
           )}
-        </td>
-        <td className='number together'>
-          <div className='badges'>
-            {meta.genesisHash
-              ? <Badge color='transparent' />
-              : isDevelopment
-                ? (
-                  <Badge
-                    className='warning'
-                    hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
-                    icon='wrench'
-                  />
-                )
-                : (
-                  <Badge
-                    className='warning'
-                    hover={
-                      <div>
-                        <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                        <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
-                      </div>
-                    }
-                    icon='exclamation-triangle'
-                  />
-                )
-            }
+          <div className='absolute'>
             {recoveryInfo && (
               <Badge
                 className='recovery'
@@ -685,6 +660,28 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 icon='sitemap'
                 onClick={toggleProxyOverview}
               />
+            )}
+            {meta.genesisHash && (
+              isDevelopment
+                ? (
+                  <Badge
+                    className='warning'
+                    hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                    icon='wrench'
+                  />
+                )
+                : (
+                  <Badge
+                    className='warning'
+                    hover={
+                      <div>
+                        <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                        <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                      </div>
+                    }
+                    icon='exclamation-triangle'
+                  />
+                )
             )}
           </div>
         </td>
