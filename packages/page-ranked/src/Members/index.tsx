@@ -30,7 +30,6 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
         className={className}
         empty={members && t<string>('No members found')}
         header={headerRef.current}
-        isSplit
       >
         {members && members.map((a): React.ReactNode => (
           <Member
