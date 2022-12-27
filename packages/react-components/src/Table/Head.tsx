@@ -82,6 +82,13 @@ export default React.memo(styled(Head)`
         margin-right: 0.5rem;
         vertical-align: middle;
       }
+
+      .sub {
+        display: inline-block;
+        font-size: 1rem;
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
+      }
     }
 
     &:first-child {

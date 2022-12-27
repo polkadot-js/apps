@@ -180,6 +180,15 @@ export default React.memo(styled(Table)`
     }
   }
 
+  tbody, thead {
+    position: relative;
+    width: 100%;
+
+    tr {
+      width: 100%;
+    }
+  }
+
   tbody {
     td {
       border-bottom: 0.25rem solid var(--border-table);
