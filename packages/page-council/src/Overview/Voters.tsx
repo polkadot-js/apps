@@ -32,7 +32,7 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='all expand'>
+      <td className='expand'>
         <ExpanderScroll
           renderChildren={renderVoters}
           summary={<FormatBalance value={balance} />}

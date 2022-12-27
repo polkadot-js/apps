@@ -23,7 +23,7 @@ function Candidate ({ address, balance, className = '', isPrime, voters }: Props
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={address} />
       </td>
       <td>

@@ -282,6 +282,13 @@ export default React.memo(styled(Table)`
 
       &.relative {
         position: relative;
+
+        .absolute {
+          position: absolute;
+          right: 0.125rem;
+          top: 0.375rem;
+          white-space: nowrap;
+        }
       }
 
       &.overflow {
