@@ -59,7 +59,6 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
 }
 
 export default React.memo(styled(Head)`
-  position: relative;
   z-index: 1;
 
   th {

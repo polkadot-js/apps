@@ -168,7 +168,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       Object.values(ret).forEach((a): void => {
         a[0][1] = 'start';
-        a[0][2] = 2;
+        a[0][2] = 3;
 
         a.push(
           [undefined, 'balances'],
@@ -363,6 +363,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               <Table
                 empty={t<string>('No accounts')}
                 header={header[key]}
+                isSplit
                 key={key}
                 withCollapsibleRows
               >

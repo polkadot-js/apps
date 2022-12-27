@@ -169,9 +169,18 @@ export default React.memo(styled(Table)`
     }
   }
 
-  tbody {
+  tbody, thead {
     position: relative;
+    max-width: 100%;
+    width: 100%;
 
+    tr {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  tbody {
     td {
       border-bottom: 0.25rem solid var(--border-table);
       padding: 0.5rem 1rem;
