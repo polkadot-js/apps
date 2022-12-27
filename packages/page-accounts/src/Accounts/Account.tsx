@@ -586,6 +586,29 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
           <div className='absolute'>
+            {meta.genesisHash
+              ? <Badge color='transparent' />
+              : isDevelopment
+                ? (
+                  <Badge
+                    className='warning'
+                    hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                    icon='wrench'
+                  />
+                )
+                : (
+                  <Badge
+                    className='warning'
+                    hover={
+                      <div>
+                        <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                        <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                      </div>
+                    }
+                    icon='exclamation-triangle'
+                  />
+                )
+            }
             {recoveryInfo && (
               <Badge
                 className='recovery'
@@ -659,25 +682,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 hoverAction={t<string>('Manage proxies')}
                 icon='sitemap'
                 onClick={toggleProxyOverview}
-              />
-            )}
-            {isDevelopment && (
-              <Badge
-                className='warning'
-                hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
-                icon='wrench'
-              />
-            )}
-            {!meta.genesisHash && (
-              <Badge
-                className='warning'
-                hover={
-                  <div>
-                    <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                    <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
-                  </div>
-                }
-                icon='exclamation-triangle'
               />
             )}
           </div>
