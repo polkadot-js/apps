@@ -146,6 +146,15 @@ export default React.memo(styled(Table)`
     }
   }
 
+  tbody, thead {
+    position: relative;
+    width: 100%;
+
+    tr {
+      width: 100%;
+    }
+  }
+
   tbody {
     position: relative;
 
