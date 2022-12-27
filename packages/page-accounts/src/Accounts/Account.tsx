@@ -750,7 +750,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             </Columar.Column>
           </Columar>
         </td>
-        <td />
         <td className='balance top'>
           <AddressInfo
             address={address}

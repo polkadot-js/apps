@@ -59,7 +59,6 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
 }
 
 export default React.memo(styled(Head)`
-  position: relative;
   z-index: 1;
 
   th {
@@ -82,6 +81,13 @@ export default React.memo(styled(Head)`
         font-size: 1rem;
         margin-right: 0.5rem;
         vertical-align: middle;
+      }
+
+      .sub {
+        display: inline-block;
+        font-size: 1rem;
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
       }
     }
 
