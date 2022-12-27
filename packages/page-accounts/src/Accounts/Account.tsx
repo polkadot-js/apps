@@ -480,7 +480,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={_onFavorite}
           />
         </td>
-        <td className='address all'>
+        <td className='address all relative'>
           <AddressSmall
             parentAddress={meta.parentAddress}
             value={address}
@@ -585,9 +585,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               onClose={toggleUndelegate}
             />
           )}
-        </td>
-        <td className='number together'>
-          <div className='badges'>
+          <div className='absolute'>
             {meta.genesisHash
               ? <Badge color='transparent' />
               : isDevelopment
