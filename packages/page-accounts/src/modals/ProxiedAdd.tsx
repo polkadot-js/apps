@@ -48,7 +48,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [stashAddress, setStashAddress] = useState<string | null>(null);
-  const { hasOwned } = useProxies(stashAddress);
+  const proxyInfo = useProxies(stashAddress);
 
   const _createProxied = useCallback(
     (): void => {
@@ -68,7 +68,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
     []
   );
 
-  const isValid = isNameValid && !!stashAddress && hasOwned;
+  const isValid = isNameValid && !!stashAddress && proxyInfo && !proxyInfo.isEmpty;
 
   return (
     <Modal
@@ -82,10 +82,10 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
           <InputAddressSimple
             autoFocus
             help={t<string>('The address that you have a valid proxy setup for.')}
-            isError={!hasOwned}
+            isError={!proxyInfo || proxyInfo.isEmpty}
             label={t<string>('proxied account')}
             onChange={setStashAddress}
-            placeholder={t<string>('stash address')}
+            placeholder={t<string>('address being proxied')}
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
