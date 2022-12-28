@@ -39,6 +39,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    text: 'Bitgreen Testnet',
+    providers: {
+      Bitgreen: 'wss://standalonetestnet.bitgreen.org'
+    }
+  },
+  {
     info: 'nodle',
     text: 'Arcadia',
     providers: {
