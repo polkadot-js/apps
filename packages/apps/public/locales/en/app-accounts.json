@@ -274,6 +274,7 @@
   "accounts derived via development seeds": "accounts derived via development seeds",
   "accounts managed via hardware devices": "accounts managed via hardware devices",
   "added proxy": "added proxy",
+  "address being proxied": "address being proxied",
   "address index": "address index",
   "address {{index}}": "address {{index}}",
   "all locally stored accounts": "all locally stored accounts",
