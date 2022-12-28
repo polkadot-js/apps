@@ -39,13 +39,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'bitgreen',
-    text: 'Bitgreen Testnet',
-    providers: {
-      Bitgreen: 'wss://standalonetestnet.bitgreen.org'
-    }
-  },
-  {
     info: 'nodle',
     text: 'Arcadia',
     providers: {
@@ -100,6 +93,13 @@ export const testChains: EndpointOption[] = [
     text: 'Bit.Country - Metaverse Network',
     providers: {
       'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
+    }
+  },
+  {
+    info: 'bitgreen',
+    text: 'Bitgreen Testnet',
+    providers: {
+      Bitgreen: 'wss://standalonetestnet.bitgreen.org'
     }
   },
   {
