@@ -46,6 +46,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'bittensor',
+    text: 'Bittensor',
+    providers: {
+      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
+    }
+  },
+  {
     dnslink: 'centrifuge',
     info: 'centrifuge',
     text: 'Centrifuge Standalone [Archived]',
