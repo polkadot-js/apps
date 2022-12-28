@@ -41,7 +41,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${withCollapsibleRows ? 'withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -86,13 +86,13 @@ export default React.memo(styled(Table)`
     }
 
     &.isInline {
-      &.highlight--bg-faint,
-      &.highlight--bg-faint::before {
-        background: transparent;
-      }
+      // &.highlight--bg-faint,
+      // &.highlight--bg-faint::before {
+      //   background: transparent;
+      // }
 
       tbody tr {
-        background: transparent;
+        // background: transparent;
 
         td {
           border-top-width: 1px;
@@ -129,21 +129,21 @@ export default React.memo(styled(Table)`
       }
     }
 
-    &.withCollapsibleRows tbody tr {
-      background-color: unset;
+    // &.withCollapsibleRows tbody tr {
+    //   background-color: unset;
 
-      &:nth-child(4n - 2),
-      &:nth-child(4n - 3) {
-        background-color: var(--bg-table);
-      }
-    }
+    //   &:nth-child(4n - 2),
+    //   &:nth-child(4n - 3) {
+    //     background-color: var(--bg-table);
+    //   }
+    // }
 
-    &:not(.withCollapsibleRows) tbody tr {
-      &.isOdd,
-      &:nth-child(odd):not(.isEven) {
-        background: var(--bg-table);
-      }
-    }
+    // &:not(.withCollapsibleRows) tbody tr {
+    //   &.isOdd,
+    //   &:nth-child(odd):not(.isEven) {
+    //     background: var(--bg-table);
+    //   }
+    // }
   }
 
   tbody, thead {
@@ -159,7 +159,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 1px solid var(--border-table);
+      border-bottom: 0.125rem /* 1px */ solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -272,7 +272,7 @@ export default React.memo(styled(Table)`
         .absolute {
           position: absolute;
           right: 0;
-          top: 0.75rem;
+          top: 0.25rem;
           white-space: nowrap;
         }
       }
@@ -326,9 +326,11 @@ export default React.memo(styled(Table)`
     }
 
     tr {
+      background: var(--bg-table);
+
       &:first-child {
         td {
-          border-top: 0.25rem solid var(--bg-page);
+          border-top: 0.125rem solid var(--bg-page);
         }
 
         td:first-child {
@@ -342,7 +344,7 @@ export default React.memo(styled(Table)`
 
       &:last-child {
         td {
-          border-bottom: 1px solid var(--border-table);
+          border-bottom: /* 1px */ 0.125rem solid var(--border-table);
 
           &:first-child {
             border-bottom-left-radius: 0.25rem;
