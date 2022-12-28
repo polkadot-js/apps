@@ -75,52 +75,52 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address relative all'>
         <AddressSmall value={accountId} />
-      </td>
-      <td className='all'>
-        {isHead && (
-          <Tag
-            color='green'
-            label={t<string>('society head')}
-          />
-        )}
-        {isFounder && (
-          <Tag
-            color='green'
-            label={t<string>('founder')}
-          />
-        )}
-        {isSkeptic && (
-          <Tag
-            color='yellow'
-            label={t<string>('skeptic')}
-          />
-        )}
-        {(isCandidateVoter || isDefenderVoter) && (
-          <Tag
-            color='blue'
-            label={t<string>('voted')}
-          />
-        )}
-        {isWarned && (
-          <Tag
-            color='orange'
-            label={t<string>('strikes')}
-          />
-        )}
-        {isSuspended && (
-          <Tag
-            color='red'
-            label={t<string>('suspended')}
-          />
-        )}
-        {availablePayout && (
-          <Tag
-            color='grey'
-            label={t<string>('payout')}
-          />
-        )}
+        <div className='absolute'>
+          {(isCandidateVoter || isDefenderVoter) && (
+            <Tag
+              color='blue'
+              label={t<string>('voted')}
+            />
+          )}
+          {isWarned && (
+            <Tag
+              color='orange'
+              label={t<string>('strikes')}
+            />
+          )}
+          {isHead && (
+            <Tag
+              color='green'
+              label={t<string>('society head')}
+            />
+          )}
+          {isFounder && (
+            <Tag
+              color='green'
+              label={t<string>('founder')}
+            />
+          )}
+          {isSkeptic && (
+            <Tag
+              color='yellow'
+              label={t<string>('skeptic')}
+            />
+          )}
+          {isSuspended && (
+            <Tag
+              color='red'
+              label={t<string>('suspended')}
+            />
+          )}
+          {availablePayout && (
+            <Tag
+              color='grey'
+              label={t<string>('payout')}
+            />
+          )}
+        </div>
       </td>
       <td className='number together'>
         {!!payouts?.length && (

@@ -644,7 +644,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 icon='redo'
               />
             )}
-            {isProxied && !proxyInfo.hasOwned && (
+            {isProxied && proxyInfo?.isEmpty && (
               <Badge
                 className='important'
                 hover={t<string>('Proxied account has no owned proxies')}

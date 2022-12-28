@@ -23,7 +23,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('members'), 'start', 2],
+    [t('members'), 'start'],
     [hasElections ? t('backing') : undefined, 'expand'],
     [hasElections ? t('votes') : undefined]
   ]);
