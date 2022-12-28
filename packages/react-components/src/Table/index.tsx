@@ -266,6 +266,25 @@ export default React.memo(styled(Table)`
         text-align: right;
       }
 
+      &.actions {
+        width: 1%;
+
+        > div {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          justify-content: flex-end;
+
+          & > * + * {
+            margin-left: 0.35rem;
+          }
+
+          .ui--Button {
+            white-space: nowrap;
+          }
+        }
+      }
+
       &.relative {
         position: relative;
 

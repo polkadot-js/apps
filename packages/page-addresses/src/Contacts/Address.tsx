@@ -227,8 +227,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             withExtended={false}
           />
         </td>
-        <td className='fast-actions-addresses'>
-          <div className='fast-actions-row'>
+        <td className='actions'>
+          <div>
             {isFunction(api.api.tx.balances?.transfer) && (
               <Button
                 className='send-button'
@@ -305,29 +305,5 @@ export default React.memo(styled(Address)`
 
   .ui--Columar {
     margin: 0.5rem 0 1.5rem 0;
-  }
-
-  && td.button {
-    padding-bottom: 0.5rem;
-  }
-
-  .fast-actions-addresses {
-    padding-left: 0.2rem;
-    padding-right: 1rem;
-    width: 1%;
-
-    .fast-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      & > * + * {
-        margin-left: 0.35rem;
-      }
-
-      .send-button {
-        min-width: 6.5rem;
-      }
-    }
   }
 `);

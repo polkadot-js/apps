@@ -694,8 +694,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='fast-actions'>
-          <div className='fast-actions-row'>
+        <td className='actions'>
+          <div>
             {isFunction(api.api.tx.balances?.transfer) && (
               <Button
                 className='send-button'
@@ -785,29 +785,5 @@ export default React.memo(styled(Account)`
 
   .devBadge {
     opacity: 0.65;
-  }
-
-  && td.button {
-    padding-bottom: 0.5rem;
-  }
-
-  && td.fast-actions {
-    padding-left: 0.2rem;
-    padding-right: 1rem;
-    width: 1%;
-
-    .fast-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      & > * + * {
-        margin-left: 0.35rem;
-      }
-
-      .send-button {
-        min-width: 6.5rem;
-      }
-    }
   }
 `);
