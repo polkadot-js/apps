@@ -269,6 +269,7 @@ export const chainLogos = Object.entries({
   'Bifrost Polkadot': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
   Bitgreen: chainBitgreen,
+  'Bitgreen Testnet': chainBitgreen,
   BitgreenRococo: chainBitgreen,
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
