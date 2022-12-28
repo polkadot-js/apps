@@ -431,6 +431,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemint',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     }
@@ -455,6 +456,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Parity: 'wss://rpc.polkadot.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
