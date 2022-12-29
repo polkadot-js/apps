@@ -46,6 +46,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    text: 'Bitgreen',
+    providers: {
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+    }
+  },
+  {
     info: 'bittensor',
     text: 'Bittensor',
     providers: {
