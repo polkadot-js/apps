@@ -172,6 +172,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
         <td
           className='columar'
           colSpan={100}

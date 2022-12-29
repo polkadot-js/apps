@@ -83,6 +83,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
         <td
           className='columar'
           colSpan={100}

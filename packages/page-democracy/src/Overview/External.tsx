@@ -57,6 +57,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
         <td
           className='columar'
           colSpan={100}

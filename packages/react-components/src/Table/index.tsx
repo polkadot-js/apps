@@ -320,6 +320,7 @@ export default React.memo(styled(Table)`
 
         .ui--Columar .ui--Column {
           margin: 1rem 0 0.75rem 0;
+          padding: 0;
         }
       }
 
