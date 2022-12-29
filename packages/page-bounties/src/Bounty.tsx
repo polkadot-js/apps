@@ -99,6 +99,15 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             blocksUntilUpdate={blocksUntilUpdate}
             status={status}
           />
+          <BountyActions
+            bestNumber={bestNumber}
+            description={description}
+            fee={fee}
+            index={index}
+            proposals={proposals}
+            status={status}
+            value={value}
+          />
         </td>
         <td>
           <BountyInfos
@@ -109,15 +118,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td className='actions'>
           <div>
-            <BountyActions
-              bestNumber={bestNumber}
-              description={description}
-              fee={fee}
-              index={index}
-              proposals={proposals}
-              status={status}
-              value={value}
-            />
             <LinkExternal
               data={index}
               type='bounty'
