@@ -23,7 +23,9 @@ function Suspension ({ balance, bid, value }: Props): React.ReactElement<Props> 
       <td className='address all'>
         <AddressSmall value={value} />
       </td>
-      <BidType value={bid} />
+      <td className='start'>
+        <BidType value={bid} />
+      </td>
       <td className='number'>
         {balance && (
           <FormatBalance value={balance} />

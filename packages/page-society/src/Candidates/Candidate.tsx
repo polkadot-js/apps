@@ -42,7 +42,9 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <BidType value={kind} />
+      <td className='start'>
+        <BidType value={kind} />
+      </td>
       <td className='number'>
         <FormatBalance value={value} />
       </td>
