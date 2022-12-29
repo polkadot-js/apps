@@ -21,8 +21,6 @@ type ColumarType = React.ComponentType<Props> & {
   Column: React.ComponentType<ColumnProps>;
 };
 
-const MAX_WIDTH = '1025px';
-
 function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Column ${className}`}>
@@ -44,7 +42,7 @@ const ColumarStyled = React.memo(styled(Columar)`
     padding: 0 0.75rem;
   }
 
-  @media (min-width: ${MAX_WIDTH}) {
+  @media (min-width: 1025px) {
     display: flex;
     flex-wrap: wrap;
 
