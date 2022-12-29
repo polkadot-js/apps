@@ -24,8 +24,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
     [t('locked'), 'media--1200'],
-    [undefined, undefined, 2],
-    [undefined, 'media--1000']
+    [undefined, undefined, 2]
   ]);
 
   return (
@@ -33,6 +32,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
       className={className}
       empty={proposals && t<string>('No active proposals')}
       header={headerRef.current}
+      withCollapsibleRows
     >
       {proposals?.map((proposal): React.ReactNode => (
         <ProposalDisplay

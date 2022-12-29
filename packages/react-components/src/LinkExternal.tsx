@@ -16,11 +16,11 @@ interface Props {
   className?: string;
   data: BN | number | string;
   hash?: string;
-  isMain?: boolean;
   isText?: boolean;
   isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
+  withTitle?: boolean;
 }
 
 // function shortName (name: string): string {
@@ -61,7 +61,7 @@ function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }:
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isMain, isSidebar, isSmall, isText, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
@@ -69,17 +69,22 @@ function LinkExternal ({ className = '', data, hash, isMain, isSidebar, isSmall,
     [systemChain, data, hash, isSidebar, isText, type]
   );
 
-  if (!links.length) {
+  if (!links.length && !withTitle) {
     return null;
   }
 
   return (
-    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'}${isMain ? ' isMain' : ''}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
+    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'}${withTitle ? ' isMain' : ''}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
       {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
-      {isMain && (
+      {withTitle && (
         <h5>{t('external links')}</h5>
       )}
-      <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
+      <div className='links'>
+        {links.length
+          ? links.map((link, index) => <span key={index}>{link}</span>)
+          : <label>{t('none')}</label>
+        }
+      </div>
     </div>
   );
 }

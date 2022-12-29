@@ -722,22 +722,19 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
-        <td className='top tagInfo'>
+        <td className='columar'>
           <Columar isFull>
             <Columar.Column>
               <LinkExternal
                 data={address}
-                isMain
                 type='address'
+                withTitle
               />
             </Columar.Column>
           </Columar>
           <Columar>
             <Columar.Column>
-              <div
-                className='tags'
-                data-testid='tags'
-              >
+              <div data-testid='tags'>
                 <Tags
                   value={tags}
                   withTitle
@@ -766,23 +763,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 }
 
 export default React.memo(styled(Account)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
-  .ui--Columar {
-    margin: 0.5rem 0 1.5rem 0;
-  }
-
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-
   .devBadge {
     opacity: 0.65;
   }

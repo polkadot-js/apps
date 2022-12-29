@@ -6,7 +6,7 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
@@ -251,22 +251,19 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
-        <td className='top'>
+        <td className='columar'>
           <Columar isFull>
             <Columar.Column>
               <LinkExternal
                 data={address}
-                isMain
                 type='address'
+                withTitle
               />
             </Columar.Column>
           </Columar>
           <Columar>
             <Columar.Column>
-              <div
-                className='tags'
-                data-testid='tags'
-              >
+              <div data-testid='tags'>
                 <Tags
                   value={tags}
                   withTitle
@@ -289,21 +286,4 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 }
 
-export default React.memo(styled(Address)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-
-  .ui--Columar {
-    margin: 0.5rem 0 1.5rem 0;
-  }
-`);
+export default React.memo(Address);

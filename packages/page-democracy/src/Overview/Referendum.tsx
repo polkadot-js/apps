@@ -7,8 +7,8 @@ import type { Balance } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, Icon, LinkExternal, Progress } from '@polkadot/react-components';
-import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress } from '@polkadot/react-components';
+import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
@@ -44,6 +44,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const bestNumber = useBestNumber();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
@@ -89,88 +90,104 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const remainBlock = status.end.sub(bestNumber).isub(BN_ONE);
 
   return (
-    <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell
-        imageHash={imageHash}
-        proposal={image?.proposal}
-      />
-      <td className='number together media--1200'>
-        <BlockToTime value={remainBlock} />
-        {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
-      </td>
-      <td className='number together media--1400'>
-        <BlockToTime value={enactBlock.sub(bestNumber)} />
-        #{formatNumber(enactBlock)}
-      </td>
-      <td className='number together media--1400'>
-        {percentages && (
-          <>
-            <div>{percentages.turnout}</div>
-          </>
-        )}
-      </td>
-      <td className='badge'>
-        {isBoolean(isPassing) && (
-          <Badge
-            color={isPassing ? 'green' : 'red'}
-            hover={
-              isPassing
-                ? t<string>('{{threshold}}, passing', { replace: { threshold } })
-                : t<string>('{{threshold}}, not passing', { replace: { threshold } })
-            }
-            icon={isPassing ? 'check' : 'times'}
-          />
-        )}
-      </td>
-      <td className='expand'>
-        <ReferendumVotes
-          change={changeAye}
-          count={voteCountAye}
-          isAye
-          isWinning={isPassing}
-          total={votedAye}
-          votes={allAye}
+    <>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+        <td className='number'><h1>{formatNumber(index)}</h1></td>
+        <ProposalCell
+          imageHash={imageHash}
+          proposal={image?.proposal}
         />
-        <ReferendumVotes
-          change={changeNay}
-          count={voteCountNay}
-          isAye={false}
-          isWinning={!isPassing}
-          total={votedNay}
-          votes={allNay}
-        />
-      </td>
-      <td className='media--1000 middle chart'>
-        <Progress
-          total={totalCalculated}
-          value={votedAye}
-        />
-      </td>
-      <td className='button'>
-        <Button.Group>
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
+        <td className='number together media--1200'>
+          <BlockToTime value={remainBlock} />
+          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
+        </td>
+        <td className='number together media--1400'>
+          <BlockToTime value={enactBlock.sub(bestNumber)} />
+          #{formatNumber(enactBlock)}
+        </td>
+        <td className='number together media--1400'>
+          {percentages && (
+            <>
+              <div>{percentages.turnout}</div>
+            </>
           )}
-          <Voting
-            proposal={image?.proposal}
-            referendumId={index}
+        </td>
+        <td className='badge'>
+          {isBoolean(isPassing) && (
+            <Badge
+              color={isPassing ? 'green' : 'red'}
+              hover={
+                isPassing
+                  ? t<string>('{{threshold}}, passing', { replace: { threshold } })
+                  : t<string>('{{threshold}}, not passing', { replace: { threshold } })
+              }
+              icon={isPassing ? 'check' : 'times'}
+            />
+          )}
+        </td>
+        <td className='expand'>
+          <ReferendumVotes
+            change={changeAye}
+            count={voteCountAye}
+            isAye
+            isWinning={isPassing}
+            total={votedAye}
+            votes={allAye}
           />
-        </Button.Group>
-      </td>
-      <td className='badge'>
-        <Icon
-          color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
-          icon='asterisk'
-        />
-      </td>
-      <td className='links media--1000'>
-        <LinkExternal
-          data={index}
-          type='referendum'
-        />
-      </td>
-    </tr>
+          <ReferendumVotes
+            change={changeNay}
+            count={voteCountNay}
+            isAye={false}
+            isWinning={!isPassing}
+            total={votedNay}
+            votes={allNay}
+          />
+        </td>
+        <td className='media--1000 middle chart'>
+          <Progress
+            total={totalCalculated}
+            value={votedAye}
+          />
+        </td>
+        <td className='badge'>
+          <Icon
+            color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
+            icon='asterisk'
+          />
+        </td>
+        <td className='actions'>
+          <Button.Group>
+            {!image?.proposal && (
+              <PreImageButton imageHash={imageHash} />
+            )}
+            <Voting
+              proposal={image?.proposal}
+              referendumId={index}
+            />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
+            />
+          </Button.Group>
+        </td>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td
+          className='columar'
+          colSpan={100}
+        >
+          <Columar isFull>
+            <Columar.Column>
+              <LinkExternal
+                data={index}
+                type='referendum'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+      </tr>
+    </>
   );
 }
 
