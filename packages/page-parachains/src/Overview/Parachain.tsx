@@ -150,12 +150,12 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number no-pad-left media--800'>
+      <td className='number no-pad-left media--900'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
-      <td className='number no-pad-left media--900'>
+      <td className='number no-pad-left media--1600'>
         {lastTimeout &&
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
@@ -163,13 +163,13 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
       <td className='number no-pad-left'>
         <ParachainInfo id={id} />
       </td>
-      <td className='number media--1200'>
+      <td className='number media--1700'>
         {formatNumber(paraInfo.qHrmpI)}
       </td>
-      <td className='number no-pad-left media--1200'>
+      <td className='number no-pad-left media--1700'>
         {formatNumber(paraInfo.qHrmpE)}
       </td>
-      <td className='number together media--1000'>
+      <td className='number together media--1100'>
         <Periods
           leasePeriod={leasePeriod}
           periods={paraInfo.leases}
