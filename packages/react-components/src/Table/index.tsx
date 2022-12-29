@@ -291,7 +291,7 @@ export default React.memo(styled(Table)`
         .absolute {
           position: absolute;
           right: 0;
-          top: 0.25rem;
+          top: 0.75rem;
           white-space: nowrap;
         }
       }
