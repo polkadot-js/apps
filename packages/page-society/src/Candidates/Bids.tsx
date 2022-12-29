@@ -22,10 +22,9 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('bids'), 'start'],
-    [t('bid kind'), 'start', 2],
+    [t('bid kind'), 'start'],
     [t('value')],
-    [t('tip')],
-    []
+    [t('tip')]
   ]);
 
   return (
