@@ -444,6 +444,15 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     }
+  },
+  {
+    info: 'zero',
+    homepage: 'https://zero.io',
+    paraId: 2236,
+    text: 'subzero',
+    providers: {
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io',
+    }
   }
 ];
 
