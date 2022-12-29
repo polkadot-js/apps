@@ -56,7 +56,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
     [bestNumber, payouts]
   );
 
-  const isMember = useMemo(
+  const isOwner = useMemo(
     () => allAccounts.some((a) => a === key),
     [allAccounts, key]
   );
@@ -130,21 +130,20 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
             summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
           />
         )}
-      </td>
-      <td className='together'>{votedOn}</td>
-      <td className='number'>{formatNumber(strikes)}</td>
-      <td className='button start'>
-        <DesignKusama accountId={accountId} />
-        {availablePayout && (
+        {isOwner && availablePayout && (
           <TxButton
             accountId={accountId}
             icon='ellipsis-h'
-            isDisabled={!isMember}
             label='Payout'
             params={[]}
             tx={api.tx.society.payout}
           />
         )}
+      </td>
+      <td className='together'>{votedOn}</td>
+      <td className='number'>{formatNumber(strikes)}</td>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
       </td>
     </tr>
   );
