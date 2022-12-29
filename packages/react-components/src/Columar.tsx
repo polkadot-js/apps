@@ -38,45 +38,39 @@ function Columar ({ children, className = '', is60, isFull, isPadded = true }: P
 }
 
 const ColumarStyled = React.memo(styled(Columar)`
-  display: flex;
-  flex-wrap: wrap;
+  &.isPadded .ui--Column {
+    padding: 0 0.75rem;
+  }
 
-  &.is50 {
-    .ui--Column {
-      @media (min-width: 1025px) {
+  @media (min-width: 1025px) {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.is50 {
+      .ui--Column {
         max-width: 50%;
         min-width: 50%;
       }
     }
-  }
 
-  &.is60 {
-    .ui--Column:first-child {
-      @media (min-width: 1025px) {
+    &.is60 {
+      .ui--Column:first-child {
         max-width: 60%;
         min-width: 60%;
       }
-    }
 
-    .ui--Column:last-child {
-      @media (min-width: 1025px) {
+      .ui--Column:last-child {
         max-width: 40%;
         min-width: 40%;
       }
     }
-  }
 
-  &.Full {
-    .ui--Column {
-      @media (min-width: 1025px) {
+    &.Full {
+      .ui--Column {
         max-width: 100%;
         min-width: 100%;
       }
     }
-  }
-
-  &.isPadded .ui--Column {
-    padding: 0 0.75rem;
   }
 `) as unknown as ColumarType;
 
@@ -85,6 +79,7 @@ ColumarStyled.Column = React.memo(styled(Column)`
   max-width: 100%;
   flex: 1 1;
   margin: 0;
+  width: 100%;
 
   &:first-child {
     padding-left: 0;
@@ -92,11 +87,6 @@ ColumarStyled.Column = React.memo(styled(Column)`
 
   &:last-child {
     padding-right: 0;
-  }
-
-  @media (min-width: 1025px) {
-    max-width: 50%;
-    min-width: 50%;
   }
 `);
 
