@@ -40,47 +40,39 @@ function Columar ({ children, className = '', is60, isFull, isPadded = true }: P
 }
 
 const ColumarStyled = React.memo(styled(Columar)`
+  &.isPadded .ui--Column {
+    padding: 0 0.75rem;
+  }
+
   @media (min-width: ${MAX_WIDTH}) {
     display: flex;
     flex-wrap: wrap;
-  }
 
-  &.is50 {
-    .ui--Column {
-      @media (min-width: ${MAX_WIDTH}) {
+    &.is50 {
+      .ui--Column {
         max-width: 50%;
         min-width: 50%;
       }
     }
-  }
 
-  &.is60 {
-    .ui--Column:first-child {
-      @media (min-width: ${MAX_WIDTH}) {
+    &.is60 {
+      .ui--Column:first-child {
         max-width: 60%;
         min-width: 60%;
       }
-    }
 
-    .ui--Column:last-child {
-      @media (min-width: ${MAX_WIDTH}) {
+      .ui--Column:last-child {
         max-width: 40%;
         min-width: 40%;
       }
     }
-  }
 
-  &.Full {
-    .ui--Column {
-      @media (min-width: ${MAX_WIDTH}) {
+    &.Full {
+      .ui--Column {
         max-width: 100%;
         min-width: 100%;
       }
     }
-  }
-
-  &.isPadded .ui--Column {
-    padding: 0 0.75rem;
   }
 `) as unknown as ColumarType;
 
@@ -97,11 +89,6 @@ ColumarStyled.Column = React.memo(styled(Column)`
 
   &:last-child {
     padding-right: 0;
-  }
-
-  @media (min-width: ${MAX_WIDTH}) {
-    max-width: 50%;
-    min-width: 50%;
   }
 `);
 
