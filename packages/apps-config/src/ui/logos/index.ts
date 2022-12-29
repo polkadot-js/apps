@@ -752,6 +752,7 @@ export const namedLogos: Record<string, unknown> = {
   calamari: nodeCalamari,
   centrifuge: nodeCentrifuge,
   cess: nodeCESS,
+  'cess-testnet': nodeCESS,
   chainoli: nodeChainOLI,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
