@@ -147,18 +147,9 @@ export default React.memo(styled(Table)`
     }
 
     &.isInline {
-      // &.highlight--bg-faint,
-      // &.highlight--bg-faint::before {
-      //   background: transparent;
-      // }
-
-      tbody tr {
-        // background: transparent;
-
-        td {
-          border-top-width: 1px;
-          padding: 0.25rem 0.75rem;
-        }
+      tbody tr td {
+        border-top-width: 1px;
+        padding: 0.25rem 0.75rem;
       }
     }
 
@@ -189,22 +180,6 @@ export default React.memo(styled(Table)`
         }
       }
     }
-
-    // &.withCollapsibleRows tbody tr {
-    //   background-color: unset;
-
-    //   &:nth-child(4n - 2),
-    //   &:nth-child(4n - 3) {
-    //     background-color: var(--bg-table);
-    //   }
-    // }
-
-    // &:not(.withCollapsibleRows) tbody tr {
-    //   &.isOdd,
-    //   &:nth-child(odd):not(.isEven) {
-    //     background: var(--bg-table);
-    //   }
-    // }
   }
 
   tbody, thead {
@@ -220,7 +195,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 0.125rem /* 1px */ solid var(--border-table);
+      border-bottom: 0.125rem solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -433,7 +408,7 @@ export default React.memo(styled(Table)`
 
       &:last-child {
         td {
-          border-bottom: /* 1px */ 0.125rem solid var(--border-table);
+          border-bottom: 0.125rem solid var(--border-table);
 
           &:first-child {
             border-bottom-left-radius: 0.25rem;
