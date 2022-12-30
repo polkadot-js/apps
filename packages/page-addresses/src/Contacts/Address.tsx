@@ -251,22 +251,19 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
-        <td className='top'>
+        <td className='columar'>
           <Columar isFull>
             <Columar.Column>
               <LinkExternal
                 data={address}
-                isMain
                 type='address'
+                withTitle
               />
             </Columar.Column>
           </Columar>
           <Columar>
             <Columar.Column>
-              <div
-                className='tags'
-                data-testid='tags'
-              >
+              <div data-testid='tags'>
                 <Tags
                   value={tags}
                   withTitle
@@ -289,21 +286,5 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 }
 
-export default React.memo(styled(Address)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-
-  .ui--Columar {
-    margin: 0.5rem 0 1.5rem 0;
-  }
-`);
+// FIXME: This is weird, if we remove the styled wrapper we have test failures...
+export default React.memo(styled(Address)``);

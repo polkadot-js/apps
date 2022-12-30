@@ -7,7 +7,7 @@ import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/t
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -118,10 +118,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td className='actions'>
           <div>
-            <LinkExternal
-              data={index}
-              type='bounty'
-            />
             <BountyExtraActions
               bestNumber={bestNumber}
               description={description}
@@ -137,33 +133,46 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        <td colSpan={2}>
-          <div className='label-column-left'>
-            <div className='label'>{t('Proposer')}</div>
-            <AddressSmall value={proposer} />
-          </div>
-        </td>
-        <td colSpan={2}>
-          <div className='label-column-right'>
-            <div className='label'>{t('Bond')}</div>
-            <div className='inline-balance'><FormatBalance value={bond} /></div>
-          </div>
-          {curator && (
-            <div className='label-column-right'>
-              <div className='label'>{t("Curator's fee")}</div>
-              <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
-            </div>
-          )}
-          <div className='label-column-right'>
-            {curator && !curatorDeposit.isZero() && (
-              <>
-                <div className='label'>{t("Curator's deposit")}</div>
-                <div className='inline-balance'>
-                  <FormatBalance value={curatorDeposit} />
+        <td />
+        <td
+          className='columar'
+          colSpan={3}
+        >
+          <Columar>
+            <Columar.Column>
+              <LinkExternal
+                data={index}
+                type='bounty'
+                withTitle
+              />
+            </Columar.Column>
+            <Columar.Column>
+              <div className='column'>
+                <h5>{t('Proposer')}</h5>
+                <AddressSmall value={proposer} />
+              </div>
+              <div className='column'>
+                <h5>{t('Bond')}</h5>
+                <div className='inline-balance'><FormatBalance value={bond} /></div>
+              </div>
+              {curator && (
+                <div className='column'>
+                  <h5>{t("Curator's fee")}</h5>
+                  <div className='inline-balance'>{<FormatBalance value={fee} />}</div>
                 </div>
-              </>
-            )}
-          </div>
+              )}
+              <div className='column'>
+                {curator && !curatorDeposit.isZero() && (
+                  <>
+                    <h5>{t("Curator's deposit")}</h5>
+                    <div className='inline-balance'>
+                      <FormatBalance value={curatorDeposit} />
+                    </div>
+                  </>
+                )}
+              </div>
+            </Columar.Column>
+          </Columar>
         </td>
         <td />
         <td />
@@ -210,29 +219,16 @@ export default React.memo(styled(Bounty)`
     line-height: normal;
   }
 
-  .label {
-    text-align: right;
-    padding: 0 1.7rem 0 0;
-    line-height: normal;
-    color: var(--color-label);
-    text-transform: lowercase;
-  }
-
-  .label-column-right, .label-column-left{
-   display: flex;
+  .column {
     align-items: center;
+    display: flex;
+    padding: 0 0 0.5rem;
 
-    .label {
+    h5 {
+      text-align: right;
+      padding: 0 1.7rem 0 0;
       width: 50%;
     }
-  }
-
-  .label-column-right {
-    padding: 0 0 0.5rem;
-  }
-
-  .label-column-left {
-    padding: 0 0 0.5rem;
   }
 
   & .td-info-action-row {

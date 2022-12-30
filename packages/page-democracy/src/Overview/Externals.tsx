@@ -24,8 +24,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
     [t('external'), 'start'],
     [t('proposer'), 'address'],
     [t('locked')],
-    [],
-    [undefined, 'media--1000']
+    []
   ]);
 
   return (
@@ -33,6 +32,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
       className={className}
       empty={external === null && t<string>('No external proposal')}
       header={headerRef.current}
+      withCollapsibleRows
     >
       {external && <External value={external} />}
     </Table>

@@ -143,11 +143,11 @@ describe('Accounts page', () => {
       await accountRows[0].assertShortAddress(aliceShortAddress);
     });
 
-    it('when account is not tagged, account row details displays no tags info', async () => {
+    it('when account is not tagged, account row details displays none info', async () => {
       accountsPage.renderDefaultAccounts(1);
       const rows = await accountsPage.getAccountRows();
 
-      await rows[0].assertTags('no tags');
+      await rows[0].assertTags('none');
     });
 
     it('when account is tagged, account row details displays tags', async () => {

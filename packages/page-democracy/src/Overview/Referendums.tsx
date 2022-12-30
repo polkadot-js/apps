@@ -26,8 +26,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
     [undefined, 'badge'],
     [t('votes'), 'expand'],
     [t<string>('support'), 'media--1000'],
-    [undefined, undefined, 2],
-    [undefined, 'media--1000']
+    [undefined, undefined, 2]
   ]);
 
   return (
@@ -35,6 +34,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
       className={className}
       empty={referendums && t<string>('No active referendums')}
       header={headerRef.current}
+      withCollapsibleRows
     >
       {referendums?.map((referendum): React.ReactNode => (
         <Referendum

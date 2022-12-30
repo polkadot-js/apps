@@ -62,15 +62,15 @@ function Bounties ({ className }: Props): React.ReactElement {
 export default React.memo(styled(Bounties)`
   .bounties-table-wrapper table {
     tr {
-      td,
-      &:not(.filter) th {
+      td, &:not(.filter) th {
         &:last-child {
           padding-right: 1.14rem;
         }
       }
     }
   }
-.ui--IdentityIcon {
+
+  .ui--IdentityIcon {
     margin-right: 0.42rem;
   }
 
