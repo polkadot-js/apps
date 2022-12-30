@@ -60,6 +60,7 @@ describe('Addresses page', () => {
   describe('when some contacts exist', () => {
     it('the contacts table contains some contact rows', async () => {
       addressesPage.renderDefaultContacts(2);
+
       const rows = await addressesPage.getAddressesRows();
 
       expect(rows).toHaveLength(2);
@@ -97,7 +98,7 @@ describe('Addresses page', () => {
       addressesPage.renderDefaultContacts(1);
       const rows = await addressesPage.getAddressesRows();
 
-      await rows[0].assertTags('no tags');
+      await rows[0].assertTags('none');
     });
 
     it('when a contact is tagged, the details row displays tags', async () => {

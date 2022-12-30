@@ -6,7 +6,7 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
@@ -286,4 +286,5 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 }
 
-export default React.memo(Address);
+// FIXME: This is weird, if we remove the styled wrapper we have test failures...
+export default React.memo(styled(Address)``);
