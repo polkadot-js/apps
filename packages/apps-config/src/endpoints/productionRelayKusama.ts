@@ -398,6 +398,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'zero',
+    homepage: 'https://zero.io',
+    paraId: 2236,
+    text: 'subzero',
+    providers: {
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
+    }
+  },  
+  {
     info: 'tanganika',
     homepage: 'https://www.datahighway.com/',
     paraId: 2116,
@@ -443,15 +452,6 @@ export const prodParasKusama: EndpointOption[] = [
       ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm',
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'zero',
-    homepage: 'https://zero.io',
-    paraId: 2236,
-    text: 'subzero',
-    providers: {
-      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     }
   }
 ];
