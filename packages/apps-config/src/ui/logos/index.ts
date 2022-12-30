@@ -44,7 +44,7 @@ import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
-import chainKusama from './chains/kusama-128.gif';
+import chainKusama from './chains/kusama.svg';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainLuhn from './chains/luhn.png';
