@@ -451,7 +451,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2236,
     text: 'subzero',
     providers: {
-      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io',
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     }
   }
 ];
