@@ -42,7 +42,6 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={sorted && t<string>('No open bounties')}
         header={headerRef.current}
-        withCollapsibleRows
       >
         {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty

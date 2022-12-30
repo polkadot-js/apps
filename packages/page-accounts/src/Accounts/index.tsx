@@ -349,7 +349,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <Table
             empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
             header={header.accounts}
-            withCollapsibleRows
           />
         )
         : GROUP_ORDER.map((key) =>
@@ -359,7 +358,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
                 empty={t<string>('No accounts')}
                 header={header[key]}
                 key={key}
-                withCollapsibleRows
               >
                 {grouped[key].map((a) => accountComponents[a])}
               </Table>

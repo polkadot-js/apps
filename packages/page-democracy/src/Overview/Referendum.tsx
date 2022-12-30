@@ -177,7 +177,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           className='columar'
           colSpan={100}
         >
-          <Columar isFull>
+          <Columar is100>
             <Columar.Column>
               <LinkExternal
                 data={index}

@@ -88,7 +88,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
           className='columar'
           colSpan={100}
         >
-          <Columar isFull>
+          <Columar is100>
             <Columar.Column>
               <LinkExternal
                 data={index}

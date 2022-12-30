@@ -73,7 +73,6 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       header={header}
       headerChildren={headerChildren}
       key={key}
-      withCollapsibleRows
     >
       {referenda && referenda.map((r) => (
         <Referendum

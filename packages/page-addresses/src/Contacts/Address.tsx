@@ -252,7 +252,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
         <td className='columar'>
-          <Columar isFull>
+          <Columar is100>
             <Columar.Column>
               <LinkExternal
                 data={address}

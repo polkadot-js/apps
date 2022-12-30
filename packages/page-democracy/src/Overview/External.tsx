@@ -61,7 +61,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
           className='columar'
           colSpan={100}
         >
-          <Columar isFull>
+          <Columar is100>
             <Columar.Column>
               <LinkExternal
                 data={imageHash}

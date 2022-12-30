@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import Columar from '../Columar';
 import Body from './Body';
 import Foot from './Foot';
 import Head from './Head';
@@ -19,12 +20,12 @@ interface TableProps {
   headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
+  isSplit?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
-  withCollapsibleRows: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode] {
+function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
   if (!Array.isArray(children)) {
     return [!children, children];
   }
@@ -35,32 +36,77 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
+  const splitBody = useMemo(
+    (): [React.ReactNode[], React.ReactNode[]] | null => {
+      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
+        return null;
+      }
+
+      const half = Math.ceil(bodyChildren.length / 2);
+
+      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
+    },
+    [bodyChildren, isEmpty, isSplit]
+  );
+
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`;
+  const headerNode = (
+    <Head
+      filter={filter}
+      header={header}
+      isEmpty={isEmpty}
+    >
+      {headerChildren}
+    </Head>
+  );
+
   return (
-    <div className={`ui--Table ${className}`}>
+    <div className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${withCollapsibleRows ? 'withCollapsibleRows' : ''}`}>
-        <Head
-          filter={filter}
-          header={header}
-          isEmpty={isEmpty}
-        >
-          {headerChildren}
-        </Head>
-        <Body
-          empty={empty}
-          emptySpinner={emptySpinner}
-          noBodyTag={noBodyTag}
-        >
-          {bodyChildren}
-        </Body>
-        <Foot
-          footer={footer}
-          isEmpty={isEmpty}
-        />
-      </table>
+      {splitBody
+        ? (
+          <>
+            <table className={tableClassName}>
+              {headerNode}
+            </table>
+            <Columar isPadded={false}>
+              <Columar.Column>
+                <table className={tableClassName}>
+                  <Body>
+                    {splitBody[0]}
+                  </Body>
+                </table>
+              </Columar.Column>
+              <Columar.Column>
+                <table className={tableClassName}>
+                  <Body>
+                    {splitBody[1]}
+                  </Body>
+                </table>
+              </Columar.Column>
+            </Columar>
+          </>
+        )
+        : (
+          <table className={tableClassName}>
+            {headerNode}
+            <Body
+              empty={empty}
+              emptySpinner={emptySpinner}
+              noBodyTag={noBodyTag}
+            >
+              {bodyChildren}
+            </Body>
+            <Foot
+              footer={footer}
+              isEmpty={isEmpty}
+            />
+          </table>
+        )
+      }
     </div>
   );
 }
@@ -68,6 +114,21 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 export default React.memo(styled(Table)`
   max-width: 100%;
   width: 100%;
+
+  &.isSplit {
+    > table:first-child {
+      margin-bottom: 0;
+    }
+
+    > .ui--Columar {
+      margin-bottom: 1.5rem;
+
+      > .ui--Column > table {
+        // border width
+        margin-bottom: -0.125rem;
+      }
+    }
+  }
 
   table {
     border-spacing: 0;
