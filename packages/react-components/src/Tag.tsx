@@ -21,15 +21,13 @@ let tagId = 0;
 function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }: Props): React.ReactElement<Props> {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
-  const tooltipProps = hover
-    ? { 'data-for': trigger, 'data-tip': true }
-    : {};
 
   return (
     <div
       className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
       color={color || 'grey'}
-      {...tooltipProps}
+      data-for={hover && trigger}
+      data-tip={!!hover}
     >
       {label}
       {hover && (
@@ -59,6 +57,10 @@ export default React.memo(styled(Tag)`
     font-size: .71428571rem;
   }
 
+  &.blackColor {
+    background: #000;
+  }
+
   &.blueColor {
     background: #2185d0;
   }
@@ -77,6 +79,10 @@ export default React.memo(styled(Tag)`
 
   &.pinkColor {
     background: #e03997;
+  }
+
+  &.purpleColor {
+    background: #a45ee5;
   }
 
   &.redColor {

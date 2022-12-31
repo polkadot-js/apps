@@ -326,7 +326,7 @@ export default React.memo(styled(Table)`
 
         .absolute {
           position: absolute;
-          right: 0;
+          right: 0.5rem;
           top: 0.75rem;
           white-space: nowrap;
         }
@@ -397,26 +397,26 @@ export default React.memo(styled(Table)`
           border-top: 0.125rem solid var(--bg-page);
         }
 
-        td:first-child {
-          border-top-left-radius: 0.25rem;
-        }
+        // td:first-child {
+        //   border-top-left-radius: 0.25rem;
+        // }
 
-        td:last-child {
-          border-top-right-radius: 0.25rem;
-        }
+        // td:last-child {
+        //   border-top-right-radius: 0.25rem;
+        // }
       }
 
       &:last-child {
         td {
           border-bottom: 0.125rem solid var(--border-table);
 
-          &:first-child {
-            border-bottom-left-radius: 0.25rem;
-          }
+          // &:first-child {
+          //   border-bottom-left-radius: 0.25rem;
+          // }
 
-          :last-child {
-            border-bottom-right-radius: 0.25rem;
-          }
+          // &:last-child {
+          //   border-bottom-right-radius: 0.25rem;
+          // }
         }
       }
 

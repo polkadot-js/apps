@@ -80,7 +80,7 @@ export interface ThemeProps {
   theme: ThemeDef;
 }
 
-export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
+export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'orange' | 'pink' | 'purple' | 'red' | 'yellow' | 'theme';
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
