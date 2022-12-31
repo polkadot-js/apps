@@ -21,20 +21,18 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
   const info = usePreimage(value);
 
   return (
-    <tr className={ className }>
+    <tr className={className}>
       <Hash value={value} />
       <Call value={info} />
-      <td className='number'>
+      <td className='number media--1000'>
         {info?.bytes && formatNumber(info.bytes.length)}
       </td>
-      <td className='number'>
-        {info?.status?.type}
+      <td className='preimage-status together media--1200'>
+        <div>{info?.status?.type}</div>
+        {info && <Free value={info} />}
       </td>
       <td className='number media--1400'>
         {info && info.count !== 0 && formatNumber(info.count)}
-      </td>
-      <td className='button'>
-        {info && <Free value={info} />}
       </td>
     </tr>
   );
