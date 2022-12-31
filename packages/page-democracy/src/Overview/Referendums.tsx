@@ -34,7 +34,6 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
       className={className}
       empty={referendums && t<string>('No active referendums')}
       header={headerRef.current}
-      withCollapsibleRows
     >
       {referendums?.map((referendum): React.ReactNode => (
         <Referendum

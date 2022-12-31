@@ -32,7 +32,6 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
       className={className}
       empty={proposals && t<string>('No active proposals')}
       header={headerRef.current}
-      withCollapsibleRows
     >
       {proposals?.map((proposal): React.ReactNode => (
         <ProposalDisplay

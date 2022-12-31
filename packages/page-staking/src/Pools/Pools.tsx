@@ -78,7 +78,6 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
         empty={membersMap && filtered && t<string>('No available nomination pools')}
         emptySpinner={t<string>('Retrieving nomination pools')}
         header={header}
-        withCollapsibleRows
       >
         {membersMap && filtered && filtered.map((poolId) => (
           <Pool

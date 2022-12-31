@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   is60?: boolean;
-  isFull?: boolean;
+  is100?: boolean;
   isPadded?: boolean;
 }
 
@@ -29,17 +29,33 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, isFull, isPadded = true }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, is100, isPadded = true }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${isFull ? 'isFull' : is60 ? 'is60' : 'is50'} ${isPadded ? 'isPadded' : ''} ${className}`}>
+    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${className}`}>
       {children}
     </div>
   );
 }
 
 const ColumarStyled = React.memo(styled(Columar)`
-  &.isPadded .ui--Column {
+  &.isPadded > .ui--Column {
     padding: 0 0.75rem;
+  }
+
+  > .ui--Column {
+    box-sizing: border-box;
+    max-width: 100%;
+    flex: 1 1;
+    margin: 0;
+    width: 100%;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
   @media (min-width: 1025px) {
@@ -47,26 +63,26 @@ const ColumarStyled = React.memo(styled(Columar)`
     flex-wrap: wrap;
 
     &.is50 {
-      .ui--Column {
+      > .ui--Column {
         max-width: 50%;
         min-width: 50%;
       }
     }
 
     &.is60 {
-      .ui--Column:first-child {
+      > .ui--Column:first-child {
         max-width: 60%;
         min-width: 60%;
       }
 
-      .ui--Column:last-child {
+      > .ui--Column:last-child {
         max-width: 40%;
         min-width: 40%;
       }
     }
 
-    &.Full {
-      .ui--Column {
+    &.is100 {
+      > .ui--Column {
         max-width: 100%;
         min-width: 100%;
       }
@@ -74,20 +90,6 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 `) as unknown as ColumarType;
 
-ColumarStyled.Column = React.memo(styled(Column)`
-  box-sizing: border-box;
-  max-width: 100%;
-  flex: 1 1;
-  margin: 0;
-  width: 100%;
-
-  &:first-child {
-    padding-left: 0;
-  }
-
-  &:last-child {
-    padding-right: 0;
-  }
-`);
+ColumarStyled.Column = Column;
 
 export default ColumarStyled;

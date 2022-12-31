@@ -32,7 +32,6 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
       className={className}
       empty={external === null && t<string>('No external proposal')}
       header={headerRef.current}
-      withCollapsibleRows
     >
       {external && <External value={external} />}
     </Table>
