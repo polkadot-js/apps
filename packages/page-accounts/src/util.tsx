@@ -12,7 +12,7 @@ import React from 'react';
 
 import { getEnvironment } from '@polkadot/react-api/util';
 import { InputAddress, Menu } from '@polkadot/react-components';
-import { getAccountCryptoType, getAddressMeta } from '@polkadot/react-components/util';
+import { getAddressMeta } from '@polkadot/react-components/util';
 import { BN_ZERO } from '@polkadot/util';
 
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[], header?: string): React.ReactNode | null {
@@ -68,7 +68,7 @@ export function tryCreateAccount (commitAccount: () => CreateResult, success: st
   return status;
 }
 
-export const sortCategory = ['parent', 'name', 'date', 'balances', 'type'] as const;
+export const sortCategory = ['parent', 'name', 'date', 'balances'] as const;
 export type SortCategory = typeof sortCategory[number];
 
 const comparator = (accounts: Record<string, SortedAccount | undefined>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean) => {
@@ -103,9 +103,6 @@ const comparator = (accounts: Record<string, SortedAccount | undefined>, balance
 
     case 'balances':
       return make((acc) => balances[acc.address]?.total ?? BN_ZERO, (a, b) => a.cmp(b));
-
-    case 'type':
-      return make((acc) => getAccountCryptoType(acc.address), (a, b) => a.localeCompare(b));
   }
 };
 
