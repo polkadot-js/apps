@@ -10,6 +10,8 @@ interface Props {
   is60?: boolean;
   is100?: boolean;
   isPadded?: boolean;
+  isReverse?: boolean;
+  size?: 'default' | 'small' | 'tiny';
 }
 
 interface ColumnProps {
@@ -21,6 +23,41 @@ type ColumarType = React.ComponentType<Props> & {
   Column: React.ComponentType<ColumnProps>;
 };
 
+const MIN_WIDTH_DEFAULT = '1025px';
+const MIN_WIDTH_SMALL = '750px';
+const MIN_WIDTH_TINY = '550px';
+
+const FLEX_OPTIONS = `
+  display: flex;
+  flex-wrap: wrap;
+
+  &.is50 {
+    > .ui--Column {
+      max-width: 50%;
+      min-width: 50%;
+    }
+  }
+
+  &.is60 {
+    > .ui--Column:first-child {
+      max-width: 60%;
+      min-width: 60%;
+    }
+
+    > .ui--Column:last-child {
+      max-width: 40%;
+      min-width: 40%;
+    }
+  }
+
+  &.is100 {
+    > .ui--Column {
+      max-width: 100%;
+      min-width: 100%;
+    }
+  }
+`;
+
 function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Column ${className}`}>
@@ -29,17 +66,55 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, is100, isPadded = true }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${className}`}>
+    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size ${className}`}>
       {children}
     </div>
   );
 }
 
 const ColumarStyled = React.memo(styled(Columar)`
-  &.isPadded > .ui--Column {
-    padding: 0 0.75rem;
+  &.isPadded {
+    &.defaultSize {
+      > .ui--Column {
+        padding: 0 0.75rem;
+      }
+    }
+
+    &.smallSize {
+      > .ui--Column {
+        padding: 0 0.50rem;
+      }
+    }
+
+    &.tinySize {
+      > .ui--Column {
+        padding: 0 0.25rem;
+      }
+    }
+  }
+
+  &.isReverse {
+    flex-direction: row-reverse;
+  }
+
+  &.defaultSize {
+    @media (min-width: ${MIN_WIDTH_DEFAULT}) {
+      ${FLEX_OPTIONS}
+    }
+  }
+
+  &.smallSize {
+    @media (min-width: ${MIN_WIDTH_SMALL}) {
+      ${FLEX_OPTIONS}
+    }
+  }
+
+  &.tinySize {
+    @media (min-width: ${MIN_WIDTH_TINY}) {
+      ${FLEX_OPTIONS}
+    }
   }
 
   > .ui--Column {
@@ -55,37 +130,6 @@ const ColumarStyled = React.memo(styled(Columar)`
 
     &:last-child {
       padding-right: 0;
-    }
-  }
-
-  @media (min-width: 1025px) {
-    display: flex;
-    flex-wrap: wrap;
-
-    &.is50 {
-      > .ui--Column {
-        max-width: 50%;
-        min-width: 50%;
-      }
-    }
-
-    &.is60 {
-      > .ui--Column:first-child {
-        max-width: 60%;
-        min-width: 60%;
-      }
-
-      > .ui--Column:last-child {
-        max-width: 40%;
-        min-width: 40%;
-      }
-    }
-
-    &.is100 {
-      > .ui--Column {
-        max-width: 100%;
-        min-width: 100%;
-      }
     }
   }
 `) as unknown as ColumarType;
