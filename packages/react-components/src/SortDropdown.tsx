@@ -43,10 +43,10 @@ function SortDropdown ({ className = '', defaultValue, label, onChange, onClick,
 
 export default React.memo(styled(SortDropdown)`
   position: relative;
-
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  margin-right: 0.5rem;
 
   && .ui--Labelled.ui--Dropdown {
     padding: 0;

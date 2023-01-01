@@ -284,12 +284,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
-      <SummaryBox>
+      <SummaryBox className='header-box'>
         <section
-          className='dropdown-section'
+          className='dropdown-section media--1300'
           data-testid='sort-by-section'
         >
           <SortDropdown
+            className='media--1500'
             defaultValue={sortBy}
             label={t<string>('sort by')}
             onChange={onDropdownChange()}
@@ -378,9 +379,15 @@ export default React.memo(styled(Overview)`
     width: 15rem;
   }
 
-  .dropdown-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .header-box {
+    .dropdown-section {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .ui--Button-Group {
+      margin-left: auto;
+    }
   }
 `);
