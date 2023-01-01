@@ -11,7 +11,7 @@ interface Props {
   is100?: boolean;
   isPadded?: boolean;
   isReverse?: boolean;
-  isSmall?: boolean;
+  size?: 'default' | 'small' | 'tiny';
 }
 
 interface ColumnProps {
@@ -25,6 +25,7 @@ type ColumarType = React.ComponentType<Props> & {
 
 const MIN_WIDTH_DEFAULT = '1025px';
 const MIN_WIDTH_SMALL = '750px';
+const MIN_WIDTH_TINY = '500px';
 
 const FLEX_OPTIONS = `
   display: flex;
@@ -65,9 +66,9 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, isSmall }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} size${isSmall ? 'Small' : 'Default'} ${className}`}>
+    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size ${className}`}>
       {children}
     </div>
   );
@@ -84,14 +85,20 @@ const ColumarStyled = React.memo(styled(Columar)`
     flex-direction: row-reverse;
   }
 
-  &.sizeDefault {
+  &.defaultSize {
     @media (min-width: ${MIN_WIDTH_DEFAULT}) {
       ${FLEX_OPTIONS}
     }
   }
 
-  &.sizeSmall {
+  &.smallSize {
     @media (min-width: ${MIN_WIDTH_SMALL}) {
+      ${FLEX_OPTIONS}
+    }
+  }
+
+  &.tinySize {
+    @media (min-width: ${MIN_WIDTH_TINY}) {
       ${FLEX_OPTIONS}
     }
   }
