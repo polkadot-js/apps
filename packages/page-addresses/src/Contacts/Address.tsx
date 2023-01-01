@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
@@ -51,7 +50,6 @@ const BALANCE_OPTS_ONLY = {
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
   const info = useDeriveAccountInfo(address);
   const balancesAll = useBalancesAll(address);
@@ -238,10 +236,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 onClick={_toggleTransfer}
               />
             )}
-            <Popup
-              className={`theme--${theme}`}
-              value={PopupDropdown}
-            />
+            <Popup value={PopupDropdown} />
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleIsExpanded}

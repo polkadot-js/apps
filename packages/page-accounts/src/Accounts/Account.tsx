@@ -5,14 +5,13 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
@@ -152,7 +151,6 @@ const transformRecovery = {
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const { getLedger } = useLedger();
@@ -705,7 +703,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               />
             )}
             <Popup
-              className={`theme--${theme}`}
               isDisabled={!menuItems.length}
               value={
                 <Menu>
