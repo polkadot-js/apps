@@ -303,6 +303,7 @@ export default React.memo(styled(Table)`
       }
 
       &.actions {
+        padding-left: 0;
         width: 1%;
 
         > div {
@@ -380,8 +381,12 @@ export default React.memo(styled(Table)`
         text-transform: uppercase;
       }
 
-      &.favorite .ui--Icon.isSelected {
-        color: darkorange;
+      &.favorite {
+        padding-right: 0;
+
+        .ui--Icon.isSelected {
+          color: darkorange;
+        }
       }
 
       .ui--Button-Group .ui--Button:not(.isToplevel) {
