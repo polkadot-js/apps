@@ -59,7 +59,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
 }
 
 export default React.memo(styled(Head)`
-  opacity: 0.75;
+  opacity: 0.85;
   z-index: 1;
 
   th {
