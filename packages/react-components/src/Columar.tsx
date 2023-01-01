@@ -25,7 +25,7 @@ type ColumarType = React.ComponentType<Props> & {
 
 const MIN_WIDTH_DEFAULT = '1025px';
 const MIN_WIDTH_SMALL = '750px';
-const MIN_WIDTH_TINY = '500px';
+const MIN_WIDTH_TINY = '550px';
 
 const FLEX_OPTIONS = `
   display: flex;
