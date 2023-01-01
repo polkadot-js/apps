@@ -92,15 +92,15 @@ jest.mock('@polkadot/react-hooks/useProxies', () => ({
   useProxies: () => mockApiHooks.proxies
 }));
 
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
 jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
   useRegistrars: () => ({
     isRegistrar: false,
     registrars: mockApiHooks.registrars
   })
-}));
-
-jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
-  useSubidentities: () => mockApiHooks.subs
 }));
 
 jest.mock('@polkadot/react-hooks/useTheme', () => ({
