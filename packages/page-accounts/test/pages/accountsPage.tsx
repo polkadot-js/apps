@@ -50,7 +50,7 @@ export class AccountsPage extends Page {
 
   async enterCreateAccountModal (): Promise<void> {
     this.render([]);
-    await clickButton('Add account');
+    await clickButton('Account');
 
     await assertText('Add an account via seed 1/3');
   }

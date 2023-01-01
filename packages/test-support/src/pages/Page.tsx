@@ -103,6 +103,10 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
   })
 }));
 
+jest.mock('@polkadot/react-hooks/useTheme', () => ({
+  useTheme: () => 'theme--light'
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult;
   protected readonly defaultAddresses = [alice, bob, charlie, ferdie];

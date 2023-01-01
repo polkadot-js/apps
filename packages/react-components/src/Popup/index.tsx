@@ -7,11 +7,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components/index';
-import { useOutsideClick, useToggle } from '@polkadot/react-hooks';
+import { useOutsideClick, useTheme, useToggle } from '@polkadot/react-hooks';
 
 import PopupWindow from './PopupWindow';
 
 function Popup ({ children, className = '', closeOnScroll = false, isDisabled = false, onCloseAction, position = 'left', value }: PopupProps) {
+  const theme = useTheme();
   const [isOpen, toggleIsOpen, setIsOpen] = useToggle(false);
   const triggerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ function Popup ({ children, className = '', closeOnScroll = false, isDisabled = 
   }, [isOpen, onCloseAction]);
 
   return (
-    <div className={`ui--Popup ${className}`}>
+    <div className={`ui--Popup ${theme} ${className}`}>
       {isOpen && (
         <PopupWindow
           position={position}

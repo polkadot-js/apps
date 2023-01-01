@@ -5,6 +5,10 @@ const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages.cjs');
 
+// NOTE: While we can remove @polkadot/... packages such as react-markdown still has issues with Jest 28
+  // ... TL;DR We still end up with a massive list here
+const ESM_PKG = ['bail', 'character-entities', 'chart.js', 'comma-separated-tokens', 'decode-named-character-reference', 'hast-to-', 'hast-util-', 'hastscript', 'html-void-elements', 'is-plain-obj', 'mdast-', 'micromark', 'multiformats', 'property-information', 'react-markdown', 'rehype-raw', 'remark-parse', 'remark-rehype', 'space-separated-tokens', 'trough', 'uint8arrays', 'unified', 'unist-', 'vfile', 'vfile-', 'web-namespaces', 'zwitch'];
+
 module.exports = {
   ...config,
   moduleNameMapper: {
@@ -25,7 +29,5 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest/setupEnv.cjs'],
   testEnvironment: 'jsdom',
   testTimeout: 90000,
-  // NOTE: While we can remove @polkadot/etc. react-markdown still has issues with Jest 28
-  // ... TL;DR We still end up with a massive list here
-  transformIgnorePatterns: ['/node_modules/(?!react-markdown|vfile|vfile-|unified|unist-|bail|is-plain-obj|trough|remark-parse|mdast-|micromark|decode-named-character-reference|character-entities|remark-rehype|property-information|hast-util-|hast-to-|space-separated-tokens|comma-separated-tokens|rehype-raw|hastscript|web-namespaces|zwitch|html-void-elements|multiformats|is-ipfs|uint8arrays|chart.js)']
+  transformIgnorePatterns: [`/node_modules/(?!${ESM_PKG.join('|')})`]
 };

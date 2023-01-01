@@ -48,6 +48,7 @@ export default React.memo(styled(Tag)`
   font-weight: var(--font-weight-normal);
   line-height: 1.143rem;
   margin: 0 0.125rem;
+  opacity: 0.85;
   padding: 0.25em 0.75em;
   position: relative;
   white-space: nowrap;

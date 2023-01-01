@@ -284,18 +284,23 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
-      <SummaryBox>
+      <SummaryBox className='header-box'>
         <section
-          className='dropdown-section'
+          className='dropdown-section media--1300'
           data-testid='sort-by-section'
         >
           <SortDropdown
+            className='media--1500'
             defaultValue={sortBy}
             label={t<string>('sort by')}
             onChange={onDropdownChange()}
             onClick={onSortDirectionChange()}
             options={dropdownOptions()}
-            sortDirection={sortFromMax ? 'ascending' : 'descending'}
+            sortDirection={
+              sortFromMax
+                ? 'ascending'
+                : 'descending'
+            }
           />
           <FilterInput
             filterOn={filterOn}
@@ -307,25 +312,25 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <Button
             icon='plus'
             isDisabled={isIpfs}
-            label={t<string>('Add account')}
+            label={t<string>('Account')}
             onClick={_openCreateModal}
           />
           <Button
             icon='sync'
             isDisabled={isIpfs}
-            label={t<string>('Restore JSON')}
+            label={t<string>('From JSON')}
             onClick={toggleImport}
           />
           <Button
             icon='qrcode'
-            label={t<string>('Add via Qr')}
+            label={t<string>('From Qr')}
             onClick={toggleQr}
           />
           {isLedgerEnabled && (
             <>
               <Button
                 icon='project-diagram'
-                label={t<string>('Add via Ledger')}
+                label={t<string>('From Ledger')}
                 onClick={toggleLedger}
               />
             </>
@@ -374,9 +379,15 @@ export default React.memo(styled(Overview)`
     width: 15rem;
   }
 
-  .dropdown-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .header-box {
+    .dropdown-section {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .ui--Button-Group {
+      margin-left: auto;
+    }
   }
 `);

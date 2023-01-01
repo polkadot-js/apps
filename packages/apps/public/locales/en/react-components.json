@@ -5,7 +5,6 @@
   "Confirm address removal": "Confirm address removal",
   "Confirm code removal": "Confirm code removal",
   "Confirm contract removal": "Confirm contract removal",
-  "Details": "Details",
   "Forget": "Forget",
   "No execution details available for this proposal": "No execution details available for this proposal",
   "Positive number": "Positive number",
@@ -46,7 +45,6 @@
   "link": "link",
   "lock expired": "lock expired",
   "locked": "locked",
-  "no tags": "no tags",
   "none": "none",
   "of {{locked}} vested": "of {{locked}} vested",
   "ongoing referendum": "ongoing referendum",
@@ -84,7 +82,5 @@
   "{{eras}} eras remaining": "{{eras}} eras remaining",
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{type}} copied": "{{type}} copied",
-  "{{value}}x voting balance, locked for {{duration}}x duration{{period}}": "{{value}}x voting balance, locked for {{duration}}x duration{{period}}",
-  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x duration ({{period}} days)",
-  "{{value}}x voting balance, locked for {{lock}}x duration ({{period}})": "{{value}}x voting balance, locked for {{lock}}x duration ({{period}})"
+  "{{value}}x voting balance, locked for {{duration}}x duration{{period}}": "{{value}}x voting balance, locked for {{duration}}x duration{{period}}"
 }

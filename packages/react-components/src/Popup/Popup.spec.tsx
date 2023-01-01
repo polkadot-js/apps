@@ -3,7 +3,9 @@
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
+import { ThemeProvider } from 'styled-components';
 
+import { lightTheme } from '@polkadot/apps/themes';
 import { Popup } from '@polkadot/react-components';
 import i18next from '@polkadot/react-components/i18n';
 
@@ -25,7 +27,9 @@ function TestPopup () {
 function renderPopup () {
   return render(
     <Suspense fallback='...'>
-      <TestPopup />
+      <ThemeProvider theme={lightTheme}>
+        <TestPopup />
+      </ThemeProvider>
     </Suspense>
   );
 }
