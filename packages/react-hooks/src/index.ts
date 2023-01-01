@@ -63,6 +63,7 @@ export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';
 export { useSystemApi } from './useSystemApi';
 export { useTeleport } from './useTeleport';
+export { useTheme } from './useTheme';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
 export { useTxBatch } from './useTxBatch';
