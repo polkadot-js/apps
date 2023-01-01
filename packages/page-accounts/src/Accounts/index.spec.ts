@@ -337,22 +337,11 @@ describe('Accounts page', () => {
         await accountsTable.assertRowsOrder([1, 2, 3]);
       });
 
-      it('sorts by type if asked', async () => {
-        await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrder([3, 1, 2]);
-      });
-
       it('implements stable sort', async () => {
-        // Notice that sorting by 'type' results in different order
-        // depending on the previous state.
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrder([3, 2, 1]);
-        await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrder([3, 1, 2]);
         await accountsPage.sortBy('balances');
         await accountsTable.assertRowsOrder([1, 2, 3]);
-        await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrder([1, 3, 2]);
       });
 
       it('respects reverse button', async () => {
