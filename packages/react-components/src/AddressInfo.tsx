@@ -617,6 +617,12 @@ export default withMulti(
       }
     }
 
+    & + .ui--Button,
+    & + .ui--ButtonGroup {
+      margin-right: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
     .column {
       max-width: 260px;
       &.column--expander {
