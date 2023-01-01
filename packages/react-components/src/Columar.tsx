@@ -75,26 +75,6 @@ function Columar ({ children, className = '', is60, is100, isPadded = true, isRe
 }
 
 const ColumarStyled = React.memo(styled(Columar)`
-  &.isPadded {
-    &.defaultSize {
-      > .ui--Column {
-        padding: 0 0.75rem;
-      }
-    }
-
-    &.smallSize {
-      > .ui--Column {
-        padding: 0 0.50rem;
-      }
-    }
-
-    &.tinySize {
-      > .ui--Column {
-        padding: 0 0.25rem;
-      }
-    }
-  }
-
   &.isReverse {
     flex-direction: row-reverse;
   }
@@ -103,17 +83,29 @@ const ColumarStyled = React.memo(styled(Columar)`
     @media (min-width: ${MIN_WIDTH_DEFAULT}) {
       ${FLEX_OPTIONS}
     }
+
+    &.isPadded > .ui--Column {
+      padding: 0 0.75rem;
+    }
   }
 
   &.smallSize {
     @media (min-width: ${MIN_WIDTH_SMALL}) {
       ${FLEX_OPTIONS}
     }
+
+    &isPadded > .ui--Column {
+      padding: 0 0.5rem;
+    }
   }
 
   &.tinySize {
     @media (min-width: ${MIN_WIDTH_TINY}) {
       ${FLEX_OPTIONS}
+    }
+
+    &isPadded > .ui--Column {
+      padding: 0 0.25rem;
     }
   }
 
