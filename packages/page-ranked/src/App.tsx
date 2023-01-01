@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-ranked authors & contributors
+// Copyright 2017-2023 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletColl, PalletPoll } from './types';
