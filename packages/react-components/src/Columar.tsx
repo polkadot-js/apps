@@ -76,8 +76,22 @@ function Columar ({ children, className = '', is60, is100, isPadded = true, isRe
 
 const ColumarStyled = React.memo(styled(Columar)`
   &.isPadded {
-    > .ui--Column {
-      padding: 0 0.75rem;
+    &.defaultSize {
+      > .ui--Column {
+        padding: 0 0.75rem;
+      }
+    }
+
+    &.smallSize {
+      > .ui--Column {
+        padding: 0 0.50rem;
+      }
+    }
+
+    &.tinySize {
+      > .ui--Column {
+        padding: 0 0.25rem;
+      }
     }
   }
 
