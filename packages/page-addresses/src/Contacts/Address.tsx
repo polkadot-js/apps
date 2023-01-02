@@ -227,7 +227,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'noBorder' : ''} packed`}>
+      <tr className={`${className} ${isExpanded ? 'noBorder' : ''} isExpanded packed`}>
         <td />
         <td className='balance all'>
           <AddressInfo
