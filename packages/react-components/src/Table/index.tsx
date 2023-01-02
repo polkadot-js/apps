@@ -111,8 +111,8 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   );
 }
 
-const BORDER_WIDTH_BT = '0.25rem';
-const BORDER_WIDTH_LR = '0.125rem'; // 50% of bottom/top for isSplit
+const BORDER_WIDTH_BT = '2px';
+const BORDER_WIDTH_LR = '1px'; // 50% of bottom/top for isSplit
 
 export default React.memo(styled(Table)`
   max-width: 100%;
