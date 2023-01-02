@@ -55,7 +55,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(poolId)}</h1></td>
         <td className='start'>{info && info.metadata}</td>
         <td className='number media--1100'>{info && info.bonded.state.type}</td>

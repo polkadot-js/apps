@@ -470,7 +470,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className} noBorder`}>
+      <tr className={`${className} packedBottom`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -701,7 +701,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'noBorder' : ''} isExpanded packed`}>
+      <tr className={`${className} isExpanded ${isExpanded ? 'packedAll' : 'packedTop'}`}>
         <td />
         <td className='balance all'>
           <AddressInfo
@@ -722,7 +722,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packed`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
         <td />
         <td className='columar'>
           <AddressInfo

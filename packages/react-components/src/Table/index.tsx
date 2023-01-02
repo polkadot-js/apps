@@ -125,10 +125,6 @@ export default React.memo(styled(Table)`
 
     > .ui--Columar {
       margin-bottom: 1.5rem;
-
-      > .ui--Column > table {
-        margin-bottom: -${BORDER_WIDTH_BT};
-      }
     }
   }
 
@@ -197,7 +193,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: ${BORDER_WIDTH_BT} solid var(--border-table);
+      border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -246,7 +242,7 @@ export default React.memo(styled(Table)`
       }
 
       &.button {
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.5rem 0.5rem;
         text-align: right;
         white-space: nowrap;
 
@@ -407,20 +403,9 @@ export default React.memo(styled(Table)`
     tr {
       background: var(--bg-table);
 
-      &:first-child {
+      & + tr.isExpanded {
         td {
-          border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
-        }
-      }
-
-      &.packed {
-        td {
-          padding-top: 0;
-
-          &.button {
-            // Accounts/Addresses had mid-level buttons
-            padding-bottom: 0.75rem;
-          }
+          border-top: none;
         }
       }
 
@@ -430,13 +415,21 @@ export default React.memo(styled(Table)`
         }
       }
 
-      &.transparent {
-        background: transparent;
+      &.packedTop {
+        td {
+          padding-top: 0;
+        }
       }
 
-      &.noBorder td {
-        border-bottom: none;
-        padding-bottom: 0 !important;
+      &.packedAll {
+        td {
+          padding-bottom: 0;
+          padding-top: 0;
+        }
+      }
+
+      &.transparent {
+        background: transparent;
       }
 
       &.isCollapsed {

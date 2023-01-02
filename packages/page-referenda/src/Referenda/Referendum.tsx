@@ -370,7 +370,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>

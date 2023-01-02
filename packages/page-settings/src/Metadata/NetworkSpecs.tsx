@@ -122,7 +122,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <ChainImg className='settings--networkSpecs-logo' />
           </div>
         </td>
-        <td rowSpan={6}>
+        <td rowSpan={7}>
           {qrData.genesisHash && (
             <QrNetworkSpecs
               className='settings--networkSpecs-qr'
