@@ -724,7 +724,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packed`}>
         <td />
-        <td className='top columar'>
+        <td className='columar'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}

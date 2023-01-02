@@ -251,7 +251,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packed`}>
         <td />
-        <td className='top columar'>
+        <td className='columar'>
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
