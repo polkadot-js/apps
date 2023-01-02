@@ -470,7 +470,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={`${className} noBorder`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -684,24 +684,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             )}
           </div>
         </td>
-        <td className='balance'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BAL_OPTS_DEFAULT}
-            withExtended={false}
-          />
-        </td>
         <td className='actions'>
           <div>
-            {isFunction(api.api.tx.balances?.transfer) && (
-              <Button
-                className='send-button'
-                icon='paper-plane'
-                label={t<string>('send')}
-                onClick={toggleTransfer}
-              />
-            )}
             <Popup
               isDisabled={!menuItems.length}
               value={
@@ -717,9 +701,37 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'noBorder' : ''} packed`}>
+        <td />
+        <td className='balance all'>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_DEFAULT}
+            withExtended={false}
+          />
+        </td>
+        <td className='button'>
+          {isFunction(api.api.tx.balances?.transfer) && (
+            <Button
+              className='send-button'
+              icon='paper-plane'
+              label={t<string>('send')}
+              onClick={toggleTransfer}
+            />
+          )}
+        </td>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packed`}>
         <td />
         <td className='columar'>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            convictionLocks={convictionLocks}
+            withBalance={BAL_OPTS_EXPANDED}
+            withExtended={false}
+          />
           <Columar is100>
             <Columar.Column>
               <LinkExternal
@@ -743,15 +755,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               <CryptoType accountId={address} />
             </Columar.Column>
           </Columar>
-        </td>
-        <td className='balance top'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            convictionLocks={convictionLocks}
-            withBalance={BAL_OPTS_EXPANDED}
-            withExtended={false}
-          />
         </td>
         <td />
       </tr>

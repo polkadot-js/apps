@@ -27,9 +27,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const isLoading = useLoadingDelay();
 
   const headerRef = useRef([
-    [t('contacts'), 'start', 2],
-    [undefined, 'balances'],
-    []
+    [t('contacts'), 'start', 3]
   ]);
 
   useEffect((): void => {
@@ -57,6 +55,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <SummaryBox className='summary-box-contacts'>
         <section>
           <FilterInput
+            className='media--1000'
             filterOn={filterOn}
             label={t<string>('filter by name or tags')}
             setFilter={setFilter}
@@ -73,6 +72,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
+        isSplit
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address

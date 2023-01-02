@@ -111,6 +111,8 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   );
 }
 
+const BORDER_WIDTH = '0.125rem';
+
 export default React.memo(styled(Table)`
   max-width: 100%;
   width: 100%;
@@ -124,8 +126,7 @@ export default React.memo(styled(Table)`
       margin-bottom: 1.5rem;
 
       > .ui--Column > table {
-        // border width
-        margin-bottom: -0.125rem;
+        margin-bottom: -${BORDER_WIDTH};
       }
     }
   }
@@ -195,7 +196,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 0.125rem solid var(--border-table);
+      border-bottom: ${BORDER_WIDTH} solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -407,29 +408,25 @@ export default React.memo(styled(Table)`
 
       &:first-child {
         td {
-          border-top: 0.125rem solid var(--bg-page);
+          border-top: ${BORDER_WIDTH} solid var(--bg-page);
         }
-
-        // td:first-child {
-        //   border-top-left-radius: 0.25rem;
-        // }
-
-        // td:last-child {
-        //   border-top-right-radius: 0.25rem;
-        // }
       }
 
       &:last-child {
         td {
-          border-bottom: 0.125rem solid var(--border-table);
+          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+        }
+      }
 
-          // &:first-child {
-          //   border-bottom-left-radius: 0.25rem;
-          // }
+      &.packed, &.packedTop {
+        td {
+          padding-top: 0;
+        }
+      }
 
-          // &:last-child {
-          //   border-bottom-right-radius: 0.25rem;
-          // }
+      &.packedBottom {
+        td {
+          padding-bottom: 0;
         }
       }
 

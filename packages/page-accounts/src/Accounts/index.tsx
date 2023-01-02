@@ -168,7 +168,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       Object.values(ret).forEach((a): void => {
         a[0][1] = 'start';
-        a[0][2] = 4;
+        a[0][2] = 3;
       });
 
       return ret;
@@ -362,6 +362,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               <Table
                 empty={t<string>('No accounts')}
                 header={header[key]}
+                isSplit
                 key={key}
               >
                 {grouped[key].map((a) => accountComponents[a])}
