@@ -302,6 +302,27 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
   });
 }
 
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let enactAt: { at: boolean, blocks: BN } | null = null;
+  let nextAlarm: BN | null = null;
+  let submittedIn: BN | null = null;
+
+  if (info.isOngoing) {
+    const { alarm, enactment, submitted } = info.asOngoing;
+
+    enactAt = {
+      at: enactment.isAt,
+      blocks: enactment.isAt
+        ? enactment.asAt
+        : enactment.asAfter
+    };
+    nextAlarm = alarm.unwrapOr([null])[0];
+    submittedIn = submitted;
+  }
+
+  return { enactAt, nextAlarm, submittedIn };
+}
+
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
@@ -326,6 +347,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
+  const { enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info),
+    [info]
+  );
+
   const chartLegend = useMemo(
     () => [
       [
@@ -344,29 +370,25 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${chartProps && isExpanded ? ' noBorder' : ''}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
         <Component {...props} />
-        <td className='links media--1000'>
-          <LinkExternal
-            data={id}
-            type={palletReferenda}
+        <td className='action media--1000'>
+          <ExpandButton
+            expanded={isExpanded}
+            onClick={toggleExpanded}
           />
         </td>
-        <td className='links media--1000'>
-          {chartResult && (
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          )}
-        </td>
       </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
-          <td colSpan={10}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={7}
+        >
+          {chartProps && (
             <Columar>
               <Columar.Column className='chartColumn'>
                 <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
@@ -383,8 +405,37 @@ function Referendum (props: Props): React.ReactElement<Props> {
                 />
               </Columar.Column>
             </Columar>
-          </td>
-        )}
+          )}
+          <Columar size='tiny'>
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
+            </Columar.Column>
+            <Columar.Column>
+              {submittedIn && (
+                <>
+                  <h5>{t<string>('Submitted at')}</h5>
+                  <label>#{formatNumber(submittedIn)}</label>
+                </>
+              )}
+              {enactAt && (
+                <>
+                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
+                  <label>{enactAt.at && '#'}{formatNumber(enactAt.blocks)}</label>
+                </>
+              )}
+              {nextAlarm && (
+                <>
+                  <h5>{t<string>('Next alarm')}</h5>
+                  <label>#{formatNumber(nextAlarm)}</label>
+                </>
+              )}
+            </Columar.Column>
+          </Columar>
+        </td>
       </tr>
     </>
   );

@@ -45,7 +45,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       ),
       isExpanded && trackInfo && (
         <tr>
-          <th colSpan={9}>Hello expanded</th>
+          <th colSpan={9} />
         </tr>
       )
     ],
@@ -56,8 +56,8 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
     () => [
       [
         [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 5],
-        [undefined, 'number', 3],
-        [headerButton]
+        [undefined, 'number', 2],
+        [headerButton, 'media--1000']
       ],
       trackName
         ? `track:${trackName}`

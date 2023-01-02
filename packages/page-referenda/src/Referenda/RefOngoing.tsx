@@ -126,6 +126,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
       />
       <td className='middle chart'>
         <Progress
+          className='media--1300'
           total={tallyTotal}
           value={tally.ayes}
         />
