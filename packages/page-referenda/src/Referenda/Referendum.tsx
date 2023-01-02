@@ -302,6 +302,27 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
   });
 }
 
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let enactAt: { at: boolean, blocks: BN } | null = null;
+  let nextAlarm: BN | null = null;
+  let submittedIn: BN | null = null;
+
+  if (info.isOngoing) {
+    const { alarm, enactment, submitted } = info.asOngoing;
+
+    enactAt = {
+      at: enactment.isAt,
+      blocks: enactment.isAt
+        ? enactment.asAt
+        : enactment.asAfter
+    };
+    nextAlarm = alarm.unwrapOr([null])[0];
+    submittedIn = submitted;
+  }
+
+  return { enactAt, nextAlarm, submittedIn };
+}
+
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
@@ -324,6 +345,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
     () => bestNumber && chartResult && isExpanded && track &&
       getChartProps(bestNumber, blockInterval, chartResult, id, track, t),
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
+  );
+
+  const { enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info),
+    [info]
   );
 
   const chartLegend = useMemo(
@@ -362,15 +388,6 @@ function Referendum (props: Props): React.ReactElement<Props> {
           className='columar'
           colSpan={7}
         >
-          <Columar is100>
-            <Columar.Column>
-              <LinkExternal
-                data={id}
-                type={palletReferenda}
-                withTitle
-              />
-            </Columar.Column>
-          </Columar>
           {chartProps && (
             <Columar>
               <Columar.Column className='chartColumn'>
@@ -389,6 +406,35 @@ function Referendum (props: Props): React.ReactElement<Props> {
               </Columar.Column>
             </Columar>
           )}
+          <Columar size='tiny'>
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
+            </Columar.Column>
+            <Columar.Column>
+              {submittedIn && (
+                <>
+                  <h5>{t<string>('Submitted at')}</h5>
+                  <label>#{formatNumber(submittedIn)}</label>
+                </>
+              )}
+              {enactAt && (
+                <>
+                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
+                  <label>{enactAt.at && '#'}{formatNumber(enactAt.blocks)}</label>
+                </>
+              )}
+              {nextAlarm && (
+                <>
+                  <h5>{t<string>('Next alarm')}</h5>
+                  <label>#{formatNumber(nextAlarm)}</label>
+                </>
+              )}
+            </Columar.Column>
+          </Columar>
         </td>
       </tr>
     </>

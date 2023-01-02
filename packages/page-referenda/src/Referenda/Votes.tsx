@@ -76,6 +76,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
   return (
     <td className={`${className} expand`}>
       <Expander
+        className='media--1200'
         renderChildren={ayes && renderAyes}
         summary={
           isConvictionVote
@@ -89,6 +90,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
         }
       />
       <Expander
+        className='media--1200'
         renderChildren={nays && renderNays}
         summary={
           isConvictionVote
