@@ -183,7 +183,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={`${className} noBorder`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -217,25 +217,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </>
           )}
         </td>
-        <td className='balance'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BALANCE_OPTS_ONLY}
-            withExtended={false}
-          />
-        </td>
         <td className='actions'>
           <div>
-            {isFunction(api.api.tx.balances?.transfer) && (
-              <Button
-                className='send-button'
-                icon='paper-plane'
-                key='send'
-                label={t<string>('send')}
-                onClick={_toggleTransfer}
-              />
-            )}
             <Popup value={PopupDropdown} />
             <ExpandButton
               expanded={isExpanded}
@@ -244,9 +227,37 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'noBorder' : ''} packed`}>
         <td />
-        <td className='columar'>
+        <td className='balance all'>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BALANCE_OPTS_ONLY}
+            withExtended={false}
+          />
+        </td>
+        <td className='button'>
+          {isFunction(api.api.tx.balances?.transfer) && (
+            <Button
+              className='send-button'
+              icon='paper-plane'
+              key='send'
+              label={t<string>('send')}
+              onClick={_toggleTransfer}
+            />
+          )}
+        </td>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packed`}>
+        <td />
+        <td className='top columar'>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BALANCE_OPTS}
+            withExtended={false}
+          />
           <Columar is100>
             <Columar.Column>
               <LinkExternal
@@ -267,15 +278,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </Columar.Column>
           </Columar>
         </td>
-        <td className='top'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BALANCE_OPTS}
-            withExtended={false}
-          />
-        </td>
-        <td colSpan={2} />
+        <td />
       </tr>
     </>
   );

@@ -104,7 +104,7 @@ const ColumarStyled = React.memo(styled(Columar)`
       ${FLEX_OPTIONS}
     }
 
-    &isPadded > .ui--Column {
+    &.isPadded > .ui--Column {
       padding: 0 0.25rem;
     }
   }
