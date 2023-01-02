@@ -217,26 +217,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </>
           )}
         </td>
-        <td className='actions'>
-          <div>
-            <Popup value={PopupDropdown} />
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />
-          </div>
-        </td>
-      </tr>
-      <tr className={`${className} isExpanded ${isExpanded ? 'packedAll' : 'packedTop'}`}>
-        <td />
-        <td className='balance all'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BALANCE_OPTS_ONLY}
-            withExtended={false}
-          />
-        </td>
         <td className='button'>
           {isFunction(api.api.tx.balances?.transfer) && (
             <Button
@@ -248,10 +228,37 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             />
           )}
         </td>
+        <td className='actions'>
+          <div>
+            <Popup value={PopupDropdown} />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
+            />
+          </div>
+        </td>
+      </tr>
+      <tr className={`${className} isExpanded packedTop`}>
+        <td />
+        <td
+          className='balance all'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BALANCE_OPTS_ONLY}
+            withExtended={false}
+          />
+        </td>
+        <td />
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
         <td />
-        <td className='columar'>
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
@@ -267,7 +274,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
               />
             </Columar.Column>
           </Columar>
-          <Columar>
+          <Columar size='tiny'>
             <Columar.Column>
               <div data-testid='tags'>
                 <Tags

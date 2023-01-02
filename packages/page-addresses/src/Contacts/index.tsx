@@ -27,7 +27,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const isLoading = useLoadingDelay();
 
   const headerRef = useRef([
-    [t('contacts'), 'start', 3]
+    [t('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {

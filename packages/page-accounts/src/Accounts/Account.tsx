@@ -684,6 +684,16 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             )}
           </div>
         </td>
+        <td className='button'>
+          {isFunction(api.api.tx.balances?.transfer) && (
+            <Button
+              className='send-button'
+              icon='paper-plane'
+              label={t<string>('send')}
+              onClick={toggleTransfer}
+            />
+          )}
+        </td>
         <td className='actions'>
           <div>
             <Popup
@@ -701,9 +711,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </div>
         </td>
       </tr>
-      <tr className={`${className} isExpanded ${isExpanded ? 'packedAll' : 'packedTop'}`}>
+      <tr className={`${className} isExpanded packedTop`}>
         <td />
-        <td className='balance all'>
+        <td
+          className='balance all'
+          colSpan={2}
+        >
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
@@ -711,20 +724,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              className='send-button'
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
-            />
-          )}
-        </td>
+        <td />
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
         <td />
-        <td className='columar'>
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
@@ -741,7 +748,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               />
             </Columar.Column>
           </Columar>
-          <Columar>
+          <Columar size='tiny'>
             <Columar.Column>
               <div data-testid='tags'>
                 <Tags
