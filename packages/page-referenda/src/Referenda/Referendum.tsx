@@ -344,29 +344,34 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${chartProps && isExpanded ? ' noBorder' : ''}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
         <Component {...props} />
-        <td className='links media--1000'>
-          <LinkExternal
-            data={id}
-            type={palletReferenda}
+        <td className='action media--1000'>
+          <ExpandButton
+            expanded={isExpanded}
+            onClick={toggleExpanded}
           />
         </td>
-        <td className='links media--1000'>
-          {chartResult && (
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          )}
-        </td>
       </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
-          <td colSpan={10}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={7}
+        >
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+          {chartProps && (
             <Columar>
               <Columar.Column className='chartColumn'>
                 <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
@@ -383,8 +388,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
                 />
               </Columar.Column>
             </Columar>
-          </td>
-        )}
+          )}
+        </td>
       </tr>
     </>
   );

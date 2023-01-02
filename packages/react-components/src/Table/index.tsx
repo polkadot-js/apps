@@ -262,6 +262,10 @@ export default React.memo(styled(Table)`
         }
       }
 
+      &.chart {
+        padding: 0;
+      }
+
       &.combined {
         border-top-width: 0;
       }
