@@ -43,7 +43,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(index)}</h1></td>
         <ProposalCell
           imageHash={imageHash}

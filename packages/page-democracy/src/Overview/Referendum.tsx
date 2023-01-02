@@ -91,7 +91,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(index)}</h1></td>
         <ProposalCell
           imageHash={imageHash}

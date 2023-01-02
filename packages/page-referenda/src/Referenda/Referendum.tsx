@@ -370,12 +370,12 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
         <Component {...props} />
-        <td className='action media--1000'>
+        <td className='action'>
           <ExpandButton
             expanded={isExpanded}
             onClick={toggleExpanded}
@@ -386,7 +386,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
         <td />
         <td
           className='columar'
-          colSpan={7}
+          colSpan={6}
         >
           {chartProps && (
             <Columar>
@@ -436,6 +436,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
             </Columar.Column>
           </Columar>
         </td>
+        <td />
       </tr>
     </>
   );

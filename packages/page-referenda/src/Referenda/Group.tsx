@@ -57,7 +57,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       [
         [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 5],
         [undefined, 'number', 2],
-        [headerButton, 'media--1000']
+        [headerButton]
       ],
       trackName
         ? `track:${trackName}`

@@ -24,7 +24,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}

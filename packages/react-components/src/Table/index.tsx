@@ -111,7 +111,8 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   );
 }
 
-const BORDER_WIDTH = '0.125rem';
+const BORDER_WIDTH_BT = '2px';
+const BORDER_WIDTH_LR = '1px'; // 50% of bottom/top for isSplit
 
 export default React.memo(styled(Table)`
   max-width: 100%;
@@ -124,10 +125,6 @@ export default React.memo(styled(Table)`
 
     > .ui--Columar {
       margin-bottom: 1.5rem;
-
-      > .ui--Column > table {
-        margin-bottom: -${BORDER_WIDTH};
-      }
     }
   }
 
@@ -196,7 +193,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+      border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -206,11 +203,11 @@ export default React.memo(styled(Table)`
       }
 
       &:first-child {
-        border-left: 1px solid var(--border-table);
+        border-left: ${BORDER_WIDTH_LR} solid var(--border-table);
       }
 
       &:last-child {
-        border-right: 1px solid var(--border-table);
+        border-right: ${BORDER_WIDTH_LR} solid var(--border-table);
       }
 
       label {
@@ -245,7 +242,7 @@ export default React.memo(styled(Table)`
       }
 
       &.button {
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.5rem 0.5rem;
         text-align: right;
         white-space: nowrap;
 
@@ -406,21 +403,9 @@ export default React.memo(styled(Table)`
     tr {
       background: var(--bg-table);
 
-      &:first-child {
+      & + tr.isExpanded {
         td {
-          border-top: ${BORDER_WIDTH} solid var(--bg-page);
-        }
-      }
-
-      &:last-child {
-        td {
-          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
-        }
-      }
-
-      &.packed, &.packedTop {
-        td {
-          padding-top: 0;
+          border-top: none;
         }
       }
 
@@ -430,13 +415,21 @@ export default React.memo(styled(Table)`
         }
       }
 
-      &.transparent {
-        background: transparent;
+      &.packedTop {
+        td {
+          padding-top: 0;
+        }
       }
 
-      &.noBorder td {
-        border-bottom: 1px solid transparent;
-        padding-bottom: 0 !important;
+      &.packedAll {
+        td {
+          padding-bottom: 0;
+          padding-top: 0;
+        }
+      }
+
+      &.transparent {
+        background: transparent;
       }
 
       &.isCollapsed {

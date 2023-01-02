@@ -57,7 +57,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(index)}</h1></td>
         <td
           className='description-column'
