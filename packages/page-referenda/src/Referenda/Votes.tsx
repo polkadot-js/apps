@@ -74,7 +74,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
   );
 
   return (
-    <td className={`${className} expand`}>
+    <td className={`${className} expand media--1200-noPad`}>
       <Expander
         className='media--1200'
         renderChildren={ayes && renderAyes}

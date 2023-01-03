@@ -124,7 +124,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
         palletVote={palletVote}
         tally={tally}
       />
-      <td className='middle chart'>
+      <td className='middle chart media--1300-noPad'>
         <Progress
           className='media--1300'
           total={tallyTotal}
