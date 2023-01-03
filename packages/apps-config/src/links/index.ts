@@ -3,6 +3,7 @@
 
 import type { ExternalDef } from './types';
 
+import Calamar from './calamar';
 import Commonwealth from './commonwealth';
 import Dotreasury from './dotreasury';
 import DotScanner from './dotscanner';
@@ -18,6 +19,7 @@ import Subscan from './subscan';
 import Subsquare from './subsquare';
 
 export const externalLinks: Record<string, ExternalDef> = {
+  Calamar,
   Commonwealth,
   DotScanner,
   Dotreasury,
