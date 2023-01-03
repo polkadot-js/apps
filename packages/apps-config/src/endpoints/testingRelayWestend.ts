@@ -121,6 +121,14 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     teleport: [-1]
+  },
+  {
+    info: 'westendBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
