@@ -336,7 +336,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'OmniBTC',
     paraId: 2053,
     providers: {
-      OmniBTC: 'wss://omnibtc.io/ws'
+      OmniBTC: 'wss://psc-parachain.coming.chat'
     }
   },
   {
