@@ -741,15 +741,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withBalance={BAL_OPTS_EXPANDED}
             withExtended={false}
           />
-          <Columar is100>
-            <Columar.Column>
-              <LinkExternal
-                data={address}
-                type='address'
-                withTitle
-              />
-            </Columar.Column>
-          </Columar>
           <Columar size='tiny'>
             <Columar.Column>
               <div data-testid='tags'>
@@ -762,6 +753,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <Columar.Column>
               <h5>{t<string>('account type')}</h5>
               <CryptoType accountId={address} />
+            </Columar.Column>
+          </Columar>
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
             </Columar.Column>
           </Columar>
         </td>

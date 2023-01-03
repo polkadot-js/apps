@@ -410,23 +410,10 @@ function Referendum (props: Props): React.ReactElement<Props> {
           )}
           <Columar size='tiny'>
             <Columar.Column>
-              <LinkExternal
-                data={id}
-                type={palletReferenda}
-                withTitle
-              />
-            </Columar.Column>
-            <Columar.Column>
               {submittedIn && (
                 <>
                   <h5>{t<string>('Submitted at')}</h5>
                   <label>#{formatNumber(submittedIn)}</label>
-                </>
-              )}
-              {enactAt && (
-                <>
-                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
-                  <label>{enactAt.at && '#'}{formatNumber(enactAt.blocks)}</label>
                 </>
               )}
               {nextAlarm && (
@@ -435,6 +422,26 @@ function Referendum (props: Props): React.ReactElement<Props> {
                   <label>#{formatNumber(nextAlarm)}</label>
                 </>
               )}
+            </Columar.Column>
+            <Columar.Column>
+              {enactAt && (
+                <>
+                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
+                  <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                </>
+              )}
+            </Columar.Column>
+          </Columar>
+          <Columar
+            is100
+            size='tiny'
+          >
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
             </Columar.Column>
           </Columar>
         </td>
