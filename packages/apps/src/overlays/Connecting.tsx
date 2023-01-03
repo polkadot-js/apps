@@ -39,7 +39,13 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
         icon='globe'
         type='info'
       >
-        <div>{t<string>('Waiting to make a connection to the remote endpoint and finishing API initialization.')}</div>
+        <div>
+          {
+            isApiConnected
+              ? t<string>('Waiting to complete metadata retrieval from remote endpoint.')
+              : t<string>('Waiting to establish a connection with the remote endpoint.')
+          }
+        </div>
       </BaseOverlay>
     );
   } else if (isWaitingInjected) {
