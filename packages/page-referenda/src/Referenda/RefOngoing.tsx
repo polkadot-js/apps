@@ -131,7 +131,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
           value={tally.ayes}
         />
       </td>
-      <td className='button'>
+      <td className='actions button'>
         <Vote
           id={id}
           isConvictionVote={isConvictionVote}
