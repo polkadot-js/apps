@@ -82,7 +82,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
       />
       <Button.Group>
         <Dropdown
-          className='topDropdown'
+          className='topDropdown media--800'
           label={t<string>('selected track')}
           onChange={setTrackSelected}
           options={trackOpts}

@@ -57,6 +57,7 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
         canRefund
         decision={decision}
         id={id}
+        noMedia
         palletReferenda={palletReferenda}
         submit={submit}
         track={track}

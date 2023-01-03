@@ -1,106 +1,20 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export default `
-  .media--2000 {
-    @media only screen and (max-width: 2000px) {
+export default [
+  '2000', '1900', '1800', '1700', '1600', '1500', '1400', '1300', '1200', '1100',
+  '1000', '900', '800', '700', '600', '500', '400'
+].map((size) => `
+  .media--${size} {
+    @media only screen and (max-width: ${size}px) {
       display: none !important;
     }
   }
 
-  .media--1900 {
-    @media only screen and (max-width: 1900px) {
-      display: none !important;
+  .media--${size}-noPad {
+    @media only screen and (max-width: ${size}px) {
+      min-width: 0 !important;
+      padding: 0 !important;
     }
   }
-
-  .media--1800 {
-    @media only screen and (max-width: 1800px) {
-      display: none !important;
-    }
-  }
-
-  .media--1700 {
-    @media only screen and (max-width: 1700px) {
-      display: none !important;
-    }
-  }
-
-  .media--1600 {
-    @media only screen and (max-width: 1600px) {
-      display: none !important;
-    }
-  }
-
-  .media--1500 {
-    @media only screen and (max-width: 1500px) {
-      display: none !important;
-    }
-  }
-
-  .media--1400 {
-    @media only screen and (max-width: 1400px) {
-      display: none !important;
-    }
-  }
-
-  .media--1300 {
-    @media only screen and (max-width: 1300px) {
-      display: none !important;
-    }
-  }
-
-  .media--1200 {
-    @media only screen and (max-width: 1200px) {
-      display: none !important;
-    }
-  }
-
-  .media--1100 {
-    @media only screen and (max-width: 1100px) {
-      display: none !important;
-    }
-  }
-
-  .media--1000 {
-    @media only screen and (max-width: 1000px) {
-      display: none !important;
-    }
-  }
-
-  .media--900 {
-    @media only screen and (max-width: 900px) {
-      display: none !important;
-    }
-  }
-
-  .media--800 {
-    @media only screen and (max-width: 800px) {
-      display: none !important;
-    }
-  }
-
-  .media--700 {
-    @media only screen and (max-width: 700px) {
-      display: none !important;
-    }
-  }
-
-  .media--600 {
-    @media only screen and (max-width: 600px) {
-      display: none !important;
-    }
-  }
-
-  .media--500 {
-    @media only screen and (max-width: 500px) {
-      display: none !important;
-    }
-  }
-
-  .media--400 {
-    @media only screen and (max-width: 400px) {
-      display: none !important;
-    }
-  }
-`;
+`).join('');

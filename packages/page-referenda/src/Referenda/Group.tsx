@@ -45,7 +45,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       ),
       isExpanded && trackInfo && (
         <tr>
-          <th colSpan={9} />
+          <th colSpan={8} />
         </tr>
       )
     ],
@@ -55,9 +55,8 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   const [header, key] = useMemo(
     () => [
       [
-        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 5],
-        [undefined, 'number', 2],
-        [headerButton]
+        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 8],
+        null && [headerButton]
       ],
       trackName
         ? `track:${trackName}`
