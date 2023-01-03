@@ -56,7 +56,8 @@ export default React.memo(styled(BaseOverlay)`
   position: fixed;
   right: 0.75rem;
   top: 0.75rem;
-  max-width: 55rem;
+  max-width: 42rem;
+  width: 42rem;
   z-index: 500;
 
   &:before {
@@ -87,6 +88,7 @@ export default React.memo(styled(BaseOverlay)`
   }
 
   .content {
+    align-items: center;
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
