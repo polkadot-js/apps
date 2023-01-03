@@ -375,11 +375,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
           <h1>{formatNumber(id)}</h1>
         </td>
         <Component {...props} />
-        <td className='action'>
-          <ExpandButton
-            expanded={isExpanded}
-            onClick={toggleExpanded}
-          />
+        <td className='actions'>
+          <div>
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleExpanded}
+            />
+          </div>
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>

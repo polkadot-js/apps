@@ -69,12 +69,12 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
       {splitBody
         ? (
           <>
-            <table className={tableClassName}>
+            <table className={`${tableClassName} noMargin`}>
               {headerNode}
             </table>
             <Columar isPadded={false}>
               <Columar.Column>
-                <table className={tableClassName}>
+                <table className={`${tableClassName} noMargin`}>
                   <Body>
                     {splitBody[0]}
                   </Body>
@@ -119,10 +119,6 @@ export default React.memo(styled(Table)`
   width: 100%;
 
   &.isSplit {
-    > table:first-child {
-      margin-bottom: 0;
-    }
-
     > .ui--Columar {
       margin-bottom: 1.5rem;
     }
@@ -140,7 +136,7 @@ export default React.memo(styled(Table)`
       table-layout: fixed;
     }
 
-    &:not(.isInline) {
+    &:not(.isInline):not(.noMargin) {
       margin-bottom: 1.5rem;
     }
 
@@ -228,6 +224,30 @@ export default React.memo(styled(Table)`
         }
       }
 
+      &.actions {
+        padding-left: 0.35rem;
+        width: 1%;
+
+        > div {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          justify-content: flex-end;
+
+          & > * + * {
+            margin-left: 0.35rem;
+          }
+
+          .ui--Button {
+            white-space: nowrap;
+          }
+        }
+
+        &:not(:last-child) {
+          padding-right: 0;
+        }
+      }
+
       &.address {
         min-width: 11rem;
         overflow-x: hidden;
@@ -243,7 +263,7 @@ export default React.memo(styled(Table)`
       }
 
       &.button {
-        padding: 0.25rem 0.5rem 0.5rem;
+        padding: 0.25rem 0.35rem 0.5rem;
         text-align: right;
         white-space: nowrap;
 
@@ -303,26 +323,6 @@ export default React.memo(styled(Table)`
 
       &.number {
         text-align: right;
-      }
-
-      &.actions {
-        padding-left: 0;
-        width: 1%;
-
-        > div {
-          display: flex;
-          align-items: center;
-          flex-wrap: nowrap;
-          justify-content: flex-end;
-
-          & > * + * {
-            margin-left: 0.35rem;
-          }
-
-          .ui--Button {
-            white-space: nowrap;
-          }
-        }
       }
 
       &.relative {
