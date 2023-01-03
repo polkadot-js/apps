@@ -217,20 +217,22 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </>
           )}
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              className='send-button'
-              icon='paper-plane'
-              key='send'
-              label={t<string>('send')}
-              onClick={_toggleTransfer}
-            />
-          )}
-        </td>
-        <td className='actions'>
-          <div>
+        <td className='actions button'>
+          <Button.Group>
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                key='send'
+                label={t<string>('send')}
+                onClick={_toggleTransfer}
+              />
+            )}
             <Popup value={PopupDropdown} />
+          </Button.Group>
+        </td>
+        <td className='actions button'>
+          <div>
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleIsExpanded}

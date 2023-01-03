@@ -684,18 +684,16 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             )}
           </div>
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              className='send-button'
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
-            />
-          )}
-        </td>
-        <td className='actions'>
-          <div>
+        <td className='actions button'>
+          <Button.Group>
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                label={t<string>('send')}
+                onClick={toggleTransfer}
+              />
+            )}
             <Popup
               isDisabled={!menuItems.length}
               value={
@@ -704,6 +702,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 </Menu>
               }
             />
+          </Button.Group>
+        </td>
+        <td className='actions button'>
+          <div>
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleIsExpanded}
