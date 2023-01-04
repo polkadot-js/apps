@@ -405,7 +405,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     }
-  },  
+  },
   {
     info: 'tanganika',
     homepage: 'https://www.datahighway.com/',
