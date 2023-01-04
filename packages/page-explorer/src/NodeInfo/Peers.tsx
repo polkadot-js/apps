@@ -19,7 +19,7 @@ interface Props {
 function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('connected peers'), 'start'],
     [t('role'), 'start'],
     [t('best #'), 'number'],

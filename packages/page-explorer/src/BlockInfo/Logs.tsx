@@ -101,7 +101,7 @@ function formatItem (item: DigestItem): React.ReactNode {
 function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('logs'), 'start']
   ]);
 

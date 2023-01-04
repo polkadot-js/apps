@@ -54,10 +54,10 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
       [t('candidates'), 'start'],
       [t('bid kind'), 'start'],
       [t('value')]
-    ],
+    ] as [React.ReactNode?, string?, number?][],
     members: [
       [t('members'), 'start', 3]
-    ]
+    ] as [React.ReactNode?, string?, number?][]
   });
 
   return (

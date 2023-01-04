@@ -37,7 +37,7 @@ function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
   const bags = useBagsList();
   const mapOwn = useBagsNodes(stashIds);
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('bags')],
     [t('max'), 'number'],
     [t('min'), 'number'],

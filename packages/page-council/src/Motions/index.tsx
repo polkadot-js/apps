@@ -25,7 +25,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { isMember, members } = useCollectiveMembers('council');
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],

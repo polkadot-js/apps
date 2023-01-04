@@ -54,7 +54,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
     [completeInfos, NO_NAME]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('items'), 'start', 2],
     [t('owner'), 'address media--1000']
   ]);

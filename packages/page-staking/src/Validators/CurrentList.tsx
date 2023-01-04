@@ -138,7 +138,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
     [targets]
   );
 
-  const headerRef = useRef(
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
         [t('intentions'), 'start', 2],

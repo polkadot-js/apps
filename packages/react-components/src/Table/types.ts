@@ -15,13 +15,13 @@ export interface ColFavoriteProps {
 }
 
 export interface TableProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
-  header?: [React.ReactNode?, string?, number?, (() => void)?][];
+  header?: ([React.ReactNode?, string?, number?, (() => void)?] | false | null | undefined)[];
   headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;

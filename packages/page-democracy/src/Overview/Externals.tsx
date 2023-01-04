@@ -20,7 +20,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal);
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('external'), 'start'],
     [t('proposer'), 'address'],
     [t('locked')],

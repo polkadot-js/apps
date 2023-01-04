@@ -24,7 +24,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = usePreimages();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('preimages'), 'start', 2],
     [undefined, 'media--1300'],
     [t('size'), 'media--1000'],
