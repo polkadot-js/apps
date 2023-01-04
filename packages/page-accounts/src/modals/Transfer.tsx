@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -12,7 +12,7 @@ import { checkAddress } from '@polkadot/phishing';
 import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -58,27 +58,23 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     const fromId = propSenderId || senderId as string;
     const toId = propRecipientId || recipientId as string;
 
-    if (balances && balances.accountId?.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
-      setTimeout((): void => {
+    if (balances && balances.accountId?.eq(fromId) && fromId && toId && api.call.transactionPaymentApi && api.tx.balances) {
+      nextTick(async (): Promise<void> => {
         try {
-          api.tx.balances
-            ?.transfer(toId, balances.availableBalance)
-            .paymentInfo(fromId)
-            .then(({ partialFee }): void => {
-              const adjFee = partialFee.muln(110).div(BN_HUNDRED);
-              const maxTransfer = balances.availableBalance.sub(adjFee);
+          const extrinsic = api.tx.balances.transfer(toId, balances.availableBalance);
+          const { partialFee } = await extrinsic.paymentInfo(fromId);
+          const adjFee = partialFee.muln(110).div(BN_HUNDRED);
+          const maxTransfer = balances.availableBalance.sub(adjFee);
 
-              setMaxTransfer(
-                maxTransfer.gt(api.consts.balances?.existentialDeposit)
-                  ? [maxTransfer, false]
-                  : [null, true]
-              );
-            })
-            .catch(console.error);
+          setMaxTransfer(
+            api.consts.balances && maxTransfer.gt(api.consts.balances.existentialDeposit)
+              ? [maxTransfer, false]
+              : [null, true]
+          );
         } catch (error) {
-          console.error((error as Error).message);
+          console.error(error);
         }
-      }, 0);
+      });
     } else {
       setMaxTransfer([null, false]);
     }

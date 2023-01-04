@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '../settings/types';
@@ -36,6 +36,7 @@ export interface LinkOption extends Option {
   summary?: string;
   teleport?: number[];
   textBy: string;
+  textRelay?: React.ReactNode;
   value: string;
   valueRelay?: string[];
 }

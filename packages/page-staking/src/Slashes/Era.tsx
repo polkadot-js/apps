@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -8,7 +8,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { BN_ONE, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Row from './Row';
@@ -48,13 +48,21 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
     };
   });
 
-  const headerRef = useRef<[string?, string?, number?][]>([
-    [t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 3],
+  const headerRef = useRef<([string?, string?, number?] | false)[]>([
+    [t('era {{era}}/unapplied', {
+      replace: {
+        era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
+          ? slash.era.toString()
+          : slash.era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE).toString()
+      }
+    }), 'start', 3],
     [t('reporters'), 'address'],
     [t('own')],
     [t('other')],
     [t('total')],
     [t('payout')],
+    !api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration &&
+      [t('apply')],
     []
   ]);
 

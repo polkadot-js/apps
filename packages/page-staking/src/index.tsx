@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -129,7 +129,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'targets',
       text: t<string>('Targets')
     },
-    hasStashes && isFunction((api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
+    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
       name: 'bags',
       text: t<string>('Bags')
     },

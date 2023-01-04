@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -55,7 +55,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(poolId)}</h1></td>
         <td className='start'>{info && info.metadata}</td>
         <td className='number media--1100'>{info && info.bonded.state.type}</td>

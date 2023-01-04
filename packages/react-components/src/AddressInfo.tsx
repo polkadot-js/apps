@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -15,7 +15,7 @@ import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, formatBalance, formatNumber, isObject } from '@polkadot/util';
+import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
 import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
@@ -30,6 +30,7 @@ export interface BalanceActiveType {
   bonded?: boolean | BN[];
   extraInfo?: [React.ReactNode, React.ReactNode][];
   locked?: boolean;
+  nonce?: boolean;
   redeemable?: boolean;
   reserved?: boolean;
   total?: boolean;
@@ -52,6 +53,7 @@ interface Props {
   balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
   className?: string;
+  convictionLocks?: RefLock[];
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
@@ -62,6 +64,13 @@ interface Props {
   withHexSessionId?: (string | null)[];
   withValidatorPrefs?: boolean | ValidatorPrefsType;
   withLabel?: boolean;
+}
+
+interface RefLock {
+  endBlock: BN;
+  locked: string;
+  refId: BN;
+  total: BN;
 }
 
 const DEFAULT_BALANCES: BalanceActiveType = {
@@ -222,7 +231,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -430,6 +439,59 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         </React.Fragment>
       );
     }
+
+    if (convictionLocks && convictionLocks.length) {
+      const max = convictionLocks.reduce((max, { total }) => bnMax(max, total), BN_ZERO);
+
+      allItems.push(
+        <React.Fragment key={9}>
+          <Label label={t<string>('referenda')} />
+          <FormatBalance
+            className='result'
+            labelPost={
+              <>
+                <Icon
+                  icon='clock'
+                  tooltip={`${address}-conviction-locks-trigger`}
+                />
+                <Tooltip
+                  text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
+                    <div key={index}>
+                      <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
+                      <div className='faded nowrap'>{
+                        endBlock.eq(BN_MAX_INTEGER)
+                          ? t('ongoing referendum')
+                          : bestNumber.gte(endBlock)
+                            ? t('lock expired')
+                            : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
+                              <BlockToTime
+                                isInline
+                                value={endBlock.sub(bestNumber)}
+                              /></>
+                      }</div>
+                    </div>
+                  ))}
+                  trigger={`${address}-conviction-locks-trigger`}
+                />
+              </>
+            }
+            value={max}
+          />
+        </React.Fragment>
+      );
+    }
+  }
+
+  if (balancesAll && (balancesAll as DeriveBalancesAll).accountNonce && balanceDisplay.nonce) {
+    allItems.push(
+      <React.Fragment key={10}>
+        <Label label={t<string>('transactions')} />
+        <div className='result'>
+          {formatNumber((balancesAll as DeriveBalancesAll).accountNonce)}
+          <IconVoid />
+        </div>
+      </React.Fragment>
+    );
   }
 
   if (withBalanceToggle) {
@@ -461,7 +523,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -472,7 +534,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
-  const baseOpts = { address, balanceDisplay, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
+  const baseOpts = { address, balanceDisplay, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 
   withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
@@ -490,6 +552,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   const lookup = useRef<Record<string, string>>({
     democrac: t<string>('via Democracy/Vote'),
     phrelect: t<string>('via Council/Vote'),
+    pyconvot: t<string>('via Referenda/Vote'),
     'staking ': t<string>('via Staking/Bond'),
     'vesting ': t<string>('via Vesting')
   });
@@ -546,6 +609,20 @@ export default withMulti(
       justify-content: flex-end;
     }
 
+    .nowrap {
+      white-space: nowrap;
+
+      .ui--FormatBalance {
+        display: inline-block;
+      }
+    }
+
+    & + .ui--Button,
+    & + .ui--ButtonGroup {
+      margin-right: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
     .column {
       max-width: 260px;
       &.column--expander {
@@ -582,6 +659,14 @@ export default withMulti(
           padding-right: 0.5rem;
           text-align: right;
           vertical-align: middle;
+
+          // from h5
+          font-style: normal;
+          font-weight: var(--font-weight-normal);
+          font-size: 0.714rem;
+          line-height: 1rem;
+          text-transform: uppercase;
+          margin-bottom: 0.25rem;
 
           .help.circle.icon {
             display: none;

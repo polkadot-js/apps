@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -26,7 +26,7 @@ function BlockToTime ({ api, children, className = '', isInline, label, value }:
   }
 
   return (
-    <div className={`${className}${isInline ? ' isInline' : ''}`}>
+    <div className={`.ui--BlockToTime ${className}${isInline ? ' isInline' : ''}`}>
       {label || ''}{text.split(' ').map((v, index) =>
         <span
           className={index % 2 ? 'timeUnits' : undefined}

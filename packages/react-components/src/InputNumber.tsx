@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
-import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
@@ -48,7 +47,7 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
+const DEFAULT_BITLENGTH = 32;
 
 export class TokenUnit {
   public static abbr = 'Unit';
@@ -125,7 +124,7 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
     }
 
     const div = new BN(input.replace(/\.\d*$/, ''));
-    const modString = input.replace(/^\d+\./, '').substr(0, api.registry.chainDecimals[0]);
+    const modString = input.replace(/^\d+\./, '').substring(0, api.registry.chainDecimals[0]);
     const mod = new BN(modString);
 
     result = div

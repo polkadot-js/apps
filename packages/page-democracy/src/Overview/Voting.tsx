@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
@@ -74,6 +74,10 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 label={t<string>('conviction')}
                 onChange={setConviction}
                 value={conviction}
+                voteLockingPeriod={
+                  api.consts.democracy.voteLockingPeriod ||
+                  api.consts.democracy.enactmentPeriod
+                }
               />
             </Modal.Columns>
           </Modal.Content>

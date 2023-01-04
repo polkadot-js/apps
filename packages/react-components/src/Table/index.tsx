@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import Columar from '../Columar';
 import Body from './Body';
 import Foot from './Foot';
 import Head from './Head';
@@ -16,14 +17,15 @@ interface TableProps {
   filter?: React.ReactNode;
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
+  headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
+  isSplit?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
-  withCollapsibleRows: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode] {
+function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
   if (!Array.isArray(children)) {
     return [!children, children];
   }
@@ -34,37 +36,93 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
+  const splitBody = useMemo(
+    (): [React.ReactNode[], React.ReactNode[]] | null => {
+      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
+        return null;
+      }
+
+      const half = Math.ceil(bodyChildren.length / 2);
+
+      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
+    },
+    [bodyChildren, isEmpty, isSplit]
+  );
+
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`;
+  const headerNode = (
+    <Head
+      filter={filter}
+      header={header}
+      isEmpty={isEmpty}
+    >
+      {headerChildren}
+    </Head>
+  );
+
   return (
-    <div className={`ui--Table ${className}`}>
+    <div className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
-        <Head
-          filter={filter}
-          header={header}
-          isEmpty={isEmpty}
-        />
-        <Body
-          empty={empty}
-          emptySpinner={emptySpinner}
-          noBodyTag={noBodyTag}
-        >
-          {bodyChildren}
-        </Body>
-        <Foot
-          footer={footer}
-          isEmpty={isEmpty}
-        />
-      </table>
+      {splitBody
+        ? (
+          <>
+            <table className={`${tableClassName} noMargin`}>
+              {headerNode}
+            </table>
+            <Columar isPadded={false}>
+              <Columar.Column>
+                <table className={`${tableClassName} noMargin`}>
+                  <Body>
+                    {splitBody[0]}
+                  </Body>
+                </table>
+              </Columar.Column>
+              <Columar.Column>
+                <table className={tableClassName}>
+                  <Body>
+                    {splitBody[1]}
+                  </Body>
+                </table>
+              </Columar.Column>
+            </Columar>
+          </>
+        )
+        : (
+          <table className={tableClassName}>
+            {headerNode}
+            <Body
+              empty={empty}
+              emptySpinner={emptySpinner}
+              noBodyTag={noBodyTag}
+            >
+              {bodyChildren}
+            </Body>
+            <Foot
+              footer={footer}
+              isEmpty={isEmpty}
+            />
+          </table>
+        )
+      }
     </div>
   );
 }
 
+const BORDER_WIDTH_BT = '2px';
+const BORDER_WIDTH_LR = '1px'; // 50% of bottom/top for isSplit
+
 export default React.memo(styled(Table)`
   max-width: 100%;
   width: 100%;
+
+  &.isSplit {
+    > .ui--Columar {
+      margin-bottom: 1.5rem;
+    }
+  }
 
   table {
     border-spacing: 0;
@@ -78,23 +136,14 @@ export default React.memo(styled(Table)`
       table-layout: fixed;
     }
 
-    &:not(.isInline) {
+    &:not(.isInline):not(.noMargin) {
       margin-bottom: 1.5rem;
     }
 
     &.isInline {
-      &.highlight--bg-faint,
-      &.highlight--bg-faint::before {
-        background: transparent;
-      }
-
-      tbody tr {
-        background: transparent;
-
-        td {
-          border-top-width: 1px;
-          padding: 0.25rem 0.75rem;
-        }
+      tbody tr td {
+        border-top-width: 1px;
+        padding: 0.25rem 0.75rem;
       }
     }
 
@@ -125,21 +174,14 @@ export default React.memo(styled(Table)`
         }
       }
     }
+  }
 
-    &.withCollapsibleRows tbody tr {
-      background-color: unset;
+  tbody, thead {
+    position: relative;
+    width: 100%;
 
-      &:nth-child(4n - 2),
-      &:nth-child(4n - 3) {
-        background-color: var(--bg-table);
-      }
-    }
-
-    &:not(.withCollapsibleRows) tbody tr {
-      &.isOdd,
-      &:nth-child(odd):not(.isEven) {
-        background: var(--bg-table);
-      }
+    tr {
+      width: 100%;
     }
   }
 
@@ -147,17 +189,21 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 1px solid var(--border-table);
+      border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
 
+      > article.mark {
+        margin-left: 0rem;
+      }
+
       &:first-child {
-        border-left: 1px solid var(--border-table);
+        border-left: ${BORDER_WIDTH_LR} solid var(--border-table);
       }
 
       &:last-child {
-        border-right: 1px solid var(--border-table);
+        border-right: ${BORDER_WIDTH_LR} solid var(--border-table);
       }
 
       label {
@@ -178,6 +224,30 @@ export default React.memo(styled(Table)`
         }
       }
 
+      &.actions {
+        padding-left: 0.35rem;
+        width: 1%;
+
+        > div {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          justify-content: flex-end;
+
+          & > * + * {
+            margin-left: 0.35rem;
+          }
+
+          .ui--Button {
+            white-space: nowrap;
+          }
+        }
+
+        &:not(:last-child) {
+          padding-right: 0;
+        }
+      }
+
       &.address {
         min-width: 11rem;
         overflow-x: hidden;
@@ -187,8 +257,13 @@ export default React.memo(styled(Table)`
         padding: 0.5rem;
       }
 
+      &.balance {
+        min-width: 20rem;
+        padding: 0.5rem 0 0.75rem;
+      }
+
       &.button {
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.35rem 0.5rem;
         text-align: right;
         white-space: nowrap;
 
@@ -204,6 +279,10 @@ export default React.memo(styled(Table)`
             display: inline-block !important;
           }
         }
+      }
+
+      &.chart {
+        padding: 0;
       }
 
       &.combined {
@@ -248,6 +327,13 @@ export default React.memo(styled(Table)`
 
       &.relative {
         position: relative;
+
+        .absolute {
+          position: absolute;
+          right: 0.5rem;
+          top: 0.75rem;
+          white-space: nowrap;
+        }
       }
 
       &.overflow {
@@ -267,6 +353,19 @@ export default React.memo(styled(Table)`
 
       &.top {
         vertical-align: top;
+      }
+
+      &.columar {
+        vertical-align: top;
+
+        .ui--Columar .ui--Column {
+          margin: 1rem 0 0.75rem 0;
+          padding: 0;
+
+          * + h5 {
+            margin-top: 1rem;
+          }
+        }
       }
 
       &.middle {
@@ -289,8 +388,12 @@ export default React.memo(styled(Table)`
         text-transform: uppercase;
       }
 
-      &.favorite .ui--Icon.isSelected {
-        color: darkorange;
+      &.favorite {
+        padding-right: 0;
+
+        .ui--Icon.isSelected {
+          color: darkorange;
+        }
       }
 
       .ui--Button-Group .ui--Button:not(.isToplevel) {
@@ -299,41 +402,35 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      &:first-child {
+      background: var(--bg-table);
+
+      & + tr.isExpanded {
         td {
-          border-top: 0.25rem solid var(--bg-page);
-        }
-
-        td:first-child {
-          border-top-left-radius: 0.25rem;
-        }
-
-        td:last-child {
-          border-top-right-radius: 0.25rem;
+          border-top: none;
         }
       }
 
-      &:last-child {
+      &.packedBottom {
         td {
-          border-bottom: 1px solid var(--border-table);
+          padding-bottom: 0;
+        }
+      }
 
-          &:first-child {
-            border-bottom-left-radius: 0.25rem;
-          }
+      &.packedTop {
+        td {
+          padding-top: 0;
+        }
+      }
 
-          :last-child {
-            border-bottom-right-radius: 0.25rem;
-          }
+      &.packedAll {
+        td {
+          padding-bottom: 0;
+          padding-top: 0;
         }
       }
 
       &.transparent {
         background: transparent;
-      }
-
-      &.noBorder td {
-        border-bottom: 1px solid transparent;
-        padding-bottom: 0 !important;
       }
 
       &.isCollapsed {

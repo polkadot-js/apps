@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey, u64 } from '@polkadot/types';
@@ -55,7 +55,7 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
 function useBagsListImpl (): BagInfo[] | undefined {
   const mod = useQueryModule();
   const [result, setResult] = useState<BagInfo[] | undefined>();
-  const ids = useMapKeys(mod.listBags, KEY_OPTS);
+  const ids = useMapKeys(mod.listBags, [], KEY_OPTS);
   const query = useCall(ids && ids.length !== 0 && mod.listBags.multi, [ids], MULTI_OPTS);
 
   useEffect((): void => {

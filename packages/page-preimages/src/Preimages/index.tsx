@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
+import styled from 'styled-components';
 
 import { Button, Table } from '@polkadot/react-components';
 
@@ -25,9 +26,10 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('preimages'), 'start', 2],
-    [t('size')],
-    [t('status')],
-    [t('count')]
+    [undefined, 'media--1300'],
+    [t('size'), 'media--1000'],
+    [t('status'), 'start media--1200'],
+    [t('count'), 'media--1400']
   ]);
 
   return (
@@ -52,4 +54,10 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Hashes);
+export default React.memo(styled(Hashes)`
+  td.preimage-status {
+    div+.ui--Button {
+      margin-top: 0.25rem;
+    }
+  }
+`);

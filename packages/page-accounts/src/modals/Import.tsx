@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Dispatch, SetStateAction } from 'react';
@@ -11,7 +11,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, MarkError, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, u8aToString } from '@polkadot/util';
+import { assert, nextTick, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ExternalWarning from './ExternalWarning';
@@ -75,7 +75,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
@@ -100,7 +100,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         if (status.status !== 'error') {
           onClose();
         }
-      }, 0);
+      });
     },
     [onClose, onStatusChange, pair, password, t]
   );

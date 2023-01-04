@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountBalance } from '../types';
@@ -26,7 +26,10 @@ function Summary ({ balance, className }: Props) {
               <FormatBalance value={balance.total} />
             </CardSummary>}
           {balance.transferrable.gtn(0) &&
-            <CardSummary label={t<string>('total transferrable')}>
+            <CardSummary
+              className='media--900'
+              label={t<string>('total transferrable')}
+            >
               <FormatBalance value={balance.transferrable} />
             </CardSummary>}
           {balance.locked.gtn(0) &&
@@ -34,15 +37,24 @@ function Summary ({ balance, className }: Props) {
               <FormatBalance value={balance.locked} />
             </CardSummary>}
           {balance.bonded.gtn(0) &&
-            <CardSummary label={t<string>('bonded')}>
+            <CardSummary
+              className='media--1100'
+              label={t<string>('bonded')}
+            >
               <FormatBalance value={balance.bonded} />
             </CardSummary>}
           {balance.redeemable.gtn(0) &&
-            <CardSummary label={t<string>('redeemable')}>
+            <CardSummary
+              className='media--1500'
+              label={t<string>('redeemable')}
+            >
               <FormatBalance value={balance.redeemable} />
             </CardSummary>}
           {balance.unbonding.gtn(0) &&
-            <CardSummary label={t<string>('unbonding')}>
+            <CardSummary
+              className='media--1300'
+              label={t<string>('unbonding')}
+            >
               <FormatBalance value={balance.unbonding} />
             </CardSummary>}
         </>)}

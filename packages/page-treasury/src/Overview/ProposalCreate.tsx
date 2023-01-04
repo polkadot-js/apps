@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -99,7 +99,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
                   label={t<string>('maximum bond')}
                 />
               )}
-              <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
+              <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions>

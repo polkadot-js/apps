@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useContext, useState } from 'react';
@@ -21,15 +21,13 @@ let tagId = 0;
 function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }: Props): React.ReactElement<Props> {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
-  const tooltipProps = hover
-    ? { 'data-for': trigger, 'data-tip': true }
-    : {};
 
   return (
     <div
       className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
       color={color || 'grey'}
-      {...tooltipProps}
+      data-for={hover && trigger}
+      data-tip={!!hover}
     >
       {label}
       {hover && (
@@ -50,6 +48,7 @@ export default React.memo(styled(Tag)`
   font-weight: var(--font-weight-normal);
   line-height: 1.143rem;
   margin: 0 0.125rem;
+  opacity: 0.85;
   padding: 0.25em 0.75em;
   position: relative;
   white-space: nowrap;
@@ -57,6 +56,10 @@ export default React.memo(styled(Tag)`
 
   &.tinySize {
     font-size: .71428571rem;
+  }
+
+  &.blackColor {
+    background: #000;
   }
 
   &.blueColor {
@@ -77,6 +80,10 @@ export default React.memo(styled(Tag)`
 
   &.pinkColor {
     background: #e03997;
+  }
+
+  &.purpleColor {
+    background: #a45ee5;
   }
 
   &.redColor {

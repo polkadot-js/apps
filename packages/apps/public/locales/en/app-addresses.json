@@ -10,12 +10,10 @@
   "address created": "address created",
   "address edited": "address edited",
   "address forgotten": "address forgotten",
-  "balances": "balances",
   "contacts": "contacts",
   "filter by name or tags": "filter by name or tags",
   "name": "name",
   "new address": "new address",
   "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address",
-  "send": "send",
-  "transactions": "transactions"
+  "send": "send"
 }

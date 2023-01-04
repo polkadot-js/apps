@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -16,6 +16,7 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     SORA: 'sora-substrate',
     Shiden: 'shiden',

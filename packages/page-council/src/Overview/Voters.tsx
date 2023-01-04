@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -32,7 +32,7 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='all expand'>
+      <td className='expand'>
         <ExpanderScroll
           renderChildren={renderVoters}
           summary={<FormatBalance value={balance} />}

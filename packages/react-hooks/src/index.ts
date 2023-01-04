@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export { createNamedHook } from './createNamedHook';
@@ -63,6 +63,7 @@ export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';
 export { useSystemApi } from './useSystemApi';
 export { useTeleport } from './useTeleport';
+export { useTheme } from './useTheme';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
 export { useTxBatch } from './useTxBatch';

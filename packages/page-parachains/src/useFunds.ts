@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -157,7 +157,7 @@ function useFundsImpl (): Campaigns {
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, OPT_FUNDS, trigger.blockHash);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, [], OPT_FUNDS, trigger.blockHash);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUNDS_MULTI);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { assert, isNumber, isString } from '@polkadot/util';
@@ -16,7 +16,7 @@ const allEndpoints = createWsEndpoints(undefined, false, false);
 const INVALID_CHARS = ['%'];
 
 describe('WS urls are all valid', (): void => {
-  allEndpoints
+  const endpoints = allEndpoints
     .filter(({ value }) =>
       value &&
       isString(value) &&
@@ -26,13 +26,12 @@ describe('WS urls are all valid', (): void => {
       name: text as string,
       provider: textBy,
       value
-    }))
-    .forEach(({ name, provider, value }) =>
-      it(`${name}:: ${provider}`, (): void => {
-        assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light:// without invalid characters`);
-        assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
-      })
-    );
+    }));
+
+  it.each(endpoints)('$name:: $provider', ({ name, provider, value }): void => {
+    assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light://`);
+    assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
+  });
 });
 
 describe('urls are sorted', (): void => {
@@ -87,19 +86,14 @@ describe('urls are not duplicated', (): void => {
       return map;
     }, {} as Record<string, string[]>);
 
-  Object
-    .entries(map)
-    .forEach(([url, paths]) =>
-      it(url, (): void => {
-        assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
-      })
-    );
+  it.each(Object.entries(map))('%s', (url, paths): void => {
+    assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
+  });
 });
 
-describe('endpopints do not contain emojis or all uppercase', (): void => {
+describe('endpopints naming', (): void => {
   const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
-
-  allEndpoints
+  const endpoints = allEndpoints
     .filter(({ value }) =>
       value &&
       isString(value) &&
@@ -109,12 +103,27 @@ describe('endpopints do not contain emojis or all uppercase', (): void => {
       name: text as string,
       provider: textBy,
       value
-    }))
-    .forEach(({ name, provider }) =>
-      it(`${name}:: ${provider}`, (): void => {
-        assert(!emoji.test(name), `${name} should not contain any emojis`);
-        assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);
-        assert(!provider.includes(' ') || (provider.toLocaleUpperCase() !== provider), `${name}:: ${provider} should not be all uppercase`);
-      })
-    );
+    }));
+
+  describe.each(endpoints)('$name:: $provider', ({ name, provider }): void => {
+    it('name/provider has no emojis', (): void => {
+      assert(!emoji.test(name), `${name} should not contain any emojis`);
+      assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);
+    });
+
+    it('provider not all uppercase', (): void => {
+      assert(!provider.includes(' ') || (provider.toLocaleUpperCase() !== provider), `${name}:: ${provider} should not be all uppercase`);
+    });
+
+    it('does not contain "Parachain', (): void => {
+      assert(!name.includes('Parachain'), `${name} should not contain "Parachain" (redundant)`);
+    });
+
+    it('does not contain a relay name', (): void => {
+      assert(!name.includes(' ') || !name.includes('Kusama'), `${name} should not contain "Kusama" (redundant)`);
+      assert(!name.includes(' ') || !name.includes('Polkadot'), `${name} should not contain "Polkadot" (redundant)`);
+      assert(!name.includes(' ') || !name.includes('Rococo'), `${name} should not contain "Rococo" (redundant)`);
+      assert(!name.includes(' ') || !name.includes('Westend'), `${name} should not contain "Westend" (redundant)`);
+    });
+  });
 });

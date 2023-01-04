@@ -1,0 +1,76 @@
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
+import type { PalletReferenda } from '../../types';
+
+import React from 'react';
+import styled from 'styled-components';
+
+import { AddressMini } from '@polkadot/react-components';
+
+import Place from './Place';
+import Refund from './Refund';
+
+interface Props {
+  canDeposit?: boolean;
+  canRefund?: boolean;
+  className?: string;
+  decision: PalletReferendaDeposit | null;
+  id: BN;
+  noMedia?: boolean;
+  palletReferenda: PalletReferenda;
+  submit: PalletReferendaDeposit | null;
+  track?: PalletReferendaTrackInfo;
+}
+
+function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedia, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
+  return (
+    <td className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
+      {submit && (
+        <AddressMini
+          balance={submit.amount}
+          className={noMedia ? '' : 'media--1000'}
+          value={submit.who}
+          withBalance
+        />
+      )}
+      {decision
+        ? (
+          <>
+            <AddressMini
+              balance={decision.amount}
+              className={noMedia ? '' : 'media--1000'}
+              value={decision.who}
+              withBalance
+            />
+            {canRefund && (
+              <div className={noMedia ? '' : 'media--1000'}>
+                <Refund
+                  id={id}
+                  palletReferenda={palletReferenda}
+                />
+              </div>
+            )}
+          </>
+        )
+        : canDeposit && track && (
+          <div className={noMedia ? '' : 'media--1000'}>
+            <Place
+              id={id}
+              palletReferenda={palletReferenda}
+              track={track}
+            />
+          </div>
+        )
+      }
+    </td>
+  );
+}
+
+export default React.memo(styled(Deposits)`
+  .ui--AddressMini+.ui--Button {
+    margin-top: 0.25rem;
+  }
+`);

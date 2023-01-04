@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -117,6 +117,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
           params: isEntries
             ? [key.entries, ...values]
             : blockHash
+              // eslint-disable-next-line deprecation/deprecation
               ? [key.at, blockHash, ...values]
               : [key, ...values],
           withIndicator: true

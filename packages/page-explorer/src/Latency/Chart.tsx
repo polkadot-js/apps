@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartContents } from './types';
@@ -17,9 +17,6 @@ interface Props {
 }
 
 const OPTIONS = {
-  animation: {
-    duration: 0
-  },
   aspectRatio: 6,
   maintainAspectRatio: true
 };

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -12,7 +12,6 @@ import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/util-crypto';
 
 import Badge from './Badge';
 import { getAddressName } from './util';
@@ -50,7 +49,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
   return (addr: unknown): string | null => {
     const u8a = isCodec(addr)
       ? addr.toU8a()
-      : decodeAddress(addr as string);
+      : registry.createType('AccountId', addr as string).toU8a();
 
     return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
       ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${add ? ` (${add})` : ''}`
@@ -68,7 +67,8 @@ const MATCHERS: AddrMatcher[] = [
   // Westend
   createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
-  createNumMatcher('para', 'Parachain')
+  createNumMatcher('para', 'Parachain'),
+  createNumMatcher('sibl', 'Sibling')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -13,7 +13,7 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className} ${withBorder ? 'withBorder' : 'withoutBorder'} ${withPadding ? 'withPadding' : ''}`}>
+    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}`}>
       {children}
     </div>
   );
@@ -21,12 +21,15 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 
 export default React.memo(styled(Holder)`
   &.withBorder {
-    border-left: 0.25rem solid #f2f2f2;
-  }
+    padding-left: 1.5rem;
 
-  &.withoutBorder {
-    margin-left: -1.75rem;
-    padding: 0;
+    .ui--Params-Content {
+      border-left: 0.25rem solid #f2f2f2;
+
+      .ui--Params.withBorder {
+        padding-left: 0.25rem;
+      }
+    }
   }
 
   &.withPadding {
@@ -48,7 +51,11 @@ export default React.memo(styled(Holder)`
 
   .ui--Params-Content {
     box-sizing: border-box;
-    padding: 0 0 0 1.75rem;
+    padding: 0;
+
+    .ui--Params-Content {
+      margin-left: 1.75rem;
+    }
   }
 
   .ui--Param-text {

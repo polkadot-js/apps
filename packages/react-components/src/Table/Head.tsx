@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -9,13 +9,14 @@ import Icon from '../Icon';
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
   header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ children, className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
@@ -52,12 +53,13 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
           </th>
         )}
       </tr>
+      {children}
     </thead>
   );
 }
 
 export default React.memo(styled(Head)`
-  position: relative;
+  opacity: 0.85;
   z-index: 1;
 
   th {
@@ -81,6 +83,13 @@ export default React.memo(styled(Head)`
         margin-right: 0.5rem;
         vertical-align: middle;
       }
+
+      .sub {
+        display: inline-block;
+        font-size: 1rem;
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
+      }
     }
 
     &:first-child {
@@ -100,7 +109,8 @@ export default React.memo(styled(Head)`
       padding: 0;
     }
 
-    &.expand {
+    &.expand,
+    &.number {
       text-align: right;
     }
 

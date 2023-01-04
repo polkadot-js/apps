@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,9 +8,13 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     Acala: 'acala',
+    Altair: 'altair',
+    Basilisk: 'basilisk',
     Bifrost: 'bifrost',
+    Centrifuge: 'centrifuge',
     Crust: 'crust',
     'Darwinia Crab': 'crab',
+    HydraDX: 'hydradx',
     Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
@@ -19,6 +23,7 @@ export default {
     Phala: 'phala',
     Polkadot: 'polkadot',
     'Turing Network': 'turing',
+    Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
@@ -29,7 +34,9 @@ export default {
     bounty: 'treasury/bounty',
     council: 'council/motion',
     external: 'democracy/external',
+    fellowshipReferenda: 'fellowship/referendum',
     proposal: 'democracy/proposal',
+    referenda: 'referenda/referendum',
     referendum: 'democracy/referendum',
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'

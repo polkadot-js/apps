@@ -13,7 +13,6 @@
   "Nonce": "Nonce",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.",
   "Preparing QR for signing": "Preparing QR for signing",
-  "Sending transaction": "Sending transaction",
   "Set to 0 to make transaction immortal": "Set to 0 to make transaction immortal",
   "Sign (no submission)": "Sign (no submission)",
   "Sign and Submit": "Sign and Submit",

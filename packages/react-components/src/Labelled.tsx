@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -101,6 +101,10 @@ export default React.memo(styled(Labelled)`
         > label {
           left: 1.55rem;
         }
+      }
+
+      &.isOuter {
+        margin: 0.25rem 0;
       }
 
       .labelExtra {

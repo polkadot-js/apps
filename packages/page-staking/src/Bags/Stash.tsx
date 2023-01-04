@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -63,7 +63,7 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
               isDisabled={isLoading}
               label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
               params={[stashInfo.jump]}
-              tx={(api.tx.bagsList || api.tx.voterList).putInFrontOf}
+              tx={(api.tx.voterBagsList || api.tx.bagsList || api.tx.voterList).putInFrontOf}
             />
           )
           : null

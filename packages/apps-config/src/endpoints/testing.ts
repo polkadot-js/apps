@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -17,6 +17,13 @@ export * from './testingRelayWestend';
 // IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
   {
+    info: '3dpass-testnet',
+    text: '3DPass Testnet',
+    providers: {
+      '3dpass': 'wss://test-rpc.3dpass.org'
+    }
+  },
+  {
     info: 'ajuna',
     text: 'Ajuna Testnet',
     providers: {
@@ -27,15 +34,15 @@ export const testChains: EndpointOption[] = [
     info: 'aleph',
     text: 'Aleph Zero Testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
+      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
     }
   },
   {
     info: 'nodle',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7652
     text: 'Arcadia',
     providers: {
-      Nodle: 'wss://arcadia1.nodleprotocol.io'
+      // Nodle: 'wss://arcadia1.nodleprotocol.io' // https://github.com/polkadot-js/apps/issues/7652
     }
   },
   {
@@ -71,14 +78,14 @@ export const testChains: EndpointOption[] = [
     info: 'edgeware',
     text: 'Beresheet',
     providers: {
-      'Commonwealth Labs': 'wss://beresheet.edgewa.re'
+      JelliedOwl: 'wss://beresheet.jelliedowl.net'
     }
   },
   {
     info: 'bifrost',
     text: 'Bifrost Stage Network',
     providers: {
-      Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws'
+      // Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/8139
     }
   },
   {
@@ -86,6 +93,13 @@ export const testChains: EndpointOption[] = [
     text: 'Bit.Country - Metaverse Network',
     providers: {
       'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
+    }
+  },
+  {
+    info: 'bitgreen',
+    text: 'Bitgreen Testnet',
+    providers: {
+      Bitgreen: 'wss://standalonetestnet.bitgreen.org'
     }
   },
   {
@@ -97,10 +111,9 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'clover',
-    isDisabled: true, // Cannot construct unknown type BridgeNetworks
     text: 'Clover',
     providers: {
-      Clover: 'wss://api.clover.finance/'
+      // Clover: 'wss://api.clover.finance/' // Cannot construct unknown type BridgeNetworks
     }
   },
   {
@@ -124,8 +137,8 @@ export const testChains: EndpointOption[] = [
     info: 'Crust Maxwell',
     text: 'Crust Maxwell',
     providers: {
-      'Crust Network': 'wss://api.crust.network/',
-      'DCloud Foundation': 'wss://api.decloudf.com/'
+      // 'Crust Network': 'wss://api.crust.network/', // https://github.com/polkadot-js/apps/issues/8060
+      // 'DCloud Foundation': 'wss://api.decloudf.com/' // https://github.com/polkadot-js/apps/issues/8060
       // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -138,19 +151,24 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio-testnet',
+    text: 'DeBio Testnet',
+    providers: {
+      DeBio: 'wss://ws-rpc.testnet.debio.network'
+    }
+  },
+  {
     info: 'dock-testnet',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6831
     text: 'Dock',
     providers: {
-      'Dock Association': 'wss://knox-1.dock.io'
+      // 'Dock Association': 'wss://knox-1.dock.io' // https://github.com/polkadot-js/apps/issues/6831
     }
   },
   {
     info: 'dolphin',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7439
     text: 'Dolphin Testnet',
     providers: {
-      'Dolphin Testnet': 'wss://trillian.dolphin.red'
+      // 'Dolphin Testnet': 'wss://trillian.dolphin.red' // https://github.com/polkadot-js/apps/issues/7439
     }
   },
   {
@@ -169,34 +187,30 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'equilibrium',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6250
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://testnet.equilibrium.io'
-    }
-  },
-  {
-    info: 'substrate',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/5571
-    text: 'Flaming Fir',
-    providers: {
-      Parity: 'wss://substrate-rpc.parity.io'
+      // Equilibrium: 'wss://testnet.equilibrium.io' // https://github.com/polkadot-js/apps/issues/6250
     }
   },
   {
     info: 'fantour',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6519
     text: 'Fantour',
     providers: {
-      FantourDev: 'wss://test-ws.fantour.io'
+      // FantourDev: 'wss://test-ws.fantour.io' // https://github.com/polkadot-js/apps/issues/6519
+    }
+  },
+  {
+    info: 'substrate',
+    text: 'Flaming Fir',
+    providers: {
+      // Parity: 'wss://substrate-rpc.parity.io' // https://github.com/polkadot-js/apps/issues/5571
     }
   },
   {
     info: 'Galital',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6721
     text: 'Galital PC2',
     providers: {
-      StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
+      // StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com' // https://github.com/polkadot-js/apps/issues/6721
     }
   },
   {
@@ -209,25 +223,23 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'gamepower',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7223
     text: 'GamePower',
     providers: {
-      GamePower: 'wss://gamepower.io'
+      // GamePower: 'wss://gamepower.io' // https://github.com/polkadot-js/apps/issues/7223
     }
   },
   {
     info: 'geek',
     text: 'GeekCash',
     providers: {
-      'Geek Team': 'wss://testnet.geekcash.org'
+      // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     }
   },
   {
     info: 'halongbay',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6871
     text: 'Halongbay Testnet',
     providers: {
-      Halongbay: 'wss://halongbay.polkafoundry.com'
+      // Halongbay: 'wss://halongbay.polkafoundry.com' // https://github.com/polkadot-js/apps/issues/6871
     }
   },
   {
@@ -241,7 +253,7 @@ export const testChains: EndpointOption[] = [
     info: 'brainstorm',
     text: 'InvArch Brainstorm Testnet',
     providers: {
-      'InvArch Team': 'wss://brainstorm.invarch.network/'
+      // 'InvArch Team': 'wss://brainstorm.invarch.network/' // https://github.com/polkadot-js/apps/issues/8020
     }
   },
   {
@@ -255,26 +267,17 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'joystream',
-    text: 'Joystream',
-    providers: {
-      Jsgenesis: 'wss://rpc.joystream.org:9944'
-    }
-  },
-  {
     info: 'jupiter',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7765
     text: 'Jupiter',
     providers: {
-      Patract: 'wss://ws.jupiter-poa.patract.cn'
+      // Patract: 'wss://ws.jupiter-poa.patract.cn' // https://github.com/polkadot-js/apps/issues/7765
     }
   },
   {
     info: 'khala',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6930
     text: 'Khala (Para 3)',
     providers: {
-      'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
+      // 'Phala Network': 'wss://pc-test-3.phala.network/khala/ws' // https://github.com/polkadot-js/apps/issues/6930
     }
   },
   {
@@ -302,15 +305,14 @@ export const testChains: EndpointOption[] = [
     info: 'klugdossier',
     text: 'Klug Dossier',
     providers: {
-      'Klug Dossier': 'wss://klugdossier.net/'
+      // 'Klug Dossier': 'wss://klugdossier.net/' // https://github.com/polkadot-js/apps/issues/8081
     }
   },
   {
     info: 'kylin',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
     text: 'Kylin Testnet',
     providers: {
-      'Kylin Network': 'wss://testnet.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://testnet.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/6635
     }
   },
   {
@@ -322,7 +324,7 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'logion',
-    text: 'logion Parachain Testnet',
+    text: 'logion Para Testnet',
     providers: {
       Logion: 'wss://chimay.logion.network'
     }
@@ -338,23 +340,22 @@ export const testChains: EndpointOption[] = [
     info: 'acala',
     text: 'Mandala',
     providers: {
-      Acala: 'wss://mandala.polkawallet.io',
-      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
+      Acala: 'wss://mandala.polkawallet.io'
+      // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
     }
   },
   {
     info: 'manta',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
     text: 'Manta Testnet',
     providers: {
-      'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
+      // 'Manta Testnet': 'wss://ws.f1.testnet.manta.network' // https://github.com/polkadot-js/apps/issues/6384
     }
   },
   {
     info: 'minix',
     text: 'MiniX Testnet',
     providers: {
-      Chainx: 'wss://minichain.coming.chat/ws'
+      // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     }
   },
   {
@@ -364,15 +365,22 @@ export const testChains: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet',
+      UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     }
   },
   {
     info: 'mybank',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/5845
     text: 'mybank.network',
     providers: {
-      MYBANK: 'wss://mybank.network/substrate'
+      // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
+    }
+  },
+  {
+    info: 'myriad-tesnet',
+    text: 'Myriad Testnet',
+    providers: {
+      Myriad: 'wss://ws-rpc.testnet.myriad.social'
     }
   },
   {
@@ -396,10 +404,9 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'opportunity',
-    isDisabled: false,
     text: 'Opportunity',
     providers: {
-      'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
+      // 'Standard Protocol': 'wss://rpc.opportunity.standard.tech' // https://github.com/polkadot-js/apps/issues/7982
     }
   },
   {
@@ -425,18 +432,16 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'phoenix',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
     text: 'Phoenix Mashnet',
     providers: {
-      'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      // 'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/' // https://github.com/polkadot-js/apps/issues/6181
     }
   },
   {
     info: 'pichiu',
-    isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
     text: 'Pichiu Testnet',
     providers: {
-      'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
@@ -462,25 +467,23 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'prism',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7340
     text: 'Prism',
     providers: {
-      Prism: 'wss://testnet.psm.link'
+      // Prism: 'wss://testnet.psm.link' // https://github.com/polkadot-js/apps/issues/7340
     }
   },
   {
     info: 'realis',
     text: 'Realis.Network',
     providers: {
-      'Realis.Network': 'wss://rpc.realis.network/'
+      // 'Realis.Network': 'wss://rpc.realis.network/' // https://github.com/polkadot-js/apps/issues/7982
     }
   },
   {
     info: 'riochain',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
     text: 'RioChain',
     providers: {
-      'RioChain Staging': 'wss://node.v1.staging.riochain.io'
+      // 'RioChain Staging': 'wss://node.v1.staging.riochain.io' // https://github.com/polkadot-js/apps/issues/6181
     }
   },
   {
@@ -495,8 +498,7 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     }
   },
   {
@@ -510,52 +512,59 @@ export const testChains: EndpointOption[] = [
     info: 'soonsocial',
     text: 'Soonsocial',
     providers: {
-      DappForce: 'wss://testnet.subsocial.network'
+      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
     }
   },
   {
     info: 'sora-substrate',
     text: 'SORA-staging',
     providers: {
-      Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #2': 'wss://ws.framenode-2.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #3': 'wss://ws.framenode-3.s2.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #4': 'wss://ws.framenode-4.s2.stg1.sora2.soramitsu.co.jp'
     }
   },
   {
     info: 'subdao',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7473
     text: 'SubDAO Staging',
     providers: {
-      SubDAO: 'wss://alpha.subdao.org'
+      // SubDAO: 'wss://alpha.subdao.org' // https://github.com/polkadot-js/apps/issues/7473
     }
   },
   {
     info: 'subgame',
     text: 'SubGame Staging',
     providers: {
-      SubGame: 'wss://staging.subgame.org'
+      // SubGame: 'wss://staging.subgame.org' // https://github.com/polkadot-js/apps/issues/7982
     }
   },
   {
     info: 'subspace-farmnet',
     text: 'Subspace Farmnet',
     providers: {
-      'Subspace Network': 'wss://farm-rpc.subspace.network/ws'
+      // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     }
   },
   {
     info: 'subspace-gemini-1',
     text: 'Subspace Gemini 1',
     providers: {
-      'North America': 'wss://na.gemini-1b.subspace.network/ws',
-      Europe: 'wss://eu.gemini-1b.subspace.network/ws',
-      Asia: 'wss://apac.gemini-1b.subspace.network/ws'
+      Europe: 'wss://eu.gemini-1b.subspace.network/ws'
+    }
+  },
+  {
+    info: 'subspace-gemini-2a',
+    text: 'Subspace Gemini 2a',
+    providers: {
+      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     }
   },
   {
     info: 'subspace',
     text: 'Subspace Testnet',
     providers: {
-      'Subspace Network': 'wss://test-rpc.subspace.network'
+      // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
     }
   },
   {
@@ -576,37 +585,42 @@ export const testChains: EndpointOption[] = [
     info: 'laminar',
     text: 'Turbulence',
     providers: {
-      Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
+      // Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws' // https://github.com/polkadot-js/apps/issues/8060
     }
   },
   {
     info: 'uniarts',
     text: 'UniArts',
     providers: {
-      UniArts: 'wss://testnet.uniarts.network'
+      // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     }
   },
   {
     info: 'unique',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7621
     text: 'Unique',
     providers: {
-      Unique: 'wss://testnet2.unique.network'
+      // Unique: 'wss://testnet2.unique.network' // https://github.com/polkadot-js/apps/issues/7621
     }
   },
   {
     info: 'unitv',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/5684
     text: 'Unit Network',
     providers: {
-      'Unit Network': 'wss://unitventures.io/'
+      // 'Unit Network': 'wss://unitventures.io/' // https://github.com/polkadot-js/apps/issues/5684
+    }
+  },
+  {
+    info: 'vara',
+    text: 'Vara',
+    providers: {
+      'Gear Tech': 'wss://rpc.vara-network.io'
     }
   },
   {
     info: 'vodka',
     text: 'Vodka',
     providers: {
-      Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      // Vodka: 'wss://vodka.rpc.neatcoin.org/ws' // https://github.com/polkadot-js/apps/issues/8175
     }
   },
   {
@@ -620,10 +634,9 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'zCloak',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7408
     text: 'zCloak-network',
     providers: {
-      'zCloak Network': 'wss://test1.zcloak.network'
+      // 'zCloak Network': 'wss://test1.zcloak.network' // https://github.com/polkadot-js/apps/issues/7408
     }
   },
   {
@@ -637,7 +650,7 @@ export const testChains: EndpointOption[] = [
     info: 'zero',
     text: 'Zero Alphaville',
     providers: {
-      ZERO: 'wss://alphaville.zero.io'
+      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     }
   }
 ];

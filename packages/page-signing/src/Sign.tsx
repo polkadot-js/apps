@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-signing authors & contributors
+// Copyright 2017-2023 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer } from '@polkadot/api/types';

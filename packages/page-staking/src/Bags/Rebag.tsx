@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -38,7 +38,7 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
   );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const changes = useMemo(
-    () => selectedIds.map((s) => (api.tx.bagsList || api.tx.voterList).rebag(s)),
+    () => selectedIds.map((s) => (api.tx.voterBagsList || api.tx.bagsList || api.tx.voterList).rebag(s)),
     [api, selectedIds]
   );
   const tx = useTxBatch(changes);

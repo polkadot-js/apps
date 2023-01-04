@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -31,7 +31,7 @@ function filterEvents (records: EventRecord[]): Changes<u32> {
 
 function usePoolIdsImpl (): u32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.nominationPools.bondedPools, OPT_KEYS);
+  const startValue = useMapKeys(api.query.nominationPools.bondedPools, [], OPT_KEYS);
 
   return useEventChanges([
     api.events.nominationPools.Created,

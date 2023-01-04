@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
@@ -31,7 +31,7 @@ const AVAIL_STATUS = ['queued', 'qr', 'signing'];
 
 async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: unknown[]): Promise<QueueTxResult> {
   try {
-    const rpc = api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
+    const rpc = api.rpc as unknown as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
 
     assert(isFunction(rpc[section] && rpc[section][method]), `api.rpc.${section}.${method} does not exist`);
 

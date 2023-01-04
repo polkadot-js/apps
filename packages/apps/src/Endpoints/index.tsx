@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -56,7 +56,10 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
+          isRelay: !!e.genesisHash,
           name: e.text as string,
+          nameRelay: e.textRelay as string,
+          paraId: e.paraId,
           providers: [prov]
         });
       }

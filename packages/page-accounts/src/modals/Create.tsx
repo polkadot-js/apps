@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -12,7 +12,7 @@ import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, Ma
 import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { isHex, u8aToHex } from '@polkadot/util';
+import { isHex, nextTick, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -229,14 +229,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), isHardware: false, name: name.trim() };
         const status = createAccount(seed, derivePath, pairType, options, password, t<string>('created account'));
 
         onStatusChange(status);
         setIsBusy(false);
         onClose();
-      }, 0);
+      });
     },
     [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
   );

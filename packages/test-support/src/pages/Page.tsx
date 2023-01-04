@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
@@ -103,6 +103,10 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
   })
 }));
 
+jest.mock('@polkadot/react-hooks/useTheme', () => ({
+  useTheme: () => 'theme--light'
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult;
   protected readonly defaultAddresses = [alice, bob, charlie, ferdie];
@@ -120,6 +124,7 @@ export abstract class Page {
     });
 
     const noop = () => Promise.resolve(() => { /**/ });
+    const registry = new TypeRegistry();
     const api = {
       consts: {
         babe: {
@@ -153,7 +158,7 @@ export abstract class Page {
           account: noop
         }
       },
-      genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
+      genesisHash: registry.createType('Hash', POLKADOT_GENESIS),
       query: {
         democracy: {
           votingOf: noop
@@ -165,6 +170,8 @@ export abstract class Page {
       registry: {
         chainDecimals: [12],
         chainTokens: ['Unit'],
+        createType: (...args: Parameters<typeof registry.createType>) =>
+          registry.createType(...args),
         lookup: {
           names: []
         }

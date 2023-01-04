@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -39,7 +39,7 @@ function Output ({ children, className = '', help, isDisabled, isError, isFull, 
     >
       <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
         {isTrimmed && value && (value.length > 512)
-          ? `${value.substr(0, 256)}…${value.substr(-256)}`
+          ? `${value.slice(0, 256)}…${value.slice(-256)}`
           : value
         }
         {children}

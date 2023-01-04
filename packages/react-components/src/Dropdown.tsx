@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DropdownProps } from 'semantic-ui-react';
+import type { DropdownItemProps, DropdownProps } from 'semantic-ui-react';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button as SUIButton, Dropdown as SUIDropdown } from 'semantic-ui-react';
@@ -11,7 +11,7 @@ import { isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 
-interface Props<Option> {
+interface Props<Option extends DropdownItemProps> {
   allowAdd?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -41,11 +41,11 @@ interface Props<Option> {
   withLabel?: boolean;
 }
 
-export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
+export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 

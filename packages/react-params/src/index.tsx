@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -19,6 +19,7 @@ import { createValue } from './values';
 interface Props extends I18nProps {
   children?: React.ReactNode;
   isDisabled?: boolean;
+  isError?: boolean;
   onChange?: (value: RawParams) => void;
   onEnter?: () => void;
   onError?: () => void;
@@ -80,7 +81,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -99,6 +100,7 @@ class Params extends React.PureComponent<Props, State> {
                 defaultValue={values[index]}
                 index={index}
                 isDisabled={isDisabled}
+                isError={isError}
                 key={`${name || ''}:${type.type.toString()}:${index}:${isDisabled ? stringify(values[index]) : ''}`}
                 name={name}
                 onChange={this.onChangeParam}

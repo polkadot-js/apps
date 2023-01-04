@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export { default as Available } from './Available';
@@ -19,4 +19,5 @@ export { default as NodeVersion } from './NodeVersion';
 export { default as Nonce } from './Nonce';
 export { default as SessionToTime } from './SessionToTime';
 export { default as TimeNow } from './TimeNow';
+export { default as TotalInactive } from './TotalInactive';
 export { default as TotalIssuance } from './TotalIssuance';

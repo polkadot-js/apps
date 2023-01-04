@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -23,7 +23,7 @@ function formatJSON (input: string): string {
     .replace(/,/g, ', ');
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
     [registry, type, overrides]
@@ -62,6 +62,7 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
         className={`ui--Param ${className}`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        isError={isError}
         isInOption={isInOption}
         key={`${name || 'unknown'}:${label}`}
         label={label}

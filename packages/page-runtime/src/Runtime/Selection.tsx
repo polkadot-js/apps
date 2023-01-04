@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-runtime authors & contributors
+// Copyright 2017-2023 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, RawParam } from '@polkadot/react-params/types';

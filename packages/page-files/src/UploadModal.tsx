@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer } from '@polkadot/api/types';
@@ -11,7 +11,7 @@ import { createAuthIpfsEndpoints } from '@polkadot/apps-config';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import Progress from './Progress';
 import { useTranslation } from './translate';
@@ -133,14 +133,14 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
   const unLock = useCallback(() => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      nextTick((): void => {
         try {
           currentPair.decodePkcs8(password);
           resolve(1);
         } catch (error) {
           reject(error);
         }
-      }, 0);
+      });
     });
   }, [currentPair, password]);
 

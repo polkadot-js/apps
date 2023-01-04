@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition, OverrideBundleType } from '@polkadot/types/types';
@@ -11,7 +11,7 @@ import subspace from './spec/subspace';
 const mapping: [OverrideBundleDefinition, string[]][] = [
   [equilibrium, ['Equilibrium']],
   [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
-  [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain']],
+  [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain', 'testnet-kintsugi', 'testnet-interlay']],
   [subspace, ['subspace']]
 ];
 

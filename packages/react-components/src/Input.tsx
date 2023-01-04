@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -121,12 +121,14 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       onKeyUp && onKeyUp(event);
 
-      if (onEnter && event.keyCode === 13) {
+      // eslint-disable-next-line deprecation/deprecation
+      if (onEnter && (event.key === 'Enter' || event.keyCode === 13)) {
         (event.target as HTMLInputElement).blur();
         isFunction(onEnter) && onEnter();
       }
 
-      if (onEscape && event.keyCode === 27) {
+      // eslint-disable-next-line deprecation/deprecation
+      if (onEscape && (event.key === 'Escape' || event.keyCode === 27)) {
         (event.target as HTMLInputElement).blur();
         onEscape();
       }
