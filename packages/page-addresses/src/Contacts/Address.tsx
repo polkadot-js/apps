@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, Columar, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
@@ -121,11 +121,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     [address]
   );
 
-  const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
-    [address, toggleFavorite]
-  );
-
   const _toggleForget = useCallback(
     (): void => setIsForgetOpen(!isForgetOpen),
     [isForgetOpen]
@@ -184,13 +179,11 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   return (
     <>
       <tr className={`${className} packedBottom`}>
-        <td className='favorite'>
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
-          />
-        </td>
+        <Table.Column.Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
+        />
         <td className='address all'>
           <AddressSmall
             value={address}
@@ -231,14 +224,10 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             <Popup value={PopupDropdown} />
           </Button.Group>
         </td>
-        <td className='actions button'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />
-          </div>
-        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
       </tr>
       <tr className={`${className} isExpanded packedTop`}>
         <td />
