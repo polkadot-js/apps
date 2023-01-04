@@ -627,7 +627,7 @@ export const testChains: EndpointOption[] = [
     info: 'web3games',
     text: 'Web3Games',
     providers: {
-      'Web3Games Foundation ': 'wss://devnet.web3games.org',
+      'Web3Games Foundation': 'wss://devnet.web3games.org',
     }
   },
   {
