@@ -248,6 +248,7 @@
        1	Bill Laboon                   	Add explanation that Docker port is 80 (#1480)
        1	BoBin                         	Add subscan rococo extra link (#4439)
        1	Bobo                          	type def update (#6612)
+       1	BOBOKaa                       	update ipfs endpoint domain (#8686)
        1	Bojian Ho                     	Added fantour network config (#5764)
        1	Boyquotes                     	Fix FR translation (#7817)
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
