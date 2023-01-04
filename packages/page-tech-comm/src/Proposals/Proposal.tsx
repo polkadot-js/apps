@@ -8,7 +8,7 @@ import type { Hash } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, Table } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -39,7 +39,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={imageHash}
         proposal={derive.proposal}

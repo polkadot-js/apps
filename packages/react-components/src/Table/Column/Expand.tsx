@@ -29,6 +29,7 @@ function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElem
 
 export default React.memo(styled(Expand)`
   && {
+    box-sizing: content-box;
     cursor: pointer;
     min-width: 1.7rem;
     padding-left: 0;

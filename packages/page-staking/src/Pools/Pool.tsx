@@ -7,10 +7,9 @@ import type { MembersMapEntry, Params } from './types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, ExpandButton, ExpanderScroll, Spinner } from '@polkadot/react-components';
+import { AddressMini, ExpandButton, ExpanderScroll, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Join from './Join';
@@ -56,7 +55,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   return (
     <>
       <tr className={className}>
-        <td className='number'><h1>{formatNumber(poolId)}</h1></td>
+        <Table.Column.Id value={poolId} />
         <td className='start'>{info && info.metadata}</td>
         <td className='number media--1100'>{info && info.bonded.state.type}</td>
         <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>

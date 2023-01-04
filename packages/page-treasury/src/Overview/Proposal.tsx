@@ -5,10 +5,10 @@ import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Council from './Council';
@@ -36,9 +36,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
 
   return (
     <tr className={className}>
-      <td className='number'>
-        <h1>{formatNumber(id)}</h1>
-      </td>
+      <Table.Column.Id value={id} />
       <td className='address all'>
         <AddressSmall value={proposal.proposer} />
       </td>

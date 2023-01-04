@@ -33,6 +33,7 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
 
 export default React.memo(styled(Favorite)`
   && {
+    box-sizing: content-box;
     cursor: pointer;
     min-width: 1rem;
     padding-right: 0;
