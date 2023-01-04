@@ -48,7 +48,7 @@ function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, 
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The account that is to join the pool.')}>
+            <Modal.Columns hint={t<string>('The account that will join the pool.')}>
               <InputAddress
                 filter={ownAccounts}
                 label={t<string>('join pool from')}
@@ -58,7 +58,7 @@ function Join ({ className, isDisabled, ownAccounts, params: { minMemberBond }, 
                 withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the minimum value required to join a pool.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minMemberBond}

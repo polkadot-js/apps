@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 import type { Params } from './types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO, bnMax } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 const OPT_MULTI = {
   defaultValue: {
@@ -23,7 +23,7 @@ const OPT_MULTI = {
     maxPools: maxPools.unwrapOr(BN_ZERO).toNumber(),
     minCreateBond,
     minJoinBond,
-    minMemberBond: minJoinBond && minNominatorBond && bnMax(minJoinBond, minNominatorBond),
+    minMemberBond: minJoinBond,
     minNominatorBond,
     nextPoolId: lastPoolId.add(BN_ONE)
   })
