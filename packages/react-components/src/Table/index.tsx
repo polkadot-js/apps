@@ -434,11 +434,7 @@ export default React.memo(styled(Table)`
       }
 
       &.isCollapsed {
-        visibility: collapse;
-      }
-
-      &.isExpanded {
-        visibility: visible;
+        display: none;
       }
 
       .ui--Button-Group {
