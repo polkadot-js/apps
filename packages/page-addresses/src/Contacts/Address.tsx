@@ -267,15 +267,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             withBalance={BALANCE_OPTS}
             withExtended={false}
           />
-          <Columar is100>
-            <Columar.Column>
-              <LinkExternal
-                data={address}
-                type='address'
-                withTitle
-              />
-            </Columar.Column>
-          </Columar>
           <Columar size='tiny'>
             <Columar.Column>
               <div data-testid='tags'>
@@ -284,6 +275,15 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                   withTitle
                 />
               </div>
+            </Columar.Column>
+          </Columar>
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
             </Columar.Column>
           </Columar>
         </td>

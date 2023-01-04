@@ -23,11 +23,7 @@ interface Props {
   withTitle?: boolean;
 }
 
-// function shortName (name: string): string {
-//   return `${name[0]}${name[name.length - 1]}`;
-// }
-
-function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
@@ -48,12 +44,7 @@ function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }:
         >
           {isText
             ? name
-            : (
-              <img
-                className={`${isSidebar ? ' isSidebar' : ''}`}
-                src={logo}
-              />
-            )
+            : <img src={logo} />
           }
         </a>
       );
@@ -74,7 +65,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
   }
 
   return (
-    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'}${withTitle ? ' isMain' : ''}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
+    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
       {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
       {withTitle && (
         <h5>{t('external links')}</h5>
@@ -104,24 +95,33 @@ export default React.memo(styled(LinkExternal)`
 
   &.isSidebar {
     text-align: center;
+
+    .links {
+      img {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+  }
+
+  &:not(.fullColor) {
+    .links {
+      img {
+        filter: grayscale(1) opacity(0.66);
+
+        &:hover {
+          filter: grayscale(0) opacity(1);
+        }
+      }
+    }
   }
 
   .links {
     img {
       border-radius: 50%;
       cursor: pointer;
-      filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
-
-      &.isSidebar {
-        height: 2rem;
-        width: 2rem;
-      }
-
-      &:hover {
-        filter: grayscale(0) opacity(1);
-      }
     }
 
     span {
