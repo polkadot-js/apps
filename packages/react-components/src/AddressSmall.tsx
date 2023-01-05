@@ -62,7 +62,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 
 export default React.memo(styled(AddressSmall)`
   overflow-x: hidden;
-  padding: 1.25rem 0;
+  padding: 0.75rem 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 

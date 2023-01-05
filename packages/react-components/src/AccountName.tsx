@@ -225,8 +225,9 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 
 export default React.memo(styled(AccountName)`
   border: 1px dotted transparent;
+  line-height: 1;
   vertical-align: middle;
-  white-space: normal;
+  white-space: nowrap;
 
   &.withSidebar:hover {
     border-bottom-color: #333;

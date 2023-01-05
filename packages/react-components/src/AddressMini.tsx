@@ -50,15 +50,15 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
-      <div className='ui--AddressMini-icon'>
+      <span className='ui--AddressMini-icon'>
         <IdentityIcon value={value} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
           </div>
         )}
-      </div>
-      <div className='ui--AddressMini-info'>
+      </span>
+      <span className='ui--AddressMini-info'>
         {withAddress && (
           <div
             className='ui--AddressMini-address'
@@ -78,7 +78,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
           </div>
         )}
         {children}
-      </div>
+      </span>
       <div className='ui--AddressMini-balances'>
         {withBalance && (
           <BalanceDisplay
@@ -106,9 +106,10 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
 }
 
 export default React.memo(styled(AddressMini)`
-  display: inline-block;
+  overflow-x: hidden;
   padding: 0 0.25rem 0 1rem;
   text-align: left;
+  text-overflow: ellipsis;
   white-space: nowrap;
 
   &.padded {
