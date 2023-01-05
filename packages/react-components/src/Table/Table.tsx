@@ -235,8 +235,10 @@ export default React.memo(styled(Table)`
       }
 
       &.address {
+        max-width: 0;
         min-width: 11rem;
         overflow-x: hidden;
+        padding: 0 1rem;
       }
 
       &.badge {

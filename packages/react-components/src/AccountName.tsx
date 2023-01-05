@@ -118,7 +118,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       {isSpecial && (
         <Badge
           color='green'
@@ -127,20 +127,20 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
         />
       )}
       <span className={`name${(isLocal || isSpecial) ? ' isLocal' : (isAddress ? ' isAddress' : '')}`}>{displayName}</span>
-    </div>
+    </span>
   );
 }
 
 function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray', icon: IconName): React.ReactNode {
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       <Badge
         color={color}
         icon={icon}
         isSmall
       />
       {nameElem}
-    </div>
+    </span>
   );
 }
 
@@ -209,7 +209,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 
   return (
-    <div
+    <span
       className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       data-testid='account-name'
       onClick={
@@ -219,16 +219,14 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       }
     >
       {label || ''}{override || name}{children}
-    </div>
+    </span>
   );
 }
 
 export default React.memo(styled(AccountName)`
-  align-items: center;
   border: 1px dotted transparent;
-  display: inline-flex;
   vertical-align: middle;
-  white-space: nowrap;
+  white-space: normal;
 
   &.withSidebar:hover {
     border-bottom-color: #333;
@@ -236,13 +234,7 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: center;
-    display: inline-flex;
-    width: 100%;
-
     .name {
-      align-items: center;
-      display: inline-flex;
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;

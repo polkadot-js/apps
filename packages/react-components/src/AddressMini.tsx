@@ -122,38 +122,6 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-info {
-    max-width: 12rem;
-    min-width: 12rem;
-
-    @media only screen and (max-width: 1800px) {
-      max-width: 11.5rem;
-      min-width: 11.5rem;
-    }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 11rem;
-      min-width: 11rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 10.5rem;
-      min-width: 10.5rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 10rem;
-      min-width: 10rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 9.5rem;
-      min-width: 9.5rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 9rem;
-      min-width: 9rem;
-    }
   }
 
   .ui--AddressMini-address {
