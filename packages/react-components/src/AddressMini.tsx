@@ -60,7 +60,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
       </span>
       <span className='ui--AddressMini-info'>
         {withAddress && (
-          <div
+          <span
             className='ui--AddressMini-address'
             onClick={onNameClick}
           >
@@ -75,7 +75,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
               )
               : toShortAddress(value)
             }
-          </div>
+          </span>
         )}
         {children}
       </span>
@@ -113,7 +113,6 @@ export default React.memo(styled(AddressMini)`
   white-space: nowrap;
 
   &.padded {
-    display: inline-block;
     padding: 0 1rem 0 0;
   }
 
@@ -129,8 +128,6 @@ export default React.memo(styled(AddressMini)`
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
-    width: fit-content;
-    max-width: inherit;
 
     > div {
       overflow: hidden;
