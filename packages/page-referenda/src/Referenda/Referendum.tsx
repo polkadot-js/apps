@@ -302,25 +302,45 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
   });
 }
 
-function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
-  let enactAt: { at: boolean, blocks: BN } | null = null;
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, track?: PalletReferendaTrackInfo): { confirmEnd: BN | null, enactAt: { at: boolean, blocks: BN, end: BN | null } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let confirmEnd: BN | null = null;
+  let enactAt: { at: boolean, blocks: BN, end: BN | null } | null = null;
   let nextAlarm: BN | null = null;
   let submittedIn: BN | null = null;
 
   if (info.isOngoing) {
-    const { alarm, enactment, submitted } = info.asOngoing;
+    const { alarm, deciding, enactment, submitted } = info.asOngoing;
 
     enactAt = {
       at: enactment.isAt,
       blocks: enactment.isAt
         ? enactment.asAt
-        : enactment.asAfter
+        : enactment.asAfter,
+      end: null
     };
     nextAlarm = alarm.unwrapOr([null])[0];
     submittedIn = submitted;
+
+    if (deciding.isSome) {
+      const { confirming } = deciding.unwrap();
+
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
+
+        if (track) {
+          // add our track data
+          const fastEnd = confirmEnd.add(track.minEnactmentPeriod);
+
+          enactAt.end = enactment.isAt
+            ? bnMax(fastEnd, enactment.asAt)
+            : fastEnd.add(enactment.asAfter);
+        }
+      }
+    }
   }
 
-  return { enactAt, nextAlarm, submittedIn };
+  return { confirmEnd, enactAt, nextAlarm, submittedIn };
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
@@ -347,7 +367,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
-  const { enactAt, nextAlarm, submittedIn } = useMemo(
+  const { confirmEnd, enactAt, nextAlarm, submittedIn } = useMemo(
     () => extractInfo(info),
     [info]
   );
@@ -428,6 +448,18 @@ function Referendum (props: Props): React.ReactElement<Props> {
                 <>
                   <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
                   <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                </>
+              )}
+              {confirmEnd && (
+                <>
+                  <h5>{t<string>('Confirm end')}</h5>
+                  <label>#{formatNumber(confirmEnd)}</label>
+                </>
+              )}
+              {enactAt?.end && (
+                <>
+                  <h5>{t<string>('Enact end')}</h5>
+                  <label>{formatNumber(enactAt.end)}</label>
                 </>
               )}
             </Columar.Column>
