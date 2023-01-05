@@ -58,7 +58,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
           </div>
         )}
       </div>
-      <div className='ui--AddressMini-info'>
+      <span className='ui--AddressMini-info'>
         {withAddress && (
           <div
             className='ui--AddressMini-address'
@@ -78,8 +78,8 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
           </div>
         )}
         {children}
-      </div>
-      <div className='ui--AddressMini-balances'>
+      </span>
+      <span className='ui--AddressMini-balances'>
         {withBalance && (
           <BalanceDisplay
             balance={balance}
@@ -100,7 +100,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
         {summary && (
           <div className='ui--AddressMini-summary'>{summary}</div>
         )}
-      </div>
+      </span>
     </div>
   );
 }
@@ -108,6 +108,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
 export default React.memo(styled(AddressMini)`
   display: inline-block;
   padding: 0 0.25rem 0 1rem;
+  position: relative;
   text-align: left;
   white-space: nowrap;
 
@@ -121,48 +122,11 @@ export default React.memo(styled(AddressMini)`
     top: -0.2rem;
   }
 
-  .ui--AddressMini-info {
-    max-width: 12rem;
-    min-width: 12rem;
-
-    @media only screen and (max-width: 1800px) {
-      max-width: 11.5rem;
-      min-width: 11.5rem;
-    }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 11rem;
-      min-width: 11rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 10.5rem;
-      min-width: 10.5rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 10rem;
-      min-width: 10rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 9.5rem;
-      min-width: 9.5rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 9rem;
-      min-width: 9rem;
-    }
+  .ui--AddressMini-info > div {
+    margin-left: 2.5rem;
   }
 
   .ui--AddressMini-address {
-    overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
-    width: fit-content;
-    max-width: inherit;
-
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -193,7 +157,10 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-icon {
-    margin: 0 0.5rem 0 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
 
     .ui--AddressMini-icon-info {
       position: absolute;
@@ -210,8 +177,6 @@ export default React.memo(styled(AddressMini)`
 
   .ui--AddressMini-icon,
   .ui--AddressMini-info {
-    display: inline-block;
-    position: relative;
     vertical-align: middle;
   }
 

@@ -150,7 +150,7 @@ export default React.memo(styled(Table)`
         &.all {
           width: 100%;
 
-          &:not(.overflow) {
+          &:not(.overflow):not(.address) {
             word-break: break-word;
           }
 
@@ -236,7 +236,7 @@ export default React.memo(styled(Table)`
 
       &.address {
         min-width: 11rem;
-        overflow-x: hidden;
+        max-width: 0;
       }
 
       &.badge {

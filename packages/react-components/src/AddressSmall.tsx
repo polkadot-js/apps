@@ -29,13 +29,16 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 
   return (
     <div className={`ui--AddressSmall ${className}`}>
-      <div>
+      <div className='ui--AddressSmall-icon'>
         <IdentityIcon value={value as Uint8Array} />
       </div>
-      <div className={displayAsGrid ? 'addressGrid' : ''}>
-        {parentAddress && (
+      <span className='ui--AddressSmall-info'>
+        {displayAsGrid && (
           <div className='parentAccountName'>
-            <ParentAccount address={parentAddress} />
+            {parentAddress
+              ? <ParentAccount address={parentAddress} />
+              : <>&nbsp;</>
+            }
           </div>
         )}
         <AccountName
@@ -57,34 +60,39 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
             {toShortAddress(value)}
           </div>
         )}
-      </div>
+      </span>
     </div>
   );
 }
 
 export default React.memo(styled(AddressSmall)`
+  overflow-x: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  vertical-align: middle;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
 
-  .ui--IdentityIcon {
-    margin-right: 0.75rem;
-    vertical-align: middle;
+  .ui--AddressSmall-icon {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    .ui--Identicon {
+      vertical-align: middle;
+    }
   }
 
-  .parentAccountName,
-  .shortAddress {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
+  .ui--AddressSmall-info > div {
+    margin-left: 2.75rem;
+  }
+
+  .ui--IdentityIcon {
+    margin-top: 0.7rem;
   }
 
   .parentAccountName {
-    grid-area: parentAccountName;
-  }
-
-  .accountName {
-    grid-area: accountName;
+    font-size: 0.75rem;
   }
 
   .shortAddress {
@@ -93,52 +101,11 @@ export default React.memo(styled(AddressSmall)`
     font-size: 0.75rem;
   }
 
-  .addressGrid {
-    border: 0.031rem;
-    height: 3.438rem;
-    display: grid;
-    grid-template-columns: max-content;
-    grid-template-rows: 30% 40% 30%;
-    grid-template-areas:
-    "parentAccountName"
-    "accountName"
-    "shortAddress";
-  }
-
   .ui--AccountName {
-    max-width: 26rem;
     overflow: hidden;
 
     &.withSidebar {
       cursor: help;
-    }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 24rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 22rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 20rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 18rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 16rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      max-width: 14rem;
-    }
-
-    @media only screen and (max-width: 1100px) {
-      max-width: 12rem;
     }
   }
 `);

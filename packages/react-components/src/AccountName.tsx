@@ -118,7 +118,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       {isSpecial && (
         <Badge
           color='green'
@@ -127,20 +127,20 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
         />
       )}
       <span className={`name${(isLocal || isSpecial) ? ' isLocal' : (isAddress ? ' isAddress' : '')}`}>{displayName}</span>
-    </div>
+    </span>
   );
 }
 
 function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray', icon: IconName): React.ReactNode {
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       <Badge
         color={color}
         icon={icon}
         isSmall
       />
       {nameElem}
-    </div>
+    </span>
   );
 }
 
@@ -226,7 +226,8 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 export default React.memo(styled(AccountName)`
   align-items: center;
   border: 1px dotted transparent;
-  display: inline-flex;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -236,19 +237,11 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: center;
-    display: inline-flex;
-    width: 100%;
-
     .name {
-      align-items: center;
-      display: inline-flex;
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;
       opacity: 0.6;
-      overflow: hidden;
-      text-overflow: ellipsis;
 
       &:not(.isAddress) {
         text-transform: uppercase;
