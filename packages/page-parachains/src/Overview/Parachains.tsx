@@ -58,7 +58,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const hasLinksMap = useIsParasLinked(ids);
   const [validators, validatorMap] = useValidators(ids);
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start', 2],
     ['', 'media--1400'],
     [t('head'), 'start media--1500'],

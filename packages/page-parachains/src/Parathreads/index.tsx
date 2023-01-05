@@ -25,7 +25,7 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
   const { t } = useTranslation();
   const leaseMap = useParaMap(ids);
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parathreads'), 'start', 2],
     ['', 'media--2000'],
     [t('head'), 'start media--1500'],

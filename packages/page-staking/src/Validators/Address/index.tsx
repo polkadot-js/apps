@@ -11,13 +11,12 @@ import type { NominatorValue } from './types';
 import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
 import StakeOther from './StakeOther';
 import Status from './Status';
@@ -117,12 +116,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
 
   return (
     <tr className={className}>
+      <Table.Column.Favorite
+        address={address}
+        isFavorite={isFavorite}
+        toggle={toggleFavorite}
+      />
       <td className='badge together'>
-        <Favorite
-          address={address}
-          isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
-        />
         <Status
           isChilled={isChilled}
           isElected={isElected}

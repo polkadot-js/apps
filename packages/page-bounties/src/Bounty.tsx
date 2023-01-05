@@ -7,10 +7,9 @@ import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/t
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
@@ -58,7 +57,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+        <Table.Column.Id value={index} />
         <td
           className='description-column'
           data-testid='description'

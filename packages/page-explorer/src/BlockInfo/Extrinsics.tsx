@@ -25,12 +25,15 @@ interface Props {
 function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
-    [label || t<string>('extrinsics'), 'start', 2],
-    [t('events'), 'start media--1000', 2],
-    [t('weight'), 'media--1400'],
-    [undefined, 'address media--1200']
-  ], [label, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [label || t<string>('extrinsics'), 'start', 2],
+      [t('events'), 'start media--1000', 2],
+      [t('weight'), 'media--1400'],
+      [undefined, 'address media--1200']
+    ],
+    [label, t]
+  );
 
   return (
     <Table

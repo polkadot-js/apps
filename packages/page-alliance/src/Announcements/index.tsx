@@ -18,7 +18,7 @@ interface Props {
 function Announcements ({ accouncements, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const annRef = useRef([
+  const annRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('annoucements'), 'start'],
     [t<string>('version'), 'number'],
     [t<string>('codec'), 'number'],

@@ -20,7 +20,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bids = useCall<PalletSocietyBid[]>(api.query.society.bids);
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('bids'), 'start'],
     [t('bid kind'), 'start'],
     [t('value')],

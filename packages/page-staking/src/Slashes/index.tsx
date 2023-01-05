@@ -5,7 +5,7 @@ import type { StakerState } from '@polkadot/react-hooks/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import type { Slash, SlashEra } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
@@ -116,11 +116,15 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     [allAccounts, members]
   );
 
+  const emptyHeader = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('unapplied'), 'start']
+  ]);
+
   if (!rows.length) {
     return (
       <Table
         empty={t<string>('There are no unapplied/pending slashes')}
-        header={[[t('unapplied'), 'start']]}
+        header={emptyHeader.current}
       />
     );
   }

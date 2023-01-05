@@ -8,7 +8,7 @@ import type { EventMapInfo, ValidatorInfo } from './types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
@@ -90,9 +90,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
 
   return (
     <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
-      <td className='number'>
-        <h1>{formatNumber(id)}</h1>
-      </td>
+      <Table.Column.Id value={id} />
       <td className='badge together'>
         {paraInfo.paraInfo?.locked?.isFalse
           ? (

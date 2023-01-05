@@ -21,7 +21,7 @@ interface Props {
 function Candidates ({ allMembers, candidates, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('candidates'), 'start'],
     [t('bid kind'), 'start'],
     [t('value')],

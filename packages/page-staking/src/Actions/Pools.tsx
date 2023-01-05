@@ -28,7 +28,7 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const sessionProgress = useCall<DeriveSessionProgress>(api.derive.session.progress);
 
-  const hdrRef = useRef([
+  const hdrRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('pools'), 'start', 2],
     [t('account'), 'address'],
     [t('bonded')],

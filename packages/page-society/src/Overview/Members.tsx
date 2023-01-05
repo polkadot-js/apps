@@ -20,7 +20,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('members'), 'start', 2],
     [t('voted on'), 'start'],
     [t('strikes')],

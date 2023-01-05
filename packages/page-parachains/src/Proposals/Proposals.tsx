@@ -22,7 +22,7 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
     [proposals]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('proposals'), 'start', 3],
     [],
     [],

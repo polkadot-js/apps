@@ -5,10 +5,9 @@ import type { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExternal, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
@@ -44,7 +43,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
   return (
     <>
       <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+        <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}

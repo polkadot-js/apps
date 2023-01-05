@@ -20,7 +20,7 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
   const collators = useCollators();
   const { byAuthor } = useContext(BlockAuthorsContext);
 
-  const hdrRef = useRef([
+  const hdrRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('collators'), 'start', 2],
     [t<string>('deposit'), 'number'],
     [t<string>('balance'), 'number'],

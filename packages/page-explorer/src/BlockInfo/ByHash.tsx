@@ -33,7 +33,7 @@ interface State {
   runtimeVersion?: RuntimeVersionPartial;
 }
 
-const EMPTY_HEADER = [['...', 'start', 6]];
+const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
 function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
   return {
@@ -97,7 +97,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       });
   }, [api, mountedRef, value]);
 
-  const header = useMemo(
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => getHeader
       ? [
         [formatNumber(getHeader.number.unwrap()), 'start', 1],
