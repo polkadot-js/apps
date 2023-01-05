@@ -97,16 +97,16 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-
-
     width: 100%;
 
     .ui--AddressSection__AddressColumn {
+      flex: 1;
       margin-left: 1rem;
 
       .ui--AccountName {
         max-width: 21.5rem;
         overflow: hidden;
+        white-space: normal;
       }
     }
 

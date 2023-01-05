@@ -26,7 +26,7 @@ interface Props {
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--AddressSmall ${className}`}>
+    <div className={`ui--AddressSmall ${className} ${(parentAddress || withShortAddress) ? 'withPadding' : ''}`}>
       <span className='ui--AddressSmall-icon'>
         <IdentityIcon value={value as Uint8Array} />
       </span>
@@ -62,9 +62,12 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 
 export default React.memo(styled(AddressSmall)`
   overflow-x: hidden;
-  padding: 0.75rem 0;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  &.withPadding {
+    padding: 0.75rem 0;
+  }
 
   .ui--IdentityIcon {
     margin-right: 0.75rem;
@@ -76,14 +79,14 @@ export default React.memo(styled(AddressSmall)`
     vertical-align: middle;
 
     .parentName {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       left: 0;
       position: absolute;
-      top: -0.75rem;
+      top: -0.80rem;
     }
 
     .shortAddress {
-      bottom: -0.85rem;
+      bottom: -0.95rem;
       color: #8B8B8B;
       font-size: 0.75rem;
       left: 0;
