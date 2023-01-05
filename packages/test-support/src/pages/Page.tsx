@@ -131,7 +131,7 @@ export abstract class Page {
         proxy: {
           proxyDepositBase: new BN(1),
           proxyDepositFactor: new BN(1)
-        }
+        },
       },
       createType: () => ({
         defKeys: []

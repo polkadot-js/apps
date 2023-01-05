@@ -111,7 +111,7 @@ import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
 import substrateContractsNode from './substrateContractsNode';
-import supersig from './supersig.ts';
+import supersig from './supersig-node';
 import swapdex from './swapdex';
 import t0rn from './t0rn';
 import ternoa from './ternoa';
@@ -268,6 +268,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   supersig,
+  'node-template': supersig,
   swapdex,
   t0rn,
   ternoa,

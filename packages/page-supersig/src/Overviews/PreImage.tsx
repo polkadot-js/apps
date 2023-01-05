@@ -7,7 +7,7 @@ import type { Hash } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Extrinsic, Input, InputAddress, InputBalance, Modal, Button } from '@polkadot/react-components';
+import { Extrinsic, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
@@ -30,7 +30,7 @@ interface HashState {
 
 const ZERO_HASH = blake2AsHex('');
 
-function proposal ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -39,11 +39,11 @@ function proposal ({ className = '', imageHash, isImminent = false, onClose }: P
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
-    // const storageFee = api.consts.democracy.preimageByteDeposit.mul(
-    //   encodedProposal
-    //     ? new BN((encodedProposal.length - 2) / 2)
-    //     : BN_ZERO
-    // );
+    const storageFee = api.consts.democracy.preimageByteDeposit.mul(
+      encodedProposal
+        ? new BN((encodedProposal.length - 2) / 2)
+        : BN_ZERO
+    );
 
     setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
   }, [api, proposal]);
@@ -55,14 +55,14 @@ function proposal ({ className = '', imageHash, isImminent = false, onClose }: P
   return (
     <Modal
       className={className}
-      header={t<string>('Submit proposal')}
+      header={t<string>('Submit preimage')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account will pay the fees for the proposal, based on the size thereof.')}>
+        <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>
           <InputAddress
-            help={t<string>('The account you want to register the proposal from')}
+            help={t<string>('The account you want to register the preimage from')}
             label={t<string>('send from account')}
             labelExtra={
               <Available
@@ -77,7 +77,7 @@ function proposal ({ className = '', imageHash, isImminent = false, onClose }: P
         <Modal.Columns hint={
           <>
             <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
-            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the proposal needs to be available.')}</p>
+            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </>
         }
         >
@@ -86,47 +86,45 @@ function proposal ({ className = '', imageHash, isImminent = false, onClose }: P
             label={t<string>('propose')}
             onChange={setProposal}
           />
-          {/* <Input
+          <Input
             className='disabledLook'
             help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
             isDisabledError={!isMatched}
-            label={t<string>('proposal hash')}
+            label={t<string>('preimage hash')}
             value={encodedHash}
-          /> */}
+          />
         </Modal.Columns>
-        
+        {!isImminent && (
+          <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
+            <InputBalance
+              defaultValue={storageFee}
+              help={t<string>('The amount reserved to store this image')}
+              isDisabled
+              label={t<string>('calculated storage fee')}
+            />
+          </Modal.Columns>
+        )}
       </Modal.Content>
       <Modal.Actions>
-        <Button
+        <TxButton
           accountId={accountId}
           icon='plus'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
-          label={t<string>('Submit proposal')}
+          label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
-          // tx={''}
-          
-          //{api.tx.supersig.submitCall; console.log()}
-          
-          //   isImminent
-          //     ? api.tx.supersig.addMembers
-          //     : api.tx.supersig.removeMembers ||
-           
-          // 
-       
+          tx={
+            isImminent
+              ? api.tx.democracy.noteImminentPreimage
+              : api.tx.democracy.notePreimage
+          }
         />
-        {/* <TxButton
-          accountId={accountId}
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          label={t<string>('Submit Transaction')}
-        /> */}
       </Modal.Actions>
     </Modal>
   );
 }
 
-export default React.memo(styled(proposal)`
+export default React.memo(styled(PreImage)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;

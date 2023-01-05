@@ -16,12 +16,14 @@ import Component, { useCounter } from '@polkadot/app-supersig';
 
 // function needsApiCheck (api: ApiPromise): boolean {
 //   try {
-//     // we need to be able to create an actual vote
-//     api.tx.democracy.vote(1, { Standard: { balance: 1, vote: { aye: true, conviction: 1 } } });
-
+//     // we need to be able to create a supersig
+//     // api.tx.supersig.createSupersig('5GYdCV9F3gg9gnmWU8nrt8tXCxMXDbcGpsdX1gJStCx9yZKK',);
+//     // (1, { Standard: { balance: 1, vote: { aye: true, conviction: 1 } } });
+//    const call = api.query.supersig.nonceCall();
+//     console.log(call)
 //     return true;
 //   } catch (error) {
-//     console.warn('Unable to create referendum vote transaction, disabling democracy route');
+//     console.warn('Unable to query a supersig, disabling supersig route');
 
 //     return false;
 //   }
@@ -32,12 +34,12 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        // 'tx.democracy.notePreimage'
+        'query.supersig.nonceCall'
       ],
       // needsApiCheck
-    
+
     },
-    group: 'accounts',
+    group: 'governance',
     icon: 'people-line',
     name: 'supersig',
     text: t('nav.supersig', 'Supersig', { ns: 'apps-routing' }),
