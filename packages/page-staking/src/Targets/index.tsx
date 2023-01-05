@@ -291,7 +291,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   // False positive, this is part of the type...
   // eslint-disable-next-line func-call-spacing
   const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
-    [t('validators'), 'start', 3],
+    [t('validators'), 'start', 4],
     [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],

@@ -141,14 +141,14 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
-        [t('intentions'), 'start', 2],
+        [t('intentions'), 'start', 3],
         [t('nominators'), 'expand'],
         [t('commission'), 'number'],
         [],
         []
       ]
       : [
-        [t('validators'), 'start', 2],
+        [t('validators'), 'start', 3],
         [t('other stake'), 'expand'],
         [t('own stake'), 'media--1100'],
         [t('commission')],

@@ -36,7 +36,7 @@ export default React.memo(styled(Favorite)`
     box-sizing: content-box;
     cursor: pointer;
     min-width: 1rem;
-    padding-right: 0;
+    padding-right: 0.35rem;
     text-align: right;
     width: 1rem;
   }

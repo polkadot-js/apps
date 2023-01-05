@@ -7,7 +7,7 @@ import type { NominatedBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
+import { AddressSmall, Badge, Checkbox, Icon, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -15,7 +15,6 @@ import { formatNumber } from '@polkadot/util';
 
 import MaxBadge from '../MaxBadge';
 import { useTranslation } from '../translate';
-import Favorite from '../Validators/Address/Favorite';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
@@ -69,12 +68,12 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
 
   return (
     <tr>
+      <Table.Column.Favorite
+        address={key}
+        isFavorite={isFavorite}
+        toggle={toggleFavorite}
+      />
       <td className='badge together'>
-        <Favorite
-          address={key}
-          isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
-        />
         {isNominated
           ? (
             <Badge
