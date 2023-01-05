@@ -141,10 +141,6 @@ export default React.memo(styled(Expander)`
     .ui--Expander-content {
       display: none;
     }
-
-    .ui--Expander-summary-header-sub {
-      max-width: 35rem;
-    }
   }
 
   &.isExpanded {
@@ -189,6 +185,23 @@ export default React.memo(styled(Expander)`
       span {
         white-space: normal;
       }
+
+      .ui--Expander-summary-header-sub,
+      .ui--Expander-summary-title {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        box-orient: vertical;
+        display: -webkit-box;
+        line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+      }
+
+      .ui--Expander-summary-header-sub {
+        font-size: 1rem;
+        opacity: 0.6;
+      }
     }
 
     .ui--Icon {
@@ -209,13 +222,6 @@ export default React.memo(styled(Expander)`
         margin-right: 0.5rem;
         vertical-align: text-bottom;
       }
-    }
-
-    .ui--Expander-summary-header-sub {
-      font-size: 1rem;
-      opacity: 0.6;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 

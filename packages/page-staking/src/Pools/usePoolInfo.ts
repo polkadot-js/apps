@@ -36,11 +36,7 @@ const OPT_MULTI = {
 };
 
 function transformName (input: string): string {
-  const mid = input.replace(/[^\x20-\x7E]/g, '');
-
-  return (mid.length > 64)
-    ? `${mid.substring(0, 64)}…`
-    : mid;
+  return input.replace(/[^\x20-\x7E]/g, '');
 }
 
 function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
