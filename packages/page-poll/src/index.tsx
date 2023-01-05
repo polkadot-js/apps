@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-poll authors & contributors
+// Copyright 2017-2023 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -245,7 +245,7 @@ export default React.memo(styled(PollApp)`
   .options {
     margin: 1rem 0;
 
-    .ui--Columnar {
+    .ui--Columar {
       margin: 0 -1.25rem;
       padding: 0 1.25rem;
 

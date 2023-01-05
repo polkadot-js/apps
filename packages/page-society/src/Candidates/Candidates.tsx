@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -23,7 +23,7 @@ function Candidates ({ allMembers, candidates, className = '', isMember, ownMemb
 
   const headerRef = useRef([
     [t('candidates'), 'start'],
-    [t('bid kind'), 'start', 2],
+    [t('bid kind'), 'start'],
     [t('value')],
     [undefined, 'expand'],
     []

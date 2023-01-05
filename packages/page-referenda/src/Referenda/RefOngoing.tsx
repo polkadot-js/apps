@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
@@ -97,7 +97,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : t('preimage {{shortHash}}', { replace: { shortHash } })
+          : <div className='shortHash'>{shortHash}</div>
         }
       </td>
       <Deposits
@@ -124,13 +124,14 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
         palletVote={palletVote}
         tally={tally}
       />
-      <td className='middle chart'>
+      <td className='middle chart media--1300-noPad'>
         <Progress
+          className='media--1300'
           total={tallyTotal}
           value={tally.ayes}
         />
       </td>
-      <td className='button'>
+      <td className='actions button'>
         <Vote
           id={id}
           isConvictionVote={isConvictionVote}

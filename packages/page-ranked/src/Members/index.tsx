@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-ranked authors & contributors
+// Copyright 2017-2023 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType } from '../types';
@@ -19,8 +19,7 @@ interface Props {
 function Members ({ className, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
-    [t('members'), 'start'],
-    [t('rank'), 'number']
+    [t('members'), 'start']
   ]);
 
   return (
@@ -30,6 +29,7 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
         className={className}
         empty={members && t<string>('No members found')}
         header={headerRef.current}
+        isSplit
       >
         {members && members.map((a): React.ReactNode => (
           <Member

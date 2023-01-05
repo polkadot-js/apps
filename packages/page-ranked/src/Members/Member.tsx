@@ -1,26 +1,35 @@
-// Copyright 2017-2022 @polkadot/app-ranked authors & contributors
+// Copyright 2017-2023 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType } from '../types';
 
 import React from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { AddressSmall, Tag } from '@polkadot/react-components';
+
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
   value: MemberType;
 }
 
-function Member ({ className, value: { accountId, info } }: Props): React.ReactElement<Props> {
+const COLOR_LST = ['grey', 'grey', 'yellow', 'orange', 'purple', 'blue', 'green', 'black'];
+const COLOR_DEF = COLOR_LST[COLOR_LST.length - 1];
+
+function Member ({ className, value: { accountId, info: { rank } } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <tr className={className}>
-      <td className='address all'>
+      <td className='address all relative'>
         <AddressSmall value={accountId} />
-      </td>
-      <td className='number'>
-        {formatNumber(info.rank)}
+        <Tag
+          className='absolute'
+          color={COLOR_LST[rank.toNumber()] || COLOR_DEF}
+          hover={t<string>('Membership rank')}
+          label={rank.toString()}
+        />
       </td>
     </tr>
   );

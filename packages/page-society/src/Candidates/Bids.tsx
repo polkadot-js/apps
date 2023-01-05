@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
@@ -22,10 +22,9 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('bids'), 'start'],
-    [t('bid kind'), 'start', 2],
+    [t('bid kind'), 'start'],
     [t('value')],
-    [t('tip')],
-    []
+    [t('tip')]
   ]);
 
   return (

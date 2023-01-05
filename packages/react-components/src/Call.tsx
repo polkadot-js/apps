@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentMap } from '@polkadot/react-params/types';
@@ -149,11 +149,12 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
 }
 
 export default React.memo(styled(Call)`
-  .hash .ui--Static {
+  .ui--Labelled.hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: unset;
     word-wrap: unset;
+    white-space: nowrap;
   }
 
   .ui--Extrinsic--toplevel {

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartContents } from './types';
@@ -17,35 +17,8 @@ interface Props {
 }
 
 const OPTIONS = {
-  animation: {
-    duration: 0
-  },
   aspectRatio: 6,
-  maintainAspectRatio: true,
-  plugins: {
-    crosshair: {
-      line: {
-        color: '#ff8c00',
-        dashPattern: [5, 5],
-        width: 2
-      },
-      snapping: {
-        enabled: true
-      },
-      sync: {
-        enabled: true,
-        group: Date.now()
-      },
-      // this would be nice, but atm just doesn't quite
-      // seem or feel intuitive...
-      zoom: {
-        enabled: false
-      }
-    },
-    tooltip: {
-      intersect: false
-    }
-  }
+  maintainAspectRatio: true
 };
 
 function ChartDisplay ({ className, colors, legends, title, value: { labels, values } }: Props): React.ReactElement<Props> {

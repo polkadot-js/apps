@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -6,6 +6,7 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
@@ -38,7 +39,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
 
     return (
       <td className={`${className} all`}>
-        {t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })}
+        <div className='shortHash'>{textHash.slice(0, 8)}…{textHash.slice(-8)}</div>
       </td>
     );
   }
@@ -65,4 +66,12 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   );
 }
 
-export default React.memo(ProposalCell);
+export default React.memo(styled(ProposalCell)`
+  .shortHash {
+    font: var(--font-mono);
+
+    + div {
+      margin-left: 0.5rem;
+    }
+  }
+`);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Address } from '@polkadot/types/interfaces';
@@ -137,7 +137,7 @@ export default React.memo(styled(AddressSmall)`
       max-width: 14rem;
     }
 
-    @media only screen and (max-width: 1200px) {
+    @media only screen and (max-width: 1100px) {
       max-width: 12rem;
     }
   }

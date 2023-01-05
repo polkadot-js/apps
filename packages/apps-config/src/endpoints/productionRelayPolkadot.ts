@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -28,8 +28,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io',
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      Dwellir: 'wss://acala-rpc.dwellir.com',
-      'Automata 1RPC': 'wss://1rpc.io/aca'
+      Dwellir: 'wss://acala-rpc.dwellir.com'
+      // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
     }
   },
   {
@@ -90,7 +90,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org'
+      Bitgreen: 'wss://parachain.bitgreen.org'
     }
   },
   {
@@ -220,6 +220,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Galactic Council': 'wss://rpc.hydradx.cloud',
       Dwellir: 'wss://hydradx-rpc.dwellir.com'
+      // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623
     }
   },
   {
@@ -299,10 +300,12 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Moonbeam',
     providers: {
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
+      'Automata 1RPC': 'wss://1rpc.io/glmr',
       Blast: 'wss://moonbeam.public.blastapi.io',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
-      'Automata 1RPC': 'wss://1rpc.io/glmr'
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
+
     }
   },
   {
@@ -333,7 +336,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'OmniBTC',
     paraId: 2053,
     providers: {
-      OmniBTC: 'wss://omnibtc.io/ws'
+      OmniBTC: 'wss://psc-parachain.coming.chat'
     }
   },
   {
@@ -428,6 +431,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://statemint-rpc.polkadot.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemint-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemint',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     }
@@ -452,6 +456,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Parity: 'wss://rpc.polkadot.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746

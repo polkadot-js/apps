@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -31,6 +31,7 @@ function Accounts ({ allSlashes, className, footer, isInElection, list, minCommi
     [t('controller'), 'address'],
     [t('rewards'), 'start media--1200'],
     [t('bonded'), 'number'],
+    [],
     []
   ]);
 

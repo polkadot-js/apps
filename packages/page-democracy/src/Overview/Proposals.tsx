@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposal } from '@polkadot/api-derive/types';
@@ -24,8 +24,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
     [t('locked'), 'media--1200'],
-    [undefined, undefined, 2],
-    [undefined, 'media--1000']
+    [undefined, undefined, 2]
   ]);
 
   return (

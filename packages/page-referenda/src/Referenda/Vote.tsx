@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'react-i18next';
@@ -146,6 +146,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                       id={id}
                       isAye
                       onChange={setParams}
+                      voteLockingPeriod={api.consts[palletVote as 'convictionVoting'].voteLockingPeriod}
                     />
                   )
                   : voteTypeIndex === 1
@@ -154,6 +155,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                         accountId={accountId}
                         id={id}
                         onChange={setParams}
+                        voteLockingPeriod={api.consts[palletVote as 'convictionVoting'].voteLockingPeriod}
                       />
                     )
                     : voteTypeIndex === 2

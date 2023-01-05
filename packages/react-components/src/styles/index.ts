@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
@@ -489,6 +489,16 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     color: var(--color-summary);
     font: var(--font-sans);
     font-weight: var(--font-weight-light);
+    margin-bottom: 0.25rem;
+  }
+
+  h5 {
+    color: var(--color-label);
+    font-style: normal;
+    font-weight: var(--font-weight-normal);
+    font-size: 0.714rem;
+    line-height: 1rem;
+    text-transform: uppercase;
     margin-bottom: 0.25rem;
   }
 

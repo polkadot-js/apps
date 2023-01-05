@@ -1,14 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { BN } from '@polkadot/util';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
+import { getAccountCryptoType } from '@polkadot/react-components/util';
 import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -41,9 +42,48 @@ interface SortControls {
   sortFromMax: boolean;
 }
 
+type GroupName = 'accounts' | 'hardware' | 'injected' | 'multisig' | 'proxied' | 'qr' | 'testing';
+
 const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
 const STORE_FAVS = 'accounts:favorites';
+
+const GROUP_ORDER: GroupName[] = ['accounts', 'injected', 'qr', 'hardware', 'proxied', 'multisig', 'testing'];
+
+function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> {
+  const ret: Record<GroupName, string[]> = {
+    accounts: [],
+    hardware: [],
+    injected: [],
+    multisig: [],
+    proxied: [],
+    qr: [],
+    testing: []
+  };
+
+  for (let i = 0; i < accounts.length; i++) {
+    const { account, address } = accounts[i];
+    const cryptoType = getAccountCryptoType(address);
+
+    if (account?.meta.isHardware) {
+      ret.hardware.push(address);
+    } else if (account?.meta.isTesting) {
+      ret.testing.push(address);
+    } else if (cryptoType === 'injected') {
+      ret.injected.push(address);
+    } else if (cryptoType === 'multisig') {
+      ret.multisig.push(address);
+    } else if (cryptoType === 'proxied') {
+      ret.proxied.push(address);
+    } else if (cryptoType === 'qr') {
+      ret.qr.push(address);
+    } else {
+      ret.accounts.push(address);
+    }
+  }
+
+  return ret;
+}
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -114,13 +154,27 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [accountsWithInfo]
   );
 
-  const header = useRef([
-    [t('accounts'), 'start', 3],
-    [t('type')],
-    [t('transactions'), 'media--1500'],
-    [t('balances'), 'balances'],
-    []
-  ]);
+  const header = useMemo(
+    (): Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> => {
+      const ret: Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> = {
+        accounts: [[<>{t('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
+        hardware: [[<>{t('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
+        injected: [[<>{t('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
+        multisig: [[<>{t('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
+        proxied: [[<>{t('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
+        qr: [[<>{t('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
+        testing: [[<>{t('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
+      };
+
+      Object.values(ret).forEach((a): void => {
+        a[0][1] = 'start';
+        a[0][2] = 3;
+      });
+
+      return ret;
+    },
+    [t]
+  );
 
   useEffect((): void => {
     // We add new accounts to the end
@@ -160,6 +214,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   );
 
   const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
+
+  const grouped = useMemo(
+    () => groupAccounts(sortedAccounts),
+    [sortedAccounts]
+  );
 
   const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
@@ -225,18 +284,23 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
-      <SummaryBox>
+      <SummaryBox className='header-box'>
         <section
-          className='dropdown-section'
+          className='dropdown-section media--1300'
           data-testid='sort-by-section'
         >
           <SortDropdown
+            className='media--1500'
             defaultValue={sortBy}
             label={t<string>('sort by')}
             onChange={onDropdownChange()}
             onClick={onSortDirectionChange()}
             options={dropdownOptions()}
-            sortDirection={sortFromMax ? 'ascending' : 'descending'}
+            sortDirection={
+              sortFromMax
+                ? 'ascending'
+                : 'descending'
+            }
           />
           <FilterInput
             filterOn={filterOn}
@@ -248,25 +312,25 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <Button
             icon='plus'
             isDisabled={isIpfs}
-            label={t<string>('Add account')}
+            label={t<string>('Account')}
             onClick={_openCreateModal}
           />
           <Button
             icon='sync'
             isDisabled={isIpfs}
-            label={t<string>('Restore JSON')}
+            label={t<string>('From JSON')}
             onClick={toggleImport}
           />
           <Button
             icon='qrcode'
-            label={t<string>('Add via Qr')}
+            label={t<string>('From Qr')}
             onClick={toggleQr}
           />
           {isLedgerEnabled && (
             <>
               <Button
                 icon='project-diagram'
-                label={t<string>('Add via Ledger')}
+                label={t<string>('From Ledger')}
                 onClick={toggleLedger}
               />
             </>
@@ -285,15 +349,28 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </Button.Group>
       </SummaryBox>
-      <Table
-        empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
-        header={header.current}
-        withCollapsibleRows
-      >
-        {!isLoading &&
-          sortedAccounts.map(({ address }) => accountComponents[address])
-        }
-      </Table>
+      {isLoading || !sortedAccounts.length
+        ? (
+          <Table
+            empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+            header={header.accounts}
+          />
+        )
+        : GROUP_ORDER.map((key) =>
+          grouped[key].length
+            ? (
+              <Table
+                empty={t<string>('No accounts')}
+                header={header[key]}
+                isSplit
+                key={key}
+              >
+                {grouped[key].map((a) => accountComponents[a])}
+              </Table>
+            )
+            : null
+        )
+      }
     </div>
   );
 }
@@ -303,9 +380,15 @@ export default React.memo(styled(Overview)`
     width: 15rem;
   }
 
-  .dropdown-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .header-box {
+    .dropdown-section {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .ui--Button-Group {
+      margin-left: auto;
+    }
   }
 `);

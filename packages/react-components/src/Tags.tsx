@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
@@ -33,7 +33,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
           label={tag}
         />
       ))
-      : <label>{t<string>('no tags')}</label>,
+      : <label>{t<string>('none')}</label>,
     [t, value]
   );
 
@@ -80,15 +80,6 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
 }
 
 export default React.memo(styled(Tags)`
-  h5 {
-    font-style: normal;
-    font-weight: var(--font-weight-bold);
-    font-size: 0.714rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
   label {
     display: inline-block;
   }

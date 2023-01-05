@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
@@ -285,28 +285,14 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
             )
           },
           crosshair: {
-            line: {
-              color: '#ff8c00',
-              dashPattern: [5, 5],
-              width: 2
-            },
-            snapping: {
-              enabled: true
-            },
             sync: {
               group: refId.toNumber()
-            },
-            // this would be nice, but atm just doesn't quite
-            // seem or feel intuitive...
-            zoom: {
-              enabled: false
             }
           },
           tooltip: {
             callbacks: {
               title
-            },
-            intersect: false
+            }
           }
         }
       }, OPTIONS),
@@ -314,6 +300,27 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
       values
     };
   });
+}
+
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let enactAt: { at: boolean, blocks: BN } | null = null;
+  let nextAlarm: BN | null = null;
+  let submittedIn: BN | null = null;
+
+  if (info.isOngoing) {
+    const { alarm, enactment, submitted } = info.asOngoing;
+
+    enactAt = {
+      at: enactment.isAt,
+      blocks: enactment.isAt
+        ? enactment.asAt
+        : enactment.asAfter
+    };
+    nextAlarm = alarm.unwrapOr([null])[0];
+    submittedIn = submitted;
+  }
+
+  return { enactAt, nextAlarm, submittedIn };
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
@@ -340,6 +347,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
+  const { enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info),
+    [info]
+  );
+
   const chartLegend = useMemo(
     () => [
       [
@@ -358,29 +370,27 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${chartProps && isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'>
           <h1>{formatNumber(id)}</h1>
         </td>
         <Component {...props} />
-        <td className='links media--1000'>
-          <LinkExternal
-            data={id}
-            type={palletReferenda}
-          />
-        </td>
-        <td className='links media--1000'>
-          {chartResult && (
+        <td className='actions'>
+          <div>
             <ExpandButton
               expanded={isExpanded}
               onClick={toggleExpanded}
             />
-          )}
+          </div>
         </td>
       </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
-          <td colSpan={10}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={6}
+        >
+          {chartProps && (
             <Columar>
               <Columar.Column className='chartColumn'>
                 <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
@@ -397,8 +407,45 @@ function Referendum (props: Props): React.ReactElement<Props> {
                 />
               </Columar.Column>
             </Columar>
-          </td>
-        )}
+          )}
+          <Columar size='tiny'>
+            <Columar.Column>
+              {submittedIn && (
+                <>
+                  <h5>{t<string>('Submitted at')}</h5>
+                  <label>#{formatNumber(submittedIn)}</label>
+                </>
+              )}
+              {nextAlarm && (
+                <>
+                  <h5>{t<string>('Next alarm')}</h5>
+                  <label>#{formatNumber(nextAlarm)}</label>
+                </>
+              )}
+            </Columar.Column>
+            <Columar.Column>
+              {enactAt && (
+                <>
+                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
+                  <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                </>
+              )}
+            </Columar.Column>
+          </Columar>
+          <Columar
+            is100
+            size='tiny'
+          >
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
       </tr>
     </>
   );
@@ -412,5 +459,9 @@ export default React.memo(styled(Referendum)`
       margin-top: 1rem;
       text-align: center;
     }
+  }
+
+  .shortHash {
+    font: var(--font-mono);
   }
 `);

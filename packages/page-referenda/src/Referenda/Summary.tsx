@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -51,7 +51,10 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
             </CardSummary>
           )}
           {issuanceInactive && (
-            <CardSummary label={t<string>('inactive issuance')}>
+            <CardSummary
+              className='media--1000'
+              label={t<string>('inactive issuance')}
+            >
               <FormatBalance
                 value={issuanceInactive}
                 withSi
@@ -59,7 +62,10 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
             </CardSummary>
           )}
           {issuanceActive && issuanceInactive && (
-            <CardSummary label={t<string>('active issuance')}>
+            <CardSummary
+              className='media--800'
+              label={t<string>('active issuance')}
+            >
               <FormatBalance
                 value={issuanceActive}
                 withSi

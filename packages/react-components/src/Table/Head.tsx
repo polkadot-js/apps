@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -59,7 +59,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
 }
 
 export default React.memo(styled(Head)`
-  position: relative;
+  opacity: 0.85;
   z-index: 1;
 
   th {
@@ -82,6 +82,13 @@ export default React.memo(styled(Head)`
         font-size: 1rem;
         margin-right: 0.5rem;
         vertical-align: middle;
+      }
+
+      .sub {
+        display: inline-block;
+        font-size: 1rem;
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
       }
     }
 

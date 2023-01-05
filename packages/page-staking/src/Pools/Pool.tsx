@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -55,9 +55,13 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
+      <tr className={className}>
         <td className='number'><h1>{formatNumber(poolId)}</h1></td>
-        <td className='start'>{info && info.metadata}</td>
+        <td className='start'>
+          {info && (
+            <div className={isExpanded ? '' : 'clamp'}>{info.metadata}</div>
+          )}
+        </td>
         <td className='number media--1100'>{info && info.bonded.state.type}</td>
         <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
@@ -160,5 +164,15 @@ export default React.memo(styled(Pool)`
     line-height: normal;
     color: var(--color-label);
     text-transform: lowercase;
+  }
+
+  .clamp {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    box-orient: vertical;
+    display: -webkit-box;
+    line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `);

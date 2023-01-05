@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -45,7 +45,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       ),
       isExpanded && trackInfo && (
         <tr>
-          <th colSpan={9}>Hello expanded</th>
+          <th colSpan={8} />
         </tr>
       )
     ],
@@ -55,9 +55,8 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   const [header, key] = useMemo(
     () => [
       [
-        [trackName ? <>{trackName}<div>{trackInfo?.text}</div></> : t('referenda'), 'start', 5],
-        [undefined, 'number', 3],
-        [headerButton]
+        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 8],
+        null && [headerButton]
       ],
       trackName
         ? `track:${trackName}`
@@ -73,7 +72,6 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       header={header}
       headerChildren={headerChildren}
       key={key}
-      withCollapsibleRows
     >
       {referenda && referenda.map((r) => (
         <Referendum
@@ -93,13 +91,6 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
 }
 
 export default React.memo(styled(Group)`
-  th > h1 > div {
-    display: inline-block;
-    font-size: 1rem;
-    padding-left: 1.5rem;
-    text-overflow: ellipsis;
-  }
-
   th.number h1 {
     display: inline-block;
     opacity: 0.75;
