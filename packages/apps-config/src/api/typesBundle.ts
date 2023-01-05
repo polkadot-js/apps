@@ -10,6 +10,7 @@ import type { OverrideBundleType } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 export const typesBundle = {
+  "chain": {},
   "spec": {
     "Crab": {
       "alias": {},
