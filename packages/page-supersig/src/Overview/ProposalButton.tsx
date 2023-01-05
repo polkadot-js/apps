@@ -9,7 +9,7 @@ import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import Proposal from './Proposal';
+import Proposal from './ProposalModal';
 
 interface Props {
   imageHash: Hash;

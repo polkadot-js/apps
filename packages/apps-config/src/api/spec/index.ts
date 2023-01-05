@@ -1,7 +1,6 @@
 // Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { nodeColors } from '@polkadot/apps-config/ui/colors';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';

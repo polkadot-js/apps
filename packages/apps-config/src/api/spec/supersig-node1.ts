@@ -15,8 +15,8 @@ export default {
           },
           {
             name: 'call_id',
-            type: 'CallId',
-            
+            type: 'CallId'
+
           }
         ],
         type: 'Result<(ProposalState<AccountId>, u32), DispatchError>'
@@ -24,33 +24,33 @@ export default {
       get_user_supersigs: {
         description: 'Get supersigs associated to the user.',
         params: [
-            {
+          {
             name: 'user_account',
             type: 'AccountId'
-            },
+          }
         ],
         type: 'Vec<SupersigId>'
       },
       list_members: {
         description: 'List members of the supersig',
         params: [
-            {
+          {
             name: 'supersig_id',
             type: 'AccountId'
-            }
+          }
         ],
         type: 'Vec<(AccountId, Role)'
       },
       list_proposals: {
         description: 'List proposals associated to a supersig',
         params: [
-            {
+          {
             name: 'supersig_id',
             type: 'AccountId'
-            }
+          }
         ],
         type: 'Result<(Vec<ProposalState<AccountId>>, u32), DispatchError>'
-      },
-    },
-  },
+      }
+    }
+  }
 } as OverrideBundleDefinition;

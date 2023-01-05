@@ -30,7 +30,7 @@ interface HashState {
 
 const ZERO_HASH = blake2AsHex('');
 
-function proposal ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
+function ProposalModal ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -126,7 +126,7 @@ function proposal ({ className = '', imageHash, isImminent = false, onClose }: P
   );
 }
 
-export default React.memo(styled(proposal)`
+export default React.memo(styled(ProposalModal)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;
