@@ -513,6 +513,15 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    info: 'zero',
+    homepage: 'https://zero.io',
+    paraId: 2236,
+    text: 'subzero',
+    providers: {
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
+    }
+  },
+  {
     info: 'tanganika',
     homepage: 'https://www.datahighway.com/',
     paraId: 2116,
