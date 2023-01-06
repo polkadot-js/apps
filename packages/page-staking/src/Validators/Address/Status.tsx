@@ -37,25 +37,38 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
       {isNominating
         ? (
           <Badge
+            className='media--1100'
             color='green'
             icon='hand-paper'
           />
         )
-        : <Badge color='transparent' />
+        : (
+          <Badge
+            className='media--1100'
+            color='transparent'
+          />
+        )
       }
       {isRelay && (
         isPara
           ? (
             <Badge
+              className='media--1100'
               color='purple'
               icon='vector-square'
             />
           )
-          : <Badge color='transparent' />
+          : (
+            <Badge
+              className='media--1100'
+              color='transparent'
+            />
+          )
       )}
       {isChilled
         ? (
           <Badge
+            className='media--1000'
             color='red'
             icon='cancel'
           />
@@ -63,21 +76,33 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
         : isElected
           ? (
             <Badge
+              className='media--1000'
               color='blue'
               icon='chevron-right'
             />
           )
-          : <Badge color='transparent' />
+          : (
+            <Badge
+              className='media--1000'
+              color='transparent'
+            />
+          )
       }
       {isMain && (
         blockCount || onlineMessage
           ? (
             <Badge
+              className='media--900'
               color='green'
               info={blockCount || <Icon icon='envelope' />}
             />
           )
-          : <Badge color='transparent' />
+          : (
+            <Badge
+              className='media--900'
+              color='transparent'
+            />
+          )
       )}
       <MaxBadge numNominators={nominators.length} />
     </>
