@@ -176,7 +176,6 @@ export default React.memo(styled(AddressMini)`
 
   .ui--AddressMini-icon,
   .ui--AddressMini-info {
-    display: inline-block;
     position: relative;
     vertical-align: middle;
   }
