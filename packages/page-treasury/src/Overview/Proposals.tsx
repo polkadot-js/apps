@@ -23,9 +23,8 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
 
   const header = useMemo<([React.ReactNode?, string?, number?] | false)[]>(() => [
     [isApprovals ? t<string>('Approved') : t<string>('Proposals'), 'start', 2],
-    [t('beneficiary'), 'address'],
-    [t('payment')],
-    [t('bond')],
+    [],
+    [t('proposer'), 'address'],
     [],
     []
   ], [isApprovals, t]);

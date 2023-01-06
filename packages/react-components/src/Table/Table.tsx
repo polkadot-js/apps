@@ -288,6 +288,9 @@ export default React.memo(styled(Table)`
 
       &.hash {
         font: var(--font-mono);
+        // we actually want to use 10ch here, however in the
+        // block expand page gives different sizes to the hashes
+        min-width: 7.5rem;
       }
 
       &.links {

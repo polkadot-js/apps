@@ -5,8 +5,8 @@ import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, LinkExternal, Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { isFunction } from '@polkadot/util';
 
@@ -24,6 +24,7 @@ interface Props {
 function ProposalDisplay ({ className = '', isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const hasCouncil = isFunction(api.tx.council?.propose);
   const hasProposals = useMemo(
@@ -35,41 +36,60 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
   );
 
   return (
-    <tr className={className}>
-      <Table.Column.Id value={id} />
-      <td className='address all'>
-        <AddressSmall value={proposal.proposer} />
-      </td>
-      <td className='address'>
-        <AddressMini value={proposal.beneficiary} />
-      </td>
-      <td className='number'>
-        <FormatBalance value={proposal.value} />
-      </td>
-      <td className='number'>
-        <FormatBalance value={proposal.bond} />
-      </td>
-      <td className={hasProposals ? 'middle' : 'button'}>
-        {hasCouncil
-          ? hasProposals
-            ? <a href='#/council/motions'>{t('Voting')}</a>
-            : withSend && (
-              <Council
-                id={id}
-                isDisabled={!isMember}
-                members={members}
-              />
-            )
-          : null
-        }
-      </td>
-      <td className='links'>
-        <LinkExternal
-          data={id}
-          type='treasury'
+    <>
+      <tr className={className}>
+        <Table.Column.Id value={id} />
+        <td className='address all'>
+          <AddressSmall value={proposal.beneficiary} />
+        </td>
+        <td className='number'>
+          <FormatBalance value={proposal.value} />
+        </td>
+        <td className='address'>
+          <AddressMini
+            balance={proposal.bond}
+            value={proposal.proposer}
+            withBalance
+          />
+        </td>
+        <td className={hasProposals ? 'middle' : 'button'}>
+          {hasCouncil
+            ? hasProposals
+              ? <a href='#/council/motions'>{t('Voting')}</a>
+              : withSend && (
+                <Council
+                  id={id}
+                  isDisabled={!isMember}
+                  members={members}
+                />
+              )
+            : null
+          }
+        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
         />
-      </td>
-    </tr>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={4}
+        >
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type='treasury'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
+      </tr>
+    </>
   );
 }
 

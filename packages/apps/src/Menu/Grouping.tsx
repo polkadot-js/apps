@@ -23,6 +23,7 @@ function Grouping ({ className = '', isActive, name, routes }: Props): React.Rea
     return (
       <Item
         className={isActive ? 'isActive' : ''}
+        classNameText='smallHide'
         isToplevel
         route={routes[0]}
       />
@@ -32,7 +33,11 @@ function Grouping ({ className = '', isActive, name, routes }: Props): React.Rea
   return (
     <li className={`${className} ${isActive ? 'isActive' : ''}`}>
       <div className={`groupHdr ${!isActive ? 'highlight--color-contrast' : ''}`}>
-        <span>{name}</span>
+        <span className='smallHide'>{name}</span>
+        <Icon
+          className='smallShow'
+          icon={routes[0].icon}
+        />
         <Icon icon='caret-down' />
       </div>
       <ul className='groupMenu'>

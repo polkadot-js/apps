@@ -164,6 +164,24 @@ export default React.memo(styled(Menu)`
   z-index: 220;
   position: relative;
 
+  .smallShow {
+    display: none;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .groupHdr {
+      padding: 0.857rem;
+    }
+
+    .smallShow {
+      display: initial;
+    }
+
+    .smallHide {
+      display: none;
+    }
+  }
+
   & .menuContainer {
     flex-direction: row;
     align-items: center;
