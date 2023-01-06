@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, bnMin } from '@polkadot/util';
 
 import InputBalance from './InputBalance';
 import { useTranslation } from './translate';
@@ -55,7 +55,9 @@ function getValues (selectedId: string | null | undefined, isCouncil: boolean | 
     })
     .map(({ amount }) => amount);
 
-  const value = sortedLocks[0] || allBalances.lockedBalance;
+  const value = sortedLocks.length
+    ? bnMin(sortedLocks[0], allBalances.lockedBalance)
+    : allBalances.lockedBalance;
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
   const defaultValue = noDefault
     ? BN_ZERO
