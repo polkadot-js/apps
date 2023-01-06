@@ -109,6 +109,22 @@ const ColumarStyled = React.memo(styled(Columar)`
     }
   }
 
+  &.defaultSize, &.smallSize {
+    @media only screen and (max-width: ${MIN_WIDTH_SMALL}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.5rem;
+      }
+    }
+  }
+
+  &.defaultSize, &.smallSize, &.tinySize {
+    @media only screen and (max-width: ${MIN_WIDTH_TINY}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.25rem;
+      }
+    }
+  }
+
   > .ui--Column {
     box-sizing: border-box;
     max-width: 100%;
