@@ -368,8 +368,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
   );
 
   const { confirmEnd, enactAt, nextAlarm, submittedIn } = useMemo(
-    () => extractInfo(info),
-    [info]
+    () => extractInfo(info, track),
+    [info, track]
   );
 
   const chartLegend = useMemo(
@@ -457,7 +457,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {enactAt?.end && (
                 <>
                   <h5>{t<string>('Enact end')}</h5>
-                  <label>{formatNumber(enactAt.end)}</label>
+                  <label>#{formatNumber(enactAt.end)}</label>
                 </>
               )}
             </Columar.Column>
