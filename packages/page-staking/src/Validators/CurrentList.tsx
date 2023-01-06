@@ -144,18 +144,15 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         [t('intentions'), 'start', 3],
         [t('nominators'), 'expand'],
         [t('commission'), 'number'],
-        [],
         []
       ]
       : [
         [t('validators'), 'start', 3],
         [t('other stake'), 'expand'],
-        [t('own stake'), 'media--1100'],
         [t('commission')],
         [t('points')],
         [t('last #')],
-        [],
-        [undefined, 'media--1200']
+        []
       ]
   );
 
