@@ -19,11 +19,11 @@ interface Props {
 function Unscrupulous ({ className, unscrupulous }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const accRef = useRef([
+  const accRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('accounts'), 'start']
   ]);
 
-  const webRef = useRef([
+  const webRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('websites'), 'start']
   ]);
 

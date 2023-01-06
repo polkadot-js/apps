@@ -18,7 +18,7 @@ interface Props {
 function Referendums ({ className = '', referendums }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('referenda'), 'start', 2],
     [t('remaining'), 'media--1200'],
     [t('activate'), 'media--1400'],

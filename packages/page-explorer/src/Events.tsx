@@ -25,9 +25,12 @@ interface Props {
 function Events ({ className = '', emptyLabel, error, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
-    [label || t<string>('recent events'), 'start']
-  ], [label, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [label || t<string>('recent events'), 'start']
+    ],
+    [label, t]
+  );
 
   return (
     <Table

@@ -7,7 +7,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress } from '@polkadot/react-components';
+import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
@@ -92,7 +92,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   return (
     <>
       <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+        <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}

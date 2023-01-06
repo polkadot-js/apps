@@ -6,7 +6,7 @@ import type { AuctionInfo, WinnerData } from '../types';
 
 import React from 'react';
 
-import { AddressMini, ParaLink } from '@polkadot/react-components';
+import { AddressMini, ParaLink, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -34,7 +34,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
           }</h1>
         )}
       </td>
-      <td className='number'><h1>{formatNumber(paraId)}</h1></td>
+      <Table.Column.Id value={paraId} />
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
       <td className='all number'>{isCrowdloan ? t<string>('Yes') : t<string>('No')}</td>

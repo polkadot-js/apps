@@ -26,7 +26,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const isLoading = useLoadingDelay();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('contacts'), 'start', 4]
   ]);
 

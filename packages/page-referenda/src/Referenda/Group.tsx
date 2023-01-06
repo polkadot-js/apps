@@ -53,7 +53,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   );
 
   const [header, key] = useMemo(
-    () => [
+    (): [([React.ReactNode?, string?, number?] | null)[], string] => [
       [
         [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 8],
         null && [headerButton]

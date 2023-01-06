@@ -22,7 +22,7 @@ interface Props {
 function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('members'), 'start'],
     [hasElections ? t('backing') : undefined, 'expand'],
     [hasElections ? t('votes') : undefined]

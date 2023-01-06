@@ -28,11 +28,12 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
         {info?.bytes && formatNumber(info.bytes.length)}
       </td>
       <td className='preimage-status together media--1200'>
-        <div>{info?.status?.type}</div>
-        {info && <Free value={info} />}
-      </td>
-      <td className='number media--1400'>
-        {info && info.count !== 0 && formatNumber(info.count)}
+        {info && (
+          <>
+            <div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>
+            <Free value={info} />
+          </>
+        )}
       </td>
     </tr>
   );

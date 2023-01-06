@@ -29,7 +29,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
     [bestNumber, queued]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
     [],

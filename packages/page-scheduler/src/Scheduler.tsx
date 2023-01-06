@@ -92,7 +92,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
     [bestNumber, items]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('scheduled'), 'start'],
     [t('id'), 'start'],
     [t('remaining')],

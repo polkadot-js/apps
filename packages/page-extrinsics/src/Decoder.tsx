@@ -60,12 +60,21 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         let isCall = true;
 
         try {
-          // cater for an extrinsic input...
-          decoded = api.tx(hex);
+          // cater for an extrinsic input
+          const tx = api.tx(hex);
+
+          // ensure that the full data matches here
+          assert(tx.toHex() === hex, 'Cannot decode data as extrinsic, length mismatch');
+
+          decoded = tx;
           extrinsicCall = api.createType('Call', decoded.method);
           isCall = false;
         } catch (e) {
+          // attempt to decode as Call
           extrinsicCall = api.createType('Call', hex);
+
+          // ensure we used all bytes (as we did above)
+          assert(extrinsicCall.toHex() === hex, 'Unable to decode data as Call, length mismatch in supplied data');
         }
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);

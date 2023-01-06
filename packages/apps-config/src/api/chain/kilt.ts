@@ -5,4 +5,4 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import { typesBundle } from '@kiltprotocol/type-definitions';
 
-export default typesBundle.chain?.['KILT Spiritnet'] as OverrideBundleDefinition;
+export default typesBundle.chain as Record<string, OverrideBundleDefinition>;

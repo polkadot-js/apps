@@ -16,7 +16,7 @@ interface Props {
 function Members ({ className = '', members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('members'), 'start', 3]
   ]);
 

@@ -137,7 +137,7 @@ export default React.memo(styled(AddressSmall)`
       max-width: 14rem;
     }
 
-    @media only screen and (max-width: 1200px) {
+    @media only screen and (max-width: 1100px) {
       max-width: 12rem;
     }
   }

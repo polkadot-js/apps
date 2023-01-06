@@ -94,8 +94,8 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     [networkSpecs]
   );
 
-  const headerRef = useRef([
-    [t('chain specifications'), 'start', '2']
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('chain specifications'), 'start', 2]
   ]);
 
   if (!isApiReady) {

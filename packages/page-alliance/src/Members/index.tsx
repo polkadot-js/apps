@@ -28,7 +28,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
   const [isJoinOpen, toggleJoin] = useToggle();
   const bestNumber = useBestNumber();
 
-  const hdrRef = useRef([
+  const hdrRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('members'), 'start', 2],
     [t<string>('deposit'), 'number'],
     [t<string>('role'), 'number'],

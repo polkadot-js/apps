@@ -6,7 +6,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, Spinner, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, Spinner, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -79,7 +79,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(paraId)}</h1></td>
+      <Table.Column.Id value={paraId} />
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='media--800'>
         {isWinner

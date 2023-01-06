@@ -6,7 +6,7 @@ import type { CollectionInfo } from '../types';
 
 import React from 'react';
 
-import { AddressSmall, IconLink } from '@polkadot/react-components';
+import { AddressSmall, IconLink, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,7 +23,7 @@ function Collection ({ className, value: { details, id, ipfsData } }: Props): Re
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='together all'>
         { name && imageLink
           ? (
