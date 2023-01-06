@@ -5,7 +5,7 @@ import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { isFunction } from '@polkadot/util';
@@ -40,16 +40,17 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
       <tr className={className}>
         <Table.Column.Id value={id} />
         <td className='address all'>
-          <AddressSmall value={proposal.proposer} />
-        </td>
-        <td className='address'>
           <AddressSmall value={proposal.beneficiary} />
         </td>
         <td className='number'>
           <FormatBalance value={proposal.value} />
         </td>
-        <td className='number'>
-          <FormatBalance value={proposal.bond} />
+        <td className='address'>
+          <AddressMini
+            balance={proposal.bond}
+            value={proposal.proposer}
+            withBalance
+          />
         </td>
         <td className={hasProposals ? 'middle' : 'button'}>
           {hasCouncil
@@ -74,7 +75,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <td />
         <td
           className='columar'
-          colSpan={5}
+          colSpan={4}
         >
           <Columar is100>
             <Columar.Column>
