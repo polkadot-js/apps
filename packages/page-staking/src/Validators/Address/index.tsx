@@ -133,7 +133,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           onlineMessage={recentlyOnline?.hasMessage}
         />
       </td>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={address} />
       </td>
       {isMain
