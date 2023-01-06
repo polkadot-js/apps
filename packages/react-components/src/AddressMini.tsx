@@ -159,8 +159,6 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-icon {
-    margin: 0 0.5rem 0 0;
-
     .ui--AddressMini-icon-info {
       position: absolute;
       right: -0.5rem;
@@ -169,7 +167,7 @@ export default React.memo(styled(AddressMini)`
     }
 
     .ui--IdentityIcon {
-      margin: 0;
+      margin-right: 0.5rem;
       vertical-align: middle;
     }
   }

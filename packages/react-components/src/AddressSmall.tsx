@@ -69,9 +69,11 @@ export default React.memo(styled(AddressSmall)`
     padding: 0.75rem 0;
   }
 
-  .ui--IdentityIcon {
-    margin-right: 0.75rem;
-    vertical-align: middle;
+  .ui--AddressSmall-icon {
+    .ui--IdentityIcon {
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
   }
 
   .ui--AddressSmall-info {
