@@ -236,7 +236,7 @@ export default React.memo(styled(Table)`
 
       &.address {
         max-width: 0;
-        min-width: 11rem;
+        min-width: 15rem;
         overflow-x: hidden;
       }
 
