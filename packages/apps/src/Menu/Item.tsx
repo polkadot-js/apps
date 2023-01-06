@@ -11,6 +11,7 @@ import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
+  classNameText?: string;
   isLink?: boolean;
   isToplevel?: boolean;
   route: ItemRoute;
@@ -18,7 +19,7 @@ interface Props {
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', classNameText, isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
@@ -31,7 +32,7 @@ function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon,
         target={href ? '_blank' : undefined}
       >
         <Icon icon={icon} />
-        {text}
+        <span className={classNameText}>{text}</span>
         {!!count && (
           <Badge
             color={'white'}
