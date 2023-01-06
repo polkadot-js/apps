@@ -29,8 +29,33 @@ interface ValueState {
   value: BN;
 }
 
+const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'];
+
 function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
-  const value = allBalances.lockedBalance;
+  const sortedLocks = allBalances.lockedBreakdown
+    // first sort by amount, so greatest value first
+    .sort((a, b) =>
+      b.amount.cmp(a.amount)
+    )
+    // then sort by the type of lock (we try to find relevant)
+    .sort((a, b): number => {
+      if (!a.id.eq(b.id)) {
+        for (let i = 0; i < LOCKS_ORDERED.length; i++) {
+          const lockName = LOCKS_ORDERED[i];
+
+          if (a.id.eq(lockName)) {
+            return -1;
+          } else if (b.id.eq(lockName)) {
+            return 1;
+          }
+        }
+      }
+
+      return 0;
+    })
+    .map(({ amount }) => amount);
+
+  const value = sortedLocks[0] || allBalances.lockedBalance;
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
   const defaultValue = noDefault
     ? BN_ZERO
