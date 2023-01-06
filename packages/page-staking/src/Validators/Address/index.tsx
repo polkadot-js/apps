@@ -125,9 +125,6 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           isFavorite={isFavorite}
           toggle={toggleFavorite}
         />
-        <td className='address all'>
-          <AddressSmall value={address} />
-        </td>
         <td className='badge together'>
           <Status
             isChilled={isChilled}
@@ -139,6 +136,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onlineCount={recentlyOnline?.blockCount}
             onlineMessage={recentlyOnline?.hasMessage}
           />
+        </td>
+        <td className='address all'>
+          <AddressSmall value={address} />
         </td>
         {isMain
           ? (
