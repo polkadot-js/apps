@@ -5,12 +5,6 @@ import type { ComponentMap } from '@polkadot/react-params/types';
 
 import BalanceParam from '@polkadot/react-params/Param/Balance';
 
-export const ScreenSizes = {
-  DESKTOP: 992,
-  PHONE: 576,
-  TABLET: 768
-};
-
 export const rewardDestinationOptions = [
   { text: 'Stash account (increase the amount at stake)', value: 0 },
   { text: 'Stash account (do not increase the amount at stake)', value: 1 },

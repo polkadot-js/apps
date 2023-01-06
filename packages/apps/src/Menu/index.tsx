@@ -168,20 +168,6 @@ export default React.memo(styled(Menu)`
     display: none;
   }
 
-  @media only screen and (max-width: 800px) {
-    .groupHdr {
-      padding: 0.857rem;
-    }
-
-    .smallShow {
-      display: initial;
-    }
-
-    .smallHide {
-      display: none;
-    }
-  }
-
   & .menuContainer {
     flex-direction: row;
     align-items: center;
@@ -247,4 +233,25 @@ export default React.memo(styled(Menu)`
     align-self: center;
   }
 
+  @media only screen and (max-width: 800px) {
+    .groupHdr {
+      padding: 0.857rem 0.75rem;
+    }
+
+    .smallShow {
+      display: initial;
+    }
+
+    .smallHide {
+      display: none;
+    }
+
+    .menuItems {
+      margin-right: 0;
+
+      > li + li {
+        margin-left: 0.25rem;
+      }
+    }
+  }
 `);

@@ -80,7 +80,7 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 
   &.defaultSize {
-    @media (min-width: ${MIN_WIDTH_DEFAULT}) {
+    @media only screen and (min-width: ${MIN_WIDTH_DEFAULT}) {
       ${FLEX_OPTIONS}
     }
 
@@ -90,7 +90,7 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 
   &.smallSize {
-    @media (min-width: ${MIN_WIDTH_SMALL}) {
+    @media only screen and (min-width: ${MIN_WIDTH_SMALL}) {
       ${FLEX_OPTIONS}
     }
 
@@ -100,12 +100,28 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 
   &.tinySize {
-    @media (min-width: ${MIN_WIDTH_TINY}) {
+    @media only screen and (min-width: ${MIN_WIDTH_TINY}) {
       ${FLEX_OPTIONS}
     }
 
     &.isPadded > .ui--Column {
       padding: 0 0.25rem;
+    }
+  }
+
+  &.defaultSize, &.smallSize {
+    @media only screen and (max-width: ${MIN_WIDTH_SMALL}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.5rem;
+      }
+    }
+  }
+
+  &.defaultSize, &.smallSize, &.tinySize {
+    @media only screen and (max-width: ${MIN_WIDTH_TINY}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.25rem;
+      }
     }
   }
 
