@@ -159,10 +159,6 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         </td>
         {isMain
           ? (
-            // <StakeOther
-            //   nominators={nominators}
-            //   stakeOther={stakeOther}
-            // />
             <td className='number'>
               <FormatBalance value={stakeTotal} />
             </td>

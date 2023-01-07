@@ -106,24 +106,6 @@ function StakeOther ({ className, nominators, stakeOther }: Props): React.ReactE
         </tr>
       )}
     </>
-    // <td className='expand all'>
-    //   {rewarded && (
-    //     <>
-    //       {unrewarded && (
-    //         <ExpanderScroll
-    //           className='stakeOver'
-    //           renderChildren={unrewarded[1]}
-    //           summary={
-    //             <FormatBalance
-    //               labelPost={` (${unrewarded[0]})`}
-    //               value={unrewardedTotal}
-    //             />
-    //           }
-    //         />
-    //       )}
-    //     </>
-    //   )}
-    // </td>
   );
 }
 
