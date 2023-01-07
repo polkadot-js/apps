@@ -91,6 +91,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
         />
         {isConvictionVote && (
           <Delegate
+            palletReferenda={palletReferenda}
             palletVote={palletVote}
             tracks={tracks}
           />
@@ -129,6 +130,13 @@ export default React.memo(styled(Referenda)`
 
     > label {
       left: 1.55rem !important;
+    }
+  }
+
+  .trackOption {
+    .faded {
+      margin-top: 0.25rem;
+      opacity: 0.5;
     }
   }
 `);

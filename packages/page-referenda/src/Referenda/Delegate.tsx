@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletVote, TrackDescription } from '../types';
+import type { PalletReferenda, PalletVote, TrackDescription } from '../types';
 
 import React from 'react';
 
 interface Props {
+  palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   tracks?: TrackDescription[];
 }

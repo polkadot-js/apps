@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -19,7 +18,8 @@ import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getTrackInfo, getTrackName } from '../util';
+import { getTrackInfo } from '../util';
+import { getTrackOptions } from './util';
 
 interface Props {
   className?: string;
@@ -38,30 +38,6 @@ interface ImageState {
   imageLen: BN;
   imageLenDefault?: BN;
   isImageLenValid: boolean;
-}
-
-interface TrackOpt {
-  text: React.ReactNode;
-  value: number;
-}
-
-function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[]): undefined | TrackOpt[] {
-  return tracks && tracks.map(({ id, info }): TrackOpt => {
-    const trackInfo = getTrackInfo(api, specName, palletReferenda, tracks, id.toNumber());
-    const trackName = getTrackName(id, info);
-
-    return {
-      text: trackInfo?.text
-        ? (
-          <div className='trackOption'>
-            <div className='normal'>{trackName}</div>
-            <div className='faded'>{trackInfo.text}</div>
-          </div>
-        )
-        : trackName,
-      value: id.toNumber()
-    };
-  });
 }
 
 function Submit ({ className = '', isMember, members, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
@@ -342,13 +318,6 @@ export default React.memo(styled(Submit)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
-    }
-  }
-
-  .trackOption {
-    .faded {
-      margin-top: 0.25rem;
-      opacity: 0.5;
     }
   }
 
