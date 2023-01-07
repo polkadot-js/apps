@@ -96,7 +96,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
-  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
+  const { commission, isChilled, nominators, stakeOther, stakeOwn, stakeTotal } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
       : { nominators: [] },
@@ -125,6 +125,22 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           isFavorite={isFavorite}
           toggle={toggleFavorite}
         />
+        <td
+          className='address all relative'
+          colSpan={2}
+        >
+          <AddressSmall value={address} />
+          {isMain && (
+            <div className='absolute'>{points}</div>
+          )}
+        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
+      </tr>
+      <tr className={`${className} isExpanded ${isExpanded ? 'packedBottom' : ''}`}>
+        <td />
         <td className='badge together'>
           <Status
             isChilled={isChilled}
@@ -137,15 +153,15 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onlineMessage={recentlyOnline?.hasMessage}
           />
         </td>
-        <td className='address all'>
-          <AddressSmall value={address} />
-        </td>
         {isMain
           ? (
-            <StakeOther
-              nominators={nominators}
-              stakeOther={stakeOther}
-            />
+            // <StakeOther
+            //   nominators={nominators}
+            //   stakeOther={stakeOther}
+            // />
+            <td className='number'>
+              <FormatBalance value={stakeTotal} />
+            </td>
           )
           : (
             <NominatedBy
@@ -154,73 +170,82 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             />
           )
         }
-        <td className='number'>
-          {commission}
-        </td>
-        {isMain && (
-          <>
-            <td className='number'>
-              {points}
-            </td>
-            <td className='number'>
-              {lastBlock}
-            </td>
-          </>
-        )}
-        <Table.Column.Expand
-          isExpanded={isExpanded}
-          toggle={toggleIsExpanded}
-        />
+        <td />
       </tr>
       {isExpanded && (
-        <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
-          <td colSpan={2} />
-          <td
-            className='columar'
-            colSpan={
-              isMain
-                ? 5
-                : 3
-            }
-          >
-            <Columar size='small'>
-              <Columar.Column>
-                {isMain && stakeOwn?.gtn(0) && (
-                  <>
-                    <h5>{t<string>('own stake')}</h5>
-                    <FormatBalance
-                      value={stakeOwn}
-                    />
-                  </>
-                )}
-              </Columar.Column>
-              <Columar.Column>
-                {hasQueries && (
-                  <>
-                    <h5>{t<string>('graphs')}</h5>
-                    <a href={statsLink}>
-                      <Icon
-                        className='highlight--color'
-                        icon='chart-line'
-                      />
-                      &nbsp;{t<string>('historic results')}
-                    </a>
-                  </>
-                )}
-              </Columar.Column>
-            </Columar>
-            <Columar is100>
-              <Columar.Column>
-                <LinkExternal
-                  data={address}
-                  type='validator' // {isMain ? 'validator' : 'intention'}
-                  withTitle
-                />
-              </Columar.Column>
-            </Columar>
-          </td>
-          <td />
-        </tr>
+        <>
+          <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedBottom`}>
+            <td />
+            <td className='number all'>
+              <h5>{t<string>('own stake')}</h5>
+            </td>
+            <td className='number top'>
+              <FormatBalance value={stakeOwn} />
+            </td>
+            <td />
+          </tr>
+          {isMain && (
+            <StakeOther
+              className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedBottom`}
+              nominators={nominators}
+              stakeOther={stakeOther}
+            />
+          )}
+          <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+            <td />
+            <td
+              className='columar'
+              colSpan={2}
+            >
+              <Columar size='small'>
+                <Columar.Column>
+                  {isMain && (
+                    <>
+                      {commission && (
+                        <>
+                          <h5>{t<string>('commission')}</h5>
+                          {commission}
+                        </>
+                      )}
+                    </>
+                  )}
+                </Columar.Column>
+                <Columar.Column>
+                  {isMain && (
+                    lastBlock && (
+                      <>
+                        <h5>{t<string>('last block')}</h5>
+                        #{lastBlock}
+                      </>
+                    )
+                  )}
+                  {hasQueries && (
+                    <>
+                      <h5>{t<string>('graphs')}</h5>
+                      <a href={statsLink}>
+                        <Icon
+                          className='highlight--color'
+                          icon='chart-line'
+                        />
+                        &nbsp;{t<string>('historic results')}
+                      </a>
+                    </>
+                  )}
+                </Columar.Column>
+              </Columar>
+              <Columar is100>
+                <Columar.Column>
+                  <LinkExternal
+                    data={address}
+                    type='validator' // {isMain ? 'validator' : 'intention'}
+                    withTitle
+                  />
+                </Columar.Column>
+              </Columar>
+            </td>
+            <td />
+          </tr>
+        </>
       )}
     </>
   );

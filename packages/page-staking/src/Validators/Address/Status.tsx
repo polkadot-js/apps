@@ -40,12 +40,14 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
             className='media--1100'
             color='green'
             icon='hand-paper'
+            isSmall
           />
         )
         : (
           <Badge
             className='media--1100'
             color='transparent'
+            isSmall
           />
         )
       }
@@ -56,12 +58,14 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
               className='media--1100'
               color='purple'
               icon='vector-square'
+              isSmall
             />
           )
           : (
             <Badge
               className='media--1100'
               color='transparent'
+              isSmall
             />
           )
       )}
@@ -71,6 +75,7 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
             className='media--1000'
             color='red'
             icon='cancel'
+            isSmall
           />
         )
         : isElected
@@ -79,12 +84,14 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
               className='media--1000'
               color='blue'
               icon='chevron-right'
+              isSmall
             />
           )
           : (
             <Badge
               className='media--1000'
               color='transparent'
+              isSmall
             />
           )
       }
@@ -95,16 +102,21 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
               className='media--900'
               color='green'
               info={blockCount || <Icon icon='envelope' />}
+              isSmall
             />
           )
           : (
             <Badge
               className='media--900'
               color='transparent'
+              isSmall
             />
           )
       )}
-      <MaxBadge numNominators={nominators.length} />
+      <MaxBadge
+        isSmall
+        numNominators={nominators.length}
+      />
     </>
   );
 }

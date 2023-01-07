@@ -10,7 +10,10 @@ import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
+import { useTranslation } from '../../translate';
+
 interface Props {
+  className?: string;
   stakeOther?: BN;
   nominators: NominatorValue[];
 }
@@ -57,7 +60,8 @@ function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], s
   return [extractFunction(rewarded), rewardedTotal, extractFunction(unrewarded), unrewardedTotal];
 }
 
-function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
+function StakeOther ({ className, nominators, stakeOther }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
@@ -66,33 +70,60 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
   );
 
   return (
-    <td className='expand all'>
+    <>
       {rewarded && (
-        <>
-          <ExpanderScroll
-            renderChildren={rewarded[1]}
-            summary={
-              <FormatBalance
-                labelPost={` (${rewarded[0]})`}
-                value={rewardedTotal}
-              />
-            }
-          />
-          {unrewarded && (
+        <tr className={className}>
+          <td />
+          <td className='number top all'>
+            <h5>{t<string>('other stake ({{count}})', { replace: { count: rewarded[0] } })}</h5>
+          </td>
+          <td className='number top'>
             <ExpanderScroll
-              className='stakeOver'
-              renderChildren={unrewarded[1]}
+              renderChildren={rewarded[1]}
               summary={
-                <FormatBalance
-                  labelPost={` (${unrewarded[0]})`}
-                  value={unrewardedTotal}
-                />
+                <FormatBalance value={rewardedTotal} />
               }
             />
-          )}
-        </>
+          </td>
+          <td />
+        </tr>
       )}
-    </td>
+      {unrewarded && (
+        <tr className={className}>
+          <td />
+          <td className='number top all'>
+            <h5>{t<string>('inactive stake ({{count}})', { replace: { count: unrewarded[0] } })}</h5>
+          </td>
+          <td className='number top'>
+            <ExpanderScroll
+              renderChildren={unrewarded[1]}
+              summary={
+                <FormatBalance value={unrewardedTotal} />
+              }
+            />
+          </td>
+          <td />
+        </tr>
+      )}
+    </>
+    // <td className='expand all'>
+    //   {rewarded && (
+    //     <>
+    //       {unrewarded && (
+    //         <ExpanderScroll
+    //           className='stakeOver'
+    //           renderChildren={unrewarded[1]}
+    //           summary={
+    //             <FormatBalance
+    //               labelPost={` (${unrewarded[0]})`}
+    //               value={unrewardedTotal}
+    //             />
+    //           }
+    //         />
+    //       )}
+    //     </>
+    //   )}
+    // </td>
   );
 }
 

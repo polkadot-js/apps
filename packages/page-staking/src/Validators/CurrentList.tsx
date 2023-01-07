@@ -141,18 +141,10 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
-        [t('intentions'), 'start', 3],
-        [t('nominators'), 'expand'],
-        [t('commission'), 'number'],
-        []
+        [t('intentions'), 'start', 4]
       ]
       : [
-        [t('validators'), 'start', 3],
-        [t('other stake'), 'expand'],
-        [t('commission')],
-        [t('points')],
-        [t('last #')],
-        []
+        [t('validators'), 'start', 4]
       ]
   );
 
@@ -182,6 +174,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
       header={headerRef.current}
+      isSplit
       legend={
         <Legend
           isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}

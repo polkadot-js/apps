@@ -7,10 +7,11 @@ import { Badge } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
+  isSmall?: boolean;
   numNominators?: number;
 }
 
-function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
+function MaxBadge ({ isSmall, numNominators }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
 
   const max = api.consts.staking?.maxNominatorRewardedPerValidator;
@@ -24,6 +25,7 @@ function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
       className='media--1200'
       color='red'
       icon='balance-scale-right'
+      isSmall={isSmall}
     />
   );
 }
