@@ -4,7 +4,7 @@
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda, TrackDescription } from '../types';
+import type { PalletReferenda, TrackDescription } from '../../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -17,9 +17,9 @@ import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { getTrackInfo } from '../util';
-import { getTrackOptions } from './util';
+import { useTranslation } from '../../translate';
+import { getTrackInfo } from '../../util';
+import TrackDropdown from './TrackDropdown';
 
 interface Props {
   className?: string;
@@ -109,11 +109,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     [origin, trackInfo]
   );
 
-  const trackOpts = useMemo(
-    () => getTrackOptions(api, specName, palletReferenda, tracks),
-    [api, palletReferenda, specName, tracks]
-  );
-
   const enactOpts = useMemo(
     () => [
       { text: t<string>('After delay'), value: 'after' },
@@ -159,7 +154,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
 
   return (
     <>
-      {trackOpts && isSubmitOpen && (
+      {isSubmitOpen && (
         <Modal
           className={className}
           header={t<string>('Submit proposal')}
@@ -183,19 +178,11 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
-              <Dropdown
-                defaultValue={trackOpts[0] && trackOpts[0].value}
-                label={t<string>('submission track')}
+              <TrackDropdown
                 onChange={setTrack}
-                options={trackOpts}
+                palletReferenda={palletReferenda}
+                tracks={tracks}
               />
-              {false && trackInfo?.text && (
-                <Input
-                  isDisabled
-                  label={t<string>('track overview')}
-                  value={trackInfo?.text}
-                />
-              )}
               {!trackInfo?.origin && (
                 <Params
                   className='originSelect'
@@ -306,7 +293,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
       )}
       <Button
         icon='plus'
-        isDisabled={!isMember || !trackOpts}
+        isDisabled={!isMember}
         label={t<string>('Submit proposal')}
         onClick={toggleSubmit}
       />

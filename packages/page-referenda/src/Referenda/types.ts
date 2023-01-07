@@ -9,8 +9,3 @@ export interface VoteTypeProps {
   isAye?: boolean;
   onChange: (params: unknown[]) => void;
 }
-
-export interface TrackOption {
-  text: React.ReactNode;
-  value: number;
-}

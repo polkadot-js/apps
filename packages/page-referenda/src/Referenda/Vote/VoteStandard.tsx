@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { VoteTypeProps } from './types';
+import type { VoteTypeProps } from '../types';
 
 import React, { useEffect, useState } from 'react';
 
 import { ConvictionDropdown, Modal, VoteValue } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
 interface Props extends VoteTypeProps {
   voteLockingPeriod: BN;
