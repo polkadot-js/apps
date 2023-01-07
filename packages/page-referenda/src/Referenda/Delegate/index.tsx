@@ -9,6 +9,7 @@ import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
+import useActivityAccount from './useActivityAccount';
 import useActivityFellows from './useActivityFellows';
 import useActivityNominators from './useActivityNominators';
 
@@ -25,14 +26,17 @@ function Delegate ({ className, palletVote }: Props): React.ReactElement<Props> 
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
 
+  // get the activity for this specific user
+  console.log('useActivityAccount=', useActivityAccount(palletVote, accountId));
+
   // anything that is supplied by the user
   // useActivityAccount(palletVote, selectedAccount)
 
   // get all activity for our nominees
-  useActivityNominators(palletVote, accountId);
+  console.log('useActivityNominators=', useActivityNominators(palletVote, accountId));
 
   // we also need the activity for all fellows
-  useActivityFellows(palletVote);
+  console.log('useActivityFellows=', useActivityFellows(palletVote));
 
   return (
     <>
