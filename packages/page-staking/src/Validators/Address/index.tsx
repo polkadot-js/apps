@@ -11,7 +11,7 @@ import type { NominatorValue } from './types';
 import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Columar, Icon, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -130,8 +130,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           colSpan={2}
         >
           <AddressSmall value={address} />
-          {isMain && (
-            <div className='absolute'>{points}</div>
+          {isMain && points && (
+            <Tag
+              className='absolute'
+              color='lightgrey'
+              label={points}
+            />
           )}
         </td>
         <Table.Column.Expand
