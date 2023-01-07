@@ -5,13 +5,14 @@ import type { ApiPromise } from '@polkadot/api';
 import type { PalletReferenda, TrackDescription } from '../../types';
 import type { TrackOption } from './types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
 import { Dropdown } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import { getTrackInfo, getTrackName } from '../../util';
+import useTrackOptions from './useTrackOptions';
 
 interface Props {
   className?: string;
@@ -41,12 +42,7 @@ export function getTrackOptions (api: ApiPromise, specName: string, palletRefere
 
 function TrackDropdown ({ className, onChange, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api, specName } = useApi();
-
-  const trackOpts = useMemo(
-    () => getTrackOptions(api, specName, palletReferenda, tracks) || null,
-    [api, palletReferenda, specName, tracks]
-  );
+  const trackOpts = useTrackOptions(palletReferenda, tracks);
 
   return trackOpts && (
     <Dropdown
@@ -59,4 +55,11 @@ function TrackDropdown ({ className, onChange, palletReferenda, tracks }: Props)
   );
 }
 
-export default React.memo(TrackDropdown);
+export default React.memo(styled(TrackDropdown)`
+  .trackOption {
+    .faded {
+      margin-top: 0.25rem;
+      opacity: 0.5;
+    }
+  }
+`);

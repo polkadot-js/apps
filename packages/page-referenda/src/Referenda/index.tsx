@@ -132,11 +132,4 @@ export default React.memo(styled(Referenda)`
       left: 1.55rem !important;
     }
   }
-
-  .trackOption {
-    .faded {
-      margin-top: 0.25rem;
-      opacity: 0.5;
-    }
-  }
 `);
