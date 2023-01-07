@@ -8,6 +8,7 @@ import type { Result } from './types';
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 const LOCKS_OPT = {
   transform: ([[ids], locks]: [[string[]], [INumber, INumber][][]]): Result =>
@@ -35,10 +36,12 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
   return useMemo(
     () => locksParam
       ? locksParam[0]
-        ? locks
+        ? isFunction(api.query[palletVote]?.classLocksFor)
+          ? locks
+          : locksParam[0].reduce<Result>((all, id) => ({ ...all, [id]: [] }), {})
         : {}
       : null,
-    [locks, locksParam]
+    [api, locks, locksParam, palletVote]
   );
 }
 
