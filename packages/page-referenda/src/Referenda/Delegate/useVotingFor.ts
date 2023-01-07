@@ -4,7 +4,7 @@
 import type { PalletConvictionVotingVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletVote } from '../../types';
-import type { LockResult, VoteResult } from './types';
+import type { LockResult, VoteResult, VoteResultItem } from './types';
 
 import { useMemo } from 'react';
 
@@ -22,13 +22,21 @@ const FOR_OPT = {
         all[accountId] = [];
       }
 
-      all[accountId].push({
-        casting: votes[index].isCasting
-          ? votes[index].asCasting.votes.map(([refId]) => ({ refId }))
-          : undefined,
-        classId,
-        isDelegating: votes[index].isDelegating
-      });
+      let casting: VoteResultItem['casting'] | undefined;
+      let delegating: VoteResultItem['delegating'] | undefined;
+
+      if (votes[index].isCasting) {
+        casting = votes[index].asCasting.votes.map(([refId]) => ({ refId }));
+      } else if (votes[index].isDelegating) {
+        const { conviction, target } = votes[index].asDelegating;
+
+        delegating = { conviction: conviction.type, targetId: target.toString() };
+      } else {
+        // failsafe log... just in-case
+        console.error(`Unable to handle PalletConvictionVotingVoteVoting type ${votes[index].type}`);
+      }
+
+      all[accountId].push({ casting, classId, delegating });
 
       return all;
     }, {}),
