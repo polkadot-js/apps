@@ -113,13 +113,18 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [address]
   );
 
+  const pointsAnimClass = useMemo(
+    () => points && `greyAnim-${Date.now() % 25}`,
+    [points]
+  );
+
   if (!isVisible) {
     return null;
   }
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} packedBottom`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -130,9 +135,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           colSpan={2}
         >
           <AddressSmall value={address} />
-          {isMain && points && (
+          {isMain && pointsAnimClass && (
             <Tag
-              className='absolute'
+              className={`${pointsAnimClass} absolute`}
               color='lightgrey'
               label={points}
             />
@@ -186,7 +191,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           </tr>
           {isMain && (
             <StakeOther
-              className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedBottom`}
+              className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}
               nominators={nominators}
               stakeOther={stakeOther}
             />
