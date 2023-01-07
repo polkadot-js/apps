@@ -5,7 +5,7 @@ import type { TFunction } from 'react-i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { Preimage } from '@polkadot/app-preimages/types';
 import type { BN } from '@polkadot/util';
-import type { PalletVote, TrackInfo } from '../types';
+import type { PalletVote, TrackInfo } from '../../types';
 
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Button, Modal, ProposedAction, ToggleGroup, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 import VoteAbstain from './VoteAbstain';
 import VoteSplit from './VoteSplit';
 import VoteStandard from './VoteStandard';
@@ -74,7 +74,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isVotingOpen, toggleVoting] = useToggle();
+  const [isOpen, toggleOpen] = useToggle();
   const [voteTypeIndex, setVoteTypeIndex] = useState(0);
   const [params, setParams] = useState<unknown[] | undefined>();
 
@@ -105,11 +105,11 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
 
   return (
     <>
-      {isVotingOpen && (
+      {isOpen && (
         <Modal
           className={className}
           header={t<string>('Vote on referendum')}
-          onClose={toggleVoting}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -184,7 +184,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                   accountId={accountId}
                   icon='check-to-slot'
                   label={t<string>('Vote')}
-                  onStart={toggleVoting}
+                  onStart={toggleOpen}
                   params={params}
                   tx={api.tx[palletVote].vote}
                 />
@@ -195,7 +195,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                     accountId={accountId}
                     icon='ban'
                     label={t<string>('Vote Nay')}
-                    onStart={toggleVoting}
+                    onStart={toggleOpen}
                     params={[id, false]}
                     tx={api.tx[palletVote].vote}
                   />
@@ -203,7 +203,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
                     accountId={accountId}
                     icon='check'
                     label={t<string>('Vote Aye')}
-                    onStart={toggleVoting}
+                    onStart={toggleOpen}
                     params={[id, true]}
                     tx={api.tx[palletVote].vote}
                   />
@@ -217,7 +217,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
         icon='check-to-slot'
         isDisabled={isDisabled}
         label={t<string>('Vote')}
-        onClick={toggleVoting}
+        onClick={toggleOpen}
       />
     </>
   );
