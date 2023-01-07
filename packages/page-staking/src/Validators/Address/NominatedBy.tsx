@@ -14,6 +14,7 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 
 interface Props {
+  className?: string;
   nominators?: NominatedByType[];
   slashingSpans?: SlashingSpans | null;
 }
@@ -58,7 +59,7 @@ function extractChilled (api: ApiPromise, nominators: NominatedByType[] = [], sl
   };
 }
 
-function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<Props> {
+function NominatedBy ({ className, nominators, slashingSpans }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -68,20 +69,27 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
   );
 
   return (
-    <td className='expand all'>
-      {active && (
-        <ExpanderScroll
-          renderChildren={active[1]}
-          summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
-        />
-      )}
-      {chilled && (
-        <ExpanderScroll
-          renderChildren={chilled[1]}
-          summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
-        />
-      )}
-    </td>
+    <tr className={className}>
+      <td />
+      <td
+        className='number top'
+        colSpan={2}
+      >
+        {active && (
+          <ExpanderScroll
+            renderChildren={active[1]}
+            summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
+          />
+        )}
+        {chilled && (
+          <ExpanderScroll
+            renderChildren={chilled[1]}
+            summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
+          />
+        )}
+      </td>
+      <td />
+    </tr>
   );
 }
 

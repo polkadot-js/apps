@@ -50,13 +50,13 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
+function expandInfo ({ bondOwn, bondTotal, exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN, isMain?: boolean): StakingState {
   let nominators: NominatorValue[] = [];
-  let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
-  let stakeOwn: BN | undefined;
+  let stakeOwn: BN = bondOwn;
+  let stakeTotal: BN = bondTotal;
 
-  if (exposure && exposure.total) {
+  if (isMain && exposure && exposure.total) {
     nominators = exposure.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()
@@ -98,9 +98,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
 
   const { commission, isChilled, nominators, stakeOther, stakeOwn, stakeTotal } = useMemo(
     () => validatorInfo
-      ? expandInfo(validatorInfo, minCommission)
+      ? expandInfo(validatorInfo, minCommission, isMain)
       : { nominators: [] },
-    [minCommission, validatorInfo]
+    [isMain, minCommission, validatorInfo]
   );
 
   const isVisible = useMemo(
@@ -162,24 +162,14 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onlineMessage={recentlyOnline?.hasMessage}
           />
         </td>
-        {isMain
-          ? (
-            <td className='number'>
-              <FormatBalance value={stakeTotal} />
-            </td>
-          )
-          : (
-            <NominatedBy
-              nominators={nominatedBy}
-              slashingSpans={slashingSpans}
-            />
-          )
-        }
+        <td className='number'>
+          <FormatBalance value={stakeTotal} />
+        </td>
         <td />
       </tr>
       {isExpanded && (
         <>
-          <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedBottom`}>
+          <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isMain ? 'packedBottom' : ''}`}>
             <td />
             <td className='number all'>
               <h5>{t<string>('own stake')}</h5>
@@ -189,13 +179,22 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             </td>
             <td />
           </tr>
-          {isMain && (
-            <StakeOther
-              className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}
-              nominators={nominators}
-              stakeOther={stakeOther}
-            />
-          )}
+          {isMain
+            ? (
+              <StakeOther
+                className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}
+                nominators={nominators}
+                stakeOther={stakeOther}
+              />
+            )
+            : (
+              <NominatedBy
+                className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}
+                nominators={nominatedBy}
+                slashingSpans={slashingSpans}
+              />
+            )
+          }
           <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
             <td />
             <td
@@ -204,14 +203,10 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             >
               <Columar size='small'>
                 <Columar.Column>
-                  {isMain && (
+                  {commission && (
                     <>
-                      {commission && (
-                        <>
-                          <h5>{t<string>('commission')}</h5>
-                          {commission}
-                        </>
-                      )}
+                      <h5>{t<string>('commission')}</h5>
+                      {commission}
                     </>
                   )}
                 </Columar.Column>
