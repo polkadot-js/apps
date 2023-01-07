@@ -16,7 +16,7 @@ import useVotingLocks from './useVotingLocks';
 type ForParam = [accountId: string, classId: BN];
 
 const FOR_OPT = {
-  transform: ([[ids], votes]: [[[string, BN][]], PalletConvictionVotingVoteVoting[]]): VoteResult =>
+  transform: ([[ids], votes]: [[ForParam[]], PalletConvictionVotingVoteVoting[]]): VoteResult =>
     ids.reduce<VoteResult>((all, [accountId, classId], index) => {
       if (!all[accountId]) {
         all[accountId] = [];
