@@ -3,28 +3,59 @@
 
 import type { PalletReferenda, PalletVote, TrackDescription } from '../../types';
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
+  className?: string;
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   tracks?: TrackDescription[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Delegate (_props: Props): React.ReactElement<Props> | null {
+function Delegate ({ className, palletVote }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [, toggleOpen] = useToggle();
+  const { api } = useApi();
+  const [isOpen, toggleOpen] = useToggle();
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   return (
     <>
+      {isOpen && (
+        <Modal
+          className={className}
+          header={t<string>('Vote on referendum')}
+          onClose={toggleOpen}
+          size='large'
+        >
+          <Modal.Content>
+            <Modal.Columns hint={t<string>('Delegate from this account to another. All votes made on the target would count as a delegated vote for this account.')}>
+              <InputAddress
+                label={t<string>('delegate from account')}
+                onChange={setAccountId}
+                type='account'
+                withLabel
+              />
+            </Modal.Columns>
+          </Modal.Content>
+          <Modal.Actions>
+            <TxButton
+              accountId={accountId}
+              icon='code-merge'
+              label={t<string>('Delegate')}
+              onStart={toggleOpen}
+              params={[0, false]}
+              tx={api.tx[palletVote].delegate}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
       <Button
-        icon='merge'
+        icon='code-merge'
         label={t<string>('Delegate')}
         onClick={toggleOpen}
       />
