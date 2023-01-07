@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletVote } from '../../types';
-import type { Result } from './types';
+import type { VoteResult } from './types';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
 import useActivity from './useActivity';
 import useFellows from './useFellows';
 
-function useActivityFellowsImpl (palletVote: PalletVote): Result | null | undefined {
+function useActivityFellowsImpl (palletVote: PalletVote): VoteResult | null | undefined {
   const fellows = useFellows();
 
   return useActivity(palletVote, fellows);

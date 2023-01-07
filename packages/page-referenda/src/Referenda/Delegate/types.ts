@@ -3,4 +3,19 @@
 
 import type { BN } from '@polkadot/util';
 
-export type Result = Record<string, [number, BN][]>;
+export interface LockResultItem {
+  classId: BN;
+}
+
+export type LockResult = Record<string, LockResultItem[]>;
+
+export interface ReferendumVoteItem {
+  refId: BN;
+}
+
+export interface VoteResultItem extends LockResultItem {
+  isDelegating?: boolean;
+  casting?: ReferendumVoteItem[];
+}
+
+export type VoteResult = Record<string, VoteResultItem[]>;

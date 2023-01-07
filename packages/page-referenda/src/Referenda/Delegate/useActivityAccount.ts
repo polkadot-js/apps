@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletVote } from '../../types';
-import type { Result } from './types';
+import type { VoteResult } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useVotingActivity from './useVotingLocks';
+import useVotingFor from './useVotingFor';
 
-function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): Result | null | undefined {
+function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): VoteResult | null | undefined {
   const params = useMemo(
     () => accountId
       ? [accountId]
@@ -20,7 +20,7 @@ function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | nu
 
   // for a single account (which we assume is user-specified), we
   // do not lookup the actual parent identity, use as-is
-  return useVotingActivity(palletVote, params);
+  return useVotingFor(palletVote, params);
 }
 
 export default createNamedHook('useActivityAccount', useActivityAccountImpl);

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletVote } from '../../types';
-import type { Result } from './types';
+import type { VoteResult } from './types';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
 import useSuperIds from './useSuperIds';
-import useVotingActivity from './useVotingLocks';
+import useVotingFor from './useVotingFor';
 
-function useActivityImpl (palletVote: PalletVote, accountIds?: string[] | null): Result | null | undefined {
+function useActivityImpl (palletVote: PalletVote, accountIds?: string[] | null): VoteResult | null | undefined {
   const identities = useSuperIds(accountIds);
 
-  return useVotingActivity(palletVote, identities);
+  return useVotingFor(palletVote, identities);
 }
 
 export default createNamedHook('useActivity', useActivityImpl);

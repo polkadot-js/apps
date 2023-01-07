@@ -43,6 +43,7 @@ function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undef
       : undefined,
     [accountIds]
   );
+
   const identities = useCall(identityParam && identityParam[0] && api.query.identity?.superOf?.multi, identityParam, SUPEROF_OPT);
 
   return useMemo(

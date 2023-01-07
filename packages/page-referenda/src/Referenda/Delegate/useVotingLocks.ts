@@ -3,7 +3,7 @@
 
 import type { INumber } from '@polkadot/types/types';
 import type { PalletVote } from '../../types';
-import type { Result } from './types';
+import type { LockResult } from './types';
 
 import { useMemo } from 'react';
 
@@ -11,18 +11,20 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 const LOCKS_OPT = {
-  transform: ([[ids], locks]: [[string[]], [INumber, INumber][][]]): Result =>
-    ids.reduce<Result>((all, id, index) => ({
+  transform: ([[ids], locks]: [[string[]], [INumber, INumber][][]]): LockResult =>
+    ids.reduce<LockResult>((all, accountId, index) => ({
       ...all,
-      [id]: locks[index].map(([classId, value]) =>
-        [classId.toNumber(), value.toBn()]
-      )
+      [accountId]: locks[index].map(([classId, value]) => ({
+        balance: value.toBn(),
+        classId: classId.toBn()
+      }))
     }), {}),
   withParamsTransform: true
 };
 
-function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | null): Result | null | undefined {
+function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | null): LockResult | null | undefined {
   const { api } = useApi();
+
   const locksParam = useMemo(
     () => accountIds
       ? accountIds.length
@@ -31,6 +33,7 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
       : undefined,
     [accountIds]
   );
+
   const locks = useCall(locksParam && locksParam[0] && api.query[palletVote]?.classLocksFor?.multi, locksParam, LOCKS_OPT);
 
   return useMemo(
@@ -38,7 +41,7 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
       ? locksParam[0]
         ? isFunction(api.query[palletVote]?.classLocksFor)
           ? locks
-          : locksParam[0].reduce<Result>((all, id) => ({ ...all, [id]: [] }), {})
+          : locksParam[0].reduce<LockResult>((all, accountId) => ({ ...all, [accountId]: [] }), {})
         : {}
       : null,
     [api, locks, locksParam, palletVote]

@@ -18,10 +18,12 @@ const NOMINATORS_OPT = {
 
 function useNominatorsImpl (accountId?: string | null): string[] | null | undefined {
   const { api } = useApi();
+
   const nomineesParam = useMemo(
     () => (accountId && [accountId]) || null,
     [accountId]
   );
+
   const nominees = useCall(nomineesParam && api.query.staking?.nominators, nomineesParam, NOMINATORS_OPT);
 
   return useMemo(
