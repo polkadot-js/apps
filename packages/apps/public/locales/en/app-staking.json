@@ -42,6 +42,7 @@
   "Display overview information for the selected validator, including blocks produced.": "Display overview information for the selected validator, including blocks produced.",
   "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.",
   "Does this validator allow nominations or is it blocked for all": "Does this validator allow nominations or is it blocked for all",
+  "Era points": "Era points",
   "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
   "Filter available nominators based on name, address or short account index.": "Filter available nominators based on name, address or short account index.",
   "For fund security, your session key should not match your stash key.": "For fund security, your session key should not match your stash key.",

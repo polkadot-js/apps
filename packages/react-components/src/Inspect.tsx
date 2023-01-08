@@ -76,7 +76,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
         <tbody>
           {formatted.map(({ name, value }, i) => (
             <tr key={i}>
-              <td>{name}</td>
+              <td><label>{name}</label></td>
               <td>{value}</td>
             </tr>
           ))}
@@ -85,7 +85,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
               className='isLink'
               key='hex'
             >
-              <td>{t<string>('link')}</td>
+              <td><label>{t<string>('link')}</label></td>
               <td>
                 <a
                   href={link}
@@ -116,10 +116,13 @@ export default React.memo(styled(DecodedInspect)`
         }
 
         td:first-child {
-          color: var(--color-label);
-          padding: 0 0.5em 0 1rem;
           text-align: right;
+          vertical-align: middle;
           white-space: nowrap;
+
+          label {
+            padding: 0 0.5rem 0 1.25rem;
+          }
         }
 
         &:not(.isLink) td:last-child {

@@ -8,7 +8,6 @@ import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useContext, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useLoadingDelay } from '@polkadot/react-hooks';
@@ -206,20 +205,4 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   );
 }
 
-export default React.memo(styled(CurrentList)`${
-  [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24
-  ].map((n) => `
-    .greyAnim-${n} {
-      animation: greyAnim${n} 1s;
-    }
-
-    @keyframes greyAnim${n} {
-      0% { background: #a6a6a6; }
-      50% { background: darkorange; }
-      100% { background: #a6a6a6; }
-    }
-  `).join('')
-}`);
+export default React.memo(CurrentList);

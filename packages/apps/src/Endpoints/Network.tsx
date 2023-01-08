@@ -90,7 +90,7 @@ export default React.memo(styled(NetworkDisplay)`
   position: relative;
 
   &.isUnreachable {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   &.isSelected,

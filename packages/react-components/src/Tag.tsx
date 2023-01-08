@@ -44,9 +44,9 @@ export default React.memo(styled(Tag)`
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
-  font-size: 0.857rem;
+  font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
-  line-height: 1.143rem;
+  line-height: 1rem;
   margin: 0 0.125rem;
   opacity: 0.85;
   padding: 0.25em 0.75em;
@@ -55,7 +55,7 @@ export default React.memo(styled(Tag)`
   z-index: 1;
 
   &.tinySize {
-    font-size: .71428571rem;
+    font-size: var(--font-size-tiny);
   }
 
   &.blackColor {
@@ -75,7 +75,8 @@ export default React.memo(styled(Tag)`
   }
 
   &.lightgreyColor {
-    background: #a6a6a6;
+    background: #b6b6b6;
+    opacity: 0.7;
   }
 
   &.orangeColor {

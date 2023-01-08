@@ -33,17 +33,14 @@ function Item ({ children, className = '', icon, isDisabled, label, onClick }: I
 }
 
 export default React.memo(styled(Item)`
+  align-items: center;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  align-items: center;
-
-  position: relative;
-
-  font-size: 0.93rem;
+  font-size: var(--font-size-small);
   line-height: 0.93rem;
-
   padding: 0.5rem 1rem;
+  position: relative;
 
   &:last-child {
     margin-bottom: 0;

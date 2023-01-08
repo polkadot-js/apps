@@ -22048,13 +22048,41 @@ export const typesBundle = {
             264
           ],
           "types": {
+            "AccountData": {
+              "free": "Balance"
+            },
+            "AccountIndex": "u32",
             "AccountInfo": {
               "nonce": "Index",
               "consumers": "RefCount",
-              "providers": "RefCount"
+              "providers": "RefCount",
+              "sufficients": "RefCount",
+              "data": "AccountData"
             },
-            "Address": "AccountId",
-            "Asset": "Currency",
+            "AccountType": {
+              "_enum": {
+                "Id32": "[u8; 32]",
+                "Key20": "[u8; 20]"
+              }
+            },
+            "Address": "MultiAddress",
+            "Asset": {
+              "0": "AssetIdInnerType"
+            },
+            "AssetData": {
+              "id": "Asset",
+              "lot": "FixedU128",
+              "price_step": "FixedU128",
+              "maker_fee": "FixedU128",
+              "taker_fee": "FixedU128",
+              "asset_xcm_data": "Option<AssetXcmData>",
+              "debt_weight": "DebtWeightType",
+              "buyout_priority": "u64",
+              "asset_type": "AssetType",
+              "is_dex_enabled": "bool"
+            },
+            "AssetId": "Asset",
+            "AssetIdInnerType": "u64",
             "AssetMetrics": {
               "period_start": "Duration",
               "period_end": "Duration",
@@ -22062,13 +22090,30 @@ export const typesBundle = {
               "volatility": "FixedNumber",
               "correlations": "Vec<(Asset, FixedNumber)>"
             },
+            "AssetName": "Vec<u8>",
+            "AssetType": {
+              "_enum": {
+                "Native": null,
+                "Physical": null,
+                "Synthetic": null,
+                "Lp": "PoolId"
+              }
+            },
+            "AssetXcmData": {
+              "multi_location": "MultiLocation",
+              "decimals": "u8"
+            },
             "Balance": "u64",
             "BalanceOf": "Balance",
             "BalancesAggregate": {
               "total_issuance": "Balance",
               "total_debt": "Balance"
             },
-            "BlockNumber": "u64",
+            "BestPrice": {
+              "ask": "Option<FixedI64>",
+              "bid": "Option<FixedI64>"
+            },
+            "BlockNumber": "u32",
             "CapVec": {
               "head_index": "u32",
               "len_cap": "u32",
@@ -22077,8 +22122,8 @@ export const typesBundle = {
             "ChainId": "u8",
             "Currency": {
               "_enum": [
-                "Unknown",
-                "Usd",
+                "UNKNOWN",
+                "Eqd",
                 "Eq",
                 "Eth",
                 "Btc",
@@ -22087,12 +22132,15 @@ export const typesBundle = {
                 "Crv"
               ]
             },
+            "ChunkKey": "u64",
             "DataPoint": {
               "price": "u64",
               "account_id": "AccountId",
               "block_number": "BlockNumber",
               "timestamp": "u64"
             },
+            "DebtWeightType": "i128",
+            "DebtWeightTypeInner": "i128",
             "DepositNonce": "u64",
             "Duration": {
               "secs": "u64",
@@ -22107,16 +22155,80 @@ export const typesBundle = {
               "correlations": "Vec<FixedNumber>",
               "covariances": "Vec<FixedNumber>"
             },
+            "FinancialRecalcPeriodMs": "u64",
             "FixedI64": "i64",
             "FixedNumber": "u128",
+            "FixedU128": "u128",
             "Keys": "SessionKeys3",
-            "LookupSource": "AccountId",
+            "LookupSource": "AccountIdLookup",
+            "MarginState": {
+              "_enum": {
+                "Good": null,
+                "SubGood": null,
+                "MaintenanceStart": "u64",
+                "MaintenanceIsGoing": "u64",
+                "MaintenanceTimeOver": "u64",
+                "MaintenanceEnd": null,
+                "SubCritical": null
+              }
+            },
+            "MaxCountOfAssetsRecalcPerBlock": "i32",
+            "Number": "FixedU128",
+            "OperationRequestLiqFm": {
+              "authority_index": "AuthIndex",
+              "validators_len": "u32",
+              "block_num": "BlockNumber"
+            },
             "OperationRequest": {
               "account": "AccountId",
               "authority_index": "AuthIndex",
               "validators_len": "u32",
               "block_num": "BlockNumber"
             },
+            "OperationRequestDexDeleteOrder": {
+              "asset": "Asset",
+              "order_id": "OrderId",
+              "price": "FixedI64",
+              "who": "AccountId",
+              "buyout": "Option<Balance>",
+              "authority_index": "AuthIndex",
+              "validators_len": "u32",
+              "block_num": "BlockNumber"
+            },
+            "Order": {
+              "order_id": "OrderId",
+              "account_id": "AccountId",
+              "side": "OrderSide",
+              "price": "FixedI64",
+              "amount": "FixedU128",
+              "created_at": "u64",
+              "expiration_time": "u64"
+            },
+            "OrderType": {
+              "_enum": {
+                "Limit": "FixedI64",
+                "Market": null
+              }
+            },
+            "OrderId": "u64",
+            "OrderSide": {
+              "_enum": [
+                "Buy",
+                "Sell"
+              ]
+            },
+            "PoolId": "u32",
+            "PoolInfo": {
+              "owner": "AccountId",
+              "pool_asset": "AssetId",
+              "assets": "Vec<AssetId>",
+              "amplification": "Number",
+              "fee": "Permill",
+              "admin_fee": "Permill",
+              "balances": "Vec<Balance>",
+              "total_balances": "Vec<Balance>"
+            },
+            "PoolTokenIndex": "u32",
             "PortfolioMetrics": {
               "period_start": "Duration",
               "period_end": "Duration",
@@ -22129,7 +22241,12 @@ export const typesBundle = {
               "latest_timestamp": "Duration",
               "prices": "CapVec<Price>"
             },
-            "PricePayload": "Data",
+            "PricePayload": {
+              "public": "[u8; 33]",
+              "asset": "Asset",
+              "price": "FixedI64",
+              "block_number": "BlockNumber"
+            },
             "PricePeriod": {
               "_enum": [
                 "Min",
@@ -22142,6 +22259,7 @@ export const typesBundle = {
             "PricePoint": {
               "block_number": "BlockNumber",
               "timestamp": "u64",
+              "last_fin_recalc_timestamp": "Timestamp",
               "price": "u64",
               "data_points": "Vec<DataPoint>"
             },
@@ -22164,6 +22282,7 @@ export const typesBundle = {
               "expiry": "BlockNumber"
             },
             "ResourceId": "[u8; 32]",
+            "Signature": "u32",
             "SignedBalance": {
               "_enum": {
                 "Positive": "Balance",
@@ -22177,6 +22296,7 @@ export const typesBundle = {
                 "Lender"
               ]
             },
+            "Timestamp": "u64",
             "TotalAggregates": {
               "collateral": "Balance",
               "debt": "Balance"
@@ -22191,18 +22311,22 @@ export const typesBundle = {
                 "TreasuryEqBuyout",
                 "TreasuryBuyEq",
                 "Subaccount",
-                "Lock"
+                "Lock",
+                "Unlock",
+                "Claim",
+                "CurveFeeWithdraw"
               ]
             },
             "UserGroup": {
               "_enum": [
-                "Unknown",
+                "UNKNOWN",
                 "Balances",
                 "Bailsmen",
                 "Borrowers",
                 "Lenders"
               ]
             },
+            "UnsignedPriorityPair": "(u64, u64)",
             "VestingInfo": {
               "locked": "Balance",
               "perBlock": "Balance",
@@ -22215,7 +22339,292 @@ export const typesBundle = {
             265,
             null
           ],
-          "types": {}
+          "types": {
+            "AccountData": {
+              "free": "Balance"
+            },
+            "AccountIndex": "u32",
+            "AccountInfo": {
+              "nonce": "Index",
+              "consumers": "RefCount",
+              "providers": "RefCount",
+              "sufficients": "RefCount",
+              "data": "AccountData"
+            },
+            "AccountType": {
+              "_enum": {
+                "Id32": "[u8; 32]",
+                "Key20": "[u8; 20]"
+              }
+            },
+            "Address": "MultiAddress",
+            "Asset": {
+              "0": "AssetIdInnerType"
+            },
+            "AssetData": {
+              "id": "Asset",
+              "lot": "FixedU128",
+              "price_step": "FixedU128",
+              "maker_fee": "FixedU128",
+              "taker_fee": "FixedU128",
+              "asset_xcm_data": "Option<AssetXcmData>",
+              "debt_weight": "DebtWeightType",
+              "buyout_priority": "u64",
+              "asset_type": "AssetType",
+              "is_dex_enabled": "bool"
+            },
+            "AssetId": "Asset",
+            "AssetIdInnerType": "u64",
+            "AssetMetrics": {
+              "period_start": "Duration",
+              "period_end": "Duration",
+              "returns": "Vec<FixedNumber>",
+              "volatility": "FixedNumber",
+              "correlations": "Vec<(Asset, FixedNumber)>"
+            },
+            "AssetName": "Vec<u8>",
+            "AssetType": {
+              "_enum": {
+                "Native": null,
+                "Physical": null,
+                "Synthetic": null,
+                "Lp": "PoolId"
+              }
+            },
+            "AssetXcmData": {
+              "multi_location": "MultiLocation",
+              "decimals": "u8"
+            },
+            "Balance": "u64",
+            "BalanceOf": "Balance",
+            "BalancesAggregate": {
+              "total_issuance": "Balance",
+              "total_debt": "Balance"
+            },
+            "BestPrice": {
+              "ask": "Option<FixedI64>",
+              "bid": "Option<FixedI64>"
+            },
+            "BlockNumber": "u32",
+            "CapVec": {
+              "head_index": "u32",
+              "len_cap": "u32",
+              "items": "Vec<FixedNumber>"
+            },
+            "ChainId": "u8",
+            "Currency": {
+              "_enum": [
+                "UNKNOWN",
+                "Eqd",
+                "Eq",
+                "Eth",
+                "Btc",
+                "Eos",
+                "Dot",
+                "Crv"
+              ]
+            },
+            "ChunkKey": "u64",
+            "DataPoint": {
+              "price": "u64",
+              "account_id": "AccountId",
+              "block_number": "BlockNumber",
+              "timestamp": "u64"
+            },
+            "DebtWeightType": "i128",
+            "DebtWeightTypeInner": "i128",
+            "DepositNonce": "u64",
+            "Duration": {
+              "secs": "u64",
+              "nanos": "u32"
+            },
+            "FinancialMetrics": {
+              "period_start": "Duration",
+              "period_end": "Duration",
+              "assets": "Vec<Asset>",
+              "mean_returns": "Vec<FixedNumber>",
+              "volatilities": "Vec<FixedNumber>",
+              "correlations": "Vec<FixedNumber>",
+              "covariances": "Vec<FixedNumber>"
+            },
+            "FinancialRecalcPeriodMs": "u64",
+            "FixedI64": "i64",
+            "FixedNumber": "u128",
+            "FixedU128": "u128",
+            "Keys": "SessionKeys3",
+            "LookupSource": "AccountIdLookup",
+            "MarginState": {
+              "_enum": {
+                "Good": null,
+                "SubGood": null,
+                "MaintenanceStart": "u64",
+                "MaintenanceIsGoing": "u64",
+                "MaintenanceTimeOver": "u64",
+                "MaintenanceEnd": null,
+                "SubCritical": null
+              }
+            },
+            "MaxCountOfAssetsRecalcPerBlock": "i32",
+            "Number": "FixedU128",
+            "OperationRequestLiqFm": {
+              "authority_index": "AuthIndex",
+              "validators_len": "u32",
+              "block_num": "BlockNumber"
+            },
+            "OperationRequest": {
+              "account": "AccountId",
+              "authority_index": "AuthIndex",
+              "validators_len": "u32",
+              "block_num": "BlockNumber"
+            },
+            "OperationRequestDexDeleteOrder": {
+              "asset": "Asset",
+              "order_id": "OrderId",
+              "price": "FixedI64",
+              "who": "AccountId",
+              "buyout": "Option<Balance>",
+              "authority_index": "AuthIndex",
+              "validators_len": "u32",
+              "block_num": "BlockNumber"
+            },
+            "Order": {
+              "order_id": "OrderId",
+              "account_id": "AccountId",
+              "side": "OrderSide",
+              "price": "FixedI64",
+              "amount": "FixedU128",
+              "created_at": "u64",
+              "expiration_time": "u64"
+            },
+            "OrderType": {
+              "_enum": {
+                "Limit": "FixedI64",
+                "Market": null
+              }
+            },
+            "OrderId": "u64",
+            "OrderSide": {
+              "_enum": [
+                "Buy",
+                "Sell"
+              ]
+            },
+            "PoolId": "u32",
+            "PoolInfo": {
+              "owner": "AccountId",
+              "pool_asset": "AssetId",
+              "assets": "Vec<AssetId>",
+              "amplification": "Number",
+              "fee": "Permill",
+              "admin_fee": "Permill",
+              "balances": "Vec<Balance>",
+              "total_balances": "Vec<Balance>"
+            },
+            "PoolTokenIndex": "u32",
+            "PortfolioMetrics": {
+              "period_start": "Duration",
+              "period_end": "Duration",
+              "z_score": "u32",
+              "volatility": "FixedNumber",
+              "value_at_risk": "FixedNumber"
+            },
+            "Price": "u128",
+            "PriceLog": {
+              "latest_timestamp": "Duration",
+              "prices": "CapVec<Price>"
+            },
+            "PricePayload": {
+              "public": "[u8; 33]",
+              "asset": "Asset",
+              "price": "FixedI64",
+              "block_number": "BlockNumber"
+            },
+            "PricePeriod": {
+              "_enum": [
+                "Min",
+                "TenMin",
+                "Hour",
+                "FourHour",
+                "Day"
+              ]
+            },
+            "PricePoint": {
+              "block_number": "BlockNumber",
+              "timestamp": "u64",
+              "last_fin_recalc_timestamp": "Timestamp",
+              "price": "u64",
+              "data_points": "Vec<DataPoint>"
+            },
+            "PriceUpdate": {
+              "period_start": "Duration",
+              "time": "Duration",
+              "price": "FixedNumber"
+            },
+            "ProposalStatus": {
+              "_enum": [
+                "Initiated",
+                "Approved",
+                "Rejected"
+              ]
+            },
+            "ProposalVotes": {
+              "votes_for": "Vec<AccountId>",
+              "votes_against": "Vec<AccountId>",
+              "status": "ProposalStatus",
+              "expiry": "BlockNumber"
+            },
+            "ResourceId": "[u8; 32]",
+            "Signature": "u32",
+            "SignedBalance": {
+              "_enum": {
+                "Positive": "Balance",
+                "Negative": "Balance"
+              }
+            },
+            "SubAccType": {
+              "_enum": [
+                "Bailsman",
+                "Borrower",
+                "Lender"
+              ]
+            },
+            "Timestamp": "u64",
+            "TotalAggregates": {
+              "collateral": "Balance",
+              "debt": "Balance"
+            },
+            "TransferReason": {
+              "_enum": [
+                "Common",
+                "InterestFee",
+                "MarginCall",
+                "LiquidityFarming",
+                "BailsmenRedistribution",
+                "TreasuryEqBuyout",
+                "TreasuryBuyEq",
+                "Subaccount",
+                "Lock",
+                "Unlock",
+                "Claim",
+                "CurveFeeWithdraw"
+              ]
+            },
+            "UserGroup": {
+              "_enum": [
+                "UNKNOWN",
+                "Balances",
+                "Bailsmen",
+                "Borrowers",
+                "Lenders"
+              ]
+            },
+            "UnsignedPriorityPair": "(u64, u64)",
+            "VestingInfo": {
+              "locked": "Balance",
+              "perBlock": "Balance",
+              "startingBlock": "BlockNumber"
+            }
+          }
         }
       ]
     },
@@ -39619,10 +40028,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -39636,14 +40041,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -39831,10 +40236,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -39854,6 +40261,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -40181,10 +40607,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -40198,14 +40620,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -40393,10 +40815,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -40416,6 +40840,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -41945,10 +42388,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -41962,14 +42401,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -42156,10 +42595,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -42179,6 +42620,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -42506,10 +42966,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -42523,14 +42979,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -42717,10 +43173,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -42740,6 +43198,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -43460,10 +43937,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -43477,14 +43950,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -43671,10 +44144,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -43694,6 +44169,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -44021,10 +44515,6 @@ export const typesBundle = {
             },
             "IsExtended": "bool",
             "SystemPalletId": "PalletId",
-            "TimeUnit": {
-              "Era": "U32",
-              "SlashingSpan": "U32"
-            },
             "ledger": {
               "Substrate": "SubstrateLedger"
             },
@@ -44038,14 +44528,14 @@ export const typesBundle = {
               "value": "Balance",
               "unlock_time": "TimeUnit"
             },
-            "MinimumsMaximums": {
-              "delegator_bonded_minimum": "Balance",
-              "bond_extra_minimum": "Balance",
-              "unbond_minimum": "Balance",
-              "rebond_minimum": "Balance",
-              "unbond_record_maximum": "U32",
-              "validators_back_maximum": "U32",
-              "delegator_active_staking_maximum": "Balance"
+            "FilecoinLedger": {
+              "account": "MultiLocationV1",
+              "initial_pledge": "Balance"
+            },
+            "FilecoinOwnerByMinerEntry": {
+              "currency_id": "AccountId",
+              "miner_id": "MultiLocationV1",
+              "owner_id": "MultiLocationV1"
             },
             "TrieIndex": "u32",
             "FundInfo": {
@@ -44232,10 +44722,12 @@ export const typesBundle = {
                 "VSToken": "TokenSymbol",
                 "VSBond": "(TokenSymbol, ParaId, LeasePeriod, LeasePeriod)",
                 "LPToken": "(TokenSymbol, u8, TokenSymbol, u8)",
+                "ForeignAsset": "u32",
                 "Token2": "u8",
                 "VToken2": "u8",
                 "VSToken2": "u8",
-                "VSBond2": "u8"
+                "VSBond2": "u8",
+                "StableLpToken": "u32"
               }
             },
             "CurrencyIdOf": "CurrencyId",
@@ -44255,6 +44747,25 @@ export const typesBundle = {
                 "FromRelayChain": 1,
                 "FromSiblingParaChain": 2
               }
+            },
+            "TimeUnit": {
+              "Era": "u32",
+              "SlashingSpan": "u32",
+              "Round": "u32",
+              "Kblock": "u32"
+            },
+            "MinimumsMaximums": {
+              "delegator_bonded_minimum": "Balance",
+              "bond_extra_minimum": "Balance",
+              "unbond_minimum": "Balance",
+              "rebond_minimum": "Balance",
+              "unbond_record_maximum": "u32",
+              "validators_back_maximum": "u32",
+              "delegator_active_staking_maximum": "Balance",
+              "validators_reward_maximum": "u32",
+              "delegation_amount_minimum": "Balance",
+              "delegators_maximum": "u16",
+              "validators_maximum": "u16"
             },
             "PoolType": {
               "_enum": {
@@ -50664,17 +51175,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -50750,6 +51289,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
@@ -51055,17 +51656,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -51141,6 +51770,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
@@ -51446,17 +52137,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -51532,6 +52251,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
@@ -52556,7 +53337,8 @@ export const typesBundle = {
                 "Worker": "Sr25519PublicKey",
                 "AccountId": "H256",
                 "MultiLocation": "Vec<u8>",
-                "Gatekeeper": null
+                "Gatekeeper": null,
+                "Cluster": "H256"
               }
             },
             "Attestation": {
@@ -52797,7 +53579,8 @@ export const typesBundle = {
                 "Worker": "Sr25519PublicKey",
                 "AccountId": "H256",
                 "MultiLocation": "Vec<u8>",
-                "Gatekeeper": null
+                "Gatekeeper": null,
+                "Cluster": "H256"
               }
             },
             "Attestation": {
@@ -52973,17 +53756,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -53059,6 +53870,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
@@ -54423,17 +55296,32 @@ export const typesBundle = {
             "CollectionItem": {
               "description": "Vec<u8>"
             },
+            "BeefyKey": "[u8; 33]",
+            "Keys": "SessionKeys2",
+            "SessionKeys1": "(AccountId)",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "SessionKeys3": "(AccountId, AccountId, AccountId)",
+            "SessionKeys4": "(AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys5": "(AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6B": "(AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys7": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys7B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys8": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys8B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys9": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys9B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys10": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys10B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
             "MembershipProof": {
               "session": "SessionIndex",
-              "trieNodes": "Vec<Vec<u8>>",
+              "trieNodes": "Vec<Bytes>",
               "validatorCount": "ValidatorCount"
             },
             "SessionIndex": "u32",
-            "ValidatorCount": "u32",
-            "SessionKeys2": "(AccountId, AccountId)",
-            "Keys": "SessionKeys2"
+            "ValidatorCount": "u32"
           }
         },
         {
@@ -54535,17 +55423,32 @@ export const typesBundle = {
               "fileSize": "u32",
               "hash": "Hash"
             },
+            "BeefyKey": "[u8; 33]",
+            "Keys": "SessionKeys2",
+            "SessionKeys1": "(AccountId)",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "SessionKeys3": "(AccountId, AccountId, AccountId)",
+            "SessionKeys4": "(AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys5": "(AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6B": "(AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys7": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys7B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys8": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys8B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys9": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys9B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys10": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys10B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
             "MembershipProof": {
               "session": "SessionIndex",
-              "trieNodes": "Vec<Vec<u8>>",
+              "trieNodes": "Vec<Bytes>",
               "validatorCount": "ValidatorCount"
             },
             "SessionIndex": "u32",
-            "ValidatorCount": "u32",
-            "SessionKeys2": "(AccountId, AccountId)",
-            "Keys": "SessionKeys2"
+            "ValidatorCount": "u32"
           }
         },
         {
@@ -54654,17 +55557,32 @@ export const typesBundle = {
               "token_type": "Vec<u8>",
               "token_id": "Vec<u8>"
             },
+            "BeefyKey": "[u8; 33]",
+            "Keys": "SessionKeys2",
+            "SessionKeys1": "(AccountId)",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "SessionKeys3": "(AccountId, AccountId, AccountId)",
+            "SessionKeys4": "(AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys5": "(AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6B": "(AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys7": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys7B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys8": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys8B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys9": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys9B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys10": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys10B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
             "MembershipProof": {
               "session": "SessionIndex",
-              "trieNodes": "Vec<Vec<u8>>",
+              "trieNodes": "Vec<Bytes>",
               "validatorCount": "ValidatorCount"
             },
             "SessionIndex": "u32",
-            "ValidatorCount": "u32",
-            "SessionKeys2": "(AccountId, AccountId)",
-            "Keys": "SessionKeys2"
+            "ValidatorCount": "u32"
           }
         },
         {
@@ -54673,12 +55591,9 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "Address": "MultiAddress",
-            "LookupSource": "MultiAddress",
             "OpaquePeerId": "Vec<u8>",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "TAssetBalance": "u128",
-            "AssetId": "u64",
             "AssetDetails": {
               "owner": "AccountId",
               "issuer": "AccountId",
@@ -54778,13 +55693,20 @@ export const typesBundle = {
               "token_id": "Vec<u8>"
             },
             "LegalOfficerData": {
+              "_enum": {
+                "Host": "HostData",
+                "Guest": "AccountId"
+              }
+            },
+            "HostData": {
               "node_id": "Option<OpaquePeerId>",
               "base_url": "Option<Vec<u8>>"
             },
             "LoAuthorityListStorageVersion": {
               "_enum": [
                 "V1",
-                "V2AddOnchainSettings"
+                "V2AddOnchainSettings",
+                "V3GuestLegalOfficers"
               ]
             },
             "TermsAndConditionsElement": {
@@ -54792,17 +55714,32 @@ export const typesBundle = {
               "tcLoc": "LocId",
               "details": "Vec<u8>"
             },
+            "BeefyKey": "[u8; 33]",
+            "Keys": "SessionKeys2",
+            "SessionKeys1": "(AccountId)",
+            "SessionKeys2": "(AccountId, AccountId)",
+            "SessionKeys3": "(AccountId, AccountId, AccountId)",
+            "SessionKeys4": "(AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys5": "(AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys6B": "(AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys7": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys7B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys8": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys8B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys9": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys9B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
+            "SessionKeys10": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId)",
+            "SessionKeys10B": "(AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, AccountId, BeefyKey)",
             "FullIdentification": "Exposure",
             "IdentificationTuple": "(ValidatorId, FullIdentification)",
             "MembershipProof": {
               "session": "SessionIndex",
-              "trieNodes": "Vec<Vec<u8>>",
+              "trieNodes": "Vec<Bytes>",
               "validatorCount": "ValidatorCount"
             },
             "SessionIndex": "u32",
-            "ValidatorCount": "u32",
-            "SessionKeys2": "(AccountId, AccountId)",
-            "Keys": "SessionKeys2"
+            "ValidatorCount": "u32"
           }
         }
       ]
@@ -55049,16 +55986,16 @@ export const typesBundle = {
             ],
             "type": "XYKRpcResult<Balance>"
           },
-          "calculate_rewards_amount_v2": {
+          "calculate_balanced_sell_amount": {
             "description": "",
             "params": [
               {
-                "name": "user",
-                "type": "AccountId"
+                "name": "total_amount",
+                "type": "Balance"
               },
               {
-                "name": "liquidity_asset_id",
-                "type": "TokenId"
+                "name": "reserve_amount",
+                "type": "Balance"
               }
             ],
             "type": "XYKRpcResult<Balance>"
@@ -55254,16 +56191,16 @@ export const typesBundle = {
             ],
             "type": "XYKRpcResult<Balance>"
           },
-          "calculate_rewards_amount_v2": {
+          "calculate_balanced_sell_amount": {
             "description": "",
             "params": [
               {
-                "name": "user",
-                "type": "AccountId"
+                "name": "total_amount",
+                "type": "Balance"
               },
               {
-                "name": "liquidity_asset_id",
-                "type": "TokenId"
+                "name": "reserve_amount",
+                "type": "Balance"
               }
             ],
             "type": "XYKRpcResult<Balance>"
@@ -74158,17 +75095,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -74244,6 +75209,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
@@ -74549,17 +75576,45 @@ export const typesBundle = {
             "CurrencyId": {
               "_enum": {
                 "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId"
+                "ForeignAsset": "ForeignAssetId",
+                "LendToken": "LendTokenId",
+                "LpToken": "(LpToken, LpToken)",
+                "StableLpToken": "StablePoolId"
+              }
+            },
+            "LpToken": {
+              "_enum": {
+                "Token": "TokenSymbol",
+                "ForeignAsset": "ForeignAssetId",
+                "StableLpToken": "StablePoolId"
               }
             },
             "InterbtcPrimitivesCurrencyId": {
               "_enum": {
                 "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId"
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "LendToken": "InterbtcLendTokenId",
+                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                "StableLpToken": "InterbtcStablePoolId"
+              }
+            },
+            "InterbtcLpToken": {
+              "_enum": {
+                "Token": "InterbtcPrimitivesTokenSymbol",
+                "ForeignAsset": "InterbtcForeignAssetId",
+                "StableLpToken": "InterbtcStablePoolId"
               }
             },
             "InterbtcForeignAssetId": "u32",
             "ForeignAssetId": "u32",
+            "InterbtcLendTokenId": "u32",
+            "InterbtcStablePoolId": "u32",
+            "LendTokenId": "u32",
+            "StablePoolId": "u32",
+            "Rate": "FixedU128",
+            "Ratio": "Permill",
+            "Liquidity": "FixedU128",
+            "Shortfall": "FixedU128",
             "FundAccountJsonRpcRequest": {
               "account_id": "AccountId",
               "currency_id": "InterbtcPrimitivesCurrencyId"
@@ -74635,6 +75690,68 @@ export const typesBundle = {
               }
             ],
             "type": "BalanceWrapper"
+          }
+        },
+        "loans": {
+          "getCollateralLiquidity": {
+            "description": "Retrieves collateral liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getCollateralLiquidity",
+            "method": "getCollateralLiquidity",
+            "section": "loans"
+          },
+          "getLiquidationThresholdLiquidity": {
+            "description": "Retrieves liquidation threshold liquidity for the given user.",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+            "method": "getLiquidationThresholdLiquidity",
+            "section": "loans"
+          },
+          "getMarketStatus": {
+            "description": "Retrieves market status data for a given asset id.",
+            "params": [
+              {
+                "name": "asset_id",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getMarketStatus",
+            "method": "getMarketStatus",
+            "section": "loans"
           }
         },
         "issue": {
