@@ -178,7 +178,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   return (
     <>
-      <tr className={`${className} packedBottom`}>
+      <tr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -229,7 +229,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           toggle={toggleIsExpanded}
         />
       </tr>
-      <tr className={`${className} isExpanded packedTop`}>
+      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
         <td
           className='balance all'
@@ -244,7 +244,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         </td>
         <td />
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
         <td />
         <td
           className='balance columar'

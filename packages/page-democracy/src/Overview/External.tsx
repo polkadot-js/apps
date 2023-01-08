@@ -24,7 +24,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}
@@ -56,7 +56,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
           </Button.Group>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td
           className='columar'
           colSpan={100}

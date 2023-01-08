@@ -390,7 +390,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={id} />
         <Component {...props} />
         <td className='actions'>
@@ -402,7 +402,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'

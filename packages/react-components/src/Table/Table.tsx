@@ -97,8 +97,8 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   );
 }
 
-const BORDER_WIDTH_BT = '2px';
-const BORDER_WIDTH_LR = '1px'; // 50% of bottom/top for isSplit
+const BORDER_RADIUS = '0.5rem';
+const BORDER_WIDTH = '1px';
 
 export default React.memo(styled(Table)`
   max-width: 100%;
@@ -175,7 +175,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
+      background: var(--bg-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -185,11 +185,11 @@ export default React.memo(styled(Table)`
       }
 
       &:first-child {
-        border-left: ${BORDER_WIDTH_LR} solid var(--border-table);
+        border-left: ${BORDER_WIDTH} solid var(--border-table);
       }
 
       &:last-child {
-        border-right: ${BORDER_WIDTH_LR} solid var(--border-table);
+        border-right: ${BORDER_WIDTH} solid var(--border-table);
       }
 
       label {
@@ -270,10 +270,6 @@ export default React.memo(styled(Table)`
 
       &.chart {
         padding: 0;
-      }
-
-      &.combined {
-        border-top-width: 0;
       }
 
       &.expand {
@@ -384,11 +380,50 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      background: var(--bg-table);
-
-      & + tr.isExpanded {
+      &:not(.isExpanded) {
         td {
-          border-top: none;
+          border-top: ${BORDER_WIDTH} solid var(--border-table);
+          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      &.isExpanded {
+        &.isFirst {
+          td {
+            border-top: ${BORDER_WIDTH} solid var(--border-table);
+
+            &:first-child {
+              border-top-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-top-right-radius: ${BORDER_RADIUS};
+            }
+          }
+        }
+
+        &.isLast {
+          td {
+            border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+
+            &:first-child {
+              border-bottom-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-bottom-right-radius: ${BORDER_RADIUS};
+            }
+          }
         }
       }
 
@@ -431,6 +466,49 @@ export default React.memo(styled(Table)`
       .ui.toggle.checkbox input:checked ~ .box:before,
       .ui.toggle.checkbox input:checked ~ label:before {
         background-color: #eee !important;
+      }
+    }
+  }
+
+  thead {
+    tr {
+      &:first-child {
+        th {
+          border-top: ${BORDER_WIDTH} solid var(--border-table);
+
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      &:last-child {
+        th {
+          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+          padding-top: 1rem;
+
+          &:first-child {
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      th {
+        &:first-child {
+          border-left: ${BORDER_WIDTH} solid var(--border-table);
+        }
+
+        &:last-child {
+          border-right: ${BORDER_WIDTH} solid var(--border-table);
+        }
       }
     }
   }

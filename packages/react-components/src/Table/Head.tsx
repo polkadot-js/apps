@@ -52,6 +52,7 @@ export default React.memo(styled(Head)`
   z-index: 1;
 
   th {
+    background: var(--bg-table);
     font: var(--font-sans);
     font-weight: var(--font-weight-normal);
     padding: 0.375rem 1rem;
@@ -76,14 +77,6 @@ export default React.memo(styled(Head)`
       }
     }
 
-    &:first-child {
-      border-left: 1px solid var(--border-table);
-    }
-
-    &:last-child {
-      border-right: 1px solid var(--border-table);
-    }
-
     &.address {
       padding-left: 3rem;
       text-align: left;
@@ -99,7 +92,6 @@ export default React.memo(styled(Head)`
     }
 
     &.isClickable {
-      border-bottom: 2px solid transparent;
       cursor: pointer;
     }
 
@@ -126,14 +118,7 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: var(--bg-table);
     text-transform: lowercase;
-
-    &:first-child {
-      th {
-        border-top: 1px solid var(--border-table);
-      }
-    }
 
     &.filter {
       .ui.input,
@@ -141,7 +126,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: -1px;
+          margin-top: 0;
         }
       }
 
