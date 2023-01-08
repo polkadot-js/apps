@@ -124,7 +124,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
 
   return (
     <>
-      <tr className={`${className} ${isExpanded ? 'packedBottom' : ''}`}>
+      <tr className={`${className} isFirst ${isExpanded ? 'packedBottom' : 'isLast'}`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -180,7 +180,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         />
       </tr>
       {isExpanded && (
-        <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+        <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
           <td colSpan={2} />
           <td
             className='columar'

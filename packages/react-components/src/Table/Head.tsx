@@ -76,14 +76,6 @@ export default React.memo(styled(Head)`
       }
     }
 
-    &:first-child {
-      border-left: 1px solid var(--border-table);
-    }
-
-    &:last-child {
-      border-right: 1px solid var(--border-table);
-    }
-
     &.address {
       padding-left: 3rem;
       text-align: left;
@@ -99,7 +91,6 @@ export default React.memo(styled(Head)`
     }
 
     &.isClickable {
-      border-bottom: 2px solid transparent;
       cursor: pointer;
     }
 
@@ -129,19 +120,13 @@ export default React.memo(styled(Head)`
     background: var(--bg-table);
     text-transform: lowercase;
 
-    &:first-child {
-      th {
-        border-top: 1px solid var(--border-table);
-      }
-    }
-
     &.filter {
       .ui.input,
       .ui.selection.dropdown {
         background: transparent;
 
         &:first-child {
-          margin-top: -1px;
+          margin-top: 0;
         }
       }
 

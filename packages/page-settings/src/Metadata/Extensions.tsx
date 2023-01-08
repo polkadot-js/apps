@@ -57,7 +57,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       {extensions
         ? options.length !== 0 && (
           <>
-            <tr>
+            <tr className='isExpanded isFirst'>
               <td>
                 <Dropdown
                   label={t<string>('upgradable extensions')}
@@ -67,7 +67,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 />
               </td>
             </tr>
-            <tr className='isExpanded'>
+            <tr className='isExpanded isLast'>
               <td>
                 <Button.Group>
                   <Button

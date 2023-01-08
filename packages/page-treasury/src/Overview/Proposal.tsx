@@ -37,7 +37,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={id} />
         <td className='address all'>
           <AddressSmall value={proposal.beneficiary} />
@@ -71,7 +71,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
           toggle={toggleIsExpanded}
         />
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
         <td />
         <td
           className='columar'
