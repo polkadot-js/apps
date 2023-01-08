@@ -28,6 +28,7 @@ function Event ({ className = '', value: { event } }: Props): React.ReactElement
             className='details'
             eventName={eventName}
             value={event}
+            withExpander
           />
         )
         : null

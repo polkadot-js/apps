@@ -99,7 +99,7 @@ export default React.memo(styled(ChainInfo)`
       }
 
       .chain, .bestNumber {
-        font-size: 0.9rem;
+        font-size: var(--font-size-small);
         line-height: 1.2;
       }
 

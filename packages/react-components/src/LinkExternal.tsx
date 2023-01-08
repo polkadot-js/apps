@@ -88,7 +88,7 @@ export default React.memo(styled(LinkExternal)`
   }
 
   &.isSmall {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.35;
     text-align: center;
   }

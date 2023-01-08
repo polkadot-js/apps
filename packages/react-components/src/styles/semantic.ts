@@ -24,6 +24,7 @@ export default (_theme: ThemeDef): string => `
   .ui.input > input,
   .ui.selection.dropdown > input {
     background: var(--bg-input);
+    border-color: var(--border-input);
     color: var(--color-text);
     font: var(--font-sans);
     font-size: 1rem;
@@ -94,14 +95,20 @@ export default (_theme: ThemeDef): string => `
         border-style: dashed;
       }
 
-      .ui.primary.buttons .ui.button {
-        background-color: #666;
-        border-color: transparent;
-        color: #f9f8f7;
-        opacity: 0.5;
+      .ui.buttons {
+        .ui.button {
+          background: transparent;
+        }
 
-        .dropdown.icon {
-          opacity: 0;
+        &.primary .ui.button {
+          background-color: #666;
+          border-color: transparent;
+          color: #f9f8f7;
+          opacity: 0.5;
+
+          .dropdown.icon {
+            opacity: 0;
+          }
         }
       }
     }

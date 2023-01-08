@@ -60,6 +60,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
           tip={tip}
           value={value}
           withBorder={withBorder}
+          withExpander
           withHash={withHash}
           withSignature={withSignature}
         />

@@ -431,13 +431,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {submittedIn && (
                 <>
                   <h5>{t<string>('Submitted at')}</h5>
-                  <label>#{formatNumber(submittedIn)}</label>
+                  #{formatNumber(submittedIn)}
                 </>
               )}
               {nextAlarm && (
                 <>
                   <h5>{t<string>('Next alarm')}</h5>
-                  <label>#{formatNumber(nextAlarm)}</label>
+                  #{formatNumber(nextAlarm)}
                 </>
               )}
             </Columar.Column>
@@ -445,19 +445,19 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {enactAt && (
                 <>
                   <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
-                  <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                  {enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
                 </>
               )}
               {confirmEnd && (
                 <>
                   <h5>{t<string>('Confirm end')}</h5>
-                  <label>#{formatNumber(confirmEnd)}</label>
+                  #{formatNumber(confirmEnd)}
                 </>
               )}
               {enactAt?.end && (
                 <>
                   <h5>{t<string>('Enact end')}</h5>
-                  <label>#{formatNumber(enactAt.end)}</label>
+                  #{formatNumber(enactAt.end)}
                 </>
               )}
             </Columar.Column>

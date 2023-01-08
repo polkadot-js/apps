@@ -246,7 +246,6 @@ export default React.memo(styled(AccountName)`
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;
-      opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
 
@@ -256,12 +255,8 @@ export default React.memo(styled(AccountName)`
 
       &.isAddress {
         font: var(--font-mono);
+        opacity: 0.6;
         text-transform: none;
-      }
-
-      &.isGood,
-      &.isLocal {
-        opacity: 1;
       }
 
       .sub,
