@@ -9,7 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
+import { AccountsCtxRoot, AddressesCtxRoot, ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps';
@@ -41,25 +41,29 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>
-        <QueueCtxRoot>
-          <ApiCtxRoot
-            apiUrl={settings.apiUrl}
-            isElectron={isElectron}
-            store={store}
-          >
-            <ApiStatsCtxRoot>
-              <BlockAuthorsCtxRoot>
-                <BlockEventsCtxRoot>
-                  <HashRouter>
-                    <WindowSizeCtxRoot>
-                      <Apps />
-                    </WindowSizeCtxRoot>
-                  </HashRouter>
-                </BlockEventsCtxRoot>
-              </BlockAuthorsCtxRoot>
-            </ApiStatsCtxRoot>
-          </ApiCtxRoot>
-        </QueueCtxRoot>
+        <AccountsCtxRoot>
+          <AddressesCtxRoot>
+            <QueueCtxRoot>
+              <ApiCtxRoot
+                apiUrl={settings.apiUrl}
+                isElectron={isElectron}
+                store={store}
+              >
+                <ApiStatsCtxRoot>
+                  <BlockAuthorsCtxRoot>
+                    <BlockEventsCtxRoot>
+                      <HashRouter>
+                        <WindowSizeCtxRoot>
+                          <Apps />
+                        </WindowSizeCtxRoot>
+                      </HashRouter>
+                    </BlockEventsCtxRoot>
+                  </BlockAuthorsCtxRoot>
+                </ApiStatsCtxRoot>
+              </ApiCtxRoot>
+            </QueueCtxRoot>
+          </AddressesCtxRoot>
+        </AccountsCtxRoot>
       </ThemeProvider>
     </Suspense>
   );

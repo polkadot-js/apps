@@ -5,6 +5,20 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 
+export interface Accounts {
+  allAccounts: string[];
+  allAccountsHex: string[];
+  areAccountsLoaded: boolean
+  hasAccounts: boolean;
+  isAccount: (address?: string | null) => boolean;
+}
+
+export interface Addresses {
+  allAddresses: string[];
+  hasAddresses: boolean;
+  isAddress: (address: string) => boolean;
+}
+
 export interface ApiStats {
   stats: ProviderStats;
   when: number;

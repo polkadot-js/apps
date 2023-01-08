@@ -23,14 +23,9 @@ const WindowSizeContext = React.createContext<WindowSize>(getDimensions());
 function WindowSizeCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const [dimensions, setDimensions] = useState(() => getDimensions());
 
-  useEffect(() => {
-    const handleResize = () => setDimensions(getDimensions());
-
-    window.addEventListener('resize', handleResize);
-
-    return (): void => {
-      window.removeEventListener('resize', handleResize);
-    };
+  // No unsub, global context - destroyed on app close
+  useEffect((): void => {
+    window.addEventListener('resize', () => setDimensions(getDimensions()));
   }, []);
 
   return (
