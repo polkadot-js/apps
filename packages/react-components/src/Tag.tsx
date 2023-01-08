@@ -75,7 +75,8 @@ export default React.memo(styled(Tag)`
   }
 
   &.lightgreyColor {
-    background: #a6a6a6;
+    background: #b6b6b6;
+    opacity: 0.7;
   }
 
   &.orangeColor {
