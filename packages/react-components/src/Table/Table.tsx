@@ -38,7 +38,6 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
     [bodyChildren, isEmpty, isSplit]
   );
 
-  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`;
   const headerNode = (
     <Head
       filter={filter}
@@ -49,18 +48,20 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
     </Head>
   );
 
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${splitBody ? 'noMargin' : ''}`;
+
   return (
     <div className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
       {legend}
       {splitBody
         ? (
           <>
-            <table className={`${tableClassName} noMargin`}>
+            <table className={tableClassName}>
               {headerNode}
             </table>
             <Columar isPadded={false}>
               <Columar.Column>
-                <table className={`${tableClassName} noMargin`}>
+                <table className={tableClassName}>
                   <Body>
                     {splitBody[0]}
                   </Body>
@@ -98,7 +99,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 }
 
 const BORDER_RADIUS = '0.5rem';
-const BORDER_WIDTH = '1px';
+const BORDER_SOLID = '1px solid var(--bg-page)'; // var(--border-table)
 
 export default React.memo(styled(Table)`
   max-width: 100%;
@@ -185,11 +186,11 @@ export default React.memo(styled(Table)`
       }
 
       &:first-child {
-        border-left: ${BORDER_WIDTH} solid var(--border-table);
+        border-left: ${BORDER_SOLID};
       }
 
       &:last-child {
-        border-right: ${BORDER_WIDTH} solid var(--border-table);
+        border-right: ${BORDER_SOLID};
       }
 
       label {
@@ -382,8 +383,8 @@ export default React.memo(styled(Table)`
     tr {
       &:not(.isExpanded) {
         td {
-          border-top: ${BORDER_WIDTH} solid var(--border-table);
-          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+          border-top: ${BORDER_SOLID};
+          border-bottom: ${BORDER_SOLID};
 
           &:first-child {
             border-top-left-radius: ${BORDER_RADIUS};
@@ -400,7 +401,7 @@ export default React.memo(styled(Table)`
       &.isExpanded {
         &.isFirst {
           td {
-            border-top: ${BORDER_WIDTH} solid var(--border-table);
+            border-top: ${BORDER_SOLID};
 
             &:first-child {
               border-top-left-radius: ${BORDER_RADIUS};
@@ -414,7 +415,7 @@ export default React.memo(styled(Table)`
 
         &.isLast {
           td {
-            border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+            border-bottom: ${BORDER_SOLID};
 
             &:first-child {
               border-bottom-left-radius: ${BORDER_RADIUS};
@@ -474,7 +475,7 @@ export default React.memo(styled(Table)`
     tr {
       &:first-child {
         th {
-          border-top: ${BORDER_WIDTH} solid var(--border-table);
+          border-top: ${BORDER_SOLID};
 
           &:first-child {
             border-top-left-radius: ${BORDER_RADIUS};
@@ -488,7 +489,7 @@ export default React.memo(styled(Table)`
 
       &:last-child {
         th {
-          border-bottom: ${BORDER_WIDTH} solid var(--border-table);
+          border-bottom: ${BORDER_SOLID};
           padding-top: 1rem;
 
           &:first-child {
@@ -503,11 +504,11 @@ export default React.memo(styled(Table)`
 
       th {
         &:first-child {
-          border-left: ${BORDER_WIDTH} solid var(--border-table);
+          border-left: ${BORDER_SOLID};
         }
 
         &:last-child {
-          border-right: ${BORDER_WIDTH} solid var(--border-table);
+          border-right: ${BORDER_SOLID};
         }
       }
     }

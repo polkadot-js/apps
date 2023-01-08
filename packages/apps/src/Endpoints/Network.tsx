@@ -119,4 +119,10 @@ export default React.memo(styled(NetworkDisplay)`
       }
     }
   }
+
+  // we jiggle our labels somewhat...
+  label {
+    font-size: var(--font-size-small);
+    text-transform: none;
+  }
 `);
