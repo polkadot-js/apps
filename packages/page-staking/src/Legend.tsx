@@ -95,13 +95,6 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
         />
         <span>{t('Era points')}</span>
       </span>
-      <span>
-        <Tag
-          color='lightgrey'
-          label='1,220'
-        />
-        {t('Era points')}
-      </span>
     </div>
   );
 }
