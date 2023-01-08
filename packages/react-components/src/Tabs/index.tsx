@@ -104,11 +104,11 @@ export default React.memo(styled(Tabs)`
 
   .ui--TabsList {
     display: flex;
-    list-style: none;
     height: 100%;
+    list-style: none;
     margin: 0 1.4rem;
-    white-space: nowrap;
     padding: 0;
+    white-space: nowrap;
 
     @media only screen and (max-width: 900px) {
       margin: 0 2.72rem 0 2.35rem;
