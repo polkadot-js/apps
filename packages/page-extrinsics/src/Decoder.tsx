@@ -131,7 +131,11 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
 }
 
 export default React.memo(styled(Decoder)`
-  .ui--Extrinsic--toplevel {
+  .ui--Call--toplevel {
     margin-top: 0;
+  }
+
+  .ui--Call > .ui--Params.withBorder {
+    padding-left: 2rem;
   }
 `);

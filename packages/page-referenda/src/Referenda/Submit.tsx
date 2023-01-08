@@ -347,8 +347,10 @@ export default React.memo(styled(Submit)`
 
   .trackOption {
     .faded {
-      margin-top: 0.25rem;
-      opacity: 0.5;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-normal);
+      margin-top: 0.125rem;
+      opacity: 0.6;
     }
   }
 

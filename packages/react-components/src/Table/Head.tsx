@@ -4,8 +4,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
-
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
@@ -37,15 +35,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
             onClick={onClick}
           >
             {index === 0
-              ? (
-                <h1>
-                  <Icon
-                    className='highlight--color'
-                    icon='dot-circle'
-                  />
-                  {label}
-                </h1>
-              )
+              ? <h1>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -59,7 +49,6 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
 }
 
 export default React.memo(styled(Head)`
-  opacity: 0.85;
   z-index: 1;
 
   th {
@@ -78,17 +67,12 @@ export default React.memo(styled(Head)`
       display: table-cell;
       vertical-align: middle;
 
-      .ui--Icon {
-        font-size: 1rem;
-        margin-right: 0.5rem;
-        vertical-align: middle;
-      }
-
       .sub {
         display: inline-block;
         font-size: 1rem;
         padding-left: 1.5rem;
         text-overflow: ellipsis;
+        vertical-align: middle;
       }
     }
 

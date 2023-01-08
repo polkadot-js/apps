@@ -150,7 +150,6 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         [t('validators'), 'start', 3],
         [t('other stake'), 'expand'],
         [t('commission')],
-        [t('points')],
         [t('last #')],
         []
       ]

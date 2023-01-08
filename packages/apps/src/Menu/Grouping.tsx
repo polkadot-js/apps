@@ -59,7 +59,7 @@ export default React.memo(styled(Grouping)`
   .groupHdr {
     border-radius: 0.25rem;
     padding: 0.857rem 1.375rem;
-    font-size: 1rem;
+    font-size: var(--font-size-button);
     font-weight: 400;
     line-height: 1.214rem;
 
@@ -70,7 +70,6 @@ export default React.memo(styled(Grouping)`
 
   &.isActive .groupHdr {
     background-color: var(--bg-tabs);
-    font-size: 1rem;
     font-weight: 400;
     margin-bottom: 0;
   }

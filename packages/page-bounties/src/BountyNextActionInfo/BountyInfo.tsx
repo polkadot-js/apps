@@ -47,7 +47,7 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
 
   .description {
     font-weight: 400;
-    font-size: 0.714rem;
+    var(--font-size-label)
     line-height: 0.864rem;
     color: var(--color-label);
     word-wrap: break-word;

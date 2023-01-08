@@ -33,7 +33,7 @@ export const styles = `
     .ui--Row-accountId,
     .ui--Row-icon {
       filter: grayscale(100);
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 

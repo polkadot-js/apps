@@ -387,6 +387,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     &.error,
     &.warning {
       border-left-width: 0.25rem;
+      font-size: var(--font-size-small);
       line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
@@ -496,9 +497,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     color: var(--color-label);
     font-style: normal;
     font-weight: var(--font-weight-normal);
-    font-size: 0.714rem;
+    font-size: var(--font-size-label);
     line-height: 1rem;
-    text-transform: uppercase;
+    text-transform: var(--text-transform-label);
     margin-bottom: 0.25rem;
   }
 
@@ -534,8 +535,11 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     color: var(--color-label);
     display: block;
     font: var(--font-sans);
-    font-size: 1rem;
+    font-size: var(--font-size-label);
     font-weight: var(--font-weight-normal);
+    line-height: 1rem;
+    text-transform: var(--text-transform-label);
+    vertical-align: middle;
   }
 
   main {

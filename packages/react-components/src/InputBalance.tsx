@@ -118,7 +118,7 @@ export default React.memo(styled(InputBalance)`
       }
 
       > div.text:first-child {
-        font-size: 0.9em;
+        font-size: var(--font-size-small);
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
