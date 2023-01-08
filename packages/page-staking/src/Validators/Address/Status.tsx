@@ -111,12 +111,14 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
                 className='media--900'
                 color='green'
                 icon='envelope'
+                isSmall
               />
             )
             : (
               <Badge
                 className='media--900'
                 color='transparent'
+                isSmall
               />
             )
       )}
