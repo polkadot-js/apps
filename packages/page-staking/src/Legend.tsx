@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Badge, Icon } from '@polkadot/react-components';
+import { Badge, Icon, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -88,6 +88,13 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
         />
         {t('Blocks nominations')}
       </span>
+      <span>
+        <Tag
+          color='lightgrey'
+          label='1,220'
+        />
+        {t('Era points')}
+      </span>
     </div>
   );
 }
@@ -97,7 +104,7 @@ export default React.memo(styled(Legend)`
   padding: 1rem 0.5rem;
   text-align: center;
 
-  .ui--Badge {
+  .ui--Badge, .ui--Tag {
     margin-right: 0.5rem;
   }
 

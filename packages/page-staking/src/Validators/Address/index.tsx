@@ -11,7 +11,7 @@ import type { NominatorValue } from './types';
 import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Columar, Icon, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -113,6 +113,11 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [address]
   );
 
+  const pointsAnimClass = useMemo(
+    () => points && `greyAnim-${Date.now() % 25}`,
+    [points]
+  );
+
   if (!isVisible) {
     return null;
   }
@@ -137,8 +142,15 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onlineMessage={recentlyOnline?.hasMessage}
           />
         </td>
-        <td className='address all'>
+        <td className='address all relative'>
           <AddressSmall value={address} />
+          {isMain && pointsAnimClass && (
+            <Tag
+              className={`${pointsAnimClass} absolute`}
+              color='lightgrey'
+              label={points}
+            />
+          )}
         </td>
         {isMain
           ? (
@@ -158,14 +170,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           {commission}
         </td>
         {isMain && (
-          <>
-            <td className='number'>
-              {points}
-            </td>
-            <td className='number'>
-              {lastBlock}
-            </td>
-          </>
+          <td className='number'>
+            {lastBlock}
+          </td>
         )}
         <Table.Column.Expand
           isExpanded={isExpanded}
@@ -179,7 +186,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             className='columar'
             colSpan={
               isMain
-                ? 5
+                ? 4
                 : 3
             }
           >
