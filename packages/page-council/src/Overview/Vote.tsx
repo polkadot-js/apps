@@ -95,7 +95,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
             <Modal.Columns hint={t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}>
               <VoteValue
                 accountId={accountId}
-                isCouncil
                 onChange={setVoteValue}
               />
             </Modal.Columns>
