@@ -38,7 +38,7 @@ export interface ApiProps extends ApiState {
   apiUrl?: string;
   createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
-  getStats: (...apis: ApiPromise[]) => [ProviderStats, number];
+  getStats: (...apis: ApiPromise[]) => { stats: ProviderStats, when: number };
   isApiConnected: boolean;
   isApiInitialized: boolean;
   isElectron: boolean;

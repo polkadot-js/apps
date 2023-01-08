@@ -3,25 +3,12 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
+import type { BlockAuthors } from './types';
 
 import React, { useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
-
-// TODO update HeaderExtended in api-derive
-export interface HeaderExtendedWithMapping extends HeaderExtended {
-  authorFromMapping?: string;
-}
-
-export interface Authors {
-  byAuthor: Record<string, string>;
-  eraPoints: Record<string, string>;
-  lastBlockAuthors: string[];
-  lastBlockNumber?: string;
-  lastHeader?: HeaderExtendedWithMapping;
-  lastHeaders: HeaderExtendedWithMapping[];
-}
 
 interface Props {
   children: React.ReactNode;
@@ -31,26 +18,20 @@ const MAX_HEADERS = 75;
 
 const byAuthor: Record<string, string> = {};
 const eraPoints: Record<string, string> = {};
-const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
-const ValidatorsContext: React.Context<string[]> = React.createContext<string[]>([]);
 
-function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
+export const BlockAuthorsContext: React.Context<BlockAuthors> = React.createContext<BlockAuthors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
+
+export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking?.currentPoints);
-  const [state, setState] = useState<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
-  const [validators, setValidators] = useState<string[]>([]);
+  const [state, setState] = useState<BlockAuthors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
 
+  // No unsub, global context - destroyed on app close
   useEffect((): void => {
-    // No unsub, global context - destroyed on app close
     api.isReady.then((): void => {
-      let lastHeaders: HeaderExtendedWithMapping[] = [];
+      let lastHeaders: HeaderExtended[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
-
-      // subscribe to all validators
-      api.query.session && api.query.session.validators((validatorIds): void => {
-        setValidators(validatorIds.map((validatorId) => validatorId.toString()));
-      }).catch(console.error);
 
       // subscribe to new headers
       api.derive.chain.subscribeNewHeads((lastHeader: HeaderExtended): void => {
@@ -77,7 +58,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
           lastHeaders = lastHeaders
             .filter((old, index) => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
-            .reduce((next, header): HeaderExtendedWithMapping[] => {
+            .reduce((next, header): HeaderExtended[] => {
               next.push(header);
 
               return next;
@@ -111,14 +92,8 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   }, [queryPoints]);
 
   return (
-    <ValidatorsContext.Provider value={validators}>
-      <BlockAuthorsContext.Provider value={state}>
-        {children}
-      </BlockAuthorsContext.Provider>
-    </ValidatorsContext.Provider>
+    <BlockAuthorsContext.Provider value={state}>
+      {children}
+    </BlockAuthorsContext.Provider>
   );
 }
-
-const BlockAuthors = React.memo(BlockAuthorsBase);
-
-export { BlockAuthorsContext, BlockAuthors, ValidatorsContext };

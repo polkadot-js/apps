@@ -1,12 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+
 import FileSaver from 'file-saver';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
-import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
+import { Badge, Button, CopyButton, Icon, Table } from '@polkadot/react-components';
+import { useQueue } from '@polkadot/react-hooks';
 
 import { useFiles } from './hooks';
 import { useTranslation } from './translate';
@@ -62,7 +64,7 @@ export interface Props {
 
 function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { queueAction } = useContext<QueueProps>(StatusContext);
+  const { queueAction } = useQueue();
   const [showUpMode, setShowUpMode] = useState(false);
   const wFiles = useFiles();
   const [file, setFile] = useState<FileInfo | undefined>(undefined);

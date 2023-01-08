@@ -4,16 +4,15 @@
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { getSystemIcon } from '@polkadot/apps-config';
 import { ThemeProps } from '@polkadot/react-components/types';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
-import StatusContext from '../Status/Context';
 import { useTranslation } from '../translate';
 import RoboHash from './RoboHash';
 
@@ -36,7 +35,7 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
   const { isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(systemName, specName);
   const Custom = thisTheme === 'robohash'
     ? RoboHash

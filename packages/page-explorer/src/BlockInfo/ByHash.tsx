@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';

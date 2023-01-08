@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 

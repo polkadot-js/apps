@@ -1,22 +1,19 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-components/types';
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { Api } from '@polkadot/react-api';
-import { ApiStats } from '@polkadot/react-components';
-import Queue from '@polkadot/react-components/Status/Queue';
-import { BlockAuthors, Events } from '@polkadot/react-query';
+import { ApiCtxRoot } from '@polkadot/react-api';
+import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps';
 import { darkTheme, lightTheme } from './themes';
-import WindowDimensions from './WindowDimensions';
 
 interface Props {
   isElectron: boolean;
@@ -44,25 +41,25 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>
-        <Queue>
-          <Api
+        <QueueCtxRoot>
+          <ApiCtxRoot
             apiUrl={settings.apiUrl}
             isElectron={isElectron}
             store={store}
           >
-            <ApiStats>
-              <BlockAuthors>
-                <Events>
+            <ApiStatsCtxRoot>
+              <BlockAuthorsCtxRoot>
+                <BlockEventsCtxRoot>
                   <HashRouter>
-                    <WindowDimensions>
+                    <WindowSizeCtxRoot>
                       <Apps />
-                    </WindowDimensions>
+                    </WindowSizeCtxRoot>
                   </HashRouter>
-                </Events>
-              </BlockAuthors>
-            </ApiStats>
-          </Api>
-        </Queue>
+                </BlockEventsCtxRoot>
+              </BlockAuthorsCtxRoot>
+            </ApiStatsCtxRoot>
+          </ApiCtxRoot>
+        </QueueCtxRoot>
       </ThemeProvider>
     </Suspense>
   );

@@ -9,7 +9,7 @@ import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
 import * as Sc from '@substrate/connect';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
@@ -17,15 +17,13 @@ import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
-import { StatusContext } from '@polkadot/react-components/Status';
-import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
+import { useApiUrl, useEndpoint, useQueue } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import ApiContext from './ApiContext';
 import { lightSpecs, relaySpecs } from './light';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
@@ -58,6 +56,8 @@ interface ChainData {
 export const DEFAULT_DECIMALS = registry.createType('u32', 12);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
+
+export const ApiContext: React.Context<ApiProps> = React.createContext({} as unknown as ApiProps);
 
 const DISALLOW_EXTENSIONS: string[] = [];
 
@@ -102,7 +102,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
-function createLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
+function makeCreateLink (baseApiUrl: string, isElectron: boolean): (path: string) => string {
   return (path: string, apiUrl?: string): string =>
     `${isElectron
       ? 'https://polkadot.js.org/apps/'
@@ -110,26 +110,8 @@ function createLink (baseApiUrl: string, isElectron: boolean): (path: string) =>
     }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
 }
 
-function getStats (...apis: ApiPromise[]): [ProviderStats, number] {
-  const stats = apis.reduce<ProviderStats>((r, api) => {
-    if (api) {
-      const stats = api.stats;
-
-      if (stats) {
-        r.active.requests += stats.active.requests;
-        r.active.subscriptions += stats.active.subscriptions;
-        r.total.bytesRecv += stats.total.bytesRecv;
-        r.total.bytesSent += stats.total.bytesSent;
-        r.total.cached += stats.total.cached;
-        r.total.errors += stats.total.errors;
-        r.total.requests += stats.total.requests;
-        r.total.subscriptions += stats.total.subscriptions;
-        r.total.timeout += stats.total.timeout;
-      }
-    }
-
-    return r;
-  }, {
+function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number } {
+  const stats: ProviderStats = {
     active: {
       requests: 0,
       subscriptions: 0
@@ -143,9 +125,30 @@ function getStats (...apis: ApiPromise[]): [ProviderStats, number] {
       subscriptions: 0,
       timeout: 0
     }
-  });
+  };
 
-  return [stats, Date.now()];
+  for (let i = 0; i < apis.length; i++) {
+    if (apis[i]) {
+      const s = apis[i].stats;
+
+      if (s) {
+        stats.active.requests += s.active.requests;
+        stats.active.subscriptions += s.active.subscriptions;
+        stats.total.bytesRecv += s.total.bytesRecv;
+        stats.total.bytesSent += s.total.bytesSent;
+        stats.total.cached += s.total.cached;
+        stats.total.errors += s.total.errors;
+        stats.total.requests += s.total.requests;
+        stats.total.subscriptions += s.total.subscriptions;
+        stats.total.timeout += s.total.timeout;
+      }
+    }
+  }
+
+  return {
+    stats,
+    when: Date.now()
+  };
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
@@ -292,8 +295,8 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   return types;
 }
 
-function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
-  const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
+export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
+  const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
@@ -307,22 +310,23 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     [apiEndpoint]
   );
   const apiRelay = useApiUrl(relayUrls);
-  const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink: createLink(apiUrl, isElectron), extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
+  const createLink = useMemo(
+    () => makeCreateLink(apiUrl, isElectron),
+    [apiUrl, isElectron]
   );
-
-  const onError = useCallback(
-    (error: unknown): void => {
-      console.error(error);
-
-      setApiError((error as Error).message);
-    },
-    [setApiError]
+  const value = useMemo<ApiProps>(
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink, extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
   // initial initialization
   useEffect((): void => {
+    const onError = (error: unknown): void => {
+      console.error(error);
+
+      setApiError((error as Error).message);
+    };
+
     createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
       .then((types): void => {
         api.on('connected', () => setIsApiConnected(true));
@@ -343,7 +347,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         setIsApiInitialized(true);
       })
       .catch(onError);
-  }, [apiEndpoint, apiUrl, onError, queuePayload, queueSetTxStatus, store]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;
@@ -355,5 +359,3 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     </ApiContext.Provider>
   );
 }
-
-export default React.memo(Api);

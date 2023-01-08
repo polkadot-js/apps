@@ -6,10 +6,10 @@ import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } 
 import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding } from '@polkadot/react-components';
+import { useApi, useQueue, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
@@ -66,7 +66,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(stashId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
