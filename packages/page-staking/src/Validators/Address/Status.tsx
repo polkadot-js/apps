@@ -89,7 +89,7 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
           )
       }
       {isMain && (
-        blockCount || onlineMessage
+        blockCount
           ? (
             <Badge
               className='media--900'

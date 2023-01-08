@@ -75,6 +75,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   );
 }
 
+// FIXME We really need to get rid of the px sizing here
 export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-sizing: border-box;
