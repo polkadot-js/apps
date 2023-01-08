@@ -66,8 +66,8 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const themeOptions = useMemo(
     () => [
-      { text: t('Light theme (default)'), value: 'light' },
-      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+      { text: t('Light theme'), value: 'light' },
+      { text: t('Dark theme'), value: 'dark' }
     ],
     [t]
   );

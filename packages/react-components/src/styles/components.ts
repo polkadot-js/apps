@@ -40,12 +40,13 @@ export default (_theme: ThemeDef): string => `
     padding-right: 0;
     padding-bottom: 0.3em;
     padding-left: 0.3em;
-    color: #2e86ab  !important;
-    background: none  !important;
+    color: #2e86ab !important;
+    background: none !important;
   }
 
   button.ui--Button {
     font: var(--font-sans);
+    font-size: var(--font-size-button);
   }
 
   .editable {

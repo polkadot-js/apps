@@ -93,7 +93,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
 }
 
 export default React.memo(styled(Legend)`
-  font-size: 0.85rem;
+  font-size: var(--font-size-small);
   padding: 1rem 0.5rem;
   text-align: center;
 
