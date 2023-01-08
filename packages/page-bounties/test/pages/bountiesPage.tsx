@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent, render, within } from '@testing-library/react';
@@ -16,8 +17,7 @@ import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
-import { QueueProvider } from '@polkadot/react-components/Status/Context';
-import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { QueueContext } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -119,7 +119,7 @@ export class BountiesPage {
       <>
         <div id='tooltips' />
         <Suspense fallback='...'>
-          <QueueProvider value={queue}>
+          <QueueContext.Provider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
@@ -127,7 +127,7 @@ export class BountiesPage {
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
-          </QueueProvider>
+          </QueueContext.Provider>
         </Suspense>
       </>
     );

@@ -16,7 +16,7 @@ const EMPTY: Addresses = { allAddresses: [], hasAddresses: false, isAddress: () 
 
 export const AddressesContext = React.createContext<Addresses>(EMPTY);
 
-function extract (addresses: SubjectInfo = {}): Addresses {
+function extractAddresses (addresses: SubjectInfo = {}): Addresses {
   const allAddresses = Object.keys(addresses);
   const hasAddresses = allAddresses.length !== 0;
   const isAddress = (address: string): boolean => allAddresses.includes(address.toString());
@@ -30,7 +30,7 @@ export function AddressesCtxRoot ({ children }: Props): React.ReactElement<Props
   // No unsub, global context - destroyed on app close
   useEffect((): void => {
     keyring.addresses.subject.subscribe((addresses) =>
-      setAddresses(extract(addresses))
+      setAddresses(extractAddresses(addresses))
     );
   }, []);
 
