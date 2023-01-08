@@ -259,11 +259,6 @@ export default React.memo(styled(AccountName)`
         text-transform: none;
       }
 
-      // &.isGood,
-      // &.isLocal {
-      //   opacity: 1;
-      // }
-
       .sub,
       .top {
         vertical-align: middle;
