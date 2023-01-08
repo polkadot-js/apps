@@ -155,10 +155,6 @@ export default React.memo(styled(Expander)`
 
   &.isHeader {
     margin-left: 2rem;
-
-    .ui--Expander-summary-title {
-      font-size: 1.1rem;
-    }
   }
 
   &.withBreaks .ui--Expander-content {
