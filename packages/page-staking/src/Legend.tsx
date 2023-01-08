@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Badge, Icon, Tag } from '@polkadot/react-components';
+import { Badge, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -56,7 +56,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
       <span>
         <Badge
           color='green'
-          info={<Icon icon='envelope' />}
+          icon='envelope'
         />
         {t('Online message')}
       </span>
