@@ -137,10 +137,6 @@ export default React.memo(styled(CardSummary)`
       }
     }
 
-    > label {
-      font-size: 0.95rem;
-    }
-
     .isSecondary {
       font-size: 1rem;
       font-weight: var(--font-weight-normal);

@@ -145,7 +145,7 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       width: 32px;
 
       &.opaque {
-        opacity: 0.5;
+        opacity: 0.6;
       }
     }
 

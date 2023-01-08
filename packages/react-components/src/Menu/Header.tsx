@@ -16,7 +16,7 @@ function Header ({ children, className }: HeaderProps): React.ReactElement {
 
 export default React.memo(styled(Header)`
   text-transform: uppercase;
-  font-size: 0.714rem;
+  font-size: var(--font-size-label);
   line-height: 0.857rem;
 
   margin-bottom: 0.3rem;

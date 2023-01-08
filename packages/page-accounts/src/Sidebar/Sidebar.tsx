@@ -215,7 +215,7 @@ export default React.memo(styled(FullSidebar)`
           font-weight: var(--font-weight-normal);
           text-align: left;
           flex-basis: 25%;
-          font-size: 0.714rem;
+          font-size: var(--font-size-label);
 
           &.top {
             align-self: flex-start;
@@ -253,18 +253,7 @@ export default React.memo(styled(FullSidebar)`
       margin-bottom: 0.4rem;
     }
 
-    label:first-of-type {
-      margin-bottom: 0.4rem;
-      color: var(--color-text);
-    }
-
-    label {
-      color: var(--color-label);
-      text-transform: uppercase;
-      font-size: 0.714rem;
-    }
-
-    .ui--FormatBalance, label {
+    .ui--FormatBalance {
       line-height: 1rem;
     }
   }

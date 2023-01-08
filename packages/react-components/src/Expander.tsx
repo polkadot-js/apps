@@ -151,10 +151,6 @@ export default React.memo(styled(Expander)`
         justify-content: end;
       }
     }
-
-    .ui--Params.withBorder {
-      padding-left: 0.25rem;
-    }
   }
 
   &.isHeader {
@@ -199,7 +195,7 @@ export default React.memo(styled(Expander)`
       }
 
       .ui--Expander-summary-header-sub {
-        font-size: 1rem;
+        font-size: var(--font-size-small);
         opacity: 0.6;
       }
     }

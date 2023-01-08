@@ -659,13 +659,6 @@ export default withMulti(
           padding-right: 0.5rem;
           text-align: right;
           vertical-align: middle;
-
-          // from h5
-          font-style: normal;
-          font-weight: var(--font-weight-normal);
-          font-size: 0.714rem;
-          line-height: 1rem;
-          text-transform: uppercase;
           margin-bottom: 0.25rem;
 
           .help.circle.icon {
