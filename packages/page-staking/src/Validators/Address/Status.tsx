@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { Badge, Icon } from '@polkadot/react-components';
+import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import MaxBadge from '../../MaxBadge';
@@ -89,20 +89,28 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
           )
       }
       {isMain && (
-        blockCount || onlineMessage
+        blockCount
           ? (
             <Badge
               className='media--900'
               color='green'
-              info={blockCount || <Icon icon='envelope' />}
+              info={blockCount}
             />
           )
-          : (
-            <Badge
-              className='media--900'
-              color='transparent'
-            />
-          )
+          : onlineMessage
+            ? (
+              <Badge
+                className='media--900'
+                color='green'
+                icon='envelope'
+              />
+            )
+            : (
+              <Badge
+                className='media--900'
+                color='transparent'
+              />
+            )
       )}
       <MaxBadge numNominators={nominators.length} />
     </>

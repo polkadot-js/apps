@@ -46,7 +46,7 @@ export default React.memo(styled(Tag)`
   display: inline-block;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
-  line-height: 1.143rem;
+  line-height: 1rem;
   margin: 0 0.125rem;
   opacity: 0.85;
   padding: 0.25em 0.75em;
@@ -72,6 +72,10 @@ export default React.memo(styled(Tag)`
 
   &.greyColor {
     background: #767676;
+  }
+
+  &.lightgreyColor {
+    background: #a6a6a6;
   }
 
   &.orangeColor {
