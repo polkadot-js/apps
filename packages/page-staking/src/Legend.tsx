@@ -26,7 +26,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
           color='blue'
           icon='chevron-right'
         />
-        {t('Next session')}
+        <span>{t('Next session')}</span>
       </span>
       {minCommission && (
         <span>
@@ -34,7 +34,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
             color='red'
             icon='cancel'
           />
-          {t('Chilled')}
+          <span>{t('Chilled')}</span>
         </span>
       )}
       {isRelay && (
@@ -43,7 +43,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
             color='purple'
             icon='vector-square'
           />
-          {t('Para validator')}
+          <span>{t('Para validator')}</span>
         </span>
       )}
       <span>
@@ -51,49 +51,49 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
           color='green'
           info='5'
         />
-        {t('Produced blocks')}
+        <span>{t('Produced blocks')}</span>
       </span>
       <span>
         <Badge
           color='green'
           icon='envelope'
         />
-        {t('Online message')}
+        <span>{t('Online message')}</span>
       </span>
       <span>
         <Badge
           color='green'
           icon='hand-paper'
         />
-        {t('Nominating')}
+        <span>{t('Nominating')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='balance-scale-right'
         />
-        {t('Oversubscribed')}
+        <span>{t('Oversubscribed')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='skull-crossbones'
         />
-        {t('Slashed')}
+        <span>{t('Slashed')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='user-slash'
         />
-        {t('Blocks nominations')}
+        <span>{t('Blocks nominations')}</span>
       </span>
       <span>
         <Tag
           color='lightgrey'
           label='1,220'
         />
-        {t('Era points')}
+        <span>{t('Era points')}</span>
       </span>
     </div>
   );
@@ -108,7 +108,15 @@ export default React.memo(styled(Legend)`
     margin-right: 0.5rem;
   }
 
-  span+span {
-    margin-left: 1rem;
+  span {
+    vertical-align: middle;
+
+    * {
+      vertical-align: middle;
+    }
+
+    + span {
+      margin-left: 1rem;
+    }
   }
 `);

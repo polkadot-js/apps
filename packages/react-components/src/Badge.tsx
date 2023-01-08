@@ -82,15 +82,15 @@ export default React.memo(styled(Badge)`
   color: #eeedec;
   display: inline-block;
   font-size: 12px;
-  height: 22px;
-  line-height: 22px;
+  height: 20px;
+  line-height: 20px;
   margin-right: 0.43rem;
-  min-width: 22px;
+  min-width: 20px;
   padding: 0 4px;
   overflow: hidden;
   text-align: center;
   vertical-align: middle;
-  width: 22px;
+  width: 20px;
 
   &.isTooltip {
     cursor: help;
@@ -102,7 +102,7 @@ export default React.memo(styled(Badge)`
 
   .ui--Icon {
     cursor: inherit;
-    margin-top: 5px;
+    margin-top: 4px;
     vertical-align: top;
     width: 1em;
   }
