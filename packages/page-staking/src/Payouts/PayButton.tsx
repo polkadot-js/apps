@@ -155,6 +155,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
 
 export default React.memo(styled(PayButton)`
   .ui--AddressMini.padded.addressStatic {
+    display: inline-block;
     padding-top: 0.5rem;
 
     .ui--AddressMini-info {
