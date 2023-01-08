@@ -7,7 +7,12 @@ const findPackages = require('./scripts/findPackages.cjs');
 
 // NOTE: While we can remove @polkadot/... packages such as react-markdown still has issues with Jest 28
   // ... TL;DR We still end up with a massive list here
-const ESM_PKG = ['bail', 'character-entities', 'chart.js', 'comma-separated-tokens', 'decode-named-character-reference', 'hast-to-', 'hast-util-', 'hastscript', 'html-void-elements', 'is-plain-obj', 'mdast-', 'micromark', 'multiformats', 'property-information', 'react-markdown', 'rehype-raw', 'remark-parse', 'remark-rehype', 'space-separated-tokens', 'trough', 'uint8arrays', 'unified', 'unist-', 'vfile', 'vfile-', 'web-namespaces', 'zwitch'];
+const ESM_PKG = [
+  // general packages
+  'bail', 'character-entities', 'chart.js', 'comma-separated-tokens', 'decode-named-character-reference', 'hast-to-', 'hast-util-', 'hastscript', 'html-void-elements', 'is-plain-obj', 'mdast-', 'micromark', 'multiformats', 'property-information', 'react-markdown', 'rehype-raw', 'remark-parse', 'remark-rehype', 'space-separated-tokens', 'trough', 'uint8arrays', 'unified', 'unist-', 'vfile', 'vfile-', 'web-namespaces', 'zwitch',
+  // type packages
+  '@logion/node-api'
+];
 
 module.exports = {
   ...config,
