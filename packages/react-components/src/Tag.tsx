@@ -55,7 +55,7 @@ export default React.memo(styled(Tag)`
   z-index: 1;
 
   &.tinySize {
-    font-size: .71428571rem;
+    font-size: var(--font-size-tiny);
   }
 
   &.blackColor {
