@@ -8,6 +8,7 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
+import * as Sc from '@substrate/connect';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
@@ -247,7 +248,7 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
     throw new Error(`Unable to construct light chain ${chain}`);
   }
 
-  const relay = new ScProvider(relaySpecs[relayName]);
+  const relay = new ScProvider(Sc, relaySpecs[relayName]);
 
   if (!paraName) {
     return relay;
@@ -257,7 +258,7 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
   const specMod = await import(`${lightSpecs[relayName][paraName]}`);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return new ScProvider(JSON.stringify(specMod.default), relay);
+  return new ScProvider(Sc, JSON.stringify(specMod.default), relay);
 }
 
 /**
