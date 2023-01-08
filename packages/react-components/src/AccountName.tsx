@@ -235,6 +235,8 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
+    word-break: break-all;
+
     .name {
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
