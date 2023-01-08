@@ -52,6 +52,7 @@ export default React.memo(styled(Head)`
   z-index: 1;
 
   th {
+    background: var(--bg-table);
     font: var(--font-sans);
     font-weight: var(--font-weight-normal);
     padding: 0.375rem 1rem;
@@ -117,7 +118,6 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: var(--bg-table);
     text-transform: lowercase;
 
     &.filter {

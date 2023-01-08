@@ -380,8 +380,6 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      background: var(--bg-table);
-
       &:not(.isExpanded) {
         td {
           border-top: ${BORDER_WIDTH} solid var(--border-table);
