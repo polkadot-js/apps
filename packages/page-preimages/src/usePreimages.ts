@@ -10,6 +10,8 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
+const EMPTY_PARAMS: unknown[] = [];
+
 const OPT_HASH = {
   transform: (keys: StorageKey<[Hash]>[]): Hash[] =>
     keys.map(({ args: [hash] }) => hash)
@@ -32,7 +34,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
 
 function usePreimagesImpl (): HexString[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.preimage.statusFor, [], OPT_HASH);
+  const startValue = useMapKeys(api.query.preimage.statusFor, EMPTY_PARAMS, OPT_HASH);
   const hashes = useEventChanges([
     api.events.preimage.Cleared,
     api.events.preimage.Noted

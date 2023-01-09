@@ -2,25 +2,46 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Bytes, Option } from '@polkadot/types';
-import type { Call, Hash } from '@polkadot/types/interfaces';
+import type { Bytes } from '@polkadot/types';
+import type { AccountId, Balance, Call, Hash } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Preimage, PreimageDeposit, PreimageStatus } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ZERO, formatNumber, isString, objectSpread } from '@polkadot/util';
+import { Option } from '@polkadot/types';
+import { BN, BN_ZERO, formatNumber, isString, objectSpread } from '@polkadot/util';
 
-import usePreimageIsLatest from './usePreimageIsLatest';
-
-type BytesParams = [[proposalHash: HexString, proposalLength: BN]];
+type BytesParams = [[proposalHash: HexString, proposalLength: BN]] | [proposalHash: HexString];
 
 interface InterimResult {
   paramsBytes?: BytesParams;
   preimageStatus?: PreimageStatus;
+}
+
+type Result = 'unknown' | 'hash' | 'hashAndLen';
+
+export function getParamType (api: ApiPromise): Result {
+  if ((
+    api.query.preimage &&
+    api.query.preimage.preimageFor &&
+    api.query.preimage.preimageFor.creator.meta.type.isMap
+  )) {
+    const { type } = api.registry.lookup.getTypeDef(api.query.preimage.preimageFor.creator.meta.type.asMap.key);
+
+    if (type === 'H256') {
+      return 'hash';
+    } else if (type === '(H256,u32)') {
+      return 'hashAndLen';
+    } else {
+      // we are clueless :()
+    }
+  }
+
+  return 'unknown';
 }
 
 function createResult (api: ApiPromise, preimageStatus: PreimageStatus, optBytes: Option<Bytes>): Preimage {
@@ -28,16 +49,23 @@ function createResult (api: ApiPromise, preimageStatus: PreimageStatus, optBytes
   let proposal: Call | null = null;
   let proposalError: string | null = null;
   let proposalWarning: string | null = null;
+  let proposalLength: BN | undefined;
 
   if (bytes) {
     try {
       proposal = api.registry.createType('Call', bytes.toU8a(true));
 
-      const storeLength = preimageStatus.proposalLength.toNumber();
       const callLength = proposal.encodedLength;
 
-      if (callLength !== storeLength) {
-        proposalWarning = `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)`;
+      if (preimageStatus.proposalLength) {
+        const storeLength = preimageStatus.proposalLength.toNumber();
+
+        if (callLength !== storeLength) {
+          proposalWarning = `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)`;
+        }
+      } else {
+        // for the old style, we set the actual length
+        proposalLength = new BN(callLength);
       }
     } catch (error) {
       console.error(error);
@@ -53,12 +81,13 @@ function createResult (api: ApiPromise, preimageStatus: PreimageStatus, optBytes
     isCompleted: true,
     proposal,
     proposalError,
+    proposalLength: proposalLength || preimageStatus.proposalLength,
     proposalWarning,
     registry: api.registry
   });
 }
 
-function convertDeposit (deposit?: PalletPreimageRequestStatus['asUnrequested']['deposit'] | null): PreimageDeposit | undefined {
+function convertDeposit (deposit?: [AccountId, Balance] | null): PreimageDeposit | undefined {
   return deposit
     ? {
       amount: deposit[1],
@@ -68,6 +97,7 @@ function convertDeposit (deposit?: PalletPreimageRequestStatus['asUnrequested'][
 }
 
 function getBytesParams (api: ApiPromise, hash: Hash | HexString, optStatus: Option<PalletPreimageRequestStatus>): InterimResult {
+  const isHashParam = getParamType(api) === 'hash';
   const status = optStatus.unwrapOr(null);
   const preimageStatus: PreimageStatus = {
     count: 0,
@@ -75,23 +105,38 @@ function getBytesParams (api: ApiPromise, hash: Hash | HexString, optStatus: Opt
     proposalHash: isString(hash)
       ? hash
       : hash.toHex(),
-    proposalLength: BN_ZERO,
     registry: api.registry,
     status
   };
 
   if (status) {
     if (status.isRequested) {
-      const { count, deposit, len } = status.asRequested;
+      const asRequested = status.asRequested;
 
-      preimageStatus.count = count.toNumber();
-      preimageStatus.deposit = convertDeposit(deposit.unwrapOr(null));
-      preimageStatus.proposalLength = len.unwrapOr(BN_ZERO);
+      if (asRequested instanceof Option) {
+        // FIXME Cannot recall how to deal with these
+        // (unlike Unrequested below, didn't have an example)
+      } else {
+        const { count, deposit, len } = asRequested;
+
+        preimageStatus.count = count.toNumber();
+        preimageStatus.deposit = convertDeposit(deposit.unwrapOr(null));
+        preimageStatus.proposalLength = len.unwrapOr(BN_ZERO);
+      }
     } else if (status.isUnrequested) {
-      const { deposit, len } = status.asUnrequested;
+      const asUnrequested = status.asUnrequested;
 
-      preimageStatus.deposit = convertDeposit(deposit);
-      preimageStatus.proposalLength = len;
+      if (asUnrequested instanceof Option) {
+        preimageStatus.deposit = convertDeposit(
+          // old-style conversion
+          (asUnrequested as Option<ITuple<[AccountId, Balance]>>).unwrapOr(null)
+        );
+      } else {
+        const { deposit, len } = status.asUnrequested;
+
+        preimageStatus.deposit = convertDeposit(deposit);
+        preimageStatus.proposalLength = len;
+      }
     } else {
       // for future reference...
       console.error('Unhandled preimage status type: ', status.type);
@@ -99,7 +144,9 @@ function getBytesParams (api: ApiPromise, hash: Hash | HexString, optStatus: Opt
   }
 
   return {
-    paramsBytes: [[preimageStatus.proposalHash, preimageStatus.proposalLength]],
+    paramsBytes: isHashParam
+      ? [preimageStatus.proposalHash]
+      : [[preimageStatus.proposalHash, preimageStatus.proposalLength || BN_ZERO]],
     preimageStatus
   };
 }
@@ -122,16 +169,15 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
 
 function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): Preimage | undefined {
   const { api } = useApi();
-  const isLatest = usePreimageIsLatest();
 
   // retrieve the status using only the hash of the image
   const paramsStatus = useMemo(
     // we need a hash _and_ be on the newest supported version of the pallet
     // (after the application of bounded calls)
-    () => isLatest && hashOrBounded
+    () => hashOrBounded
       ? [getPreimageHash(hashOrBounded)]
       : undefined,
-    [hashOrBounded, isLatest]
+    [hashOrBounded]
   );
 
   const optStatus = useCall<Option<PalletPreimageRequestStatus>>(paramsStatus && api.query.preimage?.statusFor, paramsStatus);

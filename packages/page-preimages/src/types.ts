@@ -18,7 +18,7 @@ export interface PreimageStatus {
   deposit?: PreimageDeposit;
   isCompleted: boolean;
   proposalHash: HexString;
-  proposalLength: BN;
+  proposalLength?: BN;
   registry: Registry;
   status: PalletPreimageRequestStatus | null;
 }
