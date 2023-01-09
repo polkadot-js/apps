@@ -57,12 +57,23 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
       <tr className={className}>
         <Table.Column.Id value={poolId} />
         <td className='start'>
-          {info && (
-            <div className={isExpanded ? '' : 'clamp'}>{info.metadata}</div>
-          )}
+          <div className={`${isExpanded ? '' : 'clamp'}`}>
+            {info
+              ? info.metadata
+              : <span className='--placeholder'>This is a pool placeholder</span>}
+          </div>
         </td>
-        <td className='number media--1100'>{info && info.bonded.state.type}</td>
-        <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
+        <td className='number media--1100'>
+          {info
+            ? info.bonded.state.type
+            : <span className='--placeholder'>Destroying</span>}
+        </td>
+        <td className='number'>
+          <FormatBalance
+            className={info ? '' : '--placeholder'}
+            value={info?.bonded.points || 1}
+          />
+        </td>
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (

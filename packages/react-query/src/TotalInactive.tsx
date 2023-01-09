@@ -17,15 +17,12 @@ function TotalInactive ({ children, className = '', label }: Props): React.React
   const { api } = useApi();
   const inactiveIssuance = useCall<string>(api.query.balances?.inactiveIssuance);
 
-  if (!inactiveIssuance) {
-    return null;
-  }
-
   return (
     <div className={className}>
       {label || ''}
       <FormatBalance
-        value={inactiveIssuance}
+        className={inactiveIssuance ? '' : '--placeholder'}
+        value={inactiveIssuance || 1}
         withSi
       />
       {children}

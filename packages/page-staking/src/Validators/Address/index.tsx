@@ -167,7 +167,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           )
         }
         <td className='number'>
-          {commission}
+          {commission || <span className='--placeholder'>50.00%</span>}
         </td>
         {isMain && (
           <td className='number'>

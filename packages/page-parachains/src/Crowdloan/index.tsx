@@ -20,7 +20,7 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
-function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, totalCap, totalRaised }, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
+function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, isLoading, totalCap, totalRaised }, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const bestNumber = useBestNumber();
 
   return (
@@ -28,7 +28,8 @@ function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, 
       <Summary
         activeCap={activeCap}
         activeRaised={activeRaised}
-        fundCount={funds ? funds.length : 0}
+        fundCount={funds?.length}
+        isLoading={isLoading}
         totalCap={totalCap}
         totalRaised={totalRaised}
       />

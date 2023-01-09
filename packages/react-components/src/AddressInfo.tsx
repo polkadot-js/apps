@@ -109,6 +109,9 @@ function lookupLock (lookup: Record<string, string>, lockId: Raw): string {
 
 // skip balances retrieval of none of this matches
 function skipBalancesIf ({ withBalance = true, withExtended = false }: Props): boolean {
+  // NOTE Unsure why we don't have a check for balancesAll in here (check skipStakingIf). adding
+  // it doesn't break on Accounts/Addresses, but this gets used a lot, so there _may_ be an actual
+  // reason behind the madness. However, derives are memoized, so no issue overall.
   if (withBalance === true || withExtended === true) {
     return false;
   } else if (isObject(withBalance)) {
@@ -231,18 +234,18 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber?: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
-  !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
+  !withBalanceToggle && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
       <Label label={withLabel ? t<string>('total') : ''} />
       <FormatBalance
-        className='result'
+        className={`result ${balancesAll ? '' : '--placeholder'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}
       />
     </React.Fragment>
   );
@@ -258,7 +261,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     </React.Fragment>
   );
 
-  if (balanceDisplay.vested && deriveBalances?.isVesting) {
+  if (bestNumber && balanceDisplay.vested && deriveBalances?.isVesting) {
     const allVesting = deriveBalances.vesting.filter(({ endBlock }) => bestNumber.lt(endBlock));
 
     allItems.push(
@@ -427,7 +430,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           </div>
         </React.Fragment>
       );
-    } else if (votingOf && votingOf.isDirect) {
+    } else if (bestNumber && votingOf && votingOf.isDirect) {
       const { prior: [unlockAt, balance] } = votingOf.asDirect;
 
       balance.gt(BN_ZERO) && unlockAt.gt(BN_ZERO) && allItems.push(
@@ -440,7 +443,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       );
     }
 
-    if (convictionLocks && convictionLocks.length) {
+    if (bestNumber && convictionLocks && convictionLocks.length) {
       const max = convictionLocks.reduce((max, { total }) => bnMax(max, total), BN_ZERO);
 
       allItems.push(
@@ -498,6 +501,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     return (
       <React.Fragment key={formatIndex}>
         <Expander
+          className={balancesAll ? '' : 'isBlurred'}
           summary={
             <FormatBalance
               formatIndex={formatIndex}
@@ -528,7 +532,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
     ? DEFAULT_BALANCES
     : withBalance || false;
 
-  if (!bestNumber || !balanceDisplay) {
+  if (!balanceDisplay) {
     return [null];
   }
 

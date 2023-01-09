@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BN_MILLION } from '@polkadot/util';
 
 import useEraBlocks from './useEraBlocks';
 import { createErasString } from './util';
@@ -46,7 +47,12 @@ function Stash ({ className = '', historyDepth, payout: { available, rewards, st
         <span className='payout-eras'>{eraStr}</span>
       </td>
       <td className='number'><FormatBalance value={available} /></td>
-      <td className='number'>{eraBlocks && <BlockToTime value={eraBlocks} />}</td>
+      <td className='number'>
+        <BlockToTime
+          className={eraBlocks ? '' : '--placeholder'}
+          value={eraBlocks || BN_MILLION}
+        />
+      </td>
       <td
         className='button'
         colSpan={3}

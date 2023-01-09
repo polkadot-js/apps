@@ -25,15 +25,21 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
       <Hash value={value} />
       <Call value={info} />
       <td className='number media--1000'>
-        {info?.bytes && formatNumber(info.bytes.length)}
+        {info?.bytes
+          ? formatNumber(info.bytes.length)
+          : <span className='--placeholder'>999,999</span>
+        }
       </td>
       <td className='preimage-status together media--1200'>
-        {info && (
-          <>
-            <div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>
-            <Free value={info} />
-          </>
-        )}
+        {info
+          ? (
+            <>
+              <div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>
+              <Free value={info} />
+            </>
+          )
+          : <span className='--placeholder'>Unrequested</span>
+        }
       </td>
     </tr>
   );

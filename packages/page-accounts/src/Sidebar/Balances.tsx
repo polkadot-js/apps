@@ -26,8 +26,8 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
       <AddressInfo
         address={address}
         className='balanceExpander'
+        key={address}
         withBalance={WITH_BALANCE}
-        withExtended={false}
         withLabel
       />
     </section>
