@@ -3,21 +3,29 @@
 
 import type { PopupWindowProps } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { css } from 'styled-components';
 
 import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
 function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: PopupWindowProps) {
-  const { renderWindowPosition, verticalPosition } = usePopupWindow(windowRef, triggerRef, position);
+  const { pointerStyle, renderCoords } = usePopupWindow(windowRef, triggerRef, position);
+
+  const style = useMemo(
+    () => ({
+      transform: `translate3d(${renderCoords.x}px, ${renderCoords.y}px, 0)`,
+      zIndex: 1000
+    }),
+    [renderCoords]
+  );
 
   return createPortal(
     <div
-      className={`${className}${verticalPosition === 'top' ? ' pointerTop' : ' pointerBottom'}`}
+      className={`${className} ${pointerStyle}Pointer`}
       data-testid='popup-window'
       ref={windowRef}
-      style={renderWindowPosition && { transform: `translate3d(${renderWindowPosition.x}px, ${renderWindowPosition.y}px, 0)`, zIndex: 1000 }}
+      style={style}
     >
       {children}
     </div>,
@@ -26,26 +34,24 @@ function PopupWindow ({ children, className = '', position, triggerRef, windowRe
 }
 
 export default React.memo(styled(PopupWindow)`
-  position: absolute;
-  top:0;
-  left:0;
-  z-index: -1;
-
+  background-color: var(--bg-menu);
+  border: 1px solid #d4d4d5;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgb(34 36 38 / 12%), 0 2px 10px 0 rgb(34 36 38 / 15%);
+  color: var(--color-text);
+  left: 0;
   margin: 0.7rem 0;
   padding: 0;
-
-  color: var(--color-text);
-  background-color: var(--bg-menu);
-  border-radius: 4px;
-  border: 1px solid #d4d4d5;
-  box-shadow: 0 2px 4px 0 rgb(34 36 38 / 12%), 0 2px 10px 0 rgb(34 36 38 / 15%);
+  position: absolute;
+  top: 0;
+  z-index: -1;
 
   &::before {
+    bottom: -0.45rem;
+    box-shadow: 1px 1px 0 0 #bababc;
     position: absolute;
     right: 50%;
     top: unset;
-    bottom: -0.45rem;
-    box-shadow: 1px 1px 0 0 #bababc;
 
     ${({ position }) => position === 'left' && css`
       left: unset;
@@ -58,7 +64,6 @@ export default React.memo(styled(PopupWindow)`
     `}
 
     content: '';
-
     background-color: var(--bg-menu);
 
     width: 1rem;
@@ -67,7 +72,7 @@ export default React.memo(styled(PopupWindow)`
     z-index: 2;
   }
 
-  &.pointerBottom::before {
+  &.bottomPointer::before {
     box-shadow: -1px -1px 0 0 #bababc;
 
     top: -0.45rem;

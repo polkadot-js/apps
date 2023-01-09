@@ -55,6 +55,7 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
         </PopupWindow>
       )}
       <div
+        data-testid='popup-open'
         onClick={toggleIsOpen}
         ref={triggerRef}
       >

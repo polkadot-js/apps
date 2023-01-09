@@ -39,7 +39,7 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   }, []);
 
   // The ordering here is critical. It defines the hierarchy of dependencies,
-  // i.e. Block* could from Api. Ceratinly no cross-deps allowed
+  // i.e. Block* could from Api. Certainly no cross-deps allowed
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>

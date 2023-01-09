@@ -4,7 +4,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { Button, Menu, Popup } from '@polkadot/react-components';
+import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
@@ -162,13 +162,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               ))}
             </Menu>
           }
-        >
-          <Button
-            dataTestId='extra-actions'
-            icon='ellipsis-v'
-            isReadOnly={false}
-          />
-        </Popup>
+        />
       </div>
     )
     : null;
