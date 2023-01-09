@@ -77,12 +77,14 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
           label={t<string>('block weight')}
           progress={{
             hideValue: true,
-            isBlurred: !maxBlockWeight,
-            total: maxBlockWeight || BN_THREE,
-            value: maxBlockWeight ? weight : BN_TWO
+            isBlurred: !(maxBlockWeight && weight),
+            total: (maxBlockWeight && weight) ? maxBlockWeight : BN_THREE,
+            value: (maxBlockWeight && weight) ? weight : BN_TWO
           }}
         >
-          {formatNumber(weight)}
+          {weight
+            ? formatNumber(weight)
+            : <span className='--placeholder'>999,999,999</span>}
         </CardSummary>
       </section>
       <section className='media--900'>
