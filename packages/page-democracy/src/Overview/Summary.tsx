@@ -35,24 +35,24 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
         <CardSummary label={t<string>('proposals')}>
           {activeProposals
             ? formatNumber(activeProposals.length)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {publicPropCount
             ? formatNumber(publicPropCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
       <section>
         <CardSummary label={t<string>('referenda')}>
           {referendumCount !== undefined
             ? formatNumber(referendumCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {referendumTotal
             ? formatNumber(referendumTotal)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
       <section className='media--1100'>

@@ -20,7 +20,7 @@ function BestFinalized ({ children, className = '', label }: Props): React.React
   const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized);
 
   return (
-    <div className={`${className} ${bestNumberFinalized ? '' : '--placeholder'}`}>
+    <div className={`${className} ${bestNumberFinalized ? '' : '--tmp'}`}>
       {label || ''}{
         <Digits value={formatNumber(bestNumberFinalized || 1234)} />
       }{children}

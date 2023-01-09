@@ -60,17 +60,17 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
           <div className={`${isExpanded ? '' : 'clamp'}`}>
             {info
               ? info.metadata
-              : <span className='--placeholder'>This is a pool placeholder</span>}
+              : <span className='--tmp'>This is a pool placeholder</span>}
           </div>
         </td>
         <td className='number media--1100'>
           {info
             ? info.bonded.state.type
-            : <span className='--placeholder'>Destroying</span>}
+            : <span className='--tmp'>Destroying</span>}
         </td>
         <td className='number'>
           <FormatBalance
-            className={info ? '' : '--placeholder'}
+            className={info ? '' : '--tmp'}
             value={info?.bonded.points || 1}
           />
         </td>

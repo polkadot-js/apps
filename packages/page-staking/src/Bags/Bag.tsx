@@ -81,7 +81,7 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
       </td>
       <td className='number'>
         {isLoading
-          ? <span className='--placeholder'>99</span>
+          ? <span className='--tmp'>99</span>
           : list.length
             ? formatNumber(list.length)
             : null

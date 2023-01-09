@@ -20,7 +20,6 @@ interface Props {
 
 function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic, preimageHash } }: Props): React.ReactElement<Props> {
   const preimage = usePreimage(preimageHash);
-
   const period = maybePeriodic.unwrapOr(null);
   const name = maybeId.unwrapOr(null);
 

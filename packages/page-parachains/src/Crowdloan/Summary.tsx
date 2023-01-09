@@ -28,7 +28,7 @@ function Summary ({ activeCap, activeRaised, className, fundCount, isLoading, to
     <SummaryBox className={className}>
       <CardSummary label={t<string>('funds')}>
         {fundCount === undefined
-          ? <span className='--placeholder'>99</span>
+          ? <span className='--tmp'>99</span>
           : formatNumber(fundCount)}
       </CardSummary>
       <CardSummary
@@ -40,7 +40,7 @@ function Summary ({ activeCap, activeRaised, className, fundCount, isLoading, to
           value: isLoading ? BN_TWO : activeRaised
         }}
       >
-        <span className={isLoading ? '--placeholder' : ''}>
+        <span className={isLoading ? '--tmp' : ''}>
           <FormatBalance
             value={activeRaised}
             withCurrency={false}
@@ -62,7 +62,7 @@ function Summary ({ activeCap, activeRaised, className, fundCount, isLoading, to
           value: isLoading ? BN_TWO : totalRaised
         }}
       >
-        <span className={isLoading ? '--placeholder' : ''}>
+        <span className={isLoading ? '--tmp' : ''}>
           <FormatBalance
             value={totalRaised}
             withCurrency={false}

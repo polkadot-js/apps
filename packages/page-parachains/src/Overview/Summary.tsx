@@ -28,7 +28,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         <CardSummary label={t<string>('parachains')}>
           {isNumber(parachainCount)
             ? formatNumber(parachainCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary
           className='media--1000'
@@ -36,7 +36,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         >
           {isNumber(upcomingCount)
             ? formatNumber(upcomingCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         {isNumber(proposalCount) && (
           <CardSummary
@@ -51,7 +51,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         <CardSummary label={t<string>('current lease')}>
           {leasePeriod
             ? formatNumber(leasePeriod.currentPeriod)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary
           className='media--1200'

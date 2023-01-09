@@ -34,20 +34,20 @@ function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<P
       <CardSummary label={t<string>('total bags')}>
         {bags
           ? formatNumber(bags.length)
-          : <span className='--placeholder'>99</span>
+          : <span className='--tmp'>99</span>
         }
       </CardSummary>
       <section>
         <CardSummary label={t<string>('total nodes')}>
           {mapOwn
             ? formatNumber(total)
-            : <span className='--placeholder'>99</span>
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
         <CardSummary label={t<string>('my nodes')}>
           {isNumber(myCount)
             ? formatNumber(myCount)
-            : <span className='--placeholder'>99</span>
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
       </section>

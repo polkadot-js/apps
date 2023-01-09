@@ -72,7 +72,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
             <>
               {isTimed && !children && (
                 <BlockToTime
-                  className={progress.isBlurred ? '--placeholder' : ''}
+                  className={progress.isBlurred ? '--tmp' : ''}
                   value={progress.total}
                 />
               )}
@@ -87,7 +87,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        className={`${progress.isBlurred ? '--placeholder' : ''} timer`}
+                        className={`${progress.isBlurred ? '--tmp' : ''} timer`}
                         value={progress.total.sub(progress.value)}
                       />
                     )

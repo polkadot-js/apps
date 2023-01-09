@@ -49,7 +49,7 @@ function Stash ({ className = '', historyDepth, payout: { available, rewards, st
       <td className='number'><FormatBalance value={available} /></td>
       <td className='number'>
         <BlockToTime
-          className={eraBlocks ? '' : '--placeholder'}
+          className={eraBlocks ? '' : '--tmp'}
           value={eraBlocks || BN_MILLION}
         />
       </td>
