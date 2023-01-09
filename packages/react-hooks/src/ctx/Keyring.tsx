@@ -102,9 +102,8 @@ function extractAddresses (addresses: SubjectInfo = {}, accounts: string[]): Add
 export function KeyringCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const [state, setState] = useState(EMPTY);
 
-  // No unsub, global context - destroyed on app close
-  useEffect((): void => {
-    combineLatest([
+  useEffect((): () => void => {
+    const sub = combineLatest([
       keyring.accounts.subject.pipe(
         map((accInfo) => extractAccounts(accInfo))
       ),
@@ -117,6 +116,10 @@ export function KeyringCtxRoot ({ children }: Props): React.ReactElement<Props> 
         }))
       )
       .subscribe((state) => setState(state));
+
+    return (): void => {
+      sub && sub.unsubscribe();
+    };
   }, []);
 
   return (
