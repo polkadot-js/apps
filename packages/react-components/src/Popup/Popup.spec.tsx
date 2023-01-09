@@ -76,7 +76,7 @@ async function expectPopupToBeOpen () {
 }
 
 async function togglePopup () {
-  fireEvent.click(await screen.findByRole('button'));
+  fireEvent.click(await screen.findByTestId('popup-open'));
 }
 
 async function clickOutside () {
