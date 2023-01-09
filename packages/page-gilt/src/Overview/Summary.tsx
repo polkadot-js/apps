@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2023 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types';
 import type { ActiveGiltsTotal } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -53,7 +54,7 @@ function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactEle
             label={t<string>('intake')}
             progress={{
               total: api.consts.gilt.intakePeriod,
-              value: bestNumber.mod(api.consts.gilt.intakePeriod),
+              value: bestNumber.mod(api.consts.gilt.intakePeriod as u128),
               withTime: true
             }}
           />

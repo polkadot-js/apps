@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from './types';
@@ -48,34 +48,32 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 }
 
 export default React.memo(styled(Tab)`
-  position: relative;
-  display: flex;
   align-items: center;
+  display: flex;
   color: #8B8B8B;
-  padding: 0 1.5rem;
+  font-size: var(--font-size-button);
   height: 100%;
-  font-size: 1rem;
-  font-weight: 400;
+  padding: 0 1.5rem;
+  position: relative;
 
+  &:hover {
+    color: #8B8B8B;
 
-    &:hover {
-      color: #8B8B8B;
-
-      .tabLinkText::after{
-        background-color: #8B8B8B;
-      }
+    .tabLinkText::after {
+      background-color: #8B8B8B;
     }
+  }
 
-    &:hover .tabLinkText::after,
-    &.tabLinkActive .tabLinkText::after {
-      content: '';
-      position: absolute;
-      width: 3.14rem;
-      height: 2px;
-      bottom: -2px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  &:hover .tabLinkText::after,
+  &.tabLinkActive .tabLinkText::after {
+    content: '';
+    position: absolute;
+    width: 3.14rem;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   &.tabLinkActive {
     color: var(--color-text) !important;

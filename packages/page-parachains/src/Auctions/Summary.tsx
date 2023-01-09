@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
@@ -30,12 +30,16 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('auctions')}>
-          {formatNumber(auctionInfo?.numAuctions)}
+          {auctionInfo
+            ? formatNumber(auctionInfo.numAuctions)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('active')}>
-          {auctionInfo?.leasePeriod
-            ? t<string>('yes')
-            : t<string>('no')
+          {auctionInfo
+            ? auctionInfo.leasePeriod
+              ? t<string>('yes')
+              : t<string>('no')
+            : <span className='--placeholder'>{t<string>('no')}</span>
           }
         </CardSummary>
       </section>

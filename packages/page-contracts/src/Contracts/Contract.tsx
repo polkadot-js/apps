@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ContractPromise } from '@polkadot/api-contract';
@@ -101,7 +101,6 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           address={contract.address}
           withBalance
           withBalanceToggle
-          withExtended={false}
         />
       </td>
       <td className='start together'>

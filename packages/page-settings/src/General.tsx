@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
@@ -66,8 +66,8 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const themeOptions = useMemo(
     () => [
-      { text: t('Light theme (default)'), value: 'light' },
-      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+      { text: t('Light theme'), value: 'light' },
+      { text: t('Dark theme'), value: 'dark' }
     ],
     [t]
   );

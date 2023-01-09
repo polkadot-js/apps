@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps } from '@polkadot/react-api/types';

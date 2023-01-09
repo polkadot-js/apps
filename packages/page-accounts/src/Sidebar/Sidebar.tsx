@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
@@ -97,16 +97,16 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-
-
     width: 100%;
 
     .ui--AddressSection__AddressColumn {
+      flex: 1;
       margin-left: 1rem;
 
       .ui--AccountName {
         max-width: 21.5rem;
         overflow: hidden;
+        white-space: normal;
       }
     }
 
@@ -215,7 +215,7 @@ export default React.memo(styled(FullSidebar)`
           font-weight: var(--font-weight-normal);
           text-align: left;
           flex-basis: 25%;
-          font-size: 0.714rem;
+          font-size: var(--font-size-label);
 
           &.top {
             align-self: flex-start;
@@ -253,18 +253,7 @@ export default React.memo(styled(FullSidebar)`
       margin-bottom: 0.4rem;
     }
 
-    label:first-of-type {
-      margin-bottom: 0.4rem;
-      color: var(--color-text);
-    }
-
-    label {
-      color: var(--color-label);
-      text-transform: uppercase;
-      font-size: 0.714rem;
-    }
-
-    .ui--FormatBalance, label {
+    .ui--FormatBalance {
       line-height: 1rem;
     }
   }

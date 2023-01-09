@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useRef } from 'react';
 

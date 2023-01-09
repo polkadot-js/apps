@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Network } from './types';
@@ -90,7 +90,7 @@ export default React.memo(styled(NetworkDisplay)`
   position: relative;
 
   &.isUnreachable {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   &.isSelected,
@@ -118,5 +118,11 @@ export default React.memo(styled(NetworkDisplay)`
         opacity: 0.8;
       }
     }
+  }
+
+  // we jiggle our labels somewhat...
+  label {
+    font-size: var(--font-size-small);
+    text-transform: none;
   }
 `);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RuntimeVersion } from '@polkadot/types/interfaces';
@@ -99,7 +99,7 @@ export default React.memo(styled(ChainInfo)`
       }
 
       .chain, .bestNumber {
-        font-size: 0.9rem;
+        font-size: var(--font-size-small);
         line-height: 1.2;
       }
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -170,18 +170,21 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
     }
   }, [_executeGeneration, isRunning]);
 
-  const header = useMemo(() => [
-    [t('matches'), 'start', 2],
-    [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
-      replace: {
-        avg: (keyCount / (elapsed / 1000)).toFixed(3),
-        count: keyCount,
-        elapsed: (elapsed / 1000).toFixed(2)
-      }
-    }), 'start'],
-    [t('secret'), 'start'],
-    []
-  ], [elapsed, keyCount, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [t('matches'), 'start', 2],
+      [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+        replace: {
+          avg: (keyCount / (elapsed / 1000)).toFixed(3),
+          count: keyCount,
+          elapsed: (elapsed / 1000).toFixed(2)
+        }
+      }), 'start'],
+      [t('secret'), 'start'],
+      []
+    ],
+    [elapsed, keyCount, t]
+  );
 
   return (
     <div className={className}>

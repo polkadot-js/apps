@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -30,6 +30,7 @@ import ranked from './ranked';
 import referenda from './referenda';
 import rpc from './rpc';
 import runtime from './runtime';
+import scheduler from './scheduler';
 import settings from './settings';
 import signing from './signing';
 import society from './society';
@@ -54,23 +55,28 @@ export default function create (t: TFunction): Routes {
     teleport(t),
     staking(t),
     collator(t),
-    democracy(t),
+    // governance v2
     referenda(t),
-    council(t),
-    treasury(t),
-    bounties(t),
-    techcomm(t),
     membership(t),
     alliance(t),
     fellowship(t),
     ranked(t),
     preimages(t),
     whitelist(t),
+    // old v1 governance
+    democracy(t),
+    council(t),
+    techcomm(t),
+    // other governance-related
+    treasury(t),
+    bounties(t),
+    // others
     parachains(t),
     gilt(t),
     assets(t),
     nfts(t),
     society(t),
+    scheduler(t),
     calendar(t),
     contracts(t),
     storage(t),

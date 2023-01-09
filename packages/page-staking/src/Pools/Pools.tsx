@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -46,13 +46,16 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
     [ids, ownPools, typeIndex]
   );
 
-  const header = useMemo(() => [
-    [t('pools'), 'start', 2],
-    [t('state'), 'media--1100'],
-    [t('points')],
-    [t('claimable'), 'media--1400'],
-    [undefined, undefined, 3]
-  ], [t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [t('pools'), 'start', 2],
+      [t('state'), 'media--1100'],
+      [t('points')],
+      [t('claimable'), 'media--1400'],
+      [undefined, undefined, 3]
+    ],
+    [t]
+  );
 
   const poolTypes = useRef([
     { text: t('Own pools'), value: 'mine' },
@@ -78,7 +81,6 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
         empty={membersMap && filtered && t<string>('No available nomination pools')}
         emptySpinner={t<string>('Retrieving nomination pools')}
         header={header}
-        withCollapsibleRows
       >
         {membersMap && filtered && filtered.map((poolId) => (
           <Pool

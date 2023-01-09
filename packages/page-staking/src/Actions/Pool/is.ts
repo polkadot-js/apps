@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint-disable header/header */
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import type { PalletNominationPoolsPoolMemberV0, PalletNominationPoolsRewardPoolV0 } from './types';
 

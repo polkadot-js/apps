@@ -1,13 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetInfo } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import Mint from './Mint';
 
@@ -26,7 +25,7 @@ function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Pro
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='together'>{metadata?.name.toUtf8()}</td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
       <td className='address media--1300'>{details && <AddressSmall value={details.admin} />}</td>

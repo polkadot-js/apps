@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -29,7 +29,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
             ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
-            : <Spinner noLabel />
+            : <span className='--placeholder'>99&nbsp;/&nbsp;99</span>
           }
         </CardSummary>
         <CardSummary
@@ -38,7 +38,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         >
           {waitingIds
             ? formatNumber(waitingIds.length)
-            : <Spinner noLabel />
+            : <span className='--placeholder'>99</span>
           }
         </CardSummary>
         <CardSummary
@@ -58,7 +58,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
                 )}
               </>
             )
-            : <Spinner noLabel />
+            : <span className='--placeholder'>99</span>
           }
         </CardSummary>
       </section>

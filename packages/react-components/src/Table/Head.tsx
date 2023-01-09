@@ -1,21 +1,20 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
-
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
   header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ children, className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
@@ -36,15 +35,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? (
-                <h1>
-                  <Icon
-                    className='highlight--color'
-                    icon='dot-circle'
-                  />
-                  {label}
-                </h1>
-              )
+              ? <h1>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -52,15 +43,16 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
           </th>
         )}
       </tr>
+      {children}
     </thead>
   );
 }
 
 export default React.memo(styled(Head)`
-  position: relative;
   z-index: 1;
 
   th {
+    background: var(--bg-table);
     font: var(--font-sans);
     font-weight: var(--font-weight-normal);
     padding: 0.375rem 1rem;
@@ -76,19 +68,13 @@ export default React.memo(styled(Head)`
       display: table-cell;
       vertical-align: middle;
 
-      .ui--Icon {
+      .sub {
+        display: inline-block;
         font-size: 1rem;
-        margin-right: 0.5rem;
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
         vertical-align: middle;
       }
-    }
-
-    &:first-child {
-      border-left: 1px solid var(--border-table);
-    }
-
-    &:last-child {
-      border-right: 1px solid var(--border-table);
     }
 
     &.address {
@@ -100,12 +86,12 @@ export default React.memo(styled(Head)`
       padding: 0;
     }
 
-    &.expand {
+    &.expand,
+    &.number {
       text-align: right;
     }
 
     &.isClickable {
-      border-bottom: 2px solid transparent;
       cursor: pointer;
     }
 
@@ -132,14 +118,7 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: var(--bg-table);
     text-transform: lowercase;
-
-    &:first-child {
-      th {
-        border-top: 1px solid var(--border-table);
-      }
-    }
 
     &.filter {
       .ui.input,
@@ -147,7 +126,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: -1px;
+          margin-top: 0;
         }
       }
 

@@ -15,6 +15,7 @@
   "Remove item": "Remove item",
   "Yes": "Yes",
   "aye: bool": "aye: bool",
+  "call hash / {{section}}.{{method}}": "call hash / {{section}}.{{method}}",
   "conviction: Conviction": "conviction: Conviction",
   "details": "details",
   "file upload": "file upload",

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -56,7 +56,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
     [bestNumber, payouts]
   );
 
-  const isMember = useMemo(
+  const isOwner = useMemo(
     () => allAccounts.some((a) => a === key),
     [allAccounts, key]
   );
@@ -75,52 +75,52 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address relative all'>
         <AddressSmall value={accountId} />
-      </td>
-      <td className='all'>
-        {isHead && (
-          <Tag
-            color='green'
-            label={t<string>('society head')}
-          />
-        )}
-        {isFounder && (
-          <Tag
-            color='green'
-            label={t<string>('founder')}
-          />
-        )}
-        {isSkeptic && (
-          <Tag
-            color='yellow'
-            label={t<string>('skeptic')}
-          />
-        )}
-        {(isCandidateVoter || isDefenderVoter) && (
-          <Tag
-            color='blue'
-            label={t<string>('voted')}
-          />
-        )}
-        {isWarned && (
-          <Tag
-            color='orange'
-            label={t<string>('strikes')}
-          />
-        )}
-        {isSuspended && (
-          <Tag
-            color='red'
-            label={t<string>('suspended')}
-          />
-        )}
-        {availablePayout && (
-          <Tag
-            color='grey'
-            label={t<string>('payout')}
-          />
-        )}
+        <div className='absolute'>
+          {(isCandidateVoter || isDefenderVoter) && (
+            <Tag
+              color='blue'
+              label={t<string>('voted')}
+            />
+          )}
+          {isWarned && (
+            <Tag
+              color='orange'
+              label={t<string>('strikes')}
+            />
+          )}
+          {isHead && (
+            <Tag
+              color='green'
+              label={t<string>('society head')}
+            />
+          )}
+          {isFounder && (
+            <Tag
+              color='green'
+              label={t<string>('founder')}
+            />
+          )}
+          {isSkeptic && (
+            <Tag
+              color='yellow'
+              label={t<string>('skeptic')}
+            />
+          )}
+          {isSuspended && (
+            <Tag
+              color='red'
+              label={t<string>('suspended')}
+            />
+          )}
+          {availablePayout && (
+            <Tag
+              color='grey'
+              label={t<string>('payout')}
+            />
+          )}
+        </div>
       </td>
       <td className='number together'>
         {!!payouts?.length && (
@@ -130,21 +130,20 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
             summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
           />
         )}
-      </td>
-      <td className='together'>{votedOn}</td>
-      <td className='number'>{formatNumber(strikes)}</td>
-      <td className='button start'>
-        <DesignKusama accountId={accountId} />
-        {availablePayout && (
+        {isOwner && availablePayout && (
           <TxButton
             accountId={accountId}
             icon='ellipsis-h'
-            isDisabled={!isMember}
             label='Payout'
             params={[]}
             tx={api.tx.society.payout}
           />
         )}
+      </td>
+      <td className='together'>{votedOn}</td>
+      <td className='number'>{formatNumber(strikes)}</td>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
       </td>
     </tr>
   );
@@ -156,7 +155,7 @@ export default React.memo(styled(Member)`
       margin-top: 0.5rem;
     }
 
-    .ui--Columnar {
+    .ui--Columar {
       flex-wrap: unset;
 
       .ui--Column {

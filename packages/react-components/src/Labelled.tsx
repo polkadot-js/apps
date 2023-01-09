@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -84,7 +84,7 @@ export default React.memo(styled(Labelled)`
         .labelExtra {
           position: absolute;
           text-align: left;
-          top: 0.5rem;
+          top: 0.75rem;
           z-index: 1;
         }
 
@@ -103,11 +103,17 @@ export default React.memo(styled(Labelled)`
         }
       }
 
+      &.isOuter {
+        margin: 0.25rem 0;
+      }
+
       .labelExtra {
-        color: rgba(78, 78, 78, .85);
+        color: var(--color-label);
+        font-size: var(--font-size-label);
         font-weight: var(--font-weight-normal);
         right: 1.75rem;
         text-align: right;
+        text-transform: var(--text-transform-label);
       }
 
       > .ui--Labelled-content {

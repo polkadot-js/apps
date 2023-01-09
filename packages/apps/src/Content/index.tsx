@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
 
-import React, { Suspense, useContext, useMemo } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, StatusContext, TabsContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { ErrorBoundary, Spinner, TabsCtx } from '@polkadot/react-components';
+import { useApi, useQueue } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
@@ -34,7 +34,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { api, isApiConnected, isApiReady, isDevelopment } = useApi();
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
 
   const { Component, display: { needsApi, needsApiCheck, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
@@ -70,7 +70,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <>
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
-                <TabsContext.Provider value={{ icon, text }}>
+                <TabsCtx.Provider value={{ icon, text }}>
                   {missingApis.length
                     ? (
                       <NotFound
@@ -88,7 +88,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                       />
                     )
                   }
-                </TabsContext.Provider>
+                </TabsCtx.Provider>
               </ErrorBoundary>
             </Suspense>
             <Status />
@@ -116,5 +116,13 @@ export default React.memo(styled(Content)`
     margin-left: auto;
     width: 100%;
     padding: 0 1.5rem;
+
+    @media only screen and (max-width: 1100px) {
+      padding: 0 1rem;
+    }
+
+    @media only screen and (max-width: 800px) {
+      padding: 0 0.75rem;
+    }
   }
 `);

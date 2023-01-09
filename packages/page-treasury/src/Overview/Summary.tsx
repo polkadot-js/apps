@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,6 +29,8 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
     [value, pendingBounties, pendingProposals]
   );
 
+  const hasSpendable = !!(value && spendable);
+
   return (
     <SummaryBox>
       <section>
@@ -36,19 +38,25 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           className='media--1700'
           label={t<string>('open')}
         >
-          {formatNumber(proposalCount)}
+          {proposalCount === undefined
+            ? <span className='--placeholder'>99</span>
+            : formatNumber(proposalCount)}
         </CardSummary>
         <CardSummary
           className='media--1600'
           label={t<string>('approved')}
         >
-          {formatNumber(approvalCount)}
+          {approvalCount === undefined
+            ? <span className='--placeholder'>99</span>
+            : formatNumber(approvalCount)}
         </CardSummary>
         <CardSummary
           className='media--1400'
           label={t<string>('total')}
         >
-          {formatNumber(totalProposals || 0)}
+          {totalProposals === undefined
+            ? totalProposals
+            : formatNumber(totalProposals)}
         </CardSummary>
       </section>
       <section>
@@ -74,41 +82,41 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
             />
           </CardSummary>
         )}
-        {burn && (
-          <CardSummary
-            className='media--1300'
-            label={t<string>('next burn')}
-          >
-            <FormatBalance
-              value={burn}
-              withSi
-            />
-          </CardSummary>
-        )}
+        <CardSummary
+          className='media--1300'
+          label={t<string>('next burn')}
+        >
+          <FormatBalance
+            className={burn ? '' : '--placeholder'}
+            value={burn || 1}
+            withSi
+          />
+        </CardSummary>
       </section>
-      {value && spendable && (
-        <section>
-          <CardSummary
-            label={t<string>('spendable / available')}
-            progress={{
-              hideValue: true,
-              total: value,
-              value: spendable
-            }}
-          >
+      <section>
+        <CardSummary
+          label={t<string>('spendable / available')}
+          progress={{
+            hideValue: true,
+            isBlurred: !hasSpendable,
+            total: hasSpendable ? value : BN_THREE,
+            value: hasSpendable ? spendable : BN_TWO
+          }}
+        >
+          <span className={hasSpendable ? '' : '--placeholder'}>
             <FormatBalance
-              value={spendable}
+              value={spendable || BN_TWO}
               withSi
             />
             <>&nbsp;/&nbsp;</>
             <FormatBalance
-              value={value}
+              value={value || BN_THREE}
               withSi
             />
-          </CardSummary>
-        </section>
-      )}
-      {bestNumber && spendPeriod?.gtn(0) && (
+          </span>
+        </CardSummary>
+      </section>
+      {bestNumber && spendPeriod.gt(BN_ZERO) && (
         <section>
           <CardSummary
             label={t<string>('spend period')}

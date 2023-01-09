@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -7,10 +7,9 @@ import type { MembersMapEntry, Params } from './types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, ExpandButton, ExpanderScroll, Spinner } from '@polkadot/react-components';
+import { AddressMini, ExpandButton, ExpanderScroll, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Join from './Join';
@@ -55,11 +54,26 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
-        <td className='number'><h1>{formatNumber(poolId)}</h1></td>
-        <td className='start'>{info && info.metadata}</td>
-        <td className='number media--1100'>{info && info.bonded.state.type}</td>
-        <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
+      <tr className={className}>
+        <Table.Column.Id value={poolId} />
+        <td className='start'>
+          <div className={`${isExpanded ? '' : 'clamp'}`}>
+            {info
+              ? info.metadata
+              : <span className='--placeholder'>This is a pool placeholder</span>}
+          </div>
+        </td>
+        <td className='number media--1100'>
+          {info
+            ? info.bonded.state.type
+            : <span className='--placeholder'>Destroying</span>}
+        </td>
+        <td className='number'>
+          <FormatBalance
+            className={info ? '' : '--placeholder'}
+            value={info?.bonded.points || 1}
+          />
+        </td>
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (
@@ -160,5 +174,15 @@ export default React.memo(styled(Pool)`
     line-height: normal;
     color: var(--color-label);
     text-transform: lowercase;
+  }
+
+  .clamp {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    box-orient: vertical;
+    display: -webkit-box;
+    line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `);

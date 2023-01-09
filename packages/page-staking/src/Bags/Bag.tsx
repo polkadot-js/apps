@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId32 } from '@polkadot/types/interfaces';
@@ -8,7 +8,7 @@ import type { ListNode, StashNode } from './types';
 
 import React, { useEffect, useState } from 'react';
 
-import { AddressMini, Spinner } from '@polkadot/react-components';
+import { AddressMini } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -81,7 +81,7 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
       </td>
       <td className='number'>
         {isLoading
-          ? <Spinner noLabel />
+          ? <span className='--placeholder'>99</span>
           : list.length
             ? formatNumber(list.length)
             : null

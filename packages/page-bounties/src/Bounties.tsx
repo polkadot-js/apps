@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo, useRef } from 'react';
@@ -25,7 +25,7 @@ function Bounties ({ className }: Props): React.ReactElement {
     [info]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('bounties'), 'start', 3],
     [t('value'), 'start'],
     [t('curator'), 'start'],
@@ -42,7 +42,6 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={sorted && t<string>('No open bounties')}
         header={headerRef.current}
-        withCollapsibleRows
       >
         {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty
@@ -62,15 +61,15 @@ function Bounties ({ className }: Props): React.ReactElement {
 export default React.memo(styled(Bounties)`
   .bounties-table-wrapper table {
     tr {
-      td,
-      &:not(.filter) th {
+      td, &:not(.filter) th {
         &:last-child {
           padding-right: 1.14rem;
         }
       }
     }
   }
-.ui--IdentityIcon {
+
+  .ui--IdentityIcon {
     margin-right: 0.42rem;
   }
 

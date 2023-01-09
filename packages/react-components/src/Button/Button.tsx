@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ButtonProps } from './types';
@@ -55,10 +55,12 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
       {icon && <Icon icon={icon} />}
       {label}
       {children}
-      <Spinner
-        className='ui--Button-spinner'
-        variant='cover'
-      />
+      {isBusy && (
+        <Spinner
+          className='ui--Button-spinner'
+          variant='cover'
+        />
+      )}
     </button>
   );
 }
@@ -129,10 +131,6 @@ export default React.memo(styled(Button)`
     background: transparent;
   }
 
-  .ui--Button-spinner {
-    visibility: hidden;
-  }
-
   .ui--Button-overlay {
     background: rgba(253, 252, 251, 0.75);
     bottom: 0;
@@ -150,12 +148,6 @@ export default React.memo(styled(Button)`
     margin: -${ICON_PADDING}rem 0;
     padding: ${ICON_PADDING}rem;
     width: 1rem;
-  }
-
-  &.isBusy {
-    .ui--Button-spinner {
-      visibility: visible;
-    }
   }
 
   &.isDisabled {

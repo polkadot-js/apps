@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -29,10 +29,6 @@ function Filter ({ className = '', filterOn, label, setFilter }: Props) {
 
 export default React.memo(styled(Filter)`
   width: 29.5rem;
-
-  :not(:only-child) {
-    margin-left: 1.5rem;
-  }
 
   .ui--Input {
     margin: 0;

@@ -1,10 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
-
-import media from './media';
 
 interface Props {
   children: React.ReactNode;
@@ -23,11 +21,19 @@ export default React.memo(styled(FilterOverlay)`
   display: none;
   right: calc(50% - var(--width-half) + 1.5rem);
 
-  ${media.DESKTOP`
+  .ui--Labelled label {
+    display: none;
+  }
+
+  && .ui--Input {
+    margin: 0.29rem 0;
+  }
+
+  @media only screen and (min-width: 1150px) {
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    top: 0rem;
+    top: 0;
 
     > div {
       max-width: 35rem !important;
@@ -40,18 +46,10 @@ export default React.memo(styled(FilterOverlay)`
     .ui.selection.dropdown {
       white-space: nowrap;
     }
-  `};
-
-  .ui--Labelled label {
-    display: none;
-  }
-
-  && .ui--Input {
-    margin: 0.29rem 0;
   }
 
   /* hardcoded: var(--width-full) doesn't work in media */
-  @media (max-width: 1750px) {
+  @media only screen and (max-width: 1750px) {
     right: 1.5rem;
   }
 `);

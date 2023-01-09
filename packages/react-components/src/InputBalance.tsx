@@ -1,14 +1,12 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SiDef } from '@polkadot/util/types';
-import type { BitLength } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BitLengthOption } from '@polkadot/react-components/constants';
-import { BN, formatBalance, isUndefined } from '@polkadot/util';
+import { BN, BN_TEN, formatBalance, isString, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -38,28 +36,36 @@ interface Props {
   withMax?: boolean;
 }
 
-const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
+const DEFAULT_BITLENGTH = 128;
 
-function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): [string?, SiDef?] {
+function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {
-    return [];
+    return {};
   }
 
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
-  const si = isDisabled
+  const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
+  const siDefault = isDisabled && isString(value) && (value.length < maxDisabled.length) && value !== '0'
     ? formatBalance.calcSi(value.toString(), decimals)
     : formatBalance.findSi('-');
+  const defaultValue = formatBalance(value, {
+    decimals,
+    forceUnit: siDefault.value,
+    withSi: false
+  });
 
-  return [
-    formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(/,/g, isDisabled ? ',' : ''),
-    si
-  ];
+  return {
+    defaultValue: isDisabled
+      ? defaultValue
+      : defaultValue.replace(/,/g, isDisabled ? ',' : ''),
+    siDefault
+  };
 }
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  const [defaultValue, siDefault] = useMemo(
+  const { defaultValue, siDefault } = useMemo(
     () => reformat(inDefault, isDisabled, siDecimals),
     [inDefault, isDisabled, siDecimals]
   );
@@ -112,7 +118,7 @@ export default React.memo(styled(InputBalance)`
       }
 
       > div.text:first-child {
-        font-size: 0.9em;
+        font-size: var(--font-size-small);
         position: absolute;
         top: 50%;
         transform: translateY(-50%);

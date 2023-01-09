@@ -1,10 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum } from './types';
+import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types';
 
 import { useMemo } from 'react';
 
@@ -13,11 +12,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import useReferendaIds from './useReferendaIds';
 import useTracks from './useTracks';
-import { getTrackName } from './util';
-
-function isConvictionVote (info: Referendum['info']): info is PalletReferendaReferendumInfoConvictionVotingTally {
-  return info.isOngoing && !(info as PalletReferendaReferendumInfoRankedCollectiveTally).asOngoing.tally.bareAyes && !!(info as PalletReferendaReferendumInfoConvictionVotingTally).asOngoing.tally.support;
-}
+import { calcDecidingEnd, getTrackName, isConvictionVote } from './util';
 
 function sortOngoing (a: Referendum, b: Referendum): number {
   const ao = a.info.asOngoing;
@@ -89,17 +84,17 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo][]): ReferendaGroup[] {
-  if (!referenda) {
+function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: TrackDescription[]): ReferendaGroup[] {
+  if (!referenda || !totalIssuance) {
     // return an empty group when we have no referenda
-    return [{}];
+    return [{ key: 'empty' }];
   } else if (!tracks) {
     // if we have no tracks, we just return the referenda sorted
-    return [{ referenda: referenda.sort(sortReferenda) }];
+    return [{ key: 'referenda', referenda: referenda.sort(sortReferenda) }];
   }
 
   const grouped: ReferendaGroupKnown[] = [];
-  const other: ReferendaGroupKnown = { referenda: [] };
+  const other: ReferendaGroupKnown = { key: 'referenda', referenda: [] };
 
   // sort the referenda by track inside groups
   for (let i = 0; i < referenda.length; i++) {
@@ -107,22 +102,35 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
 
     // only ongoing have tracks
     const trackInfo = ref.info.isOngoing
-      ? tracks.find(([id]) => id.eq(ref.info.asOngoing.track))
+      ? tracks.find(({ id }) => id.eq(ref.info.asOngoing.track))
       : undefined;
 
     if (trackInfo) {
-      ref.trackId = trackInfo[0];
-      ref.track = trackInfo[1];
+      ref.trackGraph = trackInfo.graph;
+      ref.trackId = trackInfo.id;
+      ref.track = trackInfo.info;
+
+      if (ref.isConvictionVote && ref.info.isOngoing) {
+        const { deciding, tally } = ref.info.asOngoing;
+
+        if (deciding.isSome) {
+          const { since } = deciding.unwrap();
+
+          ref.decidingEnd = calcDecidingEnd(totalIssuance, tally, trackInfo.info, since);
+        }
+      }
 
       const group = grouped.find(({ track }) => ref.track === track);
 
       if (!group) {
         // we don't have a group as of yet, create one
         grouped.push({
+          key: `track:${ref.trackId.toString()}`,
           referenda: [ref],
           track: ref.track,
+          trackGraph: ref.trackGraph,
           trackId: ref.trackId,
-          trackName: getTrackName(ref.track)
+          trackName: getTrackName(ref.trackId, ref.track)
         });
       } else {
         // existing group, just add the referendum
@@ -148,8 +156,9 @@ function group (referenda?: Referendum[], tracks?: [BN, PalletReferendaTrackInfo
   return grouped.sort(sortGroups);
 }
 
-function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], [BN, PalletReferendaTrackInfo][] | undefined] {
+function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], TrackDescription[] | undefined] {
   const { api, isApiReady } = useApi();
+  const totalIssuance = useCall<BN>(isApiReady && api.query.balances.totalIssuance);
   const ids = useReferendaIds(palletReferenda);
   const tracks = useTracks(palletReferenda);
   const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda as 'referenda'].referendumInfoFor.multi, [ids], OPT_MULTI);
@@ -157,11 +166,11 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
   return useMemo(
     () => [
       (ids && ids.length === 0)
-        ? [{ referenda: [] }]
-        : group(referenda, tracks),
+        ? [{ key: 'referenda', referenda: [] }]
+        : group(totalIssuance, referenda, tracks),
       tracks
     ],
-    [ids, referenda, tracks]
+    [ids, referenda, totalIssuance, tracks]
   );
 }
 

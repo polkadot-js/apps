@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { GroupProps } from './types';
@@ -40,7 +40,7 @@ export default React.memo(styled(ButtonGroup)`
     display: inline-block;
   }
 
-  .ui--ToggleGroup {
+  .ui--ToggleGroup, .ui--Dropdown {
     float: left;
   }
 `);

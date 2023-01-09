@@ -1,19 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { useQueue } from '@polkadot/react-hooks';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { STATUS_COMPLETE } from './constants';
-import StatusContext from './Context';
-
-export { StatusContext };
 
 interface Props {
   className?: string;
@@ -155,7 +154,7 @@ function filterTx (txqueue?: QueueTx[]): QueueTx[] {
 }
 
 function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
-  const { stqueue, txqueue } = useContext(StatusContext);
+  const { stqueue, txqueue } = useQueue();
   const [allSt, setAllSt] = useState<QueueStatus[]>([]);
   const [allTx, setAllTx] = useState<QueueTx[]>([]);
 

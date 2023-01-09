@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
@@ -39,6 +39,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
           const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
+          // eslint-disable-next-line deprecation/deprecation
           FileSaver.saveAs(blob, `${address}.json`);
         } catch (error) {
           setBackupFailed(true);

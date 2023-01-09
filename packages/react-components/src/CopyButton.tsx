@@ -1,13 +1,14 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 
-import StatusContext from './Status/Context';
+import { useQueue } from '@polkadot/react-hooks';
+
 import Button from './Button';
 import { useTranslation } from './translate';
 
@@ -25,7 +26,7 @@ const NOOP = () => undefined;
 
 function CopyButton ({ children, className = '', icon = 'copy', label, type, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
 
   const _onCopy = useCallback(
     (): void => {

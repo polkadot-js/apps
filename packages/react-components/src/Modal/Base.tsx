@@ -1,23 +1,23 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types';
 import type { ModalProps } from './types';
 
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+import { useTheme } from '@polkadot/react-hooks';
 
 import Header from './Header';
 
-const ESC_KEYCODE = 27;
-
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const { themeClassName } = useTheme();
   const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Escape' || event.keyCode === ESC_KEYCODE) {
+    // eslint-disable-next-line deprecation/deprecation
+    if (event.key === 'Escape' || event.keyCode === 27) {
       onClose();
     }
   }, [onClose]);
@@ -32,7 +32,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
 
   return createPortal(
     <div
-      className={`theme--${theme} ui--Modal ${className} size-${size}`}
+      className={`${themeClassName} ui--Modal ${className} ${size}Size`}
       data-testid={testId}
     >
       <DisableGlobalScroll />
@@ -97,11 +97,11 @@ export default React.memo(styled(Base)`
     font: var(--font-sans);
   }
 
-  &.size-small .ui--Modal__body {
+  &.smallSize .ui--Modal__body {
     max-width: 720px;
   }
 
-  &.size-large .ui--Modal__body {
+  &.largeSize .ui--Modal__body {
     max-width: 1080px;
   }
 `);

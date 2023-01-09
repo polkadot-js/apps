@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';
+import { toShortAddress } from '../util/toShortAddress';
 
 interface Props {
   address: string;
@@ -16,6 +17,11 @@ interface Props {
 }
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
+  const shortAddr = useMemo(
+    () => toShortAddress(address),
+    [address]
+  );
+
   return (
     <div className={`ui--KeyPair ${className}`}>
       <IdentityIcon
@@ -26,7 +32,7 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
         <AccountName value={address} />
       </div>
       <div className='address'>
-        {address}
+        {shortAddr}
       </div>
     </div>
   );
@@ -43,11 +49,11 @@ export default React.memo(styled(KeyPair)`
     display: inline-block;
     flex: 1;
     font: var(--font-mono);
+    font-size: var(--font-size-small);
     margin-left: 1rem;
-    opacity: 0.5;
+    opacity: 0.6;
     overflow: hidden;
     text-align: right;
-    text-overflow: ellipsis;
   }
 
   > .icon {

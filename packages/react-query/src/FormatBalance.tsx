@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -65,8 +65,8 @@ function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [num
 
   if (prefix.length > M_LENGTH) {
     const [major, rest] = formatBalance(value, { decimals, withUnit: false }).split('.');
-    const minor = rest.substr(0, 4);
-    const unit = rest.substr(4);
+    const minor = rest.substring(0, 4);
+    const unit = rest.substring(4);
 
     return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unit ? unitPost : ` ${unitPost}`}</span>{labelPost || ''}</>;
   }
@@ -131,7 +131,7 @@ export default React.memo(styled(FormatBalance)`
 
     > .ui--FormatBalance-postfix {
       font-weight: var(--font-weight-light);
-      opacity: 0.7;
+      opacity: 0.75;
       vertical-align: baseline;
     }
   }

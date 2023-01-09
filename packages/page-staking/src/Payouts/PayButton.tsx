@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -155,6 +155,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
 
 export default React.memo(styled(PayButton)`
   .ui--AddressMini.padded.addressStatic {
+    display: inline-block;
     padding-top: 0.5rem;
 
     .ui--AddressMini-info {

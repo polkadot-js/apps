@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PeerInfo } from '@polkadot/types/interfaces';
@@ -19,7 +19,7 @@ interface Props {
 function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('connected peers'), 'start'],
     [t('role'), 'start'],
     [t('best #'), 'number'],

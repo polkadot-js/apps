@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
@@ -16,6 +16,7 @@ import Progress from './Progress';
 interface ProgressProps {
   hideGraph?: boolean;
   hideValue?: boolean;
+  isBlurred?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
@@ -70,7 +71,10 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && !children && (
-                <BlockToTime value={progress.total} />
+                <BlockToTime
+                  className={progress.isBlurred ? '--placeholder' : ''}
+                  value={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -135,10 +139,6 @@ export default React.memo(styled(CardSummary)`
       &:last-child {
         margin-bottom: 0;
       }
-    }
-
-    > label {
-      font-size: 0.95rem;
     }
 
     .isSecondary {

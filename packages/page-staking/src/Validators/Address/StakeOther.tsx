@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NominatorValue } from './types';
@@ -67,30 +67,27 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
 
   return (
     <td className='expand all'>
-      {rewarded && (
-        <>
-          <ExpanderScroll
-            renderChildren={rewarded[1]}
-            summary={
-              <FormatBalance
-                labelPost={` (${rewarded[0]})`}
-                value={rewardedTotal}
-              />
-            }
+      <ExpanderScroll
+        className={rewarded ? '' : '--placeholder'}
+        renderChildren={rewarded && rewarded[1]}
+        summary={
+          <FormatBalance
+            labelPost={` (${rewarded ? rewarded[0] : '0'})`}
+            value={rewardedTotal}
           />
-          {unrewarded && (
-            <ExpanderScroll
-              className='stakeOver'
-              renderChildren={unrewarded[1]}
-              summary={
-                <FormatBalance
-                  labelPost={` (${unrewarded[0]})`}
-                  value={unrewardedTotal}
-                />
-              }
+        }
+      />
+      {unrewarded && (
+        <ExpanderScroll
+          className='stakeOver'
+          renderChildren={unrewarded[1]}
+          summary={
+            <FormatBalance
+              labelPost={` (${unrewarded[0]})`}
+              value={unrewardedTotal}
             />
-          )}
-        </>
+          }
+        />
       )}
     </td>
   );

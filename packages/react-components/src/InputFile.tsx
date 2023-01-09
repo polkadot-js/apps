@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { createRef, useCallback, useState } from 'react';
@@ -48,7 +48,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
     let hex = u8aToString(data);
 
     while (hex[hex.length - 1] === STR_NL) {
-      hex = hex.substr(0, hex.length - 1);
+      hex = hex.substring(0, hex.length - 1);
     }
 
     if (isHex(hex)) {

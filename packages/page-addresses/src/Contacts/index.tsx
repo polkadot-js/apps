@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentProps as Props } from '../types';
@@ -26,12 +26,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const isLoading = useLoadingDelay();
 
-  const headerRef = useRef([
-    [t('contacts'), 'start', 2],
-    [t('transactions'), 'number media--1500'],
-    [t('balances'), 'balances'],
-    [undefined, 'media--1400'],
-    []
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {
@@ -59,6 +55,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <SummaryBox className='summary-box-contacts'>
         <section>
           <FilterInput
+            className='media--1000'
             filterOn={filterOn}
             label={t<string>('filter by name or tags')}
             setFilter={setFilter}
@@ -75,7 +72,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
-        withCollapsibleRows
+        isSplit
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address

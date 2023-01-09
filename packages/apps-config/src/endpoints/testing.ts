@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -16,6 +16,13 @@ export * from './testingRelayWestend';
 //
 // IMPORTANT: Alphabetical based on text
 export const testChains: EndpointOption[] = [
+  {
+    info: '3dpass-testnet',
+    text: '3DPass Testnet',
+    providers: {
+      '3dpass': 'wss://test-rpc.3dpass.org'
+    }
+  },
   {
     info: 'ajuna',
     text: 'Ajuna Testnet',
@@ -89,6 +96,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    text: 'Bitgreen Testnet',
+    providers: {
+      // Bitgreen: 'wss://standalonetestnet.bitgreen.org' // https://github.com/polkadot-js/apps/issues/8693
+    }
+  },
+  {
     info: 'cess-testnet',
     text: 'CESS Testnet',
     providers: {
@@ -134,6 +148,13 @@ export const testChains: EndpointOption[] = [
     text: 'Spreehafen',
     providers: {
       MXC: 'wss://spreehafen.datahighway.com'
+    }
+  },
+  {
+    info: 'debio-testnet',
+    text: 'DeBio Testnet',
+    providers: {
+      DeBio: 'wss://ws-rpc.testnet.debio.network'
     }
   },
   {
@@ -211,7 +232,7 @@ export const testChains: EndpointOption[] = [
     info: 'geek',
     text: 'GeekCash',
     providers: {
-      'Geek Team': 'wss://testnet.geekcash.org'
+      // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     }
   },
   {
@@ -243,14 +264,6 @@ export const testChains: EndpointOption[] = [
       'IPSE China': 'wss://testnet-china.ipse.io',
       'IPSE USA': 'wss://testnet-usa.ipse.io',
       'IPSE Europe': 'wss://testnet-europe.ipse.io'
-    }
-  },
-  {
-    info: 'joystream',
-    text: 'Joystream',
-    providers: {
-      Jsgenesis: 'wss://rpc.joystream.org:9944',
-      Dwellir: 'wss://joystream-rpc.dwellir.com'
     }
   },
   {
@@ -353,7 +366,8 @@ export const testChains: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet',
+      UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     }
   },
   {
@@ -361,6 +375,13 @@ export const testChains: EndpointOption[] = [
     text: 'mybank.network',
     providers: {
       // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
+    }
+  },
+  {
+    info: 'myriad-tesnet',
+    text: 'Myriad Testnet',
+    providers: {
+      Myriad: 'wss://ws-rpc.testnet.myriad.social'
     }
   },
   {
@@ -478,8 +499,7 @@ export const testChains: EndpointOption[] = [
     text: 'Shibuya',
     providers: {
       StakeTechnologies: 'wss://rpc.shibuya.astar.network',
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      Pinknode: 'wss://public-rpc.pinknode.io/shibuya'
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     }
   },
   {
@@ -500,7 +520,10 @@ export const testChains: EndpointOption[] = [
     info: 'sora-substrate',
     text: 'SORA-staging',
     providers: {
-      Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #2': 'wss://ws.framenode-2.s1.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #3': 'wss://ws.framenode-3.s2.stg1.sora2.soramitsu.co.jp',
+      'Soramitsu #4': 'wss://ws.framenode-4.s2.stg1.sora2.soramitsu.co.jp'
     }
   },
   {
@@ -535,17 +558,14 @@ export const testChains: EndpointOption[] = [
     info: 'subspace-gemini-2a',
     text: 'Subspace Gemini 2a',
     providers: {
-      'Europe 0': 'wss://eu-0.gemini-2a.subspace.network/ws',
-      'Europe 1': 'wss://eu-1.gemini-2a.subspace.network/ws',
-      'Europe 2': 'wss://eu-2.gemini-2a.subspace.network/ws',
-      Dwelllir: 'wss://subspace-gemini-2a-rpc.dwellir.com'
+      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     }
   },
   {
     info: 'subspace',
     text: 'Subspace Testnet',
     providers: {
-      'Subspace Network': 'wss://test-rpc.subspace.network'
+      // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
     }
   },
   {
@@ -573,7 +593,7 @@ export const testChains: EndpointOption[] = [
     info: 'uniarts',
     text: 'UniArts',
     providers: {
-      UniArts: 'wss://testnet.uniarts.network'
+      // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     }
   },
   {
@@ -608,9 +628,7 @@ export const testChains: EndpointOption[] = [
     info: 'web3games',
     text: 'Web3Games',
     providers: {
-      'Web3Games Foundation 0': 'wss://testnet-rpc-0.web3games.org',
-      'Web3Games Foundation 1': 'wss://testnet-rpc-1.web3games.org',
-      'Web3Games Foundation 2': 'wss://testnet-rpc-2.web3games.org'
+      'Web3Games Foundation': 'wss://devnet.web3games.org'
     }
   },
   {

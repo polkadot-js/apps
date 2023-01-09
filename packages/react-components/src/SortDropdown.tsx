@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -43,10 +43,10 @@ function SortDropdown ({ className = '', defaultValue, label, onChange, onClick,
 
 export default React.memo(styled(SortDropdown)`
   position: relative;
-
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  margin-right: 0.5rem;
 
   && .ui--Labelled.ui--Dropdown {
     padding: 0;

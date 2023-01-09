@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInfo } from '../types';
@@ -44,7 +44,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     [chainInfo, extensions, selectedIndex, toggleBusy]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('Extensions'), 'start']
   ]);
 
@@ -57,7 +57,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       {extensions
         ? options.length !== 0 && (
           <>
-            <tr className='noBorder'>
+            <tr className='isExpanded isFirst'>
               <td>
                 <Dropdown
                   label={t<string>('upgradable extensions')}
@@ -67,7 +67,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 />
               </td>
             </tr>
-            <tr className='isOdd'>
+            <tr className='isExpanded isLast'>
               <td>
                 <Button.Group>
                   <Button

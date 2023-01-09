@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderProps } from './types';
@@ -15,9 +15,9 @@ function Header ({ children, className }: HeaderProps): React.ReactElement {
 }
 
 export default React.memo(styled(Header)`
-  text-transform: uppercase;
-  font-size: 0.714rem;
+  color: var(--color-label);
+  font-size: var(--font-size-label);
   line-height: 0.857rem;
-
   margin-bottom: 0.3rem;
+  text-transform: var(--text-transform-label);
 `);

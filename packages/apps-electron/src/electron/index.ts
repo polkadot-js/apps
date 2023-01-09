@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { app, shell } from 'electron';
@@ -11,6 +11,7 @@ import { createWindow } from './window';
 const ENV = process.env.NODE_ENV || 'production';
 
 app.on('web-contents-created', (_, webContents): void => {
+  // eslint-disable-next-line deprecation/deprecation
   webContents.on('new-window', (e, url): void => {
     e.preventDefault();
     shell.openExternal(url).catch(console.error);

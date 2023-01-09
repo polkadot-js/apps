@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -48,7 +48,7 @@ const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'B
 const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
+  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource', 'MultiAddress'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
@@ -148,7 +148,7 @@ export default function findComponent (registry: Registry, def: TypeDef, overrid
       : null;
 
   const type = fromDef(def);
-  let Component = findOne(def.lookupName) || findOne(type);
+  let Component = findOne(def.lookupName) || findOne(def.type) || findOne(type);
 
   if (!Component) {
     try {

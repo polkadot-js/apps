@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -107,6 +107,6 @@ export default React.memo(styled(AddressRow)`
   }
 
   .ui--AddressRow-placeholder {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 `);

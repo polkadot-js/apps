@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,9 +25,12 @@ interface Props {
 function Events ({ className = '', emptyLabel, error, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
-    [label || t<string>('recent events'), 'start']
-  ], [label, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [label || t<string>('recent events'), 'start']
+    ],
+    [label, t]
+  );
 
   return (
     <Table

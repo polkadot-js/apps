@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
@@ -22,11 +22,9 @@ function BestNumber ({ children, className = '', isFinalized, label, withPound }
   const bestNumber = useCall<BlockNumber>(isApiReady && (isFinalized ? api.derive.chain.bestNumberFinalized : api.derive.chain.bestNumber));
 
   return (
-    <div className={className}>
+    <div className={`${className} ${bestNumber ? '' : '--placeholder'}`}>
       {label || ''}{withPound && '#'}{
-        bestNumber
-          ? <Digits value={formatNumber(bestNumber)} />
-          : '-'
+        <Digits value={formatNumber(bestNumber || 1234)} />
       }{children}
     </div>
   );

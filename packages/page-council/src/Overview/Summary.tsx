@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -8,7 +8,7 @@ import type { ComponentProps } from './types';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -22,43 +22,43 @@ interface Props extends ComponentProps {
 function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  if (!electionsInfo) {
-    return null;
-  }
-
-  const { candidateCount, desiredRunnersUp, desiredSeats, members, runnersUp, termDuration, voteCount } = electionsInfo;
-
   return (
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('seats')}>
-          {formatNumber(members.length)}{desiredSeats && <>&nbsp;/&nbsp;{formatNumber(desiredSeats)}</>}
+          {electionsInfo
+            ? <>{formatNumber(electionsInfo.members.length)}{electionsInfo.desiredSeats && <>&nbsp;/&nbsp;{formatNumber(electionsInfo.desiredSeats)}</>}</>
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
         {hasElections && (
           <>
             <CardSummary label={t<string>('runners up')}>
-              {formatNumber(runnersUp.length)}{desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}</>}
+              {electionsInfo
+                ? <>{formatNumber(electionsInfo.runnersUp.length)}{electionsInfo.desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(electionsInfo.desiredRunnersUp)}</>}</>
+                : <span className='--placeholder'>99</span>}
             </CardSummary>
             <CardSummary label={t<string>('candidates')}>
-              {formatNumber(candidateCount)}
+              {electionsInfo
+                ? formatNumber(electionsInfo.candidateCount)
+                : <span className='--placeholder'>99</span>}
             </CardSummary>
           </>
         )}
       </section>
-      {voteCount && (
+      {electionsInfo && electionsInfo.voteCount && (
         <section>
           <CardSummary label={t<string>('voting round')}>
-            #{formatNumber(voteCount)}
+            #{formatNumber(electionsInfo.voteCount)}
           </CardSummary>
         </section>
       )}
-      {bestNumber && termDuration && termDuration.gt(BN_ZERO) && (
+      {electionsInfo && bestNumber && electionsInfo.termDuration && electionsInfo.termDuration.gt(BN_ZERO) && (
         <section>
           <CardSummary
             label={t<string>('term progress')}
             progress={{
-              total: termDuration,
-              value: bestNumber.mod(termDuration),
+              total: (electionsInfo && bestNumber) ? electionsInfo.termDuration : BN_THREE,
+              value: (electionsInfo && bestNumber) ? bestNumber.mod(electionsInfo.termDuration) : BN_TWO,
               withTime: true
             }}
           />

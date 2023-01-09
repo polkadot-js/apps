@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
@@ -11,13 +11,13 @@ import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
-import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
+import { Button, ErrorBoundary, Modal, Output, Toggle } from '@polkadot/react-components';
+import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
@@ -192,7 +192,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { t } = useTranslation();
   const { api } = useApi();
   const { getLedger } = useLedger();
-  const { queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus } = useQueue();
   const [flags, setFlags] = useState(() => tryExtract(requestAddress));
   const [error, setError] = useState<Error | null>(null);
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>(() => ({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() }));

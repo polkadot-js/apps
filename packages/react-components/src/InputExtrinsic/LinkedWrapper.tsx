@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -62,7 +62,8 @@ export default React.memo(styled(LinkedWrapper)`
 
   .ui--DropdownLinked-Item-text {
     flex: 1;
-    opacity: 0.5;
+    font-size: var(--font-size-small);
+    opacity: 0.6;
     overflow: hidden;
     text-align: right;
     text-overflow: ellipsis;

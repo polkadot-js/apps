@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -13,7 +13,7 @@ interface Props {
   label?: React.ReactNode;
 }
 
-function TotalIssuance ({ children, className = '', label }: Props): React.ReactElement<Props> {
+function TotalIssuance ({ children, className = '', label }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const totalIssuance = useCall<string>(api.query.balances?.totalIssuance);
 
@@ -21,7 +21,8 @@ function TotalIssuance ({ children, className = '', label }: Props): React.React
     <div className={className}>
       {label || ''}
       <FormatBalance
-        value={totalIssuance}
+        className={totalIssuance ? '' : '--placeholder'}
+        value={totalIssuance || 1}
         withSi
       />
       {children}

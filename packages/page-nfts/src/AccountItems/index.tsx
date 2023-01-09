@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectionInfo, CollectionInfoComplete } from '../types';
@@ -54,7 +54,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
     [completeInfos, NO_NAME]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('items'), 'start', 2],
     [t('owner'), 'address media--1000']
   ]);

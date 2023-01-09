@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfoTyped } from './types';
@@ -228,7 +228,7 @@ export default React.memo(styled(DayItem)`
   .itemBlock {
     background: #aaa;
     color: #eee;
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     align-self: center;
     padding: 0.075rem 0.375rem;
     border-radius: 0.25rem;

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '@polkadot/react-components/types';
@@ -47,7 +47,7 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
 
   .description {
     font-weight: 400;
-    font-size: 0.714rem;
+    var(--font-size-label)
     line-height: 0.864rem;
     color: var(--color-label);
     word-wrap: break-word;

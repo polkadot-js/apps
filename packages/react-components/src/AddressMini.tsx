@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -50,17 +50,17 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
-      <div className='ui--AddressMini-icon'>
+      <span className='ui--AddressMini-icon'>
         <IdentityIcon value={value} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
           </div>
         )}
-      </div>
-      <div className='ui--AddressMini-info'>
+      </span>
+      <span className='ui--AddressMini-info'>
         {withAddress && (
-          <div
+          <span
             className='ui--AddressMini-address'
             onClick={onNameClick}
           >
@@ -75,10 +75,10 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
               )
               : toShortAddress(value)
             }
-          </div>
+          </span>
         )}
         {children}
-      </div>
+      </span>
       <div className='ui--AddressMini-balances'>
         {withBalance && (
           <BalanceDisplay
@@ -106,13 +106,13 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
 }
 
 export default React.memo(styled(AddressMini)`
-  display: inline-block;
+  overflow-x: hidden;
   padding: 0 0.25rem 0 1rem;
   text-align: left;
+  text-overflow: ellipsis;
   white-space: nowrap;
 
   &.padded {
-    display: inline-block;
     padding: 0 1rem 0 0;
   }
 
@@ -122,46 +122,12 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-info {
-    max-width: 12rem;
-    min-width: 12rem;
-
-    @media only screen and (max-width: 1800px) {
-      max-width: 11.5rem;
-      min-width: 11.5rem;
-    }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 11rem;
-      min-width: 11rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 10.5rem;
-      min-width: 10.5rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 10rem;
-      min-width: 10rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 9.5rem;
-      min-width: 9.5rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 9rem;
-      min-width: 9rem;
-    }
   }
 
   .ui--AddressMini-address {
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
-    width: fit-content;
-    max-width: inherit;
 
     > div {
       overflow: hidden;
@@ -193,8 +159,6 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-icon {
-    margin: 0 0.5rem 0 0;
-
     .ui--AddressMini-icon-info {
       position: absolute;
       right: -0.5rem;
@@ -203,14 +167,13 @@ export default React.memo(styled(AddressMini)`
     }
 
     .ui--IdentityIcon {
-      margin: 0;
+      margin-right: 0.5rem;
       vertical-align: middle;
     }
   }
 
   .ui--AddressMini-icon,
   .ui--AddressMini-info {
-    display: inline-block;
     position: relative;
     vertical-align: middle;
   }
