@@ -16,6 +16,7 @@ import Progress from './Progress';
 interface ProgressProps {
   hideGraph?: boolean;
   hideValue?: boolean;
+  isBlurred?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
@@ -70,7 +71,10 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && !children && (
-                <BlockToTime value={progress.total} />
+                <BlockToTime
+                  className={progress.isBlurred ? '--placeholder' : ''}
+                  value={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
