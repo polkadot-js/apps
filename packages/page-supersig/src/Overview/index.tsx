@@ -8,8 +8,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 //import Proposal from './Proposal';
-import Submission from '../Extrinsics/Submission';
-import NewSupersig from './NewSupersig';
+// import Submission from '../Extrinsics/Submission';
+// import NewSupersig from './NewSupersig';
 import { useTranslation } from '../translate';
 import Proposal from './ProposalModal';
 

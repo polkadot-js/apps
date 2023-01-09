@@ -13,6 +13,7 @@ import type { DecodedExtrinsic } from './Extrinsics/types';
 import Execute from './Execute';
 import Overview from './Accounts';
 import { useTranslation } from './translate';
+// import SupersigInfo from './SupersigInfo'
 
 
 export { default as useCounter } from './useCounter';
@@ -75,12 +76,16 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
        // items2={items}
        items={itemsRef.current} 
+       
       />
       
       <Switch>
         <Route path={`${basePath}/dashboard`}>
         <Overview />
         </Route>
+        {/* <Route path={pathRef.current.supersigs}>
+          <SupersigInfo />
+        </Route> */}
         <Route path={`${basePath}/supersigs`}>
         </Route>
         <Route path={`${basePath}/proposals`}>

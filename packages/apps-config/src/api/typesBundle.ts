@@ -45834,7 +45834,7 @@ export const typesBundle = {
                   "proposal_info": "ProposalState<AccountId>",
                   "no_of_members": "u32"
                 },
-                },
+              },
             },
         ],
       "rpc": {

@@ -3196,6 +3196,7 @@ __metadata:
     moonbeam-types-bundle: 2.0.8
     pontem-types-bundle: 1.0.15
     rxjs: ^7.5.6
+    supersig-types: ^0.1.5
   languageName: unknown
   linkType: soft
 
@@ -19007,6 +19008,13 @@ resolve@^2.0.0-next.3:
   dependencies:
     debug: ^4.1.0
   checksum: 31ba7a62c889236b5b07f75b5c250d481158a1ca061b8f234fca0457bdbe48a20e5011c12c715343dc577e111463dc3d9e721b98015a445a2a88c35e0c9f0f91
+  languageName: node
+  linkType: hard
+
+"supersig-types@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "supersig-types@npm:0.1.5"
+  checksum: d8b6425241ea72b5f5f3c83d5c2d2203e0f045a00565757c0aad47afdc36c38124e0bffc75e0b6c2463a313f512a7994899fb0ed198284bd9d4273de69e5c57a
   languageName: node
   linkType: hard
 

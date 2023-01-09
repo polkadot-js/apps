@@ -5,10 +5,17 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Balance, Conviction, Address } from '@polkadot/types/interfaces';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
+import type { CallId, FetchListProposals, FetchProposalState, ProposalState, ProposalStates, Role, SupersigId } from 'supersig-types/dist/interfaces/';
+
 
 import { WithTranslation } from 'react-i18next';
 
 export type { AppProps as ComponentProps } from '@polkadot/react-components/types';
+
+export interface SupersigRole {
+  role: Role; 
+  id: SupersigId
+}
 
 export interface BareProps {
   className?: string;

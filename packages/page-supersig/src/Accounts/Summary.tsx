@@ -1,7 +1,12 @@
 // Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '../augment-supersig.ts';
+//import type { MembersList, FetchProposalState, UserSupersig } from 'supersig-types/dist/interfaces/'
 import type { AccountBalance, SupersigsAssociated } from '../typesAccount';
+// import { ApiPromise } from '@polkadot/api';
+// import definitions from 'supersig-types/dist/interfaces/';
+
 
 import React from 'react';
 
@@ -19,7 +24,14 @@ interface Props {
 function Summary ({ balance, supersigs, className }: Props) {
   const { api } = useApi();
   const { t } = useTranslation();
- // const activeSupersigMember = useCall<unknown[]>(api.rpc.superSig.listMembers(0));
+  const supersig = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+  const getUserSupersigs = api.rpc.superSig.getUserSupersigs(supersig)
+  // const activeSupersigMember = useCall<UserSupersig>(api.rpc.superSig.getUserSupersigs(supersig))>;
+  //api.rpc.superSig.listMembers(supersigs)
+
+
+
+
   // const activeProposals = useCall<unknown[]>(api.derive.democracy.proposals);
 
 

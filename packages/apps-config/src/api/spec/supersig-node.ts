@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
-//import supersig from '@interlay/supersig-types';
+//import typesBundleForPolkadotApp from 'supersig-types/dist';
 
 
 const definitions: OverrideBundleDefinition = {

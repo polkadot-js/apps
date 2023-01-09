@@ -3,6 +3,13 @@
 
 import type { Vec } from '@polkadot/types';
 import type { BlockNumber, Extrinsic, Health, PeerInfo } from '@polkadot/types/interfaces';
+import type { SupersigId } from 'supersig-types/dist/interfaces';
+
+
+export interface SupersigInfo {
+  supersigs?: Vec<SupersigId> | null;
+  
+}
 
 export interface Info {
   blockNumber?: BlockNumber;
