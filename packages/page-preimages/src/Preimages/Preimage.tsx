@@ -19,7 +19,7 @@ interface Props {
 }
 
 function Preimage ({ className, isLatest, value }: Props): React.ReactElement<Props> {
-  const info = usePreimage(isLatest, value);
+  const info = usePreimage(value);
 
   return (
     <tr className={className}>

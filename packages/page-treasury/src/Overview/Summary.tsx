@@ -55,7 +55,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           label={t<string>('total')}
         >
           {totalProposals === undefined
-            ? totalProposals
+            ? <span className='--tmp'>99</span>
             : formatNumber(totalProposals)}
         </CardSummary>
       </section>

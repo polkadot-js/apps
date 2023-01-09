@@ -29,7 +29,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
             ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
-            : <span className='--tmp'>99&nbsp;/&nbsp;99</span>
+            : <span className='--tmp'>999 / 999</span>
           }
         </CardSummary>
         <CardSummary
@@ -58,7 +58,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
                 )}
               </>
             )
-            : <span className='--tmp'>99</span>
+            : <span className='--tmp'>999 / 999</span>
           }
         </CardSummary>
       </section>

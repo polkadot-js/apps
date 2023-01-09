@@ -14,6 +14,8 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber, isString, objectSpread } from '@polkadot/util';
 
+import usePreimageIsLatest from './usePreimageIsLatest';
+
 type BytesParams = [[proposalHash: HexString, proposalLength: BN]];
 
 interface InterimResult {
@@ -118,8 +120,9 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
         : hashOrBounded.toHex();
 }
 
-function usePreimageImpl (isLatest: boolean, hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): Preimage | undefined {
+function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): Preimage | undefined {
   const { api } = useApi();
+  const isLatest = usePreimageIsLatest();
 
   // retrieve the status using only the hash of the image
   const paramsStatus = useMemo(

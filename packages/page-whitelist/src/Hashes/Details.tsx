@@ -11,12 +11,11 @@ import usePreimage from '@polkadot/app-preimages/usePreimage';
 
 interface Props {
   className?: string;
-  isLatest: boolean;
   value: HexString;
 }
 
-function Details ({ className, isLatest, value }: Props): React.ReactElement<Props> {
-  const info = usePreimage(isLatest, value);
+function Details ({ className, value }: Props): React.ReactElement<Props> {
+  const info = usePreimage(value);
 
   return (
     <tr className={ className }>
