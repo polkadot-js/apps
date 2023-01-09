@@ -101,7 +101,6 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           address={contract.address}
           withBalance
           withBalanceToggle
-          withExtended={false}
         />
       </td>
       <td className='start together'>
