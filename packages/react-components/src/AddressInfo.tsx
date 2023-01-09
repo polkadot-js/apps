@@ -278,36 +278,31 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           }
           value={deriveBalances.vestedBalance}
         >
-          <Tooltip
-            text={
-              <>
+          <Tooltip trigger={`${address}-vested-trigger`}>
+            <div>
+              {formatBalance(deriveBalances.vestedClaimable, { forceUnit: '-' })}
+              <div className='faded'>{t('available to be unlocked')}</div>
+            </div>
+            {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
+              <div
+                className='inner'
+                key={`item:${index}`}
+              >
                 <div>
-                  {formatBalance(deriveBalances.vestedClaimable, { forceUnit: '-' })}
-                  <div className='faded'>{t('available to be unlocked')}</div>
+                  {formatBalance(vested, { forceUnit: '-' })}
+                  <div className='faded'>{t('of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</div>
                 </div>
-                {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
-                  <div
-                    className='inner'
-                    key={`item:${index}`}
-                  >
-                    <div>
-                      {formatBalance(vested, { forceUnit: '-' })}
-                      <div className='faded'>{t('of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</div>
-                    </div>
-                    <div>
-                      <BlockToTime value={endBlock.sub(bestNumber)} />
-                      <div className='faded'>{t('until block')} {formatNumber(endBlock)}</div>
-                    </div>
-                    <div>
-                      {formatBalance(perBlock)}
-                      <div className='faded'>{t('per block')}</div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            }
-            trigger={`${address}-vested-trigger`}
-          />
+                <div>
+                  <BlockToTime value={endBlock.sub(bestNumber)} />
+                  <div className='faded'>{t('until block')} {formatNumber(endBlock)}</div>
+                </div>
+                <div>
+                  {formatBalance(perBlock)}
+                  <div className='faded'>{t('per block')}</div>
+                </div>
+              </div>
+            ))}
+          </Tooltip>
         </FormatBalance>
       </React.Fragment>
     );
@@ -328,17 +323,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
               icon='info-circle'
               tooltip={`${address}-locks-trigger`}
             />
-            <Tooltip
-              text={deriveBalances.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
-                <div key={index}>
+            <Tooltip trigger={`${address}-locks-trigger`}>
+              {deriveBalances.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
+                <div
+                  className='row'
+                  key={index}
+                >
                   {amount?.isMax()
                     ? t<string>('everything')
                     : formatBalance(amount, { forceUnit: '-' })
                   }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
                 </div>
               ))}
-              trigger={`${address}-locks-trigger`}
-            />
+            </Tooltip>
           </>
         }
         value={isAllLocked ? 'all' : deriveBalances.lockedBalance}
@@ -359,15 +356,14 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                   icon='info-circle'
                   tooltip={`${address}-named-reserves-trigger`}
                 />
-                <Tooltip
-                  text={allReserves.map(({ amount, id }, index): React.ReactNode => (
+                <Tooltip trigger={`${address}-named-reserves-trigger`}>
+                  {allReserves.map(({ amount, id }, index): React.ReactNode => (
                     <div key={index}>
                       {formatBalance(amount, { forceUnit: '-' })
                       }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}
                     </div>
                   ))}
-                  trigger={`${address}-named-reserves-trigger`}
-                />
+                </Tooltip>
               </>
             )
             : <IconVoid />
@@ -457,9 +453,12 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                   icon='clock'
                   tooltip={`${address}-conviction-locks-trigger`}
                 />
-                <Tooltip
-                  text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
-                    <div key={index}>
+                <Tooltip trigger={`${address}-conviction-locks-trigger`}>
+                  {convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
+                    <div
+                      className='row'
+                      key={index}
+                    >
                       <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
                       <div className='faded nowrap'>{
                         endBlock.eq(BN_MAX_INTEGER)
@@ -474,8 +473,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                       }</div>
                     </div>
                   ))}
-                  trigger={`${address}-conviction-locks-trigger`}
-                />
+                </Tooltip>
               </>
             }
             value={max}
