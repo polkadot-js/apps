@@ -3,12 +3,13 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Button, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import usePreimageIsLatest from '../usePreimageIsLatest';
 import usePreimages from '../usePreimages';
 import Add from './Add';
 import Preimage from './Preimage';
@@ -22,14 +23,17 @@ interface Props {
 
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const isLatest = usePreimageIsLatest();
   const hashes = usePreimages();
 
-  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('preimages'), 'start', 2],
-    [undefined, 'media--1300'],
-    [t('size'), 'media--1000'],
-    [t('status'), 'start media--1200']
-  ]);
+  const header = useMemo<([React.ReactNode?, string?, number?] | false)[]>(
+    () => [
+      [t('preimages'), 'start', 2],
+      [undefined, 'media--1300'],
+      isLatest && [t('length'), 'media--1000'],
+      isLatest && [t('status'), 'start media--1200']
+    ], [isLatest, t]
+  );
 
   return (
     <div className={className}>
@@ -40,10 +44,11 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       <Table
         className={className}
         empty={hashes && t<string>('No hashes found')}
-        header={headerRef.current}
+        header={header}
       >
         {hashes && hashes.map((h) => (
           <Preimage
+            isLatest={isLatest}
             key={h}
             value={h}
           />

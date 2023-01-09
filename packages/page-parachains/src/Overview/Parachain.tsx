@@ -105,7 +105,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
       </td>
       <td className='number media--1400'>
         <Expander
-          className={validators ? '' : '--placeholder'}
+          className={validators ? '' : '--tmp'}
           renderChildren={valRender}
           summary={t<string>('Val. Group {{group}} ({{count}})', {
             replace: {

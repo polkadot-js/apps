@@ -5,6 +5,7 @@ import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
 
+import usePreimageIsLatest from '@polkadot/app-preimages/usePreimageIsLatest';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -21,6 +22,7 @@ interface Props {
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = useHashes();
+  const isLatest = usePreimageIsLatest();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('calls'), 'start'],
@@ -38,6 +40,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       >
         {hashes && hashes.map((h) => (
           <Details
+            isLatest={isLatest}
             key={h}
             value={h}
           />

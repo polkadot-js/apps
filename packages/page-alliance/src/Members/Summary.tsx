@@ -36,13 +36,13 @@ function Summary ({ className, members, rule }: Props): React.ReactElement<Props
               )
               : t<string>('yes')
             : t<string>('no')
-          : <span className='--placeholder'>{t<string>('no')}</span>
+          : <span className='--tmp'>{t<string>('no')}</span>
         }
       </CardSummary>
       <CardSummary label={t<string>('members')}>
         {members
           ? formatNumber(members.length)
-          : <span className='--placeholder'>99</span>
+          : <span className='--tmp'>99</span>
         }
       </CardSummary>
     </SummaryBox>

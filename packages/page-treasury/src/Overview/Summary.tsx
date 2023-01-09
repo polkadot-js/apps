@@ -39,7 +39,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           label={t<string>('open')}
         >
           {proposalCount === undefined
-            ? <span className='--placeholder'>99</span>
+            ? <span className='--tmp'>99</span>
             : formatNumber(proposalCount)}
         </CardSummary>
         <CardSummary
@@ -47,7 +47,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           label={t<string>('approved')}
         >
           {approvalCount === undefined
-            ? <span className='--placeholder'>99</span>
+            ? <span className='--tmp'>99</span>
             : formatNumber(approvalCount)}
         </CardSummary>
         <CardSummary
@@ -87,7 +87,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           label={t<string>('next burn')}
         >
           <FormatBalance
-            className={burn ? '' : '--placeholder'}
+            className={burn ? '' : '--tmp'}
             value={burn || 1}
             withSi
           />
@@ -103,7 +103,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
             value: hasSpendable ? spendable : BN_TWO
           }}
         >
-          <span className={hasSpendable ? '' : '--placeholder'}>
+          <span className={hasSpendable ? '' : '--tmp'}>
             <FormatBalance
               value={spendable || BN_TWO}
               withSi

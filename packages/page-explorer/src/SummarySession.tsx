@@ -53,7 +53,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                 <CardSummary label={sessionLabel}>
                   #{sessionInfo
                     ? formatNumber(sessionInfo.currentIndex)
-                    : <span className='--placeholder'>123</span>}
+                    : <span className='--tmp'>123</span>}
                   {withEra && activeEraStart && <div className='isSecondary'>&nbsp;</div>}
                 </CardSummary>
               )
@@ -87,10 +87,10 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                 >
                   #{sessionInfo
                     ? formatNumber(sessionInfo.activeEra)
-                    : <span className='--placeholder'>123</span>}
+                    : <span className='--tmp'>123</span>}
                   {activeEraStart && (
                     <Elapsed
-                      className={`${sessionInfo ? '' : '--placeholder'} isSecondary`}
+                      className={`${sessionInfo ? '' : '--tmp'} isSecondary`}
                       value={activeEraStart}
                     >
                       &nbsp;{t('elapsed')}

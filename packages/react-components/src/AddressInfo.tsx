@@ -242,7 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     <React.Fragment key={0}>
       <Label label={withLabel ? t<string>('total') : ''} />
       <FormatBalance
-        className={`result ${balancesAll ? '' : '--placeholder'}`}
+        className={`result ${balancesAll ? '' : '--tmp'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
         value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}

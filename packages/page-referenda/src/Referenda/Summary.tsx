@@ -29,13 +29,13 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
       <section>
         <CardSummary label={t<string>('active')}>
           {refActive === undefined
-            ? <span className='--placeholder'>99</span>
+            ? <span className='--tmp'>99</span>
             : formatNumber(refActive)
           }
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {refCount === undefined
-            ? <span className='--placeholder'>99</span>
+            ? <span className='--tmp'>99</span>
             : formatNumber(refCount)
           }
         </CardSummary>
@@ -66,7 +66,7 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
           )}
           <CardSummary label={t<string>('total issuance')}>
             <FormatBalance
-              className={issuanceTotal ? '' : '--placeholder'}
+              className={issuanceTotal ? '' : '--tmp'}
               value={issuanceTotal || 1}
               withSi
             />

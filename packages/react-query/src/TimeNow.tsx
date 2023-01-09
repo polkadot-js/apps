@@ -26,7 +26,7 @@ function TimeNow ({ children, className = '', label, value }: Props): React.Reac
   );
 
   return (
-    <div className={`${className} ${hasValue ? '' : '--placeholder'}`}>
+    <div className={`${className} ${hasValue ? '' : '--tmp'}`}>
       {label || ''}
       <Elapsed value={hasValue ? now : Date.now()} />
       {children}

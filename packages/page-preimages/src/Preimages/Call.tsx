@@ -11,8 +11,11 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  noTmp?: boolean;
   value?: Preimage;
 }
+
+const NULL_ADDR = '0x1234567812345678123456781234567812345678123456781234567812345678';
 
 function PreimageCall ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -20,32 +23,43 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
   return (
     <>
       <td className={`${className} all`}>
-        {value && (
-          <>
-            {value.proposal && (
-              <CallExpander
-                labelHash={t<string>('call')}
-                value={value.proposal}
-              />
-            )}
-            {
-              value.proposalError
+        {value && value.isCompleted
+          ? (
+            <>
+              {value.proposal && (
+                <CallExpander
+                  labelHash={t<string>('call')}
+                  value={value.proposal}
+                />
+              )}
+              {value.proposalError
                 ? <MarkError content={value.proposalError} />
                 : value.proposalWarning
                   ? <MarkWarning content={value.proposalWarning} />
                   : null
-            }
-          </>
-        )}
+              }
+            </>
+          )
+          : <div className='--tmp'>balances.transfer</div>
+        }
       </td>
       <td className='address media--1300'>
-        {value?.deposit && (
-          <AddressMini
-            balance={value.deposit.amount}
-            value={value.deposit.who}
-            withBalance
-          />
-        )}
+        {value && value.isCompleted
+          ? value.deposit
+            ? (
+              <AddressMini
+                balance={value.deposit.amount}
+                value={value.deposit.who}
+                withBalance
+              />
+            )
+            : null
+          : (
+            <AddressMini
+              className='--tmp'
+              value={NULL_ADDR}
+            />
+          )}
       </td>
     </>
   );

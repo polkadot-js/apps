@@ -20,7 +20,7 @@ function Summary ({ className, hashes }: Props): React.ReactElement<Props> {
     <SummaryBox className={className}>
       <CardSummary label={t<string>('hashes')}>
         {hashes === undefined
-          ? <span className='--placeholder'>99</span>
+          ? <span className='--tmp'>99</span>
           : formatNumber(hashes.length)
         }
       </CardSummary>

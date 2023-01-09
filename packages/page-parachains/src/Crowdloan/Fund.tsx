@@ -148,7 +148,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
               )}
             </>
           )
-          : <span className='--placeholder'>999</span>
+          : <span className='--tmp'>999</span>
         }
       </td>
       <td className='button media--1000'>

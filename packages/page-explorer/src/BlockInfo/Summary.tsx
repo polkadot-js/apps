@@ -56,7 +56,7 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
           <>
             <CardSummary label={t<string>('deposits')}>
               <FormatBalance
-                className={deposits ? '' : '--placeholder'}
+                className={deposits ? '' : '--tmp'}
                 value={deposits || BN_ONE}
               />
             </CardSummary>
@@ -65,7 +65,7 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
               label={t<string>('transfers')}
             >
               <FormatBalance
-                className={transfers ? '' : '--placeholder'}
+                className={transfers ? '' : '--tmp'}
                 value={transfers || BN_ONE}
               />
             </CardSummary>
@@ -84,19 +84,19 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
         >
           {weight
             ? formatNumber(weight)
-            : <span className='--placeholder'>999,999,999</span>}
+            : <span className='--tmp'>999,999,999</span>}
         </CardSummary>
       </section>
       <section className='media--900'>
         <CardSummary label={t<string>('event count')}>
           {events
             ? formatNumber(events.length)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('extrinsic count')}>
           {signedBlock
             ? formatNumber(signedBlock.block.extrinsics.length)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
     </SummaryBox>

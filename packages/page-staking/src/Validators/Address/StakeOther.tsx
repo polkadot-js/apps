@@ -73,7 +73,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
     <td className='expand all'>
       {(!rewarded || rewarded[0] !== 0) && (
         <ExpanderScroll
-          className={rewarded ? '' : '--placeholder'}
+          className={rewarded ? '' : '--tmp'}
           renderChildren={rewarded && rewarded[1]}
           summary={
             <FormatBalance

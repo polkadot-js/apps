@@ -22,7 +22,7 @@ function BestNumber ({ children, className = '', isFinalized, label, withPound }
   const bestNumber = useCall<BlockNumber>(isApiReady && (isFinalized ? api.derive.chain.bestNumberFinalized : api.derive.chain.bestNumber));
 
   return (
-    <div className={`${className} ${bestNumber ? '' : '--placeholder'}`}>
+    <div className={`${className} ${bestNumber ? '' : '--tmp'}`}>
       {label || ''}{withPound && '#'}{
         <Digits value={formatNumber(bestNumber || 1234)} />
       }{children}

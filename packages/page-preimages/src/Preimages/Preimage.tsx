@@ -14,33 +14,43 @@ import Hash from './Hash';
 
 interface Props {
   className?: string;
+  isLatest: boolean;
   value: HexString;
 }
 
-function Preimage ({ className, value }: Props): React.ReactElement<Props> {
-  const info = usePreimage(value);
+function Preimage ({ className, isLatest, value }: Props): React.ReactElement<Props> {
+  const info = usePreimage(isLatest, value);
 
   return (
     <tr className={className}>
       <Hash value={value} />
-      <Call value={info} />
+      {isLatest
+        ? <Call value={info} />
+        : (
+          <>
+            <td className='all' />
+            <td className='address media--1300' />
+          </>
+        )}
       <td className='number media--1000'>
-        {info
-          ? info.bytes
-            ? formatNumber(info.bytes.length)
-            : null
-          : <span className='--placeholder'>999,999</span>
+        {isLatest
+          ? info
+            ? formatNumber(info.proposalLength)
+            : <span className='--tmp'>999,999</span>
+          : null
         }
       </td>
       <td className='preimage-status together media--1200'>
-        {info
-          ? (
-            <>
-              {info.status && (<div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
-              <Free value={info} />
-            </>
-          )
-          : <span className='--placeholder'>Unrequested</span>
+        {isLatest
+          ? info
+            ? (
+              <>
+                {info.status && (<div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
+                <Free value={info} />
+              </>
+            )
+            : <span className='--tmp'>Unrequested</span>
+          : null
         }
       </td>
     </tr>
