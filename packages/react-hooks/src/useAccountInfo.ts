@@ -5,18 +5,17 @@ import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useDeriveAccountFlags } from './useDeriveAccountFlags';
 import { useDeriveAccountInfo } from './useDeriveAccountInfo';
+import { useKeyring } from './useKeyring';
 import { useToggle } from './useToggle';
 
 const IS_NONE = {
@@ -41,8 +40,7 @@ const IS_NONE = {
 
 function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
-  const { isAccount } = useAccounts();
-  const { isAddress } = useAddresses();
+  const { accounts: { isAccount }, addresses: { isAddress } } = useKeyring();
   const accountInfo = useDeriveAccountInfo(value);
   const accountFlags = useDeriveAccountFlags(value);
   const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
@@ -249,7 +247,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
 
-  return {
+  return useMemo(() => ({
     accountIndex,
     flags,
     genesisHash,
@@ -271,7 +269,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
     tags,
     toggleIsEditingName,
     toggleIsEditingTags
-  };
+  }), [accountIndex, flags, genesisHash, identity, isEditing, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, onSetGenesisHash, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags, value]);
 }
 
 export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

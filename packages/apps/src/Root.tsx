@@ -9,7 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { AccountsCtxRoot, AddressesCtxRoot, ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
+import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps';
@@ -38,32 +38,32 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
     settings.on('change', (settings) => setTheme(createTheme(settings)));
   }, []);
 
+  // The ordering here is critical. It defines the hierarchy of dependencies,
+  // i.e. Block* could from Api. Ceratinly no cross-deps allowed
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>
-        <AccountsCtxRoot>
-          <AddressesCtxRoot>
-            <QueueCtxRoot>
-              <ApiCtxRoot
-                apiUrl={settings.apiUrl}
-                isElectron={isElectron}
-                store={store}
-              >
-                <ApiStatsCtxRoot>
-                  <BlockAuthorsCtxRoot>
-                    <BlockEventsCtxRoot>
-                      <HashRouter>
-                        <WindowSizeCtxRoot>
-                          <Apps />
-                        </WindowSizeCtxRoot>
-                      </HashRouter>
-                    </BlockEventsCtxRoot>
-                  </BlockAuthorsCtxRoot>
-                </ApiStatsCtxRoot>
-              </ApiCtxRoot>
-            </QueueCtxRoot>
-          </AddressesCtxRoot>
-        </AccountsCtxRoot>
+        <KeyringCtxRoot>
+          <QueueCtxRoot>
+            <ApiCtxRoot
+              apiUrl={settings.apiUrl}
+              isElectron={isElectron}
+              store={store}
+            >
+              <ApiStatsCtxRoot>
+                <BlockAuthorsCtxRoot>
+                  <BlockEventsCtxRoot>
+                    <HashRouter>
+                      <WindowSizeCtxRoot>
+                        <Apps />
+                      </WindowSizeCtxRoot>
+                    </HashRouter>
+                  </BlockEventsCtxRoot>
+                </BlockAuthorsCtxRoot>
+              </ApiStatsCtxRoot>
+            </ApiCtxRoot>
+          </QueueCtxRoot>
+        </KeyringCtxRoot>
       </ThemeProvider>
     </Suspense>
   );

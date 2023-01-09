@@ -8,15 +8,17 @@ import type { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 export interface Accounts {
   allAccounts: string[];
   allAccountsHex: string[];
-  areAccountsLoaded: boolean
+  areAccountsLoaded: boolean;
   hasAccounts: boolean;
-  isAccount: (address?: string | null) => boolean;
+  isAccount: (address?: string | null | { toString: () => string }) => boolean;
 }
 
 export interface Addresses {
   allAddresses: string[];
+  allAddressesHex: string[];
+  areAddressesLoaded: boolean;
   hasAddresses: boolean;
-  isAddress: (address: string) => boolean;
+  isAddress: (address?: string | null | { toString: () => string }) => boolean;
 }
 
 export interface ApiStats {

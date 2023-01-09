@@ -5,11 +5,13 @@ import type { Addresses } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { AddressesCtx } from './ctx/Addresses';
+import { KeyringCtx } from './ctx/Keyring';
 import { createNamedHook } from './createNamedHook';
 
 function useAddressesImpl (): Addresses {
-  return useContext(AddressesCtx);
+  const { addresses } = useContext(KeyringCtx);
+
+  return addresses;
 }
 
 export const useAddresses = createNamedHook('useAddresses', useAddressesImpl);

@@ -43,6 +43,7 @@ export { useIpfsFetch } from './useIpfsFetch';
 export { useIpfsLink } from './useIpfsLink';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useJudgements } from './useJudgements';
+export { useKeyring } from './useKeyring';
 export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
 export { useMapEntries } from './useMapEntries';
