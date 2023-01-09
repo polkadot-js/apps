@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ApiStats } from './types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useApi } from '../useApi';
 import { useIsMountedRef } from '../useIsMountedRef';
@@ -73,8 +73,8 @@ export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props>
   const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mountedRef = useIsMountedRef();
 
-  const fireTimer = useCallback(
-    (): void => {
+  useEffect((): () => void => {
+    function fireTimer (): void {
       timerId.current = null;
 
       if (mountedRef.current) {
@@ -90,13 +90,10 @@ export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props>
             : prev.concat(curr);
         });
 
-        timerId.current = setTimeout(() => fireTimer(), INTERVAL);
+        timerId.current = setTimeout(fireTimer, INTERVAL);
       }
-    },
-    [api, mountedRef, timerId]
-  );
+    }
 
-  useEffect((): () => void => {
     fireTimer();
 
     return (): void => {
