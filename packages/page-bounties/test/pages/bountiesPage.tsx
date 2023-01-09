@@ -15,9 +15,9 @@ import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
+import { ApiCtx } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
-import { QueueContext } from '@polkadot/react-hooks/ctx/Queue';
+import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -119,15 +119,15 @@ export class BountiesPage {
       <>
         <div id='tooltips' />
         <Suspense fallback='...'>
-          <QueueContext.Provider value={queue}>
+          <QueueCtx.Provider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
-                <ApiContext.Provider value={mockApi}>
+                <ApiCtx.Provider value={mockApi}>
                   <Bounties />
-                </ApiContext.Provider>
+                </ApiCtx.Provider>
               </ThemeProvider>
             </MemoryRouter>
-          </QueueContext.Provider>
+          </QueueCtx.Provider>
         </Suspense>
       </>
     );

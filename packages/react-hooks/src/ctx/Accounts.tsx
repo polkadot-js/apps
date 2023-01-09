@@ -16,7 +16,7 @@ interface Props {
 
 const EMPTY: Accounts = { allAccounts: [], allAccountsHex: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
 
-export const AccountsContext = React.createContext<Accounts>(EMPTY);
+export const AccountsCtx = React.createContext<Accounts>(EMPTY);
 
 function extractAccounts (accounts: SubjectInfo = {}): Accounts {
   const allAccounts = Object.keys(accounts);
@@ -38,8 +38,8 @@ export function AccountsCtxRoot ({ children }: Props): React.ReactElement<Props>
   }, []);
 
   return (
-    <AccountsContext.Provider value={accounts}>
+    <AccountsCtx.Provider value={accounts}>
       {children}
-    </AccountsContext.Provider>
+    </AccountsCtx.Provider>
   );
 }

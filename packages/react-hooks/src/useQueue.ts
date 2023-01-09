@@ -5,11 +5,11 @@ import type { QueueProps } from '@polkadot/react-components/Status/types';
 
 import { useContext } from 'react';
 
-import { QueueContext } from './ctx/Queue';
+import { QueueCtx } from './ctx/Queue';
 import { createNamedHook } from './createNamedHook';
 
 function useQueueImpl (): QueueProps {
-  return useContext(QueueContext);
+  return useContext(QueueCtx);
 }
 
 export const useQueue = createNamedHook('useQueue', useQueueImpl);

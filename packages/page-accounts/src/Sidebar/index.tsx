@@ -11,12 +11,14 @@ interface Props {
 
 type State = [string | null, (() => void) | null];
 
-type ToggleContext = undefined | (([address, onUpdateName]: State) => void);
+type SetStateContext = undefined | (([address, onUpdateName]: State) => void);
 
-const AccountSidebarToggle: React.Context<ToggleContext> = React.createContext<ToggleContext>(undefined);
+const EMPTY_STATE: State = [null, null];
+
+export const AccountSidebarCtx = React.createContext<SetStateContext>(undefined);
 
 function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
-  const [[address, onUpdateName], setAddress] = useState<State>([null, null]);
+  const [[address, onUpdateName], setAddress] = useState<State>(EMPTY_STATE);
 
   const onClose = useCallback(
     () => setAddress([null, null]),
@@ -24,7 +26,7 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <AccountSidebarToggle.Provider value={setAddress}>
+    <AccountSidebarCtx.Provider value={setAddress}>
       {children}
       {address && (
         <Sidebar
@@ -34,10 +36,8 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
           onUpdateName={onUpdateName}
         />
       )}
-    </AccountSidebarToggle.Provider>
+    </AccountSidebarCtx.Provider>
   );
 }
-
-export { AccountSidebarToggle };
 
 export default React.memo(AccountSidebar);

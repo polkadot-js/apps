@@ -24,7 +24,7 @@ interface StatusCount {
   status: ActionStatusPartial;
 }
 
-const defaultState: Partial<QueueProps> = {
+const EMPTY_STATE: Partial<QueueProps> = {
   stqueue: [] as QueueStatus[],
   txqueue: [] as QueueTx[]
 };
@@ -35,7 +35,7 @@ const EVENT_MESSAGE = 'extrinsic event';
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
-export const QueueContext: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState as QueueProps);
+export const QueueCtx = React.createContext<QueueProps>(EMPTY_STATE as QueueProps);
 
 function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
   let others: ActionStatus | null = null;
@@ -155,9 +155,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
   );
 }
 
+const EMPTY_QUEUE_ST: QueueStatus[] = [];
+const EMPTY_QUEUE_TX: QueueTx[] = [];
+
 export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
-  const [stqueue, _setStQueue] = useState<QueueStatus[]>([]);
-  const [txqueue, _setTxQueue] = useState<QueueTx[]>([]);
+  const [stqueue, _setStQueue] = useState<QueueStatus[]>(EMPTY_QUEUE_ST);
+  const [txqueue, _setTxQueue] = useState<QueueTx[]>(EMPTY_QUEUE_TX);
   const stRef = useRef(stqueue);
   const txRef = useRef(txqueue);
 
@@ -298,8 +301,8 @@ export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <QueueContext.Provider value={value}>
+    <QueueCtx.Provider value={value}>
       {children}
-    </QueueContext.Provider>
+    </QueueCtx.Provider>
   );
 }

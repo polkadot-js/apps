@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, TabsContext } from '@polkadot/react-components';
+import { ErrorBoundary, Spinner, TabsCtx } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -70,7 +70,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <>
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
-                <TabsContext.Provider value={{ icon, text }}>
+                <TabsCtx.Provider value={{ icon, text }}>
                   {missingApis.length
                     ? (
                       <NotFound
@@ -88,7 +88,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                       />
                     )
                   }
-                </TabsContext.Provider>
+                </TabsCtx.Provider>
               </ErrorBoundary>
             </Suspense>
             <Status />

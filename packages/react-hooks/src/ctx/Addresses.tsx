@@ -14,7 +14,7 @@ interface Props {
 
 const EMPTY: Addresses = { allAddresses: [], hasAddresses: false, isAddress: () => false };
 
-export const AddressesContext = React.createContext<Addresses>(EMPTY);
+export const AddressesCtx = React.createContext<Addresses>(EMPTY);
 
 function extractAddresses (addresses: SubjectInfo = {}): Addresses {
   const allAddresses = Object.keys(addresses);
@@ -35,8 +35,8 @@ export function AddressesCtxRoot ({ children }: Props): React.ReactElement<Props
   }, []);
 
   return (
-    <AddressesContext.Provider value={addresses}>
+    <AddressesCtx.Provider value={addresses}>
       {children}
-    </AddressesContext.Provider>
+    </AddressesCtx.Provider>
   );
 }

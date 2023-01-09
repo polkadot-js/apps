@@ -5,11 +5,11 @@ import type { Accounts } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { AccountsContext } from './ctx/Accounts';
+import { AccountsCtx } from './ctx/Accounts';
 import { createNamedHook } from './createNamedHook';
 
 function useAccountsImpl (): Accounts {
-  return useContext(AccountsContext);
+  return useContext(AccountsCtx);
 }
 
 export const useAccounts = createNamedHook('useAccounts', useAccountsImpl);

@@ -26,7 +26,7 @@ interface PrevHashes {
 const DEFAULT_EVENTS: BlockEvents = { eventCount: 0, events: [] };
 const MAX_EVENTS = 75;
 
-export const BlockEventsContext: React.Context<BlockEvents> = React.createContext<BlockEvents>(DEFAULT_EVENTS);
+export const BlockEventsCtx = React.createContext<BlockEvents>(DEFAULT_EVENTS);
 
 async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<EventRecord>, setState: React.Dispatch<React.SetStateAction<BlockEvents>>): Promise<void> {
   const newEvents: IndexedEvent[] = records
@@ -112,8 +112,8 @@ export function BlockEventsCtxRoot ({ children }: Props): React.ReactElement<Pro
   }, [api, prevHashes, records, setState]);
 
   return (
-    <BlockEventsContext.Provider value={state}>
+    <BlockEventsCtx.Provider value={state}>
       {children}
-    </BlockEventsContext.Provider>
+    </BlockEventsCtx.Provider>
   );
 }

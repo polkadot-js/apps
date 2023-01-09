@@ -18,9 +18,9 @@ function getDimensions (): WindowSize {
   };
 }
 
-const WindowSizeContext = React.createContext<WindowSize>(getDimensions());
+export const WindowSizeCtx = React.createContext<WindowSize>(getDimensions());
 
-function WindowSizeCtxRoot ({ children }: Props): React.ReactElement<Props> {
+export function WindowSizeCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const [dimensions, setDimensions] = useState(() => getDimensions());
 
   // No unsub, global context - destroyed on app close
@@ -29,10 +29,8 @@ function WindowSizeCtxRoot ({ children }: Props): React.ReactElement<Props> {
   }, []);
 
   return (
-    <WindowSizeContext.Provider value={dimensions}>
+    <WindowSizeCtx.Provider value={dimensions}>
       {children}
-    </WindowSizeContext.Provider>
+    </WindowSizeCtx.Provider>
   );
 }
-
-export { WindowSizeContext, WindowSizeCtxRoot };

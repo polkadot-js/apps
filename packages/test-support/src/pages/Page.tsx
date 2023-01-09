@@ -12,8 +12,8 @@ import { ThemeProvider } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
-import { QueueContext } from '@polkadot/react-hooks/ctx/Queue';
+import { ApiCtx } from '@polkadot/react-api';
+import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -209,17 +209,17 @@ export abstract class Page {
       <>
         <div id='tooltips' />
         <Suspense fallback='...'>
-          <QueueContext.Provider value={queue}>
+          <QueueCtx.Provider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
-                <ApiContext.Provider value={mockApi}>
+                <ApiCtx.Provider value={mockApi}>
                   <AccountSidebar>
                     {React.cloneElement(this.overview, { onStatusChange: noop }) }
                   </AccountSidebar>
-                </ApiContext.Provider>
+                </ApiCtx.Provider>
               </ThemeProvider>
             </MemoryRouter>
-          </QueueContext.Provider>
+          </QueueCtx.Provider>
         </Suspense>
       </>
     );

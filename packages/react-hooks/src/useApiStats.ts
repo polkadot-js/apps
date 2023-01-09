@@ -5,11 +5,11 @@ import type { ApiStats } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { ApiStatsContext } from './ctx/ApiStats';
+import { ApiStatsCtx } from './ctx/ApiStats';
 import { createNamedHook } from './createNamedHook';
 
 function useApiStatsImpl (): ApiStats[] {
-  return useContext(ApiStatsContext);
+  return useContext(ApiStatsCtx);
 }
 
 export const useApiStats = createNamedHook('useApiStats', useApiStatsImpl);

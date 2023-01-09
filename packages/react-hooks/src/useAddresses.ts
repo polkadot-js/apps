@@ -5,11 +5,11 @@ import type { Addresses } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { AddressesContext } from './ctx/Addresses';
+import { AddressesCtx } from './ctx/Addresses';
 import { createNamedHook } from './createNamedHook';
 
 function useAddressesImpl (): Addresses {
-  return useContext(AddressesContext);
+  return useContext(AddressesCtx);
 }
 
 export const useAddresses = createNamedHook('useAddresses', useAddressesImpl);

@@ -19,12 +19,14 @@ const MAX_HEADERS = 75;
 const byAuthor: Record<string, string> = {};
 const eraPoints: Record<string, string> = {};
 
-export const BlockAuthorsContext: React.Context<BlockAuthors> = React.createContext<BlockAuthors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
+const EMPTY_STATE: BlockAuthors = { byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] };
+
+export const BlockAuthorsCtx = React.createContext<BlockAuthors>(EMPTY_STATE);
 
 export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking?.currentPoints);
-  const [state, setState] = useState<BlockAuthors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
+  const [state, setState] = useState<BlockAuthors>(EMPTY_STATE);
 
   // No unsub, global context - destroyed on app close
   useEffect((): void => {
@@ -92,8 +94,8 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
   }, [queryPoints]);
 
   return (
-    <BlockAuthorsContext.Provider value={state}>
+    <BlockAuthorsCtx.Provider value={state}>
       {children}
-    </BlockAuthorsContext.Provider>
+    </BlockAuthorsCtx.Provider>
   );
 }

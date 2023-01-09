@@ -12,14 +12,15 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const ApiStatsContext: React.Context<ApiStats[]> = React.createContext<ApiStats[]>([]);
-
 const MAX_NUM = 60; // 5 minutes
 const INTERVAL = 5_000;
+const EMPTY_STATE: ApiStats[] = [];
 
-function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
+export const ApiStatsCtx = React.createContext<ApiStats[]>(EMPTY_STATE);
+
+export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api, getStats } = useApi();
-  const [stats, setStats] = useState<ApiStats[]>([]);
+  const [stats, setStats] = useState(EMPTY_STATE);
   const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mountedRef = useIsMountedRef();
 
@@ -56,10 +57,8 @@ function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   }, []);
 
   return (
-    <ApiStatsContext.Provider value={stats}>
+    <ApiStatsCtx.Provider value={stats}>
       {children}
-    </ApiStatsContext.Provider>
+    </ApiStatsCtx.Provider>
   );
 }
-
-export { ApiStatsContext, ApiStatsCtxRoot };

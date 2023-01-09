@@ -5,11 +5,11 @@ import type { WindowSize } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { WindowSizeContext } from './ctx/WindowSize';
+import { WindowSizeCtx } from './ctx/WindowSize';
 import { createNamedHook } from './createNamedHook';
 
 function useWindowSizeImpl (): WindowSize {
-  return useContext(WindowSizeContext);
+  return useContext(WindowSizeCtx);
 
   // const [windowSize, setWindowSize] = useState<WindowSize>({
   //   height: 0,

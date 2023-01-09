@@ -5,11 +5,11 @@ import type { BlockAuthors } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { BlockAuthorsContext } from './ctx/BlockAuthors';
+import { BlockAuthorsCtx } from './ctx/BlockAuthors';
 import { createNamedHook } from './createNamedHook';
 
 function useBlockAuthorsImpl (): BlockAuthors {
-  return useContext(BlockAuthorsContext);
+  return useContext(BlockAuthorsCtx);
 }
 
 export const useBlockAuthors = createNamedHook('useBlockAuthors', useBlockAuthorsImpl);
