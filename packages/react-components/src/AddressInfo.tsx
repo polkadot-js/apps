@@ -245,7 +245,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         className={`result ${balancesAll ? '' : '--placeholder'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}
       />
     </React.Fragment>
   );
