@@ -37,10 +37,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const { t } = useTranslation();
   const { isMember } = useCollectiveMembers('council');
   const { curator, updateDue } = useBountyStatus(status);
+  const { isCurator, roles } = useUserRole(curator);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
-
-  const { isCurator, roles } = useUserRole(curator);
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
@@ -126,13 +125,13 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         <Popup
           value={
             <Menu className='settings-menu'>
-              {showCloseBounty &&
-              <Menu.Item
-                key='closeBounty'
-                label={t<string>('Close')}
-                onClick={toggleCloseBounty}
-              />
-              }
+              {showCloseBounty && (
+                <Menu.Item
+                  key='closeBounty'
+                  label={t<string>('Close')}
+                  onClick={toggleCloseBounty}
+                />
+              )}
               {showRejectCurator && (
                 <Menu.Item
                   key='rejectCurator'

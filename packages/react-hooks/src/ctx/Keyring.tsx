@@ -99,24 +99,24 @@ function extractAddresses (addresses: SubjectInfo = {}, accounts: string[]): Add
   };
 }
 
-const stateObservable = combineLatest([
-  keyring.accounts.subject.pipe(
-    map((accounts) => extractAccounts(accounts))
-  ),
-  keyring.addresses.subject
-]).pipe(
-  map(([accounts, addresses]): State => ({
-    accounts,
-    addresses: extractAddresses(addresses, accounts.allAccounts)
-  }))
-);
-
 export function KeyringCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const [state, setState] = useState(EMPTY);
 
   // No unsub, global context - destroyed on app close
   useEffect((): void => {
-    stateObservable.subscribe((state) => setState(state));
+    combineLatest([
+      keyring.accounts.subject.pipe(
+        map((accInfo) => extractAccounts(accInfo))
+      ),
+      keyring.addresses.subject
+    ])
+      .pipe(
+        map(([accounts, addrInfo]): State => ({
+          accounts,
+          addresses: extractAddresses(addrInfo, accounts.allAccounts)
+        }))
+      )
+      .subscribe((state) => setState(state));
   }, []);
 
   return (

@@ -3,7 +3,7 @@
 
 import type { PopupProps } from './types';
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components/index';
@@ -11,14 +11,23 @@ import { useOutsideClick, useTheme, useToggle } from '@polkadot/react-hooks';
 
 import PopupWindow from './PopupWindow';
 
-function Popup ({ children, className = '', closeOnScroll = false, isDisabled = false, onCloseAction, position = 'left', value }: PopupProps) {
+function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAction, position = 'left', value }: PopupProps) {
   const { themeClassName } = useTheme();
   const [isOpen, toggleIsOpen, setIsOpen] = useToggle(false);
   const triggerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const closeWindow = useCallback(() => setIsOpen(false), [setIsOpen]);
 
-  useOutsideClick([triggerRef, dropdownRef], closeWindow);
+  const closeWindow = useCallback(
+    () => setIsOpen(false),
+    [setIsOpen]
+  );
+
+  const refs = useMemo(
+    () => [triggerRef, dropdownRef],
+    [triggerRef, dropdownRef]
+  );
+
+  useOutsideClick(refs, closeWindow);
 
   useEffect(() => {
     if (closeOnScroll) {
