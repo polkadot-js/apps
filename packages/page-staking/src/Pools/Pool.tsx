@@ -54,7 +54,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isFirst isExpanded ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={poolId} />
         <td className='start'>
           <div className={`${isExpanded ? '' : 'clamp'}`}>
@@ -116,7 +116,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
         </td>
       </tr>
       {info && isExpanded && (
-        <tr className={`${className} isExpanded`}>
+        <tr className={`${className} isExpanded isLast`}>
           <td colSpan={4}>
             <div className='label-column-right'>
               <div className='label'>{t('creator')}</div>

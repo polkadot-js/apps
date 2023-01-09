@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN, formatNumber } from '@polkadot/util';
+import { BN, BN_ONE, BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -49,47 +49,54 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
     [events]
   );
 
-  if (!events || !signedBlock) {
-    return null;
-  }
-
   return (
     <SummaryBox>
       <section>
         {api.query.balances && (
           <>
             <CardSummary label={t<string>('deposits')}>
-              <FormatBalance value={deposits} />
+              <FormatBalance
+                className={deposits ? '' : '--placeholder'}
+                value={deposits || BN_ONE}
+              />
             </CardSummary>
             <CardSummary
               className='media--1000'
               label={t<string>('transfers')}
             >
-              <FormatBalance value={transfers} />
+              <FormatBalance
+                className={transfers ? '' : '--placeholder'}
+                value={transfers || BN_ONE}
+              />
             </CardSummary>
           </>
         )}
       </section>
-      {maxBlockWeight && (
-        <section>
-          <CardSummary
-            label={t<string>('block weight')}
-            progress={{
-              hideValue: true,
-              total: maxBlockWeight,
-              value: weight
-            }}
-          >
-            {formatNumber(weight)}
-          </CardSummary>
-        </section>
-      )}
+      <section>
+        <CardSummary
+          label={t<string>('block weight')}
+          progress={{
+            hideValue: true,
+            isBlurred: !(maxBlockWeight && weight),
+            total: (maxBlockWeight && weight) ? maxBlockWeight : BN_THREE,
+            value: (maxBlockWeight && weight) ? weight : BN_TWO
+          }}
+        >
+          {weight
+            ? formatNumber(weight)
+            : <span className='--placeholder'>999,999,999</span>}
+        </CardSummary>
+      </section>
       <section className='media--900'>
         <CardSummary label={t<string>('event count')}>
-          {formatNumber(events.length)}
+          {events
+            ? formatNumber(events.length)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('extrinsic count')}>
-          {formatNumber(signedBlock.block.extrinsics.length)}
+          {signedBlock
+            ? formatNumber(signedBlock.block.extrinsics.length)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
       </section>
     </SummaryBox>

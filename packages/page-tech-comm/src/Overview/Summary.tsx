@@ -22,16 +22,18 @@ function Summary ({ className = '', members, proposalHashes, type }: Props): Rea
       <CardSummary label={t<string>('members')}>
         {formatNumber(members.length)}
       </CardSummary>
-      {proposalCount && (
-        <section>
-          <CardSummary label={t<string>('proposals')}>
-            {formatNumber(proposalHashes?.length)}
-          </CardSummary>
-          <CardSummary label={t<string>('total')}>
-            {formatNumber(proposalCount)}
-          </CardSummary>
-        </section>
-      )}
+      <section>
+        <CardSummary label={t<string>('proposals')}>
+          {proposalHashes
+            ? formatNumber(proposalHashes?.length)
+            : <span className='--placeholder'>99</span>}
+        </CardSummary>
+        <CardSummary label={t<string>('total')}>
+          {proposalCount
+            ? formatNumber(proposalCount)
+            : <span className='--placeholder'>99</span>}
+        </CardSummary>
+      </section>
     </SummaryBox>
   );
 }

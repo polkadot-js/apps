@@ -73,7 +73,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
       <div className='links'>
         {links.length
           ? links.map((link, index) => <span key={index}>{link}</span>)
-          : <label>{t('none')}</label>
+          : <div>{t<string>('none')}</div>
         }
       </div>
     </div>

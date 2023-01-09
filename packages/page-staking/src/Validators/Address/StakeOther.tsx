@@ -12,23 +12,21 @@ import { BN, BN_ZERO } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
-  nominators: NominatorValue[];
+  nominators?: NominatorValue[];
 }
 
 function extractFunction (all: NominatorValue[]): null | [number, () => React.ReactNode[]] {
-  return all.length
-    ? [
-      all.length,
-      () => all.map(({ nominatorId, value }): React.ReactNode =>
-        <AddressMini
-          bonded={value}
-          key={nominatorId}
-          value={nominatorId}
-          withBonded
-        />
-      )
-    ]
-    : null;
+  return [
+    all.length,
+    () => all.map(({ nominatorId, value }): React.ReactNode =>
+      <AddressMini
+        bonded={value}
+        key={nominatorId}
+        value={nominatorId}
+        withBonded
+      />
+    )
+  ];
 }
 
 function sumValue (all: { value: BN }[]): BN {
@@ -41,7 +39,11 @@ function sumValue (all: { value: BN }[]): BN {
   return total;
 }
 
-function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+function extractTotals (maxPaid: BN | undefined, nominators?: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+  if (!nominators) {
+    return [null, BN_ZERO, null, BN_ZERO];
+  }
+
   const sorted = nominators.sort((a, b) => b.value.cmp(a.value));
 
   if (!maxPaid || maxPaid.gtn(sorted.length)) {
@@ -65,18 +67,22 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
     [api, nominators, stakeOther]
   );
 
+  console.log(nominators?.length, rewarded);
+
   return (
     <td className='expand all'>
-      <ExpanderScroll
-        className={rewarded ? '' : '--placeholder'}
-        renderChildren={rewarded && rewarded[1]}
-        summary={
-          <FormatBalance
-            labelPost={` (${rewarded ? rewarded[0] : '0'})`}
-            value={rewardedTotal}
-          />
-        }
-      />
+      {(!rewarded || rewarded[0] !== 0) && (
+        <ExpanderScroll
+          className={rewarded ? '' : '--placeholder'}
+          renderChildren={rewarded && rewarded[1]}
+          summary={
+            <FormatBalance
+              labelPost={` (${rewarded ? rewarded[0] : '0'})`}
+              value={rewardedTotal}
+            />
+          }
+        />
+      )}
       {unrewarded && (
         <ExpanderScroll
           className='stakeOver'
