@@ -30,8 +30,8 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
     () => [
       [t('preimages'), 'start', 2],
       [undefined, 'media--1300'],
-      isLatest && [t('length'), 'media--1000'],
-      isLatest && [t('status'), 'start media--1200']
+      [isLatest ? t('length') : undefined, 'media--1000'],
+      [isLatest ? t('status') : undefined, 'start media--1200']
     ], [isLatest, t]
   );
 
