@@ -10,6 +10,7 @@
   "No justifications available": "No justifications available",
   "No logs available": "No logs available",
   "Node info": "Node info",
+  "Unable to decode the block events. {{error}}": "Unable to decode the block events. {{error}}",
   "Unable to retrieve the specified block details. {{error}}": "Unable to retrieve the specified block details. {{error}}",
   "average": "average",
   "avg": "avg",
