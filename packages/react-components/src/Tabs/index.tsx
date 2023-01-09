@@ -12,7 +12,7 @@ import CurrentSection from './CurrentSection';
 import Tab from './Tab';
 import Delimiter from './TabsSectionDelimiter';
 
-export const TabsContext = React.createContext<SectionType>({});
+export const TabsCtx = React.createContext<SectionType>({});
 
 interface Props {
   className?: string;
@@ -40,7 +40,7 @@ function redirect (basePath: string, location: Location, items: TabItem[], hidde
 
 function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
-  const { icon, text } = React.useContext(TabsContext);
+  const { icon, text } = React.useContext(TabsCtx);
 
   useEffect(
     () => redirect(basePath, location, items, hidden),

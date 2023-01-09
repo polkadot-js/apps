@@ -3,12 +3,13 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React, { useContext, useMemo, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useMemo, useState } from 'react';
+import styled from 'styled-components';
+
+import { useTheme } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
-import { ThemeDef } from './types';
 
 interface Props {
   className?: string;
@@ -26,7 +27,7 @@ let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isBlock, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const badgeTestId = `${icon ? `${icon}-` : ''}badge`;
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const { theme } = useTheme();
 
   const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover

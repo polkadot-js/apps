@@ -12,7 +12,7 @@ import { useTheme } from '@polkadot/react-hooks';
 import Header from './Header';
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
-  const theme = useTheme();
+  const { themeClassName } = useTheme();
   const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
@@ -32,7 +32,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
 
   return createPortal(
     <div
-      className={`${theme} ui--Modal ${className} ${size}Size`}
+      className={`${themeClassName} ui--Modal ${className} ${size}Size`}
       data-testid={testId}
     >
       <DisableGlobalScroll />

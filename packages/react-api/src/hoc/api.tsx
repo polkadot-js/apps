@@ -8,7 +8,7 @@ import React from 'react';
 
 import { assert } from '@polkadot/util';
 
-import { ApiConsumer } from '../ApiContext';
+import { ApiCtx } from '../Api';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
   class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
@@ -16,7 +16,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
 
     public override render (): React.ReactNode {
       return (
-        <ApiConsumer>
+        <ApiCtx.Consumer>
           {(apiProps?: ApiProps): React.ReactNode => {
             assert(apiProps && apiProps.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
 
@@ -30,7 +30,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
               />
             );
           }}
-        </ApiConsumer>
+        </ApiCtx.Consumer>
       );
     }
   }

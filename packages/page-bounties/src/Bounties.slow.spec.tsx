@@ -10,7 +10,7 @@ import { ThemeProvider } from 'styled-components';
 
 import BountiesApp from '@polkadot/app-bounties/index';
 import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
 import { createApi } from '@polkadot/test-support/api';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { aliceSigner } from '@polkadot/test-support/keyring/signers';
@@ -27,7 +27,7 @@ const renderBounties = () => {
     <Suspense fallback='...'>
       <MemoryRouter>
         <ThemeProvider theme={lightTheme}>
-          <Api
+          <ApiCtxRoot
             apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
             isElectron={false}
             store={memoryStore}
@@ -37,7 +37,7 @@ const renderBounties = () => {
                 <BountiesApp basePath='/bounties' />
               </div>
             </WaitForApi>
-          </Api>
+          </ApiCtxRoot>
         </ThemeProvider>
       </MemoryRouter>
     </Suspense>

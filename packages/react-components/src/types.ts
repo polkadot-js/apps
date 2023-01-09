@@ -6,6 +6,7 @@ import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
 import type { TxCallback, TxFailedCallback } from './Status/types';
 
@@ -70,10 +71,6 @@ export type CallContract = ContractDeployed;
 export interface NullContract {
   abi: null;
   address: null;
-}
-
-export interface ThemeDef {
-  theme: 'dark' | 'light';
 }
 
 export interface ThemeProps {
