@@ -61,6 +61,6 @@ export default React.memo(styled(Apps)`
 
   .--placeholder {
     background: grey;
-    filter: blur(2px) opacity(0.33);
+    filter: blur(2px) opacity(0.25);
   }
 `);
