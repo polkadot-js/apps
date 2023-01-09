@@ -124,7 +124,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
 
   return (
     <>
-      <tr className={`${className} isFirst ${isExpanded ? 'packedBottom' : 'isLast'}`}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? 'packedBottom' : 'isLast'}`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
