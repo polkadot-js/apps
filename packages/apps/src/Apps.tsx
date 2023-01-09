@@ -58,4 +58,9 @@ export default React.memo(styled(Apps)`
   .--hidden {
     display: none;
   }
+
+  .--placeholder {
+    background: grey;
+    filter: blur(1px) opacity(0.15);
+  }
 `);

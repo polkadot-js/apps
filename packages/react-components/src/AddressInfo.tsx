@@ -242,7 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     <React.Fragment key={0}>
       <Label label={withLabel ? t<string>('total') : ''} />
       <FormatBalance
-        className={`result ${balancesAll ? '' : 'isBlurred'}`}
+        className={`result ${balancesAll ? '' : '--placeholder'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
         value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
@@ -608,11 +608,6 @@ export default withMulti(
     display: flex;
     flex: 1;
     white-space: nowrap;
-
-    .isBlurred {
-      background: lightgrey;
-      filter: blur(1px) opacity(0.35);
-    }
 
     &:not(.ui--AddressInfo-expander) {
       justify-content: flex-end;
