@@ -3,7 +3,6 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
@@ -109,47 +108,6 @@ function makeCreateLink (baseApiUrl: string, isElectron: boolean): (path: string
       ? 'https://polkadot.js.org/apps/'
       : `${window.location.origin}${window.location.pathname}`
     }?rpc=${encodeURIComponent(apiUrl || baseApiUrl)}#${path}`;
-}
-
-function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number } {
-  const stats: ProviderStats = {
-    active: {
-      requests: 0,
-      subscriptions: 0
-    },
-    total: {
-      bytesRecv: 0,
-      bytesSent: 0,
-      cached: 0,
-      errors: 0,
-      requests: 0,
-      subscriptions: 0,
-      timeout: 0
-    }
-  };
-
-  for (let i = 0; i < apis.length; i++) {
-    if (apis[i]) {
-      const s = apis[i].stats;
-
-      if (s) {
-        stats.active.requests += s.active.requests;
-        stats.active.subscriptions += s.active.subscriptions;
-        stats.total.bytesRecv += s.total.bytesRecv;
-        stats.total.bytesSent += s.total.bytesSent;
-        stats.total.cached += s.total.cached;
-        stats.total.errors += s.total.errors;
-        stats.total.requests += s.total.requests;
-        stats.total.subscriptions += s.total.subscriptions;
-        stats.total.timeout += s.total.timeout;
-      }
-    }
-  }
-
-  return {
-    stats,
-    when: Date.now()
-  };
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
@@ -316,7 +274,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
     [apiUrl, isElectron]
   );
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink, extensions, getStats, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
