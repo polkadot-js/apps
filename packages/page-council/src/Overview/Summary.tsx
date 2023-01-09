@@ -35,7 +35,7 @@ function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: P
             <CardSummary label={t<string>('runners up')}>
               {electionsInfo
                 ? <>{formatNumber(electionsInfo.runnersUp.length)}{electionsInfo.desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(electionsInfo.desiredRunnersUp)}</>}</>
-                : <span className='--placeholder'>99</span>}
+                : <span className='--placeholder'>99 / 99</span>}
             </CardSummary>
             <CardSummary label={t<string>('candidates')}>
               {electionsInfo
