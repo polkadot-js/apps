@@ -19,6 +19,7 @@ const EMPTY: Campaigns = {
   activeCap: BN_ZERO,
   activeRaised: BN_ZERO,
   funds: null,
+  isLoading: true,
   totalCap: BN_ZERO,
   totalRaised: BN_ZERO
 };

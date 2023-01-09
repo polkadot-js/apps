@@ -129,22 +129,26 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
         )}
       </td>
       <td className='number together media--1100'>
-        {hasLoaded && bestHash && (
-          <Icon
-            color={
-              lastChange.prevHash === bestHash
-                ? 'green'
-                : 'transparent'
-            }
-            icon='chevron-up'
-            isPadded
-          />
-        )}
         {hasLoaded
-          ? contributorsHex.length !== 0 && (
-            formatNumber(contributorsHex.length)
+          ? (
+            <>
+              {bestHash && (
+                <Icon
+                  color={
+                    lastChange.prevHash === bestHash
+                      ? 'green'
+                      : 'transparent'
+                  }
+                  icon='chevron-up'
+                  isPadded
+                />
+              )}
+              {contributorsHex.length !== 0 && (
+                formatNumber(contributorsHex.length)
+              )}
+            </>
           )
-          : <span className='--placeholder'>99</span>
+          : <span className='--placeholder'>999</span>
         }
       </td>
       <td className='button media--1000'>

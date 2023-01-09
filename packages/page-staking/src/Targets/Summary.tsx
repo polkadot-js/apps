@@ -92,18 +92,19 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
           label={`${t<string>('lowest / avg staked')}`}
           progress={progressAvg}
         >
-          <FormatBalance
-            className={progressAvg.isBlurred ? '--placeholder' : ''}
-            value={progressAvg.value}
-            withCurrency={false}
-            withSi
-          />
-          &nbsp;<span className={progressAvg.isBlurred ? '--placeholder' : ''}>/</span>&nbsp;
-          <FormatBalance
-            className={progressAvg.isBlurred ? '--placeholder' : ''}
-            value={progressAvg.total}
-            withSi
-          />
+          <span className={progressAvg.isBlurred ? '--placeholder' : ''}>
+            <FormatBalance
+              value={progressAvg.value}
+              withCurrency={false}
+              withSi
+            />
+            &nbsp;/&nbsp;
+            <FormatBalance
+              className={progressAvg.isBlurred ? '--placeholder' : ''}
+              value={progressAvg.total}
+              withSi
+            />
+          </span>
         </CardSummary>
       </section>
       <section className='media--1600'>

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
-import { BN_ONE, formatNumber } from '@polkadot/util';
+import { BN_ONE, BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -59,10 +59,11 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
         <CardSummary
           label={t<string>('launch period')}
           progress={{
+            isBlurred: !bestNumber,
             total: api.consts.democracy.launchPeriod,
             value: bestNumber
               ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
-              : api.consts.democracy.launchPeriod,
+              : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
             withTime: true
           }}
         />
