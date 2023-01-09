@@ -44,14 +44,14 @@ interface Props {
 interface StakingState {
   isChilled?: boolean;
   commission?: string;
-  nominators: NominatorValue[];
+  nominators?: NominatorValue[];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
 function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
-  let nominators: NominatorValue[] = [];
+  let nominators: NominatorValue[] | undefined;
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
@@ -99,7 +99,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
-      : { nominators: [] },
+      : {},
     [minCommission, validatorInfo]
   );
 
