@@ -712,7 +712,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             address={address}
             balancesAll={balancesAll}
             withBalance={BAL_OPTS_DEFAULT}
-            withExtended={false}
           />
         </td>
         <td />
@@ -728,7 +727,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             balancesAll={balancesAll}
             convictionLocks={convictionLocks}
             withBalance={BAL_OPTS_EXPANDED}
-            withExtended={false}
           />
           <Columar size='tiny'>
             <Columar.Column>
