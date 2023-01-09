@@ -33,32 +33,40 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
     <SummaryBox>
       <section>
         <CardSummary label={t<string>('proposals')}>
-          {formatNumber(activeProposals?.length)}
+          {activeProposals
+            ? formatNumber(activeProposals.length)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
-          {formatNumber(publicPropCount)}
+          {publicPropCount
+            ? formatNumber(publicPropCount)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
       </section>
       <section>
         <CardSummary label={t<string>('referenda')}>
-          {formatNumber(referendumCount || 0)}
+          {referendumCount !== undefined
+            ? formatNumber(referendumCount)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
-          {formatNumber(referendumTotal || 0)}
+          {referendumTotal
+            ? formatNumber(referendumTotal)
+            : <span className='--placeholder'>99</span>}
         </CardSummary>
       </section>
-      {bestNumber && (
-        <section className='media--1100'>
-          <CardSummary
-            label={t<string>('launch period')}
-            progress={{
-              total: api.consts.democracy.launchPeriod,
-              value: bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE),
-              withTime: true
-            }}
-          />
-        </section>
-      )}
+      <section className='media--1100'>
+        <CardSummary
+          label={t<string>('launch period')}
+          progress={{
+            total: api.consts.democracy.launchPeriod,
+            value: bestNumber
+              ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
+              : api.consts.democracy.launchPeriod,
+            withTime: true
+          }}
+        />
+      </section>
     </SummaryBox>
   );
 }

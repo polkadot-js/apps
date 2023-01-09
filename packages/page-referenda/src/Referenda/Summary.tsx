@@ -6,7 +6,7 @@ import type { Summary as SummaryType } from '../types';
 
 import React from 'react';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -29,27 +29,19 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
       <section>
         <CardSummary label={t<string>('active')}>
           {refActive === undefined
-            ? <Spinner noLabel />
+            ? <span className='--placeholder'>99</span>
             : formatNumber(refActive)
           }
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {refCount === undefined
-            ? <Spinner noLabel />
+            ? <span className='--placeholder'>99</span>
             : formatNumber(refCount)
           }
         </CardSummary>
       </section>
       {withIssuance && (
         <section>
-          {issuanceTotal && (
-            <CardSummary label={t<string>('total issuance')}>
-              <FormatBalance
-                value={issuanceTotal}
-                withSi
-              />
-            </CardSummary>
-          )}
           {issuanceInactive && (
             <CardSummary
               className='media--1000'
@@ -72,6 +64,13 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
               />
             </CardSummary>
           )}
+          <CardSummary label={t<string>('total issuance')}>
+            <FormatBalance
+              className={issuanceTotal ? '' : '--placeholder'}
+              value={issuanceTotal || 1}
+              withSi
+            />
+          </CardSummary>
         </section>
       )}
     </SummaryBox>
