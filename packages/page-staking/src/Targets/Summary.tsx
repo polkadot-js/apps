@@ -72,7 +72,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         >
           <FormatBalance
             className={progressStake.isBlurred ? '--tmp' : ''}
-            value={progressStake.total}
+            value={progressStake.value}
             withSi
           />
         </CardSummary>
