@@ -14,6 +14,7 @@ import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
+import { useMemoValue } from './useMemoValue';
 
 type VoidFn = () => void;
 
@@ -48,21 +49,17 @@ export type TrackFn = PromiseResult<AnyFunction> | QueryFn;
 
 export interface Tracker {
   error: Error | null;
-  fn: TrackFn | undefined | null | false;
   isActive: boolean;
-  serialized: string | null;
   subscriber: TrackFnResult | null;
   type: 'useCall' | 'useCallMulti';
-}
-
-interface TrackerRef {
-  current: Tracker;
 }
 
 // the default transform, just returns what we have
 export function transformIdentity <T> (value: unknown): T {
   return value as T;
 }
+
+const EMPTY_PARAMS: unknown[] = [];
 
 function isMapFn (fn: unknown): fn is QueryMapFn {
   return !!(fn as QueryTrackFn).meta?.type?.isMap;
@@ -72,17 +69,13 @@ function isQuery (fn: unknown): fn is QueryableStorageEntry<'promise', []> {
   return !!fn && !isUndefined((fn as QueryableStorageEntry<'promise', []>).creator);
 }
 
-// extract the serialized and mapped params, all ready for use in our call
-function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
-  return [
-    JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
-    params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
-      ? paramMap(params)
-      : null
-  ];
+function extractParams <T> (params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): CallParams | null {
+  return params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
+    ? paramMap(params)
+    : null;
 }
 
-export function handleError (error: Error, tracker: TrackerRef, fn?: unknown): void {
+export function handleError (error: Error, tracker: React.MutableRefObject<Tracker>, fn?: unknown): void {
   console.error(
     tracker.current.error = new Error(`${tracker.current.type}(${
       isQuery(fn)
@@ -93,7 +86,7 @@ export function handleError (error: Error, tracker: TrackerRef, fn?: unknown): v
 }
 
 // unsubscribe and remove from  the tracker
-export function unsubscribe (tracker: TrackerRef): void {
+export function unsubscribe (tracker: React.MutableRefObject<Tracker>): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
@@ -105,7 +98,7 @@ export function unsubscribe (tracker: TrackerRef): void {
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: any) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
+function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: React.MutableRefObject<Tracker>, fn: TrackFn | undefined, params: CallParams, setValue: (value: any) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
   const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
@@ -162,8 +155,9 @@ export function throwOnError (tracker: Tracker): void {
 export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
+  const tracker = useRef<Tracker>({ error: null, isActive: false, subscriber: null, type: 'useCall' });
   const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const memoParams = useMemoValue(params);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
@@ -174,16 +168,13 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
   useEffect((): void => {
     // check if we have a function & that we are mounted
     if (mountedRef.current && fn) {
-      const [serialized, mappedParams] = extractParams(fn, params || [], options);
+      const mappedParams = extractParams(memoParams || EMPTY_PARAMS, options);
 
-      if (mappedParams && ((fn !== tracker.current.fn) || (serialized !== tracker.current.serialized))) {
-        tracker.current.fn = fn;
-        tracker.current.serialized = serialized;
-
+      if (mappedParams) {
         subscribe(api, mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
-  }, [api, fn, options, mountedRef, params]);
+  }, [api, fn, options, mountedRef, memoParams]);
 
   // throwOnError(tracker.current);
 

@@ -13,10 +13,7 @@ import { isUndefined, nextTick } from '@polkadot/util';
 import { useApi } from './useApi';
 import { handleError, transformIdentity, unsubscribe } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
-
-interface TrackerRef {
-  current: Tracker;
-}
+import { useMemoValue } from './useMemoValue';
 
 interface CallOptions <T> {
   defaultValue?: T;
@@ -24,7 +21,7 @@ interface CallOptions <T> {
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, calls: QueryableStorageMultiArg<'promise'>[], setValue: (value: T) => void, { transform = transformIdentity }: CallOptions<T> = {}): void {
+function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: React.MutableRefObject<Tracker>, calls: QueryableStorageMultiArg<'promise'>[], setValue: (value: T) => void, { transform = transformIdentity }: CallOptions<T> = {}): void {
   unsubscribe(tracker);
 
   nextTick((): void => {
@@ -68,8 +65,9 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
+  const tracker = useRef<Tracker>({ error: null, isActive: false, subscriber: null, type: 'useCallMulti' });
   const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
+  const memoCalls = useMemoValue(calls);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
@@ -79,16 +77,10 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   // on changes, re-subscribe
   useEffect((): void => {
     // check if we have a function & that we are mounted
-    if (mountedRef.current && calls) {
-      const serialized = JSON.stringify(calls);
-
-      if (serialized !== tracker.current.serialized) {
-        tracker.current.serialized = serialized;
-
-        subscribe(api, mountedRef, tracker, calls, setValue, options);
-      }
+    if (mountedRef.current && memoCalls) {
+      subscribe(api, mountedRef, tracker, memoCalls, setValue, options);
     }
-  }, [api, calls, options, mountedRef]);
+  }, [api, memoCalls, options, mountedRef]);
 
   // throwOnError(tracker.current);
 

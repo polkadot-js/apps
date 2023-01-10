@@ -6,7 +6,7 @@ import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { BlockEvents, IndexedEvent, KeyedEvent } from './types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { stringify, stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
@@ -23,12 +23,21 @@ interface PrevHashes {
   event: string | null;
 }
 
+// This is global - we assume that there is only ever 1 of these contexts that
+// are being used
+//
+// TODO If we ever do publish this package, we need to ensure we have a check
+// to see that there is indeed only 1 Provider (we could just add a counter here)
+//
+// (Also see BlockAuthors for the same one-global, only-once impl.)
+const hashes: PrevHashes = { block: null, event: null };
+
 const DEFAULT_EVENTS: BlockEvents = { eventCount: 0, events: [] };
 const MAX_EVENTS = 75;
 
 export const BlockEventsCtx = React.createContext<BlockEvents>(DEFAULT_EVENTS);
 
-async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<EventRecord>, setState: React.Dispatch<React.SetStateAction<BlockEvents>>): Promise<void> {
+async function manageEvents (api: ApiPromise, records: Vec<EventRecord>, setState: React.Dispatch<React.SetStateAction<BlockEvents>>): Promise<void> {
   const newEvents: IndexedEvent[] = records
     .map((record, index) => ({ indexes: [index], record }))
     .filter(({ record: { event: { method, section } } }) =>
@@ -67,16 +76,16 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
     .reverse();
   const newEventHash = xxhashAsHex(stringToU8a(stringify(newEvents)));
 
-  if (newEventHash !== prev.event && newEvents.length) {
-    prev.event = newEventHash;
+  if (newEventHash !== hashes.event && newEvents.length) {
+    hashes.event = newEventHash;
 
     // retrieve the last header, this will map to the current state
     const header = await api.rpc.chain.getHeader(records.createdAtHash);
     const blockNumber = header.number.unwrap();
     const blockHash = header.hash.toHex();
 
-    if (blockHash !== prev.block) {
-      prev.block = blockHash;
+    if (blockHash !== hashes.block) {
+      hashes.block = blockHash;
 
       setState(({ events }) => ({
         eventCount: records.length,
@@ -105,11 +114,10 @@ export function BlockEventsCtxRoot ({ children }: Props): React.ReactElement<Pro
   const { api, isApiReady } = useApi();
   const [state, setState] = useState<BlockEvents>(DEFAULT_EVENTS);
   const records = useCall<Vec<EventRecord>>(isApiReady && api.query.system.events);
-  const prevHashes = useRef({ block: null, event: null });
 
   useEffect((): void => {
-    records && manageEvents(api, prevHashes.current, records, setState).catch(console.error);
-  }, [api, prevHashes, records, setState]);
+    records && manageEvents(api, records, setState).catch(console.error);
+  }, [api, records, setState]);
 
   return (
     <BlockEventsCtx.Provider value={state}>

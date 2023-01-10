@@ -13,7 +13,10 @@ import { isFunction, nextTick } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
+import { useMemoValue } from './useMemoValue';
 import { convertWeight } from './useWeight';
+
+const DEFAULT_BATCH_SIZE = 8;
 
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {
@@ -44,7 +47,8 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
 function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false, options?: BatchOptions): SubmittableExtrinsic<'promise'>[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 64));
+  const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || DEFAULT_BATCH_SIZE));
+  const memoTxs = useMemoValue(txs);
 
   useEffect((): void => {
     txs && txs.length && allAccounts[0] && txs[0].hasPaymentInfo &&
@@ -75,10 +79,10 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   }, [allAccounts, api, options, txs]);
 
   return useMemo(
-    () => txs && txs.length
-      ? createBatches(api, txs, batchSize, options?.type)
+    () => memoTxs && memoTxs.length
+      ? createBatches(api, memoTxs, batchSize, options?.type)
       : null,
-    [api, batchSize, options, txs]
+    [api, batchSize, memoTxs, options]
   );
 }
 

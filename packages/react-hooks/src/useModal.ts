@@ -10,6 +10,7 @@ import { useToggle } from './useToggle';
 
 function useModalImpl (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
   const [isOpen, , setIsOpen] = useToggle(defaultIsOpen || false);
+
   const _onOpen = useCallback(
     (): void => {
       setIsOpen(true);
@@ -18,6 +19,7 @@ function useModalImpl (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: (
     },
     [onOpen, setIsOpen]
   );
+
   const _onClose = useCallback(
     (): void => {
       setIsOpen(false);

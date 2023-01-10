@@ -9,7 +9,7 @@ import { useCallback, useMemo } from 'react';
 import { Ledger } from '@polkadot/hw-ledger';
 import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import uiSettings from '@polkadot/ui-settings';
-import { assert } from '@polkadot/util';
+import { assert, objectSpread } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
@@ -77,7 +77,7 @@ function useLedgerImpl (): State {
   );
 
   return useMemo(
-    () => ({ ...(isApiReady ? getState(api) : EMPTY_STATE), getLedger }),
+    () => objectSpread({ getLedger }, isApiReady ? getState(api) : EMPTY_STATE),
     [api, getLedger, isApiReady]
   );
 }

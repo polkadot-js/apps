@@ -9,9 +9,7 @@ import { KeyringCtx } from './ctx/Keyring';
 import { createNamedHook } from './createNamedHook';
 
 function useAccountsImpl (): Accounts {
-  const { accounts } = useContext(KeyringCtx);
-
-  return accounts;
+  return useContext(KeyringCtx).accounts;
 }
 
 export const useAccounts = createNamedHook('useAccounts', useAccountsImpl);

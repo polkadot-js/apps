@@ -247,7 +247,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
 
-  return useMemo(() => ({
+  return {
     accountIndex,
     flags,
     genesisHash,
@@ -269,7 +269,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
     tags,
     toggleIsEditingName,
     toggleIsEditingTags
-  }), [accountIndex, flags, genesisHash, identity, isEditing, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, onSetGenesisHash, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags, value]);
+  };
 }
 
 export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

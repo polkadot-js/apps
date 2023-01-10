@@ -11,6 +11,7 @@ import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
+import { useMemoValue } from './useMemoValue';
 
 export type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
@@ -26,18 +27,18 @@ const EMPTY_RESULT: Result = {
 
 const IDENTITY_FILTER = () => true;
 
-function useEventTriggerImpl (_checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
+function useEventTriggerImpl (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
   const { api } = useApi();
   const [state, setState] = useState(() => EMPTY_RESULT);
-  const [checks] = useState(() => _checks);
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
+  const memoChecks = useMemoValue(checks);
 
   useEffect((): void => {
     if (mountedRef.current && eventRecords) {
       const events = eventRecords.filter((r) =>
         r.event &&
-        checks.some((c) => c && c.is(r.event)) &&
+        memoChecks.some((c) => c && c.is(r.event)) &&
         filter(r)
       );
 
@@ -48,7 +49,7 @@ function useEventTriggerImpl (_checks: EventCheck[], filter: (record: EventRecor
         });
       }
     }
-  }, [eventRecords, checks, filter, mountedRef]);
+  }, [eventRecords, filter, memoChecks, mountedRef]);
 
   return state;
 }

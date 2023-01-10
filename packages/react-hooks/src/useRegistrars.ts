@@ -23,6 +23,22 @@ interface State {
   skipQuery?: boolean;
 }
 
+function getState (allAccounts: string[], hasAccounts: boolean, query?: Option<RegistrarInfo>[]): State {
+  const registrars = (query || [])
+    .map((registrar, index): RegistrarNull => ({
+      address: registrar.isSome
+        ? registrar.unwrap().account.toString()
+        : null,
+      index
+    }))
+    .filter((registrar): registrar is Registrar => !!registrar.address);
+
+  return {
+    isRegistrar: hasAccounts && registrars.some(({ address }) => allAccounts.includes(address)),
+    registrars
+  };
+}
+
 function useRegistrarsImpl (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -30,21 +46,7 @@ function useRegistrarsImpl (skipQuery?: boolean): State {
 
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(
-    (): State => {
-      const registrars = (query || [])
-        .map((registrar, index): RegistrarNull => ({
-          address: registrar.isSome
-            ? registrar.unwrap().account.toString()
-            : null,
-          index
-        }))
-        .filter((registrar): registrar is Registrar => !!registrar.address);
-
-      return {
-        isRegistrar: hasAccounts && registrars.some(({ address }) => allAccounts.includes(address)),
-        registrars
-      };
-    },
+    () => getState(allAccounts, hasAccounts, query),
     [allAccounts, hasAccounts, query]
   );
 }

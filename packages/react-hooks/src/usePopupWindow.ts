@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 import { getPosition } from '@polkadot/react-components/Popup/utils';
@@ -43,10 +43,7 @@ function usePopupWindowImpl (windowRef: React.RefObject<HTMLDivElement>, trigger
     }
   }, [position, scrollY, triggerCoords, pointerStyle, windowCoords, windowSize]);
 
-  return useMemo(
-    () => ({ pointerStyle, renderCoords }),
-    [renderCoords, pointerStyle]
-  );
+  return { pointerStyle, renderCoords };
 }
 
 export const usePopupWindow = createNamedHook('usePopupWindow', usePopupWindowImpl);

@@ -11,16 +11,22 @@ interface Result {
   ipfsUrl: string;
 }
 
+function getResult (ipfsHash?: string | null): Result | null {
+  if (!ipfsHash) {
+    return null;
+  }
+
+  return {
+    ipfsHash,
+    ipfsShort: `${ipfsHash.substring(0, 4)}…${ipfsHash.slice(-4)}`,
+    // ipfsUrl: `https://cloudflare-ipfs.com/ipfs/${ipfs}`
+    ipfsUrl: `https://ipfs.io/ipfs/${ipfsHash}`
+  };
+}
+
 function useIpfsLinkImpl (ipfsHash?: string | null): Result | null {
   return useMemo(
-    () => ipfsHash
-      ? {
-        ipfsHash,
-        ipfsShort: `${ipfsHash.substring(0, 4)}…${ipfsHash.slice(-4)}`,
-        // ipfsUrl: `https://cloudflare-ipfs.com/ipfs/${ipfs}`
-        ipfsUrl: `https://ipfs.io/ipfs/${ipfsHash}`
-      }
-      : null,
+    () => getResult(ipfsHash),
     [ipfsHash]
   );
 }

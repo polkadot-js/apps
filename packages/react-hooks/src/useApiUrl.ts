@@ -18,16 +18,20 @@ function disconnect (provider: ProviderInterface | null): null {
   return null;
 }
 
+function shuffleUrls (url?: null | string | string[]): string[] {
+  return url
+    ? isString(url)
+      ? [url]
+      : arrayShuffle(url.filter((u) => !u.startsWith('light://')))
+    : [];
+}
+
 function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
   const providerRef = useRef<ProviderInterface | null>(null);
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ApiPromise | null>(null);
   const urls = useMemo(
-    () => url
-      ? isString(url)
-        ? [url]
-        : arrayShuffle(url.filter((u) => !u.startsWith('light://')))
-      : [],
+    () => shuffleUrls(url),
     [url]
   );
 

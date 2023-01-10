@@ -16,7 +16,10 @@ export function getEndpoint (apiUrl?: string): LinkOption | null {
 }
 
 function useEndpointImpl (apiUrl?: string): LinkOption | null {
-  return useMemo(() => getEndpoint(apiUrl), [apiUrl]);
+  return useMemo(
+    () => getEndpoint(apiUrl),
+    [apiUrl]
+  );
 }
 
 export const useEndpoint = createNamedHook('useEndpoint', useEndpointImpl);

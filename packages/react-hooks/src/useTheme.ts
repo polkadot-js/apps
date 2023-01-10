@@ -3,7 +3,7 @@
 
 import type { ThemeDef } from './ctx/types';
 
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import { createNamedHook } from './createNamedHook';
@@ -16,13 +16,10 @@ interface Theme {
 function useThemeImpl (): Theme {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
-  return useMemo(
-    (): Theme => ({
-      theme,
-      themeClassName: `theme--${theme}`
-    }),
-    [theme]
-  );
+  return {
+    theme,
+    themeClassName: `theme--${theme}`
+  };
 }
 
 export const useTheme = createNamedHook('useTheme', useThemeImpl);

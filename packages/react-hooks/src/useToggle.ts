@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
@@ -9,16 +9,16 @@ import { useIsMountedRef } from './useIsMountedRef';
 // Simple wrapper for a true/false toggle
 function useToggleImpl (defaultValue = false, onToggle?: (isActive: boolean) => void): [boolean, () => void, (value: boolean) => void] {
   const mountedRef = useIsMountedRef();
-  const [isActive, setActive] = useState(defaultValue);
+  const [isActive, setIsActive] = useState(defaultValue);
 
-  const _toggleActive = useCallback(
+  const toggleActive = useCallback(
     (): void => {
-      mountedRef.current && setActive((isActive) => !isActive);
+      mountedRef.current && setIsActive((isActive) => !isActive);
     },
     [mountedRef]
   );
 
-  const _setActive = useCallback(
+  const setActive = useCallback(
     (isActive: boolean): void => {
       mountedRef.current && setActive(isActive);
     },
@@ -30,10 +30,7 @@ function useToggleImpl (defaultValue = false, onToggle?: (isActive: boolean) => 
     [isActive, onToggle]
   );
 
-  return useMemo(
-    () => [isActive, _toggleActive, _setActive],
-    [isActive, _toggleActive, _setActive]
-  );
+  return [isActive, toggleActive, setActive];
 }
 
 export const useToggle = createNamedHook('useToggle', useToggleImpl);

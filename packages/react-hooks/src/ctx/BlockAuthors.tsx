@@ -14,11 +14,17 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_HEADERS = 75;
-
+// This is global - we assume that there is only ever 1 of these contexts that
+// are being used
+//
+// TODO If we ever do publish this package, we need to ensure we have a check
+// to see that there is indeed only 1 Provider (we could just add a counter here)
+//
+// (Also see BlockEvents for the same one-global, only-once impl.)
 const byAuthor: Record<string, string> = {};
 const eraPoints: Record<string, string> = {};
 
+const MAX_HEADERS = 75;
 const EMPTY_STATE: BlockAuthors = { byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] };
 
 export const BlockAuthorsCtx = React.createContext<BlockAuthors>(EMPTY_STATE);

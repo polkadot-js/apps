@@ -13,13 +13,16 @@ import { useRegistrars } from './useRegistrars';
 
 function useJudgementsImpl (address: string): UseJudgements {
   const { identity } = useAccountInfo(address);
-  const { registrars: allRegistrars } = useRegistrars();
+  const { registrars } = useRegistrars();
 
-  const judgementsWithRegistrarIndexes = useMemo(() => getJudgements(identity), [identity]);
+  const judgements = useMemo(
+    () => getJudgements(identity),
+    [identity]
+  );
 
   return useMemo(
-    () => matchRegistrarAccountsWithIndexes(judgementsWithRegistrarIndexes, allRegistrars),
-    [allRegistrars, judgementsWithRegistrarIndexes]
+    () => matchRegistrarAccountsWithIndexes(judgements, registrars),
+    [judgements, registrars]
   );
 }
 

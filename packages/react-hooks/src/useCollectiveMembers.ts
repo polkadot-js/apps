@@ -27,16 +27,18 @@ const OPT_PRM = {
     accountId && accountId.toString()
 };
 
+const EMPTY_PARAM: string[] = [];
+
 function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall(api.derive[collective as 'council']?.members, [], OPT_MEM);
-  const prime = useCall(api.derive[collective as 'council']?.prime, [], OPT_PRM);
+  const members = useCall(api.derive[collective as 'council']?.members, EMPTY_PARAM, OPT_MEM);
+  const prime = useCall(api.derive[collective as 'council']?.prime, EMPTY_PARAM, OPT_PRM);
 
   return useMemo(
     () => ({
-      isMember: (members || []).some((a) => allAccounts.includes(a)),
-      members: (members || []),
+      isMember: (members || EMPTY_PARAM).some((a) => allAccounts.includes(a)),
+      members: (members || EMPTY_PARAM),
       prime
     }),
     [allAccounts, members, prime]

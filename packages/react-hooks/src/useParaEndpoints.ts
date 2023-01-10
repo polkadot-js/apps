@@ -11,6 +11,7 @@ import { bnToBn } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
+import { useMemoValue } from './useMemoValue';
 
 const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
 
@@ -52,15 +53,16 @@ export const useParaEndpoints = createNamedHook('useParaEndpoints', useParaEndpo
 
 function useIsParasLinkedImpl (ids?: (BN | number)[] | null): Record<string, boolean> {
   const endpoints = useRelayEndpoints();
+  const memoIds = useMemoValue(ids);
 
   return useMemo(
-    () => ids
-      ? ids.reduce((all: Record<string, boolean>, id) => ({
+    () => memoIds
+      ? memoIds.reduce((all: Record<string, boolean>, id) => ({
         ...all,
         [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0
       }), {})
       : {},
-    [endpoints, ids]
+    [endpoints, memoIds]
   );
 }
 

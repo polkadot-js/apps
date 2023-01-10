@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { createNamedHook } from './createNamedHook';
 import { useCacheKey } from './useCacheKey';
@@ -22,10 +22,7 @@ function useFavoritesImpl (storageKeyBase: string): [string[], (address: string)
     [setCache]
   );
 
-  return useMemo(
-    () => [favorites, toggleFavorite],
-    [favorites, toggleFavorite]
-  );
+  return [favorites, toggleFavorite];
 }
 
 export const useFavorites = createNamedHook('useFavorites', useFavoritesImpl);

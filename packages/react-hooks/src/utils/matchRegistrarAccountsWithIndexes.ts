@@ -4,16 +4,11 @@
 import type { SortedJudgements } from '@polkadot/react-components/util/types';
 import type { Judgement, Registrar } from '../types';
 
-export function matchRegistrarAccountsWithIndexes (
-  judgementsWithRegistrarIndexes: SortedJudgements,
-  allRegistrars: Registrar[]
-): Judgement[] {
-  return judgementsWithRegistrarIndexes.map(({ judgementName, registrarsIndexes }) => {
-    const findRegistrarByIndex = (index: number) => allRegistrars.find((registrar) => registrar.index === index);
+export function matchRegistrarAccountsWithIndexes (judgements: SortedJudgements, registrars: Registrar[]): Judgement[] {
+  const findRegistrar = (index: number) => registrars.find((r) => r.index === index);
 
-    return {
-      judgementName,
-      registrars: registrarsIndexes.map((index) => findRegistrarByIndex(index.toNumber()))
-    };
-  });
+  return judgements.map(({ judgementName, registrarsIndexes }) => ({
+    judgementName,
+    registrars: registrarsIndexes.map((index) => findRegistrar(index.toNumber()))
+  }));
 }
