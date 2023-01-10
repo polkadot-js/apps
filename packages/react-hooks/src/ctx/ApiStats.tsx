@@ -65,13 +65,11 @@ function combineStats (...all: (ProviderStats | undefined)[]): { stats: Provider
 export const ApiStatsCtx = React.createContext<ApiStats[]>(EMPTY_STATE);
 
 function addStats (prev: ApiStats[], curr: ApiStats): ApiStats[] {
-  if (prev.length === 0) {
-    return [curr];
-  }
-
-  return prev.length === MAX_NUM
-    ? prev.concat(curr).slice(-MAX_NUM)
-    : prev.concat(curr);
+  return prev.length === 0
+    ? [curr]
+    : prev.length === MAX_NUM
+      ? prev.concat(curr).slice(-MAX_NUM)
+      : prev.concat(curr);
 }
 
 export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
