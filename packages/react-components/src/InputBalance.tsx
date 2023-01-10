@@ -70,15 +70,21 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     const preLength = defaultValue.indexOf('.');
     const pre = strValue.slice(0, preLength);
     let post = strValue.slice(preLength);
+    let end = post.length - 1;
 
-    // remove all trailing zeros
-    while (post.length && post[post.length - 1] === '0') {
-      post = post.slice(0, -1);
-    }
+    // This looks inefficient, however it is better to do the checks and
+    // only make one final slice than it is to do it in multiples
+    do {
+      if (post[end] === '0') {
+        end--;
+      }
+    } while (post[end] === '0');
+
+    post = post.substring(0, end + 1);
 
     // ensure we are at at least 4 decimals
     if (post.length < 4) {
-      post = `${post}0000`.slice(0, 4);
+      post = post.padEnd(4, '0');
     }
 
     // combine the 2 parts again
