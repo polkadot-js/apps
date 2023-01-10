@@ -57,6 +57,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
+
+  const [delegationn, setdelegation] = useState();
+
+
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
@@ -115,10 +119,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   );
 
   const header = useRef([
-    [t('Delegation'), 'start', 3],
-    [t('type')],
-    [t('transactions'), 'media--1500'],
-    [t('balances'), 'balances'],
+    [t('Your Representatives'), 'start', 3],
+    // [t('type')],
+    // [t('transactions'), 'media--1500'],
+    // [t('balances'), 'balances'],
     []
   ]);
 
@@ -161,10 +165,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
+      
   const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
 
     accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
+      // setdelegation(delegation);
+      if (delegation !== undefined) {
+        setdelegation(delegation !== undefined ? delegation : null);
+      }
+      console.log(delegation,"delegation!!!!!!!!!!!!!")
       ret[address] =
         <Account
           account={account}
@@ -185,7 +195,15 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
 
+
+  console.log(delegationn,"PLEASE!!!")
+
   const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
+
+  // console.log(sortedAccounts.length,"sortedAccounts")
+  // console.log(delegations !== undefined ? delegations : 0,"delegations")
+  console.log(delegationn,"delegations")
+
 
   return (
     <div className={className}>
@@ -285,7 +303,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </Button.Group>
       </SummaryBox> */}
-      <Table
+
+
+      {/* <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         header={header.current}
         withCollapsibleRows
@@ -293,7 +313,20 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         {!isLoading &&
           sortedAccounts.map(({ address }) => accountComponents[address])
         }
-      </Table>
+      </Table> */}
+
+{delegationn === undefined ? 
+ null
+ :   <Table
+ empty={delegationn === undefined && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+ header={header.current}
+ withCollapsibleRows
+>
+ {!isLoading &&
+   sortedAccounts.map(({ address }) => accountComponents[address])
+ }
+</Table>}
+
     </div>
   );
 }
