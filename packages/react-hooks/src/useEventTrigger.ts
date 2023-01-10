@@ -33,7 +33,6 @@ function useEventTriggerImpl (checks: EventCheck[], filter: (record: EventRecord
   const memoChecks = useMemoValue(checks);
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
-  const memoChecks = useMemoValue(checks);
 
   useEffect((): void => {
     if (mountedRef.current && eventRecords) {
