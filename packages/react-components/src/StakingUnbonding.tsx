@@ -77,8 +77,8 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
         />
       )}
       <FormatBalance value={total} />
-      <Tooltip
-        text={mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
+      <Tooltip trigger={trigger}>
+        {mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -97,8 +97,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
             </div>
           </div>
         ))}
-        trigger={trigger}
-      />
+      </Tooltip>
       {iconPosition === 'right' && (
         <Icon
           className='right'

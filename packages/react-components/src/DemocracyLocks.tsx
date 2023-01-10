@@ -119,8 +119,8 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
         }
         value={maxBalance}
       />
-      <Tooltip
-        text={sorted.map(({ details, headers }, index): React.ReactNode => (
+      <Tooltip trigger={trigger}>
+        {sorted.map(({ details, headers }, index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -131,8 +131,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
             <div className='faded'>{details}</div>
           </div>
         ))}
-        trigger={trigger}
-      />
+      </Tooltip>
     </div>
   );
 }
