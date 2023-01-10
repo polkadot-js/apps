@@ -41,10 +41,13 @@ export default React.memo(styled(Holder)`
     padding-left: 4rem;
   }
 
-  .ui--Param-composite .ui--row > .ui--Labelled > label {
-    text-transform: none !important;
-    font: var(--font-mono);
-    font-size: var(--font-size-label);
+  .ui--Param-composite .ui--row,
+  .ui--Param-composite .ui--row .ui--InputAddressSimple {
+    & > .ui--Labelled > label {
+      text-transform: none !important;
+      font: var(--font-mono);
+      font-size: var(--font-size-label);
+    }
   }
 
   .ui--row {
