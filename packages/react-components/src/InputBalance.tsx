@@ -55,18 +55,19 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     ? formatBalance.calcSi(strValue, decimals)
     : formatBalance.findSi('-');
 
-  // we format and split - since we want to ensure we don't lose any
-  // relevent details, we actually want to bypass the formatter here
-  const formatted = formatBalance(strValue, {
+  // format the value and set the default to it - it may be tweaked
+  let defaultValue = formatBalance(strValue, {
     decimals,
     forceUnit: siDefault.value,
     withSi: false
   });
-  let defaultValue = formatted;
 
+  // for active inputs only we ensure that we display all
+  // the available decimals. For isDisabled inputs we just
+  // stick to the default formatted
   if (!isDisabled) {
     // find the position of the seperator and work around it
-    const preLength = formatted.indexOf('.');
+    const preLength = defaultValue.indexOf('.');
     const pre = strValue.slice(0, preLength);
     let post = strValue.slice(preLength);
 
