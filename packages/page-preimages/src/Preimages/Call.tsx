@@ -6,6 +6,7 @@ import type { Preimage } from '../types';
 import React from 'react';
 
 import { AddressMini, CallExpander, MarkError, MarkWarning } from '@polkadot/react-components';
+import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
 
 import { useTranslation } from '../translate';
 
@@ -14,8 +15,6 @@ interface Props {
   noTmp?: boolean;
   value?: Preimage;
 }
-
-const NULL_ADDR = '0x1234567812345678123456781234567812345678123456781234567812345678';
 
 function PreimageCall ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -57,7 +56,7 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
           : (
             <AddressMini
               className='--tmp'
-              value={NULL_ADDR}
+              value={ZERO_ACCOUNT}
             />
           )}
       </td>

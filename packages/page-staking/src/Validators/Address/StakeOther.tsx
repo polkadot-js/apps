@@ -67,8 +67,6 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
     [api, nominators, stakeOther]
   );
 
-  console.log(nominators?.length, rewarded);
-
   return (
     <td className='expand all'>
       {(!rewarded || rewarded[0] !== 0) && (

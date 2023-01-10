@@ -30,6 +30,7 @@ const IDENTITY_FILTER = () => true;
 function useEventTriggerImpl (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): Result {
   const { api } = useApi();
   const [state, setState] = useState(() => EMPTY_RESULT);
+  const memoChecks = useMemoValue(checks);
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
   const memoChecks = useMemoValue(checks);

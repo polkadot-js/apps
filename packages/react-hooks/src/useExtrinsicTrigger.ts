@@ -18,6 +18,7 @@ function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
   const { api } = useApi();
   const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
+  const memoChecks = useMemoValue(checks);
   const block = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const memoChecks = useMemoValue(checks);
 
