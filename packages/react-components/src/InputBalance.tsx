@@ -6,7 +6,7 @@ import type { SiDef } from '@polkadot/util/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BN, BN_TEN, formatBalance, isString, isUndefined } from '@polkadot/util';
+import { BN, BN_TEN, formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -43,18 +43,46 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     return {};
   }
 
+  // based on the number of decimals defined, get the maximum length
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
   const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
-  const siDefault = isString(value) && (value.length < maxDisabled.length) && value !== '0'
-    ? formatBalance.calcSi(value.toString(), decimals)
+
+  // convert to a string value and reformat it, with the actual calculated decimals
+  const strValue = value.toString();
+  const siDefault = (strValue.length < maxDisabled.length) && strValue !== '0'
+    ? formatBalance.calcSi(strValue, decimals)
     : formatBalance.findSi('-');
-  const defaultValue = formatBalance(value, {
+
+  // we format and split - since we want to ensure we don't lose any
+  // relevent details, we actually want to bypass the formatter here
+  const formatted = formatBalance(strValue, {
     decimals,
     forceUnit: siDefault.value,
     withSi: false
   });
+  let defaultValue = formatted;
+
+  if (!isDisabled) {
+    // find the position of the seperator and work around it
+    const preLength = formatted.indexOf('.');
+    const pre = strValue.slice(0, preLength);
+    let post = strValue.slice(preLength);
+
+    // remove all trailing zeros
+    while (post.length && post[post.length - 1] === '0') {
+      post = post.slice(0, -1);
+    }
+
+    // ensure we are at at least 4 decimals
+    if (post.length < 4) {
+      post = `${post}0000`.slice(0, 4);
+    }
+
+    // combine the 2 parts again
+    defaultValue = `${pre}.${post}`;
+  }
 
   return {
     defaultValue: isDisabled
