@@ -47,7 +47,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     ? formatBalance.getDefaults().decimals
     : siDecimals;
   const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
-  const siDefault = isDisabled && isString(value) && (value.length < maxDisabled.length) && value !== '0'
+  const siDefault = isString(value) && (value.length < maxDisabled.length) && value !== '0'
     ? formatBalance.calcSi(value.toString(), decimals)
     : formatBalance.findSi('-');
   const defaultValue = formatBalance(value, {
