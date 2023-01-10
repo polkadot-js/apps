@@ -18,6 +18,7 @@ import RoboHash from './RoboHash';
 
 interface Props {
   className?: string;
+  forceIconType?: 'ethereum' | 'substrate';
   prefix?: IdentityProps['prefix'];
   size?: number;
   theme?: IdentityProps['theme'] | 'robohash';
@@ -32,11 +33,12 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
   return !!(value && (value as AccountId).toHuman);
 }
 
-function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
   const { isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(systemName, specName);
+
   const Custom = thisTheme === 'robohash'
     ? RoboHash
     : undefined;
@@ -58,7 +60,7 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
       onCopy={_onCopy}
       prefix={prefix}
       size={size}
-      theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
+      theme={forceIconType || (isEthereum ? 'ethereum' : thisTheme as 'substrate')}
       value={isCodec(value) ? value.toString() : value}
     />
   );

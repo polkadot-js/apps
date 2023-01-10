@@ -11,6 +11,8 @@ import { isBn } from '@polkadot/util';
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';
+import AccountId20 from './BasicAccountId20';
+import AccountId32 from './BasicAccountId32';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Call from './Call';
@@ -43,12 +45,12 @@ interface TypeToComponent {
   t: string[];
 }
 
-const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
+const SPECIAL_TYPES = ['AccountId', 'AccountId20', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
 
 const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource', 'MultiAddress'] },
+  { c: Account, t: ['AccountId', 'Address', 'LookupSource', 'MultiAddress'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
@@ -142,6 +144,20 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
 }
 
 export default function findComponent (registry: Registry, def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  // Explicit/special handling for Account20/32 types where they don't match
+  // the actual chain we are connected to
+  if (['AccountId20', 'AccountId32'].includes(def.type)) {
+    const defType = `AccountId${registry.createType('AccountId').length}`;
+
+    if (def.type !== defType) {
+      if (def.type === 'AccountId20') {
+        return AccountId20;
+      } else {
+        return AccountId32;
+      }
+    }
+  }
+
   const findOne = (type?: string): React.ComponentType<Props> | null =>
     type
       ? overrides[type] || components[type]
