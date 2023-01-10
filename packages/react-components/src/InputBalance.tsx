@@ -88,7 +88,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
   return {
     defaultValue: isDisabled
       ? defaultValue
-      : defaultValue.replace(/,/g, isDisabled ? ',' : ''),
+      : defaultValue.replace(/,/g, ''),
     siDefault
   };
 }
