@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Accounts } from '@polkadot/react-hooks/ctx/types';
 import type { UseAccountInfo } from '@polkadot/react-hooks/types';
+import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
-import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import { BN } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance';
@@ -33,7 +33,7 @@ export interface AccountOverrides {
   info?: Override<UseAccountInfo>;
 }
 
-export const emptyAccounts: UseAccounts = {
+export const emptyAccounts: Accounts = {
   allAccounts: [],
   allAccountsHex: [],
   areAccountsLoaded: true,
@@ -89,7 +89,7 @@ export const defaultAccountInfo: UseAccountInfo = {
 } as any;
 
 class MockAccountHooks {
-  public useAccounts: UseAccounts = emptyAccounts;
+  public useAccounts: Accounts = emptyAccounts;
   public accountsMap: AccountsMap = {};
 
   public nonce: BN = new BN(1);

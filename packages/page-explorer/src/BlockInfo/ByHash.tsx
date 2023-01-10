@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
@@ -63,6 +63,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     ],
     [api, runtimeVersion]
   );
+
+  useEffect((): void => {
+    error && setBlkError(error);
+  }, [error]);
 
   const systemEvents = useMemo(
     () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
@@ -124,7 +128,13 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       />
       <Table header={header}>
         {blkError
-          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } })}</td></tr>
+          ? (
+            <tr>
+              <td colSpan={6}>
+                <MarkError content={t<string>('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } }) } />
+              </td>
+            </tr>
+          )
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>

@@ -23,6 +23,7 @@ function formatU8a (value: Raw): React.ReactNode {
       isDisabled
       params={[{ type: getTypeDef('Bytes') }]}
       values={[{ isValid: true, value }]}
+      withExpander
     />
   );
 }
@@ -42,6 +43,7 @@ function formatStruct (struct: Struct): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -60,6 +62,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -80,6 +83,7 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }

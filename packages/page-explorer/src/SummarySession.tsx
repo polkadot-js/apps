@@ -9,7 +9,7 @@ import React from 'react';
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Elapsed } from '@polkadot/react-query';
-import { BN_ONE, formatNumber } from '@polkadot/util';
+import { BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -26,44 +26,56 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
   const forcing = useCall<Forcing>(api.query.staking?.forceEra);
 
   const eraLabel = t<string>('era');
-  const sessionLabel = sessionInfo?.isEpoch
+  const sessionLabel = api.query.babe
     ? t<string>('epoch')
     : t<string>('session');
   const activeEraStart = sessionInfo?.activeEraStart.unwrapOr(null);
 
   return (
     <>
-      {sessionInfo && (
+      {api.derive.session && (
         <>
           {withSession && (
-            sessionInfo.sessionLength.gt(BN_ONE)
+            api.query.babe
               ? (
                 <CardSummary
                   className={className}
                   label={sessionLabel}
                   progress={{
-                    total: sessionInfo.sessionLength,
-                    value: sessionInfo.sessionProgress,
+                    isBlurred: !sessionInfo,
+                    total: sessionInfo?.sessionLength || BN_THREE,
+                    value: sessionInfo?.sessionProgress || BN_TWO,
                     withTime: true
                   }}
                 />
               )
               : (
                 <CardSummary label={sessionLabel}>
-                  #{formatNumber(sessionInfo.currentIndex)}
+                  #{sessionInfo
+                    ? formatNumber(sessionInfo.currentIndex)
+                    : <span className='--tmp'>123</span>}
                   {withEra && activeEraStart && <div className='isSecondary'>&nbsp;</div>}
                 </CardSummary>
               )
           )}
-          {forcing && !forcing.isForceNone && withEra && (
-            sessionInfo.sessionLength.gt(BN_ONE)
+          {withEra && (
+            api.query.babe
               ? (
                 <CardSummary
                   className={className}
                   label={eraLabel}
                   progress={{
-                    total: forcing.isForceAlways ? sessionInfo.sessionLength : sessionInfo.eraLength,
-                    value: forcing.isForceAlways ? sessionInfo.sessionProgress : sessionInfo.eraProgress,
+                    isBlurred: !(sessionInfo && forcing),
+                    total: sessionInfo && forcing
+                      ? forcing.isForceAlways
+                        ? sessionInfo.sessionLength
+                        : sessionInfo.eraLength
+                      : BN_THREE,
+                    value: sessionInfo && forcing
+                      ? forcing.isForceAlways
+                        ? sessionInfo.sessionProgress
+                        : sessionInfo.eraProgress
+                      : BN_TWO,
                     withTime: true
                   }}
                 />
@@ -73,10 +85,12 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                   className={className}
                   label={eraLabel}
                 >
-                  #{formatNumber(sessionInfo.activeEra)}
+                  #{sessionInfo
+                    ? formatNumber(sessionInfo.activeEra)
+                    : <span className='--tmp'>123</span>}
                   {activeEraStart && (
                     <Elapsed
-                      className='isSecondary'
+                      className={`${sessionInfo ? '' : '--tmp'} isSecondary`}
                       value={activeEraStart}
                     >
                       &nbsp;{t('elapsed')}

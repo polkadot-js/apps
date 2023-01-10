@@ -84,7 +84,7 @@ export default React.memo(styled(Labelled)`
         .labelExtra {
           position: absolute;
           text-align: left;
-          top: 0.5rem;
+          top: 0.75rem;
           z-index: 1;
         }
 
@@ -108,10 +108,12 @@ export default React.memo(styled(Labelled)`
       }
 
       .labelExtra {
-        color: rgba(78, 78, 78, .85);
+        color: var(--color-label);
+        font-size: var(--font-size-label);
         font-weight: var(--font-weight-normal);
         right: 1.75rem;
         text-align: right;
+        text-transform: var(--text-transform-label);
       }
 
       > .ui--Labelled-content {

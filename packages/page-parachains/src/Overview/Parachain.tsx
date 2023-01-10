@@ -104,23 +104,20 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         <ParaLink id={id} />
       </td>
       <td className='number media--1400'>
-        {validators && validators[1].length !== 0 && (
-          <Expander
-            renderChildren={valRender}
-            summary={t<string>('Val. Group {{group}} ({{count}})', {
-              replace: {
-                count: formatNumber(validators[1].length),
-                group: validators[0]
-              }
-            })}
-          />
-        )}
-        {nonBacked && (
-          <Expander
-            renderChildren={bckRender}
-            summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
-          />
-        )}
+        <Expander
+          className={validators ? '' : '--tmp'}
+          renderChildren={valRender}
+          summary={t<string>('Val. Group {{group}} ({{count}})', {
+            replace: {
+              count: formatNumber(validators?.[1]?.length || 0),
+              group: validators ? validators[0] : 0
+            }
+          })}
+        />
+        <Expander
+          renderChildren={bckRender}
+          summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
+        />
       </td>
       <td className='start together hash media--1500'>{paraInfo.headHex}</td>
       <td className='start'>

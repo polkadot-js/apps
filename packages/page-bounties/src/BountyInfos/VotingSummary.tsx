@@ -51,7 +51,7 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
 
 export default React.memo(styled(VotingSummary)`
   .voting-summary-text {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.5rem;
     color: var(--color-label);
 

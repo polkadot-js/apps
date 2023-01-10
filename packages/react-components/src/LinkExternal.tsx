@@ -73,7 +73,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
       <div className='links'>
         {links.length
           ? links.map((link, index) => <span key={index}>{link}</span>)
-          : <label>{t('none')}</label>
+          : <div>{t<string>('none')}</div>
         }
       </div>
     </div>
@@ -88,7 +88,7 @@ export default React.memo(styled(LinkExternal)`
   }
 
   &.isSmall {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.35;
     text-align: center;
   }

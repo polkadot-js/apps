@@ -3,14 +3,23 @@
 
 import { useMemo } from 'react';
 
-import { createNamedHook, useAccounts, useAddresses } from '@polkadot/react-hooks';
+import { createNamedHook, useKeyring } from '@polkadot/react-hooks';
+
+function merge (result: string[], input: string[], exclude?: string): string[] {
+  return input.reduce<string[]>((result, a) => {
+    if (a !== exclude && !result.includes(a)) {
+      result.push(a);
+    }
+
+    return result;
+  }, result);
+}
 
 function useKnownAddressesImpl (exclude?: string): string[] {
-  const { allAccounts } = useAccounts();
-  const { allAddresses } = useAddresses();
+  const { accounts: { allAccounts }, addresses: { allAddresses } } = useKeyring();
 
   return useMemo(
-    () => [...allAccounts, ...allAddresses].filter((a) => a !== exclude),
+    () => merge(merge([], allAccounts, exclude), allAddresses, exclude),
     [allAccounts, allAddresses, exclude]
   );
 }

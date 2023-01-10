@@ -10,7 +10,7 @@ import React, { useMemo } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_THREE, BN_TWO, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,6 +29,7 @@ interface Props {
 
 interface ProgressInfo {
   hideValue: true;
+  isBlurred: boolean;
   total: BN;
   value: BN;
 }
@@ -38,14 +39,13 @@ const OPT_REWARD = {
     optBalance.unwrapOrDefault()
 };
 
-function getProgressInfo (value?: BN, total?: BN): ProgressInfo | undefined {
-  return value && total && !total.isZero()
-    ? {
-      hideValue: true,
-      total,
-      value
-    }
-    : undefined;
+function getProgressInfo (value?: BN, total?: BN): ProgressInfo {
+  return {
+    hideValue: true,
+    isBlurred: !(value && total),
+    total: (value && total) ? total : BN_THREE,
+    value: (value && total) ? value : BN_TWO
+  };
 }
 
 function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
@@ -66,43 +66,46 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
   return (
     <SummaryBox>
       <section className='media--800'>
-        {progressStake && (
-          <CardSummary
-            label={t<string>('total staked')}
-            progress={progressStake}
-          >
-            <FormatBalance
-              value={totalStaked}
-              withSi
-            />
-          </CardSummary>
-        )}
+        <CardSummary
+          label={t<string>('total staked')}
+          progress={progressStake}
+        >
+          <FormatBalance
+            className={progressStake.isBlurred ? '--tmp' : ''}
+            value={progressStake.total}
+            withSi
+          />
+        </CardSummary>
       </section>
       <section className='media--800'>
-        {totalIssuance && (stakedReturn > 0) && Number.isFinite(stakedReturn) && (
-          <CardSummary label={t<string>('returns')}>
-            {stakedReturn.toFixed(1)}%
-          </CardSummary>
-        )}
+        <CardSummary label={t<string>('returns')}>
+          {totalIssuance && (stakedReturn > 0)
+            ? Number.isFinite(stakedReturn)
+              ? <>{stakedReturn.toFixed(1)}%</>
+              : '-.-%'
+            : <span className='--tmp'>0.0%</span>
+          }
+        </CardSummary>
       </section>
       <section className='media--1000'>
-        {progressAvg && (
-          <CardSummary
-            label={`${t<string>('lowest / avg staked')}`}
-            progress={progressAvg}
-          >
+        <CardSummary
+          label={`${t<string>('lowest / avg staked')}`}
+          progress={progressAvg}
+        >
+          <span className={progressAvg.isBlurred ? '--tmp' : ''}>
             <FormatBalance
-              value={lowStaked}
+              value={progressAvg.value}
               withCurrency={false}
               withSi
             />
             &nbsp;/&nbsp;
             <FormatBalance
-              value={avgStaked}
+              className={progressAvg.isBlurred ? '--tmp' : ''}
+              value={progressAvg.total}
               withSi
             />
-          </CardSummary>
-        )}
+          </span>
+        </CardSummary>
       </section>
       <section className='media--1600'>
         {minNominated?.gt(BN_ZERO) && (
@@ -131,14 +134,13 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         )}
       </section>
       <section>
-        {lastReward?.gt(BN_ZERO) && (
-          <CardSummary label={t<string>('last reward')}>
-            <FormatBalance
-              value={lastReward}
-              withSi
-            />
-          </CardSummary>
-        )}
+        <CardSummary label={t<string>('last reward')}>
+          <FormatBalance
+            className={lastReward ? '' : '--tmp'}
+            value={lastReward || 1}
+            withSi
+          />
+        </CardSummary>
       </section>
     </SummaryBox>
   );

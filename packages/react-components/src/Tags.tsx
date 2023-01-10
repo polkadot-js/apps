@@ -33,7 +33,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
           label={tag}
         />
       ))
-      : <label>{t<string>('none')}</label>,
+      : <div>{t<string>('none')}</div>,
     [t, value]
   );
 

@@ -20,6 +20,7 @@ export interface Props {
   className?: string;
   eventName?: string;
   value: Event;
+  withExpander?: boolean;
 }
 
 interface Value {
@@ -31,7 +32,7 @@ interface AbiEvent extends DecodedEvent {
   values: Value[];
 }
 
-function EventDisplay ({ children, className = '', eventName, value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className = '', eventName, value, withExpander }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const names = value.data.names;
   const params = value.typeDef.map((type, i) => ({
@@ -84,6 +85,7 @@ function EventDisplay ({ children, className = '', eventName, value }: Props): R
         overrides={overrides}
         params={params}
         values={values}
+        withExpander={withExpander}
       >
         {abiEvent && (
           <>

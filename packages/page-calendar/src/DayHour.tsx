@@ -74,11 +74,11 @@ export default React.memo(styled(DayHour)`
 
   .hourLabel {
     flex: 0;
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
     line-height: 1;
     min-width: 5.5rem;
-    opacity: 0.5;
+    opacity: 0.6;
     padding: 0.5rem 1rem;
     text-align: right;
     text-transform: uppercase;

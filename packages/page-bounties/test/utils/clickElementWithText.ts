@@ -3,8 +3,8 @@
 
 import { fireEvent } from '@testing-library/react';
 
-export const clickElementWithText = async (text: string, findByText: (name: string) => Promise<HTMLElement>): Promise<void> => {
+export async function clickElementWithText (text: string, findByText: (name: string) => Promise<HTMLElement>): Promise<void> {
   const element = await findByText(text);
 
   fireEvent.click(element);
-};
+}

@@ -91,7 +91,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
@@ -171,7 +171,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           </Button.Group>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'

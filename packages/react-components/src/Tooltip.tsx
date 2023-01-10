@@ -13,22 +13,15 @@ function rootElement () {
 }
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
-  clickable?: boolean;
-  dataFor?: string;
-  effect?: 'solid' | 'float';
-  offset?: {
-    bottom?: number;
-    left?: number;
-    right?: number;
-    top?: number;
-  };
+  isCickable?: boolean;
   place?: 'bottom' | 'top' | 'right' | 'left';
-  text: React.ReactNode;
+  text?: React.ReactNode;
   trigger: string;
 }
 
-function Tooltip ({ className = '', clickable = false, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ children, className = '', isCickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -48,19 +41,24 @@ function Tooltip ({ className = '', clickable = false, effect = 'solid', offset,
   return createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
-      clickable={clickable}
-      effect={effect}
+      clickable={isCickable}
+      effect='solid'
       id={trigger}
-      offset={offset}
       place={place}
     >
-      {className?.includes('address') ? <div>{text}</div> : text}
+      <div className='tooltipSpacer'>
+        {text}{children}
+      </div>
     </ReactTooltip>,
     tooltipContainer
   );
 }
 
 export default React.memo(styled(Tooltip)`
+  .tooltipSpacer {
+    padding: 0.375rem;
+  }
+
   > div {
     overflow: hidden;
   }

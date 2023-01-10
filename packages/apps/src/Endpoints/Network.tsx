@@ -90,7 +90,7 @@ export default React.memo(styled(NetworkDisplay)`
   position: relative;
 
   &.isUnreachable {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   &.isSelected,
@@ -118,5 +118,11 @@ export default React.memo(styled(NetworkDisplay)`
         opacity: 0.8;
       }
     }
+  }
+
+  // we jiggle our labels somewhat...
+  label {
+    font-size: var(--font-size-small);
+    text-transform: none;
   }
 `);

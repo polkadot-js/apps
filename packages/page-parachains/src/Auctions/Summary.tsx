@@ -30,12 +30,16 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('auctions')}>
-          {formatNumber(auctionInfo?.numAuctions)}
+          {auctionInfo
+            ? formatNumber(auctionInfo.numAuctions)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('active')}>
-          {auctionInfo?.leasePeriod
-            ? t<string>('yes')
-            : t<string>('no')
+          {auctionInfo
+            ? auctionInfo.leasePeriod
+              ? t<string>('yes')
+              : t<string>('no')
+            : <span className='--tmp'>{t<string>('no')}</span>
           }
         </CardSummary>
       </section>

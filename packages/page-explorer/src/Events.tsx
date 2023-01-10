@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
+import { MarkError, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Event from './Event';
@@ -44,7 +44,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
             className={eventClassName}
             key='error'
           >
-            <td>{error.message}</td>
+            <td><MarkError content={t<string>('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
           </tr>
         )
         : events && events.map(({ blockHash, blockNumber, indexes, key, record }): React.ReactNode => (

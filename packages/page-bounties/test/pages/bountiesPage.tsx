@@ -1,9 +1,10 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, RenderResult, within } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -14,10 +15,10 @@ import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
+import { ApiCtx } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
-import { QueueProvider } from '@polkadot/react-components/Status/Context';
-import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { KeyringCtxRoot } from '@polkadot/react-hooks';
+import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -65,6 +66,7 @@ export class BountiesPage {
   getAllByRole?: GetMany;
   findAllByTestId?: FindManyWithMatcher;
   queryAllByText?: GetMany;
+  renderResult?: RenderResult;
 
   constructor (api: ApiPromise) {
     ({ aBounty: this.aBounty, aBountyIndex: this.aBountyIndex, aBountyStatus: this.aBountyStatus, bountyStatusWith: this.bountyStatusWith, bountyWith: this.bountyWith } = new BountyFactory(api));
@@ -75,7 +77,8 @@ export class BountiesPage {
   }
 
   renderMany (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}): RenderedBountiesPage {
-    const { findAllByTestId, findByRole, findByTestId, findByText, getAllByRole, queryAllByText } = this.renderBounties(bountyApi, { balance });
+    const renderResult = this.renderBounties(bountyApi, { balance });
+    const { findAllByTestId, findByRole, findByTestId, findByText, getAllByRole, queryAllByText } = renderResult;
 
     this.findByRole = findByRole;
     this.findByText = findByText;
@@ -83,6 +86,7 @@ export class BountiesPage {
     this.getAllByRole = getAllByRole;
     this.findAllByTestId = findAllByTestId;
     this.queryAllByText = queryAllByText;
+    this.renderResult = renderResult;
 
     return { findAllByTestId, findByRole, findByTestId, findByText, getAllByRole, queryAllByText };
   }
@@ -119,15 +123,17 @@ export class BountiesPage {
       <>
         <div id='tooltips' />
         <Suspense fallback='...'>
-          <QueueProvider value={queue}>
-            <MemoryRouter>
-              <ThemeProvider theme={lightTheme}>
-                <ApiContext.Provider value={mockApi}>
-                  <Bounties />
-                </ApiContext.Provider>
-              </ThemeProvider>
-            </MemoryRouter>
-          </QueueProvider>
+          <QueueCtx.Provider value={queue}>
+            <KeyringCtxRoot>
+              <MemoryRouter>
+                <ThemeProvider theme={lightTheme}>
+                  <ApiCtx.Provider value={mockApi}>
+                    <Bounties />
+                  </ApiCtx.Provider>
+                </ThemeProvider>
+              </MemoryRouter>
+            </KeyringCtxRoot>
+          </QueueCtx.Provider>
         </Suspense>
       </>
     );
@@ -251,7 +257,7 @@ export class BountiesPage {
   }
 
   async openExtraActions (): Promise<void> {
-    await this.clickButtonByTestId('extra-actions');
+    await this.clickButtonByTestId('popup-open');
   }
 
   async openAcceptCuratorRole (): Promise<void> {

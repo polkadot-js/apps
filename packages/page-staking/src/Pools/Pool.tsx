@@ -54,15 +54,26 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isFirst isExpanded ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={poolId} />
         <td className='start'>
-          {info && (
-            <div className={isExpanded ? '' : 'clamp'}>{info.metadata}</div>
-          )}
+          <div className={`${isExpanded ? '' : 'clamp'}`}>
+            {info
+              ? info.metadata
+              : <span className='--tmp'>This is a pool placeholder</span>}
+          </div>
         </td>
-        <td className='number media--1100'>{info && info.bonded.state.type}</td>
-        <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
+        <td className='number media--1100'>
+          {info
+            ? info.bonded.state.type
+            : <span className='--tmp'>Destroying</span>}
+        </td>
+        <td className='number'>
+          <FormatBalance
+            className={info ? '' : '--tmp'}
+            value={info?.bonded.points || 1}
+          />
+        </td>
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (
@@ -105,7 +116,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
         </td>
       </tr>
       {info && isExpanded && (
-        <tr className={`${className} isExpanded`}>
+        <tr className={`${className} isExpanded isLast`}>
           <td colSpan={4}>
             <div className='label-column-right'>
               <div className='label'>{t('creator')}</div>

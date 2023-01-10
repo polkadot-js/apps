@@ -8,18 +8,28 @@ import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
-export interface Preimage {
-  deposit?: {
-    amount: BN;
-    who: string;
-  };
+export interface PreimageDeposit {
+  amount: BN;
+  who: string;
+}
+
+export interface PreimageStatus {
   count: number;
-  bytes: Bytes | null;
-  proposal: Call | null;
-  proposalError: string | null;
+  deposit?: PreimageDeposit;
+  isCompleted: boolean;
   proposalHash: HexString;
-  proposalLength: BN;
-  proposalWarning: string | null;
+  proposalLength?: BN;
   registry: Registry;
   status: PalletPreimageRequestStatus | null;
+}
+
+export interface PreimageBytes {
+  bytes?: Bytes | null;
+  proposal?: Call | null;
+  proposalError?: string | null;
+  proposalWarning?: string | null;
+}
+
+export interface Preimage extends PreimageBytes, PreimageStatus {
+  // just the interfaces above
 }

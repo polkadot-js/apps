@@ -20,7 +20,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
-  const theme = useTheme();
+  const { themeClassName } = useTheme();
   const { isDevelopment, specName, systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
@@ -33,7 +33,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper ${theme} ${className}`}>
+      <div className={`apps--Wrapper ${themeClassName} ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
@@ -57,5 +57,11 @@ export default React.memo(styled(Apps)`
 
   .--hidden {
     display: none;
+  }
+
+  .--tmp {
+    background: grey;
+    filter: blur(2px);
+    opacity: 0.2;
   }
 `);

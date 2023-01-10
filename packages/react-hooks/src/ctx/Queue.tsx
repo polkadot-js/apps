@@ -2,20 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@polkadot/react-components/Status/types';
 import type { Bytes } from '@polkadot/types';
 import type { DispatchError } from '@polkadot/types/interfaces';
 import type { ITuple, Registry, SignerPayloadJSON } from '@polkadot/types/types';
-import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
+import { getDispatchError, getIncompleteMessage } from '@polkadot/react-components/Status/checks';
+import { STATUS_COMPLETE } from '@polkadot/react-components/Status/constants';
+import { getContractAbi } from '@polkadot/react-components/util';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-
-import { getContractAbi } from '../util';
-import { getDispatchError, getIncompleteMessage } from './checks';
-import { STATUS_COMPLETE } from './constants';
-import { QueueProvider } from './Context';
 
 export interface Props {
   children: React.ReactNode;
@@ -26,11 +24,18 @@ interface StatusCount {
   status: ActionStatusPartial;
 }
 
+const EMPTY_STATE: Partial<QueueProps> = {
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
+};
+
 let nextId = 0;
 
 const EVENT_MESSAGE = 'extrinsic event';
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
+
+export const QueueCtx = React.createContext<QueueProps>(EMPTY_STATE as QueueProps);
 
 function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
   let others: ActionStatus | null = null;
@@ -150,9 +155,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
   );
 }
 
-function Queue ({ children }: Props): React.ReactElement<Props> {
-  const [stqueue, _setStQueue] = useState<QueueStatus[]>([]);
-  const [txqueue, _setTxQueue] = useState<QueueTx[]>([]);
+const EMPTY_QUEUE_ST: QueueStatus[] = [];
+const EMPTY_QUEUE_TX: QueueTx[] = [];
+
+export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
+  const [stqueue, _setStQueue] = useState<QueueStatus[]>(EMPTY_QUEUE_ST);
+  const [txqueue, _setTxQueue] = useState<QueueTx[]>(EMPTY_QUEUE_TX);
   const stRef = useRef(stqueue);
   const txRef = useRef(txqueue);
 
@@ -279,21 +287,22 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
     [queueAction, setTxQueue]
   );
 
+  const value = useMemo(
+    () => ({
+      queueAction,
+      queueExtrinsic,
+      queuePayload,
+      queueRpc,
+      queueSetTxStatus,
+      stqueue,
+      txqueue
+    }),
+    [queueAction, queueExtrinsic, queuePayload, queueRpc, queueSetTxStatus, stqueue, txqueue]
+  );
+
   return (
-    <QueueProvider
-      value={{
-        queueAction,
-        queueExtrinsic,
-        queuePayload,
-        queueRpc,
-        queueSetTxStatus,
-        stqueue,
-        txqueue
-      }}
-    >
+    <QueueCtx.Provider value={value}>
       {children}
-    </QueueProvider>
+    </QueueCtx.Provider>
   );
 }
-
-export default React.memo(Queue);

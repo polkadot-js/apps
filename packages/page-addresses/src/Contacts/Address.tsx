@@ -25,7 +25,18 @@ interface Props {
 
 const isEditable = true;
 
-const BALANCE_OPTS = {
+const BAL_OPTS_DEFAULT = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
+
+const BAL_OPTS_EXPANDED = {
   available: true,
   bonded: true,
   locked: true,
@@ -35,17 +46,6 @@ const BALANCE_OPTS = {
   total: false,
   unlocking: true,
   vested: true
-};
-
-const BALANCE_OPTS_ONLY = {
-  available: false,
-  bonded: false,
-  locked: false,
-  redeemable: false,
-  reserved: false,
-  total: true,
-  unlocking: false,
-  vested: false
 };
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
@@ -178,7 +178,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   return (
     <>
-      <tr className={`${className} packedBottom`}>
+      <tr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -229,7 +229,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           toggle={toggleIsExpanded}
         />
       </tr>
-      <tr className={`${className} isExpanded packedTop`}>
+      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
         <td
           className='balance all'
@@ -238,13 +238,12 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={BALANCE_OPTS_ONLY}
-            withExtended={false}
+            withBalance={BAL_OPTS_DEFAULT}
           />
         </td>
         <td />
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
         <td />
         <td
           className='balance columar'
@@ -253,8 +252,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={BALANCE_OPTS}
-            withExtended={false}
+            withBalance={BAL_OPTS_EXPANDED}
           />
           <Columar size='tiny'>
             <Columar.Column>

@@ -8,7 +8,7 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
+import { AccountSidebarCtx } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
@@ -118,7 +118,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       {isSpecial && (
         <Badge
           color='green'
@@ -127,20 +127,20 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
         />
       )}
       <span className={`name${(isLocal || isSpecial) ? ' isLocal' : (isAddress ? ' isAddress' : '')}`}>{displayName}</span>
-    </div>
+    </span>
   );
 }
 
 function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray', icon: IconName): React.ReactNode {
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       <Badge
         color={color}
         icon={icon}
         isSmall
       />
       {nameElem}
-    </div>
+    </span>
   );
 }
 
@@ -174,7 +174,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   const api = useSystemApi();
   const info = useDeriveAccountInfo(value);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
-  const toggleSidebar = useContext(AccountSidebarToggle);
+  const toggleSidebar = useContext(AccountSidebarCtx);
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
@@ -209,7 +209,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 
   return (
-    <div
+    <span
       className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       data-testid='account-name'
       onClick={
@@ -219,14 +219,13 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       }
     >
       {label || ''}{override || name}{children}
-    </div>
+    </span>
   );
 }
 
 export default React.memo(styled(AccountName)`
-  align-items: center;
   border: 1px dotted transparent;
-  display: inline-flex;
+  line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -236,17 +235,12 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: center;
-    display: inline-flex;
-    width: 100%;
+    word-break: break-all;
 
     .name {
-      align-items: center;
-      display: inline-flex;
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;
-      opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
 
@@ -256,12 +250,8 @@ export default React.memo(styled(AccountName)`
 
       &.isAddress {
         font: var(--font-mono);
+        opacity: 0.6;
         text-transform: none;
-      }
-
-      &.isGood,
-      &.isLocal {
-        opacity: 1;
       }
 
       .sub,

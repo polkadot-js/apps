@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
+
 import React, { useContext } from 'react';
 import store from 'store';
 import styled, { ThemeContext } from 'styled-components';
-
-import { ThemeDef } from '@polkadot/react-components/types';
 
 import Dropdown from './Dropdown';
 

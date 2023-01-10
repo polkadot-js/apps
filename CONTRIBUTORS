@@ -1,4 +1,4 @@
-    3993	Jaco                          	Bump deps (#8726)
+    4007	Jaco                          	Pull in useMemoValue (& basic use) (#8750)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
@@ -238,6 +238,7 @@
        1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Alex Sedighi                  	Update URL for Nodle Testing Parachain on Rococo (#7810)
+       1	Alex Won                      	support ethereum compatibility for bifrost network (#8733)
        1	Alexey                        	Rename SORA-staging Node to Sora (#5084)
        1	Alistair Singh                	Add Rococo Snowbridge (#7630)
        1	Anakorn Tata Kyavatanakij     	fix SummaryBar (#1981)

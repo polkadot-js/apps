@@ -16,6 +16,7 @@ import Progress from './Progress';
 interface ProgressProps {
   hideGraph?: boolean;
   hideValue?: boolean;
+  isBlurred?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
@@ -70,7 +71,10 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && !children && (
-                <BlockToTime value={progress.total} />
+                <BlockToTime
+                  className={progress.isBlurred ? '--tmp' : ''}
+                  value={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -83,7 +87,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        className='timer'
+                        className={`${progress.isBlurred ? '--tmp' : ''} timer`}
                         value={progress.total.sub(progress.value)}
                       />
                     )
@@ -135,10 +139,6 @@ export default React.memo(styled(CardSummary)`
       &:last-child {
         margin-bottom: 0;
       }
-    }
-
-    > label {
-      font-size: 0.95rem;
     }
 
     .isSecondary {

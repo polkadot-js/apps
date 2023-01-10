@@ -11,7 +11,7 @@ import type { NominatorValue } from './types';
 import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Columar, Icon, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -44,14 +44,14 @@ interface Props {
 interface StakingState {
   isChilled?: boolean;
   commission?: string;
-  nominators: NominatorValue[];
+  nominators?: NominatorValue[];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
 function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
-  let nominators: NominatorValue[] = [];
+  let nominators: NominatorValue[] | undefined;
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
@@ -99,7 +99,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
-      : { nominators: [] },
+      : {},
     [minCommission, validatorInfo]
   );
 
@@ -113,13 +113,18 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [address]
   );
 
+  const pointsAnimClass = useMemo(
+    () => points && `greyAnim-${Date.now() % 25}`,
+    [points]
+  );
+
   if (!isVisible) {
     return null;
   }
 
   return (
     <>
-      <tr className={`${className} ${isExpanded ? 'packedBottom' : ''}`}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? 'packedBottom' : 'isLast'}`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -137,8 +142,15 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onlineMessage={recentlyOnline?.hasMessage}
           />
         </td>
-        <td className='address all'>
+        <td className='address all relative'>
           <AddressSmall value={address} />
+          {isMain && pointsAnimClass && (
+            <Tag
+              className={`${pointsAnimClass} absolute`}
+              color='lightgrey'
+              label={points}
+            />
+          )}
         </td>
         {isMain
           ? (
@@ -155,17 +167,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           )
         }
         <td className='number'>
-          {commission}
+          {commission || <span className='--tmp'>50.00%</span>}
         </td>
         {isMain && (
-          <>
-            <td className='number'>
-              {points}
-            </td>
-            <td className='number'>
-              {lastBlock}
-            </td>
-          </>
+          <td className='number'>
+            {lastBlock}
+          </td>
         )}
         <Table.Column.Expand
           isExpanded={isExpanded}
@@ -173,13 +180,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         />
       </tr>
       {isExpanded && (
-        <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+        <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
           <td colSpan={2} />
           <td
             className='columar'
             colSpan={
               isMain
-                ? 5
+                ? 4
                 : 3
             }
           >

@@ -26,8 +26,8 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
       <AddressInfo
         address={address}
         className='balanceExpander'
+        key={address}
         withBalance={WITH_BALANCE}
-        withExtended={false}
         withLabel
       />
     </section>
@@ -45,8 +45,6 @@ export default React.memo(styled(Balances)`
       label {
         text-align: left;
         color: inherit;
-        font-size: 0.93rem;
-        font-weight: var(--font-weight-normal);
       }
 
       .ui--Expander-content .ui--FormatBalance-value {

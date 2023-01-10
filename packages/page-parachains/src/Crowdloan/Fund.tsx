@@ -6,7 +6,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, Spinner, Table, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -129,9 +129,8 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
         )}
       </td>
       <td className='number together media--1100'>
-        {!hasLoaded
-          ? <Spinner noLabel />
-          : (
+        {hasLoaded
+          ? (
             <>
               {bestHash && (
                 <Icon
@@ -148,7 +147,9 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
                 formatNumber(contributorsHex.length)
               )}
             </>
-          )}
+          )
+          : <span className='--tmp'>999</span>
+        }
       </td>
       <td className='button media--1000'>
         {canWithdraw && contributorsHex.length !== 0 && (

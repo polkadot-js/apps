@@ -131,7 +131,7 @@ export default React.memo(styled(FormatBalance)`
 
     > .ui--FormatBalance-postfix {
       font-weight: var(--font-weight-light);
-      opacity: 0.7;
+      opacity: 0.75;
       vertical-align: baseline;
     }
   }

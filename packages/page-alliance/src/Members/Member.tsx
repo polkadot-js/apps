@@ -4,10 +4,10 @@
 import type { BN } from '@polkadot/util';
 import type { Member as MemberType } from '../types';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
+import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -26,7 +26,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const info = useMemberInfo(accountId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const hasNotice = !!api.tx.alliance.giveRetirementNotice;
 
   const hasActions = useMemo(

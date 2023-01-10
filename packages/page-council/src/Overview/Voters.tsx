@@ -26,20 +26,20 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
     [voters]
   );
 
-  if (!balance || !voters || !voters.length) {
-    return <><td className='all number' /><td className='number' /></>;
-  }
-
   return (
     <>
       <td className='expand'>
         <ExpanderScroll
+          className={balance ? '' : '--tmp'}
           renderChildren={renderVoters}
           summary={<FormatBalance value={balance} />}
         />
       </td>
       <td className='number'>
-        {formatNumber(voters.length)}
+        {voters
+          ? formatNumber(voters.length)
+          : <span className='--tmp'>123</span>
+        }
       </td>
     </>
   );

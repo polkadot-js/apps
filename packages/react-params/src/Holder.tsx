@@ -8,12 +8,13 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   withBorder?: boolean;
+  withExpander?: boolean;
   withPadding?: boolean;
 }
 
-function Holder ({ children, className = '', withBorder, withPadding }: Props): React.ReactElement<Props> {
+function Holder ({ children, className = '', withBorder, withExpander, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}`}>
+    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
       {children}
     </div>
   );
@@ -21,24 +22,29 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 
 export default React.memo(styled(Holder)`
   &.withBorder {
-    padding-left: 1.5rem;
+    padding-left: 2rem;
 
     .ui--Params-Content {
-      border-left: 0.25rem solid #f2f2f2;
+      border-left: 1px dashed var(--border-input);
 
       .ui--Params.withBorder {
-        padding-left: 0.25rem;
+        padding-left: 0;
       }
     }
+  }
+
+  &.withExpander {
+    padding-left: 0.25rem;
   }
 
   &.withPadding {
     padding-left: 4rem;
   }
 
-  .ui--Param .ui--Labelled label {
+  .ui--Param-composite .ui--row > .ui--Labelled > label {
     text-transform: none !important;
     font: var(--font-mono);
+    font-size: var(--font-size-label);
   }
 
   .ui--row {
@@ -54,7 +60,7 @@ export default React.memo(styled(Holder)`
     padding: 0;
 
     .ui--Params-Content {
-      margin-left: 1.75rem;
+      margin-left: 2rem;
     }
   }
 
