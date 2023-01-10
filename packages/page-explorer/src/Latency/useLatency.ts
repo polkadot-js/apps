@@ -117,7 +117,7 @@ async function getNext (api: ApiPromise, { block: { number: start } }: Detail, {
 function useLatencyImpl (): Result {
   const { api } = useApi();
   const [details, setDetails] = useState<Detail[]>([]);
-  const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks, []);
+  const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const hasHistoric = useRef(false);
 
   useEffect((): void => {
