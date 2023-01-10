@@ -170,7 +170,6 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Efinity: 'wss://rpc.efinity.io',
       Dwellir: 'wss://efinity-rpc.dwellir.com',
-      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     }
   },
   {
