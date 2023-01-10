@@ -91,7 +91,7 @@ function formatTime (time: number, divisor = 1000): string {
   return `${(time / divisor).toFixed(3)}s`;
 }
 
-function Latency ({ className }: Props): React.ReactElement<Props> | null {
+function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
@@ -109,54 +109,77 @@ function Latency ({ className }: Props): React.ReactElement<Props> | null {
     }), [t]
   );
 
-  if (details.length <= 2) {
-    return (
-      <Spinner />
-    );
-  }
+  const isLoaded = details.length > 2;
+  const EMPTY_TIME = <span className='--tmp'>0.000s</span>;
 
   return (
     <div className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('avg')}>{formatTime(timeAvg)}</CardSummary>
+          <CardSummary label={t<string>('avg')}>
+            {isLoaded
+              ? formatTime(timeAvg)
+              : EMPTY_TIME}
+          </CardSummary>
           <CardSummary
             className='media--1000'
             label={t<string>('std dev')}
           >
-            {formatTime(stdDev)}
+            {isLoaded
+              ? formatTime(stdDev)
+              : EMPTY_TIME}
           </CardSummary>
         </section>
         <section>
-          <CardSummary label={t<string>('min')}>{formatTime(timeMin)}</CardSummary>
-          <CardSummary label={t<string>('max')}>{formatTime(timeMax)}</CardSummary>
+          <CardSummary label={t<string>('min')}>
+            {isLoaded
+              ? formatTime(timeMin)
+              : EMPTY_TIME}
+          </CardSummary>
+          <CardSummary label={t<string>('max')}>
+            {isLoaded
+              ? formatTime(timeMax)
+              : EMPTY_TIME
+            }
+          </CardSummary>
         </section>
-        <CardSummary label={t<string>('last')}>{formatTime(blockLast, 1)}</CardSummary>
+        <CardSummary label={t<string>('last')}>
+          {isLoaded
+            ? formatTime(blockLast, 1)
+            : EMPTY_TIME}
+        </CardSummary>
       </SummaryBox>
-      <Chart
-        colors={COLORS_TIMES}
-        legends={timesLegend}
-        title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
-        value={times}
-      />
-      <Chart
-        colors={COLORS_BLOCKS}
-        legends={blocksLegend}
-        title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
-        value={blocks}
-      />
-      <Chart
-        colors={COLORS_TXS}
-        legends={extrinsicsLegend}
-        title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
-        value={extrinsics}
-      />
-      <Chart
-        colors={COLORS_EVENTS}
-        legends={eventsLegend}
-        title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
-        value={events}
-      />
+      {isLoaded
+        ? (
+          <>
+            <Chart
+              colors={COLORS_TIMES}
+              legends={timesLegend}
+              title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
+              value={times}
+            />
+            <Chart
+              colors={COLORS_BLOCKS}
+              legends={blocksLegend}
+              title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
+              value={blocks}
+            />
+            <Chart
+              colors={COLORS_TXS}
+              legends={extrinsicsLegend}
+              title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
+              value={extrinsics}
+            />
+            <Chart
+              colors={COLORS_EVENTS}
+              legends={eventsLegend}
+              title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
+              value={events}
+            />
+          </>
+        )
+        : <Spinner />
+      }
     </div>
   );
 }

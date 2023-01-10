@@ -48,6 +48,7 @@ export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
 export { useMapEntries } from './useMapEntries';
 export { useMapKeys } from './useMapKeys';
+export { useMemoValue } from './useMemoValue';
 export { useModal } from './useModal';
 export { useNonEmptyString } from './useNonEmptyString';
 export { useNonZeroBn } from './useNonZeroBn';
