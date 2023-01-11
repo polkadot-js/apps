@@ -535,9 +535,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   // we treat h5 and label as equivalents
   label, h5 {
     color: var(--color-label);
-    font-size: var(--font-size-tiny);
+    font-size: var(--font-size-label);
     font-style: normal;
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-label);
     line-height: 1rem;
     text-transform: var(--text-transform-label);
     vertical-align: middle;
