@@ -6,10 +6,9 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import md from './md/basics.md';
 import Developer from './Developer';
 import General from './General';
 import I18n from './I18n';
@@ -56,7 +55,6 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   return (
     <main className='settings--App'>
-      <HelpOverlay md={md as string} />
       <Tabs
         basePath={basePath}
         hidden={hidden}
