@@ -8,7 +8,6 @@ import { createGlobalStyle } from 'styled-components';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
-import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
 
@@ -558,6 +557,5 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
-  ${cssRx}
   ${cssComponents(theme)}
 `);
