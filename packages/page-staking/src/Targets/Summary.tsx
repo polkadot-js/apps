@@ -6,6 +6,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -16,6 +17,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   avgStaked?: BN;
+  className?: string;
   lastEra?: BN;
   lowStaked?: BN;
   minNominated?: BN;
@@ -48,7 +50,7 @@ function getProgressInfo (value?: BN, total?: BN): ProgressInfo {
   };
 }
 
-function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
@@ -63,8 +65,10 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
     [avgStaked, lowStaked]
   );
 
+  const percent = <span className='percent'>%</span>;
+
   return (
-    <SummaryBox>
+    <SummaryBox className={className}>
       <section className='media--800'>
         <CardSummary
           label={t<string>('total staked')}
@@ -81,9 +85,9 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         <CardSummary label={t<string>('returns')}>
           {totalIssuance && (stakedReturn > 0)
             ? Number.isFinite(stakedReturn)
-              ? <>{stakedReturn.toFixed(1)}%</>
+              ? <>{stakedReturn.toFixed(1)}{percent}</>
               : '-.-%'
-            : <span className='--tmp'>0.0%</span>
+            : <span className='--tmp'>0.0{percent}</span>
           }
         </CardSummary>
       </section>
@@ -146,4 +150,8 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
   );
 }
 
-export default React.memo(Summary);
+export default React.memo(styled(Summary)`
+  .percent {
+    font-size: var(--font-percent-tiny);
+  }
+`);

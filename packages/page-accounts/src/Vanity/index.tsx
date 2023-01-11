@@ -179,7 +179,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           count: keyCount,
           elapsed: (elapsed / 1000).toFixed(2)
         }
-      }), 'start'],
+      }), 'start --digits'],
       [t('secret'), 'start'],
       []
     ],

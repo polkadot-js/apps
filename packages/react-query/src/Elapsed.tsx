@@ -36,8 +36,8 @@ function formatValue (value: number, type = 's', withDecimal = false): React.Rea
   const [pre, post] = value.toFixed(1).split('.');
 
   return withDecimal
-    ? <span className='--digits'>{pre}.{post} <span className='timeUnit'>{type}</span></span>
-    : <span className='--digits'>{pre} <span className='timeUnit'>{type}</span></span>;
+    ? <>{pre}.{post} <span className='timeUnit'>{type}</span></>
+    : <>{pre} <span className='timeUnit'>{type}</span></>;
 }
 
 function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNode {
@@ -76,7 +76,7 @@ function Elapsed ({ children, className = '', value }: Props): React.ReactElemen
   }, []);
 
   return (
-    <div className={`ui--Elapsed ${className}`}>
+    <div className={`ui--Elapsed ${className} --digits`}>
       {getDisplayValue(now, value)}{children}
     </div>
   );

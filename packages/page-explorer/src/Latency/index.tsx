@@ -87,8 +87,8 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   };
 }
 
-function formatTime (time: number, divisor = 1000): string {
-  return `${(time / divisor).toFixed(3)}s`;
+function formatTime (time: number, divisor = 1000): React.ReactNode {
+  return <span className='--digits'>{`${(time / divisor).toFixed(3)}`}<span className='postfix'> s</span></span>;
 }
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
@@ -110,7 +110,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   );
 
   const isLoaded = details.length > 2;
-  const EMPTY_TIME = <span className='--tmp'>0.000s</span>;
+  const EMPTY_TIME = <span className='--tmp --digits'>0.000 s</span>;
 
   return (
     <div className={className}>
@@ -194,5 +194,11 @@ export default React.memo(styled(Latency)`
 
   .container+.container {
     margin-top: 1rem;
+  }
+
+  span.--digits {
+    .postfix {
+      font-size: var(--font-percent-tiny);
+    }
   }
 `);

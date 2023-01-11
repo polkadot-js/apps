@@ -35,7 +35,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
             onClick={onClick}
           >
             {index === 0
-              ? <h2>{label}</h2>
+              ? <h1>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -60,7 +60,7 @@ export default React.memo(styled(Head)`
     vertical-align: middle;
     white-space: nowrap;
 
-    h2 {
+    h1 {
       display: table-cell;
       vertical-align: middle;
 
