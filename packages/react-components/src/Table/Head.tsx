@@ -67,6 +67,7 @@ export default React.memo(styled(Head)`
       .sub {
         display: inline-block;
         font-size: var(--font-size-base);
+        font-weight: var(--font-weight-normal);
         opacity: var(--opacity-light);
         padding-left: 1.5rem;
         text-overflow: ellipsis;
