@@ -88,25 +88,21 @@ export default React.memo(styled(ChainInfo)`
 
     .info {
       flex: 1;
+      font-size: var(--font-size-tiny);
+      line-height: 1.2;
       padding-right: 0.5rem;
       text-align: right;
 
       .chain {
+        font-size: var(--font-size-small);
         max-width: 16rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
-      .chain, .bestNumber {
-        font-size: var(--font-size-small);
-        line-height: 1.2;
-      }
-
       .runtimeVersion {
-          font-size: var(--font-size-tiny);
-          line-height: 1.2;
-          letter-spacing: -0.01em;
+        letter-spacing: -0.01em;
       }
     }
   }

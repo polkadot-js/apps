@@ -309,6 +309,7 @@ export default React.memo(styled(Table)`
       }
 
       &.number {
+        font-variant-numeric: tabular-nums;
         text-align: right;
       }
 
