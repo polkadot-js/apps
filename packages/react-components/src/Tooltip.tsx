@@ -15,13 +15,13 @@ function rootElement () {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  isCickable?: boolean;
+  isClickable?: boolean;
   place?: 'bottom' | 'top' | 'right' | 'left';
   text?: React.ReactNode;
   trigger: string;
 }
 
-function Tooltip ({ children, className = '', isCickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ children, className = '', isClickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -41,7 +41,7 @@ function Tooltip ({ children, className = '', isCickable = false, place, text, t
   return createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
-      clickable={isCickable}
+      clickable={isClickable}
       effect='solid'
       id={trigger}
       place={place}

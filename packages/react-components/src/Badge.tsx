@@ -67,7 +67,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
       {hover && (
         <Tooltip
           className='accounts-badge'
-          clickable={!!hoverAction}
+          isClickable={!!hoverAction}
           text={hoverContent}
           trigger={trigger}
         />
