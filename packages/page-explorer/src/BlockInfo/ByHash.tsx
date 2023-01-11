@@ -104,7 +104,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => getHeader
       ? [
-        [formatNumber(getHeader.number.unwrap()), 'start', 1],
+        [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
         [t('hash'), 'start'],
         [t('parent'), 'start'],
         [t('extrinsics'), 'start media--1300'],
