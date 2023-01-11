@@ -130,7 +130,7 @@ export const styles = `
         border-radius: .5em;
         border-style: dashed;
         color: grey;
-        font-size: x-small;
+        font-size: var(--font-size-tiny);
         padding: .1em 0.3em 0.1em 0.3em;
         margin-top: .2em;
       }
