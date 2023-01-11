@@ -71,7 +71,7 @@ export default React.memo(styled(AddressToggle)`
 
   .ui--AddressToggle-address {
     filter: grayscale(100%);
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   &:hover {

@@ -192,7 +192,7 @@ export default React.memo(styled(Expander)`
 
       .ui--Expander-summary-header-sub {
         font-size: var(--font-size-small);
-        opacity: 0.6;
+        opacity: var(--opacity-light);
       }
     }
 

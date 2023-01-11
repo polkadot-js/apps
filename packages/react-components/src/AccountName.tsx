@@ -250,7 +250,7 @@ export default React.memo(styled(AccountName)`
 
       &.isAddress {
         font: var(--font-mono);
-        opacity: 0.6;
+        opacity: var(--opacity-light);
         text-transform: none;
       }
 
@@ -260,8 +260,8 @@ export default React.memo(styled(AccountName)`
       }
 
       .sub {
-        font-size: 0.75rem;
-        opacity: 0.75;
+        font-size: var(--font-size-tiny);
+        opacity: var(--opacity-light);
       }
     }
   }

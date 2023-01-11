@@ -55,6 +55,12 @@ export default React.memo(styled(Apps)`
   flex-direction: column;
   min-height: 100vh;
 
+  .--digits {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
   .--hidden {
     display: none;
   }

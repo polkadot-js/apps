@@ -199,7 +199,7 @@ export default React.memo(styled(Table)`
       }
 
       div.empty {
-        opacity: 0.6;
+        opacity: var(--opacity-light);
         padding: 0.25rem;
       }
 
@@ -309,6 +309,7 @@ export default React.memo(styled(Table)`
       }
 
       &.number {
+        font-variant-numeric: tabular-nums;
         text-align: right;
       }
 

@@ -90,7 +90,7 @@ export default React.memo(styled(NetworkDisplay)`
   position: relative;
 
   &.isUnreachable {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   &.isSelected,
@@ -114,7 +114,7 @@ export default React.memo(styled(NetworkDisplay)`
 
     .endpointValue {
       .endpointExtra {
-        font-size: 0.75rem;
+        font-size: var(--font-size-small);
         opacity: 0.8;
       }
     }

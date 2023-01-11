@@ -25,6 +25,6 @@ function VotingLink ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(VotingLink)`
   line-height: 0.85rem;
-  font-size: 0.7rem;
+  font-size: var(--font-size-tiny);
   text-decoration: underline;
 `);

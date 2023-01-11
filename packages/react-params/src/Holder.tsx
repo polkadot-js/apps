@@ -45,8 +45,6 @@ export default React.memo(styled(Holder)`
   .ui--Param-composite .ui--row .ui--InputAddressSimple {
     & > .ui--Labelled > label {
       text-transform: none !important;
-      font: var(--font-mono);
-      font-size: var(--font-size-label);
     }
   }
 
@@ -69,7 +67,7 @@ export default React.memo(styled(Holder)`
 
   .ui--Param-text {
     display: inline-block;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: 1.714rem;
     overflow: hidden;
     text-overflow: ellipsis;

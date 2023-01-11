@@ -23,6 +23,8 @@ interface Props {
 function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const percent = <span className='percent'>%</span>;
+
   return (
     <SummaryBox className={className}>
       <section>
@@ -68,7 +70,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1400'
             label={t<string>('ideal staked')}
           >
-            <>{(idealStake * 100).toFixed(1)}%</>
+            <>{(idealStake * 100).toFixed(1)}{percent}</>
           </CardSummary>
         )}
         {(stakedFraction > 0) && (
@@ -76,7 +78,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1300'
             label={t<string>('staked')}
           >
-            <>{(stakedFraction * 100).toFixed(1)}%</>
+            <>{(stakedFraction * 100).toFixed(1)}{percent}</>
           </CardSummary>
         )}
         {(inflation > 0) && Number.isFinite(inflation) && (
@@ -84,7 +86,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1200'
             label={t<string>('inflation')}
           >
-            <>{inflation.toFixed(1)}%</>
+            <>{inflation.toFixed(1)}{percent}</>
           </CardSummary>
         )}
       </section>
@@ -107,5 +109,9 @@ export default React.memo(styled(Summary)`
     .validator--Account-block-icon+.validator--Account-block-icon {
       margin-left: -1.5rem;
     }
+  }
+
+  .percent {
+    font-size: var(--font-percent-tiny);
   }
 `);

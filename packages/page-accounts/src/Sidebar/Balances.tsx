@@ -48,7 +48,7 @@ export default React.memo(styled(Balances)`
       }
 
       .ui--Expander-content .ui--FormatBalance-value {
-        font-size: 0.93rem;
+        font-size: var(--font-size-small);
       }
     }
   }

@@ -109,7 +109,7 @@ export default React.memo(styled(Month)`
 
     .dayOfWeek {
       > * {
-        font-size: 0.7em;
+        font-size: var(--font-size-tiny);
         font-weight: var(--font-weight-normal);
         letter-spacing: 0.1em;
         text-align: center;

@@ -73,12 +73,14 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
   );
 }
 
+const SIZE = '3.5rem';
+
 export default React.memo(styled(Progress)`
   border-radius: 100%;
   clip-path: circle(50%);
-  height: 4rem;
+  height: ${SIZE};
   position: relative;
-  width: 4rem;
+  width: ${SIZE};
 
   &.isDisabled {
     filter: grayscale(100%);

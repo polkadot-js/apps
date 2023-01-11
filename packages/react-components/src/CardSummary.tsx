@@ -123,11 +123,15 @@ export default React.memo(styled(CardSummary)`
   }
 
   > .ui--Labelled {
-    font-size: 1.75rem;
-    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-header);
     position: relative;
     line-height: 1;
     text-align: right;
+
+    > .ui--Labelled-content {
+      color: var(--color-header);
+    }
 
     > * {
       margin: 0.25rem 0;
@@ -142,7 +146,7 @@ export default React.memo(styled(CardSummary)`
     }
 
     .isSecondary {
-      font-size: 1rem;
+      font-size: var(--font-size-base);
       font-weight: var(--font-weight-normal);
 
       .timer {

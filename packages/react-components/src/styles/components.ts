@@ -46,7 +46,7 @@ export default (_theme: ThemeDef): string => `
 
   button.ui--Button {
     font: var(--font-sans);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-small);
   }
 
   .editable {

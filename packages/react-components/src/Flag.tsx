@@ -28,7 +28,7 @@ function Flag ({ className = '', color, label }: FlagProps): React.ReactElement<
 export default React.memo(styled(Flag)`
   border-radius: 0 0.25rem 0.25rem 0;
   padding: 0.5833em 1.25em 0.5833em 1.5em;
-  font-size: 0.78571429rem;
+  font-size: var(--font-size-tiny);
   line-height: 1;
   color: #fff !important;
 

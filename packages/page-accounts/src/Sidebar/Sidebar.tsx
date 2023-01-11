@@ -124,7 +124,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-index {
     font: var(--font-mono);
     text-align: left;
-    font-size: 0.857rem;
+    font-size: var(--font-size-small);
   }
 
   .ui--AddressMenu-addr {
@@ -138,7 +138,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-index {
     font: var(--font-mono);
     text-align: left;
-    font-size: 0.857rem;
+    font-size: var(--font-size-small);
   }
 
   .ui--AddressMenu-copyaaddr {
@@ -154,7 +154,7 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: row;
 
     label {
-      font-size: 0.857rem;
+      font-size: var(--font-size-small);
       margin-right: 0.4rem;
       text-transform: capitalize;
     }
@@ -200,7 +200,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-multisig {
     .ui--AddressMenu-identityTable,
     .ui--AddressMenu-multisigTable {
-      font-size: 0.93rem;
+      font-size: var(--font-size-small);
       margin-top: 0.6rem;
 
       .tr {
@@ -215,7 +215,7 @@ export default React.memo(styled(FullSidebar)`
           font-weight: var(--font-weight-normal);
           text-align: left;
           flex-basis: 25%;
-          font-size: var(--font-size-label);
+          font-size: var(--font-size-tiny);
 
           &.top {
             align-self: flex-start;
@@ -236,7 +236,7 @@ export default React.memo(styled(FullSidebar)`
       }
 
       .subs-number {
-        font-size: 1rem;
+        font-size: var(--font-size-base);
         margin-bottom: 0.714rem;
       }
     }

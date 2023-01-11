@@ -74,7 +74,7 @@ export default React.memo(styled(Bounties)`
   }
 
   .via-identity .name {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: 1.7rem;
     text-transform: initial;
     filter: initial;
