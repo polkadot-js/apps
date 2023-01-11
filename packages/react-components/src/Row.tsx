@@ -14,7 +14,7 @@ export const styles = `
   text-align: left;
 
   &.isDisabled {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
 
     .ui--IdentityIcon  {
       filter: grayscale(100%);
@@ -33,7 +33,7 @@ export const styles = `
     .ui--Row-accountId,
     .ui--Row-icon {
       filter: grayscale(100);
-      opacity: 0.6;
+      opacity: var(--opacity-light);
     }
   }
 
@@ -130,7 +130,7 @@ export const styles = `
         border-radius: .5em;
         border-style: dashed;
         color: grey;
-        font-size: x-small;
+        font-size: var(--font-size-tiny);
         padding: .1em 0.3em 0.1em 0.3em;
         margin-top: .2em;
       }

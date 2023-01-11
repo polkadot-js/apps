@@ -45,7 +45,7 @@ export default React.memo(styled(Tag)`
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-normal);
   line-height: 1rem;
   margin: 0 0.125rem;

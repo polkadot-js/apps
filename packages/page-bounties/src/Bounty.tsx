@@ -214,7 +214,7 @@ export default React.memo(styled(Bounty)`
 
   & .inline-balance {
     width: 50%;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: normal;
   }
 
@@ -255,7 +255,7 @@ export default React.memo(styled(Bounty)`
   }
 
   .block-to-time {
-    font-size: 0.7rem;
+    font-size: var(--font-size-tiny);
     line-height: 1.5rem;
     color: var(--color-label);
   }

@@ -86,7 +86,7 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-mutates {
     color: #ff8600;
     margin-left: 0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   .ui--MessageSignature-name {

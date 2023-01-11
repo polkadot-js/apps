@@ -423,7 +423,7 @@ export default React.memo(styled(Forks)`
         }
 
         .parent {
-          font-size: 0.75rem;
+          font-size: var(--font-size-small);
           line-height: 0.75rem;
           max-width: 4.5rem;
         }

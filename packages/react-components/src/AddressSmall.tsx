@@ -80,8 +80,11 @@ export default React.memo(styled(AddressSmall)`
     position: relative;
     vertical-align: middle;
 
+    .parentName, .shortAddress {
+      font-size: var(--font-size-tiny);
+    }
+
     .parentName {
-      font-size: 0.75rem;
       left: 0;
       position: absolute;
       top: -0.80rem;
@@ -90,7 +93,6 @@ export default React.memo(styled(AddressSmall)`
     .shortAddress {
       bottom: -0.95rem;
       color: #8B8B8B;
-      font-size: 0.75rem;
       left: 0;
       position: absolute;
     }

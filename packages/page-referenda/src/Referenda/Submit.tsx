@@ -350,7 +350,7 @@ export default React.memo(styled(Submit)`
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
       margin-top: 0.125rem;
-      opacity: 0.6;
+      opacity: var(--opacity-light);
     }
   }
 

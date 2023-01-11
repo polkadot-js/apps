@@ -45,7 +45,7 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
           className='header'
           onClick={toggleCollapsed}
         >
-          <h3>{header}</h3>
+          <h2>{header}</h2>
           <Icon
             className={isCollapsed ? 'collapsed' : ''}
             icon='angle-up'

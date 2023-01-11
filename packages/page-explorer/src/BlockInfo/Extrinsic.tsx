@@ -186,15 +186,15 @@ export default React.memo(styled(ExtrinsicDisplay)`
   }
 
   .explorer--BlockByHash-nonce {
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
     margin-left: 2.25rem;
     margin-top: -0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     text-align: left;
   }
 
   .explorer--BlockByHash-unsigned {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     font-weight: var(--font-weight-normal);
   }
 

@@ -47,7 +47,6 @@ export default React.memo(styled(BlockToTime)`
   }
 
   span.timeUnits {
-    // this is not var(--font-size-small) since we want em
-    font-size: 0.875em;
+    font-size: var(--font-percent-tiny);
   }
 `);

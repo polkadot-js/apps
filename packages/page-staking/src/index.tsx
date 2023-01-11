@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -218,7 +218,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+export default React.memo(styled(StakingApp)`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -246,16 +246,6 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);
-
-    ${theme.theme === 'dark'
-    ? `font-weight: bold;
-      .ui--FormatBalance-value {
-
-        > .ui--FormatBalance-postfix {
-          opacity: 1;
-        }
-      }`
-    : ''};
     }
   }
 
@@ -267,11 +257,11 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
     .greyAnim-${n} {
       animation: greyAnim${n} 2s;
     }
+
     @keyframes greyAnim${n} {
       0% { background: #a6a6a6; }
       50% { background: darkorange; }
       100% { background: #a6a6a6; }
     }
-  `).join('')
-}
-`));
+  `).join('')}
+`);

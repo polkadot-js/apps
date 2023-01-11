@@ -101,7 +101,7 @@ export default React.memo(styled(Tooltip)`
   .faded {
     margin-top: 0;
     opacity: 0.75 !important;
-    font-size: 0.85em !important;
+    font-size: var(--font-size-tiny) !important;
 
     .faded {
       font-size: 1em !important;
