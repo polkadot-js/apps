@@ -115,7 +115,6 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={prefix}
-          help={t<string>('Override the default ss58 prefix for address generation')}
           label={t<string>('address prefix')}
           onChange={_handleChange('prefix')}
           options={prefixOptions}
@@ -124,7 +123,6 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={icon}
-          help={t<string>('Override the default identity icon display with a specific theme')}
           label={t<string>('default icon theme')}
           onChange={_handleChange('icon')}
           options={iconOptions}
@@ -155,7 +153,6 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
                   ? ledgerConn
                   : ledgerConnOptions[0].value
               }
-              help={t<string>('Manage your connection to Ledger S')}
               isDisabled={!hasWebUsb}
               label={t<string>('manage hardware connections')}
               onChange={_handleChange('ledgerConn')}

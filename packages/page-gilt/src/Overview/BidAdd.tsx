@@ -58,7 +58,6 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
             <Modal.Columns hint={t<string>('This account will make the bid for the gilt and pay all associated fees.')}>
               <InputAddress
                 filter={proxiedAccounts}
-                help={t<string>('The account you want to register the bid from')}
                 label={t<string>('use proxied account')}
                 labelExtra={
                   <Available
@@ -72,7 +71,6 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
               {accountId && (
                 <InputAddress
                   filter={proxies[accountId]}
-                  help={t<string>('The associated proxy to use for this account')}
                   label={t<string>('send via proxy')}
                   onChange={setProxyId}
                   type='account'
@@ -90,7 +88,6 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
               />
               <InputBalance
                 defaultValue={api.consts.gilt.minFreeze}
-                help={t<string>('The minimum amount that is allowed as a bid')}
                 isDisabled
                 label={t<string>('minimum freeze amount')}
               />

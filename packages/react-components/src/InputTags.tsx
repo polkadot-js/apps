@@ -19,7 +19,6 @@ interface Props {
   allowAdd?: boolean;
   className?: string;
   defaultValue?: string[];
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;
@@ -56,7 +55,7 @@ function onAddTag (value: string): void {
   saveTags(tags);
 }
 
-function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   return (
@@ -64,7 +63,6 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDis
       allowAdd={allowAdd && !isDisabled}
       className={`ui--InputTags ${theme}Theme ${className}`}
       defaultValue={defaultValue}
-      help={help}
       isDisabled={isDisabled}
       isError={isError}
       isMultiple

@@ -10,7 +10,6 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string;
-  help?: string;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -25,13 +24,12 @@ interface Props {
   withLabel?: boolean;
 }
 
-function Password ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+function Password ({ autoFocus, children, className = '', defaultValue, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Input
       autoFocus={autoFocus}
       className={`ui--Password ${className}`}
       defaultValue={defaultValue}
-      help={help}
       isDisabled={isDisabled}
       isError={isError}
       isFull={isFull}

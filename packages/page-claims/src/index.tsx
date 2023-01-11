@@ -207,7 +207,6 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
             })}</h2>
             <InputAddress
               defaultValue={accountId}
-              help={t<string>('The account you want to claim to.')}
               label={t<string>('claim to account')}
               onChange={setAccountId}
               type='all'
@@ -235,7 +234,6 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
                 <Input
                   autoFocus
                   className='full'
-                  help={t<string>('The Ethereum address you used during the pre-sale (starting by "0x")')}
                   label={t<string>('Pre-sale ethereum address')}
                   onChange={onChangeEthereumAddress}
                   value={ethereumAddress || ''}

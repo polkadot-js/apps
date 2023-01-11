@@ -81,7 +81,6 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
           label={t<string>('proxy account')}
         />
         <Dropdown
-          help={'Type of proxy'}
           isDisabled
           label={'type'}
           options={typeOpts}
@@ -133,7 +132,6 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
           <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
-          help={'Type of proxy'}
           label={'type'}
           onChange={_onChangeType}
           options={typeOpts}

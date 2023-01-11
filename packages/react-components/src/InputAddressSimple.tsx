@@ -15,7 +15,6 @@ interface Props {
   className?: string;
   defaultValue?: string | null;
   forceIconType?: 'ethereum' | 'substrate';
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -27,7 +26,7 @@ interface Props {
   placeholder?: string;
 }
 
-function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, help, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = useCallback(
@@ -50,7 +49,6 @@ function InputAddressSimple ({ autoFocus, bytesLength, children, className = '',
       <Input
         autoFocus={autoFocus}
         defaultValue={defaultValue}
-        help={help}
         isDisabled={isDisabled}
         isError={isError || !address}
         isFull={isFull}

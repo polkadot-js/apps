@@ -90,7 +90,6 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={prefix}
-          help={t<string>('Override the default ss58 prefix for address generation')}
           label={t<string>('address prefix')}
           onChange={setPrefix}
           options={prefixOptions}

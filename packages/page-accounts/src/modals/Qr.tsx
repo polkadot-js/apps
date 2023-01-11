@@ -138,7 +138,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <Input
                   autoFocus
                   className='full'
-                  help={t<string>('Name given to this account. You can change it at any point in the future.')}
                   isError={!isNameValid}
                   label={t<string>('name')}
                   onChange={_onNameChange}

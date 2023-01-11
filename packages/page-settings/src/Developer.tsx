@@ -170,7 +170,6 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         <div className='full'>
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
-            help={t<string>('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
             isError={!isTypesValid}
             label={t<string>('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}

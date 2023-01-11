@@ -68,7 +68,6 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
               available={nominators}
               availableLabel={t<string>('existing/active nominators')}
               defaultValue={nominating}
-              help={t<string>('Filter available nominators based on name, address or short account index.')}
               maxCount={MAX_KICK}
               onChange={setSelected}
               valueLabel={t<string>('nominators to be removed')}

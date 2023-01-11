@@ -4,11 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LabelHelp from './LabelHelp';
-
 interface Props {
   className?: string;
-  help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
   isOuter?: boolean;
@@ -22,7 +19,7 @@ interface Props {
 
 const defaultLabel: React.ReactNode = <div>&nbsp;</div>;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -36,7 +33,7 @@ function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, 
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }{help && <LabelHelp help={help} />}</label>
+      }</label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}

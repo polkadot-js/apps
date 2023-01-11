@@ -13,7 +13,6 @@ import { useTranslation } from './translate';
 export interface InputFilePropsBase {
   className?: string;
   clearContent?: boolean;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -59,7 +58,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -122,7 +121,6 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
   return label
     ? (
       <Labelled
-        help={help}
         isFull={isFull}
         label={label}
         withEllipsis={withEllipsis}
