@@ -387,7 +387,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     &.error,
     &.warning {
       border-left-width: 0.25rem;
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-medium);
       line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
