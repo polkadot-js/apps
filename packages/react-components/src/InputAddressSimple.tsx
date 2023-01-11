@@ -10,6 +10,7 @@ import { toAddress } from './util';
 
 interface Props {
   autoFocus?: boolean;
+  bytesLength?: 20 | 32;
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | null;
@@ -23,14 +24,15 @@ interface Props {
   onChange?: (address: string | null) => void;
   onEnter?: () => void;
   onEscape?: () => void;
+  placeholder?: string;
 }
 
-function InputAddressSimple ({ autoFocus, children, className = '', defaultValue, forceIconType, help, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, help, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = useCallback(
     (_address: string): void => {
-      const address = toAddress(_address) || null;
+      const address = toAddress(_address, undefined, bytesLength) || null;
       const output = noConvert
         ? address
           ? _address
@@ -40,7 +42,7 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
       setAddress(output);
       onChange && onChange(output);
     },
-    [noConvert, onChange]
+    [bytesLength, noConvert, onChange]
   );
 
   return (
@@ -56,6 +58,7 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
+        placeholder={placeholder}
       >
         {children}
       </Input>

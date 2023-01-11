@@ -6,7 +6,6 @@ import type { Props as BaseProps } from '../types';
 import React, { useCallback, useState } from 'react';
 
 import { InputAddressSimple } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 import { isEthereumAddress, validateAddress } from '@polkadot/util-crypto';
 
 import Bare from './Bare';
@@ -34,7 +33,6 @@ function isValidAddress (value: string | null | undefined, isEthereum: boolean):
 }
 
 function BasicAccountIdBase (props: Props): React.ReactElement<Props> {
-  const { isEthereum } = useApi();
   const { bytesLength, className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel } = props;
   const [defaultValue] = useState(() => (value as string)?.toString());
 
@@ -50,6 +48,7 @@ function BasicAccountIdBase (props: Props): React.ReactElement<Props> {
   return (
     <Bare className={className}>
       <InputAddressSimple
+        bytesLength={bytesLength}
         className='full'
         defaultValue={defaultValue}
         forceIconType={bytesLength === 20 ? 'ethereum' : 'substrate'}
@@ -60,7 +59,7 @@ function BasicAccountIdBase (props: Props): React.ReactElement<Props> {
         label={label}
         noConvert
         onChange={_onChange}
-        placeholder={isEthereum ? '5...' : '0x1...'}
+        placeholder={bytesLength === 20 ? '0x1...' : '5...'}
         withLabel={withLabel}
       />
     </Bare>
