@@ -28,15 +28,15 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
   const { isIpfs } = useIpfs();
 
   const tabsRef = useRef([
-    {
-      isRoot: true,
-      name: 'overview',
-      text: t<string>('My accounts')
-    },
-    {
-      name: 'vanity',
-      text: t<string>('Vanity generator')
-    }
+    // {
+    //   isRoot: true,
+    //   name: 'overview',
+    //   text: t<string>('My accounts')
+    // },
+    // {
+    //   name: 'vanity',
+    //   text: t<string>('Vanity generator')
+    // }
   ]);
 
   return (
@@ -53,8 +53,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
             basePath={basePath}
             onStatusChange={onStatusChange}
           />
-        </Route>
-      
+         </Route>
     </main>
   );
 }

@@ -316,17 +316,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       </Table> */}
 
 {delegationn === undefined ? 
- null
- :   <Table
+  null
+ : <Table
+ className="table"
  empty={delegationn === undefined && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
  header={header.current}
- withCollapsibleRows
->
- {!isLoading &&
-   sortedAccounts.map(({ address }) => accountComponents[address])
- }
-</Table>}
-
+    withCollapsibleRows
+  >
+    {!isLoading &&
+      sortedAccounts.map(({ address }) => accountComponents[address])
+    }
+  </Table>}
     </div>
   );
 }
@@ -334,6 +334,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 export default React.memo(styled(Overview)`
   .ui--Dropdown {
     width: 15rem;
+  }
+
+  .table {
+    width: 20rem;
+    padding-left: 50px;
   }
 
   .dropdown-section {

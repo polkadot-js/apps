@@ -104,8 +104,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions>
-        {previousDelegatedAccount && (
+      {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}
             icon='trash-alt'
@@ -126,6 +125,28 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           params={[delegatedAccount, conviction, amount]}
           tx={api.tx.democracy.delegate}
         />
+      <Modal.Actions>
+        {/* {previousDelegatedAccount && (
+          <TxButton
+            accountId={delegatingAccount}
+            icon='trash-alt'
+            label={t<string>('Undelegate')}
+            onStart={onClose}
+            tx={api.tx.democracy.undelegate}
+          />
+        )}
+        <TxButton
+          accountId={delegatingAccount}
+          icon='sign-in-alt'
+          isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
+          label={previousDelegatedAccount
+            ? t<string>('Save delegation')
+            : t<string>('Delegate')
+          }
+          onStart={onClose}
+          params={[delegatedAccount, conviction, amount]}
+          tx={api.tx.democracy.delegate}
+        /> */}
       </Modal.Actions>
     {/* </Modal> */}
     </table>
