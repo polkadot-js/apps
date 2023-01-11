@@ -490,7 +490,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   h1, h2, h3, h4, h5 {
     color: var(--color-header);
     font: var(--font-sans);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-header);
     margin-bottom: 0.25rem;
   }
 
