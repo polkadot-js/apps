@@ -11,14 +11,14 @@ import { formatNumber } from '@polkadot/util';
 function Id ({ className = '', value }: Props): React.ReactElement<Props> {
   return (
     <td className={`ui--Table-Column-Id ${className}`}>
-      <h1 className='--digits'>{formatNumber(value)}</h1>
+      <h2 className='--digits'>{formatNumber(value)}</h2>
     </td>
   );
 }
 
 // We want 5.5ch (which should be ok-ish for 5 decimals, i.e. 99,999), however
-// we wrap the display in an h1 with max size text at 1.5rem, so multiply it out
-const WIDTH = `${(5.5 * 1.5).toFixed(3)}ch`;
+// we wrap the display in an h2 with max size text at ~1.3rem, so multiply it out
+const WIDTH = `${(5.5 * 1.3).toFixed(3)}ch`;
 
 export default React.memo(styled(Id)`
   && {
