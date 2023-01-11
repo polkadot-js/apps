@@ -34,16 +34,10 @@ function tick (): void {
 
 function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
   const [pre, post] = value.toFixed(1).split('.');
-  const before = pre.split('').map((d, index) => (
-    <div
-      className='digit'
-      key={index}
-    >{d}</div>
-  ));
 
   return withDecimal
-    ? <>{before}.<div className='digit'>{post}</div> {type}</>
-    : <>{before} {type}</>;
+    ? <span className='--digits'>{pre}.{post} <span className='timeUnit'>{type}</span></span>
+    : <span className='--digits'>{pre} <span className='timeUnit'>{type}</span></span>;
 }
 
 function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNode {
@@ -89,8 +83,9 @@ function Elapsed ({ children, className = '', value }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Elapsed)`
-  .digit {
-    display: inline-block;
-    width: 1ch;
+  white-space: nowrap;
+
+  .timeUnit {
+    font-size: var(--font-percent-tiny);
   }
 `);

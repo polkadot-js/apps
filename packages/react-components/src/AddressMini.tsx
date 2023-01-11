@@ -151,7 +151,7 @@ export default React.memo(styled(AddressMini)`
     .ui--Balance,
     .ui--Bonded,
     .ui--LockedVote {
-      font-size: 0.75rem;
+      font-size: var(--font-size-tiny);
       margin-left: 2.25rem;
       margin-top: -0.5rem;
       text-align: left;
@@ -179,7 +179,7 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-summary {
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
     line-height: 1.2;
     margin-left: 2.25rem;
     margin-top: -0.2rem;

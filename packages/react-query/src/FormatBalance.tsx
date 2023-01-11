@@ -88,7 +88,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
     <div className={`ui--FormatBalance ${className}`}>
       {label ? <>{label}&nbsp;</> : ''}
       <span
-        className='ui--FormatBalance-value'
+        className='ui--FormatBalance-value --digits'
         data-testid='balance-summary'
       >{
           valueFormatted
@@ -122,7 +122,7 @@ export default React.memo(styled(FormatBalance)`
   }
 
   .ui--FormatBalance-unit {
-    font-size: 0.825em;
+    font-size: var(--font-percent-tiny);
     text-transform: uppercase;
   }
 
@@ -130,8 +130,7 @@ export default React.memo(styled(FormatBalance)`
     text-align: right;
 
     > .ui--FormatBalance-postfix {
-      font-weight: var(--font-weight-light);
-      opacity: 0.75;
+      font-weight: lighter;
       vertical-align: baseline;
     }
   }

@@ -51,7 +51,7 @@ export default React.memo(styled(KeyPair)`
     font: var(--font-mono);
     font-size: var(--font-size-small);
     margin-left: 1rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     overflow: hidden;
     text-align: right;
   }

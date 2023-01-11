@@ -6,7 +6,7 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Digits } from '@polkadot/react-components';
+import { AddressSmall } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -23,7 +23,7 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   return (
     <tr>
       <td className='number'>
-        <h2><Link to={`/explorer/query/${hashHex}`}><Digits value={formatNumber(value.number)} /></Link></h2>
+        <Link to={`/explorer/query/${hashHex}`}><span className='--digits'>{formatNumber(value.number)}</span></Link>
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>

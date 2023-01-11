@@ -104,7 +104,7 @@ export default React.memo(styled(ChainInfo)`
       }
 
       .runtimeVersion {
-          font-size: 0.75rem;
+          font-size: var(--font-size-tiny);
           line-height: 1.2;
           letter-spacing: -0.01em;
       }

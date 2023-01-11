@@ -72,8 +72,8 @@ export default React.memo(styled(VotersColumn)`
 
   .vote-numbers-label {
     margin-left: 0.75rem;
-    font-weight: bold;
-    font-size: 0.7rem;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-tiny);
     line-height: 0.85rem;
     text-transform: uppercase;
     color: var(--color-label);

@@ -107,6 +107,6 @@ export default React.memo(styled(AddressRow)`
   }
 
   .ui--AddressRow-placeholder {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 `);
