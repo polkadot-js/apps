@@ -124,7 +124,6 @@ export default React.memo(styled(CardSummary)`
 
   > .ui--Labelled {
     font-size: var(--font-size-h1);
-    font-weight: var(--font-weight-header);
     position: relative;
     line-height: 1;
     text-align: right;
