@@ -538,6 +538,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     font-style: normal;
     font-weight: var(--font-weight-label);
     line-height: 1rem;
+    margin-bottom: 0.25rem !important;
     text-transform: var(--text-transform-label);
     vertical-align: middle;
   }

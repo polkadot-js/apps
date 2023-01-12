@@ -53,7 +53,6 @@ export default React.memo(styled(Holder)`
   }
 
   .ui--Param-Address {
-    font: var(--font-mono);
   }
 
   .ui--Params-Content {

@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 import ParentAccount from './ParentAccount';
-import { toShortAddress } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -52,7 +51,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
             className='shortAddress'
             data-testid='short-address'
           >
-            {toShortAddress(value)}
+            {value}
           </div>
         )}
       </span>
@@ -93,8 +92,13 @@ export default React.memo(styled(AddressSmall)`
     .shortAddress {
       bottom: -0.95rem;
       color: #8B8B8B;
+      display: inline-block;
       left: 0;
+      min-width: var(--width-shortaddress);;
+      max-width: var(--width-shortaddress);;
+      overflow: hidden;
       position: absolute;
+      text-overflow: ellipsis;
     }
   }
 

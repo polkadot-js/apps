@@ -105,7 +105,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
             <InputAddress
               defaultValue={propSenderId}
-              help={t<string>('The account you will send funds from.')}
               isDisabled={!!propSenderId}
               label={t<string>('send from account')}
               labelExtra={
@@ -121,7 +120,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
             <InputAddress
               defaultValue={propRecipientId}
-              help={t<string>('Select a contact or paste the address you want to send funds to.')}
               isDisabled={!!propRecipientId}
               label={t<string>('send to address')}
               labelExtra={
@@ -143,7 +141,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <InputBalance
                   autoFocus
                   defaultValue={maxTransfer}
-                  help={t<string>('The full account balance to be transferred, minus the transaction fees')}
                   isDisabled
                   key={maxTransfer?.toString()}
                   label={t<string>('transferrable minus fees')}
@@ -153,7 +150,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <>
                   <InputBalance
                     autoFocus
-                    help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
@@ -162,7 +158,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   />
                   <InputBalance
                     defaultValue={api.consts.balances?.existentialDeposit}
-                    help={t<string>('The minimum amount that an account should have to be deemed active')}
                     isDisabled
                     label={t<string>('existential deposit')}
                   />
