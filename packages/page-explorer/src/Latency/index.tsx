@@ -93,24 +93,33 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { blockLast, blocks, events, extrinsics, times } = useMemo(
+  const points = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const { blocksLegend, eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
-    () => ({
-      blocksLegend: [t<string>('bytes'), t<string>('average')],
-      eventsLegend: [t<string>('events'), t<string>('system'), t<string>('average')],
-      extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
-      timesLegend: [t<string>('blocktime'), t<string>('average')]
-    }), [t]
+  const [legend, title] = useMemo(
+    () => [
+      {
+        blocks: [t<string>('bytes'), t<string>('average')],
+        events: [t<string>('events'), t<string>('system'), t<string>('average')],
+        extrinsics: [t<string>('extrinsics'), t<string>('average')],
+        times: [t<string>('blocktime'), t<string>('average')]
+      },
+      {
+        blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
+        events: t<string>('events (last {{n}} blocks)', { replace: { n: maxItems } }),
+        extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
+        times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
+      }
+    ],
+    [maxItems, t]
   );
 
-  const isLoaded = details.length > 2;
-  const EMPTY_TIME = <span className='--tmp --digits'>0.000 s</span>;
+  const isLoaded = details.length === maxItems;
+  const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
     <div className={className}>
@@ -145,38 +154,42 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         </section>
         <CardSummary label={t<string>('last')}>
           {isLoaded
-            ? formatTime(blockLast, 1)
+            ? formatTime(points.blockLast, 1)
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
       {isLoaded
         ? (
-          <>
+          <div key='charts'>
             <Chart
               colors={COLORS_TIMES}
-              legends={timesLegend}
-              title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
-              value={times}
+              key='times'
+              legends={legend.times}
+              title={title.times}
+              value={points.times}
             />
             <Chart
               colors={COLORS_BLOCKS}
-              legends={blocksLegend}
-              title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
-              value={blocks}
+              key='blocks'
+              legends={legend.blocks}
+              title={title.blocks}
+              value={points.blocks}
             />
             <Chart
               colors={COLORS_TXS}
-              legends={extrinsicsLegend}
-              title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
-              value={extrinsics}
+              key='extrinsics'
+              legends={legend.extrinsics}
+              title={title.extrinsics}
+              value={points.extrinsics}
             />
             <Chart
               colors={COLORS_EVENTS}
-              legends={eventsLegend}
-              title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
-              value={events}
+              key='events'
+              legends={legend.events}
+              title={title.events}
+              value={points.events}
             />
-          </>
+          </div>
         )
         : <Spinner />
       }
