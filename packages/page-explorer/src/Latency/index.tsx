@@ -107,7 +107,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
-    // crosshair plugin init issues, but at beast it is most non-reproducable
+    // crosshair plugin init issues, but at best it is non-reproducable
     if (isLoaded) {
       const index = renderOrder.findIndex((v) => !v);
 
