@@ -25,10 +25,14 @@ interface ChartInfo {
   times: ChartContents;
 }
 
-const COLORS_TIMES = ['#8c8c00', '#acacac'];
-const COLORS_BLOCKS = ['#008c8c', '#acacac'];
-const COLORS_EVENTS = ['#00448c', '#8c0044', '#acacac'];
-const COLORS_TXS = ['#448c00', '#acacac'];
+const ORDER = ['times', 'blocks', 'extrinsics', 'events'] as const;
+
+const COLORS = {
+  blocks: ['#008c8c', '#acacac'],
+  events: ['#00448c', '#8c0044', '#acacac'],
+  extrinsics: ['#448c00', '#acacac'],
+  times: ['#8c8c00', '#acacac']
+};
 
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const blocks: ChartContents = {
@@ -180,45 +184,16 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         </CardSummary>
       </SummaryBox>
       {isLoaded
-        ? (
-          <div key='charts'>
-            {renderOrder[0] && (
-              <Chart
-                colors={COLORS_TIMES}
-                key='times'
-                legends={legend.times}
-                title={title.times}
-                value={points.times}
-              />
-            )}
-            {renderOrder[1] && (
-              <Chart
-                colors={COLORS_BLOCKS}
-                key='blocks'
-                legends={legend.blocks}
-                title={title.blocks}
-                value={points.blocks}
-              />
-            )}
-            {renderOrder[2] && (
-              <Chart
-                colors={COLORS_TXS}
-                key='extrinsics'
-                legends={legend.extrinsics}
-                title={title.extrinsics}
-                value={points.extrinsics}
-              />
-            )}
-            {renderOrder[3] && (
-              <Chart
-                colors={COLORS_EVENTS}
-                key='events'
-                legends={legend.events}
-                title={title.events}
-                value={points.events}
-              />
-            )}
-          </div>
+        ? ORDER.map((key, i) =>
+          renderOrder[i] && (
+            <Chart
+              colors={COLORS[key]}
+              key={key}
+              legends={legend[key]}
+              title={title[key]}
+              value={points[key]}
+            />
+          )
         )
         : <Spinner />
       }
