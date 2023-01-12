@@ -492,9 +492,10 @@ export default React.memo(styled(Referendum)`
 
   .shortHash {
     max-width: var(--width-shorthash);
-    min-width: var(--width-shorthash);
+    min-width: 3em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: var(--width-shorthash);
   }
 `);
