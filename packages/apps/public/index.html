@@ -8,19 +8,20 @@
     <title><%= htmlWebpackPlugin.options.PAGE_TITLE %></title>
     <script type="text/javascript" src="env-config.js"></script>
     <style>
-      /*
-        1.125 (8:9) factor (https://www.modularscale.com/?1&rem&1.067, https://type-scale.com/) -
-
-        1.424rem
-        1.266rem
-        1.125rem
-        1rem
-        0.889rem
-        0.79rem
-      */
       :root {
         --font-mono: 0.889em Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier, monospace;
         --font-sans: 1em "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+        /*
+          1.125 (8:9) factor (https://www.modularscale.com/?1&rem&1.067, https://type-scale.com/) -
+
+          1.424rem
+          1.266rem
+          1.125rem
+          1rem
+          0.889rem
+          0.79rem
+        */
         --font-percent-small: 88.9%;
         --font-percent-tiny: 79.0%;
         --font-size-base: 1rem;
@@ -29,18 +30,23 @@
         --font-size-h3: 1.125rem;
         --font-size-small: 0.889rem;
         --font-size-tiny: 0.79rem;
-        --font-weight-bold: 700;
-        --font-weight-header: 400;
+
+        --font-weight-bold: 600; /* semi-bold, 700 default */
         --font-weight-light: 200;
         --font-weight-normal: 400;
-        --font-size-label: 0.889rem;
-        --font-weight-label: 600; /* semi-bold */
-        --text-transform-label: lowercase;
+
         --opacity-light: 0.6;
+
         --width-full: 1750px;
         --width-half: 875px;
         --width-shortaddr: 6.5em;
         --width-shorthash: 9em;
+
+        --font-weight-header: var(--font-weight-normal);
+        --font-size-label: var(--font-size-small);
+        --font-weight-label: var(--font-weight-bold);
+        --text-transform-label: lowercase;
+
         --bg-menu-hover: rgba(255, 255, 255, 0.2);
       }
 
