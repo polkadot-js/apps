@@ -1,13 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { Text } from '@polkadot/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
@@ -19,8 +17,6 @@ interface Meta {
 export interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: string;
-  helpIcon?: IconName;
   isOpen?: boolean;
   isHeader?: boolean;
   isLeft?: boolean;
@@ -65,7 +61,7 @@ function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
   ];
 }
 
-function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -112,12 +108,6 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
           <div className='ui--Expander-summary-title'>
             {summaryHead}
           </div>
-          {help && (
-            <LabelHelp
-              help={help}
-              icon={helpIcon}
-            />
-          )}
           {summary}
           {headerSub && (
             <div className='ui--Expander-summary-header-sub'>{isExpanded ? headerSub : headerSubMini}</div>

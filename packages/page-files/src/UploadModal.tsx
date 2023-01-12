@@ -296,7 +296,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         </Modal.Columns>
         <Modal.Columns>
           <Dropdown
-            help={t<string>('File streaming and wallet authentication will be processed by the chosen gateway.')}
             isDisabled={isBusy}
             label={t<string>('Select a Web3 IPFS Gateway')}
             onChange={_onChangeGateway}
@@ -306,7 +305,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         </Modal.Columns>
         <Modal.Columns>
           <Dropdown
-            help={t<string>('Your file will be pinned to IPFS for long-term storage.')}
             isDisabled={true}
             label={t<string>('Select a Web3 IPFS Pinner')}
             onChange={_onChangePinner}
@@ -331,7 +329,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
           {
             !upState.up && isLocked && !isInjected &&
             <Password
-              help={t<string>('The account\'s password specified at the creation of this account.')}
               isError={false}
               label={t<string>('password')}
               onChange={setPassword}

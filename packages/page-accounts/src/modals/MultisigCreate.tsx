@@ -180,7 +180,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
             <InputAddressMulti
               available={availableSignatories}
               availableLabel={t<string>('available signatories')}
-              help={t<string>('The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.', { replace: { maxHelpers: MAX_SIGNATORIES } })}
               maxCount={MAX_SIGNATORIES}
               onChange={_onChangeAddressMulti}
               value={signatories}
@@ -194,7 +193,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
               accept={acceptedFormats}
               className='full'
               clearContent={!uploadedSignatories.length && isUploadedFileValid}
-              help={t<string>('Select a JSON key file with the list of signatories.')}
               isError={!isUploadedFileValid}
               label={t<string>('upload signatories list')}
               onChange={_onChangeFile}
@@ -230,7 +228,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
         )}
         <Modal.Columns hint={t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
           <InputNumber
-            help={t<string>('The threshold for this multisig')}
             isError={!isThresholdValid}
             label={t<string>('threshold')}
             onChange={_onChangeThreshold}
@@ -241,7 +238,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           <Input
             autoFocus
             className='full'
-            help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}

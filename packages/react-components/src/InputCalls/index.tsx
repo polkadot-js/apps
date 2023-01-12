@@ -17,13 +17,12 @@ import useRuntime from './useRuntime';
 
 interface Props {
   className?: string;
-  help?: React.ReactNode;
   label: React.ReactNode;
   onChange?: (value: DefinitionCallNamed) => void;
   withLabel?: boolean;
 }
 
-function InputCalls ({ className, help, label, onChange, withLabel }: Props): React.ReactElement<Props> | null {
+function InputCalls ({ className, label, onChange, withLabel }: Props): React.ReactElement<Props> | null {
   const [defs, defaultValue] = useRuntime();
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(defs));
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(defs, defaultValue && defaultValue.section));
@@ -62,7 +61,6 @@ function InputCalls ({ className, help, label, onChange, withLabel }: Props): Re
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

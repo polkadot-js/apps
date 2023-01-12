@@ -24,7 +24,6 @@ interface Props {
   className?: string;
   defaultValue?: Uint8Array | string | null;
   filter?: string[] | null;
-  help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
@@ -150,7 +149,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     // the options could be delayed, don't render without
@@ -160,7 +159,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       return (
         <Static
           className={className}
-          help={help}
           label={label}
         >
           No accounts are available for selection.
@@ -192,7 +190,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       <Dropdown
         className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
-        help={help}
         isDisabled={isDisabled}
         isError={isError}
         isMultiple={isMultiple}

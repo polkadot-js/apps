@@ -81,7 +81,6 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('Select the account you wish to make the proposal with.')}
                 label={t<string>('propose from account')}
                 onChange={setAcountId}
                 type='account'
@@ -91,7 +90,6 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
             <Modal.Columns hint={t<string>('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}>
               <InputNumber
                 className='medium'
-                help={t<string>('The minimum number of council votes required to approve this motion')}
                 isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
                 label={t<string>('threshold')}
                 onChange={_setThreshold}

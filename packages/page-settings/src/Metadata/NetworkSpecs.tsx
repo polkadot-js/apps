@@ -114,7 +114,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <div className='settings--networkSpecs-name'>
             <Input
               className='full'
-              help={t<string>('Name of the network. It is only for display purposes.')}
               isDisabled
               label={t<string>('Network Name')}
               value={networkSpecs.title}
@@ -137,7 +136,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <div>
               <Input
                 className='full settings--networkSpecs-colorInput'
-                help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
                 isError={!_checkColorValid()}
                 label={t<string>('Color')}
                 onChange={_onChangeColor}
@@ -161,7 +159,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
             isDisabled
             label={t<string>('Genesis Hash')}
             value={networkSpecs.genesisHash}
@@ -173,7 +170,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
           <Input
             className='full'
-            help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
             isDisabled
             label={t<string>('Unit')}
             value={networkSpecs.unit}
@@ -184,7 +180,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address')}
             isDisabled
             label={t<string>('Address Prefix')}
             value={networkSpecs.prefix.toString()}
@@ -195,7 +190,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
             isDisabled
             label={t<string>('Decimals')}
             value={networkSpecs.decimals.toString()}
@@ -206,7 +200,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Chain type (ethereum compatible or regular substrate)')}
             isDisabled
             label={t<string>('Chain Type')}
             value={networkSpecs.chainType}

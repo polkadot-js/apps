@@ -192,7 +192,6 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Input
           autoFocus
           className='medium'
-          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. ')}
           isDisabled={isRunning}
           isError={!isMatchValid}
           label={t<string>('Search for')}
@@ -202,7 +201,6 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         />
         <Dropdown
           className='medium'
-          help={t<string>('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
           isDisabled={isRunning}
           label={t<string>('case sensitive')}
           onChange={setWithCase}
@@ -214,7 +212,6 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Dropdown
           className='medium'
           defaultValue={type}
-          help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
           label={t<string>('keypair crypto type')}
           onChange={setType}
           options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}

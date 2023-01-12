@@ -26,12 +26,11 @@ interface ProgressProps {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   label: React.ReactNode;
   progress?: ProgressProps;
 }
 
-function CardSummary ({ children, className = '', help, label, progress }: Props): React.ReactElement<Props> | null {
+function CardSummary ({ children, className = '', label, progress }: Props): React.ReactElement<Props> | null {
   const value = progress && progress.value;
   const total = progress && progress.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -63,7 +62,6 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
       data-testid={`card-summary:${testidSuffix}`}
     >
       <Labelled
-        help={help}
         isSmall
         label={label}
       >

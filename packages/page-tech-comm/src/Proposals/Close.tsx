@@ -48,7 +48,6 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The committee account that will apply the close for the current round.')}>
               <InputAddress
-                help={t<string>('Select the account you wish close the proposal with.')}
                 label={t<string>('close from account')}
                 onChange={setAccountId}
                 type='account'

@@ -41,7 +41,6 @@ function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null 
       />
       {showTip && (
         <InputBalance
-          help={t<string>('Add a tip to this extrinsic, paying the block author for greater priority')}
           isZeroable
           label={t<string>('Tip (optional)')}
           onChange={setTip}

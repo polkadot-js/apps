@@ -21,7 +21,6 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | BN;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -172,7 +171,7 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isLoading, isWarning, isSigned = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isFull, isSi, isDisabled, isError = false, isLoading, isWarning, isSigned = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si, setSi] = useState<SiDef | null>(() =>
@@ -269,7 +268,6 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     <Input
       autoFocus={autoFocus}
       className={`ui--InputNumber${isDisabled ? ' isDisabled' : ''} ${className}`}
-      help={help}
       isAction={isSi}
       isDisabled={isDisabled}
       isError={!isValid || isError}

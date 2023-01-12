@@ -47,7 +47,6 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           <InputBalance
             autoFocus
             defaultValue={maxUnbond}
-            help={t<string>('Amount to unbond from the current bonded amount.')}
             isDisabled={withMax}
             isError={isAmountError}
             key={`unbondAmount-${withMax.toString()}`}
@@ -71,7 +70,6 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           </InputBalance>
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />

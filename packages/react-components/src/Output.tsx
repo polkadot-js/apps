@@ -10,7 +10,6 @@ import Labelled from './Labelled';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -25,11 +24,10 @@ interface Props {
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
-      help={help}
       isFull={isFull}
       isHidden={isHidden}
       isSmall={isSmall}

@@ -96,7 +96,6 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('Select the account you wish to make the proposal with.')}
                 label={t<string>('propose from account')}
                 onChange={setAcountId}
                 type='account'
@@ -106,7 +105,6 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
             <Modal.Columns hint={t<string>('The hash of the proposal image, either already submitted or valid for the specific call.')}>
               <Input
                 autoFocus
-                help={t<string>('The preimage hash of the proposal')}
                 isError={!isHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeHash}

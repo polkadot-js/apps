@@ -52,7 +52,6 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           <InputBalance
             autoFocus
             defaultValue={maxBalance}
-            help={t<string>('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
             isDisabled={withMax}
             key={`unbondAmount-${withMax.toString()}`}
             label={t<string>('unbond amount')}
@@ -69,7 +68,6 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           </InputBalance>
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />

@@ -118,7 +118,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     >
       <Modal.Content>
         <InputAddress
-          help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t<string>('contract to use')}
           type='contract'
@@ -126,7 +125,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         />
         <InputAddress
           defaultValue={accountId}
-          help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t<string>('call from account')}
           labelExtra={
             <Available
@@ -142,7 +140,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           <>
             <Dropdown
               defaultValue={messageIndex}
-              help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t<string>('message to send')}
               onChange={onChangeMessage}
@@ -162,7 +159,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         {message.isPayable && (
           <InputBalance
-            help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
@@ -172,7 +168,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         <InputMegaGas
           estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
-          help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />

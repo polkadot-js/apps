@@ -15,7 +15,6 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | null;
-  help?: React.ReactNode;
   icon?: React.ReactNode;
   inputClassName?: string;
   isAction?: boolean;
@@ -93,7 +92,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isLoading = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isLoading = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(() => `in_${counter++}_at_${Date.now()}`);
   const [initialValue] = useState(() => defaultValue);
 
@@ -146,7 +145,6 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
   return (
     <Labelled
       className={className}
-      help={help}
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}

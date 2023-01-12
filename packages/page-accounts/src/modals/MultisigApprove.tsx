@@ -172,7 +172,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       <Modal.Content>
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
-            help={t<string>('The call hashes that have not been executed as of yet.')}
             label={t<string>('pending hashes {{count}}', {
               replace: { count: hashes.length }
             })}
@@ -213,7 +212,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         )}
         <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
-            help={t<string>('Either approve or reject this call.')}
             label={t<string>('approval type')}
             onChange={setType}
             options={callOptRef.current}
@@ -225,7 +223,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             <Modal.Columns hint={t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
               <InputAddress
                 filter={whoFilter}
-                help={t<string>('The signatory to send the approval/cancel from')}
                 label={t<string>('signatory')}
                 onChange={setSignatory}
               />
@@ -250,7 +247,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                       : (
                         <Input
                           autoFocus
-                          help={t('For final approvals, the actual full call data is required to execute the transaction')}
                           isError={!callHex || !!callError}
                           label={t('call data for final approval')}
                           onChange={setCallHex}

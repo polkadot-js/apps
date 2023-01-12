@@ -70,7 +70,6 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               )}
               <ConvictionDropdown
-                help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
                 label={t<string>('conviction')}
                 onChange={setConviction}
                 value={conviction}
