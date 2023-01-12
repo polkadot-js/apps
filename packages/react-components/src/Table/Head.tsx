@@ -36,9 +36,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
           >
             {index === 0
               ? <h1>{label}</h1>
-              : isEmpty
-                ? ''
-                : label
+              : !isEmpty && label && <label>{label}</label>
             }
           </th>
         )}
