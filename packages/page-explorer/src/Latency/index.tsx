@@ -118,7 +118,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
     [maxItems, t]
   );
 
-  const isLoaded = details.length > 2;
+  const isLoaded = details.length === maxItems;
   const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
