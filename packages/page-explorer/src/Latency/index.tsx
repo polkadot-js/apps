@@ -96,10 +96,15 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
   const [renderOrder, setRenderOrder] = useState([false, false, false, false]);
 
+  const isLoaded = useMemo(
+    () => details.length === maxItems,
+    [details, maxItems]
+  );
+
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
     // crosshair plugin init issues, but at beast it is most non-reproducable
-    if (details.length === maxItems) {
+    if (isLoaded) {
       const index = renderOrder.findIndex((v) => !v);
 
       if (index !== -1) {
@@ -120,7 +125,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         );
       }
     }
-  }, [renderOrder, maxItems, details]);
+  }, [isLoaded, renderOrder]);
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
@@ -145,7 +150,6 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
     [maxItems, t]
   );
 
-  const isLoaded = details.length === maxItems;
   const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
