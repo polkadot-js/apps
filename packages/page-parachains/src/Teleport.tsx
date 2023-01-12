@@ -183,7 +183,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             onChange={setAmount}
           />
           <InputBalance
-            defaultValue={destApi?.consts.balances?.existentialDeposit || '0'}
+            defaultValue={destApi?.consts.balances?.existentialDeposit}
             isDisabled
             isLoading={!destApi}
             label={t<string>('destination existential deposit')}
