@@ -38,8 +38,8 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
     const textHash = imageHash.toString();
 
     return (
-      <td className={`${className} all`}>
-        <div className='shortHash'>{textHash.slice(0, 8)}…{textHash.slice(-8)}</div>
+      <td className={`${className} all hash`}>
+        <div className='shortHash'>{textHash}</div>
       </td>
     );
   }
@@ -68,8 +68,6 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
 
 export default React.memo(styled(ProposalCell)`
   .shortHash {
-    font: var(--font-mono);
-
     + div {
       margin-left: 0.5rem;
     }

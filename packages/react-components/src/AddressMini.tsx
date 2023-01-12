@@ -133,8 +133,8 @@ export default React.memo(styled(AddressMini)`
       text-overflow: ellipsis;
 
       &.shortAddress {
-        min-width: var(--width-shortaddress);
-        max-width: var(--width-shortaddress);
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
         opacity: var(--opacity-light);
       }
     }

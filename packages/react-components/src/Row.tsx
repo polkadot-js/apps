@@ -83,8 +83,8 @@ export const styles = `
     margin-bottom: 0.25rem;
 
     &.shortAddr {
-      min-width: var(--width-shortaddress);
-      max-width: var(--width-shortaddress);
+      min-width: var(--width-shortaddr);
+      max-width: var(--width-shortaddr);
       opacity: var(--opacity-light);
       overflow: hidden;
       text-overflow: ellipsis;

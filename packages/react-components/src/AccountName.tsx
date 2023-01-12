@@ -250,8 +250,8 @@ export default React.memo(styled(AccountName)`
 
       &.isAddress {
         display: inline-block;
-        min-width: var(--width-shortaddress);
-        max-width: var(--width-shortaddress);
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
         opacity: var(--opacity-light);
         text-transform: none;
       }

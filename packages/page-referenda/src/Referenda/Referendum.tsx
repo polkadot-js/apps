@@ -491,6 +491,9 @@ export default React.memo(styled(Referendum)`
   }
 
   .shortHash {
-    font: var(--font-mono);
+    max-width: var(--width-shorthash);
+    min-width: var(--width-shorthash);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `);

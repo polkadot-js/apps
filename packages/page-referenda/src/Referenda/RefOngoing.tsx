@@ -28,7 +28,6 @@ interface Expanded {
     confirmEnd: BN | null;
   };
   proposalHash: HexString;
-  shortHash: string;
   submissionDeposit: PalletReferendaDeposit | null;
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
   tallyTotal: BN;
@@ -69,7 +68,6 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       prepareEnd
     },
     proposalHash,
-    shortHash: `${proposalHash.slice(0, 10)}…${proposalHash.slice(-8)}`,
     submissionDeposit: unwrapDeposit(ongoing.submissionDeposit),
     tally: ongoing.tally,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
@@ -79,7 +77,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
 function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, submissionDeposit, tally, tallyTotal } = useMemo(
+  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, submissionDeposit, tally, tallyTotal } = useMemo(
     () => expandOngoing(info, track),
     [info, track]
   );
@@ -97,7 +95,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : <div className='shortHash'>{shortHash}</div>
+          : <div className='shortHash'>{proposalHash}</div>
         }
       </td>
       <Deposits

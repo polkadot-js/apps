@@ -287,6 +287,14 @@ export default React.memo(styled(Table)`
         // we actually want to use 10ch here, however in the
         // block expand page gives different sizes to the hashes
         min-width: 7.5rem;
+        white-space: nowrap;
+
+        > .shortHash {
+          max-width: var(--width-shorthash);
+          min-width: var(--width-shorthash);
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       &.links {
