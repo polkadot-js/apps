@@ -24,6 +24,8 @@ interface InterimResult {
 
 type Result = 'unknown' | 'hash' | 'hashAndLen';
 
+const OPT_STATUS = { withParamsTransform: true };
+
 export function getParamType (api: ApiPromise): Result {
   if ((
     api.query.preimage &&
@@ -96,10 +98,8 @@ function convertDeposit (deposit?: [AccountId, Balance] | null): PreimageDeposit
     : undefined;
 }
 
-function getBytesParams (api: ApiPromise, hash: Hash | HexString, optStatus: Option<PalletPreimageRequestStatus>): InterimResult {
-  const isHashParam = getParamType(api) === 'hash';
-  const status = optStatus.unwrapOr(null);
-  const preimageStatus: PreimageStatus = {
+function createStatus (api: ApiPromise, hash: HexString | Hash, status: PalletPreimageRequestStatus | null = null): PreimageStatus {
+  return {
     count: 0,
     isCompleted: false,
     proposalHash: isString(hash)
@@ -108,6 +108,12 @@ function getBytesParams (api: ApiPromise, hash: Hash | HexString, optStatus: Opt
     registry: api.registry,
     status
   };
+}
+
+function getBytesParams (api: ApiPromise, [[proposalHash], optStatus]: [[HexString], Option<PalletPreimageRequestStatus>]): InterimResult {
+  const isHashParam = getParamType(api) === 'hash';
+  const status = optStatus.unwrapOr(null);
+  const preimageStatus = createStatus(api, proposalHash, status);
 
   if (status) {
     if (status.isRequested) {
@@ -167,26 +173,32 @@ export function getPreimageHash (hashOrBounded: Hash | HexString | FrameSupportP
         : hashOrBounded.toHex();
 }
 
+function getStatusParam (hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): [HexString] | undefined {
+  const hash = hashOrBounded && getPreimageHash(hashOrBounded);
+
+  return hash && hash.length === 66
+    ? [hash]
+    : undefined;
+}
+
 function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimagesBounded | null): Preimage | undefined {
   const { api } = useApi();
 
   // retrieve the status using only the hash of the image
   const paramsStatus = useMemo(
-    // we need a hash _and_ be on the newest supported version of the pallet
-    // (after the application of bounded calls)
-    () => hashOrBounded
-      ? [getPreimageHash(hashOrBounded)]
-      : undefined,
+    () => getStatusParam(hashOrBounded),
     [hashOrBounded]
   );
 
-  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(paramsStatus && api.query.preimage?.statusFor, paramsStatus);
+  const optStatus = useCall<[[HexString], Option<PalletPreimageRequestStatus>]>(paramsStatus && api.query.preimage?.statusFor, paramsStatus, OPT_STATUS);
 
   // from the retrieved status (if any), get the on-chain stored bytes
   const { paramsBytes, preimageStatus } = useMemo(
-    () => paramsStatus && optStatus
-      ? getBytesParams(api, paramsStatus[0], optStatus)
-      : {},
+    () => optStatus
+      ? getBytesParams(api, optStatus)
+      : paramsStatus
+        ? { preimageStatus: createStatus(api, paramsStatus[0]) }
+        : {},
     [api, optStatus, paramsStatus]
   );
 

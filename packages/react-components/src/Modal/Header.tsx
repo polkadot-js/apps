@@ -15,6 +15,7 @@ function Header ({ className = '', header, onClose }: HeaderProps) {
         <h1>{header}</h1>
       )}
       <Button
+        className='closeModal'
         dataTestId='close-modal'
         icon='times'
         onClick={onClose}
@@ -27,4 +28,9 @@ export default React.memo(styled(Header)`
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1.5rem 0;
+
+  .closeModal {
+    right: 0;
+    top: 0;
+  }
 `);
