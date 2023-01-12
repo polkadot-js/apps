@@ -109,15 +109,9 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
 
       if (index !== -1) {
         nextTick(() =>
-          setRenderOrder((prev) => {
-            const result = new Array<boolean>(prev.length);
-
-            for (let i = 0; i < result.length; i++) {
-              result[i] = (i === index) || prev[i];
-            }
-
-            return result;
-          })
+          setRenderOrder((prev) =>
+            prev.map((v, i) => (i === index) || v)
+          )
         );
       }
     }
