@@ -249,7 +249,9 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font: var(--font-mono);
+        display: inline-block;
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
         opacity: var(--opacity-light);
         text-transform: none;
       }

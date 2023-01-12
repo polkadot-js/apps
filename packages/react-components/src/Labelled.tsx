@@ -118,6 +118,11 @@ export default React.memo(styled(Labelled)`
         flex: 1 1;
         min-width: 0;
 
+        > .--tmp {
+          // existing is a bit too much
+          opacity: 0.15;
+        }
+
         .ui.selection.dropdown {
           &:not(.floating) {
             padding-left: 1.45rem;

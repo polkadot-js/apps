@@ -6,9 +6,8 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { useTranslation } from '@polkadot/app-contracts/translate';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 
-import introMd from './md/intro.md';
 import Contracts from './Contracts';
 
 function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
@@ -24,7 +23,6 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
 
   return (
     <main className={`contracts--App ${className}`}>
-      <HelpOverlay md={introMd as string} />
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

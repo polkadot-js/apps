@@ -100,8 +100,6 @@ export default React.memo(styled(Item)`
     display: block;
     padding: 0.5rem 1.15rem 0.57rem;
     text-decoration: none;
-    font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-small);
     line-height: 1.5rem;
   }
 

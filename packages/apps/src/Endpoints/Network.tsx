@@ -104,6 +104,10 @@ export default React.memo(styled(NetworkDisplay)`
     justify-content: flex-start;
     position: relative;
 
+    &+.ui--Toggle {
+      margin-top: 1rem;
+    }
+
     &.isChild .endpointIcon {
       margin-left: 1.25rem;
     }
@@ -115,7 +119,7 @@ export default React.memo(styled(NetworkDisplay)`
     .endpointValue {
       .endpointExtra {
         font-size: var(--font-size-small);
-        opacity: 0.8;
+        opacity: var(--opacity-light);
       }
     }
   }
@@ -123,6 +127,7 @@ export default React.memo(styled(NetworkDisplay)`
   // we jiggle our labels somewhat...
   label {
     font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
     text-transform: none;
   }
 `);

@@ -11,7 +11,6 @@ import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps } from './Row';
-import { toShortAddress } from './util';
 
 export interface Props extends RowProps {
   isContract?: boolean;
@@ -37,7 +36,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
 
   return (
     <Row
-      address={fullLength ? address : toShortAddress(address)}
+      address={address}
       buttons={buttons}
       className={className}
       defaultName={defaultName}
@@ -51,6 +50,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
       isEditableName={isEditableName}
       isEditableTags
       isInline={isInline}
+      isShortAddr={!fullLength}
       name={name}
       onChangeName={setName}
       onChangeTags={setTags}

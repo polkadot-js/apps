@@ -11,11 +11,10 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
 import Actions from './Actions';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
@@ -147,7 +146,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
 
   return (
     <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
         hidden={
