@@ -3,11 +3,11 @@
 
 import type { ChartContents, Detail } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Chart from './Chart';
@@ -25,10 +25,14 @@ interface ChartInfo {
   times: ChartContents;
 }
 
-const COLORS_TIMES = ['#8c8c00', '#acacac'];
-const COLORS_BLOCKS = ['#008c8c', '#acacac'];
-const COLORS_EVENTS = ['#00448c', '#8c0044', '#acacac'];
-const COLORS_TXS = ['#448c00', '#acacac'];
+const ORDER = ['times', 'blocks', 'extrinsics', 'events'] as const;
+
+const COLORS = {
+  blocks: ['#008c8c', '#acacac'],
+  events: ['#00448c', '#8c0044', '#acacac'],
+  extrinsics: ['#448c00', '#acacac'],
+  times: ['#8c8c00', '#acacac']
+};
 
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const blocks: ChartContents = {
@@ -94,6 +98,28 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const [renderOrder, setRenderOrder] = useState([false, false, false, false]);
+
+  const isLoaded = useMemo(
+    () => details.length === maxItems,
+    [details, maxItems]
+  );
+
+  useEffect((): void => {
+    // HACK try and render the charts in order - this _may_ work around the
+    // crosshair plugin init issues, but at best it is non-reproducable
+    if (isLoaded) {
+      const index = renderOrder.findIndex((v) => !v);
+
+      if (index !== -1) {
+        nextTick(() =>
+          setRenderOrder(
+            renderOrder.map((v, i) => (i === index) || v)
+          )
+        );
+      }
+    }
+  }, [isLoaded, renderOrder]);
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
@@ -118,7 +144,6 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
     [maxItems, t]
   );
 
-  const isLoaded = details.length === maxItems;
   const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
@@ -159,37 +184,16 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         </CardSummary>
       </SummaryBox>
       {isLoaded
-        ? (
-          <div key='charts'>
+        ? ORDER.map((key, i) =>
+          renderOrder[i] && (
             <Chart
-              colors={COLORS_TIMES}
-              key='times'
-              legends={legend.times}
-              title={title.times}
-              value={points.times}
+              colors={COLORS[key]}
+              key={key}
+              legends={legend[key]}
+              title={title[key]}
+              value={points[key]}
             />
-            <Chart
-              colors={COLORS_BLOCKS}
-              key='blocks'
-              legends={legend.blocks}
-              title={title.blocks}
-              value={points.blocks}
-            />
-            <Chart
-              colors={COLORS_TXS}
-              key='extrinsics'
-              legends={legend.extrinsics}
-              title={title.extrinsics}
-              value={points.extrinsics}
-            />
-            <Chart
-              colors={COLORS_EVENTS}
-              key='events'
-              legends={legend.events}
-              title={title.events}
-              value={points.events}
-            />
-          </div>
+          )
         )
         : <Spinner />
       }
