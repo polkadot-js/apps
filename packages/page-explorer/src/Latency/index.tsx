@@ -113,11 +113,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
             const result = new Array<boolean>(prev.length);
 
             for (let i = 0; i < result.length; i++) {
-              if (i === index) {
-                result[i] = true;
-              } else {
-                result[i] = prev[i];
-              }
+              result[i] = (i === index) || prev[i];
             }
 
             return result;
