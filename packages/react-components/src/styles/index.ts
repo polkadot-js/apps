@@ -512,6 +512,10 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     font-size: var(--font-size-h3);
   }
 
+  h4 {
+    font-size: var(--font-size-h4);
+  }
+
   header {
     margin-bottom: 1.5rem;
     text-align: center;
