@@ -95,18 +95,29 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
-  const { blockLast, blocks, events, extrinsics, times } = useMemo(
+  const points = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const { blocksLegend, eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
+  const legend = useMemo(
     () => ({
-      blocksLegend: [t<string>('bytes'), t<string>('average')],
-      eventsLegend: [t<string>('events'), t<string>('system'), t<string>('average')],
-      extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
-      timesLegend: [t<string>('blocktime'), t<string>('average')]
-    }), [t]
+      blocks: [t<string>('bytes'), t<string>('average')],
+      events: [t<string>('events'), t<string>('system'), t<string>('average')],
+      extrinsics: [t<string>('extrinsics'), t<string>('average')],
+      times: [t<string>('blocktime'), t<string>('average')]
+    }),
+    [t]
+  );
+
+  const title = useMemo(
+    () => ({
+      blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: points.blocks.labels.length } }),
+      events: t<string>('events (last {{n}} blocks)', { replace: { n: points.events.labels.length } }),
+      extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: points.extrinsics.labels.length } }),
+      times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: points.times.labels.length } })
+    }),
+    [points, t]
   );
 
   const isLoaded = details.length > 2;
@@ -145,7 +156,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         </section>
         <CardSummary label={t<string>('last')}>
           {isLoaded
-            ? formatTime(blockLast, 1)
+            ? formatTime(points.blockLast, 1)
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
@@ -154,27 +165,27 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
           <div key='charts'>
             <Chart
               colors={COLORS_TIMES}
-              legends={timesLegend}
-              title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
-              value={times}
+              legends={legend.times}
+              title={title.times}
+              value={points.times}
             />
             <Chart
               colors={COLORS_BLOCKS}
-              legends={blocksLegend}
-              title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
-              value={blocks}
+              legends={legend.blocks}
+              title={title.blocks}
+              value={points.blocks}
             />
             <Chart
               colors={COLORS_TXS}
-              legends={extrinsicsLegend}
-              title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
-              value={extrinsics}
+              legends={legend.extrinsics}
+              title={title.extrinsics}
+              value={points.extrinsics}
             />
             <Chart
               colors={COLORS_EVENTS}
-              legends={eventsLegend}
-              title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
-              value={events}
+              legends={legend.events}
+              title={title.events}
+              value={points.events}
             />
           </div>
         )
