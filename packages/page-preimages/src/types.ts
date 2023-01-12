@@ -14,9 +14,10 @@ export interface PreimageDeposit {
 }
 
 export interface PreimageStatus {
-  count: number;
+  count?: number;
   deposit?: PreimageDeposit;
   isCompleted: boolean;
+  isHashParam: boolean;
   proposalHash: HexString;
   proposalLength?: BN;
   registry: Registry;
