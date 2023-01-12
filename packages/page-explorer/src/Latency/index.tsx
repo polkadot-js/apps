@@ -151,7 +151,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
       </SummaryBox>
       {isLoaded
         ? (
-          <>
+          <div key='charts'>
             <Chart
               colors={COLORS_TIMES}
               legends={timesLegend}
@@ -176,7 +176,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
               title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
               value={events}
             />
-          </>
+          </div>
         )
         : <Spinner />
       }
