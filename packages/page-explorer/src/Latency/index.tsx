@@ -3,11 +3,11 @@
 
 import type { ChartContents, Detail } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Chart from './Chart';
@@ -94,6 +94,33 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const [renderOrder, setRenderOrder] = useState([false, false, false, false]);
+
+  useEffect((): void => {
+    // HACK try and render the charts in order - this _may_ work around the
+    // crosshair plugin init issues, but at beast it is most non-reproducable
+    if (details.length === maxItems) {
+      const index = renderOrder.findIndex((v) => !v);
+
+      if (index !== -1) {
+        nextTick(() =>
+          setRenderOrder((prev) => {
+            const result = new Array<boolean>(prev.length);
+
+            for (let i = 0; i < result.length; i++) {
+              if (i === index) {
+                result[i] = true;
+              } else {
+                result[i] = prev[i];
+              }
+            }
+
+            return result;
+          })
+        );
+      }
+    }
+  }, [renderOrder, maxItems, details]);
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
@@ -161,34 +188,42 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
       {isLoaded
         ? (
           <div key='charts'>
-            <Chart
-              colors={COLORS_TIMES}
-              key='times'
-              legends={legend.times}
-              title={title.times}
-              value={points.times}
-            />
-            <Chart
-              colors={COLORS_BLOCKS}
-              key='blocks'
-              legends={legend.blocks}
-              title={title.blocks}
-              value={points.blocks}
-            />
-            <Chart
-              colors={COLORS_TXS}
-              key='extrinsics'
-              legends={legend.extrinsics}
-              title={title.extrinsics}
-              value={points.extrinsics}
-            />
-            <Chart
-              colors={COLORS_EVENTS}
-              key='events'
-              legends={legend.events}
-              title={title.events}
-              value={points.events}
-            />
+            {renderOrder[0] && (
+              <Chart
+                colors={COLORS_TIMES}
+                key='times'
+                legends={legend.times}
+                title={title.times}
+                value={points.times}
+              />
+            )}
+            {renderOrder[1] && (
+              <Chart
+                colors={COLORS_BLOCKS}
+                key='blocks'
+                legends={legend.blocks}
+                title={title.blocks}
+                value={points.blocks}
+              />
+            )}
+            {renderOrder[2] && (
+              <Chart
+                colors={COLORS_TXS}
+                key='extrinsics'
+                legends={legend.extrinsics}
+                title={title.extrinsics}
+                value={points.extrinsics}
+              />
+            )}
+            {renderOrder[3] && (
+              <Chart
+                colors={COLORS_EVENTS}
+                key='events'
+                legends={legend.events}
+                title={title.events}
+                value={points.events}
+              />
+            )}
           </div>
         )
         : <Spinner />
