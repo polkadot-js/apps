@@ -544,6 +544,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   button {
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
   }
 
