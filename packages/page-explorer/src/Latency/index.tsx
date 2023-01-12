@@ -110,7 +110,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   );
 
   const isLoaded = details.length > 2;
-  const EMPTY_TIME = <span className='--tmp --digits'>0.000 s</span>;
+  const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
     <div className={className}>

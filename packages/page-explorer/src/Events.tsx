@@ -14,7 +14,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  error?: Error;
+  error?: Error | null;
   emptyLabel?: React.ReactNode;
   events?: KeyedEvent[] | null;
   eventClassName?: string;
