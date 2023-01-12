@@ -93,31 +93,29 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const legend = useMemo(
-    () => ({
-      blocks: [t<string>('bytes'), t<string>('average')],
-      events: [t<string>('events'), t<string>('system'), t<string>('average')],
-      extrinsics: [t<string>('extrinsics'), t<string>('average')],
-      times: [t<string>('blocktime'), t<string>('average')]
-    }),
-    [t]
-  );
-
-  const title = useMemo(
-    () => ({
-      blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: points.blocks.labels.length } }),
-      events: t<string>('events (last {{n}} blocks)', { replace: { n: points.events.labels.length } }),
-      extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: points.extrinsics.labels.length } }),
-      times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: points.times.labels.length } })
-    }),
-    [points, t]
+  const [legend, title] = useMemo(
+    () => [
+      {
+        blocks: [t<string>('bytes'), t<string>('average')],
+        events: [t<string>('events'), t<string>('system'), t<string>('average')],
+        extrinsics: [t<string>('extrinsics'), t<string>('average')],
+        times: [t<string>('blocktime'), t<string>('average')]
+      },
+      {
+        blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
+        events: t<string>('events (last {{n}} blocks)', { replace: { n: maxItems } }),
+        extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
+        times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
+      }
+    ],
+    [maxItems, t]
   );
 
   const isLoaded = details.length > 2;
@@ -165,24 +163,28 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
           <div key='charts'>
             <Chart
               colors={COLORS_TIMES}
+              key='times'
               legends={legend.times}
               title={title.times}
               value={points.times}
             />
             <Chart
               colors={COLORS_BLOCKS}
+              key='blocks'
               legends={legend.blocks}
               title={title.blocks}
               value={points.blocks}
             />
             <Chart
               colors={COLORS_TXS}
+              key='extrinsics'
               legends={legend.extrinsics}
               title={title.extrinsics}
               value={points.extrinsics}
             />
             <Chart
               colors={COLORS_EVENTS}
+              key='events'
               legends={legend.events}
               title={title.events}
               value={points.events}
