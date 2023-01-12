@@ -138,10 +138,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'crustParachain',
     homepage: 'https://crust.network',
     paraId: 2008,
-    isUnreachable: true,
     text: 'Crust',
     providers: {
-      Crust: 'wss://rpc.crust.network'
+      Crust: 'wss://crust-parachain.crustapps.net'
     }
   },
   {
