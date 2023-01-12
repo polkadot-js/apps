@@ -38,10 +38,6 @@ export default React.memo(styled(NodeInfo)`
   padding: 0 0 0 1rem;
   text-align: right;
 
-  .node {
-    font-size: var(--font-size-small);
-  }
-
   > div {
     margin-bottom: -0.125em;
 

@@ -495,5 +495,6 @@ export default React.memo(styled(Referendum)`
     min-width: var(--width-shorthash);
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `);
