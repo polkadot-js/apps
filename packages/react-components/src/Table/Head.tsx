@@ -73,6 +73,10 @@ export default React.memo(styled(Head)`
       }
     }
 
+    > label {
+      margin: 0 !important;
+    }
+
     &.address {
       padding-left: 3rem;
       text-align: left;
