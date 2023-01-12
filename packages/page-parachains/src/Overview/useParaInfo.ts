@@ -8,8 +8,6 @@ import type { Codec, ITuple } from '@polkadot/types/types';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
-import { sliceHex } from '../util';
-
 type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<PolkadotRuntimeParachainsParasParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
 
 interface Result {
@@ -42,7 +40,7 @@ const MULTI_OPTS = {
   },
   transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo, leases]: QueryResult): Result => ({
     headHex: headData.isSome
-      ? sliceHex(headData.unwrap())
+      ? headData.unwrap().toHex()
       : null,
     leases: leases
       .map((opt, index) => opt.isSome ? index : -1)

@@ -30,15 +30,17 @@
         --font-size-small: 0.889rem;
         --font-size-tiny: 0.79rem;
         --font-weight-bold: 700;
-        --font-weight-header: 300;
+        --font-weight-header: 400;
         --font-weight-light: 200;
         --font-weight-normal: 400;
-        --font-size-label: 0.79rem;
-        --font-weight-label: 400;
+        --font-size-label: 0.889rem;
+        --font-weight-label: 700;
         --text-transform-label: lowercase;
         --opacity-light: 0.6;
         --width-full: 1750px;
         --width-half: 875px;
+        --width-shortaddr: 6.5em;
+        --width-shorthash: 9em;
         --bg-menu-hover: rgba(255, 255, 255, 0.2);
       }
 
@@ -88,6 +90,22 @@
         /* --color-table-foot: rgba(78, 78, 78, 0.66); */
         /* --color-table-head: rgba(78, 78, 78, 0.8); */
         --color-text: rgba(78, 78, 78, 0.8); /* 1 */
+      }
+
+      .--digits {
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .--hidden {
+        display: none;
+      }
+
+      .--tmp {
+        background: grey;
+        filter: blur(2px);
+        opacity: 0.15;
       }
     </style>
   </head>

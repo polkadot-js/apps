@@ -5,7 +5,6 @@ import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 
@@ -43,8 +42,4 @@ function AccountIndex ({ children, className = '', defaultValue, label, value }:
   );
 }
 
-export default React.memo(styled(AccountIndex)`
-  .account-index {
-    font: var(--font-mono);
-  }
-`);
+export default React.memo(AccountIndex);

@@ -122,7 +122,6 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-addr,
   .ui--AddressMenu-index {
-    font: var(--font-mono);
     text-align: left;
     font-size: var(--font-size-small);
   }
@@ -136,7 +135,6 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-copyaddr,
   .ui--AddressMenu-index {
-    font: var(--font-mono);
     text-align: left;
     font-size: var(--font-size-small);
   }

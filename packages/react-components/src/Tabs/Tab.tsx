@@ -51,7 +51,6 @@ export default React.memo(styled(Tab)`
   align-items: center;
   display: flex;
   color: #8B8B8B;
-  font-size: var(--font-size-small);
   height: 100%;
   padding: 0 1.5rem;
   position: relative;
