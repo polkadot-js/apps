@@ -94,8 +94,8 @@ export default React.memo(styled(AddressSmall)`
       color: #8B8B8B;
       display: inline-block;
       left: 0;
-      min-width: var(--width-shortaddress);;
-      max-width: var(--width-shortaddress);;
+      min-width: var(--width-shortaddress);
+      max-width: var(--width-shortaddress);
       overflow: hidden;
       position: absolute;
       text-overflow: ellipsis;

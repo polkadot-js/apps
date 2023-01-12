@@ -44,8 +44,8 @@ export default React.memo(styled(KeyPair)`
     flex: 1;
     font-size: var(--font-size-small);
     margin-left: 1rem;
-    max-width: var(--width-shortaddress);;
-    min-width: var(--width-shortaddress);;
+    max-width: var(--width-shortaddress);
+    min-width: var(--width-shortaddress);
     opacity: var(--opacity-light);
     overflow: hidden;
     text-align: right;
