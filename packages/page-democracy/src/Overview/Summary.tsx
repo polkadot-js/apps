@@ -55,19 +55,21 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
             : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
-      <section className='media--1100'>
-        <CardSummary
-          label={t<string>('launch period')}
-          progress={{
-            isBlurred: !bestNumber,
-            total: api.consts.democracy.launchPeriod,
-            value: bestNumber
-              ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
-              : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
-            withTime: true
-          }}
-        />
-      </section>
+      {api.consts.democracy.launchPeriod && (
+        <section className='media--1100'>
+          <CardSummary
+            label={t<string>('launch period')}
+            progress={{
+              isBlurred: !bestNumber,
+              total: api.consts.democracy.launchPeriod,
+              value: bestNumber
+                ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
+                : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
+              withTime: true
+            }}
+          />
+        </section>
+      )}
     </SummaryBox>
   );
 }
