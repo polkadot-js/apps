@@ -6,7 +6,7 @@ import type { SiDef } from '@polkadot/util/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BN, BN_TEN, formatBalance, isString, isUndefined } from '@polkadot/util';
+import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -38,29 +38,28 @@ interface Props {
 
 const DEFAULT_BITLENGTH = 128;
 
-function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
+function reformat (value?: string | BN, isDisabled = false, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {
     return {};
   }
 
-  const decimals = isUndefined(siDecimals)
-    ? formatBalance.getDefaults().decimals
-    : siDecimals;
-  const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
-  const siDefault = isString(value) && (value.length < maxDisabled.length) && value !== '0'
-    ? formatBalance.calcSi(value.toString(), decimals)
-    : formatBalance.findSi('-');
   const defaultValue = formatBalance(value, {
-    decimals,
-    forceUnit: siDefault.value,
-    withSi: false
+    decimals: isUndefined(siDecimals)
+      ? formatBalance.getDefaults().decimals
+      : siDecimals,
+    forceUnit: '-',
+    withAll: true,
+    withSi: false,
+    withZero: false
   });
 
   return {
     defaultValue: isDisabled
-      ? defaultValue
-      : defaultValue.replace(/,/g, isDisabled ? ',' : ''),
-    siDefault
+      // since we drop 0's ensure we have at least 4 for disabled
+      ? `${defaultValue}.`.split('.').slice(0, 2).map((v, i) => i ? v.padEnd(4, '0') : v).join('.')
+      // remove the format specifiers for inputs
+      : defaultValue.replace(/,/g, ''),
+    siDefault: formatBalance.findSi('-')
   };
 }
 
