@@ -6,7 +6,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
-import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import ProposalCell from '@polkadot/app-council/Overview/ProposalCell';
 import { Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { useAccounts, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
