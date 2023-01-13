@@ -92,6 +92,12 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
       imageLenDefault: preimage.proposalLength,
       isImageLenValid: prev.isImageLenValid
     }));
+
+    preimage && !preimage.isCompleted && setImageLen({
+      imageLen: BN_ZERO,
+      imageLenDefault: BN_ZERO,
+      isImageLenValid: false
+    });
   }, [preimage]);
 
   const trackInfo = useMemo(

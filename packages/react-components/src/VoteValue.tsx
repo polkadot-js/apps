@@ -111,17 +111,17 @@ function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props)
     [accountId]
   );
 
-  const isDisabled = accountId !== selectedId;
+  const isLoading = accountId !== selectedId;
 
   return (
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={
-        isDisabled
+        isLoading
           ? undefined
           : defaultValue
       }
-      isDisabled={isDisabled}
+      isLoading={isLoading}
       isZeroable
       label={label || t<string>('vote value')}
       labelExtra={
