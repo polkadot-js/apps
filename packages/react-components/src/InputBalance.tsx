@@ -6,7 +6,7 @@ import type { SiDef } from '@polkadot/util/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BN, BN_TEN, formatBalance, isUndefined } from '@polkadot/util';
+import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -47,49 +47,25 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
-  const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
 
   // convert to a string value and reformat it, with the actual calculated decimals
   const strValue = value.toString();
-  const siDefault = (strValue.length < maxDisabled.length) && strValue !== '0'
-    ? formatBalance.calcSi(strValue, decimals)
-    : formatBalance.findSi('-');
+  const siDefault = formatBalance.findSi('-');
 
-  // format the value and set the default to it - it may be tweaked
-  let defaultValue = formatBalance(strValue, {
+  // this is for the cases where we do apply si
+  // const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
+  // const siDefault = isDisabled && (strValue.length < maxDisabled.length) && strValue !== '0' && strValue === '0'
+  //     ? formatBalance.calcSi(strValue, decimals)
+  //     : formatBalance.findSi('-');
+
+  // format the value and set the default to it (here we ensure we have all decimals)
+  const defaultValue = formatBalance(strValue, {
     decimals,
     forceUnit: siDefault.value,
-    withSi: false
+    withAll: true,
+    withSi: false,
+    withZero: false
   });
-
-  // for active inputs only we ensure that we display all
-  // the available decimals. For isDisabled inputs we just
-  // stick to the default formatted
-  if (!isDisabled) {
-    // find the position of the seperator and work around it
-    const preLength = defaultValue.indexOf('.');
-    const pre = strValue.slice(0, preLength);
-    let post = strValue.slice(preLength);
-    let end = post.length - 1;
-
-    // This looks inefficient, however it is better to do the checks and
-    // only make one final slice than it is to do it in multiples
-    do {
-      if (post[end] === '0') {
-        end--;
-      }
-    } while (post[end] === '0');
-
-    post = post.substring(0, end + 1);
-
-    // ensure we are at at least 4 decimals
-    if (post.length < 4) {
-      post = post.padEnd(4, '0');
-    }
-
-    // combine the 2 parts again
-    defaultValue = `${pre}.${post}`;
-  }
 
   return {
     defaultValue: isDisabled
