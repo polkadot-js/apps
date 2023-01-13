@@ -97,29 +97,24 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { details, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
-  const [renderOrder, setRenderOrder] = useState([false, false, false, false]);
-
-  const isLoaded = useMemo(
-    () => details.length === maxItems,
-    [details, maxItems]
-  );
+  const { details, isLoaded, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const [shouldRender, setShouldRender] = useState(() => new Array<boolean>(ORDER.length).fill(false));
 
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
     // crosshair plugin init issues, but at best it is non-reproducable
     if (isLoaded) {
-      const index = renderOrder.findIndex((v) => !v);
+      const index = shouldRender.findIndex((v) => !v);
 
       if (index !== -1) {
         nextTick(() =>
-          setRenderOrder(
-            renderOrder.map((v, i) => (i === index) || v)
+          setShouldRender(
+            shouldRender.map((v, i) => (i === index) || v)
           )
         );
       }
     }
-  }, [isLoaded, renderOrder]);
+  }, [isLoaded, shouldRender]);
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
@@ -185,7 +180,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
       </SummaryBox>
       {isLoaded
         ? ORDER.map((key, i) =>
-          renderOrder[i] && (
+          shouldRender[i] && (
             <Chart
               colors={COLORS[key]}
               key={key}
