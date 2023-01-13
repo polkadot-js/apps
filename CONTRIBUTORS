@@ -1,4 +1,4 @@
-    4019	Jaco                          	Adjust explorer links (#8772)
+    4023	Jaco                          	Ensure correct preimage is used for democracy (#8782)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
@@ -359,6 +359,7 @@
        1	Rocco Musolino                	italian translation typo fix (#3813)
        1	Saad                          	Reskinning Composable Finance/Picasso Portal Colors (#7696)
        1	Sam Hellawell                 	Fix dock logos being blurry/low res (#4427)
+       1	sander2                       	fix: democracy page for chains without launchPeriod (#8780)
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
        1	Sergei Lonshakov              	Robonomics ParaID 2077 added (#5706)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
