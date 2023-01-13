@@ -18,9 +18,8 @@ function formatJSON (input: string): string {
     .replace(/\\/g, '')
     .replace(/:Null/g, '')
     .replace(/:/g, ': ')
-    // .replace(/{/g, '{ ')
-    // .replace(/}/g, ' }')
-    .replace(/,/g, ', ');
+    .replace(/,/g, ', ')
+    .replace(/^{_alias: {.*}, /, '{');
 }
 
 function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
