@@ -46,7 +46,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={peers && t<string>('no peers connected')}
+      empty={t<string>('no peers connected')}
       header={headerRef.current}
     >
       {sorted?.map(({ bestHash, bestNumber, peerId, roles }) => (
