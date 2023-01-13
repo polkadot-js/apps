@@ -53,7 +53,7 @@ export default React.memo(styled(Item)`
   white-space: nowrap;
 
   &.topLevel {
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     line-height: 1.214rem;
     border-radius: 0.15rem;
 
@@ -65,7 +65,7 @@ export default React.memo(styled(Item)`
 
     &.isActive.highlight--color-contrast {
       font-size: 1.15rem;
-      font-weight: 400;
+      font-weight: var(--font-weight-normal);
       color: var(--color-text);
 
       a {
@@ -100,8 +100,6 @@ export default React.memo(styled(Item)`
     display: block;
     padding: 0.5rem 1.15rem 0.57rem;
     text-decoration: none;
-    font-weight: 400;
-    font-size: var(--font-size-button);
     line-height: 1.5rem;
   }
 

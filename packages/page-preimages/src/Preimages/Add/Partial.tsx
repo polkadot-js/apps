@@ -95,13 +95,11 @@ function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
           onChange={setProposal}
         />
         <Static
-          help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
           label={t<string>('preimage hash')}
           value={encodedHash}
           withCopy
         />
         <Static
-          help={t<string>('The encoded length of the selected proposal, as available on-chain')}
           label={t<string>('preimage length')}
           value={encodedLength || '0'}
           withCopy
@@ -114,7 +112,6 @@ function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
         >
           <InputBalance
             defaultValue={storageFee}
-            help={t<string>('The amount reserved to store this image')}
             isDisabled
             label={t<string>('calculated storage fee')}
           />

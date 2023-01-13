@@ -49,12 +49,12 @@ export default React.memo(styled(AvatarItem)`
   .ui--AvatarItem-details {
     .ui--AvatarItem-title {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: var(--font-size-base);
     }
 
     .ui--AvatarItem-subtitle {
       font-weight: var(--font-weight-normal);
-      font-size: 1rem;
+      font-size: var(--font-size-base);
     }
   }
 

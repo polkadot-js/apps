@@ -151,7 +151,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       <Modal.Content>
         <Input
           autoFocus
-          help={t<string>('The name that will be displayed in your accounts list.')}
           isError={!okDisplay}
           label={t<string>('display name')}
           maxLength={32}
@@ -164,7 +163,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           value={hasLegal}
         >
           <Input
-            help={t<string>('The legal name for this identity.')}
             isDisabled={!hasLegal}
             isError={!okLegal}
             label={t<string>('legal name')}
@@ -179,7 +177,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           value={hasEmail}
         >
           <Input
-            help={t<string>('The email address associated with this identity.')}
             isDisabled={!hasEmail}
             isError={!okEmail}
             label={t<string>('email')}
@@ -194,7 +191,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           value={hasWeb}
         >
           <Input
-            help={t<string>('An URL that is linked to this identity.')}
             isDisabled={!hasWeb}
             isError={!okWeb}
             label={t<string>('web')}
@@ -209,7 +205,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           value={hasTwitter}
         >
           <Input
-            help={t<string>('The twitter name for this identity.')}
             isDisabled={!hasTwitter}
             isError={!okTwitter}
             label={t<string>('twitter')}
@@ -223,7 +218,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           value={hasRiot}
         >
           <Input
-            help={t<string>('a riot name linked to this identity')}
             isDisabled={!hasRiot}
             isError={!okRiot}
             label={t<string>('riot name')}
@@ -235,7 +229,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         </WrapToggle>
         <InputBalance
           defaultValue={api.consts.identity?.basicDeposit}
-          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
           isDisabled
           label={t<string>('total deposit')}
         />

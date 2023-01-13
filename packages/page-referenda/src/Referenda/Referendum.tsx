@@ -484,14 +484,18 @@ function Referendum (props: Props): React.ReactElement<Props> {
 export default React.memo(styled(Referendum)`
   .chartColumn {
     h1 {
-      font-size: 1.25rem;
       margin-bottom: 0;
       margin-top: 1rem;
-      text-align: center;
+      padding-left: 3rem;
     }
   }
 
   .shortHash {
-    font: var(--font-mono);
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
   }
 `);

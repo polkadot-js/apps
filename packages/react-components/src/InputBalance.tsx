@@ -15,10 +15,10 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: BN | string;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
+  isLoading?: boolean;
   isWarning?: boolean;
   isZeroable?: boolean;
   label?: React.ReactNode;
@@ -99,7 +99,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
   };
 }
 
-function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, isDisabled, isError, isFull, isLoading, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const { defaultValue, siDefault } = useMemo(
     () => reformat(inDefault, isDisabled, siDecimals),
     [inDefault, isDisabled, siDecimals]
@@ -111,10 +111,10 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       bitLength={DEFAULT_BITLENGTH}
       className={`ui--InputBalance ${className}`}
       defaultValue={defaultValue}
-      help={help}
       isDisabled={isDisabled}
       isError={isError}
       isFull={isFull}
+      isLoading={isLoading}
       isSi
       isWarning={isWarning}
       isZeroable={isZeroable}

@@ -67,7 +67,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
       {hover && (
         <Tooltip
           className='accounts-badge'
-          clickable={!!hoverAction}
+          isClickable={!!hoverAction}
           text={hoverContent}
           trigger={trigger}
         />
@@ -82,7 +82,7 @@ export default React.memo(styled(Badge)`
   box-sizing: border-box;
   color: #eeedec;
   display: inline-block;
-  font-size: 12px;
+  font-size: var(--font-size-tiny);
   height: 20px;
   line-height: 20px;
   margin-right: 0.43rem;

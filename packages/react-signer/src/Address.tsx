@@ -270,7 +270,6 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         <Modal.Columns hint={t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}>
           <InputAddress
             filter={proxyInfo.proxiesFilter}
-            help={t('The proxy to be used for this transaction.')}
             label={t('proxy account')}
             onChange={setProxyAddress}
             type='account'
@@ -281,7 +280,6 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         <Modal.Columns hint={t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}>
           <InputAddress
             filter={multiInfo.whoFilter}
-            help={t('The multisig signatory for this transaction.')}
             label={t('multisig signatory')}
             onChange={setMultiAddress}
             type='account'

@@ -76,7 +76,6 @@ function Add ({ onClose }: Props): React.ReactElement {
         >
           <Input
             autoFocus
-            help={t<string>('The address for the deployed contract instance.')}
             isError={!isAddressValid}
             label={t<string>('contract address')}
             onChange={setAddress}

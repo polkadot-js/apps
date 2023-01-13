@@ -58,7 +58,6 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           <InputAddressMulti
             available={availableHelpers}
             availableLabel={t<string>('available social recovery helpers')}
-            help={t<string>('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
             maxCount={MAX_HELPERS}
             onChange={setHelpers}
             value={helpers}
@@ -67,13 +66,11 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.')}>
           <InputNumber
-            help={t<string>('The threshold of vouches that is to be reached for the account to be recovered.')}
             isError={isErrorThreshold}
             label={t<string>('recovery threshold')}
             onChange={setThreshold}
           />
           <InputNumber
-            help={t<string>('The delay between vouching and the availability of the recovered account.')}
             isError={isErrorDelay}
             isZeroable
             label={t<string>('recovery block delay')}

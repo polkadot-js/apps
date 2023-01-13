@@ -5,7 +5,6 @@ import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { MarkError, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
@@ -15,11 +14,30 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  error?: Error;
+  error?: Error | null;
   emptyLabel?: React.ReactNode;
   events?: KeyedEvent[] | null;
   eventClassName?: string;
   label?: React.ReactNode;
+}
+
+function renederEvent (className: string | undefined, { blockHash, blockNumber, indexes, key, record }: KeyedEvent): React.ReactNode {
+  return (
+    <tr
+      className={className}
+      key={key}
+    >
+      <td className='overflow relative'>
+        <Event value={record} />
+        {blockNumber && (
+          <div className='absolute --digits'>
+            {indexes.length !== 1 && <span>{formatNumber(indexes.length)}x&nbsp;</span>}
+            <Link to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{indexes[0].toString().padStart(2, '0')}</Link>
+          </div>
+        )}
+      </td>
+    </tr>
+  );
 }
 
 function Events ({ className = '', emptyLabel, error, eventClassName, events, label }: Props): React.ReactElement<Props> {
@@ -47,35 +65,10 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
             <td><MarkError content={t<string>('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
           </tr>
         )
-        : events && events.map(({ blockHash, blockNumber, indexes, key, record }): React.ReactNode => (
-          <tr
-            className={eventClassName}
-            key={key}
-          >
-            <td className='overflow'>
-              <Event value={record} />
-              {blockNumber && (
-                <div className='event-link'>
-                  {indexes.length !== 1 && <span>({formatNumber(indexes.length)}x)&nbsp;</span>}
-                  <Link to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{indexes[0]}</Link>
-                </div>
-              )}
-            </td>
-          </tr>
-        ))
+        : events && events.map((e) => renederEvent(eventClassName, e))
       }
     </Table>
   );
 }
 
-export default React.memo(styled(Events)`
-  td.overflow {
-    position: relative;
-
-    .event-link {
-      position: absolute;
-      right: 0.75rem;
-      top: 0.5rem;
-    }
-  }
-`);
+export default React.memo(Events);

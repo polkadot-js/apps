@@ -119,7 +119,9 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
         />
       </td>
-      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{paraInfo.headHex}</div>
+      </td>
       <td className='start'>
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (

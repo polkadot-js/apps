@@ -24,8 +24,8 @@ function CurrentSection ({ className = '', icon, text }: Props): React.ReactElem
 
 export default React.memo(styled(CurrentSection)`
   margin: 0 2.5rem 0 1.5rem;
-  font-weight: 400;
-  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
   line-height: 1.57rem;
   min-width: max-content;
   height: 100%;

@@ -14,7 +14,7 @@ export const styles = `
   text-align: left;
 
   &.isDisabled {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
 
     .ui--IdentityIcon  {
       filter: grayscale(100%);
@@ -33,7 +33,7 @@ export const styles = `
     .ui--Row-accountId,
     .ui--Row-icon {
       filter: grayscale(100);
-      opacity: 0.6;
+      opacity: var(--opacity-light);
     }
   }
 
@@ -79,10 +79,16 @@ export const styles = `
 
   .ui--Row-address,
   .ui--Row-accountIndex {
-    font-family: monospace;
-    font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;
+
+    &.shortAddr {
+      min-width: var(--width-shortaddr);
+      max-width: var(--width-shortaddr);
+      opacity: var(--opacity-light);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .ui--Row-name {
@@ -130,7 +136,7 @@ export const styles = `
         border-radius: .5em;
         border-style: dashed;
         color: grey;
-        font-size: x-small;
+        font-size: var(--font-size-tiny);
         padding: .1em 0.3em 0.1em 0.3em;
         margin-top: .2em;
       }
@@ -159,6 +165,7 @@ export interface RowProps {
   isInline?: boolean;
   isEditableName?: boolean;
   isEditableTags?: boolean;
+  isShortAddr?: boolean;
   name?: string;
   onChangeName?: (_: string) => void;
   onChangeTags?: (_: string[]) => void;
@@ -167,7 +174,7 @@ export interface RowProps {
   tags?: string[];
 }
 
-function Row ({ address, buttons, children, className = '', defaultName, details, icon, iconInfo, isDisabled, isEditableName, isEditableTags, isInline, name, onChangeName, onChangeTags, onSaveName, onSaveTags, tags }: RowProps): React.ReactElement<RowProps> {
+function Row ({ address, buttons, children, className = '', defaultName, details, icon, iconInfo, isDisabled, isEditableName, isEditableTags, isInline, isShortAddr = true, name, onChangeName, onChangeTags, onSaveName, onSaveTags, tags }: RowProps): React.ReactElement<RowProps> {
   const [isEditingName, toggleIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags] = useToggle();
 
@@ -220,7 +227,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
               )
           )}
           {address && (
-            <div className='ui--Row-address'>
+            <div className={`ui--Row-address ${isShortAddr ? 'shortAddr' : ''}`}>
               {address}
             </div>
           )}

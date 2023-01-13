@@ -200,14 +200,13 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
       <Columar>
         <Columar.Column>
           <Card withBottomMargin>
-            <h3>{t<string>('1. Select your {{chain}} account', {
+            <h2>{t<string>('1. Select your {{chain}} account', {
               replace: {
                 chain: systemChain
               }
-            })}</h3>
+            })}</h2>
             <InputAddress
               defaultValue={accountId}
-              help={t<string>('The account you want to claim to.')}
               label={t<string>('claim to account')}
               onChange={setAccountId}
               type='all'
@@ -231,11 +230,10 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
             // to be able to know the statement kind so that the users can sign it
             (step >= Step.ETHAddress && !isPreclaimed && !isOldClaimProcess) && (
               <Card withBottomMargin>
-                <h3>{t<string>('2. Enter the ETH address from the sale.')}</h3>
+                <h2>{t<string>('2. Enter the ETH address from the sale.')}</h2>
                 <Input
                   autoFocus
                   className='full'
-                  help={t<string>('The Ethereum address you used during the pre-sale (starting by "0x")')}
                   label={t<string>('Pre-sale ethereum address')}
                   onChange={onChangeEthereumAddress}
                   value={ethereumAddress || ''}
@@ -254,7 +252,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
             )}
           {(step >= Step.Sign && !isPreclaimed) && (
             <Card>
-              <h3>{t<string>('{{step}}. Sign with your ETH address', { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
+              <h2>{t<string>('{{step}}. Sign with your ETH address', { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h2>
               {!isOldClaimProcess && (
                 <Statement
                   kind={statementKind}

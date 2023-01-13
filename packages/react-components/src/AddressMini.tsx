@@ -13,7 +13,6 @@ import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import LockedVote from './LockedVote';
-import { toShortAddress } from './util';
 
 interface Props {
   balance?: BN | BN[];
@@ -73,7 +72,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
                   {nameExtra}
                 </AccountName>
               )
-              : toShortAddress(value)
+              : <span className='shortAddress'>{value}</span>
             }
           </span>
         )}
@@ -132,6 +131,12 @@ export default React.memo(styled(AddressMini)`
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
+
+      &.shortAddress {
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
+        opacity: var(--opacity-light);
+      }
     }
   }
 
@@ -151,7 +156,7 @@ export default React.memo(styled(AddressMini)`
     .ui--Balance,
     .ui--Bonded,
     .ui--LockedVote {
-      font-size: 0.75rem;
+      font-size: var(--font-size-tiny);
       margin-left: 2.25rem;
       margin-top: -0.5rem;
       text-align: left;
@@ -179,7 +184,7 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-summary {
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
     line-height: 1.2;
     margin-left: 2.25rem;
     margin-top: -0.2rem;

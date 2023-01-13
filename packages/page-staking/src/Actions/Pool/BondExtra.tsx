@@ -57,7 +57,6 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
           {type === 'free' && (
             <InputBalance
               autoFocus
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={isAmountError}
               label={t<string>('additional free funds to bond')}
               labelExtra={

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -11,11 +11,10 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
 import Actions from './Actions';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
@@ -147,7 +146,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
 
   return (
     <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
         hidden={
@@ -220,7 +218,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+export default React.memo(styled(StakingApp)`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -248,16 +246,6 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);
-
-    ${theme.theme === 'dark'
-    ? `font-weight: bold;
-      .ui--FormatBalance-value {
-
-        > .ui--FormatBalance-postfix {
-          opacity: 1;
-        }
-      }`
-    : ''};
     }
   }
 
@@ -269,11 +257,11 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
     .greyAnim-${n} {
       animation: greyAnim${n} 2s;
     }
+
     @keyframes greyAnim${n} {
       0% { background: #a6a6a6; }
       50% { background: darkorange; }
       100% { background: #a6a6a6; }
     }
-  `).join('')
-}
-`));
+  `).join('')}
+`);

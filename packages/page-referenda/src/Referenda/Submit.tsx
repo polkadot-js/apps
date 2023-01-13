@@ -194,7 +194,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('The account you want to propose from')}
                 label={t<string>('propose from account')}
                 labelExtra={
                   <Available
@@ -246,7 +245,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             >
               <Input
                 autoFocus
-                help={t<string>('The preimage hash of the proposal')}
                 isError={!isImageHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeImageHash}
@@ -254,7 +252,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
               <InputNumber
                 defaultValue={imageLenDefault}
-                help={t<string>('The preimage length of the proposal')}
                 isDisabled={!!preimage?.proposalLength && !preimage?.proposalLength.isZero() && isImageHashValid && isImageLenValid}
                 isError={!isImageLenValid}
                 key='inputLength'
@@ -350,7 +347,7 @@ export default React.memo(styled(Submit)`
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
       margin-top: 0.125rem;
-      opacity: 0.6;
+      opacity: var(--opacity-light);
     }
   }
 

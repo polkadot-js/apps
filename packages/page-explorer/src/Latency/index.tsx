@@ -3,11 +3,11 @@
 
 import type { ChartContents, Detail } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Chart from './Chart';
@@ -25,10 +25,14 @@ interface ChartInfo {
   times: ChartContents;
 }
 
-const COLORS_TIMES = ['#8c8c00', '#acacac'];
-const COLORS_BLOCKS = ['#008c8c', '#acacac'];
-const COLORS_EVENTS = ['#00448c', '#8c0044', '#acacac'];
-const COLORS_TXS = ['#448c00', '#acacac'];
+const ORDER = ['times', 'blocks', 'extrinsics', 'events'] as const;
+
+const COLORS = {
+  blocks: ['#008c8c', '#acacac'],
+  events: ['#00448c', '#8c0044', '#acacac'],
+  extrinsics: ['#448c00', '#acacac'],
+  times: ['#8c8c00', '#acacac']
+};
 
 function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const blocks: ChartContents = {
@@ -87,30 +91,55 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   };
 }
 
-function formatTime (time: number, divisor = 1000): string {
-  return `${(time / divisor).toFixed(3)}s`;
+function formatTime (time: number, divisor = 1000): React.ReactNode {
+  return <span className='--digits'>{`${(time / divisor).toFixed(3)}`}<span className='postfix'> s</span></span>;
 }
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { details, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const { details, isLoaded, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const [shouldRender, setShouldRender] = useState(() => new Array<boolean>(ORDER.length).fill(false));
 
-  const { blockLast, blocks, events, extrinsics, times } = useMemo(
+  useEffect((): void => {
+    // HACK try and render the charts in order - this _may_ work around the
+    // crosshair plugin init issues, but at best it is non-reproducable
+    if (isLoaded) {
+      const index = shouldRender.findIndex((v) => !v);
+
+      if (index !== -1) {
+        nextTick(() =>
+          setShouldRender(
+            shouldRender.map((v, i) => (i === index) || v)
+          )
+        );
+      }
+    }
+  }, [isLoaded, shouldRender]);
+
+  const points = useMemo(
     () => getPoints(details, timeAvg),
     [details, timeAvg]
   );
 
-  const { blocksLegend, eventsLegend, extrinsicsLegend, timesLegend } = useMemo(
-    () => ({
-      blocksLegend: [t<string>('bytes'), t<string>('average')],
-      eventsLegend: [t<string>('events'), t<string>('system'), t<string>('average')],
-      extrinsicsLegend: [t<string>('extrinsics'), t<string>('average')],
-      timesLegend: [t<string>('blocktime'), t<string>('average')]
-    }), [t]
+  const [legend, title] = useMemo(
+    () => [
+      {
+        blocks: [t<string>('bytes'), t<string>('average')],
+        events: [t<string>('events'), t<string>('system'), t<string>('average')],
+        extrinsics: [t<string>('extrinsics'), t<string>('average')],
+        times: [t<string>('blocktime'), t<string>('average')]
+      },
+      {
+        blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
+        events: t<string>('events (last {{n}} blocks)', { replace: { n: maxItems } }),
+        extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
+        times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
+      }
+    ],
+    [maxItems, t]
   );
 
-  const isLoaded = details.length > 2;
-  const EMPTY_TIME = <span className='--tmp'>0.000s</span>;
+  const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
     <div className={className}>
@@ -145,38 +174,21 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         </section>
         <CardSummary label={t<string>('last')}>
           {isLoaded
-            ? formatTime(blockLast, 1)
+            ? formatTime(points.blockLast, 1)
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
       {isLoaded
-        ? (
-          <>
+        ? ORDER.map((key, i) =>
+          shouldRender[i] && (
             <Chart
-              colors={COLORS_TIMES}
-              legends={timesLegend}
-              title={t<string>('blocktimes (last {{num}} blocks)', { replace: { num: times.labels.length } })}
-              value={times}
+              colors={COLORS[key]}
+              key={key}
+              legends={legend[key]}
+              title={title[key]}
+              value={points[key]}
             />
-            <Chart
-              colors={COLORS_BLOCKS}
-              legends={blocksLegend}
-              title={t<string>('blocksize (last {{num}} blocks)', { replace: { num: blocks.labels.length } })}
-              value={blocks}
-            />
-            <Chart
-              colors={COLORS_TXS}
-              legends={extrinsicsLegend}
-              title={t<string>('extrinsics (last {{num}} blocks)', { replace: { num: extrinsics.labels.length } })}
-              value={extrinsics}
-            />
-            <Chart
-              colors={COLORS_EVENTS}
-              legends={eventsLegend}
-              title={t<string>('events (last {{num}} blocks)', { replace: { num: events.labels.length } })}
-              value={events}
-            />
-          </>
+          )
         )
         : <Spinner />
       }
@@ -194,5 +206,11 @@ export default React.memo(styled(Latency)`
 
   .container+.container {
     margin-top: 1rem;
+  }
+
+  span.--digits {
+    .postfix {
+      font-size: var(--font-percent-tiny);
+    }
   }
 `);

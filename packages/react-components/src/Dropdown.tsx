@@ -17,7 +17,6 @@ interface Props<Option extends DropdownItemProps> {
   className?: string;
   defaultValue?: any;
   dropdownClassName?: string;
-  help?: React.ReactNode;
   isButton?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
@@ -45,7 +44,7 @@ export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Pr
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -114,7 +113,6 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
     : (
       <Labelled
         className={`ui--Dropdown ${className}`}
-        help={help}
         isFull={isFull}
         label={label}
         labelExtra={labelExtra}
@@ -145,7 +143,7 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       width: 32px;
 
       &.opaque {
-        opacity: 0.6;
+        opacity: var(--opacity-light);
       }
     }
 

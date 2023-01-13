@@ -20,7 +20,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
       {isApiReady && (
-        <div>
+        <div className='node'>
           <NodeName />&nbsp;
           <NodeVersion label='v' />
         </div>
@@ -33,7 +33,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(NodeInfo)`
   background: transparent;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-tiny);
   line-height: 1.2;
   padding: 0 0 0 1rem;
   text-align: right;

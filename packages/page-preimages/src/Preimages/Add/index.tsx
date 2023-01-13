@@ -37,7 +37,6 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>
               <InputAddress
-                help={t<string>('The account you want to register the preimage from')}
                 label={t<string>('send from account')}
                 labelExtra={
                   <Available

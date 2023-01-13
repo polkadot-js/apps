@@ -5,9 +5,8 @@ import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useRef } from 'react';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 
-import basicMd from '../README.md';
 import CrustFiles from './CrustFiles';
 import { useTranslation } from './translate';
 
@@ -29,7 +28,6 @@ function FilesApp ({ basePath, className }: Props): React.ReactElement<Props> {
 
   return (
     <main className={className}>
-      <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

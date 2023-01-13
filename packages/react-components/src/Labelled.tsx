@@ -4,11 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LabelHelp from './LabelHelp';
-
 interface Props {
   className?: string;
-  help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
   isOuter?: boolean;
@@ -22,7 +19,7 @@ interface Props {
 
 const defaultLabel: React.ReactNode = <div>&nbsp;</div>;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -36,7 +33,7 @@ function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, 
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }{help && <LabelHelp help={help} />}</label>
+      }</label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}
@@ -110,7 +107,7 @@ export default React.memo(styled(Labelled)`
       .labelExtra {
         color: var(--color-label);
         font-size: var(--font-size-label);
-        font-weight: var(--font-weight-normal);
+        font-weight: var(--font-weight-label);
         right: 1.75rem;
         text-align: right;
         text-transform: var(--text-transform-label);
@@ -120,6 +117,11 @@ export default React.memo(styled(Labelled)`
         box-sizing: border-box;
         flex: 1 1;
         min-width: 0;
+
+        > .--tmp {
+          // existing is a bit too much
+          opacity: 0.15;
+        }
 
         .ui.selection.dropdown {
           &:not(.floating) {

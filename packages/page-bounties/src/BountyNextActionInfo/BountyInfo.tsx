@@ -34,8 +34,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
 export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
   display: flex;
   align-items: center;
-  font-weight: 500;
-  font-size: 0.857rem;
+  font-size: var(--font-size-small);
   line-height: 1.5rem;
 
   .info-icon{
@@ -46,8 +45,8 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
   }
 
   .description {
-    font-weight: 400;
-    var(--font-size-label)
+    font-weight: var(--font-weight-normal);
+    var(font-size: var(--font-size-tiny);)
     line-height: 0.864rem;
     color: var(--color-label);
     word-wrap: break-word;

@@ -206,14 +206,13 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
     [isIterable, isValid, values]
   );
 
-  const { creator: { meta, method, section } } = key;
+  const { creator: { method, section } } = key;
 
   return (
     <section className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
-          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />

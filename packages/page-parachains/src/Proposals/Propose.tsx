@@ -119,14 +119,12 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function as well as the genesis state for this parachain.')}>
           <InputWasm
-            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!isWasmValid}
             label={t<string>('validation code')}
             onChange={_setWasm}
             placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
           />
           <InputFile
-            help={t<string>('The genesis state for the parachain.')}
             isError={!genesisState}
             label={t<string>('genesis state')}
             onChange={_setGenesisState}

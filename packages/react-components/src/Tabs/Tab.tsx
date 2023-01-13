@@ -51,7 +51,6 @@ export default React.memo(styled(Tab)`
   align-items: center;
   display: flex;
   color: #8B8B8B;
-  font-size: var(--font-size-button);
   height: 100%;
   padding: 0 1.5rem;
   position: relative;
@@ -77,7 +76,7 @@ export default React.memo(styled(Tab)`
 
   &.tabLinkActive {
     color: var(--color-text) !important;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
 
     &:hover {
       cursor: default;

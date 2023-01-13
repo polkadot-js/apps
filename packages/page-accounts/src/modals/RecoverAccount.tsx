@@ -32,7 +32,6 @@ function RecoverAccount ({ address, className = '', onClose }: Props): React.Rea
           value={address}
         />
         <InputAddress
-          help={t<string>('Select the account you wish to recover into this account.')}
           label={t<string>('recover this account')}
           onChange={setRecover}
           type='allPlus'

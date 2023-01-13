@@ -31,7 +31,6 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
       <Modal.Content>
         <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}>
           <InputAddress
-            help={t<string>('This account will be used to create the unassign curator transaction.')}
             isDisabled
             label={t<string>('curator account')}
             type='account'

@@ -4,7 +4,7 @@
 import type { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { getAddressMeta } from './getAddressMeta';
-import { toShortAddress } from './toShortAddress';
+// import { toShortAddress } from './toShortAddress';
 
 // isName, isDefault, name
 export function getAddressName (address: string, type: KeyringItemType | null = null, defaultName?: string): [boolean, boolean, string] {
@@ -14,5 +14,5 @@ export function getAddressName (address: string, type: KeyringItemType | null = 
     ? [false, false, meta.name.toUpperCase()]
     : defaultName
       ? [false, true, defaultName.toUpperCase()]
-      : [true, false, toShortAddress(address)];
+      : [true, false, address]; // toShortAddress(address)];
 }

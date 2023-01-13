@@ -51,7 +51,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
       <Modal.Content>
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
-            help={t<string>('The account you want to register the proposal from')}
             label={t<string>('send from account')}
             labelExtra={
               <Available
@@ -66,7 +65,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
           <Input
             autoFocus
-            help={t<string>('The preimage hash of the proposal')}
             isError={!isHashValid}
             label={t<string>('preimage hash')}
             onChange={_onChangeHash}
@@ -76,14 +74,12 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <Modal.Columns hint={t<string>('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The locked value for this proposal')}
             isError={!hasMinLocked}
             label={t<string>('locked balance')}
             onChange={setBalance}
           />
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The minimum deposit required')}
             isDisabled
             label={t<string>('minimum deposit')}
           />

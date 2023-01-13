@@ -46,7 +46,6 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
         />
         {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
           <InputNumber
-            help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isDisabled={!withWeight}
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}

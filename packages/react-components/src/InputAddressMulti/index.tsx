@@ -17,7 +17,6 @@ interface Props {
   availableLabel: React.ReactNode;
   className?: string;
   defaultValue?: string[];
-  help: React.ReactNode;
   maxCount: number;
   onChange: (values: string[]) => void;
   valueLabel: React.ReactNode;

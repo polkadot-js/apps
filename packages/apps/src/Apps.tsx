@@ -54,14 +54,4 @@ export default React.memo(styled(Apps)`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
-  .--hidden {
-    display: none;
-  }
-
-  .--tmp {
-    background: grey;
-    filter: blur(2px);
-    opacity: 0.2;
-  }
 `);

@@ -15,13 +15,13 @@ function rootElement () {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  isCickable?: boolean;
+  isClickable?: boolean;
   place?: 'bottom' | 'top' | 'right' | 'left';
   text?: React.ReactNode;
   trigger: string;
 }
 
-function Tooltip ({ children, className = '', isCickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ children, className = '', isClickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -41,7 +41,7 @@ function Tooltip ({ children, className = '', isCickable = false, place, text, t
   return createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
-      clickable={isCickable}
+      clickable={isClickable}
       effect='solid'
       id={trigger}
       place={place}
@@ -101,7 +101,7 @@ export default React.memo(styled(Tooltip)`
   .faded {
     margin-top: 0;
     opacity: 0.75 !important;
-    font-size: 0.85em !important;
+    font-size: var(--font-size-tiny) !important;
 
     .faded {
       font-size: 1em !important;

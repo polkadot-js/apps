@@ -55,7 +55,7 @@ export default React.memo(styled(PasswordStrength)`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
   color: var(--color-label);
 

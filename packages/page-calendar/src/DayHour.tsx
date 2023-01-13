@@ -78,7 +78,7 @@ export default React.memo(styled(DayHour)`
     font-weight: var(--font-weight-normal);
     line-height: 1;
     min-width: 5.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     padding: 0.5rem 1rem;
     text-align: right;
     text-transform: uppercase;
