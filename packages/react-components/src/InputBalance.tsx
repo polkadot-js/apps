@@ -43,25 +43,11 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     return {};
   }
 
-  // based on the number of decimals defined, get the maximum length
-  const decimals = isUndefined(siDecimals)
-    ? formatBalance.getDefaults().decimals
-    : siDecimals;
-
-  // convert to a string value and reformat it, with the actual calculated decimals
-  const strValue = value.toString();
-  const siDefault = formatBalance.findSi('-');
-
-  // this is for the cases where we do apply si
-  // const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
-  // const siDefault = isDisabled && (strValue.length < maxDisabled.length) && strValue !== '0' && strValue === '0'
-  //     ? formatBalance.calcSi(strValue, decimals)
-  //     : formatBalance.findSi('-');
-
-  // format the value and set the default to it (here we ensure we have all decimals)
-  const defaultValue = formatBalance(strValue, {
-    decimals,
-    forceUnit: siDefault.value,
+  const defaultValue = formatBalance(value, {
+    decimals: isUndefined(siDecimals)
+      ? formatBalance.getDefaults().decimals
+      : siDecimals,
+    forceUnit: '-',
     withAll: true,
     withSi: false,
     withZero: false
@@ -69,9 +55,11 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
 
   return {
     defaultValue: isDisabled
+      // for disabled values we ensure we have at least 4 decimals
       ? `${defaultValue}.`.split('.').slice(0, 2).map((v, i) => i ? v.padEnd(4, '0') : v).join('.')
+      // for non-disabled values, ensure we have no seperators
       : defaultValue.replace(/,/g, ''),
-    siDefault
+    siDefault: formatBalance.findSi('-')
   };
 }
 
