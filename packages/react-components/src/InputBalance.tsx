@@ -69,7 +69,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
 
   return {
     defaultValue: isDisabled
-      ? defaultValue
+      ? `${defaultValue}.`.split('.').slice(0, 2).map((v, i) => i ? v.padEnd(4, '0') : v).join('.')
       : defaultValue.replace(/,/g, ''),
     siDefault
   };
