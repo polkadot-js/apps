@@ -108,7 +108,7 @@ export default React.memo(styled(Labelled)`
         color: var(--color-label);
         font-size: var(--font-size-label);
         font-weight: var(--font-weight-label);
-        right: 1.75rem;
+        right: 1.25rem;
         text-align: right;
         text-transform: var(--text-transform-label);
       }

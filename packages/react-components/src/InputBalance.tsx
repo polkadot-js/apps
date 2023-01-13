@@ -4,7 +4,6 @@
 import type { SiDef } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
@@ -102,28 +101,4 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
   );
 }
 
-export default React.memo(styled(InputBalance)`
-  &&:not(.isSmall) .labelExtra {
-    right: 6.5rem;
-  }
-
-  .ui.action.input.ui--Input > .buttons {
-    align-items: stretch;
-
-    .ui--SiDropdown.ui.button.compact.floating.selection.dropdown {
-      &.disabled {
-        border-style: solid;
-        opacity: 1 !important;
-      }
-
-      > div.text:first-child {
-        font-size: var(--font-size-small);
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0.5rem;
-        width: 3rem;
-      }
-    }
-  }
-`);
+export default React.memo(InputBalance);
