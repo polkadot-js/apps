@@ -23,7 +23,7 @@ export interface Detail {
 
 export interface Result {
   details: Detail[];
-  isCompleted: boolean;
+  isLoaded: boolean;
   maxItems: number;
   stdDev: number;
   timeAvg: number;

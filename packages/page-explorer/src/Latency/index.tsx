@@ -97,13 +97,13 @@ function formatTime (time: number, divisor = 1000): React.ReactNode {
 
 function Latency ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { details, isCompleted, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
+  const { details, isLoaded, maxItems, stdDev, timeAvg, timeMax, timeMin } = useLatency();
   const [shouldRender, setShouldRender] = useState(() => new Array<boolean>(ORDER.length).fill(false));
 
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
     // crosshair plugin init issues, but at best it is non-reproducable
-    if (isCompleted) {
+    if (isLoaded) {
       const index = shouldRender.findIndex((v) => !v);
 
       if (index !== -1) {
@@ -114,7 +114,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         );
       }
     }
-  }, [isCompleted, shouldRender]);
+  }, [isLoaded, shouldRender]);
 
   const points = useMemo(
     () => getPoints(details, timeAvg),
@@ -146,7 +146,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('avg')}>
-            {isCompleted
+            {isLoaded
               ? formatTime(timeAvg)
               : EMPTY_TIME}
           </CardSummary>
@@ -154,31 +154,31 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
             className='media--1000'
             label={t<string>('std dev')}
           >
-            {isCompleted
+            {isLoaded
               ? formatTime(stdDev)
               : EMPTY_TIME}
           </CardSummary>
         </section>
         <section>
           <CardSummary label={t<string>('min')}>
-            {isCompleted
+            {isLoaded
               ? formatTime(timeMin)
               : EMPTY_TIME}
           </CardSummary>
           <CardSummary label={t<string>('max')}>
-            {isCompleted
+            {isLoaded
               ? formatTime(timeMax)
               : EMPTY_TIME
             }
           </CardSummary>
         </section>
         <CardSummary label={t<string>('last')}>
-          {isCompleted
+          {isLoaded
             ? formatTime(points.blockLast, 1)
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
-      {isCompleted
+      {isLoaded
         ? ORDER.map((key, i) =>
           shouldRender[i] && (
             <Chart

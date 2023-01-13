@@ -15,7 +15,7 @@ const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
 const EMPTY: Result = {
   details: [],
-  isCompleted: false,
+  isLoaded: false,
   maxItems: MAX_ITEMS,
   stdDev: 0,
   timeAvg: 0,
@@ -173,7 +173,7 @@ function useLatencyImpl (): Result {
 
     return {
       details,
-      isCompleted: details.length === MAX_ITEMS,
+      isLoaded: details.length === MAX_ITEMS,
       maxItems: MAX_ITEMS,
       stdDev,
       timeAvg,
