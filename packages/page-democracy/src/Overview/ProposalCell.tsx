@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
-import type { Call, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
+import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
@@ -53,7 +53,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
     <td className={`${className} all`}>
       <CallExpander
         labelHash={t<string>('proposal hash')}
-        value={displayProposal as Call}
+        value={displayProposal}
         withHash={!isTreasury && !isExternal}
       >
         {isExternal && (
