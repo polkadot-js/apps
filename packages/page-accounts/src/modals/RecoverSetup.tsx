@@ -60,7 +60,6 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
             availableLabel={t<string>('available social recovery helpers')}
             maxCount={MAX_HELPERS}
             onChange={setHelpers}
-            value={helpers}
             valueLabel={t<string>('trusted social recovery helpers')}
           />
         </Modal.Columns>
