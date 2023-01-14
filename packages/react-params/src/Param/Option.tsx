@@ -50,8 +50,6 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
     [isActive, onChange, withOptionActive]
   );
 
-  console.log('Option', label, isActive, isDisabled, DEF_VALUE);
-
   return (
     <div className={`${className} --relative`}>
       <Base
