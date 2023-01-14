@@ -28,7 +28,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
   }
 
   return (
-    <Modal.Columns
+    <StyledModalColumns
       className={className}
       hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
     >
@@ -46,12 +46,14 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
           tip={tip}
         />
       )}
-    </Modal.Columns>
+    </StyledModalColumns>
   );
 }
 
-export default React.memo(styled(Transaction)`
+const StyledModalColumns = styled(Modal.Columns)`
   .paymentInfo {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Transaction);

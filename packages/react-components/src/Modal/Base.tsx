@@ -31,7 +31,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   }, [listenKeyboard]);
 
   return createPortal(
-    <div
+    <StyledDiv
       className={`${themeClassName} ui--Modal ${className} ${size}Size`}
       data-testid={testId}
     >
@@ -47,7 +47,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
         />
         {children}
       </div>
-    </div>,
+    </StyledDiv>,
     document.body
   );
 }
@@ -58,7 +58,7 @@ const DisableGlobalScroll = createGlobalStyle`
   }
 `;
 
-export default React.memo(styled(Base)`
+const StyledDiv = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -104,4 +104,6 @@ export default React.memo(styled(Base)`
   &.largeSize .ui--Modal__body {
     max-width: 1080px;
   }
-`);
+`;
+
+export default React.memo(Base);

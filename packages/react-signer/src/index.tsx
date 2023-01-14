@@ -119,7 +119,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
     <>
       {children}
       {currentItem && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
           header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
           key={currentItem.id}
@@ -135,16 +135,18 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
               />
             )
           }
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Signer)`
+const StyledModal = styled(Modal)`
   .signToggle {
     bottom: 1.5rem;
     left: 1.5rem;
     position: absolute;
   }
-`);
+`;
+
+export default React.memo(Signer);
