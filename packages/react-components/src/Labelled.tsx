@@ -106,10 +106,6 @@ export default React.memo(styled(Labelled)`
         .labelExtra {
           top: -0.125rem;
           right: 0;
-
-          .ui--Toggle > label {
-            padding-right: 0 !important;
-          }
         }
       }
 
@@ -123,6 +119,10 @@ export default React.memo(styled(Labelled)`
         text-transform: var(--text-transform-label);
         top: 0.75rem;
         z-index: 1;
+
+        > .ui--Toggle > label {
+          padding-right: 0 !important;
+        }
       }
 
       > .ui--Labelled-content {
