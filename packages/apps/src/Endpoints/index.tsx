@@ -131,27 +131,6 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
   return true;
 }
 
-const StyledSidebar = styled(Sidebar)`
-  color: var(--color-text);
-  padding-top: 3.5rem;
-
-  .customButton {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .endpointCustom {
-    input {
-      padding-right: 4rem;
-    }
-  }
-
-  .endpointCustomWrapper {
-    position: relative;
-  }
-`;
-
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
@@ -330,5 +309,26 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     </StyledSidebar>
   );
 }
+
+const StyledSidebar = styled(Sidebar)`
+  color: var(--color-text);
+  padding-top: 3.5rem;
+
+  .customButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .endpointCustom {
+    input {
+      padding-right: 4rem;
+    }
+  }
+
+  .endpointCustomWrapper {
+    position: relative;
+  }
+`;
 
 export default React.memo(Endpoints);

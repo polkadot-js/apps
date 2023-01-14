@@ -14,18 +14,6 @@ interface Props {
   url: string;
 }
 
-const StyledToggle = styled(Toggle)`
-  padding: 0.25rem;
-  text-align: right;
-
-  > label {
-    max-width: 12.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`;
-
 function Url ({ apiUrl, className, label, setApiUrl, url }: Props): React.ReactElement<Props> {
   const _setApiUrl = useCallback(
     () => setApiUrl(url),
@@ -42,5 +30,17 @@ function Url ({ apiUrl, className, label, setApiUrl, url }: Props): React.ReactE
     />
   );
 }
+
+const StyledToggle = styled(Toggle)`
+  padding: 0.25rem;
+  text-align: right;
+
+  > label {
+    max-width: 12.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
 
 export default React.memo(Url);
