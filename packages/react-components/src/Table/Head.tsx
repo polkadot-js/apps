@@ -10,7 +10,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
-  header?: (null | undefined | HeaderDef)[];
+  header?: (false | null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
@@ -20,7 +20,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
   }
 
   return (
-    <thead className={className}>
+    <StyledThead className={className}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>
@@ -42,11 +42,11 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
         )}
       </tr>
       {children}
-    </thead>
+    </StyledThead>
   );
 }
 
-export default React.memo(styled(Head)`
+const StyledThead = styled.thead`
   z-index: 1;
 
   th {
@@ -141,4 +141,6 @@ export default React.memo(styled(Head)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Head);

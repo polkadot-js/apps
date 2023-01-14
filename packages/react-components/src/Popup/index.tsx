@@ -44,7 +44,7 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
   }, [isOpen, onCloseAction]);
 
   return (
-    <div className={`ui--Popup ${themeClassName} ${className}`}>
+    <StyledDiv className={`ui--Popup ${themeClassName} ${className}`}>
       {isOpen && (
         <PopupWindow
           position={position}
@@ -68,13 +68,15 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Popup)`
+const StyledDiv = styled.div`
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-`);
+`;
+
+export default React.memo(Popup);

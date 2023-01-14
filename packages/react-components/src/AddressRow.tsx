@@ -35,7 +35,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
   const address = value && isValid ? value : DEFAULT_ADDR;
 
   return (
-    <Row
+    <StyledRow
       address={address}
       buttons={buttons}
       className={className}
@@ -60,7 +60,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
     >
       {children}
       {overlay}
-    </Row>
+    </StyledRow>
   );
 }
 
@@ -69,7 +69,7 @@ export {
   AddressRow
 };
 
-export default React.memo(styled(AddressRow)`
+const StyledRow = styled(Row)`
   button.u.ui--Icon.editButton {
     padding: 0 .3em .3em .3em;
     color: #2e86ab;
@@ -109,4 +109,6 @@ export default React.memo(styled(AddressRow)`
   .ui--AddressRow-placeholder {
     opacity: var(--opacity-light);
   }
-`);
+`;
+
+export default React.memo(AddressRow);

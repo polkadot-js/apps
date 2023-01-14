@@ -52,7 +52,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
     : items;
 
   return (
-    <header className={`ui--Tabs ${className}`}>
+    <StyledHeader className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
         {text && icon && (
           <CurrentSection
@@ -77,11 +77,11 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
           ))}
         </ul>
       </div>
-    </header>
+    </StyledHeader>
   );
 }
 
-export default React.memo(styled(Tabs)`
+const StyledHeader = styled.header`
   background: var(--bg-tabs);
   border-bottom: 1px solid var(--border-tabs);
   text-align: left;
@@ -114,4 +114,6 @@ export default React.memo(styled(Tabs)`
       margin: 0 2.72rem 0 2.35rem;
     }
   }
-`);
+`;
+
+export default React.memo(Tabs);

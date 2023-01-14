@@ -15,7 +15,7 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
   );
 
   return (
-    <td
+    <StyledTd
       className={`ui--Table-Column-Favorite ${className}`}
       onClick={onClick}
     >
@@ -27,11 +27,11 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
         }
         icon='star'
       />
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Favorite)`
+const StyledTd = styled.td`
   && {
     box-sizing: content-box;
     cursor: pointer;
@@ -40,4 +40,6 @@ export default React.memo(styled(Favorite)`
     text-align: right;
     width: 1rem;
   }
-`);
+`;
+
+export default React.memo(Favorite);

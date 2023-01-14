@@ -10,7 +10,7 @@ import Icon from '../../Icon';
 
 function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElement<Props> {
   return (
-    <td
+    <StyledTd
       className={`ui--Table-Column-Expand ${className}`}
       onClick={toggle}
     >
@@ -23,11 +23,11 @@ function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElem
           }
         />
       </div>
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Expand)`
+const StyledTd = styled.td`
   && {
     box-sizing: content-box;
     cursor: pointer;
@@ -47,4 +47,6 @@ export default React.memo(styled(Expand)`
       width: 1.7rem;
     }
   }
-`);
+`;
+
+export default React.memo(Expand);

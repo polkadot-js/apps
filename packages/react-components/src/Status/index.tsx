@@ -171,15 +171,14 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <div className={`ui--Status ${className}`}>
+    <StyledDiv className={`ui--Status ${className}`}>
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Status)`
-  /* bottom: 0; */
+const StyledDiv = styled.div`
   display: inline-block;
   overflow: hidden;
   position: fixed;
@@ -308,4 +307,6 @@ export default React.memo(styled(Status)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Status);

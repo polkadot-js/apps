@@ -45,7 +45,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
   }
 
   return (
-    <div className={`ui--AddressMini${isHighlight ? ' isHighlight' : ''}${isPadded ? ' padded' : ''}${withShrink ? ' withShrink' : ''} ${className}`}>
+    <StyledDiv className={`ui--AddressMini${isHighlight ? ' isHighlight' : ''}${isPadded ? ' padded' : ''}${withShrink ? ' withShrink' : ''} ${className}`}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
@@ -100,11 +100,11 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
           <div className='ui--AddressMini-summary'>{summary}</div>
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AddressMini)`
+const StyledDiv = styled.div`
   overflow-x: hidden;
   padding: 0 0.25rem 0 1rem;
   text-align: left;
@@ -190,4 +190,6 @@ export default React.memo(styled(AddressMini)`
     margin-top: -0.2rem;
     text-align: left;
   }
-`);
+`;
+
+export default React.memo(AddressMini);

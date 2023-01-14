@@ -15,14 +15,14 @@ interface Props {
 
 function CurrentSection ({ className = '', icon, text }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className} active-tab`}>
+    <StyledDiv className={`${className} active-tab`}>
       <Icon icon={icon} />
       <span>{text}</span>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(CurrentSection)`
+const StyledDiv = styled.div`
   margin: 0 2.5rem 0 1.5rem;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-base);
@@ -42,4 +42,6 @@ export default React.memo(styled(CurrentSection)`
   @media only screen and (max-width: 900px) {
     margin: 0 1.5rem;
   }
-`);
+`;
+
+export default React.memo(CurrentSection);
