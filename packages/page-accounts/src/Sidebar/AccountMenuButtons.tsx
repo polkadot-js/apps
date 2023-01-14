@@ -4,12 +4,13 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { useTranslation } from '@polkadot/app-accounts/translate';
 import { Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { isFunction } from '@polkadot/util';
+
+import Transfer from '../modals/Transfer';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;

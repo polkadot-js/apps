@@ -25,7 +25,6 @@ export class AddressesPage extends Page {
   constructor () {
     super(
       <AddressOverview
-        basePath='/'
         onStatusChange={NOOP_CHANGE}
       />,
       'Address-'

@@ -9,7 +9,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkError, MarkWarning, Toggle, TxButton } from '@polkadot/react-components';
+import Modal from '@polkadot/react-components/Modal';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
