@@ -17,8 +17,8 @@ interface Props {
   address: string;
   className?: string;
   dataTestId?: string;
-  onClose: () => void;
-  onUpdateName: () => void;
+  onClose?: () => void;
+  onUpdateName?: (() => void) | null;
 }
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {

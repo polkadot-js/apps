@@ -13,9 +13,16 @@ import { assertText, clickButton } from '@polkadot/test-support/utils/renderedSc
 import AccountOverview from '../../src/Accounts/index';
 import { AccountRow } from '../pageElements/AccountRow';
 
+const NOOP_CHANGE = () => undefined;
+
 export class AccountsPage extends Page {
   constructor () {
-    super(<AccountOverview />, 'Account-');
+    super(
+      <AccountOverview
+        onStatusChange={NOOP_CHANGE}
+      />,
+      'Account-'
+    );
   }
 
   async getAccountRows (): Promise<AccountRow[]> {

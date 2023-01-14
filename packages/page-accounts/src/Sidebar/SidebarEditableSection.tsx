@@ -15,7 +15,7 @@ interface Props {
   accountIndex: string | undefined;
   address: string;
   isBeingEdited: (arg: boolean) => void;
-  onUpdateName: () => void;
+  onUpdateName?: (() => void) | null;
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 

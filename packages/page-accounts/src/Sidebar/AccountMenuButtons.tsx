@@ -22,7 +22,7 @@ interface Props {
   onSaveName: () => void;
   onSaveTags: () => void;
   onForgetAddress: () => void;
-  onUpdateName: () => void;
+  onUpdateName?: (() => void) | null;
   recipientId: string;
 }
 
