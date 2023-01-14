@@ -10,6 +10,7 @@ import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
+import Holder from '../Holder';
 import { useTranslation } from '../translate';
 import Base from './Base';
 import Param from './index';
@@ -62,19 +63,24 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
         )}
         withLabel={withLabel}
       />
-      <Param
-        defaultValue={
-          isActive
-            ? defaultValue
-            : DEF_VALUE}
-        isDisabled={isDisabled || !isActive}
-        isOptional={!isActive && !isDisabled}
-        onChange={_onChange}
-        onEnter={onEnter}
-        onEscape={onEscape}
-        registry={registry}
-        type={sub as TypeDef}
-      />
+      <Holder>
+        <div className='ui--Params-Content'>
+          <Param
+            defaultValue={
+              isActive
+                ? defaultValue
+                : DEF_VALUE}
+            isDisabled={isDisabled || !isActive}
+            isOptional={!isActive && !isDisabled}
+            name='Some'
+            onChange={_onChange}
+            onEnter={onEnter}
+            onEscape={onEscape}
+            registry={registry}
+            type={sub as TypeDef}
+          />
+        </div>
+      </Holder>
     </div>
   );
 }

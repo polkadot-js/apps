@@ -10,6 +10,7 @@ import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
+import Static from './Static';
 
 function formatJSON (input: string): string {
   return input
@@ -48,7 +49,12 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isOptional,
   }
 
   return isOptional
-    ? null
+    ? (
+      <Static
+        defaultValue={defaultValue}
+        label={label}
+      />
+    )
     : (
       <Component
         className={`ui--Param ${className}`}

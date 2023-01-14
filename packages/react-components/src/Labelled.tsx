@@ -105,7 +105,7 @@ export default React.memo(styled(Labelled)`
 
         .labelExtra {
           top: -0.125rem;
-          right: 0;
+          // right: 0;
         }
       }
 
