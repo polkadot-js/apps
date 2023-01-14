@@ -19,7 +19,7 @@ export interface Props extends RowProps {
   label?: string;
   noDefaultNameOpacity?: boolean;
   overlay?: React.ReactNode;
-  value: AccountId | AccountIndex | Address | string;
+  value?: AccountId | AccountIndex | Address | string | null;
   withSidebar?: boolean;
   withTags?: boolean;
 }
