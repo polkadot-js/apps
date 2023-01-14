@@ -83,7 +83,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
               <Static
                 defaultValue={DEF_VALUE}
                 isOptional
-                label={(sub as TypeDef).type}
+                label='None'
               />
             )
           }
