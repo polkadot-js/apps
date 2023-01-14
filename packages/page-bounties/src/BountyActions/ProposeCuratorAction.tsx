@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -34,7 +34,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
   const [accountId, setAccountId] = useState<string | null>(null);
   const [curatorId, setCuratorId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
-  const [fee, setFee] = useState<BN>(BN_ZERO);
+  const [fee, setFee] = useState<BN | null>();
   const [isFeeValid, setIsFeeValid] = useState(false);
 
   useEffect((): void => {
@@ -56,7 +56,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
   );
 
   useEffect(() => {
-    setIsFeeValid(!!value?.gt(fee));
+    setIsFeeValid(!!fee && !!value?.gt(fee));
   }, [value, fee]);
 
   return isMember && !isVotingInitiated && councilMod

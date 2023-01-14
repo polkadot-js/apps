@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import PoolInfo from '../partials/PoolInfo';
@@ -25,7 +24,7 @@ interface Props {
 function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const [withMax, setWithMax] = useState(false);
   const bondedBlocks = useUnbondDuration();
 

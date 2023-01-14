@@ -26,7 +26,7 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
   const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
-  const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
+  const [maxUnbond, setMaxUnbond] = useState<BN | undefined>();
   const [withMax, setWithMax] = useState(false);
 
   return (

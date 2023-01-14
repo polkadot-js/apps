@@ -27,7 +27,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
   const { t } = useTranslation();
   const { api } = useApi();
   const [type, setType] = useState(DEFAULT_TYPE);
-  const [amount, setAmount] = useState(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
   const typeRef = useRef([
