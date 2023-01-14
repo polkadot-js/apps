@@ -5,7 +5,6 @@ import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
@@ -91,7 +90,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 
   return (
     <>
-      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
@@ -170,8 +169,8 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             />
           </Button.Group>
         </td>
-      </StyledTr>
-      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -187,19 +186,9 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             </Columar.Column>
           </Columar>
         </td>
-      </StyledTr>
+      </tr>
     </>
   );
 }
-
-const StyledTr = styled.tr`
-  td.chart {
-    padding: 0.5rem 0;
-
-    .ui--Progress {
-      display: inline-block;
-    }
-  }
-`;
 
 export default React.memo(Referendum);
