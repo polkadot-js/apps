@@ -13,7 +13,7 @@ interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: BN | string;
+  defaultValue?: BN | string | null;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -22,14 +22,14 @@ interface Props {
   isZeroable?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  maxValue?: BN;
+  maxValue?: BN | null;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
   siDecimals?: number;
   siSymbol?: string;
-  value?: BN;
+  value?: BN | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
@@ -37,7 +37,7 @@ interface Props {
 
 const DEFAULT_BITLENGTH = 128;
 
-function reformat (value?: string | BN, isDisabled = false, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
+function reformat (value?: string | BN | null, isDisabled = false, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {
     return {};
   }
