@@ -16,7 +16,7 @@ interface Props {
 
 function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
+    <StyledDiv className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
       <div className='ui--AvatarItem-icon'>
         {icon}
       </div>
@@ -29,11 +29,11 @@ function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }:
         </div>
       </div>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AvatarItem)`
+const StyledDiv = styled.div`
   & {
     display: flex;
     align-items: center;
@@ -77,4 +77,6 @@ export default React.memo(styled(AvatarItem)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(AvatarItem);

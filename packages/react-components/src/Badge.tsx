@@ -48,7 +48,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   ), [color, hover, hoverAction, onClick]);
 
   return (
-    <div
+    <StyledDiv
       {...extraProps}
       className={`ui--Badge${hover ? ' isTooltip' : ''}${isBlock ? ' isBlock' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
       data-testid={badgeTestId}
@@ -72,12 +72,12 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
           trigger={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
 // FIXME We really need to get rid of the px sizing here
-export default React.memo(styled(Badge)`
+const StyledDiv = styled.div`
   border-radius: 16px;
   box-sizing: border-box;
   color: #eeedec;
@@ -223,4 +223,6 @@ export default React.memo(styled(Badge)`
   .action-icon {
     margin-left: 4px;
   }
-`);
+`;
+
+export default React.memo(Badge);
