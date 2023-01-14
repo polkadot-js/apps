@@ -4,7 +4,6 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
@@ -33,7 +32,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
   );
 
   return (
-    <div className={className}>
+    <div className={`${className} --relative`}>
       {!isDisabled && isFileDrop
         ? (
           <File
@@ -74,6 +73,4 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
   );
 }
 
-export default React.memo(styled(Bytes)`
-  position: relative;
-`);
+export default React.memo(Bytes);
