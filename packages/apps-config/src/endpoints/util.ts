@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from '../types';
@@ -33,6 +33,9 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
         expandLinked(entry.linked).map((child): LinkOption => {
           child.genesisHashRelay = entry.genesisHash;
           child.isChild = true;
+          child.textRelay = input.length
+            ? input[0].text
+            : undefined;
           child.valueRelay = valueRelay;
 
           return child;
@@ -72,7 +75,14 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
         ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
         : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
-    }));
+    }))
+    .sort((a, b) =>
+      a.isLightClient
+        ? 1
+        : b.isLightClient
+          ? -1
+          : a.textBy.toLocaleLowerCase().localeCompare(b.textBy.toLocaleLowerCase())
+    );
 
   if (linked) {
     const last = result[result.length - 1];
@@ -97,4 +107,11 @@ export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnl
     .sort(withSort ? sortLinks : sortNoop)
     .reduce((all: LinkOption[], e) =>
       all.concat(expandEndpoint(t, e, firstOnly, withSort)), []);
+}
+
+export function getTeleports (input: EndpointOption[]): number[] {
+  return input
+    .filter(({ teleport }) => !!teleport && teleport[0] === -1)
+    .map(({ paraId }) => paraId)
+    .filter((id): id is number => !!id);
 }

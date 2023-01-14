@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -7,7 +7,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Icon, LinkExternal } from '@polkadot/react-components';
+import { Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { useAccounts, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -58,7 +58,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={hash}
         proposal={proposal}

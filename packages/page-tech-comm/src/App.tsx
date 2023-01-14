@@ -1,7 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { CollectiveType } from '@polkadot/react-hooks/types';
+import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -16,7 +17,7 @@ import { useTranslation } from './translate';
 interface Props {
   basePath: string;
   className?: string;
-  type: 'membership' | 'technicalCommittee';
+  type: CollectiveType;
 }
 
 const HIDDEN_EMPTY: string[] = [];
@@ -25,8 +26,7 @@ const HIDDEN_PROPOSALS: string[] = ['proposals'];
 function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useCollectiveMembers(type);
-  const prime = useCall<AccountId | null>(api.derive[type].prime);
+  const { isMember, members, prime } = useCollectiveMembers(type);
   const hasProposals = useCall<boolean>(api.derive[type].hasProposals);
   const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
 

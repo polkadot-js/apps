@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ContractPromise } from '@polkadot/api-contract';
@@ -61,14 +61,17 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
 
   const _onRefresh = useCallback(
     (): void => {
-      optInfo && contract && Promise
-        .all(messages.map((m) =>
-          m.isMutating || m.args.length !== 0
-            ? Promise.resolve(undefined)
-            : contract.query[m.method](READ_ADDR, 0, -1).catch(console.error)
-        ))
-        .then(setLastResults)
-        .catch(console.error);
+      optInfo && contract &&
+        Promise
+          .all(messages.map((m) =>
+            m.isMutating || m.args.length !== 0
+              ? Promise.resolve(undefined)
+              : contract
+                .query[m.method](READ_ADDR, { gasLimit: -1, value: 0 })
+                .catch((e: Error) => console.error(`contract.query.${m.method}:: ${e.message}`))
+          ))
+          .then(setLastResults)
+          .catch(console.error);
     },
     [contract, messages, optInfo]
   );

@@ -1,8 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
-import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
@@ -21,6 +20,7 @@ interface Props {
   defaultValue: RawParam;
   isDisabled?: boolean;
   isError?: boolean;
+  isInOption?: boolean;
   label?: React.ReactNode;
   length?: number;
   name?: string;
@@ -28,7 +28,7 @@ interface Props {
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   size?: Size;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
   validate?: (u8a: Uint8Array) => boolean;
   withCopy?: boolean;
   withLabel?: boolean;
@@ -114,7 +114,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
   );
 
   return (
-    <Bare className={className}>
+    <StyledBare className={className}>
       <Input
         className={size}
         defaultValue={defaultValue as string}
@@ -142,11 +142,11 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
           />
         )}
       </Input>
-    </Bare>
+    </StyledBare>
   );
 }
 
-export default React.memo(styled(BaseBytes)`
+const StyledBare = styled(Bare)`
   .ui--InputAddressSimpleIcon {
     background: #eee;
     border: 1px solid #888;
@@ -155,4 +155,6 @@ export default React.memo(styled(BaseBytes)`
     position: absolute;
     top: 8px;
   }
-`);
+`;
+
+export default React.memo(BaseBytes);

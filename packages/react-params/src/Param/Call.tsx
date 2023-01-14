@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Extrinsic } from '@polkadot/types/interfaces';
@@ -8,10 +8,12 @@ import React from 'react';
 
 import { Call, Static } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Bare from './Bare';
 import Unknown from './Unknown';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
 
   if (!isDisabled) {
@@ -22,6 +24,7 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
 
   const call = value as Extrinsic;
   const { method, section } = call.registry.findMetaCall(call.callIndex);
+  const callName = `${section}.${method}`;
 
   return (
     <Bare>
@@ -30,9 +33,14 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
         label={label}
         withLabel={withLabel}
       >
-        {section}.{method}
+        {callName}
       </Static>
-      <Call value={call} />
+      <Call
+        callName={callName}
+        labelHash={t<string>('call hash / {{section}}.{{method}}', { replace: { method, section } })}
+        value={call}
+        withHash
+      />
     </Bare>
   );
 }

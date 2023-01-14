@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -72,8 +72,8 @@ export default React.memo(styled(VotersColumn)`
 
   .vote-numbers-label {
     margin-left: 0.75rem;
-    font-weight: bold;
-    font-size: 0.7rem;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-tiny);
     line-height: 0.85rem;
     text-transform: uppercase;
     color: var(--color-label);

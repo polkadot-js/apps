@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -86,11 +86,11 @@ function interleave (prev: MembersMap, additions: MembersMapEntry[]): MembersMap
 function useMembersImpl (): MembersMap | undefined {
   const { api } = useApi();
   const [membersMap, setMembersMap] = useState<MembersMap | undefined>();
-  const queryMap = useMapEntries(api.query.nominationPools.poolMembers, OPT_ENTRIES);
+  const queryMap = useMapEntries(api.query.nominationPools.poolMembers, [], OPT_ENTRIES);
   const ids = useEventChanges([
     api.events.nominationPools.Bonded
   ], filterEvents, EMPTY_START);
-  const additions = useCall(ids.length !== 0 && api.query.nominationPools.poolMembers.multi, [ids], OPT_MULTI);
+  const additions = useCall(ids && ids.length !== 0 && api.query.nominationPools.poolMembers.multi, [ids], OPT_MULTI);
 
   // initial entries
   useEffect((): void => {

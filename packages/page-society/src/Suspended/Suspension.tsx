@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
@@ -23,7 +23,9 @@ function Suspension ({ balance, bid, value }: Props): React.ReactElement<Props> 
       <td className='address all'>
         <AddressSmall value={value} />
       </td>
-      <BidType value={bid} />
+      <td className='start'>
+        <BidType value={bid} />
+      </td>
       <td className='number'>
         {balance && (
           <FormatBalance value={balance} />

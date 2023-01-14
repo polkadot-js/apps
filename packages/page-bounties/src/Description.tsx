@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -23,7 +23,7 @@ function Description ({ className = '', dataTestId = '', description }: Props): 
 
 export default React.memo(styled(Description)`
   margin-top: 0.28rem;
-  font-size: 0.7rem;
+  font-size: var(--font-size-tiny);
   line-height: 0.85rem;
   color: var(--color-label);
 `);

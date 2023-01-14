@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
@@ -45,7 +45,7 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
           className='header'
           onClick={toggleCollapsed}
         >
-          <h3>{header}</h3>
+          <h2>{header}</h2>
           <Icon
             className={isCollapsed ? 'collapsed' : ''}
             icon='angle-up'

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -26,8 +26,8 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
       <AddressInfo
         address={address}
         className='balanceExpander'
+        key={address}
         withBalance={WITH_BALANCE}
-        withExtended={false}
         withLabel
       />
     </section>
@@ -45,12 +45,10 @@ export default React.memo(styled(Balances)`
       label {
         text-align: left;
         color: inherit;
-        font-size: 0.93rem;
-        font-weight: var(--font-weight-normal);
       }
 
       .ui--Expander-content .ui--FormatBalance-value {
-        font-size: 0.93rem;
+        font-size: var(--font-size-small);
       }
     }
   }

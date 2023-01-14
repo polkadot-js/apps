@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -56,7 +56,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
         onClick={toggleOpen}
       />
       {isOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Nominate validators')}
           onClose={toggleOpen}
@@ -66,7 +66,6 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
             <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
               <InputAddress
                 filter={stashes}
-                help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
                 label={t<string>('the stash account to nominate with')}
                 onChange={_onChangeStash}
                 value={ids?.stashId}
@@ -108,13 +107,13 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               tx={api.tx.staking.nominate}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
 
@@ -123,4 +122,6 @@ export default React.memo(styled(Nominate)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

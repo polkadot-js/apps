@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -19,11 +19,11 @@ export default {
     Kusama: 'kusama',
     Statemine: 'statemine'
   },
-  create: (_chain: string, _path: string, data: BN | number | string): string => `https://singular.rmrk.app/space/${getNetwork(_chain)}${data.toString()}`,
+  create: (_chain: string, _path: string, data: BN | number | string): string => `https://singular.app/space/${getNetwork(_chain)}${data.toString()}`,
   isActive: true,
   logo: externalLogos.singular as string,
   paths: {
     address: 'account'
   },
-  url: 'https://singular.rmrk.app'
+  url: 'https://singular.app'
 };

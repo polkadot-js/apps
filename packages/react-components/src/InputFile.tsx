@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { createRef, useCallback, useState } from 'react';
@@ -13,7 +13,6 @@ import { useTranslation } from './translate';
 export interface InputFilePropsBase {
   className?: string;
   clearContent?: boolean;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -48,7 +47,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
     let hex = u8aToString(data);
 
     while (hex[hex.length - 1] === STR_NL) {
-      hex = hex.substr(0, hex.length - 1);
+      hex = hex.substring(0, hex.length - 1);
     }
 
     if (isHex(hex)) {
@@ -59,7 +58,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -122,7 +121,6 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
   return label
     ? (
       <Labelled
-        help={help}
         isFull={isFull}
         label={label}
         withEllipsis={withEllipsis}
@@ -138,7 +136,7 @@ export default React.memo(styled(InputFile)`
   background: var(--bg-input);
   border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   margin: 0.25rem 0;
   padding: 0.67857143em 1em;
   width: 100% !important;

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
@@ -24,11 +24,11 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
 
   return (
     <section className='rpc--Results'>
-      {filtered.map(({ error, id, result, rpc: { method, section } }): React.ReactNode => (
+      {filtered.map(({ error, id, result, rpc: { method, section, type } }): React.ReactNode => (
         <Output
           isError={!!error}
           key={id}
-          label={`${id}: ${section}.${method}`}
+          label={`${id}: ${section}.${method}: ${type}`}
           value={
             error
               ? error.message

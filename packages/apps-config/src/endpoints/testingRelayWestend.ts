@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
+import { getTeleports } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -16,20 +17,11 @@ import { WESTEND_GENESIS } from '../api/constants';
 // IMPORTANT: Alphabetical based on text
 export const testParasWestend: EndpointOption[] = [
   {
-    info: 'basilisk',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6422
-    paraId: 2097,
-    text: 'Basilisk Egg',
-    providers: {
-      HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
-    }
-  },
-  {
     info: 'charcoal',
     paraId: 2086,
     text: 'Charcoal',
     providers: {
-      Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+      // Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8219
     }
   },
   {
@@ -42,30 +34,27 @@ export const testParasWestend: EndpointOption[] = [
   },
   {
     info: 'interlay',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
     paraId: 2094,
     text: 'Interlay',
     providers: {
-      Interlay: 'wss://api-westend.interlay.io/parachain'
+      // Interlay: 'wss://api-westend.interlay.io/parachain' // https://github.com/polkadot-js/apps/issues/6261
     }
   },
   {
     info: 'moonshadow',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
     paraId: 2002,
     text: 'Moonshadow',
     providers: {
-      PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+      // PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network' // https://github.com/polkadot-js/apps/issues/6181
     }
   },
   {
     info: 'pangoro',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
     homepage: 'https://darwinia.network/',
     paraId: 2102,
     text: 'Pangoro',
     providers: {
-      Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network'
+      // Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     }
   },
   {
@@ -74,7 +63,7 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2112,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/8710
     }
   },
   {
@@ -82,25 +71,23 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2094,
     text: 'Standard ',
     providers: {
-      'Standard Protocol': 'wss://rpc.westend.standard.tech'
+      // 'Standard Protocol': 'wss://rpc.westend.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
     info: 'karura',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
     paraId: 2005,
     text: 'Wendala',
     providers: {
-      'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
+      // 'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network' // https://github.com/polkadot-js/apps/issues/5830
     }
   },
   {
     info: 'whala',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
     paraId: 2013,
     text: 'Whala',
     providers: {
-      Phala: 'wss://whala.phala.network/ws'
+      // Phala: 'wss://whala.phala.network/ws' // https://github.com/polkadot-js/apps/issues/6181
     }
   },
   {
@@ -121,9 +108,27 @@ export const testParasWestendCommon: EndpointOption[] = [
     text: 'Westmint',
     providers: {
       Parity: 'wss://westmint-rpc.polkadot.io',
-      Dwellir: 'wss://westmint-rpc.dwellir.com'
+      Dwellir: 'wss://westmint-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com'
     },
     teleport: [-1]
+  },
+  {
+    info: 'westendCollectives',
+    paraId: 1001,
+    text: 'Collectives',
+    providers: {
+      Parity: 'wss://westend-collectives-rpc.polkadot.io'
+    },
+    teleport: [-1]
+  },
+  {
+    info: 'westendBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
@@ -137,10 +142,13 @@ export const testRelayWestend: EndpointOption = {
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     Dwellir: 'wss://westend-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
+    'Dotters Net': 'wss://rpc.dotters.network/westend',
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-    'light client': 'light://substrate-connect/westend'
+    // NOTE: Keep this as the last entry, nothing after it
+    'light client': 'light://substrate-connect/westend' // NOTE: Keep last
   },
-  teleport: [1000],
+  teleport: getTeleports(testParasWestendCommon),
   linked: [
     ...testParasWestendCommon,
     ...testParasWestend

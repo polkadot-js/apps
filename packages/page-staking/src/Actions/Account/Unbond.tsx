@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
@@ -15,7 +15,7 @@ import { useTranslation } from '../../translate';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
-  controllerId?: AccountId | null;
+  controllerId?: AccountId | string | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
@@ -26,11 +26,11 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
   const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
-  const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
+  const [maxUnbond, setMaxUnbond] = useState<BN | undefined>();
   const [withMax, setWithMax] = useState(false);
 
   return (
-    <Modal
+    <StyledModal
       header={t<string>('Unbond funds')}
       onClose={onClose}
       size='large'
@@ -52,7 +52,6 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           <InputBalance
             autoFocus
             defaultValue={maxBalance}
-            help={t<string>('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
             isDisabled={withMax}
             key={`unbondAmount-${withMax.toString()}`}
             label={t<string>('unbond amount')}
@@ -69,7 +68,6 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           </InputBalance>
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
@@ -88,11 +86,11 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           tx={api.tx.staking.unbond}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Unbond)`
+const StyledModal = styled(Modal)`
   .staking--Unbond--max > div {
     justify-content: flex-end;
 
@@ -100,4 +98,6 @@ export default React.memo(styled(Unbond)`
       flex: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Unbond);

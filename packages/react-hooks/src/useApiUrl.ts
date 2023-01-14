@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ProviderInterface } from '@polkadot/rpc-provider/types';
@@ -6,7 +6,7 @@ import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { typesBundle, typesChain } from '@polkadot/apps-config';
+import { typesBundle } from '@polkadot/apps-config';
 import { arrayShuffle, isString } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
@@ -45,8 +45,7 @@ function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
       ApiPromise
         .create({
           provider: (providerRef.current = new WsProvider(urls)),
-          typesBundle,
-          typesChain
+          typesBundle
         })
         .then((api) => mountedRef.current && setState(api))
         .catch(console.error);

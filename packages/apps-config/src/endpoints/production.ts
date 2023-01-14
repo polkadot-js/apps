@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -17,10 +17,24 @@ export * from './productionRelayPolkadot';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
   {
+    info: '3dpass',
+    text: '3DPass',
+    providers: {
+      '3dpass': 'wss://rpc2.3dpass.org'
+    }
+  },
+  {
     info: 'aleph',
     text: 'Aleph Zero',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev'
+    }
+  },
+  {
+    info: 'Ares Odyssey',
+    text: 'Ares Odyssey',
+    providers: {
+      'Ares Protocol': 'wss://odyssey.aresprotocol.io'
     }
   },
   {
@@ -32,11 +46,25 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'bitgreen',
+    text: 'Bitgreen',
+    providers: {
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+    }
+  },
+  {
+    info: 'bittensor',
+    text: 'Bittensor',
+    providers: {
+      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
+    }
+  },
+  {
     dnslink: 'centrifuge',
     info: 'centrifuge',
     text: 'Centrifuge Standalone [Archived]',
     providers: {
-      Centrifuge: 'wss://fullnode.centrifuge.io'
+      // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     }
   },
   {
@@ -50,14 +78,14 @@ export const prodChains: EndpointOption[] = [
     info: 'competitors-club',
     text: 'Competitors Club',
     providers: {
-      'Competitors Club': 'wss://node0.competitors.club/wss'
+      // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     }
   },
   {
     info: 'creditcoin',
     text: 'Creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network'
+      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     }
   },
   {
@@ -93,6 +121,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio',
+    text: 'DeBio',
+    providers: {
+      DeBio: 'wss://ws-rpc.debio.network'
+    }
+  },
+  {
     info: 'dock-pos-mainnet',
     text: 'Dock',
     providers: {
@@ -104,24 +139,24 @@ export const prodChains: EndpointOption[] = [
     info: 'edgeware',
     text: 'Edgeware',
     providers: {
-      'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
+      JelliedOwl: 'wss://edgeware.jelliedowl.net',
+      'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
+      Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
   {
     info: 'efinity',
-    isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
     text: 'Efinity',
     providers: {
-      Efinity: 'wss://rpc.efinity.io'
+      // Efinity: 'wss://rpc.efinity.io' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
     info: 'equilibrium',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7219
     text: 'Equilibrium',
     providers: {
-      Equilibrium: 'wss://node.equilibrium.io'
+      // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
     }
   },
   {
@@ -133,19 +168,16 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'hanonycash',
-    isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     text: 'Hanonycash',
     providers: {
-      Hanonycash: 'wss://rpc.hanonycash.com'
+      // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     }
   },
   {
-    info: 'snakenet',
-    text: 'HydraDX',
+    info: 'joystream',
+    text: 'Joystream',
     providers: {
-      HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-      'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-      Archives: 'wss://archive.snakenet.hydradx.io'
+      Jsgenesis: 'wss://rpc.joystream.org'
     }
   },
   {
@@ -164,19 +196,32 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'logion',
+    text: 'logion Standalone',
+    providers: {
+      Logion: 'wss://rpc01.logion.network'
+    }
+  },
+  {
     info: 'mathchain',
     text: 'MathChain',
     providers: {
-      MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
-      'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
+      // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
     info: 'minix',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7182
     text: 'MiniX',
     providers: {
-      ChainX: 'wss://minichain-mainnet.coming.chat/ws'
+      // ChainX: 'wss://minichain-mainnet.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/7182
+    }
+  },
+  {
+    info: 'myriad',
+    text: 'Myriad',
+    providers: {
+      Myriad: 'wss://ws-rpc.myriad.social'
     }
   },
   {
@@ -198,14 +243,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Nodle',
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
-      OnFinality: 'wss://nodle.api.onfinality.io/public-ws'
-    }
-  },
-  {
-    info: 'plasm',
-    text: 'Plasm',
-    providers: {
-      'Stake Technologies': 'wss://rpc.plasmnet.io/'
+      // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     }
   },
   {
@@ -213,8 +251,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Polkadex',
     providers: {
       'Polkadex Team': 'wss://mainnet.polkadex.trade',
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/polkadex'
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     }
   },
   {
@@ -233,10 +270,9 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'robonomics',
-    isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
     text: 'Robonomics',
     providers: {
-      Airalab: 'wss://kusama.rpc.robonomics.network/'
+      // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/pull/6761
     }
   },
   {
@@ -253,17 +289,14 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-      Soramitsu: 'wss://ws.alb.sora.org',
       OnFinality: 'wss://sora.api.onfinality.io/public-ws'
-      // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
     }
   },
   {
     info: 'spanner',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
     text: 'Spanner',
     providers: {
-      Spanner: 'wss://wss.spannerprotocol.com'
+      // Spanner: 'wss://wss.spannerprotocol.com' // https://github.com/polkadot-js/apps/issues/6547
     }
   },
   {
@@ -285,7 +318,7 @@ export const prodChains: EndpointOption[] = [
     info: 'subsocial',
     text: 'Subsocial',
     providers: {
-      DappForce: 'wss://rpc.subsocial.network'
+      // DappForce: 'wss://rpc.subsocial.network' // https://github.com/polkadot-js/apps/issues/8046
     }
   },
   {
@@ -296,8 +329,8 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
-    info: 'ternoa-mainnet',
-    text: 'Ternoa Mainnet',
+    info: 'ternoa',
+    text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     }
@@ -310,11 +343,17 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'unitnetwork',
+    text: 'UnitNetwork',
+    providers: {
+      // UnitNetwork: 'wss://www.unitnode3.info:443'
+    }
+  },
+  {
     info: 'westlake',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/7293
     text: 'Westlake',
     providers: {
-      DataHighway: 'wss://westlake.datahighway.com'
+      // DataHighway: 'wss://westlake.datahighway.com' // https://github.com/polkadot-js/apps/issues/7293
     }
   }
 ];

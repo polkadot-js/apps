@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -66,7 +66,6 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
             <Modal.Columns hint={t<string>('The council member that is proposing this, submission equates to an "aye" vote.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('Select the council account you wish to use to make the proposal.')}
                 label={t<string>('submit with council account')}
                 onChange={setAccountId}
                 type='account'
@@ -75,7 +74,6 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
             </Modal.Columns>
             <Modal.Columns hint={t<string>('Proposal can either be to approve or reject this spend. Once approved, the change is applied by either removing the proposal or scheduling payout.')}>
               <Dropdown
-                help={t<string>('The type of council proposal to submit.')}
                 label={t<string>('council proposal type')}
                 onChange={setProposalType}
                 options={councilTypeOptRef.current}

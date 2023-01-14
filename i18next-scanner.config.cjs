@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
@@ -41,7 +41,7 @@ module.exports = {
     '!**/node_modules/**'
   ],
   options: {
-    debug: true,
+    debug: false, // true to print config
     defaultLng: 'en',
     func: {
       extensions: ['.tsx', '.ts'],

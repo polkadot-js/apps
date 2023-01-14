@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -63,7 +63,7 @@ export default React.memo(styled(Spinner)`
   .text {
     color: inherit !important;
     margin: 0.25rem auto 1.5rem auto;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
 
     div+div {
       margin-top: 0.25rem;

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -170,7 +170,6 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         <div className='full'>
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
-            help={t<string>('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
             isError={!isTypesValid}
             label={t<string>('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}

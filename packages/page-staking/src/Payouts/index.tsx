@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -185,15 +185,18 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
     [allRewards]
   );
 
-  const headerStashes = useMemo(() => [
-    [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
-    [t('eras'), 'start'],
-    [myStashesIndex ? t('own') : t('total')],
-    [('remaining')],
-    [undefined, undefined, 3]
-  ], [myStashesIndex, t]);
+  const headerStashes = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
+      [t('eras'), 'start'],
+      [myStashesIndex ? t('own') : t('total')],
+      [('remaining')],
+      [undefined, undefined, 3]
+    ],
+    [myStashesIndex, t]
+  );
 
-  const headerValidatorsRef = useRef([
+  const headerValidatorsRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('payout/validator'), 'start', 2],
     [t('eras'), 'start'],
     [t('own')],
@@ -227,7 +230,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   ), [valAvail]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Button.Group>
         <ToggleGroup
           onChange={setMyStashesIndex}
@@ -290,11 +293,11 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           ))}
         </Table>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Payouts)`
+const StyledDiv = styled.div`
   .payout-eras {
     padding-left: 0.25rem;
     vertical-align: middle;
@@ -303,4 +306,6 @@ export default React.memo(styled(Payouts)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(Payouts);

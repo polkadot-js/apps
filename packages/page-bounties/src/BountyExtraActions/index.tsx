@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { Button, Menu, Popup } from '@polkadot/react-components';
+import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
@@ -37,10 +37,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const { t } = useTranslation();
   const { isMember } = useCollectiveMembers('council');
   const { curator, updateDue } = useBountyStatus(status);
+  const { isCurator, roles } = useUserRole(curator);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
-
-  const { isCurator, roles } = useUserRole(curator);
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
@@ -126,13 +125,13 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         <Popup
           value={
             <Menu className='settings-menu'>
-              {showCloseBounty &&
-              <Menu.Item
-                key='closeBounty'
-                label={t<string>('Close')}
-                onClick={toggleCloseBounty}
-              />
-              }
+              {showCloseBounty && (
+                <Menu.Item
+                  key='closeBounty'
+                  label={t<string>('Close')}
+                  onClick={toggleCloseBounty}
+                />
+              )}
               {showRejectCurator && (
                 <Menu.Item
                   key='rejectCurator'
@@ -163,13 +162,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               ))}
             </Menu>
           }
-        >
-          <Button
-            dataTestId='extra-actions'
-            icon='ellipsis-v'
-            isReadOnly={false}
-          />
-        </Popup>
+        />
       </div>
     )
     : null;

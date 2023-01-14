@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import PoolInfo from '../partials/PoolInfo';
@@ -25,7 +24,7 @@ interface Props {
 function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const [withMax, setWithMax] = useState(false);
   const bondedBlocks = useUnbondDuration();
 
@@ -47,7 +46,6 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           <InputBalance
             autoFocus
             defaultValue={maxUnbond}
-            help={t<string>('Amount to unbond from the current bonded amount.')}
             isDisabled={withMax}
             isError={isAmountError}
             key={`unbondAmount-${withMax.toString()}`}
@@ -71,7 +69,6 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           </InputBalance>
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />

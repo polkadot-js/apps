@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
@@ -46,7 +47,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The reservation fee for this Id')}>
           <InputBalance
-            defaultValue={api.consts.registrar.paraDeposit}
+            defaultValue={api.consts.registrar.paraDeposit as u128}
             isDisabled
             label={t<string>('reserved deposit')}
           />

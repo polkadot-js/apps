@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageEntry } from '@polkadot/types/primitive/types';
@@ -19,6 +19,7 @@ export function keyOptions (api: ApiPromise, sectionName: string): DropdownOptio
 
   return Object
     .keys(section)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((value): DropdownOption => {
       const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;

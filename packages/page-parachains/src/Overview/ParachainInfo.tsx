@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -28,7 +28,7 @@ function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(ParachainInfo)`
   .version {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     white-space: nowrap;
 
     > div {

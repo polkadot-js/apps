@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props as ExpanderProps } from './Expander';
@@ -22,7 +22,7 @@ function mapRow (row: React.ReactNode, key: number): React.ReactNode {
   );
 }
 
-function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
+function ExpanderScroll ({ children, className, empty, renderChildren, summary }: Props): React.ReactElement<Props> {
   const hasContent = useMemo(
     () => !!(renderChildren || children),
     [children, renderChildren]
@@ -50,8 +50,6 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
   return (
     <Expander
       className={className}
-      help={help}
-      helpIcon={helpIcon}
       renderChildren={hasContent ? innerRender : undefined}
       summary={summary}
     />

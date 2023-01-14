@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TxCallback } from '@polkadot/react-components/Status/types';
@@ -90,12 +90,12 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
       <Card isError>
         <div className={className}>
           {t<string>('We found a pre-claim with this Polkadot address. However, attesting requires signing with this account. To continue with attesting, please add this account as an owned account first.')}
-          <h3>
+          <h2>
             <FormatBalance
               label={t<string>('Account balance:')}
               value={claimValue}
             />
-          </h3>
+          </h2>
         </div>
       </Card>
     );
@@ -108,12 +108,12 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
           kind={statementKind}
           systemChain={systemChain}
         />
-        <h3>
+        <h2>
           <FormatBalance
             label={t<string>('Account balance:')}
             value={claimValue}
           />
-        </h3>
+        </h2>
         <Button.Group>
           <TxButton
             accountId={accountId}

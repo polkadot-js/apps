@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
@@ -61,7 +61,7 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: BN, motions: 
         ...newDate(blocks, blockTime),
         blockNumber: votes.end,
         blocks,
-        info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`
+        info: `${hashStr.slice(0, 6)}…${hashStr.slice(-4)}`
       };
     })
     .filter((item): item is EntryInfo => !!item)

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
@@ -24,7 +24,6 @@ interface Props {
   className?: string;
   defaultValue?: Uint8Array | string | null;
   filter?: string[] | null;
-  help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
@@ -150,7 +149,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     // the options could be delayed, don't render without
@@ -160,7 +159,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       return (
         <Static
           className={className}
-          help={help}
           label={label}
         >
           No accounts are available for selection.
@@ -189,10 +187,9 @@ class InputAddress extends React.PureComponent<Props, State> {
       : actualValue;
 
     return (
-      <Dropdown
+      <StyledDropdown
         className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
-        help={help}
         isDisabled={isDisabled}
         isError={isError}
         isMultiple={isMultiple}
@@ -325,8 +322,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   };
 }
 
-const ExportedComponent = withMulti(
-  styled(InputAddress)`
+const StyledDropdown = styled(Dropdown)`
     .ui.dropdown .text {
       width: 100%;
     }
@@ -367,7 +363,10 @@ const ExportedComponent = withMulti(
       flex: 0;
       max-width: 0;
     }
-  `,
+`;
+
+const ExportedComponent = withMulti(
+  InputAddress,
   withObservable(keyring.keyringOption.optionsSubject, {
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>

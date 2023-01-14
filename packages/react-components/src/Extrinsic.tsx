@@ -1,16 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { RawParam } from '@polkadot/react-params/types';
+import type { ComponentMap, RawParam } from '@polkadot/react-params/types';
 import type { TypeDef } from '@polkadot/types/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
-import { isUndefined } from '@polkadot/util';
+import { isUndefined, objectSpread } from '@polkadot/util';
 
+import { balanceCalls, balanceCallsOverrides } from './constants';
 import InputExtrinsic from './InputExtrinsic';
 import paramComponents from './Params';
 
@@ -18,6 +19,7 @@ interface Props {
   className?: string;
   defaultArgs?: RawParam[];
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
+  filter?: (section: string, method?: string) => boolean;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
@@ -41,6 +43,8 @@ interface CallState {
   },
   values: RawParam[];
 }
+
+const allComponents = objectSpread<ComponentMap>({}, paramComponents, balanceCallsOverrides);
 
 function isValuesValid (params: ParamDef[], values: RawParam[]): boolean {
   return values.reduce((isValid, value): boolean =>
@@ -74,7 +78,7 @@ function getCallState (fn: SubmittableExtrinsicFunction<'promise'>, values: RawP
   };
 }
 
-function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultArgs, defaultValue, filter, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [{ extrinsic, values }, setDisplay] = useState<CallState>(() => getCallState(defaultValue, defaultArgs));
 
   useEffect((): void => {
@@ -94,6 +98,13 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
     onChange(method);
   }, [extrinsic, onChange, onError, values]);
 
+  const overrides = useMemo(
+    () => balanceCalls.includes(`${extrinsic.fn.section}.${extrinsic.fn.method}`)
+      ? allComponents
+      : paramComponents,
+    [extrinsic]
+  );
+
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>) =>
       setDisplay((prev): CallState =>
@@ -110,13 +121,13 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
     []
   );
 
-  const { fn: { meta, method, section }, params } = extrinsic;
+  const { fn: { method, section }, params } = extrinsic;
 
   return (
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
-        help={meta?.docs.join(' ')}
+        filter={filter}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
@@ -129,7 +140,7 @@ function ExtrinsicDisplay ({ defaultArgs, defaultValue, isDisabled, isError, isP
         onChange={_setValues}
         onEnter={onEnter}
         onEscape={onEscape}
-        overrides={paramComponents}
+        overrides={overrides}
         params={params}
         values={values}
       />

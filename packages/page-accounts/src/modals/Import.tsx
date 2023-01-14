@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Dispatch, SetStateAction } from 'react';
@@ -11,7 +11,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, MarkError, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, u8aToString } from '@polkadot/util';
+import { assert, nextTick, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ExternalWarning from './ExternalWarning';
@@ -75,7 +75,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
@@ -100,7 +100,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         if (status.status !== 'error') {
           onClose();
         }
-      }, 0);
+      });
     },
     [onClose, onStatusChange, pair, password, t]
   );
@@ -124,7 +124,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           <InputFile
             accept={acceptedFormats}
             className='full'
-            help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
             isError={!pair}
             label={t<string>('backup file')}
             onChange={_onChangeFile}
@@ -135,7 +134,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           <Password
             autoFocus
             className='full'
-            help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
             isError={!isPassValid}
             label={t<string>('password')}
             onChange={_onChangePass}

@@ -1,10 +1,9 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
@@ -13,7 +12,7 @@ import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
+function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setFileInput] = useState(false);
@@ -33,7 +32,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
   );
 
   return (
-    <div className={className}>
+    <div className={`${className} --relative`}>
       {!isDisabled && isFileDrop
         ? (
           <File
@@ -49,6 +48,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
             defaultValue={defaultValue}
             isDisabled={isDisabled}
             isError={isError}
+            isInOption={isInOption}
             label={label}
             length={-1}
             name={name}
@@ -61,7 +61,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
           />
         )
       }
-      {!isDisabled && (
+      {!isDisabled && !isInOption && (
         <Toggle
           isOverlay
           label={t<string>('file upload')}
@@ -73,6 +73,4 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
   );
 }
 
-export default React.memo(styled(Bytes)`
-  position: relative;
-`);
+export default React.memo(Bytes);

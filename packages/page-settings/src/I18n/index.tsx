@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
@@ -131,6 +131,7 @@ function doDownload (strings: Strings, withEmpty: boolean): void {
     return result;
   }, {});
 
+  // eslint-disable-next-line deprecation/deprecation
   FileSaver.saveAs(
     new Blob([JSON.stringify(sanitized, null, 2)], { type: 'application/json; charset=utf-8' }),
     'translation.json'

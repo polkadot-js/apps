@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -40,7 +40,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
         setSigError(t<string>('Non-signature, non-hex data received from QR. Data contains "{{sample}}" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.', {
           replace: {
             sample: signature.length > 47
-              ? `${signature.substr(0, 24)}…${signature.substr(-22)}`
+              ? `${signature.slice(0, 24)}…${signature.slice(-22)}`
               : signature
           }
         }));

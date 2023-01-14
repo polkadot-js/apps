@@ -1,6 +1,7 @@
 {
   "nav.accounts": "Accounts",
   "nav.addresses": "Address book",
+  "nav.alliance": "Alliance",
   "nav.assets": "Assets",
   "nav.bounties": "Bounties",
   "nav.calendar": "Event calendar",
@@ -11,6 +12,7 @@
   "nav.democracy": "Democracy",
   "nav.explorer": "Explorer",
   "nav.extrinsics": "Extrinsics",
+  "nav.fellowship": "Fellowship",
   "nav.files": "Files (IPFS)",
   "nav.gilt": "Gilt",
   "nav.js": "JavaScript",
@@ -18,7 +20,12 @@
   "nav.nfts": "NFTs",
   "nav.parachains": "Parachains",
   "nav.poll": "Token poll",
+  "nav.preimages": "Preimages",
+  "nav.ranked": "Ranked collective",
+  "nav.referenda": "Referenda",
   "nav.rpc": "RPC calls",
+  "nav.runtime": "Runtime calls",
+  "nav.scheduler": "Scheduler",
   "nav.settings": "Settings",
   "nav.signing": "Sign and verify",
   "nav.society": "Society",
@@ -29,5 +36,6 @@
   "nav.teleport": "Teleport",
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
-  "nav.utilities": "Utilities"
+  "nav.utilities": "Utilities",
+  "nav.whitelist": "Whitelist"
 }

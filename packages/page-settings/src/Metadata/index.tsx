@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -16,9 +16,7 @@ export default function Metadata (): React.ReactElement {
   return (
     <>
       {!isDevelopment && (
-        <>
-          <Extensions chainInfo={chainInfo} />
-        </>
+        <Extensions chainInfo={chainInfo} />
       )}
       <NetworkSpecs chainInfo={chainInfo} />
     </>

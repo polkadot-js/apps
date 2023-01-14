@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
@@ -49,7 +49,29 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
       <td className='address all'>
         <AddressSmall value={who} />
       </td>
-      <BidType value={kind} />
+      <td className='start'>
+        <BidType value={kind} />
+        {kind.isVouch
+          ? isVoucher && (
+            <TxButton
+              accountId={voucher}
+              icon='times'
+              label={t<string>('Unvouch')}
+              params={[index]}
+              tx={api.tx.society.unvouch}
+            />
+          )
+          : isBidder && (
+            <TxButton
+              accountId={who}
+              icon='times'
+              label={t<string>('Unbid')}
+              params={[index]}
+              tx={api.tx.society.unbid}
+            />
+          )
+        }
+      </td>
       <td className='number'>
         <FormatBalance value={value} />
       </td>
@@ -57,30 +79,6 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
         {tip && (
           <FormatBalance value={tip} />
         )}
-      </td>
-      <td className='button'>
-        {kind.isVouch
-          ? (
-            <TxButton
-              accountId={voucher}
-              icon='times'
-              isDisabled={!isVoucher}
-              label={t<string>('Unvouch')}
-              params={[index]}
-              tx={api.tx.society.unvouch}
-            />
-          )
-          : (
-            <TxButton
-              accountId={who}
-              icon='times'
-              isDisabled={!isBidder}
-              label={t<string>('Unbid')}
-              params={[index]}
-              tx={api.tx.society.unbid}
-            />
-          )
-        }
       </td>
     </tr>
   );

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -14,24 +14,32 @@ import { useCall } from './useCall';
 interface Result {
   isMember: boolean;
   members: string[];
+  prime?: string | null;
 }
 
-const OPT = {
-  transform: (accounts: AccountId[]) =>
-    accounts.map((accountId) => accountId.toString())
+const OPT_MEM = {
+  transform: (accounts: AccountId[]): string[] =>
+    accounts.map((a) => a.toString())
+};
+
+const OPT_PRM = {
+  transform: (accountId: AccountId | null): string | null =>
+    accountId && accountId.toString()
 };
 
 function useCollectiveMembersImpl (collective: CollectiveType): Result {
   const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, OPT);
+  const { allAccounts } = useAccounts();
+  const members = useCall(api.derive[collective as 'council']?.members, [], OPT_MEM);
+  const prime = useCall(api.derive[collective as 'council']?.prime, [], OPT_PRM);
 
   return useMemo(
     () => ({
-      isMember: (retrieved || []).some((accountId) => allAccounts.includes(accountId)),
-      members: (retrieved || [])
+      isMember: (members || []).some((a) => allAccounts.includes(a)),
+      members: (members || []),
+      prime
     }),
-    [allAccounts, retrieved]
+    [allAccounts, members, prime]
   );
 }
 

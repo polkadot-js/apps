@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { RawParams } from '@polkadot/react-params/types';
+import type { RawParams, TypeDefExt } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
+import type { Inspect, Registry } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -20,10 +20,6 @@ import { TypeDefInfo } from '@polkadot/types/types';
 import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-
-interface TypeDefExt extends TypeDef {
-  withOptionActive?: boolean;
-}
 
 type ParamsType = { type: TypeDefExt }[];
 
@@ -210,14 +206,13 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
     [isIterable, isValid, values]
   );
 
-  const { creator: { meta, method, section } } = key;
+  const { creator: { method, section } } = key;
 
   return (
     <section className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
-          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />

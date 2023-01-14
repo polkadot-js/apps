@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BrowserWindow, screen } from 'electron';
@@ -12,7 +12,6 @@ export function createWindow (environment: string): Promise<unknown> {
     icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
       contextIsolation: true,
-      enableRemoteModule: false,
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     },

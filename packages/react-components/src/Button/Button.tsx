@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ButtonProps } from './types';
@@ -44,7 +44,7 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
   }, [activeOnEnter, listenKeyboard]);
 
   return (
-    <button
+    <StyledButton
       className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${isReadOnly ? ' isReadOnly' : ''}${isSelected ? ' isSelected' : ''}${isToplevel ? ' isToplevel' : ''}${withoutLink ? ' withoutLink' : ''} ${className}`}
       data-testid={dataTestId}
       onClick={_onClick}
@@ -55,17 +55,19 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
       {icon && <Icon icon={icon} />}
       {label}
       {children}
-      <Spinner
-        className='ui--Button-spinner'
-        variant='cover'
-      />
-    </button>
+      {isBusy && (
+        <Spinner
+          className='ui--Button-spinner'
+          variant='cover'
+        />
+      )}
+    </StyledButton>
   );
 }
 
 const ICON_PADDING = 0.5;
 
-export default React.memo(styled(Button)`
+const StyledButton = styled.button`
   background: transparent;
   border: none;
   color: inherit;
@@ -129,10 +131,6 @@ export default React.memo(styled(Button)`
     background: transparent;
   }
 
-  .ui--Button-spinner {
-    visibility: hidden;
-  }
-
   .ui--Button-overlay {
     background: rgba(253, 252, 251, 0.75);
     bottom: 0;
@@ -152,13 +150,9 @@ export default React.memo(styled(Button)`
     width: 1rem;
   }
 
-  &.isBusy {
-    .ui--Button-spinner {
-      visibility: visible;
-    }
-  }
-
   &.isDisabled {
     color: #bcbbba;
   }
-`);
+`;
+
+export default React.memo(Button);

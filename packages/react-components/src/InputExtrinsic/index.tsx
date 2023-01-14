@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -17,7 +17,7 @@ import SelectSection from './SelectSection';
 interface Props {
   className?: string;
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
-  help?: React.ReactNode;
+  filter?: (section: string, method?: string) => boolean;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
@@ -26,10 +26,10 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, help, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', defaultValue, filter, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section));
-  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section, filter));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api, filter));
   const [value, setValue] = useState<SubmittableExtrinsicFunction<'promise'>>((): SubmittableExtrinsicFunction<'promise'> => defaultValue);
   const [{ defaultMethod, defaultSection }] = useState(() => ({ defaultMethod: defaultValue.method, defaultSection: defaultValue.section }));
 
@@ -47,19 +47,18 @@ function InputExtrinsic ({ className = '', defaultValue, help, isDisabled, label
   const _onSectionChange = useCallback(
     (newSection: string): void => {
       if (newSection !== value.section) {
-        const optionsMethod = methodOptions(api, newSection);
+        const optionsMethod = methodOptions(api, newSection, filter);
 
         setOptionsMethod(optionsMethod);
         _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
       }
     },
-    [_onKeyChange, api, value]
+    [_onKeyChange, api, filter, value]
   );
 
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

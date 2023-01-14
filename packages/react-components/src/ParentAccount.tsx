@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -34,11 +34,11 @@ function ParentAccount ({ address, className }: ParentAccountProps): React.React
 export default React.memo(styled(ParentAccount)`
   align-items: center;
   color: #8B8B8B;
-  font-size: 0.75rem;
+  var(--font-size-small);
   display: flex;
 
   & .parent-icon {
-    font-size: 0.625rem;
+    font-size: var(--font-size-percent-small);
     margin-right: 0.3rem;
     margin-left: 0.15rem;
   }

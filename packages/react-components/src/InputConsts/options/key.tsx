@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
@@ -18,6 +18,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
 
   return Object
     .keys(section)
+    .filter((s) => !s.startsWith('$'))
     .sort()
     .map((value): DropdownOption => {
       const method = (section[value] as ConstantCodec);

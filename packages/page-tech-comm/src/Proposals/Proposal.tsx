@@ -1,13 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { CollectiveType } from '@polkadot/react-hooks/types';
+import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, Table } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -20,13 +21,13 @@ interface Props {
   imageHash: Hash;
   isMember: boolean;
   members: string[];
-  prime?: AccountId | null;
-  type: 'membership' | 'technicalCommittee';
+  prime?: string | null;
+  type: CollectiveType;
 }
 
 function Proposal ({ className = '', imageHash, isMember, members, prime, type }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
+  const derive = useCall<DeriveCollectiveProposal>(api.derive[type as 'technicalCommittee'].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const modLocation = useCollectiveInstance(type);
 
@@ -38,7 +39,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={imageHash}
         proposal={derive.proposal}

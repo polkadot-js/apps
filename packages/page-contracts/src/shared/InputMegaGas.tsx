@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -15,12 +15,11 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   estimatedWeight?: BN;
-  help: React.ReactNode;
   isCall?: boolean;
   weight: UseWeight;
 }
 
-function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
+function InputMegaGas ({ className, estimatedWeight, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [withEstimate, setWithEstimate] = useState(true);
 
@@ -45,7 +44,6 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
     <div className={className}>
       <InputNumber
         defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
-        help={help}
         isDisabled={isDisabled}
         isError={!isValid}
         isZeroable={isCall}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -131,11 +131,11 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       ? [exposure.own.unwrap(), exposure.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
 
-    if (bondTotal.isZero()) {
+    const skipRewards = bondTotal.isZero();
+
+    if (skipRewards) {
       bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
-
-    const skipRewards = bondTotal.isZero();
 
     // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
     const minNominated = (exposure.others || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
@@ -290,7 +290,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
-      ? extractBaseInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth)
+      ? extractBaseInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, api.consts.staking.historyDepth || historyDepth)
       : EMPTY_PARTIAL,
     [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
   );
@@ -301,7 +301,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     (): SortedTargets => ({
       counterForNominators,
       counterForValidators,
-      historyDepth,
+      historyDepth: api.consts.staking.historyDepth || historyDepth,
       inflation,
       maxNominatorsCount,
       maxValidatorsCount,
@@ -315,7 +315,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
           : baseInfo
       )
     }),
-    [baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
+    [api, baseInfo, counterForNominators, counterForValidators, historyDepth, inflation, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond]
   );
 }
 

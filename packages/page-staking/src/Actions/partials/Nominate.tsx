@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -64,7 +64,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
     : MAX_NOMINATIONS;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {withSenders && (
         poolId
           ? (
@@ -92,18 +92,17 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
           available={available}
           availableLabel={t<string>('candidate accounts')}
           defaultValue={nominating}
-          help={t<string>('Filter available candidates based on name, address or short account index.')}
           maxCount={maxNominations}
           onChange={setSelected}
           valueLabel={t<string>('nominated accounts')}
         />
         <MarkWarning content={t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
       </Modal.Columns>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledDiv = styled.div`
   article.warning {
     margin-top: 0;
   }
@@ -169,4 +168,6 @@ export default React.memo(styled(Nominate)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -119,8 +119,8 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
         }
         value={maxBalance}
       />
-      <Tooltip
-        text={sorted.map(({ details, headers }, index): React.ReactNode => (
+      <Tooltip trigger={trigger}>
+        {sorted.map(({ details, headers }, index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -131,8 +131,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
             <div className='faded'>{details}</div>
           </div>
         ))}
-        trigger={trigger}
-      />
+      </Tooltip>
     </div>
   );
 }

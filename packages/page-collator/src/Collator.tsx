@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-collator authors & contributors
+// Copyright 2017-2023 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Collator as CollatorType } from './types';
@@ -33,7 +33,7 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
           />
         )}
       </td>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
       <td className='number'>

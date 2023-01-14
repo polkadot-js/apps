@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
@@ -23,6 +23,8 @@ export interface Detail {
 
 export interface Result {
   details: Detail[];
+  isLoaded: boolean;
+  maxItems: number;
   stdDev: number;
   timeAvg: number;
   timeMax: number;

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -35,7 +35,7 @@ function formatExistential (value: BN): string {
   while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
     const isLast = fmt.endsWith('.');
 
-    fmt = fmt.substr(0, fmt.length - 1);
+    fmt = fmt.substring(0, fmt.length - 1);
 
     if (isLast) {
       break;

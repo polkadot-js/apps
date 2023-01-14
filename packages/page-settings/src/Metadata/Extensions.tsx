@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { emptyLogos, extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
@@ -43,7 +44,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     [chainInfo, extensions, selectedIndex, toggleBusy]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('Extensions'), 'start']
   ]);
 
@@ -53,11 +54,10 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       empty={t<string>('No Upgradable extensions')}
       header={headerRef.current}
     >
-
       {extensions
         ? options.length !== 0 && (
           <>
-            <tr className='noBorder'>
+            <tr className='isExpanded isFirst'>
               <td>
                 <Dropdown
                   label={t<string>('upgradable extensions')}
@@ -67,7 +67,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 />
               </td>
             </tr>
-            <tr className='isOdd'>
+            <tr className='isExpanded isLast'>
               <td>
                 <Button.Group>
                   <Button
@@ -83,9 +83,12 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
         )
         : <Spinner />
       }
-
     </Table>
   );
 }
 
-export default React.memo(Extensions);
+export default React.memo(styled(Extensions)`
+  table {
+    overflow: visible;
+  }
+`);

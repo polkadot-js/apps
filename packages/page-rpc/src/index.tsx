@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -23,7 +23,7 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <main className='toolbox--App'>
+    <main className='rpc--App'>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

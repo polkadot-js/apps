@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-poll authors & contributors
+// Copyright 2017-2023 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -27,7 +27,7 @@ interface Turnout {
   voted: BN;
 }
 
-const optMulti = {
+const OPT_MULTI = {
   defaultValue: [undefined, undefined] as MultiResult
 };
 
@@ -38,7 +38,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const [totalIssuance, totals] = useCallMulti<MultiResult>([
     api.query.balances?.totalIssuance,
     api.query.poll.totals
-  ], optMulti);
+  ], OPT_MULTI);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);
@@ -245,7 +245,7 @@ export default React.memo(styled(PollApp)`
   .options {
     margin: 1rem 0;
 
-    .ui--Columnar {
+    .ui--Columar {
       margin: 0 -1.25rem;
       padding: 0 1.25rem;
 

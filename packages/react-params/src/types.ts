@@ -1,7 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
@@ -43,7 +44,7 @@ export interface Props {
   // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
   registry: Registry;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
   withLabel?: boolean;
 }
 
@@ -55,4 +56,17 @@ export interface ParamDef {
   length?: number;
   name?: string;
   type: TypeDef;
+}
+
+export interface ExpandedCid {
+  codec: number;
+  hash: {
+    code: number;
+    digest: HexString;
+  };
+  version: 0 | 1;
+}
+
+export interface TypeDefExt extends TypeDef {
+  withOptionActive?: boolean;
 }

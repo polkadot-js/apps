@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
@@ -72,7 +72,6 @@ function CreateEthDerivationPath ({ className,
             {useCustomIndex
               ? (
                 <InputNumber
-                  help={t<string>('You can set a custom derivation index for this account')}
                   isDecimal={false}
                   label={t<string>('Custom index')}
                   onChange={setCustomIndex}
@@ -81,7 +80,6 @@ function CreateEthDerivationPath ({ className,
               )
               : (
                 <Dropdown
-                  help={t('The address index (derivation on account) to use')}
                   label={t('address index')}
                   onChange={setAddIndex}
                   options={addressList}
@@ -98,9 +96,6 @@ function CreateEthDerivationPath ({ className,
             {useCustomPath
               ? (
                 <Input
-                  help={t<string>(
-                    'You can set a custom derivation path for this account using the following syntax "m/<purpose>/<coin_type>/<account>/<change>/<address_index>'
-                  )}
                   isError={!!deriveValidation?.error}
                   label={t<string>('secret derivation path')}
                   onChange={onChange}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -86,7 +86,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
     >
       <div className={className}>
         {t<string>('Your Ethereum account')}
-        <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
+        <h2>{addrToChecksum(ethereumAddress.toString())}</h2>
         {hasClaim
           ? (
             <>
@@ -136,7 +136,7 @@ h2 {
   margin: 0.5rem 0 2rem;
   font-family: monospace;
   font-size: 2.5rem;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
 }
 `;
 

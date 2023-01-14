@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -42,7 +42,9 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <BidType value={kind} />
+      <td className='start'>
+        <BidType value={kind} />
+      </td>
       <td className='number'>
         <FormatBalance value={value} />
       </td>

@@ -1,12 +1,17 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { typesChain } from '@phala/typedefs';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import CrustMaxwell from './crust-maxwell';
+import kilt from './kilt';
 
-// alphabetical, based on the actual displayed name
-export default {
-  ...typesChain,
-  'Crust Maxwell': CrustMaxwell
+// NOTE: The mapping is done from chain name in system.chain
+const chain: Record<string, OverrideBundleDefinition> = {
+  'KILT Mashnet': kilt['KILT Mashnet'],
+  'KILT Peregrine': kilt['KILT Peregrine'],
+  'KILT Peregrine Stagenet': kilt['KILT Peregrine Stagenet'],
+  'KILT Spiritnet': kilt['KILT Spiritnet'],
+  'KILT Spiritnet Develop': kilt['KILT Spiritnet Develop']
 };
+
+export default chain;

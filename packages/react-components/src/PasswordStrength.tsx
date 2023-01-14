@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import strengthTester from 'owasp-password-strength-test';
@@ -55,7 +55,7 @@ export default React.memo(styled(PasswordStrength)`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
   color: var(--color-label);
 

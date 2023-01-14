@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkTypes } from '@polkadot/apps-config/links/types';
@@ -20,13 +20,10 @@ interface Props {
   isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
+  withTitle?: boolean;
 }
 
-// function shortName (name: string): string {
-//   return `${name[0]}${name[name.length - 1]}`;
-// }
-
-function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
@@ -47,12 +44,7 @@ function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }:
         >
           {isText
             ? name
-            : (
-              <img
-                className={`${isSidebar ? ' isSidebar' : ''}`}
-                src={logo}
-              />
-            )
+            : <img src={logo} />
           }
         </a>
       );
@@ -60,7 +52,7 @@ function genLinks (systemChain: string, { data, hash, isSidebar, isText, type }:
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
@@ -68,14 +60,22 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
     [systemChain, data, hash, isSidebar, isText, type]
   );
 
-  if (!links.length) {
+  if (!links.length && !withTitle) {
     return null;
   }
 
   return (
-    <div className={`${className} ${isText ? 'isText' : 'isLogo'}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
+    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
       {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
-      <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
+      {withTitle && (
+        <h5>{t('external links')}</h5>
+      )}
+      <div className='links'>
+        {links.length
+          ? links.map((link, index) => <span key={index}>{link}</span>)
+          : <div>{t<string>('none')}</div>
+        }
+      </div>
     </div>
   );
 }
@@ -83,32 +83,45 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
 export default React.memo(styled(LinkExternal)`
   text-align: right;
 
+  &.isMain {
+    text-align: left;
+  }
+
   &.isSmall {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.35;
     text-align: center;
   }
 
   &.isSidebar {
     text-align: center;
+
+    .links {
+      img {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+  }
+
+  &:not(.fullColor) {
+    .links {
+      img {
+        filter: grayscale(1) opacity(0.66);
+
+        &:hover {
+          filter: grayscale(0) opacity(1);
+        }
+      }
+    }
   }
 
   .links {
     img {
       border-radius: 50%;
       cursor: pointer;
-      filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
-
-      &.isSidebar {
-        height: 2rem;
-        width: 2rem;
-      }
-
-      &:hover {
-        filter: grayscale(0) opacity(1);
-      }
     }
 
     span {
