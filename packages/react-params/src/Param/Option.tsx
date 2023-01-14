@@ -72,7 +72,6 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
                 : DEF_VALUE}
             isDisabled={isDisabled || !isActive}
             isOptional={!isActive && !isDisabled}
-            name='Some'
             onChange={_onChange}
             onEnter={onEnter}
             onEscape={onEscape}
