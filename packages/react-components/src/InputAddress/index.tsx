@@ -187,7 +187,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       : actualValue;
 
     return (
-      <Dropdown
+      <StyledDropdown
         className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
         isDisabled={isDisabled}
@@ -322,8 +322,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   };
 }
 
-const ExportedComponent = withMulti(
-  styled(InputAddress)`
+const StyledDropdown = styled(Dropdown)`
     .ui.dropdown .text {
       width: 100%;
     }
@@ -364,7 +363,10 @@ const ExportedComponent = withMulti(
       flex: 0;
       max-width: 0;
     }
-  `,
+`;
+
+const ExportedComponent = withMulti(
+  InputAddress,
   withObservable(keyring.keyringOption.optionsSubject, {
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>

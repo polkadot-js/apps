@@ -44,7 +44,7 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
   }, [activeOnEnter, listenKeyboard]);
 
   return (
-    <button
+    <StyledButton
       className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${isReadOnly ? ' isReadOnly' : ''}${isSelected ? ' isSelected' : ''}${isToplevel ? ' isToplevel' : ''}${withoutLink ? ' withoutLink' : ''} ${className}`}
       data-testid={dataTestId}
       onClick={_onClick}
@@ -61,13 +61,13 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
           variant='cover'
         />
       )}
-    </button>
+    </StyledButton>
   );
 }
 
 const ICON_PADDING = 0.5;
 
-export default React.memo(styled(Button)`
+const StyledButton = styled.button`
   background: transparent;
   border: none;
   color: inherit;
@@ -153,4 +153,6 @@ export default React.memo(styled(Button)`
   &.isDisabled {
     color: #bcbbba;
   }
-`);
+`;
+
+export default React.memo(Button);

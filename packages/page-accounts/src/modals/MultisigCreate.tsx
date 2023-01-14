@@ -182,7 +182,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
               availableLabel={t<string>('available signatories')}
               maxCount={MAX_SIGNATORIES}
               onChange={_onChangeAddressMulti}
-              value={signatories}
               valueLabel={t<string>('selected signatories')}
             />
           </Modal.Columns>

@@ -5,7 +5,7 @@ import type { TFunction } from 'i18next';
 import type { TabItem } from '@polkadot/react-components/Tabs/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
@@ -78,7 +78,11 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { eventCount, events } = useBlockEvents();
   const itemsRef = useRef(createItemsRef(t));
   const pathRef = useRef(createPathRef(basePath));
-  const hidden = useState(() => isFunction(api.query.babe?.authorities) ? [] : ['forks']);
+
+  const hidden = useMemo<string[]>(
+    () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
+    [api]
+  );
 
   return (
     <main className={className}>

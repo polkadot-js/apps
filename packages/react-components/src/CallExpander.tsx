@@ -34,7 +34,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
     [value]
   );
 
-  if (!call) {
+  if (!call || !value) {
     return null;
   }
 

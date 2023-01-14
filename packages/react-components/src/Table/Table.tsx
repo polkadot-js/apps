@@ -51,7 +51,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${splitBody ? 'noMargin' : ''}`;
 
   return (
-    <div className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
+    <StyledDiv className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
       {legend}
       {splitBody
         ? (
@@ -94,14 +94,14 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
           </table>
         )
       }
-    </div>
+    </StyledDiv>
   );
 }
 
 const BORDER_RADIUS = '0.5rem';
 const BORDER_SOLID = '1px solid var(--bg-page)'; // var(--border-table)
 
-export default React.memo(styled(Table)`
+const StyledDiv = styled.div`
   max-width: 100%;
   width: 100%;
 
@@ -523,4 +523,6 @@ export default React.memo(styled(Table)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Table);

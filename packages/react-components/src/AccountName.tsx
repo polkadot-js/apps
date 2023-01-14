@@ -24,7 +24,7 @@ interface Props {
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
-  toggle?: boolean;
+  toggle?: unknown;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
   withSidebar?: boolean;
 }
@@ -209,7 +209,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 
   return (
-    <span
+    <StyledSpan
       className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       data-testid='account-name'
       onClick={
@@ -219,11 +219,11 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       }
     >
       {label || ''}{override || name}{children}
-    </span>
+    </StyledSpan>
   );
 }
 
-export default React.memo(styled(AccountName)`
+const StyledSpan = styled.span`
   border: 1px dotted transparent;
   line-height: 1;
   vertical-align: middle;
@@ -267,4 +267,6 @@ export default React.memo(styled(AccountName)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(AccountName);

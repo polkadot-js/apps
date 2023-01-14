@@ -19,7 +19,7 @@ function JudgementTag ({ judgement: { judgementName, registrars } }: Props): Rea
   return (
     <Popup
       closeOnScroll
-      position='center'
+      position='middle'
       value={
         <Menu>
           {registrars.map((registrar) => registrar && (
