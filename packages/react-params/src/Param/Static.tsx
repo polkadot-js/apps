@@ -27,11 +27,11 @@ function StaticParam ({ asHex, children, childrenPre, className = '', defaultVal
   const { t } = useTranslation();
 
   const value = useMemo(
-    () => defaultValue && (defaultValue.value as string) && (
+    () => defaultValue && defaultValue.value && (
       asHex
         ? (defaultValue.value as Codec).toHex()
         : toHumanJson(
-          (defaultValue.value as { toHuman?: () => unknown }).toHuman
+          (defaultValue.value as Codec).toHuman
             ? (defaultValue.value as Codec).toHuman()
             : defaultValue.value
         )
