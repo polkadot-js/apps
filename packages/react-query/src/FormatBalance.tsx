@@ -106,7 +106,6 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
 }
 
 const StyledSpan = styled.span`
-  display: inline-block;
   vertical-align: baseline;
   white-space: nowrap;
 
