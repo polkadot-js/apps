@@ -4,9 +4,8 @@
 import type { SiDef } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { BN, BN_TEN, formatBalance, isString, isUndefined } from '@polkadot/util';
+import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -14,7 +13,7 @@ interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: BN | string;
+  defaultValue?: BN | string | null;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -23,14 +22,14 @@ interface Props {
   isZeroable?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  maxValue?: BN;
+  maxValue?: BN | null;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
   siDecimals?: number;
   siSymbol?: string;
-  value?: BN;
+  value?: BN | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
@@ -38,29 +37,28 @@ interface Props {
 
 const DEFAULT_BITLENGTH = 128;
 
-function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
+function reformat (value?: string | BN | null, isDisabled = false, siDecimals?: number): { defaultValue?: string; siDefault?: SiDef } {
   if (!value) {
     return {};
   }
 
-  const decimals = isUndefined(siDecimals)
-    ? formatBalance.getDefaults().decimals
-    : siDecimals;
-  const maxDisabled = BN_TEN.pow(new BN(decimals - 1)).toString(10);
-  const siDefault = isString(value) && (value.length < maxDisabled.length) && value !== '0'
-    ? formatBalance.calcSi(value.toString(), decimals)
-    : formatBalance.findSi('-');
   const defaultValue = formatBalance(value, {
-    decimals,
-    forceUnit: siDefault.value,
-    withSi: false
+    decimals: isUndefined(siDecimals)
+      ? formatBalance.getDefaults().decimals
+      : siDecimals,
+    forceUnit: '-',
+    withAll: true,
+    withSi: false,
+    withZero: false
   });
 
   return {
     defaultValue: isDisabled
-      ? defaultValue
-      : defaultValue.replace(/,/g, isDisabled ? ',' : ''),
-    siDefault
+      // since we drop 0's ensure we have at least 4 for disabled
+      ? `${defaultValue}.`.split('.').slice(0, 2).map((v, i) => i ? v.padEnd(4, '0') : v).join('.')
+      // remove the format specifiers for inputs
+      : defaultValue.replace(/,/g, ''),
+    siDefault: formatBalance.findSi('-')
   };
 }
 
@@ -103,28 +101,4 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
   );
 }
 
-export default React.memo(styled(InputBalance)`
-  &&:not(.isSmall) .labelExtra {
-    right: 6.5rem;
-  }
-
-  .ui.action.input.ui--Input > .buttons {
-    align-items: stretch;
-
-    .ui--SiDropdown.ui.button.compact.floating.selection.dropdown {
-      &.disabled {
-        border-style: solid;
-        opacity: 1 !important;
-      }
-
-      > div.text:first-child {
-        font-size: var(--font-size-small);
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0.5rem;
-        width: 3rem;
-      }
-    }
-  }
-`);
+export default React.memo(InputBalance);

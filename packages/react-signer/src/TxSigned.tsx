@@ -8,6 +8,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
@@ -19,7 +20,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, BN_ZERO, nextTick } from '@polkadot/util';
+import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import Address from './Address';
@@ -204,7 +205,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
-  const [tip, setTip] = useState(BN_ZERO);
+  const [tip, setTip] = useState<BN | undefined>();
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));

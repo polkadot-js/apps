@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Preimage } from '../types';
+import type { Preimage } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 

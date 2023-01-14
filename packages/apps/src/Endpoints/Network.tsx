@@ -41,7 +41,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
+    <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
         onClick={isUnreachable ? undefined : _selectUrl}
@@ -77,11 +77,11 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
           url={url}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(NetworkDisplay)`
+const StyledDiv = styled.div`
   border-left: 0.25rem solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -130,4 +130,6 @@ export default React.memo(styled(NetworkDisplay)`
     font-weight: var(--font-weight-normal);
     text-transform: none;
   }
-`);
+`;
+
+export default React.memo(NetworkDisplay);

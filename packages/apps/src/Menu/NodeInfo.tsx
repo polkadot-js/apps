@@ -18,7 +18,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
-    <div className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
+    <StyledDiv className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
       {isApiReady && (
         <div className='node'>
           <NodeName />&nbsp;
@@ -27,11 +27,11 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
       )}
       <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
       <div>{uiInfo}</div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(NodeInfo)`
+const StyledDiv = styled.div`
   background: transparent;
   font-size: var(--font-size-tiny);
   line-height: 1.2;
@@ -45,4 +45,6 @@ export default React.memo(styled(NodeInfo)`
       display: inline-block;
     }
   }
-`);
+`;
+
+export default React.memo(NodeInfo);

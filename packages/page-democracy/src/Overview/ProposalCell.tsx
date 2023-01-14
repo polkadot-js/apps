@@ -8,9 +8,8 @@ import type { HexString } from '@polkadot/util/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, usePreimage } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ExternalCell from './ExternalCell';
@@ -31,7 +30,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   const preimage = usePreimage(imageHash);
 
   // while we still have this endpoint, democracy will use it
-  const displayProposal = api.query.democracy.preimages
+  const displayProposal = api.query.democracy?.preimages
     ? proposal
     : preimage?.proposal;
 

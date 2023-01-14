@@ -6,10 +6,9 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, usePreimage, useToggle } from '@polkadot/react-hooks';
 import { isFunction, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

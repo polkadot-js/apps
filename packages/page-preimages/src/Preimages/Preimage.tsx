@@ -5,9 +5,9 @@ import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
+import { usePreimage } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import usePreimage from '../usePreimage';
 import Call from './Call';
 import Free from './Free';
 import Hash from './Hash';
