@@ -31,7 +31,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   const preimage = usePreimage(imageHash);
 
   // while we still have this endpoint, democracy will use it
-  const displayProposal = api.query.democracy?.preimages 
+  const displayProposal = api.query.democracy?.preimages
     ? proposal
     : preimage?.proposal;
 
