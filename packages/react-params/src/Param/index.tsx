@@ -53,7 +53,6 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isInOption,
       <Static
         defaultValue={defaultValue}
         label={label}
-        type={type}
       />
     )
     : (

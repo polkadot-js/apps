@@ -114,7 +114,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
   );
 
   return (
-    <Bare className={className}>
+    <StyledBare className={className}>
       <Input
         className={size}
         defaultValue={defaultValue as string}
@@ -142,11 +142,11 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
           />
         )}
       </Input>
-    </Bare>
+    </StyledBare>
   );
 }
 
-export default React.memo(styled(BaseBytes)`
+const StyledBare = styled(Bare)`
   .ui--InputAddressSimpleIcon {
     background: #eee;
     border: 1px solid #888;
@@ -155,4 +155,6 @@ export default React.memo(styled(BaseBytes)`
     position: absolute;
     top: 8px;
   }
-`);
+`;
+
+export default React.memo(BaseBytes);
