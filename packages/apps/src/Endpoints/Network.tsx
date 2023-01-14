@@ -19,57 +19,6 @@ interface Props {
   value: Network;
 }
 
-const StyledDiv = styled.div`
-  border-left: 0.25rem solid transparent;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  margin: 0 0 0.25rem 0;
-  padding: 0.375rem 0.5rem 0.375rem 1rem;
-  position: relative;
-
-  &.isUnreachable {
-    opacity: var(--opacity-light);
-  }
-
-  &.isSelected,
-  &:hover {
-    background: var(--bg-table);
-  }
-
-  .endpointSection {
-    align-items: center;
-    display: flex;
-    justify-content: flex-start;
-    position: relative;
-
-    &+.ui--Toggle {
-      margin-top: 1rem;
-    }
-
-    &.isChild .endpointIcon {
-      margin-left: 1.25rem;
-    }
-
-    &+.endpointProvider {
-      margin-top: -0.125rem;
-    }
-
-    .endpointValue {
-      .endpointExtra {
-        font-size: var(--font-size-small);
-        opacity: var(--opacity-light);
-      }
-    }
-  }
-
-  // we jiggle our labels somewhat...
-  label {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-    text-transform: none;
-  }
-`;
-
 function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
@@ -131,5 +80,56 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
     </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  border-left: 0.25rem solid transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  margin: 0 0 0.25rem 0;
+  padding: 0.375rem 0.5rem 0.375rem 1rem;
+  position: relative;
+
+  &.isUnreachable {
+    opacity: var(--opacity-light);
+  }
+
+  &.isSelected,
+  &:hover {
+    background: var(--bg-table);
+  }
+
+  .endpointSection {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+
+    &+.ui--Toggle {
+      margin-top: 1rem;
+    }
+
+    &.isChild .endpointIcon {
+      margin-left: 1.25rem;
+    }
+
+    &+.endpointProvider {
+      margin-top: -0.125rem;
+    }
+
+    .endpointValue {
+      .endpointExtra {
+        font-size: var(--font-size-small);
+        opacity: var(--opacity-light);
+      }
+    }
+  }
+
+  // we jiggle our labels somewhat...
+  label {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+  }
+`;
 
 export default React.memo(NetworkDisplay);

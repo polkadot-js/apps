@@ -19,14 +19,6 @@ import WarmUp from './WarmUp';
 
 export const PORTAL_ID = 'portals';
 
-const StyledDiv = styled.div`
-  background: var(--bg-page);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const { themeClassName } = useTheme();
   const { isDevelopment, specName, systemChain, systemName } = useApi();
@@ -55,5 +47,13 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     </>
   );
 }
+
+const StyledDiv = styled.div`
+  background: var(--bg-page);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
 
 export default React.memo(Apps);

@@ -19,6 +19,34 @@ interface Props {
 
 const DUMMY_COUNTER = () => 0;
 
+function Item ({ className = '', classNameText, isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+  const [isModalVisible, toggleModal] = useToggle();
+  const count = useCounter();
+
+  return (
+    <StyledLi className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+      <a
+        href={Modal ? undefined : (href || `#/${name}`)}
+        onClick={Modal ? toggleModal : undefined}
+        rel='noopener noreferrer'
+        target={href ? '_blank' : undefined}
+      >
+        <Icon icon={icon} />
+        <span className={classNameText}>{text}</span>
+        {!!count && (
+          <Badge
+            color={'white'}
+            info={count}
+          />
+        )}
+      </a>
+      {Modal && isModalVisible && (
+        <Modal onClose={toggleModal} />
+      )}
+    </StyledLi>
+  );
+}
+
 const StyledLi = styled.li`
   cursor: pointer;
   position: relative;
@@ -84,33 +112,5 @@ const StyledLi = styled.li`
     margin-right: 0.5rem;
   }
 `;
-
-function Item ({ className = '', classNameText, isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
-  const [isModalVisible, toggleModal] = useToggle();
-  const count = useCounter();
-
-  return (
-    <StyledLi className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
-      <a
-        href={Modal ? undefined : (href || `#/${name}`)}
-        onClick={Modal ? toggleModal : undefined}
-        rel='noopener noreferrer'
-        target={href ? '_blank' : undefined}
-      >
-        <Icon icon={icon} />
-        <span className={classNameText}>{text}</span>
-        {!!count && (
-          <Badge
-            color={'white'}
-            info={count}
-          />
-        )}
-      </a>
-      {Modal && isModalVisible && (
-        <Modal onClose={toggleModal} />
-      )}
-    </StyledLi>
-  );
-}
 
 export default React.memo(Item);

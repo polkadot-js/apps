@@ -17,37 +17,10 @@ interface Props {
   className?: string;
   index: number;
   isSelected: boolean;
-  setApiUrl: (apiUrl: string) => void;
+  setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
 }
-
-const StyledDiv = styled.div`
-  .groupHeader {
-    border-radius: 0.25rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0.75rem 1rem;
-    position: relative;
-    text-transform: uppercase;
-
-    &:hover {
-      background: var(--bg-table);
-    }
-
-    &.isSpaced {
-      margin-top: 0.75rem;
-    }
-
-    .ui--Icon {
-      margin-right: 0.5rem;
-    }
-  }
-
-  .groupNetworks {
-    padding: 0.25rem 0 0.5rem 1rem;
-  }
-`;
 
 function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
@@ -88,5 +61,32 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
     </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  .groupHeader {
+    border-radius: 0.25rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.75rem 1rem;
+    position: relative;
+    text-transform: uppercase;
+
+    &:hover {
+      background: var(--bg-table);
+    }
+
+    &.isSpaced {
+      margin-top: 0.75rem;
+    }
+
+    .ui--Icon {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .groupNetworks {
+    padding: 0.25rem 0 0.5rem 1rem;
+  }
+`;
 
 export default React.memo(GroupDisplay);
