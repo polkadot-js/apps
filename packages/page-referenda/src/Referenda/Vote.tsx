@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'react-i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { Preimage } from '@polkadot/app-preimages/types';
+import type { Preimage } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { PalletVote, TrackInfo } from '../types';
 
