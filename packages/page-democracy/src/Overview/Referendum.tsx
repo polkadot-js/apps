@@ -91,7 +91,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
@@ -170,8 +170,8 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             />
           </Button.Group>
         </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -187,12 +187,12 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             </Columar.Column>
           </Columar>
         </td>
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
+const StyledTr = styled.tr`
   td.chart {
     padding: 0.5rem 0;
 
@@ -200,4 +200,6 @@ export default React.memo(styled(Referendum)`
       display: inline-block;
     }
   }
-`);
+`;
+
+export default React.memo(Referendum);

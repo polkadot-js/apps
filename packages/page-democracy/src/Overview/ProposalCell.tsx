@@ -49,7 +49,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   const isExternal = section === 'democracy' && METHOD_EXTE.includes(method);
 
   return (
-    <td className={`${className} all`}>
+    <StyledTd className={`${className} all`}>
       <CallExpander
         labelHash={t<string>('proposal hash')}
         value={displayProposal}
@@ -62,14 +62,16 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
           <TreasuryCell value={displayProposal.args[0] as Compact<ProposalIndex>} />
         )}
       </CallExpander>
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(ProposalCell)`
+const StyledTd = styled.td`
   .shortHash {
     + div {
       margin-left: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(ProposalCell);

@@ -5,7 +5,6 @@ import type { BN } from '@polkadot/util';
 import type { PalletReferenda, PalletVote, ReferendaGroup, TrackDescription } from '../types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { ExpandButton, Table } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -90,9 +89,4 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   );
 }
 
-export default React.memo(styled(Group)`
-  th.number h1 {
-    display: inline-block;
-    opacity: 0.75;
-  }
-`);
+export default React.memo(Group);

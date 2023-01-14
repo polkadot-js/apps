@@ -106,7 +106,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   return (
     <>
       {isVotingOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Vote on referendum')}
           onClose={toggleVoting}
@@ -211,7 +211,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
               )
             }
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='check-to-slot'
@@ -223,8 +223,10 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   );
 }
 
-export default React.memo(styled(Voting)`
+const StyledModal = styled(Modal)`
   .ui--Modal-Columns.centerVoteType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Voting);

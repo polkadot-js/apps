@@ -29,7 +29,7 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
           ? formatNumber(info.proposalLength)
           : <span className='--tmp'>999,999</span>}
       </td>
-      <td className='preimage-status together media--1200'>
+      <td className='preimageStatus together media--1200'>
         {info
           ? (
             <>
