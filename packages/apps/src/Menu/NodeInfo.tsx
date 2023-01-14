@@ -14,22 +14,6 @@ const pkgJson = require('../../package.json') as { version: string };
 
 const uiInfo = `apps v${pkgJson.version.replace('-x', '')}`;
 
-const StyledDiv = styled.div`
-  background: transparent;
-  font-size: var(--font-size-tiny);
-  line-height: 1.2;
-  padding: 0 0 0 1rem;
-  text-align: right;
-
-  > div {
-    margin-bottom: -0.125em;
-
-    > div {
-      display: inline-block;
-    }
-  }
-`;
-
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
@@ -46,5 +30,21 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
     </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  background: transparent;
+  font-size: var(--font-size-tiny);
+  line-height: 1.2;
+  padding: 0 0 0 1rem;
+  text-align: right;
+
+  > div {
+    margin-bottom: -0.125em;
+
+    > div {
+      display: inline-block;
+    }
+  }
+`;
 
 export default React.memo(NodeInfo);

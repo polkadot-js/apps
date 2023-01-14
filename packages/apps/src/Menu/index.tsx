@@ -87,6 +87,77 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
     .filter(({ routes }) => routes.length);
 }
 
+function Menu ({ className = '' }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { allAccounts, hasAccounts } = useAccounts();
+  const apiProps = useApi();
+  const { allowTeleport } = useTeleport();
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
+  const location = useLocation();
+
+  const externalRef = useRef(createExternals(t));
+  const routeRef = useRef(createRoutes(t));
+
+  const groupRef = useRef({
+    accounts: t('Accounts'),
+    developer: t('Developer'),
+    files: t('Files'),
+    governance: t('Governance'),
+    network: t('Network'),
+    settings: t('Settings')
+  });
+
+  const hasSudo = useMemo(
+    () => !!sudoKey && allAccounts.some((a) => sudoKey.eq(a)),
+    [allAccounts, sudoKey]
+  );
+
+  const visibleGroups = useMemo(
+    () => extractGroups(routeRef.current, groupRef.current, apiProps, allowTeleport, hasAccounts, hasSudo),
+    [allowTeleport, apiProps, hasAccounts, hasSudo]
+  );
+
+  const activeRoute = useMemo(
+    () => routeRef.current.find(({ name }) =>
+      location.pathname.startsWith(`/${name}`)
+    ) || null,
+    [location]
+  );
+
+  return (
+    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
+      <div className='menuContainer'>
+        <div className='menuSection'>
+          <ChainInfo />
+          <ul className='menuItems'>
+            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+              <Grouping
+                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
+                key={name}
+                name={name}
+                routes={routes}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className='menuSection media--1200'>
+          <ul className='menuItems'>
+            {externalRef.current.map((route): React.ReactNode => (
+              <Item
+                isLink
+                isToplevel
+                key={route.name}
+                route={route}
+              />
+            ))}
+          </ul>
+        </div>
+        <NodeInfo className='media--1400' />
+      </div>
+    </StyledDiv>
+  );
+}
+
 const StyledDiv = styled.div`
   width: 100%;
   padding: 0;
@@ -184,76 +255,5 @@ const StyledDiv = styled.div`
     }
   }
 `;
-
-function Menu ({ className = '' }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { allAccounts, hasAccounts } = useAccounts();
-  const apiProps = useApi();
-  const { allowTeleport } = useTeleport();
-  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
-  const location = useLocation();
-
-  const externalRef = useRef(createExternals(t));
-  const routeRef = useRef(createRoutes(t));
-
-  const groupRef = useRef({
-    accounts: t('Accounts'),
-    developer: t('Developer'),
-    files: t('Files'),
-    governance: t('Governance'),
-    network: t('Network'),
-    settings: t('Settings')
-  });
-
-  const hasSudo = useMemo(
-    () => !!sudoKey && allAccounts.some((a) => sudoKey.eq(a)),
-    [allAccounts, sudoKey]
-  );
-
-  const visibleGroups = useMemo(
-    () => extractGroups(routeRef.current, groupRef.current, apiProps, allowTeleport, hasAccounts, hasSudo),
-    [allowTeleport, apiProps, hasAccounts, hasSudo]
-  );
-
-  const activeRoute = useMemo(
-    () => routeRef.current.find(({ name }) =>
-      location.pathname.startsWith(`/${name}`)
-    ) || null,
-    [location]
-  );
-
-  return (
-    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
-      <div className='menuContainer'>
-        <div className='menuSection'>
-          <ChainInfo />
-          <ul className='menuItems'>
-            {visibleGroups.map(({ name, routes }): React.ReactNode => (
-              <Grouping
-                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
-                key={name}
-                name={name}
-                routes={routes}
-              />
-            ))}
-          </ul>
-        </div>
-        <div className='menuSection media--1200'>
-          <ul className='menuItems'>
-            {externalRef.current.map((route): React.ReactNode => (
-              <Item
-                isLink
-                isToplevel
-                key={route.name}
-                route={route}
-              />
-            ))}
-          </ul>
-        </div>
-        <NodeInfo className='media--1400' />
-      </div>
-    </StyledDiv>
-  );
-}
 
 export default React.memo(Menu);
