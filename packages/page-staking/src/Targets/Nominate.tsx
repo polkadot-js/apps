@@ -56,7 +56,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
         onClick={toggleOpen}
       />
       {isOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Nominate validators')}
           onClose={toggleOpen}
@@ -107,13 +107,13 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               tx={api.tx.staking.nominate}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
 
@@ -122,4 +122,6 @@ export default React.memo(styled(Nominate)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

@@ -364,7 +364,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const canSelect = selected.length < maxNominations;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         avgStaked={avgStaked}
         lastEra={lastEra}
@@ -419,11 +419,11 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           />
         )}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Targets)`
+const StyledDiv = styled.div`
   text-align: center;
 
   th.isClickable {
@@ -435,4 +435,6 @@ export default React.memo(styled(Targets)`
   .ui--Table {
     overflow-x: auto;
   }
-`);
+`;
+
+export default React.memo(Targets);

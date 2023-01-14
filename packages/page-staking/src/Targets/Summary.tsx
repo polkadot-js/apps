@@ -68,7 +68,7 @@ function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minN
   const percent = <span className='percent'>%</span>;
 
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section className='media--800'>
         <CardSummary
           label={t<string>('total staked')}
@@ -146,12 +146,14 @@ function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minN
           />
         </CardSummary>
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .percent {
     font-size: var(--font-percent-tiny);
   }
-`);
+`;
+
+export default React.memo(Summary);

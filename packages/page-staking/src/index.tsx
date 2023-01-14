@@ -145,7 +145,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <main className={`staking--App ${className}`}>
+    <StyledMain className={`staking--App ${className}`}>
       <Tabs
         basePath={basePath}
         hidden={
@@ -214,11 +214,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         toggleFavorite={toggleFavorite}
         toggleNominatedBy={toggleNominatedBy}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StakingApp)`
+const StyledMain = styled.main`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -264,4 +264,6 @@ export default React.memo(styled(StakingApp)`
       100% { background: #a6a6a6; }
     }
   `).join('')}
-`);
+`;
+
+export default React.memo(StakingApp);

@@ -20,7 +20,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
   const { t } = useTranslation();
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <span>
         <Badge
           color='blue'
@@ -95,11 +95,11 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
         />
         <span>{t('Era points')}</span>
       </span>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Legend)`
+const StyledDiv = styled.div`
   font-size: var(--font-size-small);
   padding: 1rem 0.5rem;
   text-align: center;
@@ -119,4 +119,6 @@ export default React.memo(styled(Legend)`
       margin-left: 1rem;
     }
   }
-`);
+`;
+
+export default React.memo(Legend);

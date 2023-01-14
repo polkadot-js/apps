@@ -98,7 +98,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active?.isEmpty;
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='badge together'>
         {slashes.length !== 0 && (
           <Badge
@@ -359,14 +359,16 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </>
         )}
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Account)`
+const StyledTr = styled.tr`
   .ui--Button-Group {
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
   }
-`);
+`;
+
+export default React.memo(Account);
