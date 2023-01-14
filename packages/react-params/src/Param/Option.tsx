@@ -17,7 +17,7 @@ import Param from './index';
 const DEF_VALUE = { isValid: true, value: undefined };
 const OPT_PREFIX = new Uint8Array([1]);
 
-function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, label, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive }, withLabel }: Props): React.ReactElement<Props> {
+function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, label, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive }, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(() => withOptionActive || !!(_defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome) || false);
 
@@ -69,7 +69,6 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
             : DEF_VALUE}
         isDisabled={isDisabled || !isActive}
         isOptional={!isActive && !isDisabled}
-        name={name}
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
