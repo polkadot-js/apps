@@ -12,12 +12,12 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  onChange: (tip: BN) => void;
+  onChange: (tip?: BN) => void;
 }
 
 function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [tip, setTip] = useState(BN_ZERO);
+  const [tip, setTip] = useState<BN | undefined>();
   const [showTip, setShowTip] = useState(false);
 
   useEffect((): void => {

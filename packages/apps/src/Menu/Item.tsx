@@ -24,7 +24,7 @@ function Item ({ className = '', classNameText, isLink, isToplevel, route: { Mod
   const count = useCounter();
 
   return (
-    <li className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+    <StyledLi className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -43,11 +43,11 @@ function Item ({ className = '', classNameText, isLink, isToplevel, route: { Mod
       {Modal && isModalVisible && (
         <Modal onClose={toggleModal} />
       )}
-    </li>
+    </StyledLi>
   );
 }
 
-export default React.memo(styled(Item)`
+const StyledLi = styled.li`
   cursor: pointer;
   position: relative;
   white-space: nowrap;
@@ -111,4 +111,6 @@ export default React.memo(styled(Item)`
   .ui--Icon {
     margin-right: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Item);

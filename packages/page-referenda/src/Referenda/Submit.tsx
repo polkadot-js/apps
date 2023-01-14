@@ -10,9 +10,8 @@ import type { PalletReferenda, TrackDescription } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
-import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
@@ -184,7 +183,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   return (
     <>
       {trackOpts && isSubmitOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Submit proposal')}
           onClose={toggleSubmit}
@@ -323,7 +322,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='plus'
@@ -335,7 +334,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 }
 
-export default React.memo(styled(Submit)`
+const StyledModal = styled(Modal)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
@@ -354,4 +353,6 @@ export default React.memo(styled(Submit)`
   .ui--Modal-Columns.centerEnactType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Submit);

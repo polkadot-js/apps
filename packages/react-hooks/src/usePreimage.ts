@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -203,4 +203,4 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
   );
 }
 
-export default createNamedHook('usePreimage', usePreimageImpl);
+export const usePreimage = createNamedHook('usePreimage', usePreimageImpl);

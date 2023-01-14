@@ -230,7 +230,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   ), [valAvail]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Button.Group>
         <ToggleGroup
           onChange={setMyStashesIndex}
@@ -293,11 +293,11 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           ))}
         </Table>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Payouts)`
+const StyledDiv = styled.div`
   .payout-eras {
     padding-left: 0.25rem;
     vertical-align: middle;
@@ -306,4 +306,6 @@ export default React.memo(styled(Payouts)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(Payouts);

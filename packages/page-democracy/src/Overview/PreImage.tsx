@@ -61,7 +61,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Submit preimage')}
       onClose={onClose}
@@ -124,13 +124,15 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           }
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(PreImage)`
+const StyledModal = styled(Modal)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(PreImage);

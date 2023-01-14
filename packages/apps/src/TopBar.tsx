@@ -14,7 +14,7 @@ interface Props {
 
 function TopBar ({ className }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div>
         <NodeName />&nbsp;
         <NodeVersion label='v' />
@@ -23,11 +23,11 @@ function TopBar ({ className }: Props): React.ReactElement<Props> {
         <Chain />&nbsp;
         <BestNumber label='#' />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(TopBar)`
+const StyledDiv = styled.div`
   background: #f2f2f2;
   font-size: var(--font-size-small);
   line-height: 1rem;
@@ -53,4 +53,6 @@ export default React.memo(styled(TopBar)`
       border-width: 0;
     }
   }
-`);
+`;
+
+export default React.memo(TopBar);

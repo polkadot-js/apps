@@ -33,7 +33,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper ${themeClassName} ${className}`}>
+      <StyledDiv className={`apps--Wrapper ${themeClassName} ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
@@ -42,16 +42,18 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
           <ConnectingOverlay />
           <div id={PORTAL_ID} />
         </AccountSidebar>
-      </div>
+      </StyledDiv>
       <WarmUp />
     </>
   );
 }
 
-export default React.memo(styled(Apps)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-`);
+`;
+
+export default React.memo(Apps);

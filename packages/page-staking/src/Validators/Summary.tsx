@@ -26,7 +26,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
   const percent = <span className='percent'>%</span>;
 
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
@@ -93,11 +93,11 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
       <section>
         <SummarySession />
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .validator--Account-block-icon {
     display: inline-block;
     margin-right: 0.75rem;
@@ -114,4 +114,6 @@ export default React.memo(styled(Summary)`
   .percent {
     font-size: var(--font-percent-tiny);
   }
-`);
+`;
+
+export default React.memo(Summary);

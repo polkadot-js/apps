@@ -7,7 +7,7 @@ import React from 'react';
 
 import Call from '@polkadot/app-preimages/Preimages/Call';
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import usePreimage from '@polkadot/app-preimages/usePreimage';
+import { usePreimage } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;

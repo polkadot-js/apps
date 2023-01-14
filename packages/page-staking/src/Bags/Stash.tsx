@@ -49,7 +49,7 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <AddressMini
         value={stashId}
         withBonded
@@ -68,12 +68,14 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
           )
           : null
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Stash)`
+const StyledDiv = styled.div`
   .ui--AddressMini {
     vertical-align: middle;
   }
-`);
+`;
+
+export default React.memo(Stash);

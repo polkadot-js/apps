@@ -277,16 +277,12 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
 
 export default React.memo(styled(InputNumber)`
   .siUnit {
+    bottom: 0.85rem;
+    color: var(--color-label);
     font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-label);
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     font-weight: var(--font-weight-bold);
     right: 1.25rem;
-  }
-
-  .ui.buttons+.ui--Toggle.isOverlay {
-    bottom: 1.1rem;
-    right: 6.5rem;
   }
 `);

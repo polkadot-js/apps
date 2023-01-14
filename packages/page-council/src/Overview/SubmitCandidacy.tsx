@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types';
 import type { ComponentProps as Props } from './types';
 
 import React, { useState } from 'react';
@@ -41,7 +42,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> |
             {api.consts[modLocation] && (
               <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
                 <InputBalance
-                  defaultValue={api.consts[modLocation].candidacyBond}
+                  defaultValue={api.consts[modLocation as 'council']?.candidacyBond as u128}
                   isDisabled
                   label={t<string>('candidacy bond')}
                 />

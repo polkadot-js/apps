@@ -8,9 +8,8 @@ import type { HexString } from '@polkadot/util/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, usePreimage } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ExternalCell from './ExternalCell';
@@ -31,7 +30,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   const preimage = usePreimage(imageHash);
 
   // while we still have this endpoint, democracy will use it
-  const displayProposal = api.query.democracy.preimages
+  const displayProposal = api.query.democracy?.preimages
     ? proposal
     : preimage?.proposal;
 
@@ -50,7 +49,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   const isExternal = section === 'democracy' && METHOD_EXTE.includes(method);
 
   return (
-    <td className={`${className} all`}>
+    <StyledTd className={`${className} all`}>
       <CallExpander
         labelHash={t<string>('proposal hash')}
         value={displayProposal}
@@ -63,14 +62,16 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
           <TreasuryCell value={displayProposal.args[0] as Compact<ProposalIndex>} />
         )}
       </CallExpander>
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(ProposalCell)`
+const StyledTd = styled.td`
   .shortHash {
     + div {
       margin-left: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(ProposalCell);

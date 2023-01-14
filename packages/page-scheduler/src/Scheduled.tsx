@@ -7,8 +7,8 @@ import type { ScheduledExt } from './types';
 import React from 'react';
 
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
+import { usePreimage } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 

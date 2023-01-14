@@ -58,6 +58,7 @@ export { useOwnStashInfos } from './useOwnStashInfos';
 export { useOutsideClick } from './useOutsideClick';
 export { useParaApi } from './useParaApi';
 export { usePopupWindow } from './usePopupWindow';
+export { usePreimage } from './usePreimage';
 export { useProxies } from './useProxies';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints';
 export { usePassword } from './usePassword';
