@@ -1,4 +1,4 @@
-    4032	Jaco                          	Move usePreimage to react-hooks (#8796)
+    4033	Jaco                          	Rework staking styled injection (#8794)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
