@@ -125,19 +125,19 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
             {info.bonded.roles.root.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('root')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.root} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.root.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.nominator.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('nominator')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.stateToggler.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('toggler')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler.unwrap()} /></div>
               </div>
             )}
           </td>

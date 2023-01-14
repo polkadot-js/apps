@@ -65,8 +65,8 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
       <td className='number' />
       <td className='number'><FormatBalance value={bagUpper} /></td>
       <td className='number'><FormatBalance value={bagLower} /></td>
-      <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
-      <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
+      <td className='address'>{info.head.isSome && <AddressMini value={info.head.unwrap()} />}</td>
+      <td className='address'>{info.tail.isSome && <AddressMini value={info.tail.unwrap()} />}</td>
       <td className='address'>
         {nodesOwn?.map(({ stashId }) => (
           <Stash

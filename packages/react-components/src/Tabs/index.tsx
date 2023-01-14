@@ -4,7 +4,7 @@
 import type { Location } from 'history';
 import type { SectionType, TabItem } from './types';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -18,21 +18,21 @@ interface Props {
   className?: string;
   basePath: string;
   hidden?: string[] | null | false;
-  items: TabItem[];
+  items: (TabItem | false | null | undefined)[];
 }
 
 // redirect on invalid tabs
-function redirect (basePath: string, location: Location, items: TabItem[], hidden?: string[] | null | false): void {
+function redirect (basePath: string, location: Location, items: (TabItem | false | null | undefined)[], hidden?: string[] | null | false): void {
   if (location.pathname !== basePath) {
     // Has the form /staking/query/<something>
     const [,, section] = location.pathname.split('/');
-    const alias = items.find(({ alias }) => alias === section);
+    const alias = items.find((v) => v && v.alias === section);
 
     if (alias) {
       window.location.hash = alias.isRoot
         ? basePath
         : `${basePath}/${alias.name}`;
-    } else if (hidden && (hidden.includes(section) || !items.some(({ isRoot, name }) => !isRoot && name === section))) {
+    } else if (hidden && (hidden.includes(section) || !items.some((v) => v && !v.isRoot && v.name === section))) {
       window.location.hash = basePath;
     }
   }
@@ -42,14 +42,15 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
   const location = useLocation();
   const { icon, text } = React.useContext(TabsCtx);
 
+  const filtered = useMemo(
+    () => items.filter((v): v is TabItem => !!v && (!hidden || !hidden.includes(v.name))),
+    [hidden, items]
+  );
+
   useEffect(
     () => redirect(basePath, location, items, hidden),
     [basePath, hidden, items, location]
   );
-
-  const filtered = hidden
-    ? items.filter(({ name }) => !hidden.includes(name))
-    : items;
 
   return (
     <StyledHeader className={`ui--Tabs ${className}`}>
