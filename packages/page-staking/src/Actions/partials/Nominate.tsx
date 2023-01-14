@@ -64,7 +64,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
     : MAX_NOMINATIONS;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {withSenders && (
         poolId
           ? (
@@ -98,11 +98,11 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
         />
         <MarkWarning content={t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
       </Modal.Columns>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledDiv = styled.div`
   article.warning {
     margin-top: 0;
   }
@@ -168,4 +168,6 @@ export default React.memo(styled(Nominate)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

@@ -15,7 +15,7 @@ import { useTranslation } from '../../translate';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
-  controllerId?: AccountId | null;
+  controllerId?: AccountId | string | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
@@ -30,7 +30,7 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
   const [withMax, setWithMax] = useState(false);
 
   return (
-    <Modal
+    <StyledModal
       header={t<string>('Unbond funds')}
       onClose={onClose}
       size='large'
@@ -86,11 +86,11 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           tx={api.tx.staking.unbond}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Unbond)`
+const StyledModal = styled(Modal)`
   .staking--Unbond--max > div {
     justify-content: flex-end;
 
@@ -98,4 +98,6 @@ export default React.memo(styled(Unbond)`
       flex: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Unbond);
