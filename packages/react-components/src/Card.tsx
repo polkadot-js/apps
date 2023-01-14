@@ -14,13 +14,13 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <article className={`ui--Card ${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
+    <StyledArticle className={`ui--Card ${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
       {children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(Card)`
+const StyledArticle = styled.article`
   position: relative;
   flex: 1 1;
   min-width: 24%;
@@ -79,4 +79,6 @@ export default React.memo(styled(Card)`
   &.withBottomMargin {
     margin-bottom: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Card);

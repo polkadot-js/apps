@@ -26,7 +26,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   const tabIsExact = isExact || !hasParams || index === 0;
 
   return (
-    <NavLink
+    <StyledNavLink
       activeClassName='tabLinkActive'
       className={`ui--Tab ${className}`}
       exact={tabIsExact}
@@ -43,11 +43,11 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
           info={count}
         />
       )}
-    </NavLink>
+    </StyledNavLink>
   );
 }
 
-export default React.memo(styled(Tab)`
+const StyledNavLink = styled(NavLink)`
   align-items: center;
   display: flex;
   color: #8B8B8B;
@@ -97,4 +97,6 @@ export default React.memo(styled(Tab)`
   .tabIcon {
     margin-left: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Tab);

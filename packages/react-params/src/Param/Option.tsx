@@ -5,7 +5,6 @@ import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { Props, RawParamOnChangeValue } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
@@ -48,7 +47,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
   );
 
   return (
-    <div className={className}>
+    <div className={`${className} --relative`}>
       <Param
         defaultValue={
           isActive
@@ -76,6 +75,4 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
   );
 }
 
-export default React.memo(styled(OptionDisplay)`
-  position: relative;
-`);
+export default React.memo(OptionDisplay);

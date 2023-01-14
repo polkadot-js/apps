@@ -14,13 +14,13 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withExpander, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
+    <StyledDiv className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Holder)`
+const StyledDiv = styled.div`
   &.withBorder {
     padding-left: 2rem;
 
@@ -106,4 +106,6 @@ export default React.memo(styled(Holder)`
       right: 3.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Holder);

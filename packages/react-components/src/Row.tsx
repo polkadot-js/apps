@@ -157,7 +157,7 @@ export interface RowProps {
   buttons?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  defaultName?: string;
+  defaultName?: string | null;
   details?: React.ReactNode;
   icon?: React.ReactNode;
   iconInfo?: React.ReactNode;

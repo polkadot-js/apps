@@ -76,16 +76,16 @@ function Elapsed ({ children, className = '', value }: Props): React.ReactElemen
   }, []);
 
   return (
-    <div className={`ui--Elapsed ${className} --digits`}>
+    <StyledDiv className={`ui--Elapsed ${className} --digits`}>
       {getDisplayValue(now, value)}{children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Elapsed)`
-  white-space: nowrap;
-
+const StyledDiv = styled.div`
   .timeUnit {
     font-size: var(--font-percent-tiny);
   }
-`);
+`;
+
+export default React.memo(Elapsed);

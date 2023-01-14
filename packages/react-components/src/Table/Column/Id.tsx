@@ -10,9 +10,9 @@ import { formatNumber } from '@polkadot/util';
 
 function Id ({ className = '', value }: Props): React.ReactElement<Props> {
   return (
-    <td className={`ui--Table-Column-Id ${className}`}>
+    <StyledTd className={`ui--Table-Column-Id ${className}`}>
       <h2 className='--digits'>{formatNumber(value)}</h2>
-    </td>
+    </StyledTd>
   );
 }
 
@@ -20,11 +20,13 @@ function Id ({ className = '', value }: Props): React.ReactElement<Props> {
 // we wrap the display in an h2 with max size text at ~1.3rem, so multiply it out
 const WIDTH = `${(5.5 * 1.3).toFixed(3)}ch`;
 
-export default React.memo(styled(Id)`
+const StyledTd = styled.td`
   && {
     box-sizing: content-box;
     min-width: ${WIDTH};
     text-align: right;
     white-space: nowrap;
     width: ${WIDTH};
-`);
+`;
+
+export default React.memo(Id);

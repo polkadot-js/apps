@@ -255,7 +255,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             fullLength
             isEditableName={false}
             noDefaultNameOpacity
-            value={isSeedValid ? address : ''}
+            value={(isSeedValid && address) || null}
           />
         </Modal.Columns>
         {step === 1 && <>
