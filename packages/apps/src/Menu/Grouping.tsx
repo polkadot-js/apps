@@ -31,7 +31,7 @@ function Grouping ({ className = '', isActive, name, routes }: Props): React.Rea
   }
 
   return (
-    <li className={`${className} ${isActive ? 'isActive' : ''}`}>
+    <StyledLi className={`${className} ${isActive ? 'isActive' : ''}`}>
       <div className={`groupHdr ${!isActive ? 'highlight--color-contrast' : ''}`}>
         <span className='smallHide'>{name}</span>
         <Icon
@@ -48,11 +48,11 @@ function Grouping ({ className = '', isActive, name, routes }: Props): React.Rea
           />
         ))}
       </ul>
-    </li>
+    </StyledLi>
   );
 }
 
-export default React.memo(styled(Grouping)`
+const StyledLi = styled.li`
   cursor: pointer;
   position: relative;
 
@@ -118,4 +118,6 @@ export default React.memo(styled(Grouping)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Grouping);

@@ -24,7 +24,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   const canToggle = !ipnsChain;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div
         className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
         onClick={toggleEndpoints}
@@ -50,11 +50,11 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
       {isEndpointsVisible && (
         <Endpoints onClose={toggleEndpoints} />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ChainInfo)`
+const StyledDiv = styled.div`
   box-sizing: border-box;
   padding: 0.5rem 1rem 0.5rem 0;
   margin: 0;
@@ -106,4 +106,6 @@ export default React.memo(styled(ChainInfo)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(ChainInfo);
