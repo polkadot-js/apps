@@ -80,14 +80,14 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
             <Modal.Columns hint={t<string>('The amount you wish to lock for the duration. It needs to be more than the gilt minimum.')}>
               <InputBalance
                 autoFocus
-                defaultValue={api.consts.gilt.minFreeze}
+                defaultValue={api.consts.gilt.minFreeze as u128}
                 isError={isAmountError}
                 isZeroable={false}
                 label={t<string>('bid amount')}
                 onChange={setAmount}
               />
               <InputBalance
-                defaultValue={api.consts.gilt.minFreeze}
+                defaultValue={api.consts.gilt.minFreeze as u128}
                 isDisabled
                 label={t<string>('minimum freeze amount')}
               />
