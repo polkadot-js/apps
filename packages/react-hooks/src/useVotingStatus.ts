@@ -41,7 +41,9 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   }
 
   const isEnd = bestNumber.gte(votes.end);
-  const hasPassed = votes.threshold.ltn(votes.ayes.length);
+  // let approved = yes_votes >= voting.threshold;
+  const hasPassed = votes.threshold.lten(votes.ayes.length);
+  // let disapproved = seats.saturating_sub(no_votes) < voting.threshold;
   const hasFailed = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
 
   return {
