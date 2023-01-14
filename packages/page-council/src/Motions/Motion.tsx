@@ -27,6 +27,7 @@ interface Props {
 interface VoterState {
   hasVoted: boolean;
   hasVotedAye: boolean;
+  hasVotedNay: boolean;
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
@@ -37,15 +38,17 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { hasVoted, hasVotedAye } = useMemo(
     (): VoterState => {
       if (votes) {
-        const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+        const hasVotedAye = allAccounts.some((a) => votes.ayes.some((accountId) => accountId.eq(a)));
+        const hasVotedNay = allAccounts.some((a) => votes.nays.some((accountId) => accountId.eq(a)));
 
         return {
-          hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
-          hasVotedAye
+          hasVoted: hasVotedAye || hasVotedNay,
+          hasVotedAye,
+          hasVotedNay
         };
       }
 
-      return { hasVoted: false, hasVotedAye: false };
+      return { hasVoted: false, hasVotedAye: false, hasVotedNay: false };
     },
     [allAccounts, votes]
   );
