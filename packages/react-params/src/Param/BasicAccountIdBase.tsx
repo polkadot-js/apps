@@ -33,7 +33,7 @@ function isValidAddress (value: string | null | undefined, isEthereum: boolean):
 }
 
 function BasicAccountIdBase (props: Props): React.ReactElement<Props> {
-  const { bytesLength, className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel } = props;
+  const { bytesLength, className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel } = props;
   const [defaultValue] = useState(() => (value as string)?.toString());
 
   const _onChange = useCallback(
@@ -52,7 +52,6 @@ function BasicAccountIdBase (props: Props): React.ReactElement<Props> {
         className='full'
         defaultValue={defaultValue}
         forceIconType={bytesLength === 20 ? 'ethereum' : 'substrate'}
-        hideAddress={isInOption}
         isDisabled={isDisabled}
         isError={isError}
         isInput

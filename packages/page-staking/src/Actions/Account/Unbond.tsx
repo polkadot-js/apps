@@ -55,17 +55,17 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
             isDisabled={withMax}
             key={`unbondAmount-${withMax.toString()}`}
             label={t<string>('unbond amount')}
+            labelExtra={
+              <Toggle
+                label={t<string>('all bonded')}
+                onChange={setWithMax}
+                value={withMax}
+              />
+            }
             maxValue={maxBalance}
             onChange={setMaxUnbond}
             withMax
-          >
-            <Toggle
-              isOverlay
-              label={t<string>('all bonded')}
-              onChange={setWithMax}
-              value={withMax}
-            />
-          </InputBalance>
+          />
           {bondedBlocks?.gtn(0) && (
             <Static
               label={t<string>('on-chain bonding duration')}

@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
+function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setFileInput] = useState(false);
@@ -31,6 +31,14 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
     [onChange]
   );
 
+  const toggleLabel = !isDisabled && (
+    <Toggle
+      label={t<string>('file upload')}
+      onChange={setFileInput}
+      value={isFileDrop}
+    />
+  );
+
   return (
     <div className={`${className} --relative`}>
       {!isDisabled && isFileDrop
@@ -39,6 +47,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
             isDisabled={isDisabled}
             isError={isError || !isValid}
             label={label}
+            labelExtra={toggleLabel}
             onChange={_onChangeFile}
             withLabel={withLabel}
           />
@@ -48,8 +57,8 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
             defaultValue={defaultValue}
             isDisabled={isDisabled}
             isError={isError}
-            isInOption={isInOption}
             label={label}
+            labelExtra={toggleLabel}
             length={-1}
             name={name}
             onChange={onChange}
@@ -61,14 +70,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
           />
         )
       }
-      {!isDisabled && !isInOption && (
-        <Toggle
-          isOverlay
-          label={t<string>('file upload')}
-          onChange={setFileInput}
-          value={isFileDrop}
-        />
-      )}
+      {}
     </div>
   );
 }

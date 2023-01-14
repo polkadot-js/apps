@@ -52,12 +52,8 @@ function InputMegaGas ({ className, estimatedWeight, isCall, weight: { execution
             ? t<string>('max gas allowed (M, {{estimatedMg}} estimated)', { replace: { estimatedMg: estimatedMg.toString() } })
             : t<string>('max gas allowed (M)')
         }
-        onChange={isDisabled ? undefined : setMegaGas}
-        value={isDisabled ? undefined : ((isCall && withEstimate) ? BN_ZERO : megaGas)}
-      >
-        {(estimatedWeight || isCall) && (
+        labelExtra={(estimatedWeight || isCall) && (
           <Toggle
-            isOverlay
             label={
               isCall
                 ? t<string>('max read gas')
@@ -67,7 +63,9 @@ function InputMegaGas ({ className, estimatedWeight, isCall, weight: { execution
             value={withEstimate}
           />
         )}
-      </InputNumber>
+        onChange={isDisabled ? undefined : setMegaGas}
+        value={isDisabled ? undefined : ((isCall && withEstimate) ? BN_ZERO : megaGas)}
+      />
       <div className='contracts--InputMegaGas-meter'>
         {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{', '}
         {t<string>('{{percentage}}% of block weight', { replace: { percentage: percentage.toFixed(2) } })}

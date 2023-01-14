@@ -20,8 +20,8 @@ interface Props {
   defaultValue: RawParam;
   isDisabled?: boolean;
   isError?: boolean;
-  isInOption?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   length?: number;
   name?: string;
   onChange?: RawParamOnChange;
@@ -67,7 +67,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
     : [value === '0x', false, new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, labelExtra, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
     (): string | undefined => {
@@ -122,6 +122,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         isDisabled={isDisabled}
         isError={isError || !isValid}
         label={label}
+        labelExtra={labelExtra}
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}

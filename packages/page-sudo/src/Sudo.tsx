@@ -50,17 +50,17 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}
             label={t<string>('unchecked weight for this call')}
+            labelExtra={
+              <Toggle
+                className='sudoToggle'
+                label={t<string>('with weight override')}
+                onChange={toggleWithWeight}
+                value={withWeight}
+              />
+            }
             onChange={_onChangeWeight}
             value={weight}
-          >
-            <Toggle
-              className='sudoToggle'
-              isOverlay
-              label={t<string>('with weight override')}
-              onChange={toggleWithWeight}
-              value={withWeight}
-            />
-          </InputNumber>
+          />
         )}
         <Button.Group>
           <TxButton

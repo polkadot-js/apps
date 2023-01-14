@@ -57,18 +57,18 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
         autoFocus
         isError={!!error}
         label={t<string>('unlock account with password')}
+        labelExtra={
+          <Toggle
+            label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
+            onChange={setIsUnlockCached}
+            value={isUnlockCached}
+          />
+        }
         onChange={setPassword}
         onEnter={onEnter}
         tabIndex={tabIndex}
         value={password}
-      >
-        <Toggle
-          isOverlay
-          label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
-          onChange={setIsUnlockCached}
-          value={isUnlockCached}
-        />
-      </Password>
+      />
     </Modal.Columns>
   );
 }
