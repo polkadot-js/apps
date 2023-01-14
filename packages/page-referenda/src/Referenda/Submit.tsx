@@ -91,6 +91,12 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
       imageLenDefault: preimage.proposalLength,
       isImageLenValid: prev.isImageLenValid
     }));
+
+    preimage && !preimage.isCompleted && setImageLen({
+      imageLen: BN_ZERO,
+      imageLenDefault: BN_ZERO,
+      isImageLenValid: false
+    });
   }, [preimage]);
 
   const trackInfo = useMemo(
@@ -180,12 +186,14 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     []
   );
 
+  const isLoadingPreimage = isImageHashValid && (!preimage || !preimage.isCompleted || preimage.proposalHash !== imageHash);
+
   return (
     <>
       {trackOpts && isSubmitOpen && (
         <Modal
           className={className}
-          header={t<string>('Submit proposal')}
+          header={t<string>('Create referendum')}
           onClose={toggleSubmit}
           size='large'
         >
@@ -251,8 +259,9 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
               <InputNumber
                 defaultValue={imageLenDefault}
-                isDisabled={!!preimage?.proposalLength && !preimage?.proposalLength.isZero() && isImageHashValid && isImageLenValid}
+                isDisabled={!isLoadingPreimage && !!preimage?.proposalLength && !preimage?.proposalLength.isZero() && isImageHashValid && isImageLenValid}
                 isError={!isImageLenValid}
+                isLoading={isLoadingPreimage}
                 key='inputLength'
                 label={t<string>('preimage length')}
                 onChange={_onChangeImageLen}
@@ -306,7 +315,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               accountId={accountId}
               icon='plus'
               isDisabled={!selectedOrigin || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
-              label={t<string>('Submit proposal')}
+              label={t<string>('Create referendum')}
               onStart={toggleSubmit}
               params={[
                 selectedOrigin,
@@ -327,7 +336,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
       <Button
         icon='plus'
         isDisabled={!isMember || !trackOpts}
-        label={t<string>('Submit proposal')}
+        label={t<string>('Create referendum')}
         onClick={toggleSubmit}
       />
     </>

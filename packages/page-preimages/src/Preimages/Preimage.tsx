@@ -33,7 +33,7 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
         {info
           ? (
             <>
-              {info.status && (<div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
+              {info.status && (<div>{info.status?.type}{!!info.count && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
               <Free value={info} />
             </>
           )

@@ -37,15 +37,17 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
     >
       <DisableGlobalScroll />
       <div
-        className='ui--Modal__overlay'
+        className='ui--Modal__overlay-bg'
         onClick={onClose}
       />
-      <div className='ui--Modal__body'>
-        <Header
-          header={header}
-          onClose={onClose}
-        />
-        {children}
+      <div className='ui--Modal__overlay-body'>
+        <div className='ui--Modal__body'>
+          <Header
+            header={header}
+            onClose={onClose}
+          />
+          {children}
+        </div>
       </div>
     </div>,
     document.body
@@ -68,7 +70,7 @@ export default React.memo(styled(Base)`
   z-index: 1000;
   overflow-y: auto;
 
-  .ui--Modal__overlay {
+  .ui--Modal__overlay-bg {
     position: fixed;
     top: 0;
     left: 0;
@@ -77,24 +79,26 @@ export default React.memo(styled(Base)`
     background: rgba(96, 96, 96, 0.5);
   }
 
-  .ui--Modal__body {
-    margin-top: 30px;
-    background: var(--bg-page);
-    border-radius: 4px;
-    box-shadow: none;
-
+  .ui--Modal__overlay-body {
+    align-items: center;
+    color: var(--color-text);
     display: flex;
     flex-direction: column;
+    font: var(--font-sans);
+    left: 0;
+    padding: 2rem 0;
     position: absolute;
+    right: 0;
     top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+  }
 
+  .ui--Modal__body {
+    background: var(--bg-page);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
     max-width: 900px;
     width: calc(100% - 16px);
-
-    color: var(--color-text);
-    font: var(--font-sans);
   }
 
   &.smallSize .ui--Modal__body {
