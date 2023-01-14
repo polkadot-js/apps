@@ -15,14 +15,14 @@ interface Props {
 
 function Hash ({ className = '', value }: Props): React.ReactElement<Props> {
   return (
-    <td className={`${className} hash`}>
+    <StyledTd className={`${className} hash`}>
       <div className='shortHash'>{value}</div>
       <CopyButton value={value} />
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Hash)`
+const StyledTd = styled.td`
   white-space: nowrap;
 
   > div {
@@ -35,4 +35,6 @@ export default React.memo(styled(Hash)`
       margin-left: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Hash);

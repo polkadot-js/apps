@@ -390,7 +390,7 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={id} />
         <Component {...props} />
         <td className='actions'>
@@ -401,8 +401,8 @@ function Referendum (props: Props): React.ReactElement<Props> {
             />
           </div>
         </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -476,12 +476,12 @@ function Referendum (props: Props): React.ReactElement<Props> {
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
+const StyledTr = styled.tr`
   .chartColumn {
     h1 {
       margin-bottom: 0;
@@ -498,4 +498,6 @@ export default React.memo(styled(Referendum)`
     white-space: nowrap;
     width: var(--width-shorthash);
   }
-`);
+`;
+
+export default React.memo(Referendum);

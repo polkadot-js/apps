@@ -183,7 +183,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   return (
     <>
       {trackOpts && isSubmitOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Submit proposal')}
           onClose={toggleSubmit}
@@ -322,7 +322,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='plus'
@@ -334,7 +334,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 }
 
-export default React.memo(styled(Submit)`
+const StyledModal = styled(Modal)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
@@ -353,4 +353,6 @@ export default React.memo(styled(Submit)`
   .ui--Modal-Columns.centerEnactType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Submit);
