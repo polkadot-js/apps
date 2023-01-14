@@ -9,8 +9,8 @@ import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import usePreimage, { getPreimageHash } from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
+import { getPreimageHash, usePreimage } from '@polkadot/react-hooks/usePreimage';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
