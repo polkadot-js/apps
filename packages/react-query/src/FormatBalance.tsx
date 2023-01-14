@@ -16,12 +16,12 @@ import { useTranslation } from './translate';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  format?: [number, string];
+  format?: [decimals: number, unit: string];
   formatIndex?: number;
   isShort?: boolean;
   label?: React.ReactNode;
   labelPost?: LabelPost;
-  value?: Compact<any> | BN | string | null | 'all';
+  value?: Compact<any> | BN | string | number | null | 'all';
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
@@ -58,7 +58,7 @@ function splitFormat (value: string, label?: LabelPost, isShort?: boolean): Reac
   return createElement(prefix, postfix, unit, label, isShort);
 }
 
-function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
+function applyFormat (value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? token : '';
@@ -85,7 +85,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
-    <div className={`ui--FormatBalance ${className}`}>
+    <StyledSpan className={`ui--FormatBalance ${className}`}>
       {label ? <>{label}&nbsp;</> : ''}
       <span
         className='ui--FormatBalance-value --digits'
@@ -101,11 +101,11 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
                 ? `-${labelPost.toString()}`
                 : labelPost
         }</span>{children}
-    </div>
+    </StyledSpan>
   );
 }
 
-export default React.memo(styled(FormatBalance)`
+const StyledSpan = styled.span`
   display: inline-block;
   vertical-align: baseline;
   white-space: nowrap;
@@ -147,4 +147,6 @@ export default React.memo(styled(FormatBalance)`
   .ui--Icon+.ui--FormatBalance-value {
     margin-left: 0.375rem;
   }
-`);
+`;
+
+export default React.memo(FormatBalance);
