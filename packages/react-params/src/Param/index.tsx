@@ -52,6 +52,7 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isOptional,
     ? (
       <Static
         defaultValue={defaultValue}
+        isOptional
         label={label}
       />
     )

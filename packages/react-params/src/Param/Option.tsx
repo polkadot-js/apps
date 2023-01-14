@@ -14,6 +14,7 @@ import Holder from '../Holder';
 import { useTranslation } from '../translate';
 import Base from './Base';
 import Param from './index';
+import Static from './Static';
 
 const DEF_VALUE = { isValid: true, value: undefined };
 const OPT_PREFIX = new Uint8Array([1]);
@@ -49,6 +50,8 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
     [isActive, onChange, withOptionActive]
   );
 
+  console.log('Option', label, isActive, isDisabled, DEF_VALUE);
+
   return (
     <div className={`${className} --relative`}>
       <Base
@@ -65,19 +68,27 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
       />
       <Holder>
         <div className='ui--Params-Content'>
-          <Param
-            defaultValue={
-              isActive
-                ? defaultValue
-                : DEF_VALUE}
-            isDisabled={isDisabled || !isActive}
-            isOptional={!isActive && !isDisabled}
-            onChange={_onChange}
-            onEnter={onEnter}
-            onEscape={onEscape}
-            registry={registry}
-            type={sub as TypeDef}
-          />
+          {isActive
+            ? (
+              <Param
+                defaultValue={defaultValue}
+                isDisabled={isDisabled || !isActive}
+                isOptional={!isActive && !isDisabled}
+                onChange={_onChange}
+                onEnter={onEnter}
+                onEscape={onEscape}
+                registry={registry}
+                type={sub as TypeDef}
+              />
+            )
+            : (
+              <Static
+                defaultValue={DEF_VALUE}
+                isOptional
+                label={(sub as TypeDef).type}
+              />
+            )
+          }
         </div>
       </Holder>
     </div>
