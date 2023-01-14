@@ -49,18 +49,18 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
     selected && onChange(selected);
   }, [onChange, selected]);
 
-  const _onSelect = useCallback(
+  const onSelect = useCallback(
     (address: string) => setSelected((prev) => include(prev, address, maxCount)),
     [maxCount]
   );
 
-  const _onDeselect = useCallback(
+  const onDeselect = useCallback(
     (address: string) => setSelected((prev) => exclude(prev, address)),
     []
   );
 
   return (
-    <div className={`ui--InputAddressMulti ${className}`}>
+    <StyledDiv className={`ui--InputAddressMulti ${className}`}>
       <Input
         autoFocus
         className='ui--InputAddressMulti-Input'
@@ -78,7 +78,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
               <Selected
                 address={address}
                 key={address}
-                onDeselect={_onDeselect}
+                onDeselect={onDeselect}
               />
             ))}
           </div>
@@ -94,18 +94,18 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
                   filter={filter}
                   isHidden={selected?.includes(address)}
                   key={address}
-                  onSelect={_onSelect}
+                  onSelect={onSelect}
                 />
               ))
             }
           </div>
         </div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputAddressMulti)`
+const StyledDiv = styled.div`
   border-top-width: 0px;
   margin-left: 2rem;
   width: calc(100% - 2rem);
@@ -159,4 +159,6 @@ export default React.memo(styled(InputAddressMulti)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(InputAddressMulti);

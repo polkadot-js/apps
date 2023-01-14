@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { createRoot } from 'react-dom/client';
 
@@ -17,6 +17,11 @@ interface Props {
 const portal = document.getElementById(PORTAL_ID) as HTMLElement;
 
 function Selected ({ address, index, onDeselect }: Props): React.ReactElement<Props> {
+  const onChange = useCallback(
+    () => onDeselect(index),
+    [index, onDeselect]
+  );
+
   return (
     <Draggable
       draggableId={address}
@@ -35,7 +40,7 @@ function Selected ({ address, index, onDeselect }: Props): React.ReactElement<Pr
               address={address}
               className={snapshot.isDragging ? 'isDragging' : ''}
               noToggle
-              onChange={onDeselect}
+              onChange={onChange}
             />
           </div>
         );
