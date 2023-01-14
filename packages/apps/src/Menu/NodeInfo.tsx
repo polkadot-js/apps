@@ -14,24 +14,7 @@ const pkgJson = require('../../package.json') as { version: string };
 
 const uiInfo = `apps v${pkgJson.version.replace('-x', '')}`;
 
-function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
-
-  return (
-    <div className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
-      {isApiReady && (
-        <div className='node'>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
-      )}
-      <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
-      <div>{uiInfo}</div>
-    </div>
-  );
-}
-
-export default React.memo(styled(NodeInfo)`
+const StyledDiv = styled.div`
   background: transparent;
   font-size: var(--font-size-tiny);
   line-height: 1.2;
@@ -45,4 +28,23 @@ export default React.memo(styled(NodeInfo)`
       display: inline-block;
     }
   }
-`);
+`;
+
+function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
+  const { api, isApiReady } = useApi();
+
+  return (
+    <StyledDiv className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
+      {isApiReady && (
+        <div className='node'>
+          <NodeName />&nbsp;
+          <NodeVersion label='v' />
+        </div>
+      )}
+      <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
+      <div>{uiInfo}</div>
+    </StyledDiv>
+  );
+}
+
+export default React.memo(NodeInfo);

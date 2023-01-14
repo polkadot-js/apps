@@ -14,24 +14,7 @@ interface Props {
   url: string;
 }
 
-function Url ({ apiUrl, className, label, setApiUrl, url }: Props): React.ReactElement<Props> {
-  const _setApiUrl = useCallback(
-    () => setApiUrl(url),
-    [setApiUrl, url]
-  );
-
-  return (
-    <Toggle
-      className={className}
-      isRadio
-      label={label}
-      onChange={_setApiUrl}
-      value={apiUrl === url}
-    />
-  );
-}
-
-export default React.memo(styled(Url)`
+const StyledToggle = styled(Toggle)`
   padding: 0.25rem;
   text-align: right;
 
@@ -41,4 +24,23 @@ export default React.memo(styled(Url)`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`);
+`;
+
+function Url ({ apiUrl, className, label, setApiUrl, url }: Props): React.ReactElement<Props> {
+  const _setApiUrl = useCallback(
+    () => setApiUrl(url),
+    [setApiUrl, url]
+  );
+
+  return (
+    <StyledToggle
+      className={className}
+      isRadio
+      label={label}
+      onChange={_setApiUrl}
+      value={apiUrl === url}
+    />
+  );
+}
+
+export default React.memo(Url);

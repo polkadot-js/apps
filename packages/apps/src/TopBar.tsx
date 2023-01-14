@@ -12,22 +12,7 @@ interface Props {
   className?: string;
 }
 
-function TopBar ({ className }: Props): React.ReactElement<Props> {
-  return (
-    <div className={className}>
-      <div>
-        <NodeName />&nbsp;
-        <NodeVersion label='v' />
-      </div>
-      <div>
-        <Chain />&nbsp;
-        <BestNumber label='#' />
-      </div>
-    </div>
-  );
-}
-
-export default React.memo(styled(TopBar)`
+const StyledDiv = styled.div`
   background: #f2f2f2;
   font-size: var(--font-size-small);
   line-height: 1rem;
@@ -53,4 +38,21 @@ export default React.memo(styled(TopBar)`
       border-width: 0;
     }
   }
-`);
+`;
+
+function TopBar ({ className }: Props): React.ReactElement<Props> {
+  return (
+    <StyledDiv className={className}>
+      <div>
+        <NodeName />&nbsp;
+        <NodeVersion label='v' />
+      </div>
+      <div>
+        <Chain />&nbsp;
+        <BestNumber label='#' />
+      </div>
+    </StyledDiv>
+  );
+}
+
+export default React.memo(TopBar);

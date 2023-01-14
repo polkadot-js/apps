@@ -16,45 +16,7 @@ interface Props {
   className?: string;
 }
 
-function ChainInfo ({ className }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
-  const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
-  const { ipnsChain } = useIpfs();
-  const [isEndpointsVisible, toggleEndpoints] = useToggle();
-  const canToggle = !ipnsChain;
-
-  return (
-    <div className={className}>
-      <div
-        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
-        onClick={toggleEndpoints}
-      >
-        <ChainImg />
-        <div className='info media--1000'>
-          <Chain className='chain' />
-          {runtimeVersion && (
-            <div className='runtimeVersion'>{runtimeVersion.specName.toString()}/{runtimeVersion.specVersion.toNumber()}</div>
-          )}
-          <BestNumber
-            className='bestNumber'
-            label='#'
-          />
-        </div>
-        {canToggle && (
-          <Icon
-            className='dropdown'
-            icon={isEndpointsVisible ? 'caret-right' : 'caret-down'}
-          />
-        )}
-      </div>
-      {isEndpointsVisible && (
-        <Endpoints onClose={toggleEndpoints} />
-      )}
-    </div>
-  );
-}
-
-export default React.memo(styled(ChainInfo)`
+const StyledDiv = styled.div`
   box-sizing: border-box;
   padding: 0.5rem 1rem 0.5rem 0;
   margin: 0;
@@ -106,4 +68,44 @@ export default React.memo(styled(ChainInfo)`
       }
     }
   }
-`);
+`;
+
+function ChainInfo ({ className }: Props): React.ReactElement<Props> {
+  const { api, isApiReady } = useApi();
+  const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
+  const { ipnsChain } = useIpfs();
+  const [isEndpointsVisible, toggleEndpoints] = useToggle();
+  const canToggle = !ipnsChain;
+
+  return (
+    <StyledDiv className={className}>
+      <div
+        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
+        onClick={toggleEndpoints}
+      >
+        <ChainImg />
+        <div className='info media--1000'>
+          <Chain className='chain' />
+          {runtimeVersion && (
+            <div className='runtimeVersion'>{runtimeVersion.specName.toString()}/{runtimeVersion.specVersion.toNumber()}</div>
+          )}
+          <BestNumber
+            className='bestNumber'
+            label='#'
+          />
+        </div>
+        {canToggle && (
+          <Icon
+            className='dropdown'
+            icon={isEndpointsVisible ? 'caret-right' : 'caret-down'}
+          />
+        )}
+      </div>
+      {isEndpointsVisible && (
+        <Endpoints onClose={toggleEndpoints} />
+      )}
+    </StyledDiv>
+  );
+}
+
+export default React.memo(ChainInfo);

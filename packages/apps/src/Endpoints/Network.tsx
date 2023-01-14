@@ -19,69 +19,7 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const isSelected = useMemo(
-    () => providers.some(({ url }) => url === apiUrl),
-    [apiUrl, providers]
-  );
-
-  const _selectUrl = useCallback(
-    () => {
-      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
-
-      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
-    },
-    [name, providers, setApiUrl]
-  );
-
-  const _setApiUrl = useCallback(
-    (apiUrl: string) => setApiUrl(name, apiUrl),
-    [name, setApiUrl]
-  );
-
-  return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
-      <div
-        className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={isUnreachable ? undefined : _selectUrl}
-      >
-        <ChainImg
-          className='endpointIcon'
-          isInline
-          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
-          withoutHl
-        />
-        <div className='endpointValue'>
-          <div>{name}</div>
-          {isSelected && (isRelay || !!paraId) && (
-            <div className='endpointExtra'>
-              {isRelay
-                ? t<string>('Relay chain')
-                : paraId && paraId < 1000
-                  ? t<string>('{{relay}} System', { replace: { relay } })
-                  : paraId && paraId < 2000
-                    ? t<string>('{{relay}} Common', { replace: { relay } })
-                    : t<string>('{{relay}} Parachain', { replace: { relay } })
-              }
-            </div>
-          )}
-        </div>
-      </div>
-      {isSelected && providers.map(({ name, url }): React.ReactNode => (
-        <Url
-          apiUrl={apiUrl}
-          key={url}
-          label={name}
-          setApiUrl={_setApiUrl}
-          url={url}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default React.memo(styled(NetworkDisplay)`
+const StyledDiv = styled.div`
   border-left: 0.25rem solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -130,4 +68,68 @@ export default React.memo(styled(NetworkDisplay)`
     font-weight: var(--font-weight-normal);
     text-transform: none;
   }
-`);
+`;
+
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const isSelected = useMemo(
+    () => providers.some(({ url }) => url === apiUrl),
+    [apiUrl, providers]
+  );
+
+  const _selectUrl = useCallback(
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
+    [name, providers, setApiUrl]
+  );
+
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => setApiUrl(name, apiUrl),
+    [name, setApiUrl]
+  );
+
+  return (
+    <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
+      <div
+        className={`endpointSection${isChild ? ' isChild' : ''}`}
+        onClick={isUnreachable ? undefined : _selectUrl}
+      >
+        <ChainImg
+          className='endpointIcon'
+          isInline
+          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
+          withoutHl
+        />
+        <div className='endpointValue'>
+          <div>{name}</div>
+          {isSelected && (isRelay || !!paraId) && (
+            <div className='endpointExtra'>
+              {isRelay
+                ? t<string>('Relay chain')
+                : paraId && paraId < 1000
+                  ? t<string>('{{relay}} System', { replace: { relay } })
+                  : paraId && paraId < 2000
+                    ? t<string>('{{relay}} Common', { replace: { relay } })
+                    : t<string>('{{relay}} Parachain', { replace: { relay } })
+              }
+            </div>
+          )}
+        </div>
+      </div>
+      {isSelected && providers.map(({ name, url }): React.ReactNode => (
+        <Url
+          apiUrl={apiUrl}
+          key={url}
+          label={name}
+          setApiUrl={_setApiUrl}
+          url={url}
+        />
+      ))}
+    </StyledDiv>
+  );
+}
+
+export default React.memo(NetworkDisplay);

@@ -16,37 +16,7 @@ interface Props {
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
-  const [isHidden, toggleHidden] = useToggle();
-
-  if (isHidden) {
-    return null;
-  }
-
-  return (
-    <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
-      <div className='content'>
-        <Icon
-          className='contentIcon'
-          icon={icon}
-          size='2x'
-        />
-        <div className='contentItem'>
-          {children}
-        </div>
-        <Button
-          className='closeIcon'
-          icon='times'
-          isBasic
-          isCircular
-          onClick={toggleHidden}
-        />
-      </div>
-    </div>
-  );
-}
-
-export default React.memo(styled(BaseOverlay)`
+const StyledDiv = styled.div`
   background: var(--bg-menu);
   border: 1px solid transparent;
   border-radius: 0.25rem;
@@ -115,4 +85,36 @@ export default React.memo(styled(BaseOverlay)`
     right: 0em;
     top: 0.75rem;
   }
-`);
+`;
+
+function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
+  const [isHidden, toggleHidden] = useToggle();
+
+  if (isHidden) {
+    return null;
+  }
+
+  return (
+    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
+      <div className='content'>
+        <Icon
+          className='contentIcon'
+          icon={icon}
+          size='2x'
+        />
+        <div className='contentItem'>
+          {children}
+        </div>
+        <Button
+          className='closeIcon'
+          icon='times'
+          isBasic
+          isCircular
+          onClick={toggleHidden}
+        />
+      </div>
+    </StyledDiv>
+  );
+}
+
+export default React.memo(BaseOverlay);
