@@ -143,7 +143,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Register identity')}
       onClose={onClose}
@@ -251,12 +251,14 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           tx={api.tx.identity.setIdentity}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(IdentityMain)`
+const StyledModal = styled(Modal)`
   .toggle-Wrap {
     position: relative;
   }
-`);
+`;
+
+export default React.memo(IdentityMain);

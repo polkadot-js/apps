@@ -28,7 +28,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Sidebar
+    <StyledSidebar
       className={`${className}${inEditMode ? ' inEditMode' : ''}`}
       dataTestId={dataTestId}
       onClose={onClose}
@@ -65,11 +65,11 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           type='address'
         />
       </section>
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(FullSidebar)`
+const StyledSidebar = styled(Sidebar)`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-sidebar);
@@ -326,4 +326,6 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(FullSidebar);

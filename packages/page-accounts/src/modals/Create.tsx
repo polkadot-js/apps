@@ -242,7 +242,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       onClose={onClose}
@@ -435,11 +435,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </>
         )}
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Create)`
+const StyledModal = styled(Modal)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -471,4 +471,6 @@ export default React.memo(styled(Create)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Create);

@@ -45,7 +45,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [allAddresses, favorites]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -84,12 +84,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Overview)`
+const StyledDiv = styled.div`
   .summary-box-contacts {
     align-items: center;
   }
-`);
+`;
+
+export default React.memo(Overview);

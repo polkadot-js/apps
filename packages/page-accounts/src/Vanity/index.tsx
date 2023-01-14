@@ -187,7 +187,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='ui--row'>
         <Input
           autoFocus
@@ -260,11 +260,11 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           type={type}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(VanityApp)`
+const StyledDiv = styled.div`
   .vanity--App-matches {
     overflow-x: auto;
     padding: 1em 0;
@@ -275,4 +275,6 @@ export default React.memo(styled(VanityApp)`
     opacity: 0.45;
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(VanityApp);

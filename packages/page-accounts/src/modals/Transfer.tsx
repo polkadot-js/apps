@@ -94,7 +94,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const canToggleAll = !isProtected && balances && balances.accountId?.eq(propSenderId || senderId) && maxTransfer && noReference;
 
   return (
-    <Modal
+    <StyledModal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
       onClose={onClose}
@@ -218,11 +218,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           }
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Transfer)`
+const StyledModal = styled(Modal)`
   .balance {
     margin-bottom: 0.5rem;
     text-align: right;
@@ -244,4 +244,6 @@ export default React.memo(styled(Transfer)`
   .typeToggle+.typeToggle {
     margin-top: 0.375rem;
   }
-`);
+`;
+
+export default React.memo(Transfer);

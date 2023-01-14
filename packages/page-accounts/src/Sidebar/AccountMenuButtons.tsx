@@ -69,7 +69,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
   }, [isEditing, toggleIsEditing, updateName, onSaveTags]);
 
   return (
-    <div className={`${className} ui--AddressMenu-buttons`}>
+    <StyledDiv className={`${className} ui--AddressMenu-buttons`}>
       {isEditing
         ? (
           <Button.Group>
@@ -127,11 +127,11 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
           recipientId={recipientId}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AccountMenuButtons)`
+const StyledDiv = styled.div`
   width: 100%;
 
   .ui--Button-Group {
@@ -140,4 +140,6 @@ export default React.memo(styled(AccountMenuButtons)`
     justify-content: space-around;
     margin-bottom: 0;
   }
-`);
+`;
+
+export default React.memo(AccountMenuButtons);

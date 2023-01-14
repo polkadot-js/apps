@@ -38,7 +38,7 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
   }
 
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid='judgements'
     >
@@ -48,11 +48,11 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
           key={`${address}${judgement.judgementName}`}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Judgements)`
+const StyledDiv = styled.div`
   margin-top: 0.714rem;
 
   &:not(.no-judgements) {
@@ -60,4 +60,6 @@ export default React.memo(styled(Judgements)`
       cursor: pointer;
     }
   }
-`);
+`;
+
+export default React.memo(Judgements);
