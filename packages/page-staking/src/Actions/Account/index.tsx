@@ -37,7 +37,6 @@ interface Props {
   info: StakerState;
   minCommission?: BN;
   next?: string[];
-  stashId: string;
   targets: SortedTargets;
   validators?: string[];
 }
