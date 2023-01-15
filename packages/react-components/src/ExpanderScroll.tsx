@@ -11,7 +11,7 @@ import Table from './Table';
 
 interface Props extends ExpanderProps {
   empty?: string;
-  renderChildren?: () => React.ReactNode[];
+  renderChildren?: (() => React.ReactNode[]) | null;
 }
 
 function mapRow (row: React.ReactNode, key: number): React.ReactNode {

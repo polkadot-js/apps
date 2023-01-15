@@ -19,12 +19,12 @@ interface Props {
   label?: React.ReactNode;
   type?: string;
   isMnemonic?: boolean;
-  value: string;
+  value?: string | null;
 }
 
 const NOOP = () => undefined;
 
-function CopyButton ({ children, className = '', icon = 'copy', label, type, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className = '', icon = 'copy', label, type, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueAction } = useQueue();
 
@@ -38,6 +38,10 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
     },
     [type, queueAction, t]
   );
+
+  if (!value) {
+    return null;
+  }
 
   return (
     <StyledDiv className={`${className} ui--CopyButton`}>

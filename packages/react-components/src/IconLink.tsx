@@ -15,7 +15,7 @@ interface Props {
   label?: React.ReactNode;
   rel?: string;
   target?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 function IconLink ({ className = '', href, icon, label, onClick, rel, target }: Props): React.ReactElement<Props> {

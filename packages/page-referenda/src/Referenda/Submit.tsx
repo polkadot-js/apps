@@ -74,8 +74,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
   const [{ imageLen, imageLenDefault, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: BN_ZERO, isImageLenValid: false });
   const [enactIndex, setEnactIndex] = useState(0);
-  const [afterBlocks, setAfterBlocks] = useState(BN_HUNDRED);
-  const [atBlock, setAtBlock] = useState(BN_ONE);
+  const [afterBlocks, setAfterBlocks] = useState<BN | undefined>(BN_HUNDRED);
+  const [atBlock, setAtBlock] = useState<BN | undefined>(BN_ONE);
   const [initialAt, setInitialAt] = useState<BN | undefined>();
   const preimage = usePreimage(imageHash);
 
@@ -170,8 +170,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 
   const _onChangeImageLen = useCallback(
-    (value: BN): void => {
-      setImageLen((prev) => ({
+    (value?: BN): void => {
+      value && setImageLen((prev) => ({
         imageLen: value,
         imageLenDefault: prev.imageLenDefault,
         isImageLenValid: !value.isZero()

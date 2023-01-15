@@ -24,11 +24,11 @@ interface State {
   inputSS58: number;
 }
 
-function getState (input: string): State {
+function getState (input: string | null): State {
   let address: string | null = null;
   let inputSS58 = 42;
 
-  if (isAddress(input)) {
+  if (input && isAddress(input)) {
     const decoded = base58Decode(input);
     const [,,, ss58Decoded] = checkAddressChecksum(decoded);
 
@@ -49,13 +49,13 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
   const [prefix, setPrefix] = useState(-1);
 
   const setAddress = useCallback(
-    (address: string) =>
+    (address: string | null) =>
       setState(getState(address)),
     []
   );
 
   const prefixOptions = useMemo(
-    (): (Option | React.ReactNode)[] => {
+    (): Option[] => {
       const network = allNetworks.find(({ prefix }) => prefix === chainSS58);
 
       return createSs58(t).map((o) =>

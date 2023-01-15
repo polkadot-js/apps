@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u128 } from '@polkadot/types';
+import type { u32, u128 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
@@ -101,7 +101,7 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
                 onChange={setDuration}
               />
               <InputNumber
-                defaultValue={api.consts.gilt.queueCount}
+                defaultValue={api.consts.gilt.queueCount as u32}
                 isDisabled
                 label={t<string>('maximum lock periods')}
               />
