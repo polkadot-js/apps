@@ -13,7 +13,7 @@ export interface Props {
 function Progress ({ className = '', progress, style }: Props) {
   return (
     <div
-      className={`highlight--border ${className}`}
+      className={`${className} highlight--border`}
       style={style}
     >
       <div

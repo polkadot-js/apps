@@ -32,7 +32,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
 
   return createPortal(
     <StyledDiv
-      className={`${themeClassName} ui--Modal ${className} ${size}Size`}
+      className={`${className} ui--Modal ${size}Size ${themeClassName} `}
       data-testid={testId}
     >
       <DisableGlobalScroll />

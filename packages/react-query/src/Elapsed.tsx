@@ -76,7 +76,7 @@ function Elapsed ({ children, className = '', value }: Props): React.ReactElemen
   }, []);
 
   return (
-    <StyledDiv className={`ui--Elapsed ${className} --digits`}>
+    <StyledDiv className={`${className} ui--Elapsed --digits`}>
       {getDisplayValue(now, value)}{children}
     </StyledDiv>
   );

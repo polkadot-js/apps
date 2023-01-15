@@ -119,7 +119,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`toolbox--Sign ${className}`}>
+    <div className={`${className} toolbox--Sign`}>
       <div className='ui--row'>
         <InputAddress
           className='full'

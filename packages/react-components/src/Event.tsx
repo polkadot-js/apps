@@ -78,7 +78,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
   );
 
   return (
-    <div className={`ui--Event ${className}`}>
+    <div className={`${className} ui--Event`}>
       {children}
       <Params
         isDisabled

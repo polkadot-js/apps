@@ -45,7 +45,7 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
 
   return (
     <StyledButton
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${isReadOnly ? ' isReadOnly' : ''}${isSelected ? ' isSelected' : ''}${isToplevel ? ' isToplevel' : ''}${withoutLink ? ' withoutLink' : ''} ${className}`}
+      className={`${className} ui--Button ${label ? 'hasLabel' : ''} ${isBasic ? 'isBasic' : ''} ${isCircular ? 'isCircular' : ''} ${isFull ? 'isFull' : ''} ${isIcon ? 'isIcon' : ''} ${(isBusy || isDisabled) ? 'isDisabled' : ''} ${isBusy ? 'isBusy' : ''} ${isReadOnly ? 'isReadOnly' : ''}${isSelected ? 'isSelected' : ''} ${isToplevel ? 'isToplevel' : ''} ${withoutLink ? 'withoutLink' : ''}`}
       data-testid={dataTestId}
       onClick={_onClick}
       onMouseEnter={_onMouseEnter}

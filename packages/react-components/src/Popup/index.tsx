@@ -44,7 +44,7 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
   }, [isOpen, onCloseAction]);
 
   return (
-    <StyledDiv className={`ui--Popup ${themeClassName} ${className}`}>
+    <StyledDiv className={`${className} ui--Popup ${themeClassName}`}>
       {isOpen && (
         <PopupWindow
           position={position}

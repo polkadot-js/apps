@@ -14,7 +14,7 @@ interface Props {
 
 function MarkError ({ children, className = '', content }: Props): React.ReactElement<Props> {
   return (
-    <StyledArticle className={`mark error ${className}`}>
+    <StyledArticle className={`${className} mark error`}>
       <Icon icon='exclamation-triangle' />{content}{children}
     </StyledArticle>
   );

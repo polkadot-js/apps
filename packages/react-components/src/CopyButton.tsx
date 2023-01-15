@@ -40,7 +40,7 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
   );
 
   return (
-    <div className={`ui--CopyButton ${className}`}>
+    <div className={`${className} ui--CopyButton`}>
       <CopyToClipboard
         onCopy={_onCopy}
         text={value}

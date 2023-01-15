@@ -34,7 +34,7 @@ function SelectMethod ({ api, className = '', defaultValue, isDisabled, isError,
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

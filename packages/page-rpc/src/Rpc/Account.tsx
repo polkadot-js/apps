@@ -29,7 +29,7 @@ function Account ({ className = '', defaultValue, isError, onChange }: Props): R
   }, [accountId, accountNonce, onChange]);
 
   return (
-    <div className={`ui--row ${className}`}>
+    <div className={`${className} ui--row`}>
       <div className='large'>
         <InputAddress
           defaultValue={defaultValue}

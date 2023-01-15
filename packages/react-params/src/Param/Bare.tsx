@@ -10,7 +10,7 @@ interface Props {
 
 function Bare ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--row --relative ${className}`}>
+    <div className={`${className} ui--row --relative`}>
       {children}
     </div>
   );

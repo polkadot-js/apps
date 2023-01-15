@@ -53,7 +53,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
   );
 
   return (
-    <StyledHeader className={`ui--Tabs ${className}`}>
+    <StyledHeader className={`${className} ui--Tabs`}>
       <div className='tabs-container'>
         {text && icon && (
           <CurrentSection

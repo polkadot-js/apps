@@ -24,7 +24,7 @@ function ChartDisplay ({ className = '', colors, header, labels, legends, values
   );
 
   return (
-    <StyledDiv className={`staking--Chart ${className}${isLoading ? ' isLoading' : ''}`}>
+    <StyledDiv className={`${className} staking--Chart ${isLoading ? 'isLoading' : ''}`}>
       <h1>{header}</h1>
       <Chart.Line
         colors={colors}

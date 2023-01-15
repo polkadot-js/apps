@@ -145,7 +145,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <StyledMain className={`staking--App ${className}`}>
+    <StyledMain className={`${className} staking--App`}>
       <Tabs
         basePath={basePath}
         hidden={

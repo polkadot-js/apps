@@ -211,7 +211,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 
   return (
     <StyledSpan
-      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
+      className={`${className}  ui--AccountName ${withSidebar ? 'withSidebar' : ''}`}
       data-testid='account-name'
       onClick={
         withSidebar

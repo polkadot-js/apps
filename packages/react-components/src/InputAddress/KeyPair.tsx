@@ -17,7 +17,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--KeyPair ${className}`}>
+    <StyledDiv className={`${className} ui--KeyPair`}>
       <IdentityIcon
         className='icon'
         value={address}

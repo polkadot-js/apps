@@ -36,7 +36,7 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
       options={options}

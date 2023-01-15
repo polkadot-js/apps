@@ -61,7 +61,7 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled,
   return (
     <Dropdown
       allowAdd={allowAdd && !isDisabled}
-      className={`ui--InputTags ${theme}Theme ${className}`}
+      className={`${className} ui--InputTags ${theme}Theme`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

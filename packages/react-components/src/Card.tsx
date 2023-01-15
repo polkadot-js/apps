@@ -14,7 +14,7 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <StyledArticle className={`ui--Card ${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
+    <StyledArticle className={`${className} ui--Card ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'withBottomMargin' : ''}`}>
       {children}
     </StyledArticle>
   );

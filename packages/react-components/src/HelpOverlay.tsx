@@ -21,7 +21,7 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   const [isVisible, toggleVisible] = useToggle();
 
   return (
-    <div className={`ui--HelpOverlay ${className}`}>
+    <div className={`${className} ui--HelpOverlay`}>
       <div className='help-button'>
         <Icon
           icon='question-circle'

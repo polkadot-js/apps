@@ -40,7 +40,7 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
 
   return createPortal(
     <StyledReactTooltip
-      className={`ui--Tooltip ${className}`}
+      className={`${className} ui--Tooltip`}
       clickable={isClickable}
       effect='solid'
       id={trigger}

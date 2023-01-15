@@ -237,7 +237,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
   return (
-    <main className={`js--App ${className}`}>
+    <main className={`${className} js--App`}>
       <Tabs
         basePath={basePath}
         items={tabsRef.current}

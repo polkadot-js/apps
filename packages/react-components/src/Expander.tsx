@@ -98,7 +98,7 @@ function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadde
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isHeader ? ' isHeader' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
+    <div className={`${className} ui--Expander ${isExpanded ? 'isExpanded' : ''} ${isHeader ? 'isHeader' : ''} ${isPadded ? 'isPadded' : ''} ${hasContent ? 'hasContent' : ''} ${withBreaks ? 'withBreaks' : ''}`}>
       <div
         className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}

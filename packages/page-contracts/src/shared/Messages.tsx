@@ -94,7 +94,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
   );
 
   return (
-    <div className={`ui--Messages ${className}${isLabelled ? ' isLabelled' : ''}`}>
+    <div className={`${className} ui--Messages ${isLabelled ? 'isLabelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
           {sortMessages(constructors).map(([message, index]) => (

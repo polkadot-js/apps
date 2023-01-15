@@ -72,7 +72,7 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
     <InputNumber
       autoFocus={autoFocus}
       bitLength={DEFAULT_BITLENGTH}
-      className={`ui--InputBalance ${className}`}
+      className={`${className} ui--InputBalance`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

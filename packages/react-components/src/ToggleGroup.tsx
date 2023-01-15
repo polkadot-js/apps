@@ -61,7 +61,7 @@ function ToggleGroup ({ className = '', onChange, options, value }: Props): Reac
   }
 
   return (
-    <StyledDiv className={`ui--ToggleGroup ${className}`}>
+    <StyledDiv className={`${className} ui--ToggleGroup`}>
       {available.map(({ isDisabled, text }, index): React.ReactNode => (
         <ToggleIndexMemo
           index={index}

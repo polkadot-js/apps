@@ -25,7 +25,7 @@ interface Props {
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--AddressSmall ${className} ${(parentAddress || withShortAddress) ? 'withPadding' : ''}`}>
+    <StyledDiv className={`${className} ui--AddressSmall ${(parentAddress || withShortAddress) ? 'withPadding' : ''}`}>
       <span className='ui--AddressSmall-icon'>
         <IdentityIcon value={value as Uint8Array} />
       </span>

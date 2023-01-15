@@ -60,7 +60,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   );
 
   return (
-    <StyledDiv className={`ui--InputAddressMulti ${className}`}>
+    <StyledDiv className={`${className} ui--InputAddressMulti`}>
       <Input
         autoFocus
         className='ui--InputAddressMulti-Input'

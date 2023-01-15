@@ -22,7 +22,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   ]);
 
   return (
-    <main className={`contracts--App ${className}`}>
+    <main className={`${className} contracts--App`}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

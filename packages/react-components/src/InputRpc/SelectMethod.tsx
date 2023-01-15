@@ -31,7 +31,7 @@ function SelectMethod ({ className = '', isError, onChange, options, value }: Pr
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
       options={options}

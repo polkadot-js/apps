@@ -38,7 +38,7 @@ function MonthDay ({ className = '', dateMonth, day, isCurrent, isDisabled, sche
 
   return (
     <StyledDiv
-      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--color isSelected' : '')} ${className}`}
+      className={`${className} day ${isDisabled ? 'isDisabled' : (isCurrent ? 'highlight--bg-light highlight--color isSelected' : '')}`}
       onClick={_onClick}
     >
       {day}

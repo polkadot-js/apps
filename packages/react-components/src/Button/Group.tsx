@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function ButtonGroup ({ children, className = '', isCentered }: GroupProps): React.ReactElement<GroupProps> {
   return (
-    <StyledDiv className={`ui--Button-Group${isCentered ? ' isCentered' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Button-Group ${isCentered ? 'isCentered' : ''}`}>
       {children}
       <div className='clear' />
     </StyledDiv>

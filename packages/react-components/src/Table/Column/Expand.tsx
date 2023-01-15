@@ -11,7 +11,7 @@ import Icon from '../../Icon';
 function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElement<Props> {
   return (
     <StyledTd
-      className={`ui--Table-Column-Expand ${className}`}
+      className={`${className} ui--Table-Column-Expand`}
       onClick={toggle}
     >
       <div>

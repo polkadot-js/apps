@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function Columns ({ children, className = '', hint }: ColumnsProps): React.ReactElement<ColumnsProps> {
   return (
-    <StyledDiv className={`ui--Modal-Columns ${className}`}>
+    <StyledDiv className={`${className} ui--Modal-Columns`}>
       <div>{children}</div>
       {hint && (
         <div>{hint}</div>

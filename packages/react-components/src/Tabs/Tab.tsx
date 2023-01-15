@@ -28,7 +28,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   return (
     <StyledNavLink
       activeClassName='tabLinkActive'
-      className={`ui--Tab ${className}`}
+      className={`${className} ui--Tab`}
       exact={tabIsExact}
       strict={tabIsExact}
       to={to}
