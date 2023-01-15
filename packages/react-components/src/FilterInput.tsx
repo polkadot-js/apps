@@ -4,7 +4,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Input } from '@polkadot/react-components/index';
+import Input from './Input';
 
 interface Props {
   className?: string;

@@ -97,7 +97,9 @@ function Dropdown<Option extends DropdownItemProps> ({ allowAdd = false, childre
       onBlur={onBlur}
       onChange={_onChange}
       onClose={onClose}
-      options={options}
+      // NOTE This is not quite correct since we also pass React.ReactNode items
+      // through (e.g. these are used as headers, see InputAddress). But... it works...
+      options={options as Option[]}
       placeholder={placeholder}
       renderLabel={renderLabel}
       search={onSearch || allowAdd}

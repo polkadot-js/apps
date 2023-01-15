@@ -4,8 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import AccountName from '@polkadot/react-components/AccountName';
-import { Icon } from '@polkadot/react-components/index';
+import AccountName from './AccountName';
+import Icon from './Icon';
 
 interface ParentAccountProps {
   address: string,

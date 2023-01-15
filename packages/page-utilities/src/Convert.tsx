@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/apps-config/settings/types';
-
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { createOption } from '@polkadot/app-settings/util';
@@ -55,7 +53,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
   );
 
   const prefixOptions = useMemo(
-    (): Option[] => {
+    () => {
       const network = allNetworks.find(({ prefix }) => prefix === chainSS58);
 
       return createSs58(t).map((o) =>

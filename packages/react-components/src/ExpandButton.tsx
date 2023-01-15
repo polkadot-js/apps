@@ -4,7 +4,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Icon } from '@polkadot/react-components';
+import Icon from './Icon';
 
 interface Props {
   onClick: () => void;

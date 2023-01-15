@@ -8,10 +8,10 @@ import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 
-import { Input } from '@polkadot/react-components';
-import { balanceEvents, balanceEventsOverrides } from '@polkadot/react-components/constants';
 import Params from '@polkadot/react-params';
 
+import { balanceEvents, balanceEventsOverrides } from './constants';
+import Input from './Input';
 import { useTranslation } from './translate';
 import { getContractAbi } from './util';
 

@@ -4,7 +4,7 @@
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import Button from './Button';
 
 interface Option {
   isDisabled?: boolean;

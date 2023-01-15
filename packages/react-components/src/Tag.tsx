@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FlagColor as TagColor } from '@polkadot/react-components/types';
 import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
+import type { FlagColor as TagColor } from './types';
 
 import React, { useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
