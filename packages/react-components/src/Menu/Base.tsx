@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function Base ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
   return (
-    <StyledDiv className={`ui--Menu ${className}`}>
+    <StyledDiv className={`${className} ui--Menu`}>
       {children}
     </StyledDiv>
   );

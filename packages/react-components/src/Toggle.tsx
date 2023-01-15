@@ -31,11 +31,11 @@ function Toggle ({ className = '', isDisabled, isRadio, label, onChange, prevent
 
   return (
     <StyledDiv
-      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''}${isRadio ? ' isRadio' : ''} ${className}`}
+      className={`${className} ui--Toggle ${value ? 'isChecked' : ''} ${isDisabled ? 'isDisabled' : ''} ${isRadio ? 'isRadio' : ''}`}
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
-      <div className={`ui--Toggle-Slider${isRadio ? ' highlight--before-border' : ''}`} />
+      <div className={`ui--Toggle-Slider ${isRadio ? 'highlight--before-border' : ''}`} />
     </StyledDiv>
   );
 }

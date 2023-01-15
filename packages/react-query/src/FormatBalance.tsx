@@ -85,7 +85,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
-    <StyledSpan className={`ui--FormatBalance ${className}`}>
+    <StyledSpan className={`${className} ui--FormatBalance`}>
       {label ? <>{label}&nbsp;</> : ''}
       <span
         className='ui--FormatBalance-value --digits'

@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function BaseChart ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
   return (
-    <StyledDiv className={`ui--Chart ${className}`}>
+    <StyledDiv className={`${className} ui--Chart`}>
       {children}
     </StyledDiv>
   );

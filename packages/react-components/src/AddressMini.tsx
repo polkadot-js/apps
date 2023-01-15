@@ -45,7 +45,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
   }
 
   return (
-    <StyledDiv className={`ui--AddressMini${isHighlight ? ' isHighlight' : ''}${isPadded ? ' padded' : ''}${withShrink ? ' withShrink' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--AddressMini ${isHighlight ? 'isHighlight' : ''} ${isPadded ? 'padded' : ''} ${withShrink ? 'withShrink' : ''}`}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}

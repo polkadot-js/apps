@@ -75,7 +75,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   );
 
   return (
-    <div className={`toolbox--Verify ${className}`}>
+    <div className={`${className} toolbox--Verify`}>
       <div className='ui--row'>
         <InputAddress
           className='full'

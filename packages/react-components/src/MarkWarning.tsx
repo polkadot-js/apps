@@ -15,7 +15,7 @@ interface Props {
 
 function MarkWarning ({ children, className = '', content, withIcon = true }: Props): React.ReactElement<Props> {
   return (
-    <StyledArticle className={`mark warning ${className}`}>
+    <StyledArticle className={`${className} mark warning`}>
       {withIcon && <Icon icon='exclamation-triangle' />}{content}{children}
     </StyledArticle>
   );

@@ -26,7 +26,7 @@ function BlockToTime ({ api, children, className = '', isInline, label, value }:
   }
 
   return (
-    <StyledDiv className={`ui--BlockToTime ${className} ${isInline ? 'isInline' : ''}`}>
+    <StyledDiv className={`${className} ui--BlockToTime ${isInline ? 'isInline' : ''}`}>
       {label || ''}{text.split(' ').map((v, index) =>
         <span
           className={index % 2 ? 'timeUnits' : undefined}

@@ -18,7 +18,7 @@ function Item ({ children, className = '', icon, isDisabled, label, onClick }: I
 
   return (
     <StyledDiv
-      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}${isDisabled ? ' isDisabled' : ''}`}
+      className={`${className} ui--Menu__Item ${icon ? 'hasIcon' : ''} ${isDisabled ? 'isDisabled' : ''}`}
       onClick={_onClick}
     >
       {icon && (

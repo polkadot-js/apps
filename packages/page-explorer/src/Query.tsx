@@ -45,7 +45,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   );
 
   return (
-    <StyledFilterOverlay className={`ui--FilterOverlay hasOwnMaxWidth ${className}`}>
+    <StyledFilterOverlay className={`${className} ui--FilterOverlay hasOwnMaxWidth`}>
       <Input
         className='explorer--query'
         defaultValue={propsValue}

@@ -19,7 +19,7 @@ interface Props {
 function EditButton ({ children, className = '', icon = 'edit', onClick }: Props): React.ReactElement<Props> {
   return (
     <div
-      className={`ui--EditButton ${className}`}
+      className={`${className} ui--EditButton`}
       onClick={onClick}
     >
       {children}

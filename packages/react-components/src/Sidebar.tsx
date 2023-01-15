@@ -20,7 +20,7 @@ interface Props {
 function Sidebar ({ button, children, className = '', dataTestId = '', onClose, position, sidebarRef }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
-      className={`ui--Sidebar ${className} ${position}Position`}
+      className={`${className} ui--Sidebar ${position}Position`}
       data-testid={dataTestId}
       ref={sidebarRef}
     >

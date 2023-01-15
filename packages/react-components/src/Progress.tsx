@@ -48,7 +48,7 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
   const drawAngle = (angle === 360) ? 360 : angle % 360;
 
   return (
-    <StyledDiv className={`ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''}`}>
       <div className='background highlight--bg' />
       <Clip
         angle={

@@ -188,7 +188,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <StyledDropdown
-        className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
+        className={`${className} ui--InputAddress ${hideAddress ? 'hideAddress' : ''}`}
         defaultValue={_defaultValue}
         isDisabled={isDisabled}
         isError={isError}

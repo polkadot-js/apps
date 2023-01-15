@@ -22,7 +22,7 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
 
   return (
     <StyledDiv
-      className={`ui--LabelHelp ${className}`}
+      className={`${className} ui--LabelHelp`}
       tabIndex={-1}
     >
       <Icon

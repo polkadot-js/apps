@@ -112,7 +112,7 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
     ? <SUIButton.Group>{dropdown}{children}</SUIButton.Group>
     : (
       <Labelled
-        className={`ui--Dropdown ${className}`}
+        className={`${className} ui--Dropdown`}
         isFull={isFull}
         label={label}
         labelExtra={labelExtra}

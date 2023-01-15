@@ -46,7 +46,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
   );
 
   return (
-    <StyledDiv className={`ui--Tags ${className}`}>
+    <StyledDiv className={`${className} ui--Tags`}>
       {withTitle && (
         <h5>{t<string>('Tags')}</h5>
       )}

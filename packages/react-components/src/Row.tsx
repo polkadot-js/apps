@@ -44,7 +44,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
   }, [onSaveName, toggleIsEditingName]);
 
   return (
-    <StyledDiv className={`ui--Row${isDisabled ? ' isDisabled' : ''}${isInline ? ' isInline' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Row ${isDisabled ? 'isDisabled' : ''} ${isInline ? 'isInline' : ''}`}>
       <div className='ui--Row-base'>
         {icon && (
           <div className='ui--Row-icon'>

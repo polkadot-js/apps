@@ -51,7 +51,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${splitBody ? 'noMargin' : ''}`;
 
   return (
-    <StyledDiv className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
+    <StyledDiv className={`${className} ui--Table ${splitBody ? 'isSplit' : ''}`}>
       {legend}
       {splitBody
         ? (

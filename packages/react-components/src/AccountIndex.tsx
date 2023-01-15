@@ -36,7 +36,7 @@ function AccountIndex ({ children, className = '', defaultValue, label, value }:
   }
 
   return (
-    <div className={`ui--AccountIndex ${className}`}>
+    <div className={`${className} ui--AccountIndex`}>
       {label || ''}<div className='account-index'>{accountIndex || defaultValue || '-'}</div>{children}
     </div>
   );

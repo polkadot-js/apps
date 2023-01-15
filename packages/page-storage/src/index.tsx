@@ -24,7 +24,7 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   return (
-    <main className={`storage--App ${className}`}>
+    <main className={`${className} storage--App`}>
       <Selection
         basePath={basePath}
         onAdd={_onAdd}

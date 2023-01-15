@@ -97,7 +97,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
   );
 
   return (
-    <StyledDiv className={`ui--Messages ${className}${isLabelled ? ' isLabelled' : ''}`}>
+    <StyledDiv className={`${className} ui--Messages ${isLabelled ? 'isLabelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
           {sortMessages(constructors).map(([message, index]) => (

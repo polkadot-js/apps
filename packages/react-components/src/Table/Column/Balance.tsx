@@ -9,7 +9,7 @@ import { FormatBalance } from '@polkadot/react-query';
 
 function Balance ({ className = '', value, withLoading }: Props): React.ReactElement<Props> {
   return (
-    <td className={`ui--Table-Column-Balance number ${className}`}>
+    <td className={`${className} ui--Table-Column-Balance number`}>
       {value
         ? <FormatBalance value={value} />
         : withLoading && (

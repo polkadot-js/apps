@@ -171,7 +171,7 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <StyledDiv className={`ui--Status ${className}`}>
+    <StyledDiv className={`${className} ui--Status`}>
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
     </StyledDiv>

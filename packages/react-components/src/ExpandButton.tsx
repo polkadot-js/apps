@@ -15,7 +15,7 @@ interface Props {
 function ExpandButton ({ className = '', expanded, onClick }: Props): React.ReactElement<Props> {
   return (
     <div
-      className={`ui--ExpandButton ${className}`}
+      className={`${className} ui--ExpandButton`}
       data-testid='row-toggle'
       onClick={onClick}
     >

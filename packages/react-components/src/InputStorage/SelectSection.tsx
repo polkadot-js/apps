@@ -20,7 +20,7 @@ interface Props {
 function SelectSection ({ className = '', defaultValue, isError, onChange, options, value: { creator: { section } } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Sections ${className}`}
+      className={`${className} ui--DropdownLinked-Sections`}
       defaultValue={defaultValue}
       isError={isError}
       onChange={onChange}

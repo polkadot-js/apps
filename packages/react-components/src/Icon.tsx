@@ -38,7 +38,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
   return (
     <FontAwesomeIcon
       {...extraProps}
-      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''} ${className}`}
+      className={`${className} ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''}`}
       icon={icon}
       onClick={onClick}
       size={size}

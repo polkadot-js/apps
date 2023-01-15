@@ -62,7 +62,7 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
 
   return (
     <div
-      className={`ui-Editor ${className}${isValid === false ? ' invalid' : ''}`}
+      className={`${className} ui-Editor ${isValid === false ? 'invalid' : ''}`}
       id={editorId}
     />
   );

@@ -27,7 +27,7 @@ function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, c
   );
 
   return (
-    <SummaryBox className={`ui--BountySummary ${className}`}>
+    <SummaryBox className={`${className} ui--BountySummary`}>
       <section>
         {bounties && (
           <CardSummary label={t<string>('active')}>

@@ -242,7 +242,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   return (
     <Input
       autoFocus={autoFocus}
-      className={`ui--InputNumber${isDisabled ? ' isDisabled' : ''} ${className}`}
+      className={`${className} ui--InputNumber ${isDisabled ? 'isDisabled' : ''}`}
       isDisabled={isDisabled}
       isError={!isValid || isError}
       isFull={isFull}

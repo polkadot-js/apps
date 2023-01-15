@@ -58,7 +58,7 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isOptional,
     )
     : (
       <Component
-        className={`ui--Param ${className}`}
+        className={`${className} ui--Param`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}

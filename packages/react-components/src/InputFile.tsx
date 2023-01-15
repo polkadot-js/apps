@@ -100,7 +100,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })}>
+        <div {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
           <input {...getInputProps()} />
           <em className='label'>
             {

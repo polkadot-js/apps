@@ -36,7 +36,7 @@ function AddressToggle ({ address, className = '', filter, isHidden, noToggle, o
 
   return (
     <StyledDiv
-      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || !isVisible ? ' isHidden' : ''}`}
+      className={`${className} ui--AddressToggle ${(value || noToggle) ? 'isAye' : 'isNay'} ${isHidden || !isVisible ? 'isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini

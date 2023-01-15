@@ -24,7 +24,7 @@ function CryptoType ({ accountId, className = '', label = '' }: Props): React.Re
   }, [accountId]);
 
   return (
-    <div className={`ui--CryptoType ${className}`}>
+    <div className={`${className} ui--CryptoType`}>
       {label}{type}
     </div>
   );

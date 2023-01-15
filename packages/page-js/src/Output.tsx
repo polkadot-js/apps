@@ -61,7 +61,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => {
 
 function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
-    <StyledArticle className={`container ${className}`}>
+    <StyledArticle className={`${className} container`}>
       <div className='logs-wrapper'>
         <div className='logs-container'>
           <pre className='logs-content'>

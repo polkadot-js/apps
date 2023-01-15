@@ -101,7 +101,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
   }, [callName, value, withHash, withSignature]);
 
   return (
-    <StyledDiv className={`ui--Call ${className}`}>
+    <StyledDiv className={`${className} ui--Call`}>
       <Params
         isDisabled
         onError={onError}

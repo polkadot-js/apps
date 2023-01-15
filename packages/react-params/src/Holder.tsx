@@ -14,7 +14,7 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withExpander, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
+    <StyledDiv className={`${className} ui--Params ${withBorder ? 'withBorder' : ''} ${withPadding ? 'withPadding' : ''} ${withExpander ? 'withExpander' : ''}`}>
       {children}
     </StyledDiv>
   );

@@ -18,7 +18,7 @@ interface Props {
 
 function SortDropdown ({ className = '', defaultValue, label, onChange, onClick, options, sortDirection }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--Sort ${className}`}>
+    <StyledDiv className={`${className} ui--Sort`}>
       <Dropdown
         defaultValue={defaultValue}
         label={label}

@@ -16,7 +16,7 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
 
   return (
     <StyledTd
-      className={`ui--Table-Column-Favorite ${className}`}
+      className={`${className} ui--Table-Column-Favorite`}
       onClick={onClick}
     >
       <Icon

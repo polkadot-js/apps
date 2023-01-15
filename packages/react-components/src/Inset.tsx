@@ -38,7 +38,7 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
 
   return (
     <div
-      className={`ui--Inset ${href ? ' as-link' : ''}${isCollapsible ? ' collapsible' : ''}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' bottom-margin' : ''}${withTopMargin ? ' top-margin' : ''} ${className}`}
+      className={`${className} ui--Inset ${href ? 'as-link' : ''} ${isCollapsible ? 'collapsible' : ''} ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'bottom-margin' : ''} ${withTopMargin ? 'top-margin' : ''}`}
     >
       {isCollapsible && (
         <div

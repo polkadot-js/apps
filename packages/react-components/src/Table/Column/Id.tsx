@@ -10,7 +10,7 @@ import { formatNumber } from '@polkadot/util';
 
 function Id ({ className = '', value }: Props): React.ReactElement<Props> {
   return (
-    <StyledTd className={`ui--Table-Column-Id ${className}`}>
+    <StyledTd className={`${className} ui--Table-Column-Id`}>
       <h2 className='--digits'>{formatNumber(value)}</h2>
     </StyledTd>
   );

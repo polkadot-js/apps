@@ -171,7 +171,7 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
   }
 
   return (
-    <div className={`storage--Query storage--actionrow ${className}`}>
+    <div className={`${className} storage--Query storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <Labelled
           label={

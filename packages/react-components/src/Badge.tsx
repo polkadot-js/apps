@@ -50,7 +50,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   return (
     <StyledDiv
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isBlock ? ' isBlock' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
+      className={`${className} ui--Badge ${hover ? 'isTooltip' : ''} ${isBlock ? 'isBlock' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${isHighlight ? 'highlight--bg' : ''} ${color}Color ${icon ? 'withIcon' : ''} ${info ? 'withInfo' : ''} ${hoverAction ? 'withAction' : ''} ${theme}Theme`}
       data-testid={badgeTestId}
       onClick={hoverAction ? undefined : onClick}
     >
