@@ -25,7 +25,7 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
-  tracks?: TrackDescription[];
+  tracks: TrackDescription[];
 }
 
 interface HashState {

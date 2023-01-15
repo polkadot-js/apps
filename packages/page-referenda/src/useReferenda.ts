@@ -8,7 +8,6 @@ import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
 
 import useReferendaIds from './useReferendaIds';
 import useTracks from './useTracks';
@@ -31,27 +30,12 @@ function sortOngoing (a: Referendum, b: Referendum): number {
   );
 }
 
-function getWhen ({ info }: Referendum): BN {
-  return info.isApproved
-    ? info.asApproved[0]
-    : info.isRejected
-      ? info.asRejected[0]
-      : info.isCancelled
-        ? info.asCancelled[0]
-        : info.isTimedOut
-          ? info.asTimedOut[0]
-          : info.isKilled
-            ? info.asKilled
-            // this is an actual unknown state...
-            : BN_ZERO;
-}
-
 function sortReferenda (a: Referendum, b: Referendum): number {
   return (
     a.info.isOngoing === b.info.isOngoing
       ? a.info.isOngoing
         ? sortOngoing(a, b)
-        : getWhen(b).cmp(getWhen(a))
+        : 0
       : a.info.isOngoing
         ? -1
         : 1
@@ -84,7 +68,7 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: TrackDescription[]): ReferendaGroup[] {
+function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Referendum[]): ReferendaGroup[] {
   if (!referenda || !totalIssuance) {
     // return an empty group when we have no referenda
     return [{ key: 'empty' }];
@@ -156,7 +140,7 @@ function group (totalIssuance?: BN, referenda?: Referendum[], tracks?: TrackDesc
   return grouped.sort(sortGroups);
 }
 
-function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], TrackDescription[] | undefined] {
+function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], TrackDescription[]] {
   const { api, isApiReady } = useApi();
   const totalIssuance = useCall<BN>(isApiReady && api.query.balances.totalIssuance);
   const ids = useReferendaIds(palletReferenda);
@@ -167,7 +151,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
     () => [
       (ids && ids.length === 0)
         ? [{ key: 'referenda', referenda: [] }]
-        : group(totalIssuance, referenda, tracks),
+        : group(tracks, totalIssuance, referenda),
       tracks
     ],
     [ids, referenda, totalIssuance, tracks]

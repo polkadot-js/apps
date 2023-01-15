@@ -21,7 +21,7 @@ interface Props extends ReferendaGroup {
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
-  tracks?: TrackDescription[] | undefined;
+  tracks: TrackDescription[];
 }
 
 function Group ({ activeIssuance, className, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
@@ -70,6 +70,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       empty={referenda && t<string>('No active referenda')}
       header={header}
       headerChildren={headerChildren}
+      isSplit={!trackId}
       key={key}
     >
       {referenda && referenda.map((r) => (
