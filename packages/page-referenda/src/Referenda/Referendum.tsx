@@ -10,7 +10,7 @@ import type { CurveGraph, ReferendumProps as Props } from '../types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Chart, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
@@ -393,14 +393,10 @@ function Referendum (props: Props): React.ReactElement<Props> {
       <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={id} />
         <Component {...props} />
-        <td className='actions'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          </div>
-        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleExpanded}
+        />
       </StyledTr>
       <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />

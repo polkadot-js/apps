@@ -22,7 +22,7 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
   let info: TrackInfoExt | undefined;
 
   if (tracks && trackId !== undefined) {
