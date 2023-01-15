@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  estimatedWeight?: BN;
+  estimatedWeight?: BN | null;
   isCall?: boolean;
   weight: UseWeight;
 }
@@ -41,7 +41,7 @@ function InputMegaGas ({ className, estimatedWeight, isCall, weight: { execution
   const isDisabled = !!estimatedMg && withEstimate;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <InputNumber
         defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
         isDisabled={isDisabled}
@@ -70,12 +70,14 @@ function InputMegaGas ({ className, estimatedWeight, isCall, weight: { execution
         {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{', '}
         {t<string>('{{percentage}}% of block weight', { replace: { percentage: percentage.toFixed(2) } })}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputMegaGas)`
+const StyledDiv = styled.div`
   .contracts--InputMegaGas-meter {
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(InputMegaGas);

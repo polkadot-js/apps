@@ -33,7 +33,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
   const { api } = useApi();
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
@@ -74,11 +74,11 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
           )}
         </>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(MessageSignature)`
+const StyledDiv = styled.div`
   font: var(--font-mono);
   font-weight: var(--font-weight-normal);
   flex-grow: 1;
@@ -101,4 +101,6 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`);
+`;
+
+export default React.memo(MessageSignature);

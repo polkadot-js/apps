@@ -275,7 +275,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
   }, [pinEndpoints, setCurrentPinEndpoint]);
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Upload File')}
       onClose={_onClose}
@@ -353,11 +353,11 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
           onClick={_onClickUp}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(UploadModal)`
+const StyledModal = styled(Modal)`
   .files {
     max-height: 300;
     overflow: auto;
@@ -377,4 +377,6 @@ export default React.memo(styled(UploadModal)`
     margin-top: 2rem;
     width: calc(100% - 2rem);
   }
-`);
+`;
+
+export default React.memo(UploadModal);

@@ -21,18 +21,18 @@ function StringInput ({ className = '', onChange, original, tkey, tval }: Props)
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='label'>{original}</div>
       <Input
         onChange={_onChange}
         value={tval}
         withLabel={false}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(StringInput)`
+const StyledDiv = styled.div`
   .label {
     font-style: italic;
     margin-top: 0.5rem;
@@ -41,4 +41,6 @@ export default React.memo(styled(StringInput)`
       margin-left: 1rem;
     }
   }
-`);
+`;
+
+export default React.memo(StringInput);

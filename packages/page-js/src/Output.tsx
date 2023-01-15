@@ -61,7 +61,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => {
 
 function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
-    <article className={`${className} container`}>
+    <StyledArticle className={`${className} container`}>
       <div className='logs-wrapper'>
         <div className='logs-container'>
           <pre className='logs-content'>
@@ -70,11 +70,11 @@ function Output ({ children, className = '', logs }: Props): React.ReactElement<
         </div>
       </div>
       {children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(Output)`
+const StyledArticle = styled.article`
   background-color: #4e4e4e;
   color: #ffffff;
   display: flex;
@@ -111,4 +111,6 @@ export default React.memo(styled(Output)`
       color: #f88;
     }
   }
-`);
+`;
+
+export default React.memo(Output);
