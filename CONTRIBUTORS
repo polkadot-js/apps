@@ -1,4 +1,4 @@
-    4048	Jaco                          	Apply consistent ordering to className prop (#8812)
+    4049	Jaco                          	Adjust styled injection (final round) (#8814)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
