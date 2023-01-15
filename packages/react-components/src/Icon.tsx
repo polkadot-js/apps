@@ -36,7 +36,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
   };
 
   return (
-    <FontAwesomeIcon
+    <StyledFAI
       {...extraProps}
       className={`${className} ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''}`}
       icon={icon}
@@ -48,7 +48,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
   );
 }
 
-export default React.memo(styled(Icon)`
+const StyledFAI = styled(FontAwesomeIcon)`
   outline: none;
 
   &.isClickable {
@@ -86,4 +86,6 @@ export default React.memo(styled(Icon)`
   &.darkGrayColor {
     color: #8B8B8B;
   }
-`);
+`;
+
+export default React.memo(Icon);

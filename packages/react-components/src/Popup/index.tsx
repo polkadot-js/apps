@@ -6,9 +6,9 @@ import type { PopupProps } from './types';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components/index';
 import { useOutsideClick, useTheme, useToggle } from '@polkadot/react-hooks';
 
+import Button from '../Button';
 import PopupWindow from './PopupWindow';
 
 function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAction, position = 'left', value }: PopupProps) {

@@ -29,7 +29,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const renderMembers = useCallback(
-    () => members.map(({ accountId, member }, count) => (
+    () => members.map(({ accountId, member }, count): React.ReactNode => (
       <AddressMini
         balance={member.points}
         key={`${count}:${accountId}`}
@@ -42,7 +42,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   );
 
   const renderNominees = useCallback(
-    () => info && info.nominating.map((stashId, count) => (
+    () => info && info.nominating.map((stashId, count): React.ReactNode => (
       <AddressMini
         key={`${count}:${stashId}`}
         value={stashId}

@@ -61,14 +61,14 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
   }, [code]);
 
   return (
-    <div
+    <StyledDiv
       className={`${className} ui-Editor ${isValid === false ? 'invalid' : ''}`}
       id={editorId}
     />
   );
 }
 
-export default React.memo(styled(Editor)`
+const StyledDiv = styled.div`
   .codeflask {
     border: 1px solid var(--border-input);
     background: transparent;
@@ -80,4 +80,6 @@ export default React.memo(styled(Editor)`
       border-color: #e0b4b4;
     }
   }
-`);
+`;
+
+export default React.memo(Editor);

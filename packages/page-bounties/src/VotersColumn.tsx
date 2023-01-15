@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
@@ -19,10 +20,10 @@ interface Props {
   status: BountyStatus;
 }
 
-const icons = {
+const icons: Record<string, IconName> = {
   ayes: 'check',
   nays: 'times'
-};
+} as const;
 
 function VotersColumn ({ className, option, proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

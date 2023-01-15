@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownItemProps } from 'semantic-ui-react';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import type { Option } from './types';
 
@@ -289,7 +290,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   };
 
-  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
+  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): DropdownItemProps[] => {
     const { isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
@@ -312,57 +313,62 @@ class InputAddress extends React.PureComponent<Props, State> {
       }
     }
 
+    // FIXME The return here is _very_ suspect, but it actually does exactly
+    // what it is meant to do... filter and return the options for clicking
+    //
+    // (effectively it seems to be the value type that should allow undefined
+    // instead of null in there...)
     return matches.filter((item, index): boolean => {
       const isLast = index === matches.length - 1;
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
       return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
-    });
+    }) as DropdownItemProps[];
   };
 }
 
 const StyledDropdown = styled(Dropdown)`
-    .ui.dropdown .text {
-      width: 100%;
-    }
+  .ui.dropdown .text {
+    width: 100%;
+  }
 
-    .ui.disabled.search {
-      pointer-events: all;
-    }
+  .ui.disabled.search {
+    pointer-events: all;
+  }
 
-    .ui.search.selection.dropdown {
-      > .text > .ui--KeyPair {
-        .ui--IdentityIcon {
-          left: -2.75rem;
-          top: -1.05rem;
+  .ui.search.selection.dropdown {
+    > .text > .ui--KeyPair {
+      .ui--IdentityIcon {
+        left: -2.75rem;
+        top: -1.05rem;
 
-          > div,
-          img,
-          svg {
-            height: 32px !important;
-            width: 32px !important;
-          }
-        }
-
-        .name {
-          margin-left: 0;
-
-          > .ui--AccountName {
-            height: auto;
-          }
+        > div,
+        img,
+        svg {
+          height: 32px !important;
+          width: 32px !important;
         }
       }
 
-      > .menu > div.item > .ui--KeyPair > .name  > .ui--AccountName {
-        height: auto;
+      .name {
+        margin-left: 0;
+
+        > .ui--AccountName {
+          height: auto;
+        }
       }
     }
 
-    &.hideAddress .ui.search.selection.dropdown > .text > .ui--KeyPair .address {
-      flex: 0;
-      max-width: 0;
+    > .menu > div.item > .ui--KeyPair > .name  > .ui--AccountName {
+      height: auto;
     }
+  }
+
+  &.hideAddress .ui.search.selection.dropdown > .text > .ui--KeyPair .address {
+    flex: 0;
+    max-width: 0;
+  }
 `;
 
 const ExportedComponent = withMulti(

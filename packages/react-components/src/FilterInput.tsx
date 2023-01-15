@@ -4,7 +4,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Input } from '@polkadot/react-components/index';
+import Input from './Input';
 
 interface Props {
   className?: string;
@@ -15,7 +15,7 @@ interface Props {
 
 function Filter ({ className = '', filterOn, label, setFilter }: Props) {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Input
         autoFocus
         isFull
@@ -23,15 +23,17 @@ function Filter ({ className = '', filterOn, label, setFilter }: Props) {
         onChange={setFilter}
         value={filterOn}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Filter)`
+const StyledDiv = styled.div`
   width: 29.5rem;
 
   .ui--Input {
     margin: 0;
     height: 3.893rem;
   }
-`);
+`;
+
+export default React.memo(Filter);

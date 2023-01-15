@@ -53,7 +53,7 @@ function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props
   }
 
   return (
-    <Toggle
+    <StyledToggle
       className={className}
       isDisabled={isDisabled}
       label={t<string>('only this network')}
@@ -64,6 +64,8 @@ function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props
   );
 }
 
-export default React.memo(styled(ChainLock)`
+const StyledToggle = styled(Toggle)`
   text-align: right;
-`);
+`;
+
+export default React.memo(ChainLock);

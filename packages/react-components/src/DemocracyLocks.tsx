@@ -109,7 +109,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   }
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <FormatBalance
         labelPost={
           <Icon
@@ -132,14 +132,16 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
           </div>
         ))}
       </Tooltip>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DemocracyLocks)`
+const StyledDiv = styled.div`
   white-space: nowrap;
 
   .ui--FormatBalance {
     display: inline-block;
   }
-`);
+`;
+
+export default React.memo(DemocracyLocks);

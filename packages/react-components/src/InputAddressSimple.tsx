@@ -45,7 +45,7 @@ function InputAddressSimple ({ autoFocus, bytesLength, children, className = '',
   );
 
   return (
-    <div className={`${className} ui--InputAddressSimple`}>
+    <StyledDiv className={`${className} ui--InputAddressSimple`}>
       <Input
         autoFocus={autoFocus}
         defaultValue={defaultValue}
@@ -66,11 +66,11 @@ function InputAddressSimple ({ autoFocus, bytesLength, children, className = '',
         size={32}
         value={address}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputAddressSimple)`
+const StyledDiv = styled.div`
   position: relative;
 
   .ui--InputAddressSimpleIcon {
@@ -81,4 +81,6 @@ export default React.memo(styled(InputAddressSimple)`
     position: absolute;
     top: 1rem;
   }
-`);
+`;
+
+export default React.memo(InputAddressSimple);

@@ -211,7 +211,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
   const { creator: { method, section } } = key;
 
   return (
-    <section className={`${className} storage--actionrow`}>
+    <StyledSection className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
@@ -262,11 +262,11 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           onClick={_onAdd}
         />
       </div>
-    </section>
+    </StyledSection>
   );
 }
 
-export default React.memo(styled(Modules)`
+const StyledSection = styled.section`
   .ui--Column:last-child .ui--Labelled {
     padding-left: 0.5rem;
 
@@ -274,4 +274,6 @@ export default React.memo(styled(Modules)`
       left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
     }
   }
-`);
+`;
+
+export default React.memo(Modules);

@@ -37,7 +37,7 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
   }
 
   return (
-    <div
+    <StyledDiv
       className={`${className} ui--Inset ${href ? 'as-link' : ''} ${isCollapsible ? 'collapsible' : ''} ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'bottom-margin' : ''} ${withTopMargin ? 'top-margin' : ''}`}
     >
       {isCollapsible && (
@@ -58,11 +58,11 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
       >
         {children}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Inset)`
+const StyledDiv = styled.div`
   & {
     box-shadow: 0 3px 3px rgba(0,0,0,.2);
     position: relative;
@@ -140,4 +140,6 @@ export default React.memo(styled(Inset)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Inset);

@@ -3,12 +3,12 @@
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { ThemeProps } from '../types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { getSystemIcon } from '@polkadot/apps-config';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';

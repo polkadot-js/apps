@@ -22,14 +22,14 @@ function BidType ({ className, value }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div>{value && value.type}</div>
       {vouchId && <AddressSmall value={vouchId} />}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BidType)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   flex-wrap: no-wrap;
@@ -41,4 +41,6 @@ export default React.memo(styled(BidType)`
       padding-right: 1.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(BidType);
