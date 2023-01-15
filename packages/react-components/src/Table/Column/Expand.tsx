@@ -8,15 +8,19 @@ import Icon from '../../Icon';
 
 export interface Props {
   className?: string;
+  colSpan?: number;
+  rowSpan?: number;
   isExpanded: boolean;
   toggle: () => void;
 }
 
-function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElement<Props> {
+function Expand ({ className = '', colSpan, isExpanded, rowSpan, toggle }: Props): React.ReactElement<Props> {
   return (
     <StyledTd
       className={`${className} ui--Table-Column-Expand`}
+      colSpan={colSpan}
       onClick={toggle}
+      rowSpan={rowSpan}
     >
       <div>
         <Icon

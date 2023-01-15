@@ -9,13 +9,19 @@ import { FormatBalance } from '@polkadot/react-query';
 
 export interface Props {
   className?: string;
+  colSpan?: number;
+  rowSpan?: number;
   value?: BN | null;
   withLoading?: boolean;
 }
 
-function Balance ({ className = '', value, withLoading }: Props): React.ReactElement<Props> {
+function Balance ({ className = '', colSpan, rowSpan, value, withLoading }: Props): React.ReactElement<Props> {
   return (
-    <td className={`${className} ui--Table-Column-Balance number`}>
+    <td
+      className={`${className} ui--Table-Column-Balance number`}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+    >
       {value
         ? <FormatBalance value={value} />
         : withLoading && (
