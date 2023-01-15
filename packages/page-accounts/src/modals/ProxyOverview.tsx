@@ -249,7 +249,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const isSameAdd = added.some(([accountId]) => accountId && accountId.eq(proxiedAccount));
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Proxy overview')}
       onClose={onClose}
@@ -323,11 +323,11 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           onStart={onClose}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(ProxyOverview)`
+const StyledModal = styled(Modal)`
   .proxy-container {
     display: grid;
     grid-column-gap: 0.5rem;
@@ -343,4 +343,6 @@ export default React.memo(styled(ProxyOverview)`
       padding-top: 0.3rem;
     }
   }
-`);
+`;
+
+export default React.memo(ProxyOverview);
