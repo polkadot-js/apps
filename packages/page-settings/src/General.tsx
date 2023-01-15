@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { allNetworks } from '@polkadot/networks';
 import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
-import { useApi, useLedger } from '@polkadot/react-hooks';
+import { useApi, useIpfs, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';
@@ -24,6 +24,7 @@ const _ledgerConnOptions = settings.availableLedgerConn;
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { chainSS58, isApiReady, isElectron } = useApi();
+  const { isIpfs } = useIpfs();
   const { hasLedgerChain, hasWebUsb } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
@@ -62,6 +63,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       );
     },
     [chainSS58, isApiReady, t]
+  );
+
+  const storageOptions = useMemo(
+    () => [
+      { text: t('Allow local in-browser account storage'), value: 'on' },
+      { text: t('Do not allow local in-browser account storage'), value: 'off' }
+    ],
+    [t]
   );
 
   const themeOptions = useMemo(
@@ -108,18 +117,11 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     [state]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix, uiTheme } = state;
+  const { i18nLang, icon, ledgerConn, prefix, storage, uiTheme } = state;
 
   return (
     <div className={className}>
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={prefix}
-          label={t<string>('address prefix')}
-          onChange={_handleChange('prefix')}
-          options={prefixOptions}
-        />
-      </div>
+      <h1>{t<string>('UI options')}</h1>
       <div className='ui--row'>
         <Dropdown
           defaultValue={icon}
@@ -144,6 +146,32 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={translateLanguages}
         />
       </div>
+      <h1>{t<string>('account options')}</h1>
+      <div className='ui--row'>
+        <Dropdown
+          defaultValue={prefix}
+          label={t<string>('address prefix')}
+          onChange={_handleChange('prefix')}
+          options={prefixOptions}
+        />
+      </div>
+      {!isIpfs && !isElectron && (
+        <>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={storage}
+              label={t<string>('in-browser account creation')}
+              onChange={_handleChange('storage')}
+              options={storageOptions}
+            />
+          </div>
+          {storage === 'on' && (
+            <div className='ui--row'>
+              <MarkWarning content={t<string>('It is recommended that you store all keys externally to the in-page browser local storage, either on browser extensions, signers operating via QR codes or hardware devices. This option is provided for advanced users with strong backup policies.')} />
+            </div>
+          )}
+        </>
+      )}
       {hasLedgerChain && (
         <>
           <div className='ui--row'>
