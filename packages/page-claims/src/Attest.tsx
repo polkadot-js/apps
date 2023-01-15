@@ -22,9 +22,9 @@ import { getStatement } from './util';
 interface Props {
   accountId: string;
   className?: string;
-  ethereumAddress: EthereumAddress | null;
+  ethereumAddress?: EthereumAddress | string | null;
   onSuccess?: TxCallback;
-  statementKind?: StatementKind;
+  statementKind?: StatementKind | null;
   systemChain: string;
 }
 

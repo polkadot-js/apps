@@ -11,7 +11,7 @@ import { getStatement } from './util';
 
 export interface Props {
   className?: string;
-  kind?: StatementKind;
+  kind?: StatementKind | null;
   systemChain: string;
 }
 
