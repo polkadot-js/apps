@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { FlagColor } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import { Tag } from '@polkadot/react-components/index';
-import { FlagColor } from '@polkadot/react-components/types';
+import Tag from './Tag';
 
 interface FlagProps {
   className?: string;
@@ -18,7 +19,6 @@ function Flag ({ className = '', color, label }: FlagProps): React.ReactElement<
     <Tag
       className={`${className} ${color === 'theme' ? ' highlight--color-bg highlight--bg' : ''}` }
       color={color}
-      isFlag
       label={label}
       size='tiny'
     />

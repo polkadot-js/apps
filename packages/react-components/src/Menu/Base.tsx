@@ -8,13 +8,13 @@ import styled from 'styled-components';
 
 function Base ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
   return (
-    <div className={`ui--Menu ${className}`}>
+    <StyledDiv className={`ui--Menu ${className}`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Base)`
+const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 14.286rem;
@@ -24,4 +24,6 @@ export default React.memo(styled(Base)`
     margin-right: 1rem;
     margin-left: 1rem;
   }
-`);
+`;
+
+export default React.memo(Base);

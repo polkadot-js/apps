@@ -261,7 +261,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         {step === 1 && <>
           <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
             <TextArea
-              isAction
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={

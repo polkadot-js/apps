@@ -255,6 +255,7 @@ const StyledSpan = styled.span`
         max-width: var(--width-shortaddr);
         opacity: var(--opacity-light);
         text-transform: none;
+        white-space: nowrap;
       }
 
       .sub,

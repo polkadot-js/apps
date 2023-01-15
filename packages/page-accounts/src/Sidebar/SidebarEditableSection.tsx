@@ -67,7 +67,6 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           isEditable
           isEditing={isEditingTags}
           onChange={setTags}
-          size='tiny'
           value={tags}
           withEditButton={false}
           withTitle

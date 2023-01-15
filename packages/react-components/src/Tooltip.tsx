@@ -39,7 +39,7 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
   }, [tooltipContainer]);
 
   return createPortal(
-    <ReactTooltip
+    <StyledReactTooltip
       className={`ui--Tooltip ${className}`}
       clickable={isClickable}
       effect='solid'
@@ -49,12 +49,12 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
       <div className='tooltipSpacer'>
         {text}{children}
       </div>
-    </ReactTooltip>,
+    </StyledReactTooltip>,
     tooltipContainer
   );
 }
 
-export default React.memo(styled(Tooltip)`
+const StyledReactTooltip = styled(ReactTooltip)`
   .tooltipSpacer {
     padding: 0.375rem;
   }
@@ -115,4 +115,6 @@ export default React.memo(styled(Tooltip)`
   .row+.row {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tooltip);
