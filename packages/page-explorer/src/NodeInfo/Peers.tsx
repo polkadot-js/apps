@@ -44,7 +44,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('no peers connected')}
       header={headerRef.current}
@@ -57,11 +57,11 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
           <td className='number bestNumber'>{formatNumber(bestNumber)}</td>
         </tr>
       ))}
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Peers)`
+const StyledTable = styled(Table)`
   overflow-x: auto;
 
   td.roles {
@@ -73,4 +73,6 @@ export default React.memo(styled(Peers)`
     max-width: 11ch;
     width: 11ch;
   }
-`);
+`;
+
+export default React.memo(Peers);

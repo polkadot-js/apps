@@ -111,8 +111,8 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
-    <Modal
-      className={[className || '', 'app--contracts-Modal'].join(' ')}
+    <StyledModal
+      className={`${className} app--contracts-Modal`}
       header={t<string>('Call a contract')}
       onClose={onClose}
     >
@@ -217,11 +217,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           )
         }
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Call)`
+const StyledModal = styled(Modal)`
   .rpc-toggle {
     margin-top: 1rem;
     display: flex;
@@ -235,4 +235,6 @@ export default React.memo(styled(Call)`
   .outcomes {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Call);

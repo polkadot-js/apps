@@ -55,7 +55,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address top'>
         <Card>
           <CodeRow
@@ -109,11 +109,11 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           />
         )}
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Code)`
+const StyledTr = styled.tr`
   .codeHash {
     div {
       display: inline;
@@ -124,4 +124,6 @@ export default React.memo(styled(Code)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Code);

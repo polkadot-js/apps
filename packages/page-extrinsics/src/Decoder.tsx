@@ -96,7 +96,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Input
         defaultValue={initialValue}
         isError={!extrinsicFn}
@@ -126,11 +126,11 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         isCall={isCall}
         withData={false}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Decoder)`
+const StyledDiv = styled.div`
   .ui--Call--toplevel {
     margin-top: 0;
   }
@@ -138,4 +138,6 @@ export default React.memo(styled(Decoder)`
   .ui--Call > .ui--Params.withBorder {
     padding-left: 2rem;
   }
-`);
+`;
+
+export default React.memo(Decoder);

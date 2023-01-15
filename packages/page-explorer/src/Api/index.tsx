@@ -108,7 +108,7 @@ function Api ({ className }: Props): React.ReactElement<Props> {
   const { stats: { total: { bytesRecv, bytesSent, requests: tReq, subscriptions: tSub } } } = stats[stats.length - 1];
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('sent')}>{formatNumber(bytesSent / 1024)}kB</CardSummary>
@@ -131,11 +131,11 @@ function Api ({ className }: Props): React.ReactElement<Props> {
         title={t<string>('transfer')}
         value={bytesChart}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Api)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -146,4 +146,6 @@ export default React.memo(styled(Api)`
   .container+.container {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Api);

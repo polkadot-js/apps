@@ -46,7 +46,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary trigger={codeTrigger} />
       <Button.Group>
         <Button
@@ -90,15 +90,17 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       {isAddOpen && (
         <ContractAdd onClose={toggleAdd} />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Contracts)`
+const StyledDiv = styled.div`
   .ui--Table td > article {
     background: transparent;
     border: none;
     margin: 0;
     padding: 0;
   }
-`);
+`;
+
+export default React.memo(Contracts);

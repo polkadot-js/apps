@@ -89,7 +89,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   }, [paraInfo, sessionValidators]);
 
   return (
-    <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
+    <StyledTr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
       <Table.Column.Id value={id} />
       <td className='badge together'>
         {paraInfo.paraInfo?.locked?.isFalse
@@ -172,11 +172,11 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           periods={paraInfo.leases}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Parachain)`
+const StyledTr = styled.tr`
   &.isDisabled {
     td {
       opacity: 0.5
@@ -188,4 +188,6 @@ export default React.memo(styled(Parachain)`
     margin: 0 0.25rem 0 0;
     vertical-align: middle;
   }
-`);
+`;
+
+export default React.memo(Parachain);

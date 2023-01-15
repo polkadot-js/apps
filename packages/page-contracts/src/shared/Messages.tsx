@@ -94,7 +94,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
   );
 
   return (
-    <div className={`ui--Messages ${className}${isLabelled ? ' isLabelled' : ''}`}>
+    <StyledDiv className={`ui--Messages ${className}${isLabelled ? ' isLabelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
           {sortMessages(constructors).map(([message, index]) => (
@@ -126,11 +126,11 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
       {withWasm && source.wasm.length !== 0 && (
         <div>{t<string>('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Messages)`
+const StyledDiv = styled.div`
   padding-bottom: 0.75rem !important;
 
   &.isLabelled {
@@ -141,4 +141,6 @@ export default React.memo(styled(Messages)`
     padding: 1rem 1rem 0.5rem;
     width: 100%;
   }
-`);
+`;
+
+export default React.memo(Messages);

@@ -375,7 +375,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
@@ -387,11 +387,11 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
           {renderRows(createRows(tree.arr))}
         </tbody>
       </table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Forks)`
+const StyledDiv = styled.div`
   margin-bottom: 1.5rem;
 
   table {
@@ -460,4 +460,6 @@ export default React.memo(styled(Forks)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Forks);

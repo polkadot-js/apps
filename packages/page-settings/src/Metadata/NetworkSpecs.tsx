@@ -103,7 +103,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   }
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('No open tips')}
       header={headerRef.current}
@@ -206,11 +206,11 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           />
         </td>
       </tr>
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(NetworkSpecs)`
+const StyledTable = styled(Table)`
   td {
     padding: 0;
 
@@ -272,4 +272,6 @@ export default React.memo(styled(NetworkSpecs)`
       border: 1px solid white;
     }
   }
-`);
+`;
+
+export default React.memo(NetworkSpecs);

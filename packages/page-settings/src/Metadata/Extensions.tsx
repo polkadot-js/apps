@@ -49,7 +49,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   ]);
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('No Upgradable extensions')}
       header={headerRef.current}
@@ -83,12 +83,14 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
         )
         : <Spinner />
       }
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Extensions)`
+const StyledTable = styled(Table)`
   table {
     overflow: visible;
   }
-`);
+`;
+
+export default React.memo(Extensions);

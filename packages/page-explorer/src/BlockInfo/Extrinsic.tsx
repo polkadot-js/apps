@@ -113,7 +113,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
   );
 
   return (
-    <tr
+    <StyledTr
       className={className}
       key={`extrinsic:${index}`}
     >
@@ -176,11 +176,11 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             : null
         }
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(ExtrinsicDisplay)`
+const StyledTr = styled.tr`
   .explorer--BlockByHash-event+.explorer--BlockByHash-event {
     margin-top: 0.75rem;
   }
@@ -205,4 +205,6 @@ export default React.memo(styled(ExtrinsicDisplay)`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-`);
+`;
+
+export default React.memo(ExtrinsicDisplay);

@@ -216,7 +216,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   }
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <header>
         <Columar>
           <Columar.Column>
@@ -285,11 +285,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           tval={strings[key]}
         />
       )}
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(Translate)`
+const StyledMain = styled.main`
   .ui--Column {
     display: flex;
 
@@ -308,4 +308,6 @@ export default React.memo(styled(Translate)`
     justify-content: flex-end;
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Translate);

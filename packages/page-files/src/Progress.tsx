@@ -12,7 +12,7 @@ export interface Props {
 
 function Progress ({ className = '', progress, style }: Props) {
   return (
-    <div
+    <StyledDiv
       className={`highlight--border ${className}`}
       style={style}
     >
@@ -20,11 +20,11 @@ function Progress ({ className = '', progress, style }: Props) {
         className='file-progress-bar highlight--bg'
         style={{ width: `${progress}%` }}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo<Props>(styled(Progress)`
+const StyledDiv = styled.div`
   width: 100%;
   background: unset;
   overflow: hidden;
@@ -38,4 +38,6 @@ export default React.memo<Props>(styled(Progress)`
     width: 0;
     height: 100%;
   }
-`);
+`;
+
+export default React.memo<Props>(Progress);
