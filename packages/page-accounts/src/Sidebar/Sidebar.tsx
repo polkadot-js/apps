@@ -4,7 +4,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { LinkExternal, Sidebar } from '@polkadot/react-components';
+import { LinkExternal } from '@polkadot/react-components';
+import Sidebar from '@polkadot/react-components/Sidebar';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
@@ -17,8 +18,8 @@ interface Props {
   address: string;
   className?: string;
   dataTestId?: string;
-  onClose: () => void;
-  onUpdateName: () => void;
+  onClose?: () => void;
+  onUpdateName?: (() => void) | null;
 }
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
@@ -28,7 +29,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Sidebar
+    <StyledSidebar
       className={`${className}${inEditMode ? ' inEditMode' : ''}`}
       dataTestId={dataTestId}
       onClose={onClose}
@@ -65,11 +66,11 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           type='address'
         />
       </section>
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(FullSidebar)`
+const StyledSidebar = styled(Sidebar)`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-sidebar);
@@ -326,4 +327,6 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(FullSidebar);

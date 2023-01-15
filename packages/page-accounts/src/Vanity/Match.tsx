@@ -36,7 +36,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td
         className='number'
         colSpan={2}
@@ -65,11 +65,11 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
           onClick={_onRemove}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Match)`
+const StyledTr = styled.tr`
   text-align: center;
 
   &:hover {
@@ -107,4 +107,6 @@ export default React.memo(styled(Match)`
     opacity: 0.45;
     padding: 0 1rem;
   }
-`);
+`;
+
+export default React.memo(Match);

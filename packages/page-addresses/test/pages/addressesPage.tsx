@@ -11,6 +11,8 @@ import { mockAccountHooks } from '@polkadot/test-support/utils/accountDefaults';
 
 import AddressOverview from '../../src/Contacts/index';
 
+const NOOP_CHANGE = () => undefined;
+
 jest.mock('@polkadot/react-hooks/useAddresses', () => ({
   useAddresses: () => ({
     allAddresses: mockAccountHooks.useAccounts.allAccounts,
@@ -21,7 +23,12 @@ jest.mock('@polkadot/react-hooks/useAddresses', () => ({
 
 export class AddressesPage extends Page {
   constructor () {
-    super(<AddressOverview />, 'Address-');
+    super(
+      <AddressOverview
+        onStatusChange={NOOP_CHANGE}
+      />,
+      'Address-'
+    );
   }
 
   async getAddressesRows (): Promise<Row[]> {

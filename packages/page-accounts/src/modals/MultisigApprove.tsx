@@ -163,7 +163,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const isAye = type === 'aye';
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Pending call hashes')}
       onClose={onClose}
@@ -284,13 +284,15 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           onStart={onClose}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(MultisigApprove)`
+const StyledModal = styled(Modal)`
   .tipToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(MultisigApprove);

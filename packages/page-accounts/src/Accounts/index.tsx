@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
@@ -127,7 +128,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const accountsWithInfo = useMemo(
     () => allAccounts
-      .map((address, index): SortedAccount => {
+      .map((address, index): Omit<SortedAccount, 'account'> & { account: KeyringAddress | undefined } => {
         const deleg = delegations && delegations[index]?.isDelegating && delegations[index]?.asDelegating;
         const delegation: Delegation | undefined = (deleg && {
           accountDelegated: deleg.target.toString(),
@@ -141,7 +142,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           delegation,
           isFavorite: favoritesMap[address ?? ''] ?? false
         };
-      }),
+      })
+      .filter((a): a is SortedAccount => !!a.account),
     [allAccounts, favoritesMap, delegations]
   );
 
@@ -247,7 +249,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -371,11 +373,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             : null
         )
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Overview)`
+const StyledDiv = styled.div`
   .ui--Dropdown {
     width: 15rem;
   }
@@ -391,4 +393,6 @@ export default React.memo(styled(Overview)`
       margin-left: auto;
     }
   }
-`);
+`;
+
+export default React.memo(Overview);

@@ -35,7 +35,7 @@ import { cacheUnlock, extractExternal, handleTxResults } from './util';
 interface Props {
   className?: string;
   currentItem: QueueTx;
-  requestAddress: string;
+  requestAddress: string | null;
 }
 
 interface InnerTx {
@@ -346,7 +346,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   return (
     <>
-      <Modal.Content className={className}>
+      <StyledModalContent className={className}>
         <ErrorBoundary
           error={error}
           onError={toggleRenderError}
@@ -411,7 +411,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
           }
         </ErrorBoundary>
-      </Modal.Content>
+      </StyledModalContent>
       <Modal.Actions>
         <Button
           icon={
@@ -449,7 +449,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   );
 }
 
-export default React.memo(styled(TxSigned)`
+const StyledModalContent = styled(Modal.Content)`
   .tipToggle {
     width: 100%;
     text-align: right;
@@ -458,4 +458,6 @@ export default React.memo(styled(TxSigned)`
   .ui--Checks {
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(TxSigned);

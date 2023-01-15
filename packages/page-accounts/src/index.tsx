@@ -44,16 +44,10 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       />
       <Switch>
         <Route path={`${basePath}/vanity`}>
-          <Vanity
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Vanity onStatusChange={onStatusChange} />
         </Route>
         <Route>
-          <Accounts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Accounts onStatusChange={onStatusChange} />
         </Route>
       </Switch>
     </main>

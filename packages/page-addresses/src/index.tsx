@@ -30,10 +30,7 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
       />
       <Switch>
         <Route>
-          <Contacts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Contacts onStatusChange={onStatusChange} />
         </Route>
       </Switch>
     </main>

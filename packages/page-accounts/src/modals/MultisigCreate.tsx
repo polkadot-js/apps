@@ -153,7 +153,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const isValid = isNameValid && isThresholdValid;
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add multisig')}
       onClose={onClose}
@@ -252,13 +252,15 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           onClick={_createMultisig}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Multisig)`
+const StyledModal = styled(Modal)`
   .signaturesFileToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(Multisig);
