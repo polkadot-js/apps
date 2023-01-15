@@ -9,7 +9,7 @@ import { Button } from '@polkadot/react-components';
 interface Option {
   isDisabled?: boolean;
   text: string;
-  value: number;
+  value: string | number;
 }
 
 interface Props {

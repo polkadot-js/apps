@@ -25,7 +25,7 @@ interface DeriveStakingAccountPartial {
 }
 
 interface Props {
-  iconPosition: 'left' | 'right';
+  iconPosition?: 'left' | 'right';
   className?: string;
   stakingInfo?: DeriveStakingAccountPartial;
 }
