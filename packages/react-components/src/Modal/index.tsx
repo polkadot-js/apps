@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModalProps } from './types';
-
 import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -14,9 +12,18 @@ import Columns from './Columns';
 import Content from './Content';
 import Header from './Header';
 
-function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
+interface Props {
+  size?: 'large' | 'medium' | 'small';
+  children: React.ReactNode;
+  className?: string;
+  header?: React.ReactNode;
+  open?: boolean;
+  onClose: () => void;
+  testId?: string;
+}
+
+function ModalBase ({ children, className = '', header, onClose, size = 'medium', testId = 'modal' }: Props): React.ReactElement<Props> {
   const { themeClassName } = useTheme();
-  const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
     // eslint-disable-next-line deprecation/deprecation

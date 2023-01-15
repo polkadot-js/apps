@@ -1,12 +1,17 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColFavoriteProps as Props } from '../types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../../Icon';
+
+export interface Props {
+  address: string;
+  className?: string;
+  isFavorite: boolean;
+  toggle: (address: string) => void;
+}
 
 function Favorite ({ address, className = '', isFavorite, toggle }: Props): React.ReactElement<Props> {
   const onClick = useCallback(

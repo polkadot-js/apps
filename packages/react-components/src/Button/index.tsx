@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ButtonProps } from './types';
+import type { ButtonProps as Props } from './types';
 
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
@@ -10,7 +10,7 @@ import Icon from '../Icon';
 import Spinner from '../Spinner';
 import Group from './Group';
 
-function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
+function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (): void => {
       !(isBusy || isDisabled) && onClick && onClick();

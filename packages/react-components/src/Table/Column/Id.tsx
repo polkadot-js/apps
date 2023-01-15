@@ -1,12 +1,17 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColIdProps as Props } from '../types';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import { formatNumber } from '@polkadot/util';
+
+export interface Props {
+  className?: string;
+  value: BN | number;
+}
 
 function Id ({ className = '', value }: Props): React.ReactElement<Props> {
   return (

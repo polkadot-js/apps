@@ -1,12 +1,16 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColExpandProps as Props } from '../types';
-
 import React from 'react';
 import styled from 'styled-components';
 
 import Icon from '../../Icon';
+
+export interface Props {
+  className?: string;
+  isExpanded: boolean;
+  toggle: () => void;
+}
 
 function Expand ({ className = '', isExpanded, toggle }: Props): React.ReactElement<Props> {
   return (

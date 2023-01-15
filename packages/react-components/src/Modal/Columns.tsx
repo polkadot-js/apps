@@ -1,12 +1,16 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColumnsProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 
-function Columns ({ children, className = '', hint }: ColumnsProps): React.ReactElement<ColumnsProps> {
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+  hint?: React.ReactNode;
+}
+
+function Columns ({ children, className = '', hint }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={`${className} ui--Modal-Columns`}>
       <div>{children}</div>
