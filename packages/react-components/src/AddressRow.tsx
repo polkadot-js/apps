@@ -56,7 +56,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
       onChangeTags={setTags}
       onSaveName={onSaveName}
       onSaveTags={onSaveTags}
-      tags={withTags && tags}
+      tags={withTags ? tags : undefined}
     >
       {children}
       {overlay}

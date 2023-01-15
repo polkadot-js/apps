@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
-export default {
+export const Dotreasury: ExternalDef = {
   chains: {
     Kusama: 'ksm',
     Polkadot: 'dot'

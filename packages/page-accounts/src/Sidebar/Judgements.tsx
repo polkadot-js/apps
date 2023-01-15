@@ -28,7 +28,6 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
       >
         <Tag
           color='yellow'
-          isTag={false}
           key='NoJudgements'
           label={t<string>('No judgements')}
           size='tiny'

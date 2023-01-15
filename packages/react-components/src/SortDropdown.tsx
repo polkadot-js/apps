@@ -10,7 +10,7 @@ interface Props {
   className?: string;
   defaultValue: string;
   label: string;
-  onChange: (value: unknown) => void;
+  onChange: (value: any) => void;
   onClick: () => void;
   options: unknown[];
   sortDirection: 'descending' | 'ascending';

@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { isString } from '@polkadot/util';
+
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
 
@@ -19,7 +21,7 @@ interface Props {
   isTrimmed?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  value?: string;
+  value?: React.ReactNode | string | null;
   withCopy?: boolean;
   withLabel?: boolean;
 }
@@ -36,7 +38,7 @@ function Output ({ children, className = '', isDisabled, isError, isFull, isHidd
       withLabel={withLabel}
     >
       <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
-        {isTrimmed && value && (value.length > 512)
+        {isTrimmed && isString(value) && (value.length > 512)
           ? `${value.slice(0, 256)}…${value.slice(-256)}`
           : value
         }
