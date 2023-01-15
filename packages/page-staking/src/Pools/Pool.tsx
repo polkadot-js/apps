@@ -68,12 +68,10 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
             ? info.bonded.state.type
             : <span className='--tmp'>Destroying</span>}
         </td>
-        <td className='number'>
-          <FormatBalance
-            className={info ? '' : '--tmp'}
-            value={info?.bonded.points || 1}
-          />
-        </td>
+        <Table.Column.Balance
+          value={info?.bonded.points}
+          withLoading
+        />
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (

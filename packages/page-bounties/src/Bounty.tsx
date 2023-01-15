@@ -70,7 +70,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           <BountyStatusView bountyStatus={bountyStatus} />
         </td>
-        <td><FormatBalance value={value} /></td>
+        <Table.Column.Balance value={value} />
         <td>
           {curatorToRender && (
             <Curator

@@ -8,8 +8,7 @@ import type { ListNode, StashNode } from './types';
 
 import React, { useEffect, useState } from 'react';
 
-import { AddressMini } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
+import { AddressMini, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Rebag from './Rebag';
@@ -63,8 +62,8 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
   return (
     <tr>
       <td className='number' />
-      <td className='number'><FormatBalance value={bagUpper} /></td>
-      <td className='number'><FormatBalance value={bagLower} /></td>
+      <Table.Column.Balance value={bagUpper} />
+      <Table.Column.Balance value={bagLower} />
       <td className='address'>{info.head.isSome && <AddressMini value={info.head.unwrap()} />}</td>
       <td className='address'>{info.tail.isSome && <AddressMini value={info.tail.unwrap()} />}</td>
       <td className='address'>
