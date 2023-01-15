@@ -22,7 +22,7 @@ export interface Props {
   isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
-  renderChildren?: (() => React.ReactNode) | null;
+  renderChildren?: (() => React.ReactNode | undefined | null) | null;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;

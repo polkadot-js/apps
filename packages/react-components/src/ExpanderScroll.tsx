@@ -11,7 +11,7 @@ import Table from './Table';
 
 interface Props extends ExpanderProps {
   empty?: string;
-  renderChildren?: (() => React.ReactNode[]) | null;
+  renderChildren?: (() => React.ReactNode[] | undefined | null) | null;
 }
 
 function mapRow (row: React.ReactNode, key: number): React.ReactNode {
@@ -36,7 +36,7 @@ function ExpanderScroll ({ children, className, empty, renderChildren, summary }
           isInline
         >
           {renderChildren
-            ? renderChildren().map(mapRow)
+            ? renderChildren()?.map(mapRow)
             : Array.isArray(children)
               ? children.map(mapRow)
               : <tr><td>{children}</td></tr>

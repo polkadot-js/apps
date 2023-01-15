@@ -32,7 +32,7 @@ interface Props {
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   maxLength?: number;
-  maxValue?: BN;
+  maxValue?: BN | null;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
   onEscape?: () => void;
@@ -82,7 +82,7 @@ function getSiPowers (si: SiDef | null, decimals?: number): [BN, number, number]
   return [new BN(basePower + si.power), basePower, si.power];
 }
 
-function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN): boolean {
+function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null): boolean {
   if (
     // cannot be negative
     (!isSigned && bn.lt(BN_ZERO)) ||
@@ -101,7 +101,7 @@ function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroa
   return true;
 }
 
-function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [BN, boolean] {
+function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [BN, boolean] {
   const [siPower, basePower, siUnitPower] = getSiPowers(si, decimals);
 
   // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
@@ -132,7 +132,7 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
   ];
 }
 
-function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [string, BN, boolean] {
+function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return [
     value,
     ...inputToBn(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals)
@@ -155,7 +155,7 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null, isSigned: boolean, isZe
   ];
 }
 
-function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [string, BN, boolean] {
+function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return isBn(value)
     ? getValuesFromBn(value, si, isSigned, isZeroable, decimals)
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);

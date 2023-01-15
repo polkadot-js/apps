@@ -8,6 +8,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 
 import { useQueue } from '@polkadot/react-hooks';
+import { isString } from '@polkadot/util';
 
 import Button from './Button';
 import { useTranslation } from './translate';
@@ -19,7 +20,7 @@ interface Props {
   label?: React.ReactNode;
   type?: string;
   isMnemonic?: boolean;
-  value?: string | null;
+  value?: React.ReactNode | null;
 }
 
 const NOOP = () => undefined;
@@ -39,7 +40,7 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
     [type, queueAction, t]
   );
 
-  if (!value) {
+  if (!isString(value)) {
     return null;
   }
 
@@ -47,7 +48,7 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
     <StyledDiv className={`${className} ui--CopyButton`}>
       <CopyToClipboard
         onCopy={_onCopy}
-        text={value}
+        text={value as string}
       >
         <div className='copyContainer'>
           {children}

@@ -13,7 +13,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   icon?: IconName;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 function EditButton ({ children, className = '', icon = 'edit', onClick }: Props): React.ReactElement<Props> {
