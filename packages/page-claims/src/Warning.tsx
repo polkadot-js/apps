@@ -42,7 +42,7 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
 }
 
 const StyledDiv = styled.div`
-  font-size: 1.15rem;
+  font-size: var(--font-size-h3);
   display: flex;
   flex-direction: column;
   justify-content: center;
