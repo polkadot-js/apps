@@ -57,7 +57,7 @@ function Column ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
+function Base ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={`${className} ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size`}>
       {children}
@@ -132,6 +132,8 @@ const StyledDiv = styled.div`
     }
   }
 `;
+
+const Columar = React.memo(Base) as unknown as typeof Base & { Column: typeof Column };
 
 Columar.Column = Column;
 
