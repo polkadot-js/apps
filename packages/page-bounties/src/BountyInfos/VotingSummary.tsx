@@ -30,7 +30,7 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
   return (
     <>
       {proposal && (
-        <div
+        <StyledDiv
           className={className}
           data-testid='voting-summary'
         >
@@ -43,13 +43,13 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
               status={status}
             />
           </div>
-        </div>
+        </StyledDiv>
       )}
     </>
   );
 }
 
-export default React.memo(styled(VotingSummary)`
+const StyledDiv = styled.div`
   .voting-summary-text {
     font-size: var(--font-size-small);
     line-height: 1.5rem;
@@ -67,4 +67,6 @@ export default React.memo(styled(VotingSummary)`
     align-items: center;
     line-height: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(VotingSummary);

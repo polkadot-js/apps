@@ -84,7 +84,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
       isError={!hasClaim}
       isSuccess={hasClaim}
     >
-      <div className={className}>
+      <StyledDiv className={className}>
         {t<string>('Your Ethereum account')}
         <h2>{addrToChecksum(ethereumAddress.toString())}</h2>
         {hasClaim
@@ -108,7 +108,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
               {t<string>('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
             </>
           )}
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
@@ -140,4 +140,6 @@ h2 {
 }
 `;
 
-export default React.memo(styled(Claim)`${ClaimStyles}`);
+const StyledDiv = styled.div`${ClaimStyles}`;
+
+export default React.memo(Claim);

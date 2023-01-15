@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { Balance, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
@@ -15,7 +15,7 @@ import BountyInitiateVoting from './BountyInitiateVoting';
 import ProposeCuratorAction from './ProposeCuratorAction';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   description: string;
   fee?: BN;
   index: BountyIndex;
