@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -192,8 +192,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2125,
     text: 'InvArch Tinkernet',
     providers: {
-      'InvArch Team': 'wss://tinker.invarch.network',
-      // OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8553
+      // 'InvArch Team': 'wss://tinker.invarch.network', // https://github.com/polkadot-js/apps/issues/8623
+      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
       // NOTE: Keep this as the last entry, nothing after it
       'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
     }
@@ -340,7 +340,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonriver'
+      Pinknode: 'wss://public-rpc.pinknode.io/moonriver',
+      UnitedBloc: 'wss://moonriver.unitedbloc.com:2001'
       // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
@@ -427,7 +428,7 @@ export const prodParasKusama: EndpointOption[] = [
   {
     info: 'robonomics',
     homepage: 'http://robonomics.network/',
-    paraId: 2237,
+    paraId: 2240,
     text: 'Robonomics 2',
     isUnreachable: true,
     providers: {
@@ -507,8 +508,17 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2100,
     text: 'SubsocialX',
     providers: {
-      'Dappforce 1': 'wss://para.f3joule.space',
-      'Dappforce 2': 'wss://para.subsocial.network'
+      'Dappforce 1': 'wss://para.f3joule.space'
+      // 'Dappforce 2': 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/8781
+    }
+  },
+  {
+    info: 'zero',
+    homepage: 'https://zero.io',
+    paraId: 2236,
+    text: 'subzero',
+    providers: {
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     }
   },
   {
@@ -569,6 +579,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemine',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
@@ -596,6 +607,7 @@ export const prodRelayKusama: EndpointOption = {
     Parity: 'wss://kusama-rpc.polkadot.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746

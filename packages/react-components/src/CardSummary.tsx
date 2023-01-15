@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
@@ -16,6 +16,7 @@ import Progress from './Progress';
 interface ProgressProps {
   hideGraph?: boolean;
   hideValue?: boolean;
+  isBlurred?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
@@ -25,12 +26,11 @@ interface ProgressProps {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   label: React.ReactNode;
   progress?: ProgressProps;
 }
 
-function CardSummary ({ children, className = '', help, label, progress }: Props): React.ReactElement<Props> | null {
+function CardSummary ({ children, className = '', label, progress }: Props): React.ReactElement<Props> | null {
   const value = progress && progress.value;
   const total = progress && progress.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -57,12 +57,11 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
   const testidSuffix = (label ?? '').toString();
 
   return (
-    <article
+    <StyledArticle
       className={className}
       data-testid={`card-summary:${testidSuffix}`}
     >
       <Labelled
-        help={help}
         isSmall
         label={label}
       >
@@ -70,7 +69,10 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && !children && (
-                <BlockToTime value={progress.total} />
+                <BlockToTime
+                  className={progress.isBlurred ? '--tmp' : ''}
+                  value={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -83,7 +85,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        className='timer'
+                        className={`${progress.isBlurred ? '--tmp' : ''} timer`}
                         value={progress.total.sub(progress.value)}
                       />
                     )
@@ -94,11 +96,11 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         }
       </Labelled>
       {progress && !progress.hideGraph && <Progress {...progress} />}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(CardSummary)`
+const StyledArticle = styled.article`
   align-items: center;
   background: transparent !important;
   border: none !important;
@@ -119,11 +121,15 @@ export default React.memo(styled(CardSummary)`
   }
 
   > .ui--Labelled {
-    font-size: 1.75rem;
-    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-header);
     position: relative;
     line-height: 1;
     text-align: right;
+
+    > .ui--Labelled-content {
+      color: var(--color-header);
+    }
 
     > * {
       margin: 0.25rem 0;
@@ -137,12 +143,8 @@ export default React.memo(styled(CardSummary)`
       }
     }
 
-    > label {
-      font-size: 0.95rem;
-    }
-
     .isSecondary {
-      font-size: 1rem;
+      font-size: var(--font-size-base);
       font-weight: var(--font-weight-normal);
 
       .timer {
@@ -159,4 +161,6 @@ export default React.memo(styled(CardSummary)`
       font-size: 1.4rem;
     }
   }
-`);
+`;
+
+export default React.memo(CardSummary);

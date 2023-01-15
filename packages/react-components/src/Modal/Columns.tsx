@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ColumnsProps } from './types';
@@ -8,17 +8,17 @@ import styled from 'styled-components';
 
 function Columns ({ children, className = '', hint }: ColumnsProps): React.ReactElement<ColumnsProps> {
   return (
-    <div className={`ui--Modal-Columns ${className}`}>
+    <StyledDiv className={`${className} ui--Modal-Columns`}>
       <div>{children}</div>
       {hint && (
         <div>{hint}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Columns)`
-  align-items: flex-start;
+const StyledDiv = styled.div`
+  align-items: center;
   display: flex;
   justify-content: space-between;
 
@@ -50,10 +50,12 @@ export default React.memo(styled(Columns)`
         box-sizing: border-box;
         display: block;
         flex: 0 34%;
-        font-size: 0.95rem;
+        font-size: var(--font-size-small);
         opacity: 0.75;
-        padding: 0.75rem 0 0.25rem 0.5rem;
+        padding: 0.25rem 0 0.25rem 0.5rem;
       }
     }
   }
-`);
+`;
+
+export default React.memo(Columns);

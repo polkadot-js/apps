@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
@@ -42,7 +42,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
         <Modal.Content>
           <Modal.Columns hint={t<string>('Only curator can extend the bounty time.')}>
             <InputAddress
-              help={t<string>('This account will be used to create an extend bounty expire transaction.')}
               isDisabled
               label={t<string>('curator account')}
               type='account'
@@ -53,7 +52,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
           {expiryDate &&
             <Modal.Columns hint={t<string>(`Bounty expiry time will be set to ${timeAsText} from now.`)}>
               <Input
-                help={t<string>('The extended expiry date does not depend on the current expiry date.')}
                 isDisabled
                 label={t<string>('new expiry date and time')}
                 value={`${expiryDate.toLocaleDateString()} ${expiryDate.toLocaleTimeString()}`}
@@ -64,7 +62,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
             <Input
               autoFocus
               defaultValue={''}
-              help={t<string>('The note linked to the extension call, explaining the reason behind it.')}
               label={t<string>('bounty remark')}
               onChange={onRemarkChange}
               value={remark}

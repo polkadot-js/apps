@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -48,7 +48,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
     };
   });
 
-  const headerRef = useRef<([string?, string?, number?] | false)[]>([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('era {{era}}/unapplied', {
       replace: {
         era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration

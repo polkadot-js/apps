@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -16,15 +16,15 @@ import { formatBalance, nextTick } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface Props {
-  accountId: string | null;
+  accountId?: string | null;
   className?: string;
   extrinsic?: SubmittableExtrinsic | null;
-  isSendable: boolean;
+  isHeader?: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
 }
 
-function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
+function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
@@ -57,6 +57,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
     <>
       <Expander
         className={className}
+        isHeader={isHeader}
         summary={
           <Trans i18nKey='feesForSubmission'>
             Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission

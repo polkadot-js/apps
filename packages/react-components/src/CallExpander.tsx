@@ -1,11 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call, Extrinsic } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import CallDisplay from './Call';
 import Expander from './Expander';
@@ -18,6 +17,7 @@ interface Props {
   labelHash?: React.ReactNode;
   labelSignature?: React.ReactNode;
   mortality?: string;
+  onError?: () => void;
   stringId?: string;
   tip?: BN;
   value?: Call | Extrinsic | null;
@@ -26,7 +26,7 @@ interface Props {
   withSignature?: boolean;
 }
 
-function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value && value.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -34,7 +34,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
     [value]
   );
 
-  if (!call) {
+  if (!call || !value) {
     return null;
   }
 
@@ -42,13 +42,12 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   const callName = `${section}.${method}`;
 
   return (
-    <div className={`ui--CallExpander ${className}`}>
+    <div className={`${className} ui--CallExpander`}>
       <Expander
+        isHeader={isHeader}
         isLeft
         summaryHead={
-          isHeader
-            ? <h1>{stringId && `#${stringId}: `}{callName}</h1>
-            : <div>{stringId && `#${stringId}: `}{callName}</div>
+          <>{stringId && `#${stringId}: `}{callName}</>
         }
         summaryMeta={meta}
       >
@@ -57,9 +56,11 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
           labelHash={labelHash}
           labelSignature={labelSignature}
           mortality={mortality}
+          onError={onError}
           tip={tip}
           value={value}
           withBorder={withBorder}
+          withExpander
           withHash={withHash}
           withSignature={withSignature}
         />
@@ -69,11 +70,4 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   );
 }
 
-export default React.memo(styled(CallExpander)`
-  .ui--Expander-summary-header {
-    h1 {
-      font-size: 1.25rem;
-      text-transform: none;
-    }
-  }
-`);
+export default React.memo(CallExpander);

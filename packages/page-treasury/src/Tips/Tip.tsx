@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance, BlockNumber, OpenTipTo225 } from '@polkadot/types/interfaces';
@@ -122,7 +122,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   const recipient = who.toString();
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address'>
         <AddressSmall value={who} />
       </td>
@@ -208,13 +208,15 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
           type='tip'
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Tip)`
+const StyledTr = styled.tr`
   .closingTimer {
     display: inline-block;
     padding: 0 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tip);

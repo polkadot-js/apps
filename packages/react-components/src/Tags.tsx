@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
@@ -33,7 +33,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
           label={tag}
         />
       ))
-      : <label>{t<string>('no tags')}</label>,
+      : <div>{t<string>('none')}</div>,
     [t, value]
   );
 
@@ -46,7 +46,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
   );
 
   return (
-    <div className={`ui--Tags ${className}`}>
+    <StyledDiv className={`${className} ui--Tags`}>
       {withTitle && (
         <h5>{t<string>('Tags')}</h5>
       )}
@@ -75,20 +75,11 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
           : contents
       }
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tags)`
-  h5 {
-    font-style: normal;
-    font-weight: var(--font-weight-bold);
-    font-size: 0.714rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
+const StyledDiv = styled.div`
   label {
     display: inline-block;
   }
@@ -110,4 +101,6 @@ export default React.memo(styled(Tags)`
   .ui--Tag {
     margin: 0.1rem 0 0.1rem 0.571rem;
   }
-`);
+`;
+
+export default React.memo(Tags);

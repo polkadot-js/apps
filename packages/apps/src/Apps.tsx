@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BareProps as Props, ThemeDef } from '@polkadot/react-components/types';
+import type { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useContext, useMemo } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { getSystemColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useTheme } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
@@ -20,7 +20,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const { themeClassName } = useTheme();
   const { isDevelopment, specName, systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
@@ -33,7 +33,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper theme--${theme} ${className}`}>
+      <StyledDiv className={`${className} apps--Wrapper ${themeClassName}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
@@ -42,20 +42,18 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
           <ConnectingOverlay />
           <div id={PORTAL_ID} />
         </AccountSidebar>
-      </div>
+      </StyledDiv>
       <WarmUp />
     </>
   );
 }
 
-export default React.memo(styled(Apps)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+`;
 
-  .--hidden {
-    display: none;
-  }
-`);
+export default React.memo(Apps);

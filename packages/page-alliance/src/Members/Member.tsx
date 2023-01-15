@@ -1,14 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 import type { Member as MemberType } from '../types';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { AddressSmall, Menu, Popup, Table, Tag } from '@polkadot/react-components';
+import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useMemberInfo from '../useMemberInfo';
@@ -26,7 +25,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const info = useMemberInfo(accountId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const hasNotice = !!api.tx.alliance.giveRetirementNotice;
 
   const hasActions = useMemo(
@@ -82,11 +81,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
           />
         ))}
       </td>
-      <td className='number'>
-        {info && info.deposit && (
-          <FormatBalance value={info.deposit} />
-        )}
-      </td>
+      <Table.Column.Balance value={info?.deposit} />
       <td className='number'>
         {role}
       </td>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-scheduler authors & contributors
+// Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveDispatch } from '@polkadot/api-derive/types';
@@ -29,7 +29,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
     [bestNumber, queued]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
     [],

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -63,7 +63,7 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2112,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/8710
     }
   },
   {
@@ -108,7 +108,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     text: 'Westmint',
     providers: {
       Parity: 'wss://westmint-rpc.polkadot.io',
-      Dwellir: 'wss://westmint-rpc.dwellir.com'
+      Dwellir: 'wss://westmint-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com'
     },
     teleport: [-1]
   },
@@ -120,6 +121,14 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     teleport: [-1]
+  },
+  {
+    info: 'westendBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
@@ -133,6 +142,7 @@ export const testRelayWestend: EndpointOption = {
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     Dwellir: 'wss://westend-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'Dotters Net': 'wss://rpc.dotters.network/westend',
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     // NOTE: Keep this as the last entry, nothing after it

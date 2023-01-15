@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionsProps } from './types';
@@ -10,19 +10,21 @@ import Button from '../Button';
 
 function Actions ({ children, className = '' }: ActionsProps) {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Button.Group>
         {children}
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Actions)`
+const StyledDiv = styled.div`
   background-color: var(--bg-input);
   border-radius: 0 0 4px 4px;
 
   .ui--Button-Group {
     margin: 1rem 1rem;
   }
-`);
+`;
+
+export default React.memo(Actions);

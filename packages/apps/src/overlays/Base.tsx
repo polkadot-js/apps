@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -24,7 +24,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   }
 
   return (
-    <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
+    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
       <div className='content'>
         <Icon
           className='contentIcon'
@@ -42,11 +42,11 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
           onClick={toggleHidden}
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BaseOverlay)`
+const StyledDiv = styled.div`
   background: var(--bg-menu);
   border: 1px solid transparent;
   border-radius: 0.25rem;
@@ -56,7 +56,8 @@ export default React.memo(styled(BaseOverlay)`
   position: fixed;
   right: 0.75rem;
   top: 0.75rem;
-  max-width: 55rem;
+  max-width: 42rem;
+  width: 42rem;
   z-index: 500;
 
   &:before {
@@ -87,6 +88,7 @@ export default React.memo(styled(BaseOverlay)`
   }
 
   .content {
+    align-items: center;
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
@@ -113,4 +115,6 @@ export default React.memo(styled(BaseOverlay)`
     right: 0em;
     top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(BaseOverlay);

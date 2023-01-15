@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId32 } from '@polkadot/types/interfaces';
@@ -8,8 +8,7 @@ import type { ListNode, StashNode } from './types';
 
 import React, { useEffect, useState } from 'react';
 
-import { AddressMini, Spinner } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
+import { AddressMini, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Rebag from './Rebag';
@@ -63,10 +62,10 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
   return (
     <tr>
       <td className='number' />
-      <td className='number'><FormatBalance value={bagUpper} /></td>
-      <td className='number'><FormatBalance value={bagLower} /></td>
-      <td className='address'>{info.head.isSome && <AddressMini value={info.head} />}</td>
-      <td className='address'>{info.tail.isSome && <AddressMini value={info.tail} />}</td>
+      <Table.Column.Balance value={bagUpper} />
+      <Table.Column.Balance value={bagLower} />
+      <td className='address'>{info.head.isSome && <AddressMini value={info.head.unwrap()} />}</td>
+      <td className='address'>{info.tail.isSome && <AddressMini value={info.tail.unwrap()} />}</td>
       <td className='address'>
         {nodesOwn?.map(({ stashId }) => (
           <Stash
@@ -81,7 +80,7 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
       </td>
       <td className='number'>
         {isLoading
-          ? <Spinner noLabel />
+          ? <span className='--tmp'>99</span>
           : list.length
             ? formatNumber(list.length)
             : null

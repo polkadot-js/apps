@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -22,7 +22,7 @@ function sanitize (value?: string): string {
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { specName, systemChain, systemName } = useApi();
   const [isEmpty, img] = useMemo((): [boolean, string] => {
-    const found = logo
+    const found = logo && logo !== 'empty'
       ? namedLogos[logo]
       : chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
 
@@ -30,7 +30,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
   }, [logo, specName, systemChain, systemName]);
 
   return (
-    <img
+    <StyledImg
       alt='chain logo'
       className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}${isInline ? ' isInline' : ''}`}
       onClick={onClick}
@@ -39,7 +39,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
   );
 }
 
-export default React.memo(styled(ChainImg)`
+const StyledImg = styled.img`
   background: white;
   border-radius: 50%;
   box-sizing: border-box;
@@ -51,4 +51,6 @@ export default React.memo(styled(ChainImg)`
     vertical-align: middle;
     width: 24px;
   }
-`);
+`;
+
+export default React.memo(ChainImg);

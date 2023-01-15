@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -68,7 +68,6 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
               available={nominators}
               availableLabel={t<string>('existing/active nominators')}
               defaultValue={nominating}
-              help={t<string>('Filter available nominators based on name, address or short account index.')}
               maxCount={MAX_KICK}
               onChange={setSelected}
               valueLabel={t<string>('nominators to be removed')}

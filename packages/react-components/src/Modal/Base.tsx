@@ -1,17 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types';
 import type { ModalProps } from './types';
 
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+import { useTheme } from '@polkadot/react-hooks';
 
 import Header from './Header';
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const { themeClassName } = useTheme();
   const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
@@ -30,8 +31,8 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   }, [listenKeyboard]);
 
   return createPortal(
-    <div
-      className={`theme--${theme} ui--Modal ${className} size-${size}`}
+    <StyledDiv
+      className={`${className} ui--Modal ${size}Size ${themeClassName} `}
       data-testid={testId}
     >
       <DisableGlobalScroll />
@@ -46,7 +47,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
         />
         {children}
       </div>
-    </div>,
+    </StyledDiv>,
     document.body
   );
 }
@@ -57,7 +58,7 @@ const DisableGlobalScroll = createGlobalStyle`
   }
 `;
 
-export default React.memo(styled(Base)`
+const StyledDiv = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -96,11 +97,13 @@ export default React.memo(styled(Base)`
     font: var(--font-sans);
   }
 
-  &.size-small .ui--Modal__body {
+  &.smallSize .ui--Modal__body {
     max-width: 720px;
   }
 
-  &.size-large .ui--Modal__body {
+  &.largeSize .ui--Modal__body {
     max-width: 1080px;
   }
-`);
+`;
+
+export default React.memo(Base);

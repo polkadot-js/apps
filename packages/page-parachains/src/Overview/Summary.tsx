@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LeasePeriod } from '../types';
@@ -8,7 +8,7 @@ import React from 'react';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BestFinalized } from '@polkadot/react-query';
-import { formatNumber, isNumber } from '@polkadot/util';
+import { BN_THREE, BN_TWO, formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,19 +25,19 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
   return (
     <SummaryBox>
       <section>
-        {isNumber(parachainCount) && (
-          <CardSummary label={t<string>('parachains')}>
-            {formatNumber(parachainCount)}
-          </CardSummary>
-        )}
-        {isNumber(upcomingCount) && (
-          <CardSummary
-            className='media--1000'
-            label={t<string>('parathreads')}
-          >
-            {formatNumber(upcomingCount)}
-          </CardSummary>
-        )}
+        <CardSummary label={t<string>('parachains')}>
+          {isNumber(parachainCount)
+            ? formatNumber(parachainCount)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
+        <CardSummary
+          className='media--1000'
+          label={t<string>('parathreads')}
+        >
+          {isNumber(upcomingCount)
+            ? formatNumber(upcomingCount)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
         {isNumber(proposalCount) && (
           <CardSummary
             className='media--1000'
@@ -48,22 +48,21 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         )}
       </section>
       <section>
-        {leasePeriod && (
-          <>
-            <CardSummary label={t<string>('current lease')}>
-              {formatNumber(leasePeriod.currentPeriod)}
-            </CardSummary>
-            <CardSummary
-              className='media--1200'
-              label={t<string>('lease period')}
-              progress={{
-                total: leasePeriod.length,
-                value: leasePeriod.progress,
-                withTime: true
-              }}
-            />
-          </>
-        )}
+        <CardSummary label={t<string>('current lease')}>
+          {leasePeriod
+            ? formatNumber(leasePeriod.currentPeriod)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t<string>('lease period')}
+          progress={{
+            isBlurred: !leasePeriod,
+            total: leasePeriod ? leasePeriod.length : BN_THREE,
+            value: leasePeriod ? leasePeriod.progress : BN_TWO,
+            withTime: true
+          }}
+        />
       </section>
       <section>
         <CardSummary label={t<string>('finalized')}>

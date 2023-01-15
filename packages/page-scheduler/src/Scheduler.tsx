@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-scheduler authors & contributors
+// Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -92,7 +92,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
     [bestNumber, items]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('scheduled'), 'start'],
     [t('id'), 'start'],
     [t('remaining')],

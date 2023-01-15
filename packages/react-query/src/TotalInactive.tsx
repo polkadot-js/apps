@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -17,15 +17,12 @@ function TotalInactive ({ children, className = '', label }: Props): React.React
   const { api } = useApi();
   const inactiveIssuance = useCall<string>(api.query.balances?.inactiveIssuance);
 
-  if (!inactiveIssuance) {
-    return null;
-  }
-
   return (
     <div className={className}>
       {label || ''}
       <FormatBalance
-        value={inactiveIssuance}
+        className={inactiveIssuance ? '' : '--tmp'}
+        value={inactiveIssuance || 1}
         withSi
       />
       {children}

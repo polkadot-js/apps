@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -51,7 +51,7 @@ function Decoded ({ className, extrinsic, isCall, withData = true, withHash = tr
   }
 
   return (
-    <Columar
+    <StyledColumar
       className={className}
       isPadded={false}
     >
@@ -81,11 +81,11 @@ function Decoded ({ className, extrinsic, isCall, withData = true, withHash = tr
           label={t<string>('encoding details')}
         />
       </Columar.Column>
-    </Columar>
+    </StyledColumar>
   );
 }
 
-export default React.memo(styled(Decoded)`
+const StyledColumar = styled(Columar)`
   .ui--Column:last-child .ui--Labelled {
     padding-left: 0.5rem;
 
@@ -93,4 +93,6 @@ export default React.memo(styled(Decoded)`
       left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
     }
   }
-`);
+`;
+
+export default React.memo(Decoded);

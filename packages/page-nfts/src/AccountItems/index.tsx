@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectionInfo, CollectionInfoComplete } from '../types';
@@ -54,7 +54,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
     [completeInfos, NO_NAME]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('items'), 'start', 2],
     [t('owner'), 'address media--1000']
   ]);
@@ -68,7 +68,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   }, [completeInfos, infoIndex]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Table
         empty={!info && accountItems && t<string>('No accounts with items found for the collection')}
         filter={collectionOptions.length
@@ -93,12 +93,14 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AccountItems)`
+const StyledDiv = styled.div`
   table {
     overflow: auto;
   }
-`);
+`;
+
+export default React.memo(AccountItems);

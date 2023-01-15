@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -43,6 +43,20 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Automata Network': 'wss://api.ata.network',
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
+    }
+  },
+  {
+    info: 'bitgreen',
+    text: 'Bitgreen',
+    providers: {
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+    }
+  },
+  {
+    info: 'bittensor',
+    text: 'Bittensor',
+    providers: {
+      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     }
   },
   {
@@ -127,7 +141,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://edgeware.jelliedowl.net',
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
       Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },

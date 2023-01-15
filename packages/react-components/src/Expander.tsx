@@ -1,13 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { Text } from '@polkadot/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
@@ -19,13 +17,12 @@ interface Meta {
 export interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: string;
-  helpIcon?: IconName;
   isOpen?: boolean;
+  isHeader?: boolean;
   isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
-  renderChildren?: () => React.ReactNode;
+  renderChildren?: (() => React.ReactNode | undefined | null) | null;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
@@ -44,7 +41,7 @@ function splitParts (value: string): string[] {
   return ['[', ']'].reduce((result: string[], sep) => splitSingle(result, sep), [value]);
 }
 
-function formatMeta (meta?: Meta): React.ReactNode | null {
+function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
   if (!meta || !meta.docs.length) {
     return null;
   }
@@ -58,10 +55,13 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
   const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
 
-  return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
+  return [
+    parts[0].split(/[.(]/)[0],
+    <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>
+  ];
 }
 
-function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -69,8 +69,8 @@ function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, i
     [isExpanded, renderChildren]
   );
 
-  const headerSub = useMemo(
-    () => formatMeta(summaryMeta) || summarySub,
+  const [headerSubMini, headerSub] = useMemo(
+    () => formatMeta(summaryMeta) || [summarySub, summarySub],
     [summaryMeta, summarySub]
   );
 
@@ -98,23 +98,19 @@ function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, i
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Expander ${isExpanded ? 'isExpanded' : ''} ${isHeader ? 'isHeader' : ''} ${isPadded ? 'isPadded' : ''} ${hasContent ? 'hasContent' : ''} ${withBreaks ? 'withBreaks' : ''}`}>
       <div
         className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}
       >
         {isLeft && icon}
         <div className='ui--Expander-summary-header'>
-          {help && (
-            <LabelHelp
-              help={help}
-              icon={helpIcon}
-            />
-          )}
-          {summaryHead}
+          <div className='ui--Expander-summary-title'>
+            {summaryHead}
+          </div>
           {summary}
-          {isExpanded && headerSub && (
-            <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
+          {headerSub && (
+            <div className='ui--Expander-summary-header-sub'>{isExpanded ? headerSub : headerSubMini}</div>
           )}
         </div>
         {!isLeft && icon}
@@ -122,25 +118,33 @@ function Expander ({ children, className = '', help, helpIcon, isLeft, isOpen, i
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children || demandChildren}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Expander)`
-  max-width: 100%;
+const StyledDiv = styled.div`
+  max-width: 60rem;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  &:not(.isExpanded) .ui--Expander-content {
-    display: none;
+  &:not(.isExpanded) {
+    .ui--Expander-content {
+      display: none;
+    }
   }
 
-  &.isExpanded .ui--Expander-content {
-    margin-top: 0.75rem;
+  &.isExpanded {
+    .ui--Expander-content {
+      margin-top: 0.75rem;
 
-    .body.column {
-      justify-content: end;
+      .body.column {
+        justify-content: end;
+      }
     }
+  }
+
+  &.isHeader {
+    margin-left: 2rem;
   }
 
   &.withBreaks .ui--Expander-content {
@@ -163,6 +167,23 @@ export default React.memo(styled(Expander)`
       span {
         white-space: normal;
       }
+
+      .ui--Expander-summary-header-sub,
+      .ui--Expander-summary-title {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        box-orient: vertical;
+        display: -webkit-box;
+        line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+      }
+
+      .ui--Expander-summary-header-sub {
+        font-size: var(--font-size-small);
+        opacity: var(--opacity-light);
+      }
     }
 
     .ui--Icon {
@@ -184,13 +205,6 @@ export default React.memo(styled(Expander)`
         vertical-align: text-bottom;
       }
     }
-
-    .ui--Expander-summary-header-sub {
-      font-size: 1rem;
-      opacity: 0.6;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
   }
 
   &.hasContent .ui--Expander-summary {
@@ -200,4 +214,6 @@ export default React.memo(styled(Expander)`
   &.isPadded .ui--Expander-summary {
     margin-left: 2.25rem;
   }
-`);
+`;
+
+export default React.memo(Expander);

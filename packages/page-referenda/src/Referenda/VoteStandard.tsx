@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -11,13 +11,13 @@ import { ConvictionDropdown, Modal, VoteValue } from '@polkadot/react-components
 import { useTranslation } from '../translate';
 
 interface Props extends VoteTypeProps {
-  voteLockingPeriod?: BN;
+  voteLockingPeriod: BN;
 }
 
 function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [balance, setBalance] = useState<BN | undefined>();
-  const [conviction, setConviction] = useState(0);
+  const [conviction, setConviction] = useState(1);
 
   useEffect((): void => {
     onChange([id, {
@@ -51,7 +51,6 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
         onChange={setBalance}
       />
       <ConvictionDropdown
-        help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
         label={t<string>('conviction')}
         onChange={setConviction}
         value={conviction}

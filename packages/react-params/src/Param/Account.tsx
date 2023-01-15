@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { MultiAddress } from '@polkadot/types/interfaces';
@@ -27,7 +27,7 @@ function isValidAddress (value?: string | null): boolean {
 }
 
 function Account (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, type, withLabel } = props;
+  const { className = '', defaultValue: { value }, isDisabled, isError, label, onChange, type, withLabel } = props;
   const [defaultValue] = useState(() => (value as string)?.toString());
 
   const _onChange = useCallback(
@@ -51,7 +51,6 @@ function Account (props: Props): React.ReactElement<Props> {
       <InputAddress
         className='full'
         defaultValue={defaultValue}
-        hideAddress={isInOption}
         isDisabled={isDisabled}
         isError={isError}
         isInput

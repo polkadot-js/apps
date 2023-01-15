@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -237,7 +237,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
   return (
-    <main className={`js--App ${className}`}>
+    <StyledMain className={`${className} js--App`}>
       <Tabs
         basePath={basePath}
         items={tabsRef.current}
@@ -295,11 +295,11 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
           </article>
         </div>
       )}
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(Playground)`
+const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -418,4 +418,6 @@ export default React.memo(styled(Playground)`
       margin-bottom: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Playground);

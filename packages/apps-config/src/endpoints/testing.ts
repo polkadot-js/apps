@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -93,6 +93,13 @@ export const testChains: EndpointOption[] = [
     text: 'Bit.Country - Metaverse Network',
     providers: {
       'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
+    }
+  },
+  {
+    info: 'bitgreen',
+    text: 'Bitgreen Testnet',
+    providers: {
+      // Bitgreen: 'wss://standalonetestnet.bitgreen.org' // https://github.com/polkadot-js/apps/issues/8693
     }
   },
   {
@@ -358,7 +365,8 @@ export const testChains: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/alphanet'
+      Pinknode: 'wss://public-rpc.pinknode.io/alphanet',
+      UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     }
   },
   {
@@ -619,9 +627,7 @@ export const testChains: EndpointOption[] = [
     info: 'web3games',
     text: 'Web3Games',
     providers: {
-      'Web3Games Foundation 0': 'wss://testnet-rpc-0.web3games.org',
-      'Web3Games Foundation 1': 'wss://testnet-rpc-1.web3games.org',
-      'Web3Games Foundation 2': 'wss://testnet-rpc-2.web3games.org'
+      'Web3Games Foundation': 'wss://devnet.web3games.org'
     }
   },
   {

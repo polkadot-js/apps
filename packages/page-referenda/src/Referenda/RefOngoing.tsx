@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
@@ -9,8 +9,8 @@ import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import usePreimage, { getPreimageHash } from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
+import { getPreimageHash, usePreimage } from '@polkadot/react-hooks/usePreimage';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
@@ -28,7 +28,6 @@ interface Expanded {
     confirmEnd: BN | null;
   };
   proposalHash: HexString;
-  shortHash: string;
   submissionDeposit: PalletReferendaDeposit | null;
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
   tallyTotal: BN;
@@ -69,7 +68,6 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       prepareEnd
     },
     proposalHash,
-    shortHash: `${proposalHash.slice(0, 10)}…${proposalHash.slice(-8)}`,
     submissionDeposit: unwrapDeposit(ongoing.submissionDeposit),
     tally: ongoing.tally,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
@@ -79,7 +77,7 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
 function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, submissionDeposit, tally, tallyTotal } = useMemo(
+  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, submissionDeposit, tally, tallyTotal } = useMemo(
     () => expandOngoing(info, track),
     [info, track]
   );
@@ -97,7 +95,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : t('preimage {{shortHash}}', { replace: { shortHash } })
+          : <div className='shortHash'>{proposalHash}</div>
         }
       </td>
       <Deposits
@@ -124,13 +122,14 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
         palletVote={palletVote}
         tally={tally}
       />
-      <td className='middle chart'>
+      <td className='middle chart media--1300-noPad'>
         <Progress
+          className='media--1300'
           total={tallyTotal}
           value={tally.ayes}
         />
       </td>
-      <td className='button'>
+      <td className='actions button'>
         <Vote
           id={id}
           isConvictionVote={isConvictionVote}

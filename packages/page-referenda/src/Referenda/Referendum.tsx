@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
@@ -10,7 +10,7 @@ import type { CurveGraph, ReferendumProps as Props } from '../types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
@@ -285,28 +285,14 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
             )
           },
           crosshair: {
-            line: {
-              color: '#ff8c00',
-              dashPattern: [5, 5],
-              width: 2
-            },
-            snapping: {
-              enabled: true
-            },
             sync: {
               group: refId.toNumber()
-            },
-            // this would be nice, but atm just doesn't quite
-            // seem or feel intuitive...
-            zoom: {
-              enabled: false
             }
           },
           tooltip: {
             callbacks: {
               title
-            },
-            intersect: false
+            }
           }
         }
       }, OPTIONS),
@@ -314,6 +300,47 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
       values
     };
   });
+}
+
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, track?: PalletReferendaTrackInfo): { confirmEnd: BN | null, enactAt: { at: boolean, blocks: BN, end: BN | null } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let confirmEnd: BN | null = null;
+  let enactAt: { at: boolean, blocks: BN, end: BN | null } | null = null;
+  let nextAlarm: BN | null = null;
+  let submittedIn: BN | null = null;
+
+  if (info.isOngoing) {
+    const { alarm, deciding, enactment, submitted } = info.asOngoing;
+
+    enactAt = {
+      at: enactment.isAt,
+      blocks: enactment.isAt
+        ? enactment.asAt
+        : enactment.asAfter,
+      end: null
+    };
+    nextAlarm = alarm.unwrapOr([null])[0];
+    submittedIn = submitted;
+
+    if (deciding.isSome) {
+      const { confirming } = deciding.unwrap();
+
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
+
+        if (track) {
+          // add our track data
+          const fastEnd = confirmEnd.add(track.minEnactmentPeriod);
+
+          enactAt.end = enactment.isAt
+            ? bnMax(fastEnd, enactment.asAt)
+            : fastEnd.add(enactment.asAfter);
+        }
+      }
+    }
+  }
+
+  return { confirmEnd, enactAt, nextAlarm, submittedIn };
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
@@ -340,6 +367,11 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
+  const { confirmEnd, enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info, track),
+    [info, track]
+  );
+
   const chartLegend = useMemo(
     () => [
       [
@@ -358,29 +390,21 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className}${chartProps && isExpanded ? ' noBorder' : ''}`}>
-        <td className='number'>
-          <h1>{formatNumber(id)}</h1>
-        </td>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={id} />
         <Component {...props} />
-        <td className='links media--1000'>
-          <LinkExternal
-            data={id}
-            type={palletReferenda}
-          />
-        </td>
-        <td className='links media--1000'>
-          {chartResult && (
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          )}
-        </td>
-      </tr>
-      <tr className={`${className} ${chartProps && isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
-        {chartProps && isExpanded && (
-          <td colSpan={10}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={6}
+        >
+          {chartProps && (
             <Columar>
               <Columar.Column className='chartColumn'>
                 <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
@@ -397,20 +421,79 @@ function Referendum (props: Props): React.ReactElement<Props> {
                 />
               </Columar.Column>
             </Columar>
-          </td>
-        )}
-      </tr>
+          )}
+          <Columar size='tiny'>
+            <Columar.Column>
+              {submittedIn && (
+                <>
+                  <h5>{t<string>('Submitted at')}</h5>
+                  #{formatNumber(submittedIn)}
+                </>
+              )}
+              {nextAlarm && (
+                <>
+                  <h5>{t<string>('Next alarm')}</h5>
+                  #{formatNumber(nextAlarm)}
+                </>
+              )}
+            </Columar.Column>
+            <Columar.Column>
+              {enactAt && (
+                <>
+                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
+                  {enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
+                </>
+              )}
+              {confirmEnd && (
+                <>
+                  <h5>{t<string>('Confirm end')}</h5>
+                  #{formatNumber(confirmEnd)}
+                </>
+              )}
+              {enactAt?.end && (
+                <>
+                  <h5>{t<string>('Enact end')}</h5>
+                  #{formatNumber(enactAt.end)}
+                </>
+              )}
+            </Columar.Column>
+          </Columar>
+          <Columar
+            is100
+            size='tiny'
+          >
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type={palletReferenda}
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
+const StyledTr = styled.tr`
   .chartColumn {
     h1 {
-      font-size: 1.25rem;
       margin-bottom: 0;
       margin-top: 1rem;
-      text-align: center;
+      padding-left: 3rem;
     }
   }
-`);
+
+  .shortHash {
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
+  }
+`;
+
+export default React.memo(Referendum);

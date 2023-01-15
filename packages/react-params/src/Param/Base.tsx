@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Size } from '../types';
@@ -15,17 +15,19 @@ interface Props {
   isDisabled?: boolean;
   isOuter?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   size?: Size;
   withLabel?: boolean;
 }
 
-function Base ({ children, className = '', isOuter, label, size = 'full', withLabel }: Props): React.ReactElement<Props> {
+function Base ({ children, className = '', isOuter, label, labelExtra, size = 'full', withLabel }: Props): React.ReactElement<Props> {
   return (
     <Bare className={className}>
       <Labelled
         className={size}
         isOuter
         label={label}
+        labelExtra={labelExtra}
         withEllipsis
         withLabel={withLabel}
       >

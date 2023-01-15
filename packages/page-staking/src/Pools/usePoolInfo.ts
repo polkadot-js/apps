@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes, Option } from '@polkadot/types';
@@ -36,11 +36,7 @@ const OPT_MULTI = {
 };
 
 function transformName (input: string): string {
-  const mid = input.replace(/[^\x20-\x7E]/g, '');
-
-  return (mid.length > 64)
-    ? `${mid.substring(0, 64)}…`
-    : mid;
+  return input.replace(/[^\x20-\x7E]/g, '');
 }
 
 function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {

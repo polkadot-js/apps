@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
@@ -72,7 +72,6 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           <div>
             <Password
               autoFocus
-              help={t<string>('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
               isError={isPassTouched && !isPassValid}
               label={t<string>('password')}
               onChange={_onChangePass}
