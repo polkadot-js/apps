@@ -8,12 +8,14 @@ import styled from 'styled-components';
 
 function Content ({ children, className = '' }: ContentProps) {
   return (
-    <div className={`${className} ui--Modal__Content`}>
+    <StyledDiv className={`${className} ui--Modal__Content`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Content)`
+const StyledDiv = styled.div`
   padding: 1.5rem;
-`);
+`;
+
+export default React.memo(Content);

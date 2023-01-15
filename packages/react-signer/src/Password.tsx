@@ -15,10 +15,9 @@ import { UNLOCK_MINS } from './util';
 interface Props {
   address: string;
   className?: string;
-  error?: string;
+  error?: string | null;
   onChange: (password: string, isUnlockCached: boolean) => void;
   onEnter?: () => void;
-  password: string;
   tabIndex?: number;
 }
 
@@ -49,7 +48,7 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
   }
 
   return (
-    <Modal.Columns
+    <StyledModalColumns
       className={className}
       hint={t('Unlock the sending account to allow signing of this transaction.')}
     >
@@ -69,11 +68,11 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
           value={isUnlockCached}
         />
       </Password>
-    </Modal.Columns>
+    </StyledModalColumns>
   );
 }
 
-export default React.memo(styled(Unlock)`
+const StyledModalColumns = styled(Modal.Columns)`
   .errorLabel {
     margin-right: 1rem;
     color: #9f3a38 !important;
@@ -82,4 +81,6 @@ export default React.memo(styled(Unlock)`
   .ui--Toggle {
     bottom: 1.1rem;
   }
-`);
+`;
+
+export default React.memo(Unlock);

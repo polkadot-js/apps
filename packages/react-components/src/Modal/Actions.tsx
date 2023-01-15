@@ -10,19 +10,21 @@ import Button from '../Button';
 
 function Actions ({ children, className = '' }: ActionsProps) {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Button.Group>
         {children}
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Actions)`
+const StyledDiv = styled.div`
   background-color: var(--bg-input);
   border-radius: 0 0 4px 4px;
 
   .ui--Button-Group {
     margin: 1rem 1rem;
   }
-`);
+`;
+
+export default React.memo(Actions);

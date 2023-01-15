@@ -8,16 +8,16 @@ import styled from 'styled-components';
 
 function Columns ({ children, className = '', hint }: ColumnsProps): React.ReactElement<ColumnsProps> {
   return (
-    <div className={`ui--Modal-Columns ${className}`}>
+    <StyledDiv className={`ui--Modal-Columns ${className}`}>
       <div>{children}</div>
       {hint && (
         <div>{hint}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Columns)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -56,4 +56,6 @@ export default React.memo(styled(Columns)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Columns);

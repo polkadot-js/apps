@@ -10,7 +10,7 @@ import Button from '../Button';
 
 function Header ({ className = '', header, onClose }: HeaderProps) {
   return (
-    <div className={`${className} ui--Modal__Header`}>
+    <StyledDiv className={`${className} ui--Modal__Header`}>
       {header && (
         <h1>{header}</h1>
       )}
@@ -19,12 +19,14 @@ function Header ({ className = '', header, onClose }: HeaderProps) {
         icon='times'
         onClick={onClose}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Header)`
+const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1.5rem 0;
-`);
+`;
+
+export default React.memo(Header);
