@@ -59,7 +59,7 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled,
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   return (
-    <Dropdown
+    <StyledDropdown
       allowAdd={allowAdd && !isDisabled}
       className={`${className} ui--InputTags ${theme}Theme`}
       defaultValue={defaultValue}
@@ -80,7 +80,7 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled,
   );
 }
 
-export default React.memo(styled(InputTags)`
+const StyledDropdown = styled(Dropdown)`
   && .ui.label {
     border: none;
     border-radius: 0.25rem;
@@ -104,4 +104,6 @@ export default React.memo(styled(InputTags)`
   &&.darkTheme .ui.label {
     background-color: rgba(255, 255, 255, 0.08);
   }
-`);
+`;
+
+export default React.memo(InputTags);

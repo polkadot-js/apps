@@ -240,7 +240,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length;
 
   return (
-    <Input
+    <StyledInput
       autoFocus={autoFocus}
       className={`${className} ui--InputNumber ${isDisabled ? 'isDisabled' : ''}`}
       isDisabled={isDisabled}
@@ -271,11 +271,11 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
         </div>
       )}
       {children}
-    </Input>
+    </StyledInput>
   );
 }
 
-export default React.memo(styled(InputNumber)`
+const StyledInput = styled(Input)`
   .siUnit {
     bottom: 0.85rem;
     color: var(--color-label);
@@ -285,4 +285,6 @@ export default React.memo(styled(InputNumber)`
     font-weight: var(--font-weight-bold);
     right: 1.25rem;
   }
-`);
+`;
+
+export default React.memo(InputNumber);

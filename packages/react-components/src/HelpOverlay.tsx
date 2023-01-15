@@ -21,7 +21,7 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   const [isVisible, toggleVisible] = useToggle();
 
   return (
-    <div className={`${className} ui--HelpOverlay`}>
+    <StyledDiv className={`${className} ui--HelpOverlay`}>
       <div className='help-button'>
         <Icon
           icon='question-circle'
@@ -42,11 +42,11 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
           {md}
         </ReactMd>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(HelpOverlay)`
+const StyledDiv = styled.div`
   .help-button {
     color: var(--color-text);
     cursor: pointer;
@@ -86,4 +86,6 @@ export default React.memo(styled(HelpOverlay)`
       right: 0;
     }
   }
-`);
+`;
+
+export default React.memo(HelpOverlay);

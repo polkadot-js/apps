@@ -9,7 +9,7 @@ import Icon from './Icon';
 interface Props {
   className?: string;
   isDisabled?: boolean;
-  label: React.ReactNode;
+  label?: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
   value?: boolean;
 }
@@ -23,7 +23,7 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 
   return (
-    <div
+    <StyledDiv
       className={`${className} ui--Checkbox ${isDisabled ? 'isDisabled' : ''}`}
       onClick={_onClick}
     >
@@ -32,11 +32,11 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
         icon='check'
       />
       {label && <label>{label}</label>}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Checkbox)`
+const StyledDiv = styled.div`
   display: inline-block;
   cursor: pointer;
 
@@ -66,4 +66,6 @@ export default React.memo(styled(Checkbox)`
     border: 1px solid var(--color-checkbox);
     border-radius: 0.125rem;
   }
-`);
+`;
+
+export default React.memo(Checkbox);

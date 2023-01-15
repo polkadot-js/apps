@@ -38,7 +38,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
 
   return isMine
     ? (
-      <section className={className}>
+      <StyledSection className={className}>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
           label={t<string>('submit the following change')}
@@ -84,7 +84,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             }
           />
         </Button.Group>
-      </section>
+      </StyledSection>
     )
     : (
       <article className='error padded'>
@@ -96,9 +96,11 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
     );
 }
 
-export default React.memo(styled(Sudo)`
+const StyledSection = styled.section`
   .sudoToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(Sudo);

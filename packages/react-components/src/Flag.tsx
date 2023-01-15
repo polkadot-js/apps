@@ -16,7 +16,7 @@ interface FlagProps {
 
 function Flag ({ className = '', color, label }: FlagProps): React.ReactElement<FlagProps> {
   return (
-    <Tag
+    <StyledTag
       className={`${className} ${color === 'theme' ? ' highlight--color-bg highlight--bg' : ''}` }
       color={color}
       label={label}
@@ -25,7 +25,7 @@ function Flag ({ className = '', color, label }: FlagProps): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Flag)`
+const StyledTag = styled(Tag)`
   border-radius: 0 0.25rem 0.25rem 0;
   padding: 0.5833em 1.25em 0.5833em 1.5em;
   font-size: var(--font-size-tiny);
@@ -63,4 +63,6 @@ export default React.memo(styled(Flag)`
     top: 50%;
     transition: none;
   }
-`);
+`;
+
+export default React.memo(Flag);

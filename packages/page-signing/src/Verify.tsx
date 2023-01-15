@@ -75,7 +75,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   );
 
   return (
-    <div className={`${className} toolbox--Verify`}>
+    <StyledDiv className={`${className} toolbox--Verify`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
@@ -127,11 +127,11 @@ function Verify ({ className = '' }: Props): React.ReactElement {
           }
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Verify)`
+const StyledDiv = styled.div`
   .ui--AlignedIconContainer {
     position: absolute;
     z-index: 1;
@@ -142,4 +142,6 @@ export default React.memo(styled(Verify)`
     position: relative;
     top: 1.25rem;
   }
-`);
+`;
+
+export default React.memo(Verify);

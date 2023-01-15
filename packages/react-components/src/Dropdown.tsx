@@ -44,7 +44,7 @@ export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Pr
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function Dropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -111,7 +111,7 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
   return isButton
     ? <SUIButton.Group>{dropdown}{children}</SUIButton.Group>
     : (
-      <Labelled
+      <StyledLabelled
         className={`${className} ui--Dropdown`}
         isFull={isFull}
         label={label}
@@ -121,11 +121,11 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
       >
         {dropdown}
         {children}
-      </Labelled>
+      </StyledLabelled>
     );
 }
 
-const Dropdown = React.memo(styled(BaseDropdown)`
+const StyledLabelled = styled(Labelled)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -165,9 +165,8 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       }
     }
   }
-`) as unknown as IDropdown<any>;
+`;
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-(Dropdown as any).Header = SUIDropdown.Header;
+Dropdown.Header = SUIDropdown.Header;
 
 export default Dropdown;

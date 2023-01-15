@@ -100,7 +100,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
+        <StyledDiv {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
           <input {...getInputProps()} />
           <em className='label'>
             {
@@ -114,7 +114,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
                 })
             }
           </em>
-        </div>
+        </StyledDiv>
       )}
     </Dropzone>
   );
@@ -134,7 +134,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
     : dropZone;
 }
 
-export default React.memo(styled(InputFile)`
+const StyledDiv = styled.div`
   background: var(--bg-input);
   border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
@@ -151,4 +151,6 @@ export default React.memo(styled(InputFile)`
   &:hover {
     cursor: pointer;
   }
-`);
+`;
+
+export default React.memo(InputFile);

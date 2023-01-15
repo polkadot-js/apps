@@ -40,7 +40,7 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
   );
 
   return (
-    <div className={`${className} ui--CopyButton`}>
+    <StyledDiv className={`${className} ui--CopyButton`}>
       <CopyToClipboard
         onCopy={_onCopy}
         text={value}
@@ -58,12 +58,14 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
           </span>
         </div>
       </CopyToClipboard>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(CopyButton)`
+const StyledDiv = styled.div`
   .copySpan {
     white-space: nowrap;
   }
-`);
+`;
+
+export default React.memo(CopyButton);

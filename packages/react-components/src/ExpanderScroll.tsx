@@ -48,7 +48,7 @@ function ExpanderScroll ({ children, className, empty, renderChildren, summary }
   );
 
   return (
-    <Expander
+    <StyledExpander
       className={className}
       renderChildren={hasContent ? innerRender : undefined}
       summary={summary}
@@ -56,7 +56,7 @@ function ExpanderScroll ({ children, className, empty, renderChildren, summary }
   );
 }
 
-export default React.memo(styled(ExpanderScroll)`
+const StyledExpander = styled(Expander)`
   .tableContainer {
     overflow-y: scroll;
     display: block;
@@ -65,4 +65,6 @@ export default React.memo(styled(ExpanderScroll)`
     max-width: 25rem;
     overflow-x: hidden;
   }
-`);
+`;
+
+export default React.memo(ExpanderScroll);

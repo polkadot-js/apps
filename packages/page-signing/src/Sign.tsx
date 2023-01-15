@@ -119,7 +119,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`${className} toolbox--Sign`}>
+    <StyledDiv className={`${className} toolbox--Sign`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
@@ -207,11 +207,11 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           onClick={_onSign}
         />
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Sign)`
+const StyledDiv = styled.div`
   .toolbox--Sign-input {
     position: relative;
     width: 100%;
@@ -243,4 +243,6 @@ export default React.memo(styled(Sign)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Sign);
