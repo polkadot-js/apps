@@ -117,14 +117,12 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     [state]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix, storage, uiTheme } = state;
-
   return (
     <div className={className}>
       <h1>{t<string>('UI options')}</h1>
       <div className='ui--row'>
         <Dropdown
-          defaultValue={icon}
+          defaultValue={state.icon}
           label={t<string>('default icon theme')}
           onChange={_handleChange('icon')}
           options={iconOptions}
@@ -132,7 +130,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       </div>
       <div className='ui--row'>
         <Dropdown
-          defaultValue={uiTheme}
+          defaultValue={state.uiTheme}
           label={t<string>('default interface theme')}
           onChange={_handleChange('uiTheme')}
           options={themeOptions}
@@ -140,7 +138,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       </div>
       <div className='ui--row'>
         <Dropdown
-          defaultValue={i18nLang}
+          defaultValue={state.i18nLang}
           label={t<string>('default interface language')}
           onChange={_handleChange('i18nLang')}
           options={translateLanguages}
@@ -149,7 +147,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <h1>{t<string>('account options')}</h1>
       <div className='ui--row'>
         <Dropdown
-          defaultValue={prefix}
+          defaultValue={state.prefix}
           label={t<string>('address prefix')}
           onChange={_handleChange('prefix')}
           options={prefixOptions}
@@ -159,13 +157,13 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
         <>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={storage}
+              defaultValue={state.storage}
               label={t<string>('in-browser account creation')}
               onChange={_handleChange('storage')}
               options={storageOptions}
             />
           </div>
-          {storage === 'on' && (
+          {state.storage === 'on' && (
             <div className='ui--row'>
               <MarkWarning content={t<string>('It is recommended that you store all keys externally to the in-page browser local storage, either on browser extensions, signers operating via QR codes or hardware devices. This option is provided for advanced users with strong backup policies.')} />
             </div>
@@ -178,7 +176,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
             <Dropdown
               defaultValue={
                 hasWebUsb
-                  ? ledgerConn
+                  ? state.ledgerConn
                   : ledgerConnOptions[0].value
               }
               isDisabled={!hasWebUsb}
