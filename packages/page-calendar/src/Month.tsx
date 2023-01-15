@@ -42,7 +42,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <h1>
         <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
         <Button.Group>
@@ -78,11 +78,11 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
           ))}
         </div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Month)`
+const StyledDiv = styled.div`
   flex: 0;
   max-width: max-content;
 
@@ -124,4 +124,6 @@ export default React.memo(styled(Month)`
       justify-content: space-between;
     }
   }
-`);
+`;
+
+export default React.memo(Month);

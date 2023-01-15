@@ -30,17 +30,19 @@ function VotingDescriptionInfo ({ className, proposal, status }: Props): React.R
   });
 
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid='voting-description'
     >
       {bestProposalName && votingDescriptions.current[bestProposalName] &&
         <LabelHelp help={votingDescriptions.current[bestProposalName]} />
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(VotingDescriptionInfo)`
+const StyledDiv = styled.div`
   margin-left: 0.2rem;
-`);
+`;
+
+export default React.memo(VotingDescriptionInfo);

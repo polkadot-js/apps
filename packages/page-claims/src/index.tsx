@@ -296,7 +296,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
           )}
         </Columar.Column>
         <Columar.Column>
-          {(step >= Step.Claim) && (
+          {accountId && (step >= Step.Claim) && (
             isPreclaimed
               ? (
                 <AttestDisplay

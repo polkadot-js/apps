@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+import type { Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -24,7 +25,7 @@ import { useTranslation } from './translate';
 import VotersColumn from './VotersColumn';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   bounty: BountyType;
   className?: string;
   description: string;
@@ -56,7 +57,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={index} />
         <td
           className='description-column'
@@ -130,8 +131,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
           </div>
         </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -192,12 +193,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           )}
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Bounty)`
+const StyledTr = styled.tr`
   .description-column {
     max-width: 200px;
 
@@ -264,4 +265,6 @@ export default React.memo(styled(Bounty)`
     display: flex;
     justify-content: space-between;
   }
-`);
+`;
+
+export default React.memo(Bounty);

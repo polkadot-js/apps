@@ -16,17 +16,19 @@ interface Props {
 
 function BountyStatusView ({ bountyStatus, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid={'bountyStatus'}
     >
       {insertSpaceBeforeCapitalLetter(bountyStatus)}
       <LabelHelp />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BountyStatusView)`
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-`);
+`;
+
+export default React.memo(BountyStatusView);
