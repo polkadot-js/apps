@@ -6,8 +6,7 @@ import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 
 import React from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
+import { AddressSmall, Table } from '@polkadot/react-components';
 
 import BidType from '../Candidates/BidType';
 
@@ -26,11 +25,7 @@ function Suspension ({ balance, bid, value }: Props): React.ReactElement<Props> 
       <td className='start'>
         <BidType value={bid} />
       </td>
-      <td className='number'>
-        {balance && (
-          <FormatBalance value={balance} />
-        )}
-      </td>
+      <Table.Column.Balance value={balance} />
     </tr>
   );
 }

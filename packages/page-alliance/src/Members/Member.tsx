@@ -6,9 +6,8 @@ import type { Member as MemberType } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, Table, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import useMemberInfo from '../useMemberInfo';
@@ -82,11 +81,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
           />
         ))}
       </td>
-      <td className='number'>
-        {info && info.deposit && (
-          <FormatBalance value={info.deposit} />
-        )}
-      </td>
+      <Table.Column.Balance value={info?.deposit} />
       <td className='number'>
         {role}
       </td>

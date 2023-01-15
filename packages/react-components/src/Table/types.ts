@@ -3,6 +3,12 @@
 
 import type { BN } from '@polkadot/util';
 
+export interface ColBalanceProps {
+  className?: string;
+  value?: BN | null;
+  withLoading?: boolean;
+}
+
 export interface ColExpandProps {
   className?: string;
   isExpanded: boolean;
@@ -36,3 +42,12 @@ export interface TableProps {
   legend?: React.ReactNode;
   noBodyTag?: boolean;
 }
+
+export type TableType = React.ComponentType<TableProps> & {
+  Column: {
+    Balance: React.ComponentType<ColBalanceProps>;
+    Expand: React.ComponentType<ColExpandProps>;
+    Favorite: React.ComponentType<ColFavoriteProps>;
+    Id: React.ComponentType<ColIdProps>;
+  }
+};

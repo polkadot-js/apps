@@ -5,9 +5,8 @@ import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 
-import { AddressMini, Button, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
 import Fasttrack from './Fasttrack';
 import PreImageButton from './PreImageButton';
@@ -34,9 +33,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
             <AddressMini value={image.proposer} />
           )}
         </td>
-        <td className='number'>
-          {image && <FormatBalance value={image.balance} />}
-        </td>
+        <Table.Column.Balance value={image?.balance} />
         <td className='actions'>
           <Button.Group>
             {!image?.proposal && (
