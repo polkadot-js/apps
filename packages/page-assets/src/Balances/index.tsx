@@ -63,7 +63,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   }, [completeInfos, infoIndex]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Table
         empty={info && balances && t<string>('No accounts with balances found for the asset')}
         filter={assetOptions.length
@@ -91,12 +91,14 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Balances)`
+const StyledDiv = styled.div`
   table {
     overflow: auto;
   }
-`);
+`;
+
+export default React.memo(Balances);

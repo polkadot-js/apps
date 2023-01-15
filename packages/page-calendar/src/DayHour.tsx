@@ -39,7 +39,7 @@ function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Pro
   const hourStr = `${` ${hour}`.slice(-2)} ${hour >= 12 ? 'pm' : 'am'}`;
 
   return (
-    <div className={`${className}${filtered.length ? ' hasItems' : ''}`}>
+    <StyledDiv className={`${className}${filtered.length ? ' hasItems' : ''}`}>
       <div className={`hourLabel${filtered.length ? ' highlight--color' : ''}`}>{hourStr}</div>
       <div className='hourContainer'>
         {filtered.map((item, index): React.ReactNode => (
@@ -49,11 +49,11 @@ function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Pro
           />
         ))}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DayHour)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   position: relative;
@@ -91,4 +91,6 @@ export default React.memo(styled(DayHour)`
     opacity: 1;
     padding: 0.7rem 1rem;
   }
-`);
+`;
+
+export default React.memo(DayHour);

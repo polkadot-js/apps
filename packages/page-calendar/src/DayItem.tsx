@@ -178,7 +178,7 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {showAllEvents &&
         <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
@@ -192,11 +192,11 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
           onClick={_exportCal}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DayItem)`
+const StyledDiv = styled.div`
   align-items: flex-start;
   display: flex;
   justify-content: flex-start;
@@ -246,4 +246,6 @@ export default React.memo(styled(DayItem)`
     padding: 0 0.375rem;
     border-radius: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(DayItem);
