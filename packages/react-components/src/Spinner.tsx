@@ -23,17 +23,17 @@ function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): R
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner variant-${variant}`}>
+    <StyledSpinner className={`${className} ui--Spinner variant-${variant}`}>
       <img
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc as string}
       />
       {!noLabel && variant.startsWith('app') && <div className='text'>{label || t('Retrieving data')}</div>}
-    </div>
+    </StyledSpinner>
   );
 }
 
-export default React.memo(styled(Spinner)`
+const StyledSpinner = styled.div`
   display: block;
   line-height: 1rem;
   margin: 0 auto;
@@ -69,4 +69,6 @@ export default React.memo(styled(Spinner)`
       margin-top: 0.25rem;
     }
   }
-`);
+`;
+
+export default React.memo(Spinner);

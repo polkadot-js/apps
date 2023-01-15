@@ -184,9 +184,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
   }, [onSaveName, toggleIsEditingName]);
 
   return (
-    <div
-      className={`ui--Row${isDisabled ? ' isDisabled' : ''}${isInline ? ' isInline' : ''} ${className}`}
-    >
+    <StyledDiv className={`ui--Row${isDisabled ? ' isDisabled' : ''}${isInline ? ' isInline' : ''} ${className}`}>
       <div className='ui--Row-base'>
         {icon && (
           <div className='ui--Row-icon'>
@@ -240,7 +238,6 @@ function Row ({ address, buttons, children, className = '', defaultName, details
               onChange={onChangeTags}
               onSave={onSaveTags}
               onToggleIsEditing={toggleIsEditingTags}
-              size='tiny'
               value={tags}
             />
           )}
@@ -256,10 +253,12 @@ function Row ({ address, buttons, children, className = '', defaultName, details
           {children}
         </div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Row)`${
+const StyledDiv = styled.div`${
   styles
-}`);
+}`;
+
+export default React.memo(Row);

@@ -12,14 +12,14 @@ interface Props {
   className?: string;
   dataTestId?: string;
   offset?: number | string;
-  onClose: () => void;
+  onClose?: () => void;
   position: 'left' | 'right';
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
 function Sidebar ({ button, children, className = '', dataTestId = '', onClose, sidebarRef }: Props): React.ReactElement<Props> {
   return (
-    <div
+    <StyledDiv
       className={`ui--Sidebar ${className}`}
       data-testid={dataTestId}
       ref={sidebarRef}
@@ -35,23 +35,25 @@ function Sidebar ({ button, children, className = '', dataTestId = '', onClose, 
         />
       </Button.Group>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
+const StyledDiv = styled.div`
   background: var(--bg-page);
   bottom: 0;
-  box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px rgba(0, 0, 0, 0.3);
+  // left
+  // box-shadow: 6px 0px 20px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: -6px 0px 20px 0px rgba(0, 0, 0, 0.3);
   margin-left: -0.125rem;
   max-width: 24rem;
   min-width: 24rem;
   position: fixed;
   padding: 1rem;
+  right: 0;
   overflow-y: auto;
   top: 0;
   z-index: 999;
-  ${position}: ${offset};
 
   .ui--Sidebar-buttons {
     margin: 0;
@@ -59,4 +61,6 @@ export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
     right: 0.5rem;
     top: 0.5rem;
   }
-`));
+`;
+
+export default React.memo(Sidebar);

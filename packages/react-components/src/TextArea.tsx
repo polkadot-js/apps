@@ -26,7 +26,7 @@ function TextArea ({ children, className, isError, isReadOnly, label, onChange, 
   );
 
   return (
-    <Labelled
+    <StyledLabelled
       className={className}
       label={label}
       withLabel={withLabel}
@@ -45,11 +45,11 @@ function TextArea ({ children, className, isError, isReadOnly, label, onChange, 
         />
         {children}
       </div>
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(TextArea)`
+const StyledLabelled = styled(Labelled)`
   .TextAreaWithDropdown {
     display: flex;
     textarea {
@@ -94,4 +94,6 @@ export default React.memo(styled(TextArea)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(TextArea);

@@ -12,13 +12,13 @@ interface Props {
 
 function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className}${isSmall ? ' isSmall' : ''}`}>
+    <StyledDiv className={`${className}${isSmall ? ' isSmall' : ''}`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(SummaryBox)`
+const StyledDiv = styled.div`
   align-items: stretch;
   border-radius: 0.25rem;
   display: flex;
@@ -56,4 +56,6 @@ export default React.memo(styled(SummaryBox)`
     padding-right: 0;
     padding-top: 0;
   }
-`);
+`;
+
+export default React.memo(SummaryBox);

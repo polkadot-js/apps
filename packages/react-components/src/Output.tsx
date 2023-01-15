@@ -26,7 +26,7 @@ interface Props {
 
 function Output ({ children, className = '', isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <Labelled
+    <StyledLabelled
       className={className}
       isFull={isFull}
       isHidden={isHidden}
@@ -45,11 +45,11 @@ function Output ({ children, className = '', isDisabled, isError, isFull, isHidd
       {withCopy && (
         <CopyButton value={value} />
       )}
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(Output)`
+const StyledLabelled = styled(Labelled)`
   .ui.selection.dropdown.ui--output.isDisabled {
     background: transparent;
     border-style: dashed;
@@ -61,4 +61,6 @@ export default React.memo(styled(Output)`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`);
+`;
+
+export default React.memo(Output);

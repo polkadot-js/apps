@@ -15,7 +15,7 @@ interface Props {
 
 function LinkedWrapper ({ children, className = '', label, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Labelled
         label={label}
         withLabel={withLabel}
@@ -24,11 +24,11 @@ function LinkedWrapper ({ children, className = '', label, withLabel }: Props): 
           {children}
         </div>
       </Labelled>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LinkedWrapper)`
+const StyledDiv = styled.div`
   .ui--DropdownLinked-Items {
     .text {
       box-sizing: border-box;
@@ -66,4 +66,6 @@ export default React.memo(styled(LinkedWrapper)`
     text-align: right;
     text-overflow: ellipsis;
   }
-`);
+`;
+
+export default React.memo(LinkedWrapper);

@@ -43,7 +43,7 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
     ? RoboHash
     : undefined;
 
-  const _onCopy = useCallback(
+  const onCopy = useCallback(
     (account: string) => queueAction({
       account,
       action: t('clipboard'),
@@ -54,10 +54,10 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   );
 
   return (
-    <BaseIdentityIcon
+    <StyledBaseIdentityIcon
       Custom={Custom}
       className={className}
-      onCopy={_onCopy}
+      onCopy={onCopy}
       prefix={prefix}
       size={size}
       theme={forceIconType || (isEthereum ? 'ethereum' : thisTheme as 'substrate')}
@@ -66,7 +66,7 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   );
 }
 
-export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
+const StyledBaseIdentityIcon = styled(BaseIdentityIcon)(({ theme }: ThemeProps) => `
   ${theme.theme === 'dark'
     ? `circle:first-child {
       fill: #282829;
@@ -77,4 +77,6 @@ export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
   border-radius: 50%;
   display: inline-block;
   overflow: hidden;
-`));
+`);
+
+export default React.memo(IdentityIcon);

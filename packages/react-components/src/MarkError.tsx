@@ -14,15 +14,17 @@ interface Props {
 
 function MarkError ({ children, className = '', content }: Props): React.ReactElement<Props> {
   return (
-    <article className={`mark error ${className}`}>
+    <StyledArticle className={`mark error ${className}`}>
       <Icon icon='exclamation-triangle' />{content}{children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(MarkError)`
+const StyledArticle = styled.article`
   .ui--Icon {
     color: rgba(255, 12, 12, 1);
     margin-right: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(MarkError);
