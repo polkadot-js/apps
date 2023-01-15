@@ -50,7 +50,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [lastResults, setLastResults] = useState<(ContractCallOutcome | void)[]>([]);
+  const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
 
   const _onExpander = useCallback(
     (isOpen: boolean): void => {
@@ -63,13 +63,16 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
     (): void => {
       optInfo && contract &&
         Promise
-          .all(messages.map((m) =>
-            m.isMutating || m.args.length !== 0
-              ? Promise.resolve(undefined)
-              : contract
-                .query[m.method](READ_ADDR, { gasLimit: -1, value: 0 })
-                .catch((e: Error) => console.error(`contract.query.${m.method}:: ${e.message}`))
-          ))
+          .all(
+            messages.map((m) =>
+              m.isMutating || m.args.length !== 0
+                ? Promise.resolve(undefined)
+                : contract
+                  .query[m.method](READ_ADDR, { gasLimit: -1, value: 0 })
+                  .catch((e: Error) => console.error(`contract.query.${m.method}:: ${e.message}`))
+                  .then(() => undefined)
+            )
+          )
           .then(setLastResults)
           .catch(console.error);
     },

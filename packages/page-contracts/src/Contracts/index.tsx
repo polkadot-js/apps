@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AppProps as Props } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,6 +17,10 @@ import ContractAdd from './Add';
 import ContractsTable from './ContractsTable';
 import Deploy from './Deploy';
 import Summary from './Summary';
+
+interface Props {
+  className?: string;
+}
 
 function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

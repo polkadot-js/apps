@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiProps } from '@polkadot/react-api/types';
 import type { Header } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -32,10 +31,8 @@ interface Link {
   hdr: LinkHeader;
 }
 
-interface Props extends ApiProps {
+interface Props {
   className?: string;
-  finHead?: Header;
-  newHead?: Header;
 }
 
 type UnsubFn = () => void;

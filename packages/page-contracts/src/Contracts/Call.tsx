@@ -24,7 +24,7 @@ interface Props {
   className?: string;
   contract: ContractPromise;
   messageIndex: number;
-  onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
+  onCallResult?: (messageIndex: number, result?: ContractCallOutcome) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
 }

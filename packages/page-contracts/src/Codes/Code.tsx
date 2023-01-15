@@ -81,11 +81,13 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         </Card>
       </td>
       <td className='all top'>
-        <Messages
-          contractAbi={contractAbi}
-          onSelectConstructor={_onDeployConstructor}
-          withConstructors
-        />
+        {contractAbi && (
+          <Messages
+            contractAbi={contractAbi}
+            onSelectConstructor={_onDeployConstructor}
+            withConstructors
+          />
+        )}
       </td>
       <td className='together codeHash'>
         <div>{`${code.json.codeHash.slice(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>

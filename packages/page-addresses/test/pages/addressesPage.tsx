@@ -24,9 +24,7 @@ jest.mock('@polkadot/react-hooks/useAddresses', () => ({
 export class AddressesPage extends Page {
   constructor () {
     super(
-      <AddressOverview
-        onStatusChange={NOOP_CHANGE}
-      />,
+      <AddressOverview onStatusChange={NOOP_CHANGE} />,
       'Address-'
     );
   }

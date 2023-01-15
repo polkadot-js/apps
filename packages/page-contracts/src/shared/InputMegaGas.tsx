@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  estimatedWeight?: BN;
+  estimatedWeight?: BN | null;
   isCall?: boolean;
   weight: UseWeight;
 }
