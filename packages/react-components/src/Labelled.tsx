@@ -102,15 +102,27 @@ export default React.memo(styled(Labelled)`
 
       &.isOuter {
         margin: 0.25rem 0;
+
+        .labelExtra {
+          top: -0.125rem;
+          // right: 0;
+        }
       }
 
       .labelExtra {
         color: var(--color-label);
         font-size: var(--font-size-label);
         font-weight: var(--font-weight-label);
+        position: absolute;
         right: 1.25rem;
         text-align: right;
         text-transform: var(--text-transform-label);
+        top: 0.75rem;
+        z-index: 1;
+
+        > .ui--Toggle > label {
+          padding-right: 0 !important;
+        }
       }
 
       > .ui--Labelled-content {

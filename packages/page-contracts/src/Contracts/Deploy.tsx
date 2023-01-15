@@ -180,17 +180,17 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         <Input
           isDisabled={!withSalt}
           label={t<string>('unique deployment salt')}
+          labelExtra={
+            <Toggle
+              label={t<string>('use deployment salt')}
+              onChange={setWithSalt}
+              value={withSalt}
+            />
+          }
           onChange={setSalt}
           placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
           value={withSalt ? salt : t<string>('<none>')}
-        >
-          <Toggle
-            isOverlay
-            label={t<string>('use deployment salt')}
-            onChange={setWithSalt}
-            value={withSalt}
-          />
-        </Input>
+        />
         <InputMegaGas
           weight={weight}
         />

@@ -22,7 +22,7 @@ function formatJSON (input: string): string {
     .replace(/^{_alias: {.*}, /, '{');
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isError, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isError, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
     [registry, type, overrides]
@@ -37,11 +37,11 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isInOption,
           ? getTypeDef(registry.createType(type.type).toRawType())
           : type
       );
-      const fmtType = formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${inner}${isDisabled && isInOption ? '>' : ''}`);
+      const fmtType = formatJSON(inner);
 
       return `${isUndefined(name) ? '' : `${name}: `}${fmtType}${type.typeName && !fmtType.includes(type.typeName) ? ` (${type.typeName})` : ''}`;
     },
-    [isDisabled, isInOption, name, registry, type]
+    [name, registry, type]
   );
 
   if (!Component) {
@@ -52,7 +52,8 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isInOption,
     ? (
       <Static
         defaultValue={defaultValue}
-        label={label}
+        isOptional
+        label='None'
       />
     )
     : (
@@ -61,7 +62,6 @@ function Param ({ className = '', defaultValue, isDisabled, isError, isInOption,
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
-        isInOption={isInOption}
         key={`${name || 'unknown'}:${label}`}
         label={label}
         name={name}

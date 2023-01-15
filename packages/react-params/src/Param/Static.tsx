@@ -19,11 +19,12 @@ interface Props {
   childrenPre?: React.ReactNode;
   className?: string;
   defaultValue: RawParam;
+  isOptional?: boolean;
   label?: React.ReactNode;
   withLabel?: boolean;
 }
 
-function StaticParam ({ asHex, children, childrenPre, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
+function StaticParam ({ asHex, children, childrenPre, className = '', defaultValue, isOptional, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const value = useMemo(
@@ -45,7 +46,7 @@ function StaticParam ({ asHex, children, childrenPre, className = '', defaultVal
       <Static
         className='full'
         label={label}
-        value={<pre>{value || t<string>('<empty>')}</pre>}
+        value={<pre>{value || (isOptional ? <>&nbsp;</> : t<string>('<empty>'))}</pre>}
       />
       {children}
     </StyledBare>

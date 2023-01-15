@@ -17,6 +17,7 @@ export interface InputFilePropsBase {
   isError?: boolean;
   isFull?: boolean;
   label: React.ReactNode;
+  labelExtra?: React.ReactNode;
   placeholder?: React.ReactNode | null | false;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -58,7 +59,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, labelExtra, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -123,6 +124,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       <Labelled
         isFull={isFull}
         label={label}
+        labelExtra={labelExtra}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
