@@ -29,7 +29,7 @@ function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmal
   }
 
   return (
-    <div className={`ui--Labelled${isSmall ? ' isSmall' : ''}${isFull ? ' isFull' : ''}${isOuter ? ' isOuter' : ''} ${className}`}>
+    <StyledDiv className={`ui--Labelled${isSmall ? ' isSmall' : ''}${isFull ? ' isFull' : ''}${isOuter ? ' isOuter' : ''} ${className}`}>
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
@@ -38,11 +38,11 @@ function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmal
       <div className='ui--Labelled-content'>
         {children}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Labelled)`
+const StyledDiv = styled.div`
   &.ui--Labelled {
     display: block;
     position: relative;
@@ -179,4 +179,6 @@ export default React.memo(styled(Labelled)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Labelled);

@@ -23,7 +23,7 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
 
   return (
     <Card isError>
-      <div className={className}>
+      <StyledDiv className={className}>
         {
           needsAttest.length > 1
             ? t('You need to sign an attestation for the following accounts:')
@@ -36,12 +36,12 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
             />
           ))
         }
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
 
-export default React.memo(styled(Warning)`
+const StyledDiv = styled.div`
   font-size: 1.15rem;
   display: flex;
   flex-direction: column;
@@ -53,4 +53,6 @@ export default React.memo(styled(Warning)`
   .ui--AddressMini-address {
     max-width: 20rem;
   }
-`);
+`;
+
+export default React.memo(Warning);

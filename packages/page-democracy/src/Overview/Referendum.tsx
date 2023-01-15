@@ -180,7 +180,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='referendum'
+                type='democracyReferendum'
                 withTitle
               />
             </Columar.Column>

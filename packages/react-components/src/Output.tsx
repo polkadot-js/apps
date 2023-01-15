@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { isString } from '@polkadot/util';
+
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
 
@@ -19,14 +21,14 @@ interface Props {
   isTrimmed?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  value?: string;
+  value?: React.ReactNode | string | null;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
 function Output ({ children, className = '', isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <Labelled
+    <StyledLabelled
       className={className}
       isFull={isFull}
       isHidden={isHidden}
@@ -36,7 +38,7 @@ function Output ({ children, className = '', isDisabled, isError, isFull, isHidd
       withLabel={withLabel}
     >
       <div className={`ui--output ui dropdown selection ${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}${isDisabled ? 'isDisabled' : ''}`}>
-        {isTrimmed && value && (value.length > 512)
+        {isTrimmed && isString(value) && (value.length > 512)
           ? `${value.slice(0, 256)}…${value.slice(-256)}`
           : value
         }
@@ -45,11 +47,11 @@ function Output ({ children, className = '', isDisabled, isError, isFull, isHidd
       {withCopy && (
         <CopyButton value={value} />
       )}
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(Output)`
+const StyledLabelled = styled(Labelled)`
   .ui.selection.dropdown.ui--output.isDisabled {
     background: transparent;
     border-style: dashed;
@@ -61,4 +63,6 @@ export default React.memo(styled(Output)`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`);
+`;
+
+export default React.memo(Output);

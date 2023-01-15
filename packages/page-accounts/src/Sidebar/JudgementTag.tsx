@@ -33,7 +33,6 @@ function JudgementTag ({ judgement: { judgementName, registrars } }: Props): Rea
     >
       <Tag
         color={judgementColor}
-        isTag={false}
         label={`${registrars.length} ${judgementName}`}
         size='tiny'
       />

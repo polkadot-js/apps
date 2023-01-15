@@ -151,10 +151,12 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
               <td className='media--1000'>
-                <LinkExternal
-                  data={value}
-                  type='block'
-                />
+                {value && (
+                  <LinkExternal
+                    data={value}
+                    type='block'
+                  />
+                )}
               </td>
             </tr>
           )

@@ -24,7 +24,7 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
 
   return (
-    <div
+    <StyledDiv
       className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
       color={color || 'grey'}
       data-for={hover && trigger}
@@ -37,11 +37,11 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
           trigger={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tag)`
+const StyledDiv = styled.div`
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
@@ -103,4 +103,6 @@ export default React.memo(styled(Tag)`
   &.themeColor.darkTheme {
     background-color: rgba(255,255,255,0.08);
   }
-`);
+`;
+
+export default React.memo(Tag);

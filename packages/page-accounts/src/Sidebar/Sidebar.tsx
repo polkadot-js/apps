@@ -25,8 +25,7 @@ interface Props {
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta } = useAccountInfo(address);
-
-  const ref = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   return (
     <StyledSidebar
@@ -34,7 +33,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
       dataTestId={dataTestId}
       onClose={onClose}
       position='right'
-      sidebarRef={ref}
+      sidebarRef={sidebarRef}
     >
       <div
         className='ui--AddressMenu-header'
@@ -45,7 +44,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           address={address}
           isBeingEdited={setInEditMode}
           onUpdateName={onUpdateName}
-          sidebarRef={ref}
+          sidebarRef={sidebarRef}
         />
       </div>
       <div className='ui--ScrollSection'>

@@ -9,7 +9,7 @@ import { Button } from '@polkadot/react-components';
 interface Option {
   isDisabled?: boolean;
   text: string;
-  value: number;
+  value: string | number;
 }
 
 interface Props {
@@ -61,7 +61,7 @@ function ToggleGroup ({ className = '', onChange, options, value }: Props): Reac
   }
 
   return (
-    <div className={`ui--ToggleGroup ${className}`}>
+    <StyledDiv className={`ui--ToggleGroup ${className}`}>
       {available.map(({ isDisabled, text }, index): React.ReactNode => (
         <ToggleIndexMemo
           index={index}
@@ -72,11 +72,11 @@ function ToggleGroup ({ className = '', onChange, options, value }: Props): Reac
           text={text}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ToggleGroup)`
+const StyledDiv = styled.div`
   display: inline-block;
   margin-right: 1.5rem;
 
@@ -97,4 +97,6 @@ export default React.memo(styled(ToggleGroup)`
       width: 1em;
     }
   }
-`);
+`;
+
+export default React.memo(ToggleGroup);

@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
-export default {
+export const Subscan: ExternalDef = {
   chains: {
     Acala: 'acala',
     'Acala Mandala TC5': 'acala-testnet',
@@ -91,9 +92,9 @@ export default {
     block: 'block',
     bounty: 'bounty',
     council: 'council',
+    democracyProposal: 'democracy_proposal',
+    democracyReferendum: 'referenda',
     extrinsic: 'extrinsic',
-    proposal: 'democracy_proposal',
-    referendum: 'referenda',
     techcomm: 'tech',
     tip: 'treasury_tip',
     treasury: 'treasury',

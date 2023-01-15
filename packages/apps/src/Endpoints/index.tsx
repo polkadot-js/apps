@@ -6,7 +6,7 @@ import type { Group } from './types';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
 import punycode from 'punycode/';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 
@@ -138,6 +138,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
   const [affinities, setAffinities] = useState(() => loadAffinities(groups));
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -263,6 +264,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       offset={offset}
       onClose={onClose}
       position='left'
+      sidebarRef={sidebarRef}
     >
       {groups.map((group, index): React.ReactNode => (
         <GroupDisplay

@@ -4,8 +4,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
-
 import { insertSpaceBeforeCapitalLetter } from './helpers';
 import { StatusName } from './types';
 
@@ -21,7 +19,6 @@ function BountyStatusView ({ bountyStatus, className = '' }: Props): React.React
       data-testid={'bountyStatus'}
     >
       {insertSpaceBeforeCapitalLetter(bountyStatus)}
-      <LabelHelp />
     </StyledDiv>
   );
 }

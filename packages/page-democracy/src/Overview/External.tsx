@@ -62,7 +62,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
             <Columar.Column>
               <LinkExternal
                 data={imageHash}
-                type='external'
+                type='democracyExternal'
                 withTitle
               />
             </Columar.Column>

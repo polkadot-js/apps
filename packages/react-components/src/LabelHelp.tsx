@@ -21,7 +21,7 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
   const [trigger] = useState(() => `label-help-${++id}`);
 
   return (
-    <div
+    <StyledDiv
       className={`ui--LabelHelp ${className}`}
       tabIndex={-1}
     >
@@ -33,13 +33,15 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
         text={help}
         trigger={trigger}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LabelHelp)`
+const StyledDiv = styled.div`
   cursor: help;
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
-`);
+`;
+
+export default React.memo(LabelHelp);

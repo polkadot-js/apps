@@ -231,7 +231,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
             </div>
             <Progress
-              color='auto'
               total={modProgress[1]}
               value={modProgress[0]}
             />
@@ -248,7 +247,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
             </div>
             <Progress
-              color='auto'
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />

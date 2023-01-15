@@ -67,7 +67,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       onChangeTags={setTags}
       onSaveName={_onSaveName}
       onSaveTags={_onSaveTags}
-      tags={withTags && tags}
+      tags={withTags ? tags : undefined}
     >
       {children}
     </Row>
