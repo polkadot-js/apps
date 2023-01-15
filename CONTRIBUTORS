@@ -1,4 +1,4 @@
-    4047	Jaco                          	Additional styled injection changes (contracts, explorer, ..., settings) (#8811)
+    4048	Jaco                          	Apply consistent ordering to className prop (#8812)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
