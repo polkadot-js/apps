@@ -62,10 +62,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       />
       <Switch>
         <Route path={`${basePath}/developer`}>
-          <Developer
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Developer onStatusChange={onStatusChange} />
         </Route>
         <Route path={`${basePath}/i18n`}>
           <I18n />

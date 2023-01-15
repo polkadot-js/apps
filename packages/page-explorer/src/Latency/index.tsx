@@ -142,7 +142,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('avg')}>
@@ -192,11 +192,11 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
         )
         : <Spinner />
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Latency)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -213,4 +213,6 @@ export default React.memo(styled(Latency)`
       font-size: var(--font-percent-tiny);
     }
   }
-`);
+`;
+
+export default React.memo(Latency);

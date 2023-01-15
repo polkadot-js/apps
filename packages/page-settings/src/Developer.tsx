@@ -165,7 +165,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   /* eslint-disable react/jsx-max-props-per-line */
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='ui--row'>
         <div className='full'>
           <InputFile
@@ -210,11 +210,11 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           onClick={_saveDeveloper}
         />
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Developer)`
+const StyledDiv = styled.div`
   .editor {
     height: 21rem;
     margin-left: 2rem;
@@ -224,4 +224,6 @@ export default React.memo(styled(Developer)`
   .help {
     padding: 0.5rem 2rem;
   }
-`);
+`;
+
+export default React.memo(Developer);

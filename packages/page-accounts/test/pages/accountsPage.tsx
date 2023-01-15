@@ -18,9 +18,7 @@ const NOOP_CHANGE = () => undefined;
 export class AccountsPage extends Page {
   constructor () {
     super(
-      <AccountOverview
-        onStatusChange={NOOP_CHANGE}
-      />,
+      <AccountOverview onStatusChange={NOOP_CHANGE} />,
       'Account-'
     );
   }

@@ -45,7 +45,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   );
 
   return (
-    <FilterOverlay className={`ui--FilterOverlay hasOwnMaxWidth ${className}`}>
+    <StyledFilterOverlay className={`ui--FilterOverlay hasOwnMaxWidth ${className}`}>
       <Input
         className='explorer--query'
         defaultValue={propsValue}
@@ -60,12 +60,14 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
           onClick={_onQuery}
         />
       </Input>
-    </FilterOverlay>
+    </StyledFilterOverlay>
   );
 }
 
-export default React.memo(styled(Query)`
+const StyledFilterOverlay = styled(FilterOverlay)`
   .explorer--query {
     width: 20em;
   }
-`);
+`;
+
+export default React.memo(Query);

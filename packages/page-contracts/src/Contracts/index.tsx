@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AppProps as Props } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,6 +17,10 @@ import ContractAdd from './Add';
 import ContractsTable from './ContractsTable';
 import Deploy from './Deploy';
 import Summary from './Summary';
+
+interface Props {
+  className?: string;
+}
 
 function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -46,7 +48,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary trigger={codeTrigger} />
       <Button.Group>
         <Button
@@ -90,15 +92,17 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       {isAddOpen && (
         <ContractAdd onClose={toggleAdd} />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Contracts)`
+const StyledDiv = styled.div`
   .ui--Table td > article {
     background: transparent;
     border: none;
     margin: 0;
     padding: 0;
   }
-`);
+`;
+
+export default React.memo(Contracts);
