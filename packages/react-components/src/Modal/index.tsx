@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModalProps, ModalType } from './types';
+import type { ModalProps } from './types';
 
 import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -14,7 +14,7 @@ import Columns from './Columns';
 import Content from './Content';
 import Header from './Header';
 
-function Modal (props: ModalProps): React.ReactElement<ModalProps> {
+function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
   const { themeClassName } = useTheme();
   const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
@@ -109,10 +109,14 @@ const StyledDiv = styled.div`
   }
 `;
 
-const ModalExport = React.memo(Modal) as unknown as ModalType;
+const Modal = React.memo(ModalBase) as unknown as typeof ModalBase & {
+  Actions: typeof Actions;
+  Columns: typeof Columns;
+  Content: typeof Content;
+};
 
-ModalExport.Actions = Actions;
-ModalExport.Columns = Columns;
-ModalExport.Content = Content;
+Modal.Actions = Actions;
+Modal.Columns = Columns;
+Modal.Content = Content;
 
-export default ModalExport;
+export default Modal;

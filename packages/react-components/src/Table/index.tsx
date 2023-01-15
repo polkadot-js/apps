@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TableProps as Props, TableType } from './types';
+import type { TableProps as Props } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -23,7 +23,7 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Base ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   const splitBody = useMemo(
@@ -526,7 +526,9 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Table = React.memo(Base) as unknown as TableType;
+const Table = React.memo(TableBase) as unknown as typeof TableBase & {
+  Column: typeof Column
+};
 
 Table.Column = Column;
 

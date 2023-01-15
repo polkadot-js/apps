@@ -41,9 +41,3 @@ export interface ContentProps {
   className?: string;
   children: React.ReactNode;
 }
-
-export type ModalType = React.FC<ModalProps> & {
-  Actions: React.FC<ActionsProps>;
-  Columns: React.FC<ColumnsProps>;
-  Content: React.FC<ContentProps>;
-};

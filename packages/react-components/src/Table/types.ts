@@ -42,12 +42,3 @@ export interface TableProps {
   legend?: React.ReactNode;
   noBodyTag?: boolean;
 }
-
-export type TableType = React.ComponentType<TableProps> & {
-  Column: {
-    Balance: React.ComponentType<ColBalanceProps>;
-    Expand: React.ComponentType<ColExpandProps>;
-    Favorite: React.ComponentType<ColFavoriteProps>;
-    Id: React.ComponentType<ColIdProps>;
-  }
-};
