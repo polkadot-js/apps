@@ -64,7 +64,6 @@ const StyledLi = styled.li`
     }
 
     &.isActive.highlight--color-contrast {
-      font-size: 1.15rem;
       font-weight: var(--font-weight-normal);
       color: var(--color-text);
 
