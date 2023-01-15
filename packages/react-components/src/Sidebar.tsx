@@ -17,10 +17,10 @@ interface Props {
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function Sidebar ({ button, children, className = '', dataTestId = '', onClose, sidebarRef }: Props): React.ReactElement<Props> {
+function Sidebar ({ button, children, className = '', dataTestId = '', onClose, position, sidebarRef }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
-      className={`ui--Sidebar ${className}`}
+      className={`ui--Sidebar ${className} ${position}Position`}
       data-testid={dataTestId}
       ref={sidebarRef}
     >
@@ -42,18 +42,24 @@ function Sidebar ({ button, children, className = '', dataTestId = '', onClose, 
 const StyledDiv = styled.div`
   background: var(--bg-page);
   bottom: 0;
-  // left
-  // box-shadow: 6px 0px 20px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: -6px 0px 20px 0px rgba(0, 0, 0, 0.3);
   margin-left: -0.125rem;
   max-width: 24rem;
   min-width: 24rem;
   position: fixed;
   padding: 1rem;
-  right: 0;
   overflow-y: auto;
   top: 0;
   z-index: 999;
+
+  &.leftPosition {
+    box-shadow: 6px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    left: 0;
+  }
+
+  &.rightPosition {
+    box-shadow: -6px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    right: 0;
+  }
 
   .ui--Sidebar-buttons {
     margin: 0;

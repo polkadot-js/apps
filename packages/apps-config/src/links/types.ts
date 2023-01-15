@@ -4,20 +4,26 @@
 import type { BN } from '@polkadot/util';
 
 export interface LinkPath {
+  // general
   address?: string;
   block?: string;
+  extrinsic?: string;
+  validator?: string;
+
+  // governance 1
   bounty?: string;
   council?: string;
   democracyExternal?: string;
   democracyProposal?: string;
   democracyReferendum?: string;
-  extrinsic?: string;
-  fellowshipReferenda?: string;
-  referenda?: string;
   techcomm?: string;
   tip?: string;
   treasury?: string;
-  validator?: string;
+
+  // governance 2
+  fellowshipReferenda?: string;
+  rankedPolls?: string;
+  referenda?: string;
 }
 
 export type LinkTypes = keyof LinkPath;
