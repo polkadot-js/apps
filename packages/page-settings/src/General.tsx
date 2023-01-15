@@ -194,7 +194,9 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
               )
               : null
             : (
-              <MarkWarning content={t<string>('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
+              <div className='ui--row'>
+                <MarkWarning content={t<string>('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
+              </div>
             )
           }
         </>
