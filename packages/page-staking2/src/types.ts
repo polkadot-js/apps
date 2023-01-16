@@ -5,4 +5,11 @@ import type { BN } from '@polkadot/util';
 
 export interface SessionInfo {
   activeEra: BN | null;
+  currentEra: BN | null;
+  currentSession: BN | null;
+}
+
+export interface IndexedValidator {
+  stashId: string;
+  stashIndex: number;
 }

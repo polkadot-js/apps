@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo } from '../types';
+import type { IndexedValidator, SessionInfo } from '../types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
@@ -13,15 +13,45 @@ import Validator from './Validator';
 
 interface Props {
   className?: string;
+  favorites: string[];
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validatorsActive?: string[];
-  validatorsFavorite?: string[];
+  validators?: string[];
 }
 
-function Validators ({ className = '', sessionInfo: { activeEra }, toggleFavorite, validatorsActive, validatorsFavorite }: Props): React.ReactElement<Props> {
+interface ValidatorSplit {
+  validatorsActive?: IndexedValidator[],
+  validatorsFavorite?: IndexedValidator[]
+}
+
+function splitValidators (favorites: string[], validators?: string[]): ValidatorSplit {
+  if (!validators) {
+    return {};
+  }
+
+  const validatorsAll = validators.map((stashId, stashIndex) => ({ stashId, stashIndex }));
+  const validatorsFavorite = validatorsAll.filter(({ stashId }) => favorites.includes(stashId));
+
+  return validatorsFavorite.length
+    ? {
+      validatorsActive: validatorsAll.filter((v) =>
+        !validatorsFavorite.some((f) =>
+          f.stashId === v.stashId
+        )
+      ),
+      validatorsFavorite
+    }
+    : { validatorsActive: validatorsAll };
+}
+
+function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const points = usePoints(activeEra);
+  const points = usePoints(sessionInfo.activeEra);
+
+  const { validatorsActive, validatorsFavorite } = useMemo(
+    () => splitValidators(favorites, validators),
+    [favorites, validators]
+  );
 
   const headerActive = useRef<[string?, string?, number?][]>([
     // favorite, details, expand
@@ -41,13 +71,14 @@ function Validators ({ className = '', sessionInfo: { activeEra }, toggleFavorit
           header={headerFavorite.current}
           isSplit
         >
-          {validatorsFavorite.map((stashId) => (
+          {validatorsFavorite.map(({ stashId, stashIndex }) => (
             <Validator
-              activeEra={activeEra}
               isFavorite
               key={stashId}
               points={points?.[stashId]}
+              sessionInfo={sessionInfo}
               stashId={stashId}
+              stashIndex={stashIndex}
               toggleFavorite={toggleFavorite}
             />
           ))}
@@ -60,13 +91,14 @@ function Validators ({ className = '', sessionInfo: { activeEra }, toggleFavorit
         header={headerActive.current}
         isSplit
       >
-        {validatorsActive?.map((stashId) => (
+        {validatorsActive?.map(({ stashId, stashIndex }) => (
           <Validator
-            activeEra={activeEra}
             isFavorite={false}
             key={stashId}
             points={points?.[stashId]}
+            sessionInfo={sessionInfo}
             stashId={stashId}
+            stashIndex={stashIndex}
             toggleFavorite={toggleFavorite}
           />
         ))}

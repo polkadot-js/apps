@@ -31,11 +31,11 @@ interface Result {
 const OPT_EXPOSURE = {
   transform: ({ others, own, total }: PalletStakingExposure): Exposure => ({
     others: others
-      .sort((a, b) => a.value.unwrap().cmp(b.value.unwrap()))
       .map(({ value, who }) => ({
         value: value.unwrap(),
         who: who.toString()
-      })),
+      }))
+      .sort((a, b) => b.value.cmp(a.value)),
     own: own.unwrap(),
     total: total.unwrap()
   })
@@ -52,7 +52,10 @@ function getResult (exposure?: Exposure, clipped?: Exposure): Result {
     );
 
     if (others.length) {
-      waiting = { others, total: others.reduce((total, { value }) => total.iadd(value), new BN(0)) };
+      waiting = {
+        others,
+        total: others.reduce((total, { value }) => total.iadd(value), new BN(0))
+      };
     }
   }
 
@@ -62,13 +65,13 @@ function getResult (exposure?: Exposure, clipped?: Exposure): Result {
 function useExposureImpl (stashId: string, activeEra: BN | null): Result | undefined {
   const { api } = useApi();
 
-  const exposureParams = useMemo(
+  const params = useMemo(
     () => activeEra && [activeEra, stashId],
     [activeEra, stashId]
   );
 
-  const fullExposure = useCall(api.query.staking.erasStakers, exposureParams, OPT_EXPOSURE);
-  const clipExposure = useCall(api.query.staking.erasStakersClipped, exposureParams, OPT_EXPOSURE);
+  const fullExposure = useCall(params && api.query.staking.erasStakers, params, OPT_EXPOSURE);
+  const clipExposure = useCall(params && api.query.staking.erasStakersClipped, params, OPT_EXPOSURE);
 
   return useMemo(
     () => getResult(fullExposure, clipExposure),

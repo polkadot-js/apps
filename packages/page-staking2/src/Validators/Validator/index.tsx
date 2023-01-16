@@ -1,22 +1,25 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
+import type { SessionInfo } from '../../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import useExposure from './useExposure';
+import useHeartbeat from './useHeartbeat';
 
 interface Props {
-  activeEra: BN | null;
   className?: string;
   isFavorite: boolean;
-  points?: string;
+  points?: number;
+  sessionInfo: SessionInfo;
   stashId: string;
+  stashIndex: number;
   toggleFavorite: (stashId: string) => void;
 }
 
@@ -35,9 +38,11 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
   );
 }
 
-function Validator ({ activeEra, className = '', isFavorite, points, stashId, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', isFavorite, points, sessionInfo: { activeEra, currentSession }, stashId, stashIndex, toggleFavorite }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
   const exposure = useExposure(stashId, activeEra);
+
+  useHeartbeat(stashId, stashIndex, currentSession);
 
   const pointsAnimClass = useMemo(
     () => (points && `greyAnim-${Date.now() % 25}`) || '',
@@ -58,7 +63,7 @@ function Validator ({ activeEra, className = '', isFavorite, points, stashId, to
             <Tag
               className={`${pointsAnimClass} absolute`}
               color='lightgrey'
-              label={points}
+              label={formatNumber(points)}
             />
           )}
         </td>
