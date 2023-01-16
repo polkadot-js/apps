@@ -9,7 +9,8 @@ export interface SessionInfo {
   currentSession: BN | null;
 }
 
-export interface IndexedValidator {
+export interface Validator {
+  isElected?: boolean;
   stashId: string;
   stashIndex: number;
 }

@@ -18,7 +18,7 @@ import Validators from './Validators';
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const validators = useValidatorsActive();
+  const validatorsActive = useValidatorsActive(favorites);
   const sessionInfo = useSessionInfo();
 
   const itemsRef = useRef([
@@ -41,7 +41,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
             favorites={favorites}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
-            validators={validators}
+            validatorsSession={validatorsActive}
           />
         </Route>
       </Switch>

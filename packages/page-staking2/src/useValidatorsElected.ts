@@ -4,17 +4,18 @@
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
+import type { Validator } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
 const OPT_VALIDATORS = {
-  transform: (keys: StorageKey<[AccountId32]>[]): string[] =>
-    keys.map(({ args: [stashId] }) => stashId.toString())
+  transform: (keys: StorageKey<[AccountId32]>[]): Validator[] =>
+    keys.map(({ args: [a] }) => ({ stashId: a.toString(), stashIndex: -1 }))
 };
 
-function useValidatorsElectedImpl (currentEra: BN | null): string[] | undefined {
+function useValidatorsElectedImpl (currentEra: BN | null): Validator[] | undefined {
   const { api } = useApi();
 
   const params = useMemo(
@@ -22,6 +23,8 @@ function useValidatorsElectedImpl (currentEra: BN | null): string[] | undefined 
     [currentEra]
   );
 
+  // NOTE These are not sorted - we generally would combine this into
+  // any of the Active, All or Waiting lists, so direct usage
   return useMapKeys(params && api.query.staking.erasStakers, params, OPT_VALIDATORS);
 }
 

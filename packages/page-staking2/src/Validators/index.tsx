@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IndexedValidator, SessionInfo } from '../types';
+import type { SessionInfo, ValidatorIndexed } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import usePoints from './usePoints';
@@ -16,20 +17,29 @@ interface Props {
   favorites: string[];
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validators?: string[];
+  validatorsSession?: ValidatorIndexed[];
 }
 
 interface ValidatorSplit {
-  validatorsActive?: IndexedValidator[],
-  validatorsFavorite?: IndexedValidator[]
+  validatorsActive?: ValidatorIndexed[],
+  validatorsFavorite?: ValidatorIndexed[]
 }
 
-function splitValidators (favorites: string[], validators?: string[]): ValidatorSplit {
+function splitValidators (allAccounts: string[], favorites: string[], validators?: ValidatorIndexed[]): ValidatorSplit {
   if (!validators) {
     return {};
   }
 
-  const validatorsAll = validators.map((stashId, stashIndex) => ({ stashId, stashIndex }));
+  // sort stashes, our accounts bubble to the top
+  const validatorsAll = validators.sort((a, b) => {
+    const isAccountA = allAccounts.includes(a.stashId);
+
+    return isAccountA === allAccounts.includes(b.stashId)
+      ? 0
+      : isAccountA
+        ? -1
+        : 1;
+  });
   const validatorsFavorite = validatorsAll.filter(({ stashId }) => favorites.includes(stashId));
 
   return validatorsFavorite.length
@@ -44,13 +54,14 @@ function splitValidators (favorites: string[], validators?: string[]): Validator
     : { validatorsActive: validatorsAll };
 }
 
-function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, validators }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { allAccounts } = useAccounts();
   const points = usePoints(sessionInfo.activeEra);
 
   const { validatorsActive, validatorsFavorite } = useMemo(
-    () => splitValidators(favorites, validators),
-    [favorites, validators]
+    () => splitValidators(allAccounts, favorites, validatorsSession),
+    [allAccounts, favorites, validatorsSession]
   );
 
   const headerActive = useRef<[string?, string?, number?][]>([
