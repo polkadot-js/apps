@@ -19,7 +19,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const sessionInfo = useSessionInfo();
-  const validatorsActive = useValidatorsActive(favorites, sessionInfo.currentEra);
+  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
 
   const itemsRef = useRef([
     {

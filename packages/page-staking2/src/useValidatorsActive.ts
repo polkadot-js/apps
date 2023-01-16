@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
-import type { Validator } from './types';
+import type { SessionInfo, Validator } from './types';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -22,11 +21,11 @@ const OPT_VALIDATORS = {
     })
 };
 
-function useValidatorsActiveImpl (favorites: string[], currentEra: BN | null): Validator[] | undefined {
+function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
   const validators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
 
-  return useTaggedValidators(favorites, currentEra, validators);
+  return useTaggedValidators(favorites, sessionInfo, validators);
 }
 
 export default createNamedHook('useValidatorsActive', useValidatorsActiveImpl);

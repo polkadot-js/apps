@@ -4,8 +4,7 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
-import type { Validator } from './types';
+import type { SessionInfo, Validator } from './types';
 
 import { useMemo } from 'react';
 
@@ -47,7 +46,7 @@ function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
   });
 }
 
-function useValidatorsAllImpl (favorites: string[], currentEra: BN | null): Validator[] | undefined {
+function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.staking.validators, EMPTY_PARAMS, OPT_VALIDATORS);
 
@@ -60,7 +59,7 @@ function useValidatorsAllImpl (favorites: string[], currentEra: BN | null): Vali
     [validators]
   );
 
-  return useTaggedValidators(favorites, currentEra, validatorsIndexed);
+  return useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);

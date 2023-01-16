@@ -3,8 +3,7 @@
 
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
-import type { Validator } from './types';
+import type { SessionInfo, Validator } from './types';
 
 import { useMemo } from 'react';
 
@@ -23,7 +22,7 @@ const OPT_VALIDATORS = {
     })
 };
 
-function useValidatorsElectedImpl (currentEra: BN | null): Validator[] | undefined {
+function useValidatorsElectedImpl ({ currentEra }: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
 
   const params = useMemo(

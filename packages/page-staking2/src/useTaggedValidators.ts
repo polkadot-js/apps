@@ -1,8 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-import type { Validator } from './types';
+import type { SessionInfo, Validator } from './types';
 
 import { useMemo } from 'react';
 
@@ -22,8 +21,8 @@ function withElected (validators?: Validator[], elected?: Validator[]): Validato
     : validators;
 }
 
-function useTaggedValidatorsImpl (favorites: string[], currentEra: BN | null, validators?: Validator[]): Validator[] | undefined {
-  const elected = useValidatorsElected(currentEra);
+function useTaggedValidatorsImpl (favorites: string[], sessionInfo: SessionInfo, validators?: Validator[]): Validator[] | undefined {
+  const elected = useValidatorsElected(sessionInfo);
 
   const flagged = useMemo(
     () => withElected(validators, elected),
