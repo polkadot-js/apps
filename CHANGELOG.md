@@ -72,6 +72,7 @@ Contributed:
 - Fix democracy display when no launchPeriod is available (Thanks to https://github.com/sander2)
 - Improve council compatibility across chains (Thanks to https://github.com/peterwht)
 - Add Onfinaly Ajuna endpoint (Thanks to https://github.com/banananeko)
+- Update t0rn endpoint (Thanks to https://github.com/3h4x)
 
 Changes:
 
