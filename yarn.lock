@@ -2823,7 +2823,7 @@ __metadata:
     "@polkadot/react-hooks": ^0.122.3-299-x
     "@polkadot/test-support": 0.122.3-299-x
     "@polkadot/util": ^10.2.6
-    "@polkadot/vanitygen": ^0.52.22
+    "@polkadot/vanitygen": ^0.52.23
     detect-browser: ^5.3.0
     file-saver: ^2.0.5
   languageName: unknown
@@ -3868,19 +3868,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.52.22":
-  version: 0.52.22
-  resolution: "@polkadot/vanitygen@npm:0.52.22"
+"@polkadot/vanitygen@npm:^0.52.23":
+  version: 0.52.23
+  resolution: "@polkadot/vanitygen@npm:0.52.23"
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.20.7
-    "@polkadot/util": ^10.2.3
-    "@polkadot/util-crypto": ^10.2.3
+    "@polkadot/util": ^10.2.6
+    "@polkadot/util-crypto": ^10.2.6
     yargs: ^17.6.2
   bin:
     polkadot-js-vanitygen: cjs/cjs/index.js
-  checksum: 2f126565c59a11fc46f99410e2ed4332f5564550607300a89bb8b9317acef35bdf15f343bcadd24a9be1903b16faaf9129c642b6214c296e5b15623df492c86d
+  checksum: 886e5388948b28185b4ec2f3f5f8006dcbea37961b9fbc5c111ca8981e001fcbbb862bb86028619ac59e8eed694ffe362110674e3c3e54687f695d6a8993d39f
   languageName: node
   linkType: hard
 
