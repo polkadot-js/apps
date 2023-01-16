@@ -70,8 +70,8 @@ Contributed:
 - Adjust KILT types to apply per-chain (Thanks to https://github.com/ntn-x2)
 - Remove OnFinality endpoint for Efinity (Thanks to https://github.com/tommycodebox)
 - Fix democracy display when no launchPeriod is available (Thanks to https://github.com/sander2)
-- Improve council compatibility across chains (https://github.com/peterwht)
-- Add Onfinaly Ajuna endpoint (https://github.com/banananeko)
+- Improve council compatibility across chains (Thanks to https://github.com/peterwht)
+- Add Onfinaly Ajuna endpoint (Thanks to https://github.com/banananeko)
 
 Changes:
 
