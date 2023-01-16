@@ -11,10 +11,15 @@ import useTaggedValidators from './useTaggedValidators';
 
 const OPT_VALIDATORS = {
   transform: (validators: AccountId32[]): Validator[] =>
-    validators.map((a, stashIndex) => ({
-      stashId: a.toString(),
-      stashIndex
-    }))
+    validators.map((a, stashIndex) => {
+      const stashId = a.toString();
+
+      return {
+        key: `${stashId}:${stashIndex}`,
+        stashId,
+        stashIndex
+      };
+    })
 };
 
 function useValidatorsActiveImpl (favorites: string[], currentEra: BN | null): Validator[] | undefined {

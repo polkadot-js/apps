@@ -36,7 +36,15 @@ function eventFilter (records: EventRecord[]): Changes<AccountId32> {
 }
 
 function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
-  return validators && validators.map((a) => ({ stashId: a.toString(), stashIndex: -1 }));
+  return validators && validators.map((a) => {
+    const stashId = a.toString();
+
+    return {
+      key: `${stashId}::-1`,
+      stashId,
+      stashIndex: -1
+    };
+  });
 }
 
 function useValidatorsAllImpl (favorites: string[], currentEra: BN | null): Validator[] | undefined {

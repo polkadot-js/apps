@@ -12,7 +12,15 @@ import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
 const OPT_VALIDATORS = {
   transform: (keys: StorageKey<[AccountId32]>[]): Validator[] =>
-    keys.map(({ args: [a] }) => ({ stashId: a.toString(), stashIndex: -1 }))
+    keys.map(({ args: [a] }) => {
+      const stashId = a.toString();
+
+      return {
+        key: `${stashId}::-1`,
+        stashId,
+        stashIndex: -1
+      };
+    })
 };
 
 function useValidatorsElectedImpl (currentEra: BN | null): Validator[] | undefined {

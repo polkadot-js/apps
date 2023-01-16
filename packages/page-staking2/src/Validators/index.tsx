@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, ValidatorIndexed } from '../types';
+import type { SessionInfo, Validator } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
@@ -10,22 +10,22 @@ import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import usePoints from './usePoints';
-import Validator from './Validator';
+import ValidatorRow from './Validator';
 
 interface Props {
   className?: string;
   favorites: string[];
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validatorsSession?: ValidatorIndexed[];
+  validatorsSession?: Validator[];
 }
 
 interface ValidatorSplit {
-  validatorsActive?: ValidatorIndexed[],
-  validatorsFavorite?: ValidatorIndexed[]
+  validatorsActive?: Validator[],
+  validatorsFavorite?: Validator[]
 }
 
-function splitValidators (allAccounts: string[], favorites: string[], validators?: ValidatorIndexed[]): ValidatorSplit {
+function splitValidators (allAccounts: string[], favorites: string[], validators?: Validator[]): ValidatorSplit {
   if (!validators) {
     return {};
   }
@@ -82,10 +82,10 @@ function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, v
           header={headerFavorite.current}
           isSplit
         >
-          {validatorsFavorite.map(({ stashId, stashIndex }) => (
-            <Validator
+          {validatorsFavorite.map(({ key, stashId, stashIndex }) => (
+            <ValidatorRow
               isFavorite
-              key={stashId}
+              key={key}
               points={points?.[stashId]}
               sessionInfo={sessionInfo}
               stashId={stashId}
@@ -102,10 +102,10 @@ function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, v
         header={headerActive.current}
         isSplit
       >
-        {validatorsActive?.map(({ stashId, stashIndex }) => (
-          <Validator
+        {validatorsActive?.map(({ key, stashId, stashIndex }) => (
+          <ValidatorRow
             isFavorite={false}
-            key={stashId}
+            key={key}
             points={points?.[stashId]}
             sessionInfo={sessionInfo}
             stashId={stashId}

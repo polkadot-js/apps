@@ -11,6 +11,7 @@ export interface SessionInfo {
 
 export interface Validator {
   isElected?: boolean;
+  key: string;
   stashId: string;
   stashIndex: number;
 }

@@ -18,8 +18,8 @@ import Validators from './Validators';
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const validatorsActive = useValidatorsActive(favorites);
   const sessionInfo = useSessionInfo();
+  const validatorsActive = useValidatorsActive(favorites, sessionInfo.currentSession);
 
   const itemsRef = useRef([
     {

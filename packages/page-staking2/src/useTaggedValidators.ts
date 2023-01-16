@@ -11,28 +11,26 @@ import { createNamedHook } from '@polkadot/react-hooks';
 import useSortedValidators from './useSortedValidators';
 import useValidatorsElected from './useValidatorsElected';
 
-function withElected <T extends Validator> (validators?: T[], elected?: Validator[]): T[] | undefined {
-  if (elected) {
-    return validators && validators.map((v): T => {
-      if (elected.some((e) => e.stashId === v.stashId)) {
-        v.isElected = true;
-      }
-
-      return v;
-    });
-  }
-
-  return validators;
+function withElected (validators?: Validator[], elected?: Validator[]): Validator[] | undefined {
+  return elected
+    ? validators && validators.map(({ key, stashId, stashIndex }): Validator => ({
+      isElected: elected.some((e) => e.stashId === stashId),
+      key,
+      stashId,
+      stashIndex
+    }))
+    : validators;
 }
 
 function useTaggedValidatorsImpl (favorites: string[], currentEra: BN | null, validators?: Validator[]): Validator[] | undefined {
   const elected = useValidatorsElected(currentEra);
-  const sorted = useSortedValidators(favorites, validators);
 
-  return useMemo(
-    () => withElected(sorted, elected),
-    [elected, sorted]
+  const flagged = useMemo(
+    () => withElected(validators, elected),
+    [elected, validators]
   );
+
+  return useSortedValidators(favorites, flagged);
 }
 
 export default createNamedHook('useTaggedValidators', useTaggedValidatorsImpl);
