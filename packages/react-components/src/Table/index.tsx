@@ -27,7 +27,7 @@ interface Props {
   noBodyTag?: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode, isSplit?: boolean): { bodyChildren: React.ReactNode | React.ReactNode[], bodyChildrenSplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
+function extractChildren (children: React.ReactNode, isSplit?: boolean): { bodyChildren: React.ReactNode | React.ReactNode[], bodyChildrenSplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
   if (!Array.isArray(children)) {
     return {
       bodyChildren: children,
@@ -60,7 +60,7 @@ function extractBodyChildren (children: React.ReactNode, isSplit?: boolean): { b
 
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
   const { bodyChildren, bodyChildrenSplit, isEmpty } = useMemo(
-    () => extractBodyChildren(children, isSplit),
+    () => extractChildren(children, isSplit),
     [children, isSplit]
   );
 
