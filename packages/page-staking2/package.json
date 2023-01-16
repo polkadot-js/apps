@@ -1,6 +1,6 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-fellowship#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking2#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-staking2",
   "private": true,
@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-302-x",
+  "version": "0.122.3-304-x",
   "dependencies": {
     "@babel/runtime": "^7.20.7"
   }
