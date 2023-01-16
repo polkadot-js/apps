@@ -46,7 +46,7 @@ function Validator ({ activeEra, className = '', isFavorite, points, stashId, to
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst`}>
+      <tr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={stashId}
           isFavorite={isFavorite}
