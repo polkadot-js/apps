@@ -3098,6 +3098,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-staking2@workspace:packages/page-staking2":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-staking2@workspace:packages/page-staking2"
+  dependencies:
+    "@babel/runtime": ^7.20.7
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-staking@workspace:packages/page-staking":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-staking@workspace:packages/page-staking"
