@@ -10,12 +10,14 @@ import { FormatBalance } from '@polkadot/react-query';
 export interface Props {
   className?: string;
   colSpan?: number;
+  label?: React.ReactNode;
+  labelPost?: React.ReactNode;
   rowSpan?: number;
   value?: BN | null;
   withLoading?: boolean;
 }
 
-function Balance ({ className = '', colSpan, rowSpan, value, withLoading }: Props): React.ReactElement<Props> {
+function Balance ({ className = '', colSpan, label, labelPost, rowSpan, value, withLoading }: Props): React.ReactElement<Props> {
   return (
     <td
       className={`${className} ui--Table-Column-Balance number`}
@@ -23,10 +25,16 @@ function Balance ({ className = '', colSpan, rowSpan, value, withLoading }: Prop
       rowSpan={rowSpan}
     >
       {value
-        ? <FormatBalance value={value} />
+        ? (
+          <FormatBalance
+            label={label}
+            labelPost={labelPost}
+            value={value}
+          />
+        )
         : withLoading && (
           <FormatBalance
-            className='tmp'
+            className='--tmp'
             value={1}
           />
         )
