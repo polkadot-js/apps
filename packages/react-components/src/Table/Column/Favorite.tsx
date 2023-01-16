@@ -1,14 +1,21 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColFavoriteProps as Props } from '../types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../../Icon';
 
-function Favorite ({ address, className = '', isFavorite, toggle }: Props): React.ReactElement<Props> {
+export interface Props {
+  address: string;
+  className?: string;
+  colSpan?: number;
+  isFavorite: boolean;
+  rowSpan?: number;
+  toggle: (address: string) => void;
+}
+
+function Favorite ({ address, className = '', colSpan, isFavorite, rowSpan, toggle }: Props): React.ReactElement<Props> {
   const onClick = useCallback(
     () => toggle(address),
     [address, toggle]
@@ -17,7 +24,9 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
   return (
     <StyledTd
       className={`${className} ui--Table-Column-Favorite`}
+      colSpan={colSpan}
       onClick={onClick}
+      rowSpan={rowSpan}
     >
       <Icon
         color={

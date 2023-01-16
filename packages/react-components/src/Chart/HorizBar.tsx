@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartData, ChartOptions, TooltipItem } from 'chart.js';
-import type { HorizBarProps, HorizBarValue } from './types';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
@@ -10,6 +10,22 @@ import { Bar } from 'react-chartjs-2';
 import { bnToBn, isNumber } from '@polkadot/util';
 
 import { alphaColor } from './utils';
+
+interface Value {
+  colors: string[];
+  label: string;
+  tooltip?: string;
+  value: number | BN;
+}
+
+export interface Props {
+  aspectRatio?: number;
+  className?: string;
+  max?: number;
+  showLabels?: boolean;
+  values: Value[];
+  withColors?: boolean;
+}
 
 interface State {
   chartData?: ChartData;
@@ -26,7 +42,7 @@ interface Config {
   }[];
 }
 
-function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonValues: string, max: number, showLabels: boolean): State {
+function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string, max: number, showLabels: boolean): State {
   const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
     const dataset = data.datasets[0];
 
@@ -70,7 +86,7 @@ function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonVal
   };
 }
 
-function ChartHorizBar ({ aspectRatio = 8, className = '', max = 100, showLabels = false, values }: HorizBarProps): React.ReactElement<HorizBarProps> | null {
+function ChartHorizBar ({ aspectRatio = 8, className = '', max = 100, showLabels = false, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
@@ -87,7 +103,7 @@ function ChartHorizBar ({ aspectRatio = 8, className = '', max = 100, showLabels
 
   // HACK on width/height to get the aspectRatio to work
   return (
-    <div className={className}>
+    <div className={`${className} ui--Chart-HorizBar`}>
       <Bar
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         data={chartData as any}

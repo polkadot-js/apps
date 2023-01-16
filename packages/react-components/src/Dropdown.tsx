@@ -44,7 +44,7 @@ export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Pr
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function Dropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function DropdownBase<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -168,6 +168,10 @@ const StyledLabelled = styled(Labelled)`
     }
   }
 `;
+
+const Dropdown = React.memo(DropdownBase) as unknown as typeof DropdownBase & {
+  Header: typeof SUIDropdown.Header
+};
 
 Dropdown.Header = SUIDropdown.Header;
 

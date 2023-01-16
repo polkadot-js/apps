@@ -16,7 +16,7 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
   }
 
   return (
-    <StyledTfoot className={className}>
+    <StyledTfoot className={`${className} ui--Table-Foot`}>
       {footer}
     </StyledTfoot>
   );

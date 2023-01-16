@@ -1,15 +1,31 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TableProps as Props } from './types';
-
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import Columar from '../Columar';
 import Body from './Body';
+import Column from './Column';
 import Foot from './Foot';
 import Head from './Head';
+import Row from './Row';
+
+interface Props {
+  children?: React.ReactNode;
+  className?: string;
+  empty?: React.ReactNode | false;
+  emptySpinner?: React.ReactNode;
+  filter?: React.ReactNode;
+  footer?: React.ReactNode;
+  header?: ([React.ReactNode?, string?, number?, (() => void)?] | false | null | undefined)[];
+  headerChildren?: React.ReactNode;
+  isFixed?: boolean;
+  isInline?: boolean;
+  isSplit?: boolean;
+  legend?: React.ReactNode;
+  noBodyTag?: boolean;
+}
 
 function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
   if (!Array.isArray(children)) {
@@ -22,7 +38,7 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   const splitBody = useMemo(
@@ -525,4 +541,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default React.memo(Table);
+const Table = React.memo(TableBase) as unknown as typeof TableBase & {
+  Column: typeof Column,
+  Row: typeof Row
+};
+
+Table.Column = Column;
+Table.Row = Row;
+
+export default Table;

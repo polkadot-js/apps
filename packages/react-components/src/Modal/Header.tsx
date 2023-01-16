@@ -1,16 +1,20 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 
 import Button from '../Button';
 
-function Header ({ className = '', header, onClose }: HeaderProps) {
+interface Props {
+  className?: string;
+  header?: React.ReactNode;
+  onClose: () => void;
+}
+
+function Header ({ className = '', header, onClose }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`${className} ui--Modal__Header`}>
+    <StyledDiv className={`${className} ui--Modal-Header`}>
       {header && (
         <h1>{header}</h1>
       )}
