@@ -27,31 +27,41 @@ interface Props {
   noBodyTag?: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
+function extractBody (children: React.ReactNode, isSplit?: boolean): { body: React.ReactNode | React.ReactNode[], bodySplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
   if (!Array.isArray(children)) {
-    return [!children, children];
+    return {
+      body: children,
+      bodySplit: null,
+      isEmpty: !children
+    };
   }
 
-  const kids = children.filter((child) => !!child);
-  const isEmpty = kids.length === 0;
+  const body = children.filter((child) => !!child);
+  const isEmpty = body.length === 0;
+  let bodySplit: [React.ReactNode[], React.ReactNode[]] | null = null;
 
-  return [isEmpty, isEmpty ? null : kids];
+  if (!isEmpty && isSplit) {
+    const half = Math.ceil(body.length / 2);
+
+    bodySplit = [
+      body.slice(0, half),
+      body.slice(half)
+    ];
+  }
+
+  return {
+    body: isEmpty || bodySplit
+      ? null
+      : body,
+    bodySplit,
+    isEmpty
+  };
 }
 
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
-  const [isEmpty, bodyChildren] = extractBodyChildren(children);
-
-  const splitBody = useMemo(
-    (): [React.ReactNode[], React.ReactNode[]] | null => {
-      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
-        return null;
-      }
-
-      const half = Math.ceil(bodyChildren.length / 2);
-
-      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
-    },
-    [bodyChildren, isEmpty, isSplit]
+  const { body, bodySplit, isEmpty } = useMemo(
+    () => extractBody(children, isSplit),
+    [children, isSplit]
   );
 
   const headerNode = (
@@ -64,12 +74,12 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
     </Head>
   );
 
-  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${splitBody ? 'noMargin' : ''}`;
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${bodySplit ? 'noMargin' : ''}`;
 
   return (
-    <StyledDiv className={`${className} ui--Table ${splitBody ? 'isSplit' : ''}`}>
+    <StyledDiv className={`${className} ui--Table ${bodySplit ? 'isSplit' : ''}`}>
       {legend}
-      {splitBody
+      {bodySplit
         ? (
           <>
             <table className={tableClassName}>
@@ -78,16 +88,12 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
             <Columar isPadded={false}>
               <Columar.Column>
                 <table className={tableClassName}>
-                  <Body>
-                    {splitBody[0]}
-                  </Body>
+                  <Body>{bodySplit[0]}</Body>
                 </table>
               </Columar.Column>
               <Columar.Column>
                 <table className={tableClassName}>
-                  <Body>
-                    {splitBody[1]}
-                  </Body>
+                  <Body>{bodySplit[1]}</Body>
                 </table>
               </Columar.Column>
             </Columar>
@@ -101,7 +107,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
               emptySpinner={emptySpinner}
               noBodyTag={noBodyTag}
             >
-              {bodyChildren}
+              {body}
             </Body>
             <Foot
               footer={footer}
@@ -115,7 +121,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
 }
 
 const BORDER_RADIUS = '0.5rem';
-const BORDER_SOLID = '1px solid var(--bg-page)'; // var(--border-table)
+const BORDER_SOLID = '1px solid var(--bg-page)';
 
 const StyledDiv = styled.div`
   max-width: 100%;
