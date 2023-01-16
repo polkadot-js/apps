@@ -114,7 +114,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
 }
 
 export const ClaimStyles = `
-font-size: 1.15rem;
+font-size: var(--font-size-h3);
 display: flex;
 flex-direction: column;
 justify-content: center;
