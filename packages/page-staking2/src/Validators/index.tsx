@@ -12,41 +12,66 @@ import usePoints from './usePoints';
 import Validator from './Validator';
 
 interface Props {
-  activeValidators?: string[];
   className?: string;
-  favorites: string[];
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
+  validatorsActive?: string[];
+  validatorsFavorite?: string[];
 }
 
-function Validators ({ activeValidators, className = '', favorites, sessionInfo: { activeEra }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', sessionInfo: { activeEra }, toggleFavorite, validatorsActive, validatorsFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const points = usePoints(activeEra);
 
-  const header = useRef<[string?, string?, number?][]>([
+  const headerActive = useRef<[string?, string?, number?][]>([
     // favorite, details, expand
     [t<string>('validators'), 'start', 3]
   ]);
 
+  const headerFavorite = useRef<[string?, string?, number?][]>([
+    // favorite, details, expand
+    [t<string>('favorites'), 'start', 3]
+  ]);
+
   return (
-    <Table
-      className={className}
-      empty={activeValidators && t<string>('No session validators found')}
-      emptySpinner={t<string>('Retrieving session validators')}
-      header={header.current}
-      isSplit
-    >
-      {activeValidators?.map((stashId) => (
-        <Validator
-          activeEra={activeEra}
-          favorites={favorites}
-          key={stashId}
-          points={points?.[stashId]}
-          stashId={stashId}
-          toggleFavorite={toggleFavorite}
-        />
-      ))}
-    </Table>
+    <>
+      {validatorsFavorite && (
+        <Table
+          className={className}
+          header={headerFavorite.current}
+          isSplit
+        >
+          {validatorsFavorite.map((stashId) => (
+            <Validator
+              activeEra={activeEra}
+              isFavorite
+              key={stashId}
+              points={points?.[stashId]}
+              stashId={stashId}
+              toggleFavorite={toggleFavorite}
+            />
+          ))}
+        </Table>
+      )}
+      <Table
+        className={className}
+        empty={validatorsActive && t<string>('No session validators found')}
+        emptySpinner={t<string>('Retrieving session validators')}
+        header={headerActive.current}
+        isSplit
+      >
+        {validatorsActive?.map((stashId) => (
+          <Validator
+            activeEra={activeEra}
+            isFavorite={false}
+            key={stashId}
+            points={points?.[stashId]}
+            stashId={stashId}
+            toggleFavorite={toggleFavorite}
+          />
+        ))}
+      </Table>
+    </>
   );
 }
 

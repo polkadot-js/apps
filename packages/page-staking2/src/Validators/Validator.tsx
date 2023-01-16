@@ -14,7 +14,7 @@ import useExposure from './useExposure';
 interface Props {
   activeEra: BN | null;
   className?: string;
-  favorites: string[];
+  isFavorite: boolean;
   points?: string;
   stashId: string;
   toggleFavorite: (stashId: string) => void;
@@ -35,14 +35,9 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
   );
 }
 
-function Validator ({ activeEra, className = '', favorites, points, stashId, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ activeEra, className = '', isFavorite, points, stashId, toggleFavorite }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
   const exposure = useExposure(stashId, activeEra);
-
-  const isFavorite = useMemo(
-    () => favorites.includes(stashId),
-    [favorites, stashId]
-  );
 
   const pointsAnimClass = useMemo(
     () => (points && `greyAnim-${Date.now() % 25}`) || '',

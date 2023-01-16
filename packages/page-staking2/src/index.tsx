@@ -3,7 +3,7 @@
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
@@ -15,11 +15,28 @@ import useSessionInfo from './useSessionInfo';
 import useValidatorsActive from './useValidatorsActive';
 import Validators from './Validators';
 
+function splitValidators (favorites: string[], validators?: string[]): { validatorsActive?: string[], validatorsFavorite?: string[] } {
+  if (!validators) {
+    return {};
+  }
+
+  const validatorsFavorite = validators.filter((a) => favorites.includes(a));
+
+  return validatorsFavorite.length
+    ? { validatorsActive: validators.filter((a) => !validatorsFavorite.includes(a)), validatorsFavorite }
+    : { validatorsActive: validators };
+}
+
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const activeValidators = useValidatorsActive();
+  const validators = useValidatorsActive();
   const sessionInfo = useSessionInfo();
+
+  const { validatorsActive, validatorsFavorite } = useMemo(
+    () => splitValidators(favorites, validators),
+    [favorites, validators]
+  );
 
   const itemsRef = useRef([
     {
@@ -38,10 +55,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       <Switch>
         <Route>
           <Validators
-            activeValidators={activeValidators}
-            favorites={favorites}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
+            validatorsActive={validatorsActive}
+            validatorsFavorite={validatorsFavorite}
           />
         </Route>
       </Switch>
