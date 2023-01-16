@@ -13,6 +13,7 @@ import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/
 import { getAccountCryptoType } from '@polkadot/react-components/util';
 import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import CreateModal from '../modals/Create';
@@ -88,7 +89,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isElectron } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
@@ -106,6 +107,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useDelegations();
   const proxies = useProxies();
   const isLoading = useLoadingDelay();
+
+  const canStoreAccounts = useMemo(
+    () => isElectron || (!isIpfs && settings.get().storage === 'on'),
+    [isElectron, isIpfs]
+  );
 
   // We use favorites only to check if it includes some element,
   // so Object is better than array for that because hashmap access is O(1).
@@ -311,31 +317,31 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
-          <Button
-            icon='plus'
-            isDisabled={isIpfs}
-            label={t<string>('Account')}
-            onClick={_openCreateModal}
-          />
-          <Button
-            icon='sync'
-            isDisabled={isIpfs}
-            label={t<string>('From JSON')}
-            onClick={toggleImport}
-          />
+          {canStoreAccounts && (
+            <>
+              <Button
+                icon='plus'
+                label={t<string>('Account')}
+                onClick={_openCreateModal}
+              />
+              <Button
+                icon='sync'
+                label={t<string>('From JSON')}
+                onClick={toggleImport}
+              />
+            </>
+          )}
           <Button
             icon='qrcode'
             label={t<string>('From Qr')}
             onClick={toggleQr}
           />
           {isLedgerEnabled && (
-            <>
-              <Button
-                icon='project-diagram'
-                label={t<string>('From Ledger')}
-                onClick={toggleLedger}
-              />
-            </>
+            <Button
+              icon='project-diagram'
+              label={t<string>('From Ledger')}
+              onClick={toggleLedger}
+            />
           )}
           <Button
             icon='plus'
