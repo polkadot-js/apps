@@ -2,35 +2,35 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import type { SessionInfo } from '../types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
-type Result = Record<string, string>;
+type Result = Record<string, number>;
 
 const OPT_POINTS = {
   transform: ({ individual }: PalletStakingEraRewardPoints): Result =>
     [...individual.entries()]
       .filter(([, points]) => points.gt(BN_ZERO))
       .reduce((result: Result, [stashId, points]): Result => {
-        result[stashId.toString()] = formatNumber(points);
+        result[stashId.toString()] = points.toNumber();
 
         return result;
       }, {})
 };
 
-function usePointsImpl (activeEra: BN | null): Result | undefined {
+function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
   const { api } = useApi();
 
-  const pointsParams = useMemo(
+  const queryParams = useMemo(
     () => activeEra && [activeEra],
     [activeEra]
   );
 
-  return useCall(activeEra && api.query.staking.erasRewardPoints, pointsParams, OPT_POINTS);
+  return useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
 }
 
 export default createNamedHook('usePoints', usePointsImpl);

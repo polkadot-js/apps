@@ -78,4 +78,5 @@ export { useTreasury } from './useTreasury';
 export { useTxBatch } from './useTxBatch';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';
+export { useWindowColumns } from './useWindowColumns';
 export { useWindowSize } from './useWindowSize';

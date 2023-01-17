@@ -7,7 +7,7 @@ import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
-import { useFavorites } from '@polkadot/react-hooks';
+import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
@@ -15,27 +15,16 @@ import useSessionInfo from './useSessionInfo';
 import useValidatorsActive from './useValidatorsActive';
 import Validators from './Validators';
 
-function splitValidators (favorites: string[], validators?: string[]): { validatorsActive?: string[], validatorsFavorite?: string[] } {
-  if (!validators) {
-    return {};
-  }
-
-  const validatorsFavorite = validators.filter((a) => favorites.includes(a));
-
-  return validatorsFavorite.length
-    ? { validatorsActive: validators.filter((a) => !validatorsFavorite.includes(a)), validatorsFavorite }
-    : { validatorsActive: validators };
-}
-
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const validators = useValidatorsActive();
   const sessionInfo = useSessionInfo();
+  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
 
-  const { validatorsActive, validatorsFavorite } = useMemo(
-    () => splitValidators(favorites, validators),
-    [favorites, validators]
+  const isRelay = useMemo(
+    () => !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices,
+    [api]
   );
 
   const itemsRef = useRef([
@@ -55,10 +44,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       <Switch>
         <Route>
           <Validators
+            isRelay={isRelay}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
-            validatorsActive={validatorsActive}
-            validatorsFavorite={validatorsFavorite}
+            validatorsSession={validatorsActive}
           />
         </Route>
       </Switch>

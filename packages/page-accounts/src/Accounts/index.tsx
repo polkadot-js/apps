@@ -176,7 +176,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       Object.values(ret).forEach((a): void => {
         a[0][1] = 'start';
-        a[0][2] = 3;
+        a[0][2] = 4;
       });
 
       return ret;
