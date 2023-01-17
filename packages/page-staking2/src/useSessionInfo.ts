@@ -29,11 +29,7 @@ function useSessionInfoImpl (): SessionInfo {
   const currentSession = useCall<u32>(api.query.session.currentIndex);
 
   return useMemo(
-    () => ({
-      activeEra: activeEra || null,
-      currentEra: currentEra || null,
-      currentSession: currentSession || null
-    }),
+    () => ({ activeEra, currentEra, currentSession }),
     [activeEra, currentEra, currentSession]
   );
 }

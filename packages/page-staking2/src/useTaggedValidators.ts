@@ -6,65 +6,59 @@ import type { SessionInfo, Validator } from './types';
 import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts } from '@polkadot/react-hooks';
+import { objectSpread } from '@polkadot/util';
 
 import useElectedValidators from './useElectedValidators';
 
-function withTags (validators?: Validator[], elected?: string[]): Validator[] | undefined {
+function sort (a: Validator, b: Validator): number {
+  return a.isFavorite === b.isFavorite
+    ? a.isOwned === b.isOwned
+      ? 0
+      : a.isOwned
+        ? -1
+        : 1
+    : a.isFavorite
+      ? -1
+      : 1;
+}
+
+function withElected (validators: Validator[], elected?: string[]): Validator[] {
   return elected
-    ? validators && validators.map((v): Validator => {
+    ? validators.map((v): Validator => {
       const isElected = elected.includes(v.stashId);
 
       return v.isElected !== isElected
-        ? {
-          isElected,
-          key: v.key,
-          stashId: v.stashId,
-          stashIndex: v.stashIndex
-        }
+        ? objectSpread({}, v, { isElected })
         : v;
     })
     : validators;
 }
 
-function sortFn (allAccounts: string[], favorites: string[]): (a: Validator, b: Validator) => number {
-  return (a: Validator, b: Validator): number => {
-    const isFavA = favorites.includes(a.stashId);
+function withSort (allAccounts: string[], favorites: string[], validators: Validator[]): Validator[] {
+  return validators
+    .map((v): Validator => {
+      const isFavorite = favorites.includes(v.stashId);
+      const isOwned = allAccounts.includes(v.stashId);
 
-    if (isFavA === favorites.includes(b.stashId)) {
-      const isAccA = allAccounts.includes(a.stashId);
-
-      return isAccA === allAccounts.includes(b.stashId)
-        ? 0
-        : isAccA
-          ? -1
-          : 1;
-    }
-
-    return isFavA
-      ? -1
-      : 1;
-  };
+      return v.isFavorite !== isFavorite || v.isOwned !== isOwned
+        ? objectSpread({}, v, { isFavorite, isOwned })
+        : v;
+    })
+    .sort(sort);
 }
 
 function useTaggedValidatorsImpl (favorites: string[], sessionInfo: SessionInfo, validators?: Validator[]): Validator[] | undefined {
   const { allAccounts } = useAccounts();
   const elected = useElectedValidators(sessionInfo);
 
-  // these should only change once a session
   const flagged = useMemo(
-    () => withTags(validators, elected),
+    () => validators && withElected(validators, elected),
     [elected, validators]
   );
 
-  // this will change on a user action
-  const sortAll = useMemo(
-    () => sortFn(allAccounts, favorites),
-    [allAccounts, favorites]
-  );
-
   return useMemo(
-    () => flagged && flagged.sort(sortAll),
-    [flagged, sortAll]
+    () => flagged && withSort(allAccounts, favorites, flagged),
+    [allAccounts, favorites, flagged]
   );
 }
 

@@ -16,7 +16,6 @@ import useHeartbeat from './useHeartbeat';
 
 interface Props {
   className?: string;
-  isFavorite: boolean;
   isRelay: boolean;
   points?: number;
   sessionInfo: SessionInfo;
@@ -39,7 +38,7 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
   );
 }
 
-function Validator ({ className = '', isFavorite, isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
   const exposure = useExposure(validator, sessionInfo);
   const heartbeat = useHeartbeat(validator, sessionInfo);
@@ -54,7 +53,7 @@ function Validator ({ className = '', isFavorite, isRelay, points, sessionInfo, 
       <tr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={validator.stashId}
-          isFavorite={isFavorite}
+          isFavorite={validator.isFavorite}
           toggle={toggleFavorite}
         />
         <td className='address relative all'>

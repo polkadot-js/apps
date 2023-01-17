@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import type { SessionInfo } from '../types';
 
 import { useMemo } from 'react';
 
@@ -22,7 +22,7 @@ const OPT_POINTS = {
       }, {})
 };
 
-function usePointsImpl (activeEra: BN | null): Result | undefined {
+function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
   const { api } = useApi();
 
   const queryParams = useMemo(

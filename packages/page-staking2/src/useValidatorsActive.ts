@@ -15,6 +15,8 @@ const OPT_VALIDATORS = {
 
       return {
         isElected: false,
+        isFavorite: false,
+        isOwned: false,
         key: `${stashId}:${stashIndex}`,
         stashId,
         stashIndex

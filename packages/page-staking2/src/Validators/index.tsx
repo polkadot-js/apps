@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import Legend from '@polkadot/app-staking/Legend';
 import { Table } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import usePoints from './usePoints';
@@ -16,7 +15,6 @@ import ValidatorRow from './Validator';
 
 interface Props {
   className?: string;
-  favorites: string[];
   isRelay: boolean;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
@@ -28,43 +26,28 @@ interface ValidatorSplit {
   validatorsFavorite?: Validator[]
 }
 
-function splitValidators (allAccounts: string[], favorites: string[], validators?: Validator[]): ValidatorSplit {
+function splitValidators (validators?: Validator[]): ValidatorSplit {
   if (!validators) {
     return {};
   }
 
-  // sort stashes, our accounts bubble to the top
-  const validatorsAll = validators.sort((a, b) => {
-    const isAccountA = allAccounts.includes(a.stashId);
-
-    return isAccountA === allAccounts.includes(b.stashId)
-      ? 0
-      : isAccountA
-        ? -1
-        : 1;
-  });
-  const validatorsFavorite = validatorsAll.filter(({ stashId }) => favorites.includes(stashId));
+  const validatorsFavorite = validators.filter((v) => v.isFavorite);
 
   return validatorsFavorite.length
     ? {
-      validatorsActive: validatorsAll.filter((v) =>
-        !validatorsFavorite.some((f) =>
-          f.stashId === v.stashId
-        )
-      ),
+      validatorsActive: validators.filter((v) => !v.isFavorite),
       validatorsFavorite
     }
-    : { validatorsActive: validatorsAll };
+    : { validatorsActive: validators };
 }
 
-function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', isRelay, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
-  const points = usePoints(sessionInfo.activeEra);
+  const points = usePoints(sessionInfo);
 
   const { validatorsActive, validatorsFavorite } = useMemo(
-    () => splitValidators(allAccounts, favorites, validatorsSession),
-    [allAccounts, favorites, validatorsSession]
+    () => splitValidators(validatorsSession),
+    [validatorsSession]
   );
 
   const headerActive = useRef<[string?, string?, number?][]>([
@@ -92,7 +75,6 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
         >
           {validatorsFavorite.map((v) => (
             <ValidatorRow
-              isFavorite
               isRelay={isRelay}
               key={v.key}
               points={points?.[v.stashId]}
@@ -119,7 +101,6 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
       >
         {validatorsActive?.map((v) => (
           <ValidatorRow
-            isFavorite={false}
             isRelay={isRelay}
             key={v.key}
             points={points?.[v.stashId]}

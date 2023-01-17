@@ -40,6 +40,8 @@ function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
 
     return {
       isElected: false,
+      isFavorite: false,
+      isOwned: false,
       key: `${stashId}::-1`,
       stashId,
       stashIndex: -1

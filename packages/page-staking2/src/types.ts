@@ -4,13 +4,15 @@
 import type { BN } from '@polkadot/util';
 
 export interface SessionInfo {
-  activeEra: BN | null;
-  currentEra: BN | null;
-  currentSession: BN | null;
+  activeEra?: BN | null;
+  currentEra?: BN | null;
+  currentSession?: BN | null;
 }
 
 export interface Validator {
   isElected: boolean;
+  isFavorite: boolean;
+  isOwned: boolean;
   key: string;
   stashId: string;
   stashIndex: number;

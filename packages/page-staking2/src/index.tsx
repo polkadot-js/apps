@@ -44,7 +44,6 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       <Switch>
         <Route>
           <Validators
-            favorites={favorites}
             isRelay={isRelay}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
