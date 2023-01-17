@@ -25,6 +25,7 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
       className={className}
       empty={members && t<string>('No members found')}
       header={headerRef.current}
+      isSplit
     >
       {members?.map((accountId): React.ReactNode => (
         <tr key={accountId}>
