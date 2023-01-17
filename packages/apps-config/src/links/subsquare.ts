@@ -23,6 +23,7 @@ export const Subsquare: ExternalDef = {
     Litmus: 'litmus',
     Phala: 'phala',
     Polkadot: 'polkadot',
+    Rococo: 'rococo',
     'Turing Network': 'turing',
     Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
