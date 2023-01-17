@@ -367,6 +367,10 @@ const StyledDiv = styled.div`
         padding-top: 0.125rem;
       }
 
+      &.no-pad {
+        padding: 0;
+      }
+
       &.number {
         font-variant-numeric: tabular-nums;
         text-align: right;
