@@ -26,18 +26,18 @@ function BlockToTime ({ api, children, className = '', isInline, label, value }:
   }
 
   return (
-    <div className={`.ui--BlockToTime ${className}${isInline ? ' isInline' : ''}`}>
+    <StyledDiv className={`${className} ui--BlockToTime ${isInline ? 'isInline' : ''}`}>
       {label || ''}{text.split(' ').map((v, index) =>
         <span
           className={index % 2 ? 'timeUnits' : undefined}
           key={index}
         >{v}</span>
       )}{children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BlockToTime)`
+const StyledDiv = styled.div`
   &.isInline {
     display: inline-block;
   }
@@ -47,6 +47,8 @@ export default React.memo(styled(BlockToTime)`
   }
 
   span.timeUnits {
-    font-size: 0.825em;
+    font-size: var(--font-percent-tiny);
   }
-`);
+`;
+
+export default React.memo(BlockToTime);

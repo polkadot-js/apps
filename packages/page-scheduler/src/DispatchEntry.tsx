@@ -7,7 +7,7 @@ import React from 'react';
 
 import PreImageButton from '@polkadot/app-democracy/Overview/PreImageButton';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { LinkExternal } from '@polkadot/react-components';
+import { LinkExternal, Table } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -21,7 +21,7 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
 
   return (
     <tr>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={imageHash}
         proposal={image?.proposal}
@@ -45,7 +45,7 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
       <td className='links media--1000'>
         <LinkExternal
           data={index}
-          type='referendum'
+          type='democracyReferendum'
         />
       </td>
     </tr>

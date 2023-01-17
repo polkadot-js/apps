@@ -17,5 +17,8 @@ export const ethereumChains = [
   'root',
   'Darwinia2',
   'Crab2',
-  'Pangolin2'
+  'Pangolin2',
+  'thebifrost-dev',
+  'thebifrost-testnet',
+  'thebifrost-mainnet'
 ];

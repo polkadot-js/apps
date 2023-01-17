@@ -3,19 +3,19 @@
 
 import type { ExternalDef } from './types';
 
-import Commonwealth from './commonwealth';
-import Dotreasury from './dotreasury';
-import DotScanner from './dotscanner';
-import KodaDot from './kodadot';
-import Polkaholic from './polkaholic';
-import Polkascan from './polkascan';
+import { Commonwealth } from './commonwealth';
+import { Dotreasury } from './dotreasury';
+import { DotScanner } from './dotscanner';
+import { KodaDot } from './kodadot';
+import { Polkaholic } from './polkaholic';
+import { Polkascan } from './polkascan';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly';
-import Polkastats from './polkastats';
-import Singular from './singular';
-import Statescan from './statescan';
-import SubId from './subid';
-import Subscan from './subscan';
-import Subsquare from './subsquare';
+import { Polkastats } from './polkastats';
+import { Singular } from './singular';
+import { Statescan } from './statescan';
+import { SubId } from './subid';
+import { Subscan } from './subscan';
+import { Subsquare } from './subsquare';
 
 export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,

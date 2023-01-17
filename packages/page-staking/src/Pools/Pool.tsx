@@ -7,10 +7,9 @@ import type { MembersMapEntry, Params } from './types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, ExpandButton, ExpanderScroll, Spinner } from '@polkadot/react-components';
+import { AddressMini, ExpandButton, ExpanderScroll, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Join from './Join';
@@ -30,7 +29,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const renderMembers = useCallback(
-    () => members.map(({ accountId, member }, count) => (
+    () => members.map(({ accountId, member }, count): React.ReactNode => (
       <AddressMini
         balance={member.points}
         key={`${count}:${accountId}`}
@@ -43,7 +42,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   );
 
   const renderNominees = useCallback(
-    () => info && info.nominating.map((stashId, count) => (
+    () => info && info.nominating.map((stashId, count): React.ReactNode => (
       <AddressMini
         key={`${count}:${stashId}`}
         value={stashId}
@@ -55,11 +54,24 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'><h1>{formatNumber(poolId)}</h1></td>
-        <td className='start'>{info && info.metadata}</td>
-        <td className='number media--1100'>{info && info.bonded.state.type}</td>
-        <td className='number'>{info && <FormatBalance value={info.bonded.points} />}</td>
+      <StyledTr className={`${className} isFirst isExpanded ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={poolId} />
+        <td className='start'>
+          <div className={`${isExpanded ? '' : 'clamp'}`}>
+            {info
+              ? info.metadata
+              : <span className='--tmp'>This is a pool placeholder</span>}
+          </div>
+        </td>
+        <td className='number media--1100'>
+          {info
+            ? info.bonded.state.type
+            : <span className='--tmp'>Destroying</span>}
+        </td>
+        <Table.Column.Balance
+          value={info?.bonded.points}
+          withLoading
+        />
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (
@@ -100,9 +112,9 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
             : <Spinner noLabel />
           }
         </td>
-      </tr>
+      </StyledTr>
       {info && isExpanded && (
-        <tr className={`${className} isExpanded`}>
+        <StyledTr className={`${className} isExpanded isLast`}>
           <td colSpan={4}>
             <div className='label-column-right'>
               <div className='label'>{t('creator')}</div>
@@ -111,19 +123,19 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
             {info.bonded.roles.root.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('root')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.root} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.root.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.nominator.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('nominator')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.stateToggler.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t('toggler')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler} /></div>
+                <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler.unwrap()} /></div>
               </div>
             )}
           </td>
@@ -137,13 +149,13 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
               <div className='inline-balance'><AddressMini value={info.rewardId} /></div>
             </div>
           </td>
-        </tr>
+        </StyledTr>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Pool)`
+const StyledTr = styled.tr`
   .label-column-right,
   .label-column-left{
     display: flex;
@@ -161,4 +173,16 @@ export default React.memo(styled(Pool)`
     color: var(--color-label);
     text-transform: lowercase;
   }
-`);
+
+  .clamp {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    box-orient: vertical;
+    display: -webkit-box;
+    line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+export default React.memo(Pool);

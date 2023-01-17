@@ -6,7 +6,7 @@ import type { ScheduledProposals } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, Expander, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -59,7 +59,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge

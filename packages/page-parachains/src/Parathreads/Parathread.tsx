@@ -6,9 +6,8 @@ import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressSmall, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
 
 import Lifecycle from '../Overview/Lifecycle';
 // import ParachainInfo from '../Overview/ParachainInfo';
@@ -39,10 +38,12 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
 
   return (
     <tr>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='badge'><ParaLink id={id} /></td>
       <td className='address media--2000'>{manager && <AddressSmall value={manager} />}</td>
-      <td className='start together hash media--1500'>{headHex}</td>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{headHex}</div>
+      </td>
       <td className='start'>
         <Lifecycle
           lifecycle={lifecycle}

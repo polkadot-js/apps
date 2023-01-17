@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 import ParentAccount from './ParentAccount';
-import { toShortAddress } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -25,16 +24,14 @@ interface Props {
 }
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
-  const displayAsGrid = parentAddress || withShortAddress;
-
   return (
-    <div className={`ui--AddressSmall ${className}`}>
-      <div>
+    <StyledDiv className={`${className} ui--AddressSmall ${(parentAddress || withShortAddress) ? 'withPadding' : ''}`}>
+      <span className='ui--AddressSmall-icon'>
         <IdentityIcon value={value as Uint8Array} />
-      </div>
-      <div className={displayAsGrid ? 'addressGrid' : ''}>
+      </span>
+      <span className='ui--AddressSmall-info'>
         {parentAddress && (
-          <div className='parentAccountName'>
+          <div className='parentName'>
             <ParentAccount address={parentAddress} />
           </div>
         )}
@@ -54,91 +51,66 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
             className='shortAddress'
             data-testid='short-address'
           >
-            {toShortAddress(value)}
+            {value}
           </div>
         )}
-      </div>
-    </div>
+      </span>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AddressSmall)`
+const StyledDiv = styled.div`
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
 
-  .ui--IdentityIcon {
-    margin-right: 0.75rem;
+  &.withPadding {
+    padding: 0.75rem 0;
+  }
+
+  .ui--AddressSmall-icon {
+    .ui--IdentityIcon {
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+  }
+
+  .ui--AddressSmall-info {
+    position: relative;
     vertical-align: middle;
-  }
 
-  .parentAccountName,
-  .shortAddress {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-  }
+    .parentName, .shortAddress {
+      font-size: var(--font-size-tiny);
+    }
 
-  .parentAccountName {
-    grid-area: parentAccountName;
-  }
+    .parentName {
+      left: 0;
+      position: absolute;
+      top: -0.80rem;
+    }
 
-  .accountName {
-    grid-area: accountName;
-  }
-
-  .shortAddress {
-    grid-area: shortAddress;
-    color: #8B8B8B;
-    font-size: 0.75rem;
-  }
-
-  .addressGrid {
-    border: 0.031rem;
-    height: 3.438rem;
-    display: grid;
-    grid-template-columns: max-content;
-    grid-template-rows: 30% 40% 30%;
-    grid-template-areas:
-    "parentAccountName"
-    "accountName"
-    "shortAddress";
+    .shortAddress {
+      bottom: -0.95rem;
+      color: #8B8B8B;
+      display: inline-block;
+      left: 0;
+      min-width: var(--width-shortaddr);
+      max-width: var(--width-shortaddr);
+      overflow: hidden;
+      position: absolute;
+      text-overflow: ellipsis;
+    }
   }
 
   .ui--AccountName {
-    max-width: 26rem;
     overflow: hidden;
+    vertical-align: middle;
+    white-space: nowrap;
 
     &.withSidebar {
       cursor: help;
     }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 24rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 22rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 20rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 18rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 16rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      max-width: 14rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      max-width: 12rem;
-    }
   }
-`);
+`;
+
+export default React.memo(AddressSmall);

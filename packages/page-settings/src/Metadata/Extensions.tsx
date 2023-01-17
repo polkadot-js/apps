@@ -44,12 +44,12 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     [chainInfo, extensions, selectedIndex, toggleBusy]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('Extensions'), 'start']
   ]);
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('No Upgradable extensions')}
       header={headerRef.current}
@@ -57,7 +57,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       {extensions
         ? options.length !== 0 && (
           <>
-            <tr>
+            <tr className='isExpanded isFirst'>
               <td>
                 <Dropdown
                   label={t<string>('upgradable extensions')}
@@ -67,7 +67,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 />
               </td>
             </tr>
-            <tr className='isExpanded'>
+            <tr className='isExpanded isLast'>
               <td>
                 <Button.Group>
                   <Button
@@ -83,12 +83,14 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
         )
         : <Spinner />
       }
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Extensions)`
+const StyledTable = styled(Table)`
   table {
     overflow: visible;
   }
-`);
+`;
+
+export default React.memo(Extensions);

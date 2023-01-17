@@ -13,8 +13,8 @@ interface Props {
 }
 
 function Selected ({ address, filter, isHidden, onDeselect }: Props): React.ReactElement<Props> | null {
-  const _onDeselect = useCallback(
-    (): void => onDeselect(address),
+  const onChange = useCallback(
+    () => onDeselect(address),
     [address, onDeselect]
   );
 
@@ -27,7 +27,7 @@ function Selected ({ address, filter, isHidden, onDeselect }: Props): React.Reac
       address={address}
       filter={filter}
       noToggle
-      onChange={_onDeselect}
+      onChange={onChange}
     />
   );
 }

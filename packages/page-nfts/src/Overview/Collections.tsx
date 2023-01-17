@@ -18,7 +18,7 @@ interface Props {
 function Collections ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('collections'), 'start', 2],
     [t('owner'), 'address media--1000'],
     [t('status')],

@@ -18,7 +18,7 @@ interface Props {
 function Queues ({ className, queueTotals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('queues'), 'start'],
     [t('participants'), 'number'],
     [t('balance'), 'number']

@@ -288,12 +288,14 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
     []
   );
 
-  const header = useMemo(() => [
-    [t('validators'), 'start', 3],
+  // False positive, this is part of the type...
+  // eslint-disable-next-line func-call-spacing
+  const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
+    [t('validators'), 'start', 4],
     [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
-    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
+    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
@@ -362,7 +364,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const canSelect = selected.length < maxNominations;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         avgStaked={avgStaked}
         lastEra={lastEra}
@@ -417,11 +419,11 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           />
         )}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Targets)`
+const StyledDiv = styled.div`
   text-align: center;
 
   th.isClickable {
@@ -433,4 +435,6 @@ export default React.memo(styled(Targets)`
   .ui--Table {
     overflow-x: auto;
   }
-`);
+`;
+
+export default React.memo(Targets);

@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Stats } from '@polkadot/react-components/ApiStats/types';
+import type { ApiStats } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { ApiStatsContext, CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Chart from '../Latency/Chart';
@@ -32,7 +33,7 @@ interface ChartInfo {
 const COLORS_BYTES = ['#00448c', '#008c44', '#acacac'];
 const COLORS_REQUESTS = ['#008c8c', '#00448c', '#8c4400', '#acacac'];
 
-function getPoints (all: Stats[]): ChartInfo {
+function getPoints (all: ApiStats[]): ChartInfo {
   const bytesChart: ChartContents = {
     labels: [],
     values: [[], [], []]
@@ -85,7 +86,7 @@ function getPoints (all: Stats[]): ChartInfo {
 
 function Api ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const stats = useContext(ApiStatsContext);
+  const stats = useApiStats();
 
   const { bytesLegend, requestsLegend } = useMemo(
     () => ({
@@ -107,7 +108,7 @@ function Api ({ className }: Props): React.ReactElement<Props> {
   const { stats: { total: { bytesRecv, bytesSent, requests: tReq, subscriptions: tSub } } } = stats[stats.length - 1];
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('sent')}>{formatNumber(bytesSent / 1024)}kB</CardSummary>
@@ -130,11 +131,11 @@ function Api ({ className }: Props): React.ReactElement<Props> {
         title={t<string>('transfer')}
         value={bytesChart}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Api)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -145,4 +146,6 @@ export default React.memo(styled(Api)`
   .container+.container {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Api);

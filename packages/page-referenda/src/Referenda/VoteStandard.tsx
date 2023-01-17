@@ -17,7 +17,7 @@ interface Props extends VoteTypeProps {
 function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [balance, setBalance] = useState<BN | undefined>();
-  const [conviction, setConviction] = useState(0);
+  const [conviction, setConviction] = useState(1);
 
   useEffect((): void => {
     onChange([id, {
@@ -51,7 +51,6 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
         onChange={setBalance}
       />
       <ConvictionDropdown
-        help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
         label={t<string>('conviction')}
         onChange={setConviction}
         value={conviction}

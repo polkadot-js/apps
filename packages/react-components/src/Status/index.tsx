@@ -4,16 +4,15 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { useQueue } from '@polkadot/react-hooks';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { STATUS_COMPLETE } from './constants';
-import StatusContext from './Context';
-
-export { StatusContext };
 
 interface Props {
   className?: string;
@@ -155,7 +154,7 @@ function filterTx (txqueue?: QueueTx[]): QueueTx[] {
 }
 
 function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
-  const { stqueue, txqueue } = useContext(StatusContext);
+  const { stqueue, txqueue } = useQueue();
   const [allSt, setAllSt] = useState<QueueStatus[]>([]);
   const [allTx, setAllTx] = useState<QueueTx[]>([]);
 
@@ -172,15 +171,14 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <div className={`ui--Status ${className}`}>
+    <StyledDiv className={`${className} ui--Status`}>
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Status)`
-  /* bottom: 0; */
+const StyledDiv = styled.div`
   display: inline-block;
   overflow: hidden;
   position: fixed;
@@ -309,4 +307,6 @@ export default React.memo(styled(Status)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Status);

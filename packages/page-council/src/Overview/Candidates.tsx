@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -20,13 +20,13 @@ interface Props {
 function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerCandidatesRef = useRef([
+  const headerCandidatesRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('candidates'), 'start'],
     [],
     []
   ]);
 
-  const headerRunnersRef = useRef([
+  const headerRunnersRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('runners up'), 'start'],
     [t('backing'), 'expand'],
     [t('votes')]

@@ -86,7 +86,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
           <Modal.Content>
             <Modal.Columns hint={t<string>('The vote will be recorded for the selected account.')}>
               <InputAddress
-                help={t<string>('This account will be use to approve each candidate.')}
                 label={t<string>('voting account')}
                 onChange={setAccountId}
                 type='account'
@@ -95,7 +94,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
             <Modal.Columns hint={t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}>
               <VoteValue
                 accountId={accountId}
-                isCouncil
                 onChange={setVoteValue}
               />
             </Modal.Columns>
@@ -111,7 +109,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
                 available={available}
                 availableLabel={t<string>('council candidates')}
                 defaultValue={defaultVotes}
-                help={t<string>('Select and order council candidates you wish to vote for.')}
                 maxCount={MAX_VOTES}
                 onChange={setVotes}
                 valueLabel={t<string>('my ordered votes')}
@@ -121,7 +118,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
               <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
                 <InputBalance
                   defaultValue={bondValue}
-                  help={t<string>('The amount that is reserved')}
                   isDisabled
                   label={t<string>('voting bond')}
                 />

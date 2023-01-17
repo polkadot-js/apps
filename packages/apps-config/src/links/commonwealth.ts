@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
 const HASH_PATHS = ['proposal/councilmotion'];
 
-export default {
+export const Commonwealth: ExternalDef = {
   chains: {
     Edgeware: 'edgeware',
     Kulupu: 'kulupu',
@@ -20,8 +21,8 @@ export default {
   logo: externalLogos.commonwealth as string,
   paths: {
     council: 'proposal/councilmotion',
-    proposal: 'proposal/democracyproposal',
-    referendum: 'proposal/referendum',
+    democracyProposal: 'proposal/democracyproposal',
+    democracyReferendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
   url: 'https://commonwealth.im/'

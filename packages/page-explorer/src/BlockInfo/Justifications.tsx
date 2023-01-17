@@ -31,6 +31,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -38,7 +39,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('justifications'), 'start']
   ]);
 

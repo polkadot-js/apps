@@ -22,7 +22,7 @@ interface Props extends ComponentProps {
 function Proposals ({ className = '', defaultProposal, defaultThreshold, filter, isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('proposals'), 'start', 2],
     [t('threshold')],
     [t('voting end')],

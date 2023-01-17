@@ -5,9 +5,9 @@ import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
+import { usePreimage } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import usePreimage from '../usePreimage';
 import Call from './Call';
 import Free from './Free';
 import Hash from './Hash';
@@ -25,14 +25,19 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
       <Hash value={value} />
       <Call value={info} />
       <td className='number media--1000'>
-        {info?.bytes && formatNumber(info.bytes.length)}
+        {info && info.proposalLength
+          ? formatNumber(info.proposalLength)
+          : <span className='--tmp'>999,999</span>}
       </td>
-      <td className='preimage-status together media--1200'>
-        <div>{info?.status?.type}</div>
-        {info && <Free value={info} />}
-      </td>
-      <td className='number media--1400'>
-        {info && info.count !== 0 && formatNumber(info.count)}
+      <td className='preimageStatus together media--1200'>
+        {info
+          ? (
+            <>
+              {info.status && (<div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
+              <Free value={info} />
+            </>
+          )
+          : <span className='--tmp'>Unrequested</span>}
       </td>
     </tr>
   );

@@ -112,7 +112,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           value={stashId}
         />
         <InputAddress
-          help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
           label={t<string>('controller account')}
           onChange={setControllerId}
           type='account'
@@ -136,7 +135,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           <InputBalance
             autoFocus
             defaultValue={startBalance}
-            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
             isError={!hasValue || !!amountError?.error}
             label={t<string>('value bonded')}
             labelExtra={
@@ -159,7 +157,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           />
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
@@ -170,7 +167,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
       <Modal.Columns hint={t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}>
         <Dropdown
           defaultValue={0}
-          help={t<string>('The destination account for any payments as either a nominator or validator')}
           label={t<string>('payment destination')}
           onChange={setDestination}
           options={options}
@@ -178,7 +174,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
         />
         {isAccount && (
           <InputAddress
-            help={t('An account that is to receive the rewards')}
             label={t('the payment account')}
             onChange={setDestAccount}
             type='account'

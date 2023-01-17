@@ -53,7 +53,7 @@ function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactEle
           <CardSummary
             label={t<string>('intake')}
             progress={{
-              total: api.consts.gilt.intakePeriod,
+              total: api.consts.gilt.intakePeriod as u128,
               value: bestNumber.mod(api.consts.gilt.intakePeriod as u128),
               withTime: true
             }}

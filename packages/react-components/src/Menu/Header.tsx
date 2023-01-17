@@ -8,16 +8,17 @@ import styled from 'styled-components';
 
 function Header ({ children, className }: HeaderProps): React.ReactElement {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Header)`
-  text-transform: uppercase;
-  font-size: 0.714rem;
+const StyledDiv = styled.div`
+  color: var(--color-label);
+  font-size: var(--font-size-tiny);
   line-height: 0.857rem;
-
   margin-bottom: 0.3rem;
-`);
+`;
+
+export default React.memo(Header);

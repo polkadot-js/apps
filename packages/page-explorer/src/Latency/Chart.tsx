@@ -23,7 +23,7 @@ const OPTIONS = {
 
 function ChartDisplay ({ className, colors, legends, title, value: { labels, values } }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <h1>{title}</h1>
       <Chart.Line
         colors={colors}
@@ -32,14 +32,16 @@ function ChartDisplay ({ className, colors, legends, title, value: { labels, val
         options={OPTIONS}
         values={values}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ChartDisplay)`
+const StyledDiv = styled.div`
   background: var(--bg-table);
   border: 1px solid var(--border-table);
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 1rem 1.5rem;
-`);
+`;
+
+export default React.memo(ChartDisplay);

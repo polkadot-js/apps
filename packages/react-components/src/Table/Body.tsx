@@ -16,14 +16,16 @@ interface Props {
 }
 
 function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Props): React.ReactElement<Props> {
+  const bodyClassName = `${className} ui--Table-Body`;
+
   return children
     ? (
       noBodyTag
         ? <>{children}</>
-        : <tbody className={className}>{children}</tbody>
+        : <tbody className={bodyClassName}>{children}</tbody>
     )
     : (
-      <tbody className={className}>
+      <tbody className={bodyClassName}>
         <tr>
           <td colSpan={100}>{
             isString(empty)

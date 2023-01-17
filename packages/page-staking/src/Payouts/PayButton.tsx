@@ -79,7 +79,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   return (
     <>
       {payout && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Payout all stakers')}
           onClose={togglePayout}
@@ -137,7 +137,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               onStart={togglePayout}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='credit-card'
@@ -153,8 +153,9 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   );
 }
 
-export default React.memo(styled(PayButton)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
+    display: inline-block;
     padding-top: 0.5rem;
 
     .ui--AddressMini-info {
@@ -162,4 +163,6 @@ export default React.memo(styled(PayButton)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(PayButton);

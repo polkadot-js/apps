@@ -29,16 +29,50 @@ interface ValueState {
   value: BN;
 }
 
-function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
-  const value = allBalances.lockedBalance;
-  const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
-  const defaultValue = noDefault
-    ? BN_ZERO
-    : value.isZero()
-      ? maxValue.gt(existential)
-        ? maxValue.sub(existential)
-        : BN_ZERO
-      : value;
+const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'];
+
+function getValues (selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
+  const sortedLocks = allBalances.lockedBreakdown
+    // first sort by amount, so greatest value first
+    .sort((a, b) =>
+      b.amount.cmp(a.amount)
+    )
+    // then sort by the type of lock (we try to find relevant)
+    .sort((a, b): number => {
+      if (!a.id.eq(b.id)) {
+        for (let i = 0; i < LOCKS_ORDERED.length; i++) {
+          const lockName = LOCKS_ORDERED[i];
+
+          if (a.id.eq(lockName)) {
+            return -1;
+          } else if (b.id.eq(lockName)) {
+            return 1;
+          }
+        }
+      }
+
+      return 0;
+    })
+    .map(({ amount }) => amount);
+
+  const maxValue = allBalances.votingBalance;
+  let defaultValue: BN = sortedLocks[0] || allBalances.lockedBalance;
+
+  if (noDefault) {
+    defaultValue = BN_ZERO;
+  } else if (defaultValue.isZero()) {
+    // NOTE As of now (7 Jan 2023) taking the max and subtracting existential is still too high
+    // (on Kusama) where the tx fees for a conviction vote is more than the existential. So try to
+    // adapt to get some sane default starting value
+    let withoutExist = maxValue.sub(existential);
+
+    for (let i = 0; i < 3; i++) {
+      if (withoutExist.gt(existential)) {
+        defaultValue = withoutExist;
+        withoutExist = withoutExist.sub(existential);
+      }
+    }
+  }
 
   return {
     defaultValue,
@@ -48,7 +82,7 @@ function getValues (selectedId: string | null | undefined, isCouncil: boolean | 
   };
 }
 
-function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
@@ -58,10 +92,10 @@ function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChang
     // if the set accountId changes and the new balances is for that id, set it
     allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
       state.selectedId !== accountId
-        ? getValues(accountId, isCouncil, noDefault, allBalances, api.consts.balances.existentialDeposit)
+        ? getValues(accountId, noDefault, allBalances, api.consts.balances.existentialDeposit)
         : state
     );
-  }, [allBalances, accountId, api, isCouncil, noDefault]);
+  }, [allBalances, accountId, api, noDefault]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
@@ -87,13 +121,11 @@ function VoteValue ({ accountId, autoFocus, isCouncil, label, noDefault, onChang
           ? undefined
           : defaultValue
       }
-      help={t<string>('The amount that is associated with this vote. This value is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
       label={label || t<string>('vote value')}
       labelExtra={
         <BalanceVoting
-          isCouncil={isCouncil}
           label={<label>{t<string>('voting balance')}</label>}
           params={accountId}
         />

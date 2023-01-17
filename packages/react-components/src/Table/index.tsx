@@ -6,17 +6,19 @@ import styled from 'styled-components';
 
 import Columar from '../Columar';
 import Body from './Body';
+import Column from './Column';
 import Foot from './Foot';
 import Head from './Head';
+import Row from './Row';
 
-interface TableProps {
-  children: React.ReactNode;
+interface Props {
+  children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
-  header?: [React.ReactNode?, string?, number?, (() => void)?][];
+  header?: ([React.ReactNode?, string?, number?, (() => void)?] | false | null | undefined)[];
   headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
@@ -25,34 +27,43 @@ interface TableProps {
   noBodyTag?: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
+function extractBody (children: React.ReactNode, isSplit?: boolean): { body: React.ReactNode | React.ReactNode[], bodySplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
   if (!Array.isArray(children)) {
-    return [!children, children];
+    return {
+      body: children,
+      bodySplit: null,
+      isEmpty: !children
+    };
   }
 
-  const kids = children.filter((child) => !!child);
-  const isEmpty = kids.length === 0;
+  const body = children.filter((child) => !!child);
+  const isEmpty = body.length === 0;
+  let bodySplit: [React.ReactNode[], React.ReactNode[]] | null = null;
 
-  return [isEmpty, isEmpty ? null : kids];
+  if (!isEmpty && isSplit) {
+    const half = Math.ceil(body.length / 2);
+
+    bodySplit = [
+      body.slice(0, half),
+      body.slice(half)
+    ];
+  }
+
+  return {
+    body: isEmpty || bodySplit
+      ? null
+      : body,
+    bodySplit,
+    isEmpty
+  };
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: TableProps): React.ReactElement<TableProps> {
-  const [isEmpty, bodyChildren] = extractBodyChildren(children);
-
-  const splitBody = useMemo(
-    (): [React.ReactNode[], React.ReactNode[]] | null => {
-      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
-        return null;
-      }
-
-      const half = Math.ceil(bodyChildren.length / 2);
-
-      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
-    },
-    [bodyChildren, isEmpty, isSplit]
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
+  const { body, bodySplit, isEmpty } = useMemo(
+    () => extractBody(children, isSplit),
+    [children, isSplit]
   );
 
-  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`;
   const headerNode = (
     <Head
       filter={filter}
@@ -63,28 +74,26 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
     </Head>
   );
 
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${bodySplit ? 'noMargin' : ''}`;
+
   return (
-    <div className={`ui--Table ${className} ${splitBody ? 'isSplit' : ''}`}>
+    <StyledDiv className={`${className} ui--Table ${bodySplit ? 'isSplit' : ''}`}>
       {legend}
-      {splitBody
+      {bodySplit
         ? (
           <>
-            <table className={`${tableClassName} noMargin`}>
+            <table className={tableClassName}>
               {headerNode}
             </table>
             <Columar isPadded={false}>
               <Columar.Column>
-                <table className={`${tableClassName} noMargin`}>
-                  <Body>
-                    {splitBody[0]}
-                  </Body>
+                <table className={tableClassName}>
+                  <Body>{bodySplit[0]}</Body>
                 </table>
               </Columar.Column>
               <Columar.Column>
                 <table className={tableClassName}>
-                  <Body>
-                    {splitBody[1]}
-                  </Body>
+                  <Body>{bodySplit[1]}</Body>
                 </table>
               </Columar.Column>
             </Columar>
@@ -98,7 +107,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
               emptySpinner={emptySpinner}
               noBodyTag={noBodyTag}
             >
-              {bodyChildren}
+              {body}
             </Body>
             <Foot
               footer={footer}
@@ -107,14 +116,14 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
           </table>
         )
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-const BORDER_WIDTH_BT = '2px';
-const BORDER_WIDTH_LR = '1px'; // 50% of bottom/top for isSplit
+const BORDER_RADIUS = '0.5rem';
+const BORDER_SOLID = '1px solid var(--bg-page)';
 
-export default React.memo(styled(Table)`
+const StyledDiv = styled.div`
   max-width: 100%;
   width: 100%;
 
@@ -189,7 +198,7 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-top: ${BORDER_WIDTH_BT} solid var(--border-table);
+      background: var(--bg-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
@@ -199,11 +208,11 @@ export default React.memo(styled(Table)`
       }
 
       &:first-child {
-        border-left: ${BORDER_WIDTH_LR} solid var(--border-table);
+        border-left: ${BORDER_SOLID};
       }
 
       &:last-child {
-        border-right: ${BORDER_WIDTH_LR} solid var(--border-table);
+        border-right: ${BORDER_SOLID};
       }
 
       label {
@@ -212,7 +221,7 @@ export default React.memo(styled(Table)`
       }
 
       div.empty {
-        opacity: 0.6;
+        opacity: var(--opacity-light);
         padding: 0.25rem;
       }
 
@@ -249,7 +258,8 @@ export default React.memo(styled(Table)`
       }
 
       &.address {
-        min-width: 11rem;
+        max-width: 0;
+        min-width: 15rem;
         overflow-x: hidden;
       }
 
@@ -285,10 +295,6 @@ export default React.memo(styled(Table)`
         padding: 0;
       }
 
-      &.combined {
-        border-top-width: 0;
-      }
-
       &.expand {
         &:not(.left) {
           text-align: right;
@@ -300,7 +306,19 @@ export default React.memo(styled(Table)`
       }
 
       &.hash {
-        font: var(--font-mono);
+        // we actually want to use 10ch here, however in the
+        // block expand page gives different sizes to the hashes
+        min-width: 7.5rem;
+        white-space: nowrap;
+
+        > .shortHash {
+          max-width: var(--width-shorthash);
+          min-width: 3em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: var(--width-shorthash);
+        }
       }
 
       &.links {
@@ -322,6 +340,7 @@ export default React.memo(styled(Table)`
       }
 
       &.number {
+        font-variant-numeric: tabular-nums;
         text-align: right;
       }
 
@@ -388,25 +407,56 @@ export default React.memo(styled(Table)`
         text-transform: uppercase;
       }
 
-      &.favorite {
-        padding-right: 0;
-
-        .ui--Icon.isSelected {
-          color: darkorange;
-        }
-      }
-
       .ui--Button-Group .ui--Button:not(.isToplevel) {
         margin: 0;
       }
     }
 
     tr {
-      background: var(--bg-table);
-
-      & + tr.isExpanded {
+      &:not(.isExpanded) {
         td {
-          border-top: none;
+          border-top: ${BORDER_SOLID};
+          border-bottom: ${BORDER_SOLID};
+
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      &.isExpanded {
+        &.isFirst {
+          td {
+            border-top: ${BORDER_SOLID};
+
+            &:first-child {
+              border-top-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-top-right-radius: ${BORDER_RADIUS};
+            }
+          }
+        }
+
+        &.isLast {
+          td {
+            border-bottom: ${BORDER_SOLID};
+
+            &:first-child {
+              border-bottom-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-bottom-right-radius: ${BORDER_RADIUS};
+            }
+          }
         }
       }
 
@@ -434,11 +484,7 @@ export default React.memo(styled(Table)`
       }
 
       &.isCollapsed {
-        visibility: collapse;
-      }
-
-      &.isExpanded {
-        visibility: visible;
+        display: none;
       }
 
       .ui--Button-Group {
@@ -456,4 +502,57 @@ export default React.memo(styled(Table)`
       }
     }
   }
-`);
+
+  thead {
+    tr {
+      &:first-child {
+        th {
+          border-top: ${BORDER_SOLID};
+
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      &:last-child {
+        th {
+          border-bottom: ${BORDER_SOLID};
+          padding-top: 1rem;
+
+          &:first-child {
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      th {
+        &:first-child {
+          border-left: ${BORDER_SOLID};
+        }
+
+        &:last-child {
+          border-right: ${BORDER_SOLID};
+        }
+      }
+    }
+  }
+`;
+
+const Table = React.memo(TableBase) as unknown as typeof TableBase & {
+  Column: typeof Column,
+  Row: typeof Row
+};
+
+Table.Column = Column;
+Table.Row = Row;
+
+export default Table;

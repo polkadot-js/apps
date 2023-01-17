@@ -6,7 +6,7 @@ import type { BagMap } from './types';
 
 import React, { useMemo } from 'react';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useCall } from '@polkadot/react-hooks';
 import { formatNumber, isNumber } from '@polkadot/util';
 
@@ -34,20 +34,20 @@ function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<P
       <CardSummary label={t<string>('total bags')}>
         {bags
           ? formatNumber(bags.length)
-          : <Spinner noLabel />
+          : <span className='--tmp'>99</span>
         }
       </CardSummary>
       <section>
         <CardSummary label={t<string>('total nodes')}>
           {mapOwn
             ? formatNumber(total)
-            : <Spinner noLabel />
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
         <CardSummary label={t<string>('my nodes')}>
           {isNumber(myCount)
             ? formatNumber(myCount)
-            : '-'
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
       </section>

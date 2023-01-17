@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiProps } from '@polkadot/react-api/types';
+import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+
 import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -9,10 +12,8 @@ import { ThemeProvider } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api/types';
-import { QueueProvider } from '@polkadot/react-components/Status/Context';
-import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { ApiCtx } from '@polkadot/react-api';
+import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -104,7 +105,7 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useTheme', () => ({
-  useTheme: () => 'theme--light'
+  useTheme: () => ({ theme: 'light', themeClassName: 'theme--light' })
 }));
 
 export abstract class Page {
@@ -208,17 +209,17 @@ export abstract class Page {
       <>
         <div id='tooltips' />
         <Suspense fallback='...'>
-          <QueueProvider value={queue}>
+          <QueueCtx.Provider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
-                <ApiContext.Provider value={mockApi}>
+                <ApiCtx.Provider value={mockApi}>
                   <AccountSidebar>
                     {React.cloneElement(this.overview, { onStatusChange: noop }) }
                   </AccountSidebar>
-                </ApiContext.Provider>
+                </ApiCtx.Provider>
               </ThemeProvider>
             </MemoryRouter>
-          </QueueProvider>
+          </QueueCtx.Provider>
         </Suspense>
       </>
     );

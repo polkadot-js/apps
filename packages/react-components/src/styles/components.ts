@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types';
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default (_theme: ThemeDef): string => `
@@ -40,8 +40,8 @@ export default (_theme: ThemeDef): string => `
     padding-right: 0;
     padding-bottom: 0.3em;
     padding-left: 0.3em;
-    color: #2e86ab  !important;
-    background: none  !important;
+    color: #2e86ab !important;
+    background: none !important;
   }
 
   button.ui--Button {

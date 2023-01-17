@@ -171,7 +171,7 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
   }
 
   return (
-    <div className={`storage--Query storage--actionrow ${className}`}>
+    <StyledDiv className={`${className} storage--Query storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <Labelled
           label={
@@ -190,11 +190,11 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
           onClick={_onRemove}
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Query)`
+const StyledDiv = styled.div`
   margin-bottom: 0.25em;
 
   label {
@@ -223,4 +223,6 @@ export default React.memo(styled(Query)`
   .storage--actionrow-buttons {
     margin-top: -0.25rem; /* offset parent spacing for buttons */
   }
-`);
+`;
+
+export default React.memo(Query);

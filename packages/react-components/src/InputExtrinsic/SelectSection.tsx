@@ -21,7 +21,7 @@ interface Props {
 function SelectSection ({ className = '', defaultValue, isDisabled, isError, onChange, options, value }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Sections ${className}`}
+      className={`${className} ui--DropdownLinked-Sections`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

@@ -27,6 +27,7 @@ export interface Props {
   onError?: () => void;
   value: IExtrinsic | IMethod;
   withBorder?: boolean;
+  withExpander?: boolean;
   withHash?: boolean;
   withSignature?: boolean;
   tip?: BN;
@@ -91,7 +92,7 @@ function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSign
   return { hash, overrides, params, signature, signatureType, values };
 }
 
-function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> {
+function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withExpander, withHash, withSignature }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ hash, overrides, params, signature, signatureType, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], signature: null, signatureType: null, values: [] });
 
@@ -100,7 +101,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
   }, [callName, value, withHash, withSignature]);
 
   return (
-    <div className={`ui--Extrinsic ${className}`}>
+    <StyledDiv className={`${className} ui--Call`}>
       <Params
         isDisabled
         onError={onError}
@@ -109,9 +110,10 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
         registry={value.registry}
         values={values}
         withBorder={withBorder}
+        withExpander={withExpander}
       >
         {children}
-        <div className='ui--Extrinsic--toplevel'>
+        <div className='ui--Call--toplevel'>
           {hash && (
             <Static
               className='hash'
@@ -144,11 +146,11 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           )}
         </div>
       </Params>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Call)`
+const StyledDiv = styled.div`
   .ui--Labelled.hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -157,7 +159,7 @@ export default React.memo(styled(Call)`
     white-space: nowrap;
   }
 
-  .ui--Extrinsic--toplevel {
+  .ui--Call--toplevel {
     margin-top: 0;
 
     .ui--Labelled {
@@ -178,4 +180,6 @@ export default React.memo(styled(Call)`
   > .ui--Params {
     margin-top: -0.25rem;
   }
-`);
+`;
+
+export default React.memo(Call);

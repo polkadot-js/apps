@@ -19,7 +19,7 @@ interface Props {
 
 function Outcome ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <IdentityIcon value={from} />
       <Output
         className='output'
@@ -44,11 +44,11 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
         icon='times'
         onClick={onClear}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Outcome)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
 
@@ -56,4 +56,6 @@ export default React.memo(styled(Outcome)`
     flex: 1 1;
     margin: 0.25rem 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Outcome);

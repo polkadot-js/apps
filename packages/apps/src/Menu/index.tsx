@@ -125,14 +125,14 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
+    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuContainer'>
         <div className='menuSection'>
           <ChainInfo />
           <ul className='menuItems'>
             {visibleGroups.map(({ name, routes }): React.ReactNode => (
               <Grouping
-                isActive={activeRoute && activeRoute.group === name.toLowerCase()}
+                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
                 key={name}
                 name={name}
                 routes={routes}
@@ -154,15 +154,19 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
         <NodeInfo className='media--1400' />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Menu)`
+const StyledDiv = styled.div`
   width: 100%;
   padding: 0;
   z-index: 220;
   position: relative;
+
+  .smallShow {
+    display: none;
+  }
 
   & .menuContainer {
     flex-direction: row;
@@ -229,4 +233,27 @@ export default React.memo(styled(Menu)`
     align-self: center;
   }
 
-`);
+  @media only screen and (max-width: 800px) {
+    .groupHdr {
+      padding: 0.857rem 0.75rem;
+    }
+
+    .smallShow {
+      display: initial;
+    }
+
+    .smallHide {
+      display: none;
+    }
+
+    .menuItems {
+      margin-right: 0;
+
+      > li + li {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+`;
+
+export default React.memo(Menu);

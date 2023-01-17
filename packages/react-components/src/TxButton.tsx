@@ -4,20 +4,19 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxButtonProps as Props } from './types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
-import { useIsMountedRef } from '@polkadot/react-hooks';
+import { useIsMountedRef, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
-import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const mountedRef = useIsMountedRef();
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
 

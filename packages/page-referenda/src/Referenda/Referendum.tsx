@@ -10,7 +10,7 @@ import type { CurveGraph, ReferendumProps as Props } from '../types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
@@ -302,25 +302,45 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
   });
 }
 
-function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
-  let enactAt: { at: boolean, blocks: BN } | null = null;
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, track?: PalletReferendaTrackInfo): { confirmEnd: BN | null, enactAt: { at: boolean, blocks: BN, end: BN | null } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let confirmEnd: BN | null = null;
+  let enactAt: { at: boolean, blocks: BN, end: BN | null } | null = null;
   let nextAlarm: BN | null = null;
   let submittedIn: BN | null = null;
 
   if (info.isOngoing) {
-    const { alarm, enactment, submitted } = info.asOngoing;
+    const { alarm, deciding, enactment, submitted } = info.asOngoing;
 
     enactAt = {
       at: enactment.isAt,
       blocks: enactment.isAt
         ? enactment.asAt
-        : enactment.asAfter
+        : enactment.asAfter,
+      end: null
     };
     nextAlarm = alarm.unwrapOr([null])[0];
     submittedIn = submitted;
+
+    if (deciding.isSome) {
+      const { confirming } = deciding.unwrap();
+
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
+
+        if (track) {
+          // add our track data
+          const fastEnd = confirmEnd.add(track.minEnactmentPeriod);
+
+          enactAt.end = enactment.isAt
+            ? bnMax(fastEnd, enactment.asAt)
+            : fastEnd.add(enactment.asAfter);
+        }
+      }
+    }
   }
 
-  return { enactAt, nextAlarm, submittedIn };
+  return { confirmEnd, enactAt, nextAlarm, submittedIn };
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
@@ -347,9 +367,9 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
-  const { enactAt, nextAlarm, submittedIn } = useMemo(
-    () => extractInfo(info),
-    [info]
+  const { confirmEnd, enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info, track),
+    [info, track]
   );
 
   const chartLegend = useMemo(
@@ -370,21 +390,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'>
-          <h1>{formatNumber(id)}</h1>
-        </td>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={id} />
         <Component {...props} />
-        <td className='actions'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          </div>
-        </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -413,13 +427,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {submittedIn && (
                 <>
                   <h5>{t<string>('Submitted at')}</h5>
-                  <label>#{formatNumber(submittedIn)}</label>
+                  #{formatNumber(submittedIn)}
                 </>
               )}
               {nextAlarm && (
                 <>
                   <h5>{t<string>('Next alarm')}</h5>
-                  <label>#{formatNumber(nextAlarm)}</label>
+                  #{formatNumber(nextAlarm)}
                 </>
               )}
             </Columar.Column>
@@ -427,7 +441,19 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {enactAt && (
                 <>
                   <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
-                  <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                  {enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
+                </>
+              )}
+              {confirmEnd && (
+                <>
+                  <h5>{t<string>('Confirm end')}</h5>
+                  #{formatNumber(confirmEnd)}
+                </>
+              )}
+              {enactAt?.end && (
+                <>
+                  <h5>{t<string>('Enact end')}</h5>
+                  #{formatNumber(enactAt.end)}
                 </>
               )}
             </Columar.Column>
@@ -446,22 +472,28 @@ function Referendum (props: Props): React.ReactElement<Props> {
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
+const StyledTr = styled.tr`
   .chartColumn {
     h1 {
-      font-size: 1.25rem;
       margin-bottom: 0;
       margin-top: 1rem;
-      text-align: center;
+      padding-left: 3rem;
     }
   }
 
   .shortHash {
-    font: var(--font-mono);
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
   }
-`);
+`;
+
+export default React.memo(Referendum);

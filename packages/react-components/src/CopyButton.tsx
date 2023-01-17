@@ -3,11 +3,13 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 
-import StatusContext from './Status/Context';
+import { useQueue } from '@polkadot/react-hooks';
+import { isString } from '@polkadot/util';
+
 import Button from './Button';
 import { useTranslation } from './translate';
 
@@ -18,14 +20,14 @@ interface Props {
   label?: React.ReactNode;
   type?: string;
   isMnemonic?: boolean;
-  value: string;
+  value?: React.ReactNode | null;
 }
 
 const NOOP = () => undefined;
 
-function CopyButton ({ children, className = '', icon = 'copy', label, type, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className = '', icon = 'copy', label, type, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
 
   const _onCopy = useCallback(
     (): void => {
@@ -38,11 +40,15 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
     [type, queueAction, t]
   );
 
+  if (!isString(value)) {
+    return null;
+  }
+
   return (
-    <div className={`ui--CopyButton ${className}`}>
+    <StyledDiv className={`${className} ui--CopyButton`}>
       <CopyToClipboard
         onCopy={_onCopy}
-        text={value}
+        text={value as string}
       >
         <div className='copyContainer'>
           {children}
@@ -57,12 +63,14 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
           </span>
         </div>
       </CopyToClipboard>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(CopyButton)`
+const StyledDiv = styled.div`
   .copySpan {
     white-space: nowrap;
   }
-`);
+`;
+
+export default React.memo(CopyButton);

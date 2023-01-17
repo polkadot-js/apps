@@ -38,7 +38,6 @@ function Deposit ({ className = '', id, palletReferenda, track }: Props): React.
           <Modal.Content>
             <Modal.Columns hint={t<string>('The deposit will be registered from this account and the balance lock will be applied here.')}>
               <InputAddress
-                help={t<string>('The account you want to deposit from')}
                 label={t<string>('deposit from account')}
                 labelExtra={
                   <Available

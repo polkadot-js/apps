@@ -17,7 +17,7 @@ interface DivProps {
 function div ({ className = '', key }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
   return (
     <div
-      className={`ui--Param-text ${className}`}
+      className={`${className} ui--Param-text`}
       key={key}
     >
       {values}

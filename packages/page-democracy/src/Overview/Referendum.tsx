@@ -5,9 +5,8 @@ import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress } from '@polkadot/react-components';
+import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
@@ -91,8 +90,8 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}
@@ -171,7 +170,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           </Button.Group>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -181,7 +180,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='referendum'
+                type='democracyReferendum'
                 withTitle
               />
             </Columar.Column>
@@ -192,12 +191,4 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   );
 }
 
-export default React.memo(styled(Referendum)`
-  td.chart {
-    padding: 0.5rem 0;
-
-    .ui--Progress {
-      display: inline-block;
-    }
-  }
-`);
+export default React.memo(Referendum);

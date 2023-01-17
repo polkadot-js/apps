@@ -10,13 +10,13 @@ import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types';
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
@@ -151,7 +151,7 @@ const transformRecovery = {
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const api = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
@@ -241,11 +241,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const isVisible = useMemo(
     () => calcVisible(filter, accName, tags),
     [accName, filter, tags]
-  );
-
-  const _onFavorite = useCallback(
-    () => toggleFavorite(address),
-    [address, toggleFavorite]
   );
 
   const _onForget = useCallback(
@@ -470,17 +465,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className} packedBottom`}>
-        <td className='favorite'>
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
-          />
-        </td>
+      <StyledTr className={`${className} isExpanded isFirst packedBottom`}>
+        <Table.Column.Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
+        />
         <td className='address all relative'>
           <AddressSmall
-            parentAddress={meta.parentAddress}
+            parentAddress={meta.parentAddress as string}
             value={address}
             withShortAddress
           />
@@ -704,16 +697,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           </Button.Group>
         </td>
-        <td className='actions button'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />
-          </div>
-        </td>
-      </tr>
-      <tr className={`${className} isExpanded packedTop`}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
         <td
           className='balance all'
@@ -723,12 +712,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             address={address}
             balancesAll={balancesAll}
             withBalance={BAL_OPTS_DEFAULT}
-            withExtended={false}
           />
         </td>
         <td />
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} packedTop`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
         <td />
         <td
           className='balance columar'
@@ -739,7 +727,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             balancesAll={balancesAll}
             convictionLocks={convictionLocks}
             withBalance={BAL_OPTS_EXPANDED}
-            withExtended={false}
           />
           <Columar size='tiny'>
             <Columar.Column>
@@ -766,13 +753,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Account)`
+const StyledTr = styled.tr`
   .devBadge {
-    opacity: 0.65;
+    opacity: var(--opacity-light);
   }
-`);
+`;
+
+export default React.memo(Account);

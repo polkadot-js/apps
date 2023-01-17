@@ -32,7 +32,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
 
   return (
     <section>
-      <section className={`${className} ui--row`}>
+      <StyledSection className={`${className} ui--row`}>
         {isMine
           ? (
             <>
@@ -64,7 +64,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
             </Labelled>
           )
         }
-      </section>
+      </StyledSection>
       {willLose && (
         <article className='warning padded'>
           <div>{t<string>('You will no longer have sudo access')}</div>
@@ -74,7 +74,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
   );
 }
 
-export default React.memo(styled(SetKey)`
+const StyledSection = styled.section`
   align-items: flex-end;
   justify-content: center;
 
@@ -89,4 +89,6 @@ export default React.memo(styled(SetKey)`
   .sudoLabelled {
     align-items: center;
   }
-`);
+`;
+
+export default React.memo(SetKey);

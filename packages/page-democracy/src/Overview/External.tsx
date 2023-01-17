@@ -5,9 +5,8 @@ import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 
-import { AddressMini, Button, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
 import Fasttrack from './Fasttrack';
 import PreImageButton from './PreImageButton';
@@ -24,7 +23,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}
@@ -34,9 +33,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
             <AddressMini value={image.proposer} />
           )}
         </td>
-        <td className='number'>
-          {image && <FormatBalance value={image.balance} />}
-        </td>
+        <Table.Column.Balance value={image?.balance} />
         <td className='actions'>
           <Button.Group>
             {!image?.proposal && (
@@ -56,7 +53,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
           </Button.Group>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td
           className='columar'
           colSpan={100}
@@ -65,7 +62,7 @@ function External ({ className = '', value: { image, imageHash, threshold } }: P
             <Columar.Column>
               <LinkExternal
                 data={imageHash}
-                type='external'
+                type='democracyExternal'
                 withTitle
               />
             </Columar.Column>

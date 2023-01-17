@@ -63,7 +63,7 @@ export const testParasWestend: EndpointOption[] = [
     paraId: 2112,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/8710
     }
   },
   {

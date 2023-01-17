@@ -8,9 +8,8 @@ import type { VoteType } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
 import Votes from '../Overview/Votes';
 import BidType from './BidType';
@@ -45,9 +44,7 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='start'>
         <BidType value={kind} />
       </td>
-      <td className='number'>
-        <FormatBalance value={value} />
-      </td>
+      <Table.Column.Balance value={value} />
       <Votes votes={votes} />
       <td className='button'>
         <CandidateVoting

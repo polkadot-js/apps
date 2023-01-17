@@ -24,7 +24,7 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   return (
-    <main className={`storage--App ${className}`}>
+    <StyledMain className={`${className} storage--App`}>
       <Selection
         basePath={basePath}
         onAdd={_onAdd}
@@ -33,11 +33,11 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         onRemove={_onRemove}
         value={queue}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StorageApp)`
+const StyledMain = styled.main`
   .storage--actionrow {
     align-items: flex-start;
     display: flex;
@@ -66,4 +66,6 @@ export default React.memo(styled(StorageApp)`
     flex: 0;
     padding: 0.5rem 0.25rem;
   }
-`);
+`;
+
+export default React.memo(StorageApp);

@@ -67,7 +67,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [active, ended, hasLinksMap]
   );
 
-  const headerActiveRef = useRef([
+  const headerActiveRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
@@ -78,7 +78,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [undefined, 'media--1000']
   ]);
 
-  const headedEndedRef = useRef([
+  const headedEndedRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
-import { BN_ONE, formatNumber } from '@polkadot/util';
+import { BN_ONE, BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -33,27 +33,38 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
     <SummaryBox>
       <section>
         <CardSummary label={t<string>('proposals')}>
-          {formatNumber(activeProposals?.length)}
+          {activeProposals
+            ? formatNumber(activeProposals.length)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
-          {formatNumber(publicPropCount)}
+          {publicPropCount
+            ? formatNumber(publicPropCount)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
       <section>
         <CardSummary label={t<string>('referenda')}>
-          {formatNumber(referendumCount || 0)}
+          {referendumCount !== undefined
+            ? formatNumber(referendumCount)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
-          {formatNumber(referendumTotal || 0)}
+          {referendumTotal
+            ? formatNumber(referendumTotal)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
-      {bestNumber && (
+      {api.consts.democracy.launchPeriod && (
         <section className='media--1100'>
           <CardSummary
             label={t<string>('launch period')}
             progress={{
+              isBlurred: !bestNumber,
               total: api.consts.democracy.launchPeriod,
-              value: bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE),
+              value: bestNumber
+                ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
+                : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
               withTime: true
             }}
           />

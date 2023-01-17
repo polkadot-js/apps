@@ -27,7 +27,7 @@ interface Props {
 
 function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedia, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
   return (
-    <td className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
+    <StyledTd className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
       {submit && (
         <AddressMini
           balance={submit.amount}
@@ -65,12 +65,14 @@ function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedi
           </div>
         )
       }
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Deposits)`
+const StyledTd = styled.td`
   .ui--AddressMini+.ui--Button {
     margin-top: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(Deposits);

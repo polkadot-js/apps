@@ -10,9 +10,8 @@ import type { PalletReferenda, TrackDescription } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
-import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
@@ -26,7 +25,7 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
-  tracks?: TrackDescription[];
+  tracks: TrackDescription[];
 }
 
 interface HashState {
@@ -75,8 +74,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
   const [{ imageLen, imageLenDefault, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: BN_ZERO, isImageLenValid: false });
   const [enactIndex, setEnactIndex] = useState(0);
-  const [afterBlocks, setAfterBlocks] = useState(BN_HUNDRED);
-  const [atBlock, setAtBlock] = useState(BN_ONE);
+  const [afterBlocks, setAfterBlocks] = useState<BN | undefined>(BN_HUNDRED);
+  const [atBlock, setAtBlock] = useState<BN | undefined>(BN_ONE);
   const [initialAt, setInitialAt] = useState<BN | undefined>();
   const preimage = usePreimage(imageHash);
 
@@ -171,8 +170,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 
   const _onChangeImageLen = useCallback(
-    (value: BN): void => {
-      setImageLen((prev) => ({
+    (value?: BN): void => {
+      value && setImageLen((prev) => ({
         imageLen: value,
         imageLenDefault: prev.imageLenDefault,
         isImageLenValid: !value.isZero()
@@ -184,7 +183,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   return (
     <>
       {trackOpts && isSubmitOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Submit proposal')}
           onClose={toggleSubmit}
@@ -194,7 +193,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('The account you want to propose from')}
                 label={t<string>('propose from account')}
                 labelExtra={
                   <Available
@@ -246,7 +244,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             >
               <Input
                 autoFocus
-                help={t<string>('The preimage hash of the proposal')}
                 isError={!isImageHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeImageHash}
@@ -254,7 +251,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
               <InputNumber
                 defaultValue={imageLenDefault}
-                help={t<string>('The preimage length of the proposal')}
                 isDisabled={!!preimage?.proposalLength && !preimage?.proposalLength.isZero() && isImageHashValid && isImageLenValid}
                 isError={!isImageLenValid}
                 key='inputLength'
@@ -326,7 +322,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='plus'
@@ -338,7 +334,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 }
 
-export default React.memo(styled(Submit)`
+const StyledModal = styled(Modal)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
@@ -347,12 +343,16 @@ export default React.memo(styled(Submit)`
 
   .trackOption {
     .faded {
-      margin-top: 0.25rem;
-      opacity: 0.5;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-normal);
+      margin-top: 0.125rem;
+      opacity: var(--opacity-light);
     }
   }
 
   .ui--Modal-Columns.centerEnactType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Submit);
