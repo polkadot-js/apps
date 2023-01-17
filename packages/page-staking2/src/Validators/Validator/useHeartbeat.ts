@@ -3,16 +3,12 @@
 
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { BN } from '@polkadot/util';
+import type { SessionInfo, Validator } from '../../types';
+import type { Heartbeat } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-
-interface Result {
-  authoredBlocks?: number;
-  isOnline: boolean;
-}
 
 const OPT_BLOCKS = {
   transform: (authoredBlocks: u32): number =>
@@ -25,15 +21,15 @@ const OPT_BEATS = {
     receivedHeartbeats.isSome
 };
 
-function useHeartbeatImpl (stashId: string, stashIndex: number, activeSession: BN | null): Result {
+function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession }: SessionInfo): Heartbeat {
   const { api } = useApi();
 
   const params = useMemo(
-    () => activeSession && ({
-      authoredBlocks: [activeSession, stashId],
-      receivedHeartbeats: [activeSession, stashIndex]
+    () => currentSession && ({
+      authoredBlocks: [currentSession, stashId],
+      receivedHeartbeats: [currentSession, stashIndex]
     }),
-    [activeSession, stashId, stashIndex]
+    [currentSession, stashId, stashIndex]
   );
 
   const authoredBlocks = useCall(params && api.query.imOnline.authoredBlocks, params?.authoredBlocks, OPT_BLOCKS);

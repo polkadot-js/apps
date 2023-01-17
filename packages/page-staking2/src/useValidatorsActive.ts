@@ -14,6 +14,7 @@ const OPT_VALIDATORS = {
       const stashId = a.toString();
 
       return {
+        isElected: false,
         key: `${stashId}:${stashIndex}`,
         stashId,
         stashIndex

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
+import type { SessionInfo, Validator } from '../../types';
 
 import { useMemo } from 'react';
 
@@ -62,7 +63,7 @@ function getResult (exposure?: Exposure, clipped?: Exposure): Result {
   return { clipped, exposure, waiting };
 }
 
-function useExposureImpl (stashId: string, activeEra: BN | null): Result | undefined {
+function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): Result | undefined {
   const { api } = useApi();
 
   const params = useMemo(

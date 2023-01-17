@@ -3,11 +3,11 @@
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
-import { useFavorites } from '@polkadot/react-hooks';
+import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
@@ -17,9 +17,15 @@ import Validators from './Validators';
 
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const sessionInfo = useSessionInfo();
   const validatorsActive = useValidatorsActive(favorites, sessionInfo);
+
+  const isRelay = useMemo(
+    () => !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices,
+    [api]
+  );
 
   const itemsRef = useRef([
     {
@@ -39,6 +45,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
         <Route>
           <Validators
             favorites={favorites}
+            isRelay={isRelay}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
             validatorsSession={validatorsActive}

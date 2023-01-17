@@ -20,6 +20,8 @@ function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo
   const activeValidators = useValidatorsActive(favorites, sessionInfo);
   const allValidators = useValidatorsAll(favorites, sessionInfo);
 
+  // both active and all is already sorted and tagged, so we don't
+  // need to re-sort the waiting list
   return useMemo(
     () => excludeValidators(allValidators, activeValidators),
     [activeValidators, allValidators]

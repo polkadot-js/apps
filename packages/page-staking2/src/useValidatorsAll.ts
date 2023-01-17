@@ -39,6 +39,7 @@ function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
     const stashId = a.toString();
 
     return {
+      isElected: false,
       key: `${stashId}::-1`,
       stashId,
       stashIndex: -1

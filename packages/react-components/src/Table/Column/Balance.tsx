@@ -8,6 +8,7 @@ import React from 'react';
 import { FormatBalance } from '@polkadot/react-query';
 
 export interface Props {
+  children?: React.ReactNode;
   className?: string;
   colSpan?: number;
   label?: React.ReactNode;
@@ -17,7 +18,7 @@ export interface Props {
   withLoading?: boolean;
 }
 
-function Balance ({ className = '', colSpan, label, labelPost, rowSpan, value, withLoading }: Props): React.ReactElement<Props> {
+function Balance ({ children, className = '', colSpan, label, labelPost, rowSpan, value, withLoading }: Props): React.ReactElement<Props> {
   return (
     <td
       className={`${className} ui--Table-Column-Balance number`}
@@ -39,6 +40,7 @@ function Balance ({ className = '', colSpan, label, labelPost, rowSpan, value, w
           />
         )
       }
+      {children}
     </td>
   );
 }

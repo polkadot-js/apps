@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo } from '../../types';
+import type { SessionInfo, Validator } from '../../types';
 
 import React, { useMemo } from 'react';
 
@@ -10,22 +10,23 @@ import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import Status from './Status';
 import useExposure from './useExposure';
 import useHeartbeat from './useHeartbeat';
 
 interface Props {
   className?: string;
   isFavorite: boolean;
+  isRelay: boolean;
   points?: number;
   sessionInfo: SessionInfo;
-  stashId: string;
-  stashIndex: number;
   toggleFavorite: (stashId: string) => void;
+  validator: Validator;
 }
 
 interface PropsExpanded {
   className?: string;
-  stashId: string;
+  validator: Validator;
 }
 
 function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
@@ -38,11 +39,10 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
   );
 }
 
-function Validator ({ className = '', isFavorite, points, sessionInfo: { activeEra, currentSession }, stashId, stashIndex, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', isFavorite, isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
-  const exposure = useExposure(stashId, activeEra);
-
-  useHeartbeat(stashId, stashIndex, currentSession);
+  const exposure = useExposure(validator, sessionInfo);
+  const heartbeat = useHeartbeat(validator, sessionInfo);
 
   const pointsAnimClass = useMemo(
     () => (points && `greyAnim-${Date.now() % 25}`) || '',
@@ -53,12 +53,12 @@ function Validator ({ className = '', isFavorite, points, sessionInfo: { activeE
     <>
       <tr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
-          address={stashId}
+          address={validator.stashId}
           isFavorite={isFavorite}
           toggle={toggleFavorite}
         />
         <td className='address relative all'>
-          <AddressSmall value={stashId} />
+          <AddressSmall value={validator.stashId} />
           {points && (
             <Tag
               className={`${pointsAnimClass} absolute`}
@@ -75,6 +75,7 @@ function Validator ({ className = '', isFavorite, points, sessionInfo: { activeE
       <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
         <Table.Column.Balance
+          className='relative'
           label={
             exposure?.waiting && (
               <>
@@ -86,11 +87,18 @@ function Validator ({ className = '', isFavorite, points, sessionInfo: { activeE
           }
           value={exposure?.clipped?.total}
           withLoading
-        />
+        >
+          <Status
+            className='floatingStatus'
+            heartbeat={heartbeat}
+            isRelay={isRelay}
+            validator={validator}
+          />
+        </Table.Column.Balance>
         <td />
       </tr>
       {isExpanded && (
-        <ValidatorExpanded stashId={stashId} />
+        <ValidatorExpanded validator={validator} />
       )}
     </>
   );

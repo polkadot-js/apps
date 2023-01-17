@@ -4,7 +4,9 @@
 import type { SessionInfo, Validator } from '../types';
 
 import React, { useMemo, useRef } from 'react';
+import styled from 'styled-components';
 
+import Legend from '@polkadot/app-staking/Legend';
 import { Table } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
@@ -15,6 +17,7 @@ import ValidatorRow from './Validator';
 interface Props {
   className?: string;
   favorites: string[];
+  isRelay: boolean;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
   validatorsSession?: Validator[];
@@ -54,7 +57,7 @@ function splitValidators (allAccounts: string[], favorites: string[], validators
     : { validatorsActive: validatorsAll };
 }
 
-function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const points = usePoints(sessionInfo.activeEra);
@@ -77,45 +80,65 @@ function Validators ({ className = '', favorites, sessionInfo, toggleFavorite, v
   return (
     <>
       {validatorsFavorite && (
-        <Table
+        <StyledTable
           className={className}
           header={headerFavorite.current}
           isSplit
+          legend={
+            <Legend
+              isRelay={isRelay}
+            />
+          }
         >
-          {validatorsFavorite.map(({ key, stashId, stashIndex }) => (
+          {validatorsFavorite.map((v) => (
             <ValidatorRow
               isFavorite
-              key={key}
-              points={points?.[stashId]}
+              isRelay={isRelay}
+              key={v.key}
+              points={points?.[v.stashId]}
               sessionInfo={sessionInfo}
-              stashId={stashId}
-              stashIndex={stashIndex}
               toggleFavorite={toggleFavorite}
+              validator={v}
             />
           ))}
-        </Table>
+        </StyledTable>
       )}
-      <Table
+      <StyledTable
         className={className}
         empty={validatorsActive && t<string>('No session validators found')}
         emptySpinner={t<string>('Retrieving session validators')}
         header={headerActive.current}
         isSplit
+        legend={
+          !validatorsFavorite && (
+            <Legend
+              isRelay={isRelay}
+            />
+          )
+        }
       >
-        {validatorsActive?.map(({ key, stashId, stashIndex }) => (
+        {validatorsActive?.map((v) => (
           <ValidatorRow
             isFavorite={false}
-            key={key}
-            points={points?.[stashId]}
+            isRelay={isRelay}
+            key={v.key}
+            points={points?.[v.stashId]}
             sessionInfo={sessionInfo}
-            stashId={stashId}
-            stashIndex={stashIndex}
             toggleFavorite={toggleFavorite}
+            validator={v}
           />
         ))}
-      </Table>
+      </StyledTable>
     </>
   );
 }
+
+const StyledTable = styled(Table)`
+  div.floatingStatus {
+    position: absolute;
+    left: 1rem;
+    top: 0;
+  }
+`;
 
 export default React.memo(Validators);

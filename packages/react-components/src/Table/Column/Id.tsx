@@ -9,13 +9,14 @@ import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
 export interface Props {
+  children?: React.ReactNode;
   className?: string;
   colSpan?: number;
   rowSpan?: number;
   value: BN | number;
 }
 
-function Id ({ className = '', colSpan, rowSpan, value }: Props): React.ReactElement<Props> {
+function Id ({ children, className = '', colSpan, rowSpan, value }: Props): React.ReactElement<Props> {
   return (
     <StyledTd
       className={`${className} ui--Table-Column-Id`}
@@ -23,6 +24,7 @@ function Id ({ className = '', colSpan, rowSpan, value }: Props): React.ReactEle
       rowSpan={rowSpan}
     >
       <h2 className='--digits'>{formatNumber(value)}</h2>
+      {children}
     </StyledTd>
   );
 }
