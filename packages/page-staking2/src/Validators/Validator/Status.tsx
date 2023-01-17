@@ -32,38 +32,25 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
       {isNominating
         ? (
           <Badge
-            className='media--1100'
             color='green'
             icon='hand-paper'
           />
         )
-        : (
-          <Badge
-            className='media--1100'
-            color='transparent'
-          />
-        )
+        : <Badge color='transparent' />
       }
       {isRelay && (
         isPara
           ? (
             <Badge
-              className='media--1100'
               color='purple'
               icon='vector-square'
             />
           )
-          : (
-            <Badge
-              className='media--1100'
-              color='transparent'
-            />
-          )
+          : <Badge color='transparent' />
       )}
       {isChilled
         ? (
           <Badge
-            className='media--1000'
             color='red'
             icon='cancel'
           />
@@ -71,40 +58,27 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
         : isElected
           ? (
             <Badge
-              className='media--1000'
               color='blue'
               icon='chevron-right'
             />
           )
-          : (
-            <Badge
-              className='media--1000'
-              color='transparent'
-            />
-          )
+          : <Badge color='transparent' />
       }
       {isOnline
         ? authoredBlocks
           ? (
             <Badge
-              className='media--900'
               color='green'
               info={authoredBlocks}
             />
           )
           : (
             <Badge
-              className='media--900'
               color='green'
               icon='envelope'
             />
           )
-        : (
-          <Badge
-            className='media--900'
-            color='transparent'
-          />
-        )
+        : <Badge color='transparent' />
       }
     </div>
   );
