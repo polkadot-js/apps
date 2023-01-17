@@ -56,6 +56,16 @@ function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavori
           isFavorite={validator.isFavorite}
           toggle={toggleFavorite}
         />
+        <td
+          className='statusInfo'
+          rowSpan={2}
+        >
+          <Status
+            heartbeat={heartbeat}
+            isRelay={isRelay}
+            validator={validator}
+          />
+        </td>
         <td className='address relative all'>
           <AddressSmall value={validator.stashId} />
           {points && (
@@ -86,14 +96,7 @@ function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavori
           }
           value={exposure?.clipped?.total}
           withLoading
-        >
-          <Status
-            className='floatingStatus'
-            heartbeat={heartbeat}
-            isRelay={isRelay}
-            validator={validator}
-          />
-        </Table.Column.Balance>
+        />
         <td />
       </tr>
       {isExpanded && (

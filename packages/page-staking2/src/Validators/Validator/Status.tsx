@@ -10,7 +10,6 @@ import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {
-  className?: string;
   heartbeat: Heartbeat;
   isChilled?: boolean;
   isPara?: boolean;
@@ -19,7 +18,7 @@ interface Props {
   validator: Validator;
 }
 
-function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isChilled, isPara, isRelay, nominators, validator: { isElected } }: Props): React.ReactElement<Props> {
+function Status ({ heartbeat: { authoredBlocks, isOnline }, isChilled, isPara, isRelay, nominators, validator: { isElected } }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
 
   const isNominating = useMemo(
@@ -27,8 +26,15 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
     [allAccounts, nominators]
   );
 
+  const emptyBadge = (
+    <Badge
+      className='opaque'
+      color='gray'
+    />
+  );
+
   return (
-    <div className={className}>
+    <div>
       {isNominating
         ? (
           <Badge
@@ -36,7 +42,7 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
             icon='hand-paper'
           />
         )
-        : <Badge color='transparent' />
+        : emptyBadge
       }
       {isRelay && (
         isPara
@@ -46,7 +52,7 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
               icon='vector-square'
             />
           )
-          : <Badge color='transparent' />
+          : emptyBadge
       )}
       {isChilled
         ? (
@@ -62,7 +68,7 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
               icon='chevron-right'
             />
           )
-          : <Badge color='transparent' />
+          : emptyBadge
       }
       {isOnline
         ? authoredBlocks
@@ -78,7 +84,7 @@ function Status ({ className = '', heartbeat: { authoredBlocks, isOnline }, isCh
               icon='envelope'
             />
           )
-        : <Badge color='transparent' />
+        : emptyBadge
       }
     </div>
   );

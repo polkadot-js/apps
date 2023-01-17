@@ -51,13 +51,13 @@ function Validators ({ className = '', isRelay, sessionInfo, toggleFavorite, val
   );
 
   const headerActive = useRef<[string?, string?, number?][]>([
-    // favorite, details, expand
-    [t<string>('validators'), 'start', 3]
+    // favorite, badges, details, expand
+    [t<string>('validators'), 'start', 4]
   ]);
 
   const headerFavorite = useRef<[string?, string?, number?][]>([
-    // favorite, details, expand
-    [t<string>('favorites'), 'start', 3]
+    // favorite, badges, details, expand
+    [t<string>('favorites'), 'start', 4]
   ]);
 
   return (
@@ -115,10 +115,27 @@ function Validators ({ className = '', isRelay, sessionInfo, toggleFavorite, val
 }
 
 const StyledTable = styled(Table)`
-  div.floatingStatus {
-    position: absolute;
-    left: 1rem;
-    top: 0;
+  td.statusInfo {
+    padding: 0 0 0 0.5rem;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      max-width: 3.6rem;
+      min-width: 3.6rem;
+
+      .ui--Badge {
+        margin: 0.125rem;
+
+        &.opaque {
+          opacity: var(--opacity-gray);
+        }
+      }
+    }
+
+    + td.address {
+      padding-left: 0.5rem;
+    }
   }
 `;
 
