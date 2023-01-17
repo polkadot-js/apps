@@ -32,7 +32,8 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
   return (
     <tr className={`${className} isExpanded isLast`}>
       <td />
-      <td></td>
+      <td />
+      <td />
       <td />
     </tr>
   );

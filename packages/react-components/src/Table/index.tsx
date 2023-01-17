@@ -4,7 +4,8 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import Columar from '../Columar';
+import { useWindowColumns } from '@polkadot/react-hooks';
+
 import Body from './Body';
 import Column from './Column';
 import Foot from './Foot';
@@ -24,44 +25,61 @@ interface Props {
   isInline?: boolean;
   isSplit?: boolean;
   legend?: React.ReactNode;
+  maxColumns?: 2 | 3;
   noBodyTag?: boolean;
 }
 
-function extractBody (children: React.ReactNode, isSplit?: boolean): { body: React.ReactNode | React.ReactNode[], bodySplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
+interface BodyState {
+  body: React.ReactNode | React.ReactNode[];
+  isEmpty: boolean;
+  isSplittable: boolean;
+}
+
+function extractBody (children: React.ReactNode, isSplit: boolean): BodyState {
   if (!Array.isArray(children)) {
     return {
       body: children,
-      bodySplit: null,
-      isEmpty: !children
+      isEmpty: !children,
+      isSplittable: false
     };
   }
 
   const body = children.filter((child) => !!child);
   const isEmpty = body.length === 0;
-  let bodySplit: [React.ReactNode[], React.ReactNode[]] | null = null;
-
-  if (!isEmpty && isSplit) {
-    const half = Math.ceil(body.length / 2);
-
-    bodySplit = [
-      body.slice(0, half),
-      body.slice(half)
-    ];
-  }
+  const isSplittable = !isEmpty && isSplit;
 
   return {
-    body: isEmpty || bodySplit
+    body: isEmpty
       ? null
       : body,
-    bodySplit,
-    isEmpty
+    isEmpty,
+    isSplittable
   };
 }
 
-function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
-  const { body, bodySplit, isEmpty } = useMemo(
+function splitBody (body: React.ReactNode[], numColumns: number): React.ReactNode[][] {
+  const result = new Array<React.ReactNode[]>(numColumns);
+
+  for (let i = 0; i < numColumns; i++) {
+    result[i] = [];
+  }
+
+  for (let i = 0; i < body.length; i++) {
+    result[i % numColumns].push(body[i]);
+  }
+
+  return result;
+}
+
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit = false, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
+  const { body, isEmpty, isSplittable } = useMemo(
     () => extractBody(children, isSplit),
     [children, isSplit]
+  );
+  const numColumns = useWindowColumns(maxColumns, isSplittable);
+  const bodySplit = useMemo(
+    () => isSplittable && (numColumns > 1) && splitBody(body as React.ReactNode[], numColumns),
+    [body, isSplittable, numColumns]
   );
 
   const headerNode = (
@@ -85,18 +103,18 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
             <table className={tableClassName}>
               {headerNode}
             </table>
-            <Columar isPadded={false}>
-              <Columar.Column>
-                <table className={tableClassName}>
-                  <Body>{bodySplit[0]}</Body>
-                </table>
-              </Columar.Column>
-              <Columar.Column>
-                <table className={tableClassName}>
-                  <Body>{bodySplit[1]}</Body>
-                </table>
-              </Columar.Column>
-            </Columar>
+            <div className='ui--Table-Split'>
+              {bodySplit.map((body, index) => (
+                <div
+                  className={`ui--Table-Split-Column-${numColumns}`}
+                  key={index}
+                >
+                  <table className={tableClassName}>
+                    <Body>{body}</Body>
+                  </table>
+                </div>
+              ))}
+            </div>
           </>
         )
         : (
@@ -127,9 +145,19 @@ const StyledDiv = styled.div`
   max-width: 100%;
   width: 100%;
 
-  &.isSplit {
-    > .ui--Columar {
-      margin-bottom: 1.5rem;
+  .ui--Table-Split {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+
+    > .ui--Table-Split-Column-3 {
+      max-width: 33.3%;
+      min-width: 33.3%;
+    }
+
+    > .ui--Table-Split-Column-2 {
+      max-width: 50%;
+      min-width: 50%;
     }
   }
 

@@ -3,13 +3,18 @@
 
 import type { WindowSize } from './ctx/types';
 
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 
 import { WindowSizeCtx } from './ctx/WindowSize';
 import { createNamedHook } from './createNamedHook';
 
-function useWindowSizeImpl (): WindowSize {
-  return useContext(WindowSizeCtx);
+function useWindowSizeImpl (isActive = true): WindowSize {
+  const windowSize = useContext(WindowSizeCtx);
+  const staticRef = useRef(windowSize);
+
+  return isActive
+    ? windowSize
+    : staticRef.current;
 }
 
 export const useWindowSize = createNamedHook('useWindowSize', useWindowSizeImpl);
