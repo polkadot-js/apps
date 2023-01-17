@@ -35,16 +35,15 @@ interface BodyState {
   isSplittable: boolean;
 }
 
-function extractBody (children: React.ReactNode, isSplit: boolean): BodyState {
-  if (!Array.isArray(children)) {
+function extractBody (body: React.ReactNode, isSplit: boolean): BodyState {
+  if (!Array.isArray(body)) {
     return {
-      body: children,
-      isEmpty: !children,
+      body,
+      isEmpty: !body,
       isSplittable: false
     };
   }
 
-  const body = children.filter((child) => !!child);
   const isEmpty = body.length === 0;
   const isSplittable = !isEmpty && isSplit;
 
@@ -59,26 +58,38 @@ function extractBody (children: React.ReactNode, isSplit: boolean): BodyState {
 
 function splitBody (body: React.ReactNode[], numColumns: number): React.ReactNode[][] {
   const result = new Array<React.ReactNode[]>(numColumns);
+  const numRows = Math.ceil(body.length / numColumns);
 
   for (let i = 0; i < numColumns; i++) {
-    result[i] = [];
+    result[i] = new Array<React.ReactNode>(numRows);
   }
 
+  // start at -1, on the first iteration it would
+  // increment to 0 and all is ok
+  let row = -1;
+
   for (let i = 0; i < body.length; i++) {
-    result[i % numColumns].push(body[i]);
+    const col = i % numColumns;
+
+    if (col === 0) {
+      row++;
+    }
+
+    result[col][row] = body[i];
   }
 
   return result;
 }
 
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit = false, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
+  const numColumns = useWindowColumns(maxColumns);
   const { body, isEmpty, isSplittable } = useMemo(
     () => extractBody(children, isSplit),
     [children, isSplit]
   );
-  const numColumns = useWindowColumns(maxColumns, isSplittable);
+
   const bodySplit = useMemo(
-    () => isSplittable && (numColumns > 1) && splitBody(body as React.ReactNode[], numColumns),
+    () => body && isSplittable && (numColumns > 1) && splitBody(body as React.ReactNode[], numColumns),
     [body, isSplittable, numColumns]
   );
 
@@ -107,7 +118,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
               {bodySplit.map((body, index) => (
                 <div
                   className={`ui--Table-Split-Column-${numColumns}`}
-                  key={index}
+                  key={`${numColumns}-${index}`}
                 >
                   <table className={tableClassName}>
                     <Body>{body}</Body>
@@ -147,7 +158,7 @@ const StyledDiv = styled.div`
 
   .ui--Table-Split {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 1.5rem;
 
     > .ui--Table-Split-Column-3 {
@@ -382,7 +393,8 @@ const StyledDiv = styled.div`
         .absolute {
           position: absolute;
           right: 0.5rem;
-          top: 0.75rem;
+          // this seems aligned with expander (when zoomed in)
+          top: 0.72rem;
           white-space: nowrap;
         }
       }
