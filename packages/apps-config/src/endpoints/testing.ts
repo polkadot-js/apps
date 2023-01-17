@@ -582,6 +582,14 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'thebifrost-testnet',
+    text: 'The Bifrost Testnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.testnet.thebifrost.io/ws',
+      'Pilab #2': 'wss://public-02.testnet.thebifrost.io/ws'
+    }
+  },
+  {
     info: 'laminar',
     text: 'Turbulence',
     providers: {
