@@ -336,6 +336,14 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'thebifrost-mainnet',
+    text: 'The Bifrost Mainnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
+      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
+    }
+  },
+  {
     info: 'uniarts',
     text: 'UniArts',
     providers: {
