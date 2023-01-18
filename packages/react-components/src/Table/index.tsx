@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { useWindowColumns } from '@polkadot/react-hooks';
@@ -29,122 +29,95 @@ interface Props {
   noBodyTag?: boolean;
 }
 
-interface BodyState {
-  body: React.ReactNode | React.ReactNode[];
-  isEmpty: boolean;
-  isSplittable: boolean;
-}
-
-function extractBody (body: React.ReactNode, isSplit: boolean): BodyState {
-  if (!Array.isArray(body)) {
-    return {
-      body,
-      isEmpty: !body,
-      isSplittable: false
-    };
-  }
-
-  const isEmpty = body.length === 0;
-  const isSplittable = !isEmpty && isSplit;
-
-  return {
-    body: isEmpty
-      ? null
-      : body,
-    isEmpty,
-    isSplittable
-  };
-}
-
-function splitBody (body: React.ReactNode[], numColumns: number): React.ReactNode[][] {
-  const result = new Array<React.ReactNode[]>(numColumns);
-  const numRows = Math.ceil(body.length / numColumns);
-
-  for (let i = 0; i < numColumns; i++) {
-    result[i] = new Array<React.ReactNode>(numRows);
-  }
-
-  // start at -1, on the first iteration it would
-  // increment to 0 and all is ok
-  let row = -1;
-
-  for (let i = 0; i < body.length; i++) {
-    const col = i % numColumns;
-
-    if (col === 0) {
-      row++;
-    }
-
-    result[col][row] = body[i];
-  }
-
-  return result;
-}
-
-function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit = false, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
-  const { body, isEmpty, isSplittable } = useMemo(
-    () => extractBody(children, isSplit),
-    [children, isSplit]
-  );
 
-  const bodySplit = useMemo(
-    () => body && isSplittable && (numColumns > 1) && splitBody(body as React.ReactNode[], numColumns),
-    [body, isSplittable, numColumns]
-  );
+  const isChildrenArray = Array.isArray(children);
+  const isChildrenEmpty = !children || (isChildrenArray && children.length === 0);
 
   const headerNode = (
     <Head
       filter={filter}
       header={header}
-      isEmpty={isEmpty}
+      isEmpty={isChildrenEmpty}
     >
       {headerChildren}
     </Head>
   );
 
-  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${bodySplit ? 'noMargin' : ''}`;
+  if (isSplit && isChildrenArray && !isChildrenEmpty && (numColumns > 1)) {
+    const columnClassName = `ui--Table-Split-Column-${numColumns}`;
+
+    return (
+      <StyledDiv className={`${className} ui--Table isSplit`}>
+        {legend}
+        <table className='noMargin'>
+          {headerNode}
+        </table>
+        <div className='ui--Table-Split'>
+          <div
+            className={columnClassName}
+            key='column:first'
+          >
+            <table className='noMargin'>
+              <Body.Split
+                column={0}
+                numColumns={numColumns}
+              >
+                {children}
+              </Body.Split>
+            </table>
+          </div>
+          <div
+            className={columnClassName}
+            key='column:second'
+          >
+            <table className='noMargin'>
+              <Body.Split
+                column={1}
+                numColumns={numColumns}
+              >
+                {children}
+              </Body.Split>
+            </table>
+          </div>
+          {(numColumns > 2) && (
+            <div
+              className={columnClassName}
+              key='column:third'
+            >
+              <table className='noMargin'>
+                <Body.Split
+                  column={2}
+                  numColumns={numColumns}
+                >
+                  {children}
+                </Body.Split>
+              </table>
+            </div>
+          )}
+        </div>
+      </StyledDiv>
+    );
+  }
 
   return (
-    <StyledDiv className={`${className} ui--Table ${bodySplit ? 'isSplit' : ''}`}>
+    <StyledDiv className={`${className} ui--Table`}>
       {legend}
-      {bodySplit
-        ? (
-          <>
-            <table className={tableClassName}>
-              {headerNode}
-            </table>
-            <div className='ui--Table-Split'>
-              {bodySplit.map((body, index) => (
-                <div
-                  className={`ui--Table-Split-Column-${numColumns}`}
-                  key={`${numColumns}-${index}`}
-                >
-                  <table className={tableClassName}>
-                    <Body>{body}</Body>
-                  </table>
-                </div>
-              ))}
-            </div>
-          </>
-        )
-        : (
-          <table className={tableClassName}>
-            {headerNode}
-            <Body
-              empty={empty}
-              emptySpinner={emptySpinner}
-              noBodyTag={noBodyTag}
-            >
-              {body}
-            </Body>
-            <Foot
-              footer={footer}
-              isEmpty={isEmpty}
-            />
-          </table>
-        )
-      }
+      <table className={`${(isFixed && !isChildrenEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
+        {headerNode}
+        <Body
+          empty={empty}
+          emptySpinner={emptySpinner}
+          noBodyTag={noBodyTag}
+        >
+          {children}
+        </Body>
+        <Foot
+          footer={footer}
+          isEmpty={isChildrenEmpty}
+        />
+      </table>
     </StyledDiv>
   );
 }
