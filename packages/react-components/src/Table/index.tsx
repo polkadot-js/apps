@@ -32,18 +32,15 @@ interface Props {
 interface ColumnProps {
   children: React.ReactNode[];
   className?: string;
-  column: 0 | 1 | 2;
-  numColumns: 1 | 2 | 3;
+  numColumns: number;
 }
 
-function Split ({ children, className = '', column, numColumns }: ColumnProps): React.ReactElement<ColumnProps> {
+function Split ({ children, className = '', numColumns }: ColumnProps): React.ReactElement<ColumnProps> {
   return (
-    <div className={`${className} ui--Table-Split-Column-${numColumns}`}>
+    <div className={`${className} ui--Table-Split-${numColumns}`}>
       <table className='noMargin'>
-        <tbody className={`${className} ui--Table-Body`}>
-          {children.filter((_, i) =>
-            (i % numColumns) === column
-          )}
+        <tbody className='ui--Table-Body'>
+          {children}
         </tbody>
       </table>
     </div>
@@ -52,7 +49,6 @@ function Split ({ children, className = '', column, numColumns }: ColumnProps): 
 
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
-
   const isChildrenArray = Array.isArray(children);
   const isChildrenEmpty = !children || (isChildrenArray && children.length === 0);
 
@@ -74,26 +70,14 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
           {headerNode}
         </table>
         <div className='ui--Table-Split'>
-          <Split
-            column={0}
-            numColumns={numColumns}
-          >
-            {children}
-          </Split>
-          <Split
-            column={1}
-            numColumns={numColumns}
-          >
-            {children}
-          </Split>
-          {(numColumns > 2) && (
+          {(numColumns === 2 ? [0, 1] : [0, 1, 2]).map((column) => (
             <Split
-              column={2}
+              key={column}
               numColumns={numColumns}
             >
-              {children}
+              {children.filter((_, i) => (i % numColumns) === column)}
             </Split>
-          )}
+          ))}
         </div>
       </StyledDiv>
     );
@@ -132,12 +116,12 @@ const StyledDiv = styled.div`
     flex-wrap: nowrap;
     margin-bottom: 1.5rem;
 
-    > .ui--Table-Split-Column-3 {
+    > .ui--Table-Split-3 {
       max-width: 33.3%;
       min-width: 33.3%;
     }
 
-    > .ui--Table-Split-Column-2 {
+    > .ui--Table-Split-2 {
       max-width: 50%;
       min-width: 50%;
     }
