@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -22,7 +22,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
-  const [amount, setAmount] = useState<BN | null>(null);
+  const [amount, setAmount] = useState<BN | undefined>();
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [isProtected, setIsProtected] = useState(true);
 

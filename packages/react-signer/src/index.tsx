@@ -1,16 +1,16 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
 import type { BareProps as Props } from '@polkadot/react-components/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { Modal, StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Modal } from '@polkadot/react-components';
+import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -90,7 +90,7 @@ function extractCurrent (txqueue: QueueTx[]): ItemState {
 function Signer ({ children, className = '' }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
-  const { queueSetTxStatus, txqueue } = useContext(StatusContext);
+  const { queueSetTxStatus, txqueue } = useQueue();
 
   const { count, currentItem, isRpc, isVisible, requestAddress } = useMemo(
     () => extractCurrent(txqueue),
@@ -119,7 +119,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
     <>
       {children}
       {currentItem && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
           header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
           key={currentItem.id}
@@ -135,16 +135,18 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
               />
             )
           }
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Signer)`
+const StyledModal = styled(Modal)`
   .signToggle {
     bottom: 1.5rem;
     left: 1.5rem;
     position: absolute;
   }
-`);
+`;
+
+export default React.memo(Signer);

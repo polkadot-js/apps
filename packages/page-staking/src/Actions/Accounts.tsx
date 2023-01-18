@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -26,11 +26,12 @@ interface Props {
 function Accounts ({ allSlashes, className, footer, isInElection, list, minCommission, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const hdrRef = useRef([
+  const hdrRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('stashes'), 'start', 2],
     [t('controller'), 'address'],
     [t('rewards'), 'start media--1200'],
     [t('bonded'), 'number'],
+    [],
     []
   ]);
 

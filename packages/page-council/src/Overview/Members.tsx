@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -22,10 +22,8 @@ interface Props {
 function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('members'), 'start', 2],
-    [hasElections ? t('backing') : undefined, 'expand'],
-    [hasElections ? t('votes') : undefined]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t('members'), 'start', 2]
   ]);
 
   return (
@@ -33,11 +31,13 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
       className={className}
       empty={electionsInfo && t<string>('No members found')}
       header={headerRef.current}
+      isSplit
     >
       {electionsInfo?.members.map(([accountId, balance]): React.ReactNode => (
         <Candidate
           address={accountId}
           balance={balance}
+          hasElections={hasElections}
           isPrime={prime?.eq(accountId)}
           key={accountId.toString()}
           voters={allVotes[accountId.toString()]}

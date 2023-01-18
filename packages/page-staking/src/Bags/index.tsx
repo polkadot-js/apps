@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -37,7 +37,7 @@ function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
   const bags = useBagsList();
   const mapOwn = useBagsNodes(stashIds);
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('bags')],
     [t('max'), 'number'],
     [t('min'), 'number'],

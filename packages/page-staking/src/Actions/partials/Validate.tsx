@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ValidateInfo } from './types';
@@ -84,7 +84,6 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
         <InputNumber
           autoFocus={withFocus}
           defaultValue={defaultComm}
-          help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
           isError={commErr}
           isZeroable
           label={t<string>('reward commission percentage')}
@@ -99,7 +98,6 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
         <Modal.Columns hint={t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}>
           <Dropdown
             defaultValue={true}
-            help={t<string>('Does this validator allow nominations or is it blocked for all')}
             label={t<string>('allows new nominations')}
             onChange={setAllowNoms}
             options={blockedOptions.current}

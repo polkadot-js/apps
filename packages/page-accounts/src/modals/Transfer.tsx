@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -9,7 +9,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkError, MarkWarning, Toggle, TxButton } from '@polkadot/react-components';
+import Modal from '@polkadot/react-components/Modal';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
@@ -94,7 +95,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const canToggleAll = !isProtected && balances && balances.accountId?.eq(propSenderId || senderId) && maxTransfer && noReference;
 
   return (
-    <Modal
+    <StyledModal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
       onClose={onClose}
@@ -105,7 +106,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
             <InputAddress
               defaultValue={propSenderId}
-              help={t<string>('The account you will send funds from.')}
               isDisabled={!!propSenderId}
               label={t<string>('send from account')}
               labelExtra={
@@ -121,7 +121,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
             <InputAddress
               defaultValue={propRecipientId}
-              help={t<string>('Select a contact or paste the address you want to send funds to.')}
               isDisabled={!!propRecipientId}
               label={t<string>('send to address')}
               labelExtra={
@@ -143,7 +142,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <InputBalance
                   autoFocus
                   defaultValue={maxTransfer}
-                  help={t<string>('The full account balance to be transferred, minus the transaction fees')}
                   isDisabled
                   key={maxTransfer?.toString()}
                   label={t<string>('transferrable minus fees')}
@@ -153,7 +151,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <>
                   <InputBalance
                     autoFocus
-                    help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
@@ -162,7 +159,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   />
                   <InputBalance
                     defaultValue={api.consts.balances?.existentialDeposit}
-                    help={t<string>('The minimum amount that an account should have to be deemed active')}
                     isDisabled
                     label={t<string>('existential deposit')}
                   />
@@ -223,11 +219,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           }
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Transfer)`
+const StyledModal = styled(Modal)`
   .balance {
     margin-bottom: 0.5rem;
     text-align: right;
@@ -249,4 +245,6 @@ export default React.memo(styled(Transfer)`
   .typeToggle+.typeToggle {
     margin-top: 0.375rem;
   }
-`);
+`;
+
+export default React.memo(Transfer);

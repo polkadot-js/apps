@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-utilities authors & contributors
+// Copyright 2017-2023 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -51,7 +51,6 @@ function Hash ({ className }: Props): React.ReactElement<Props> {
         <Input
           autoFocus
           className='full'
-          help={t<string>('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
           label={t<string>('from the following data')}
           onChange={_onChangeData}
           value={data}
@@ -60,7 +59,6 @@ function Hash ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Static
           className='medium'
-          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
           label={t<string>('hex input data')}
           value={
             isHexData
@@ -72,7 +70,6 @@ function Hash ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Output
           className='full'
-          help={t<string>('The blake2b 256-bit hash of the actual input data.')}
           isHidden={hash.length === 0}
           isMonospace
           label={t<string>('the resulting hash is')}

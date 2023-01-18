@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -60,7 +60,9 @@ describe('Bounties', () => {
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
+
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+
     augmentedApi = createAugmentedApi();
     ({ aBounty, aBountyIndex, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
     ({ aProposal } = proposalFactory(augmentedApi));
@@ -347,7 +349,6 @@ describe('Bounties', () => {
       bountiesPage.renderOne(bounty);
 
       await bountiesPage.openRejectCuratorRole();
-
       await bountiesPage.clickButton('Reject');
 
       bountiesPage.expectExtrinsicQueued({ accountId: bob });
@@ -359,7 +360,6 @@ describe('Bounties', () => {
       bountiesPage.renderOne(bounty);
 
       await bountiesPage.openExtraActions();
-
       await bountiesPage.expectText('Give up');
       await bountiesPage.expectText('Slash curator (Council)');
     });

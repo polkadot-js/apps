@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -8,7 +8,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -182,25 +182,12 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
-          {destApi
-            ? destApi.consts.balances
-              ? (
-                <>
-                  <InputBalance
-                    defaultValue={destApi.consts.balances.existentialDeposit}
-                    isDisabled
-                    label={t<string>('destination existential deposit')}
-                  />
-                </>
-              )
-              : null
-            : (
-              <Spinner
-                label={t<string>('Retrieving destination chain fees')}
-                variant='appPadded'
-              />
-            )
-          }
+          <InputBalance
+            defaultValue={destApi?.consts.balances?.existentialDeposit}
+            isDisabled
+            isLoading={!destApi}
+            label={t<string>('destination existential deposit')}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>

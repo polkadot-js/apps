@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-runtime authors & contributors
+// Copyright 2017-2023 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, RawParam } from '@polkadot/react-params/types';
@@ -74,7 +74,6 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
   return (
     <section className='runtime--Selection'>
       <InputCalls
-        help={t<string>('The actual runtime function to make a call to.')}
         label={t<string>('call the selected endpoint')}
         onChange={_onChangeMethod}
       />

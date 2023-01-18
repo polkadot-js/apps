@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -60,12 +60,21 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         let isCall = true;
 
         try {
-          // cater for an extrinsic input...
-          decoded = api.tx(hex);
+          // cater for an extrinsic input
+          const tx = api.tx(hex);
+
+          // ensure that the full data matches here
+          assert(tx.toHex() === hex, 'Cannot decode data as extrinsic, length mismatch');
+
+          decoded = tx;
           extrinsicCall = api.createType('Call', decoded.method);
           isCall = false;
         } catch (e) {
+          // attempt to decode as Call
           extrinsicCall = api.createType('Call', hex);
+
+          // ensure we used all bytes (as we did above)
+          assert(extrinsicCall.toHex() === hex, 'Unable to decode data as Call, length mismatch in supplied data');
         }
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
@@ -87,7 +96,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Input
         defaultValue={initialValue}
         isError={!extrinsicFn}
@@ -117,12 +126,18 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         isCall={isCall}
         withData={false}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Decoder)`
-  .ui--Extrinsic--toplevel {
+const StyledDiv = styled.div`
+  .ui--Call--toplevel {
     margin-top: 0;
   }
-`);
+
+  .ui--Call > .ui--Params.withBorder {
+    padding-left: 2rem;
+  }
+`;
+
+export default React.memo(Decoder);

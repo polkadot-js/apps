@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -18,7 +18,6 @@ interface Props {
   className?: string;
   genesisHash: Uint8Array;
   isHashed: boolean;
-  isScanning: boolean;
   onSignature: (data: SigData) => void;
   payload: Uint8Array;
 }
@@ -40,7 +39,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
         setSigError(t<string>('Non-signature, non-hex data received from QR. Data contains "{{sample}}" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.', {
           replace: {
             sample: signature.length > 47
-              ? `${signature.substr(0, 24)}…${signature.substr(-22)}`
+              ? `${signature.slice(0, 24)}…${signature.slice(-22)}`
               : signature
           }
         }));
@@ -57,7 +56,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
 
   return (
     <>
-      <Columar className={className}>
+      <StyledColumar className={className}>
         <Columar.Column>
           <div className='qrDisplay'>
             <QrDisplayPayload
@@ -77,7 +76,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
             <QrScanSignature onScan={_onSignature} />
           </div>
         </Columar.Column>
-      </Columar>
+      </StyledColumar>
       {sigError && (
         <MarkError
           className='nomargin'
@@ -88,7 +87,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
   );
 }
 
-export default React.memo(styled(Qr)`
+const StyledColumar = styled(Columar)`
   .qrDisplay {
     margin: 0 auto;
     max-width: 30rem;
@@ -97,4 +96,6 @@ export default React.memo(styled(Qr)`
       border: 1px solid white;
     }
   }
-`);
+`;
+
+export default React.memo(Qr);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-poll authors & contributors
+// Copyright 2017-2023 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -94,7 +94,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   /* eslint-disable react/jsx-max-props-per-line */
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}
@@ -201,11 +201,11 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
           </ul>
         </div>
       </div>
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(PollApp)`
+const StyledMain = styled.main`
   .pollActions {
     opacity: 0.75;
   }
@@ -245,7 +245,7 @@ export default React.memo(styled(PollApp)`
   .options {
     margin: 1rem 0;
 
-    .ui--Columnar {
+    .ui--Columar {
       margin: 0 -1.25rem;
       padding: 0 1.25rem;
 
@@ -298,4 +298,6 @@ export default React.memo(styled(PollApp)`
       margin: 0.75rem;
     }
   }
-`);
+`;
+
+export default React.memo(PollApp);

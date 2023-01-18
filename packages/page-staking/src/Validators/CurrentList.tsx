@@ -1,17 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
 
-import React, { useContext, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useLoadingDelay } from '@polkadot/react-hooks';
-import { BlockAuthorsContext } from '@polkadot/react-query';
+import { useApi, useBlockAuthors, useLoadingDelay } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering';
 import Legend from '../Legend';
@@ -20,6 +18,8 @@ import Address from './Address';
 
 interface Props {
   className?: string;
+  byAuthor: Record<string, string>;
+  eraPoints: Record<string, string>;
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
@@ -28,7 +28,7 @@ interface Props {
   minCommission?: BN;
   nominatedBy?: NominatedByMap;
   ownStashIds?: string[];
-  paraValidators?: Record<string, boolean>;
+  paraValidators: Record<string, boolean>;
   recentlyOnline?: DeriveHeartbeats;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
@@ -42,8 +42,6 @@ interface Filtered {
   validators?: AccountExtend[];
   waiting?: AccountExtend[];
 }
-
-const EmptyAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor: {}, eraPoints: {}, lastBlockAuthors: [], lastHeaders: [] });
 
 function filterAccounts (isOwn: boolean, accounts: string[] = [], ownStashIds: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
   return accounts
@@ -113,7 +111,7 @@ const DEFAULT_PARAS = {};
 function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const { byAuthor, eraPoints } = useBlockAuthors();
   const [nameFilter, setNameFilter] = useState<string>('');
 
   // we have a very large list, so we use a loading delay
@@ -138,24 +136,20 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
     [targets]
   );
 
-  const headerRef = useRef(
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
-        [t('intentions'), 'start', 2],
+        [t('intentions'), 'start', 3],
         [t('nominators'), 'expand'],
         [t('commission'), 'number'],
-        [],
         []
       ]
       : [
-        [t('validators'), 'start', 2],
+        [t('validators'), 'start', 3],
         [t('other stake'), 'expand'],
-        [t('own stake'), 'media--1100'],
         [t('commission')],
-        [t('points')],
         [t('last #')],
-        [],
-        [undefined, 'media--1200']
+        []
       ]
   );
 
@@ -200,7 +194,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
           isElected={isElected}
           isFavorite={isFavorite}
           isMain={!isIntentions}
-          isPara={isIntentions ? false : paraValidators[address]}
+          isPara={paraValidators[address]}
           key={address}
           lastBlock={byAuthor[address]}
           minCommission={minCommission}

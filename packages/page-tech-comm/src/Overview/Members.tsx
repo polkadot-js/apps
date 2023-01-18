@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -16,7 +16,7 @@ interface Props {
 function Members ({ className = '', members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('members'), 'start', 3]
   ]);
 
@@ -25,6 +25,7 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
       className={className}
       empty={members && t<string>('No members found')}
       header={headerRef.current}
+      isSplit
     >
       {members?.map((accountId): React.ReactNode => (
         <tr key={accountId}>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -16,6 +16,13 @@ export * from './productionRelayPolkadot';
 //
 // IMPORTANT: Alphabetical based on text
 export const prodChains: EndpointOption[] = [
+  {
+    info: '3dpass',
+    text: '3DPass',
+    providers: {
+      '3dpass': 'wss://rpc2.3dpass.org'
+    }
+  },
   {
     info: 'aleph',
     text: 'Aleph Zero',
@@ -36,6 +43,20 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Automata Network': 'wss://api.ata.network',
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
+    }
+  },
+  {
+    info: 'bitgreen',
+    text: 'Bitgreen',
+    providers: {
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+    }
+  },
+  {
+    info: 'bittensor',
+    text: 'Bittensor',
+    providers: {
+      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     }
   },
   {
@@ -100,6 +121,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'debio',
+    text: 'DeBio',
+    providers: {
+      DeBio: 'wss://ws-rpc.debio.network'
+    }
+  },
+  {
     info: 'dock-pos-mainnet',
     text: 'Dock',
     providers: {
@@ -113,7 +141,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://edgeware.jelliedowl.net',
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
       Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
@@ -146,6 +174,13 @@ export const prodChains: EndpointOption[] = [
     }
   },
   {
+    info: 'joystream',
+    text: 'Joystream',
+    providers: {
+      Jsgenesis: 'wss://rpc.joystream.org'
+    }
+  },
+  {
     dnslink: 'kulupu',
     info: 'kulupu',
     text: 'Kulupu',
@@ -171,8 +206,8 @@ export const prodChains: EndpointOption[] = [
     info: 'mathchain',
     text: 'MathChain',
     providers: {
-      MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
-      'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
+      // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     }
   },
   {
@@ -254,9 +289,7 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-      // Soramitsu: 'wss://ws.alb.sora.org', // https://github.com/polkadot-js/apps/issues/7786
       OnFinality: 'wss://sora.api.onfinality.io/public-ws'
-      // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
     }
   },
   {
@@ -300,6 +333,14 @@ export const prodChains: EndpointOption[] = [
     text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
+    }
+  },
+  {
+    info: 'thebifrost-mainnet',
+    text: 'The Bifrost Mainnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
+      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
     }
   },
   {

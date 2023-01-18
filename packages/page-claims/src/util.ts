@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
@@ -23,7 +23,7 @@ interface SignatureParts {
 // converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
   const address = _address.toLowerCase();
-  const hash = keccakAsHex(address.substr(2)).substr(2);
+  const hash = keccakAsHex(address.substring(2)).substring(2);
   let result = '0x';
 
   for (let n = 0; n < 40; n++) {

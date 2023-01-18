@@ -1,11 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Data, Option } from '@polkadot/types';
 import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
@@ -19,12 +18,6 @@ interface Props {
   address: string;
   className?: string;
   onClose: () => void;
-}
-
-interface WrapProps {
-  children: React.ReactNode;
-  onChange: (isChecked: boolean) => void;
-  value: boolean;
 }
 
 interface ValueState {
@@ -60,22 +53,6 @@ function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: strin
   }
 
   return value;
-}
-
-function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactElement<WrapProps> {
-  const { t } = useTranslation();
-
-  return (
-    <div className='toggle-Wrap'>
-      {children}
-      <Toggle
-        isOverlay
-        label={t<string>('include field')}
-        onChange={onChange}
-        value={value}
-      />
-    </div>
-  );
 }
 
 function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
@@ -176,7 +153,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       <Modal.Content>
         <Input
           autoFocus
-          help={t<string>('The name that will be displayed in your accounts list.')}
           isError={!okDisplay}
           label={t<string>('display name')}
           maxLength={32}
@@ -184,97 +160,102 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           placeholder={t('My On-Chain Name')}
           value={valDisplay}
         />
-        <WrapToggle
-          onChange={setHasLegal}
-          value={hasLegal}
-        >
-          <Input
-            help={t<string>('The legal name for this identity.')}
-            isDisabled={!hasLegal}
-            isError={!okLegal}
-            label={t<string>('legal name')}
-            maxLength={32}
-            onChange={setValLegal}
-            placeholder={t('Full Legal Name')}
-            value={hasLegal ? valLegal : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasEmail}
-          value={hasEmail}
-        >
-          <Input
-            help={t<string>('The email address associated with this identity.')}
-            isDisabled={!hasEmail}
-            isError={!okEmail}
-            label={t<string>('email')}
-            maxLength={32}
-            onChange={setValEmail}
-            placeholder={t('somebody@example.com')}
-            value={hasEmail ? valEmail : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasWeb}
-          value={hasWeb}
-        >
-          <Input
-            help={t<string>('An URL that is linked to this identity.')}
-            isDisabled={!hasWeb}
-            isError={!okWeb}
-            label={t<string>('web')}
-            maxLength={32}
-            onChange={setValWeb}
-            placeholder={t('https://example.com')}
-            value={hasWeb ? valWeb : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasTwitter}
-          value={hasTwitter}
-        >
-          <Input
-            help={t<string>('The twitter name for this identity.')}
-            isDisabled={!hasTwitter}
-            isError={!okTwitter}
-            label={t<string>('twitter')}
-            onChange={setValTwitter}
-            placeholder={t('@YourTwitterName')}
-            value={hasTwitter ? valTwitter : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasDiscord}
-          value={hasDiscord}
-        >
-          <Input
-            help={t<string>('The discord name for this identity.')}
-            isDisabled={!hasDiscord}
-            isError={!okDiscord}
-            label={t<string>('discord')}
-            onChange={setValDiscord}
-            placeholder={t('YourDiscordHandle')}
-            value={hasDiscord ? valDiscord : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasRiot}
-          value={hasRiot}
-        >
-          <Input
-            help={t<string>('a riot name linked to this identity')}
-            isDisabled={!hasRiot}
-            isError={!okRiot}
-            label={t<string>('riot name')}
-            maxLength={32}
-            onChange={setValRiot}
-            placeholder={t('@yourname:matrix.org')}
-            value={hasRiot ? valRiot : '<none>'}
-          />
-        </WrapToggle>
+        <Input
+          isDisabled={!hasLegal}
+          isError={!okLegal}
+          label={t<string>('legal name')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasLegal}
+              value={hasLegal}
+            />
+          }
+          maxLength={32}
+          onChange={setValLegal}
+          placeholder={t('Full Legal Name')}
+          value={hasLegal ? valLegal : '<none>'}
+        />
+        <Input
+          isDisabled={!hasEmail}
+          isError={!okEmail}
+          label={t<string>('email')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasEmail}
+              value={hasEmail}
+            />
+          }
+          maxLength={32}
+          onChange={setValEmail}
+          placeholder={t('somebody@example.com')}
+          value={hasEmail ? valEmail : '<none>'}
+        />
+        <Input
+          isDisabled={!hasWeb}
+          isError={!okWeb}
+          label={t<string>('web')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasWeb}
+              value={hasWeb}
+            />
+          }
+          maxLength={32}
+          onChange={setValWeb}
+          placeholder={t('https://example.com')}
+          value={hasWeb ? valWeb : '<none>'}
+        />
+        <Input
+          isDisabled={!hasTwitter}
+          isError={!okTwitter}
+          label={t<string>('twitter')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasTwitter}
+              value={hasTwitter}
+            />
+          }
+          onChange={setValTwitter}
+          placeholder={t('@YourTwitterName')}
+          value={hasTwitter ? valTwitter : '<none>'}
+        />
+        <Input
+          isDisabled={!hasDiscord}
+          isError={!okDiscord}
+          label={t<string>('discord')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasDiscord}
+              value={hasDiscord}
+            />
+          }
+          onChange={setValDiscord}
+          placeholder={t('YourDiscordHandle')}
+          value={hasDiscord ? valDiscord : '<none>'}
+        />
+        <Input
+          isDisabled={!hasRiot}
+          isError={!okRiot}
+          label={t<string>('riot name')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasRiot}
+              value={hasRiot}
+            />
+          }
+          maxLength={32}
+          onChange={setValRiot}
+          placeholder={t('@yourname:matrix.org')}
+          value={hasRiot ? valRiot : '<none>'}
+        />
         <InputBalance
           defaultValue={api.consts.identity?.basicDeposit}
-          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
           isDisabled
           label={t<string>('total deposit')}
         />
@@ -301,8 +282,4 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   );
 }
 
-export default React.memo(styled(IdentityMain)`
-  .toggle-Wrap {
-    position: relative;
-  }
-`);
+export default React.memo(IdentityMain);

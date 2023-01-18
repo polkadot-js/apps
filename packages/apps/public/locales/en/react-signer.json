@@ -1,5 +1,4 @@
 {
-  "Add a tip to this extrinsic, paying the block author for greater priority": "Add a tip to this extrinsic, paying the block author for greater priority",
   "Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.": "Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.",
   "Authorize transaction": "Authorize transaction",
   "Current account nonce: {{accountNonce}}": "Current account nonce: {{accountNonce}}",
@@ -13,7 +12,6 @@
   "Nonce": "Nonce",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.",
   "Preparing QR for signing": "Preparing QR for signing",
-  "Sending transaction": "Sending transaction",
   "Set to 0 to make transaction immortal": "Set to 0 to make transaction immortal",
   "Sign (no submission)": "Sign (no submission)",
   "Sign and Submit": "Sign and Submit",
@@ -25,9 +23,7 @@
   "The call hash as calculated for this transaction": "The call hash as calculated for this transaction",
   "The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.": "The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.",
   "The full call data that can be supplied to a final call to multi approvals": "The full call data that can be supplied to a final call to multi approvals",
-  "The multisig signatory for this transaction.": "The multisig signatory for this transaction.",
   "The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.": "The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.",
-  "The proxy to be used for this transaction.": "The proxy to be used for this transaction.",
   "The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.": "The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.",
   "The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.": "The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.",
   "This could either be an approval for the hash or with full call details. The call as last approval triggers execution.": "This could either be an approval for the hash or with full call details. The call as last approval triggers execution.",

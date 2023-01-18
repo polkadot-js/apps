@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CodeStored } from '../types';
@@ -53,7 +53,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
   );
 
   return (
-    <Row
+    <StyledRow
       buttons={buttons}
       className={className}
       icon={
@@ -67,14 +67,14 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       onChangeTags={setTags}
       onSaveName={_onSaveName}
       onSaveTags={_onSaveTags}
-      tags={withTags && tags}
+      tags={withTags ? tags : undefined}
     >
       {children}
-    </Row>
+    </StyledRow>
   );
 }
 
-export default React.memo(styled(CodeRow)`
+const StyledRow = styled(Row)`
   .ui--CodeRow-icon {
     margin-right: -0.5em;
     background: #eee;
@@ -86,4 +86,6 @@ export default React.memo(styled(CodeRow)`
     justify-content: center;
     align-items: center;
   }
-`);
+`;
+
+export default React.memo(CodeRow);

@@ -1,7 +1,5 @@
 {
   "Approvals": "Approvals",
-  "Approve or reject this defender.": "Approve or reject this defender.",
-  "Approve this candidacy.": "Approve this candidacy.",
   "Aye, I approve": "Aye, I approve",
   "Bid": "Bid",
   "Bid to join": "Bid to join",
@@ -20,9 +18,6 @@
   "Skeptics": "Skeptics",
   "Submit bid": "Submit bid",
   "Suspended": "Suspended",
-  "The actual account you wish to submit the bid with": "The actual account you wish to submit the bid with",
-  "The address to vote from (must be a member)": "The address to vote from (must be a member)",
-  "The amount to associate with your bid, should be less than the pot.": "The amount to associate with your bid, should be less than the pot.",
   "The amount to tie to your bid. The lowest bidder moves forward.": "The amount to tie to your bid. The lowest bidder moves forward.",
   "The amount you wish to be tipped for your bid.": "The amount you wish to be tipped for your bid.",
   "The candidate/bid account. Once accepted this account will become a member.": "The candidate/bid account. Once accepted this account will become a member.",
