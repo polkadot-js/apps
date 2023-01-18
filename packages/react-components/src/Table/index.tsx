@@ -49,20 +49,20 @@ function Split ({ children, className = '', numColumns }: ColumnProps): React.Re
 
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
-  const isChildrenArray = Array.isArray(children);
-  const isChildrenEmpty = !children || (isChildrenArray && children.length === 0);
+  const isArray = Array.isArray(children);
+  const isEmpty = !children || (isArray && children.length === 0);
 
   const headerNode = (
     <Head
       filter={filter}
       header={header}
-      isEmpty={isChildrenEmpty}
+      isEmpty={isEmpty}
     >
       {headerChildren}
     </Head>
   );
 
-  if (isSplit && isChildrenArray && !isChildrenEmpty && (numColumns > 1)) {
+  if (isSplit && isArray && !isEmpty && (numColumns > 1)) {
     return (
       <StyledDiv className={`${className} ui--Table isSplit`}>
         {legend}
@@ -86,18 +86,19 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
   return (
     <StyledDiv className={`${className} ui--Table`}>
       {legend}
-      <table className={`${(isFixed && !isChildrenEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
         {headerNode}
         <Body
           empty={empty}
           emptySpinner={emptySpinner}
+          isEmpty={isEmpty}
           noBodyTag={noBodyTag}
         >
-          {!isChildrenEmpty && children}
+          {children}
         </Body>
         <Foot
           footer={footer}
-          isEmpty={isChildrenEmpty}
+          isEmpty={isEmpty}
         />
       </table>
     </StyledDiv>
