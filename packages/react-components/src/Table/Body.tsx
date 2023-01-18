@@ -6,7 +6,6 @@ import React from 'react';
 import { isString } from '@polkadot/util';
 
 import Spinner from '../Spinner';
-import Split from './BodySplit';
 
 interface Props {
   children?: React.ReactNode;
@@ -16,7 +15,7 @@ interface Props {
   noBodyTag?: boolean;
 }
 
-function BodyBase ({ children, className = '', empty, emptySpinner, noBodyTag }: Props): React.ReactElement<Props> {
+function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Props): React.ReactElement<Props> {
   const bodyClassName = `${className} ui--Table-Body`;
 
   return children
@@ -38,10 +37,4 @@ function BodyBase ({ children, className = '', empty, emptySpinner, noBodyTag }:
     );
 }
 
-const Body = React.memo(BodyBase) as unknown as typeof BodyBase & {
-  Split: typeof Split;
-};
-
-Body.Split = Split;
-
-export default Body;
+export default React.memo(Body);

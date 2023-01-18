@@ -29,6 +29,27 @@ interface Props {
   noBodyTag?: boolean;
 }
 
+interface ColumnProps {
+  children: React.ReactNode[];
+  className?: string;
+  column: 0 | 1 | 2;
+  numColumns: 1 | 2 | 3;
+}
+
+function Split ({ children, className = '', column, numColumns }: ColumnProps): React.ReactElement<ColumnProps> {
+  return (
+    <div className={`${className} ui--Table-Split-Column-${numColumns}`}>
+      <table className='noMargin'>
+        <tbody className={`${className} ui--Table-Body`}>
+          {children.filter((_, i) =>
+            (i % numColumns) === column
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
 
@@ -46,8 +67,6 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
   );
 
   if (isSplit && isChildrenArray && !isChildrenEmpty && (numColumns > 1)) {
-    const columnClassName = `ui--Table-Split-Column-${numColumns}`;
-
     return (
       <StyledDiv className={`${className} ui--Table isSplit`}>
         {legend}
@@ -55,46 +74,25 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
           {headerNode}
         </table>
         <div className='ui--Table-Split'>
-          <div
-            className={columnClassName}
-            key='column:first'
+          <Split
+            column={0}
+            numColumns={numColumns}
           >
-            <table className='noMargin'>
-              <Body.Split
-                column={0}
-                numColumns={numColumns}
-              >
-                {children}
-              </Body.Split>
-            </table>
-          </div>
-          <div
-            className={columnClassName}
-            key='column:second'
+            {children}
+          </Split>
+          <Split
+            column={1}
+            numColumns={numColumns}
           >
-            <table className='noMargin'>
-              <Body.Split
-                column={1}
-                numColumns={numColumns}
-              >
-                {children}
-              </Body.Split>
-            </table>
-          </div>
+            {children}
+          </Split>
           {(numColumns > 2) && (
-            <div
-              className={columnClassName}
-              key='column:third'
+            <Split
+              column={2}
+              numColumns={numColumns}
             >
-              <table className='noMargin'>
-                <Body.Split
-                  column={2}
-                  numColumns={numColumns}
-                >
-                  {children}
-                </Body.Split>
-              </table>
-            </div>
+              {children}
+            </Split>
           )}
         </div>
       </StyledDiv>
