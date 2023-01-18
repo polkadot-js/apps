@@ -50,7 +50,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, extrinsicKey, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
+  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, extrinsicKey, extrinsicPayload, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
 
   const _setExtrinsicHex = useCallback(
     (hex: string): void => {
@@ -150,6 +150,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
       <Decoded
         extrinsic={decoded}
         isCall={isCall}
+        payload={extrinsicPayload}
         withData={false}
       />
     </StyledDiv>
