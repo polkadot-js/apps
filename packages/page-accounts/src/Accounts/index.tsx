@@ -94,7 +94,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
-  const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
+  const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -108,6 +108,41 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useDelegations();
   const proxies = useProxies();
   const isLoading = useLoadingDelay();
+
+  const onSortChange = useCallback(
+    (sortBy: SortCategory) => setSortBy(({ sortFromMax }) => ({ sortBy, sortFromMax })),
+    []
+  );
+
+  const onSortDirectionChange = useCallback(
+    () => setSortBy(({ sortBy, sortFromMax }) => ({ sortBy, sortFromMax: !sortFromMax })),
+    []
+  );
+
+  const sortOptions = useRef(SORT_CATEGORY.map((text) => ({ text, value: text })));
+
+  const setBalance = useCallback(
+    (account: string, balance: AccountBalance) =>
+      setBalances(({ accounts }: Balances): Balances => {
+        accounts[account] = balance;
+
+        const aggregate = (key: keyof AccountBalance) =>
+          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
+
+        return {
+          accounts,
+          summary: {
+            bonded: aggregate('bonded'),
+            locked: aggregate('locked'),
+            redeemable: aggregate('redeemable'),
+            total: aggregate('total'),
+            transferrable: aggregate('transferrable'),
+            unbonding: aggregate('unbonding')
+          }
+        };
+      }),
+    []
+  );
 
   const canStoreAccounts = useMemo(
     () => isElectron || (!isIpfs && settings.get().storage === 'on'),
@@ -181,6 +216,44 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t]
   );
 
+  const grouped = useMemo(
+    () => groupAccounts(sortedAccounts),
+    [sortedAccounts]
+  );
+
+  const accounts = useMemo(
+    () => Object.values(accountsMap).reduce<Record<string, React.ReactNode>>((all, { account, address, delegation, isFavorite }, index) => {
+      all[address] = (
+        <Account
+          account={account}
+          delegation={delegation}
+          filter={filterOn}
+          isFavorite={isFavorite}
+          key={address}
+          proxy={proxies?.[index]}
+          setBalance={setBalance}
+          toggleFavorite={toggleFavorite}
+        />
+      );
+
+      return all;
+    }, {}),
+    [accountsMap, filterOn, proxies, setBalance, toggleFavorite]
+  );
+
+  const groups = useMemo(
+    () => GROUP_ORDER.reduce<Record<string, React.ReactNode[]>>((groups, group) => {
+      const items = grouped[group];
+
+      if (items.length) {
+        groups[group] = items.map((account) => accounts[account]);
+      }
+
+      return groups;
+    }, {}),
+    [grouped, accounts]
+  );
+
   useEffect((): void => {
     setSorted((prev) => [
       ...prev
@@ -193,87 +266,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     ]);
   }, [accountsMap]);
 
-  const accounts = balances.accounts;
-
   useEffect((): void => {
     setSorted((sortedAccounts) =>
-      sortAccounts(sortedAccounts, accountsMap, accounts, sortBy, sortFromMax));
-  }, [accountsMap, accounts, sortBy, sortFromMax]);
-
-  const _setBalance = useCallback(
-    (account: string, balance: AccountBalance) =>
-      setBalances(({ accounts }: Balances): Balances => {
-        accounts[account] = balance;
-
-        const aggregate = (key: keyof AccountBalance) =>
-          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
-
-        return {
-          accounts,
-          summary: {
-            bonded: aggregate('bonded'),
-            locked: aggregate('locked'),
-            redeemable: aggregate('redeemable'),
-            total: aggregate('total'),
-            transferrable: aggregate('transferrable'),
-            unbonding: aggregate('unbonding')
-          }
-        };
-      }),
-    []
-  );
-
-  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
-
-  const grouped = useMemo(
-    () => groupAccounts(sortedAccounts),
-    [sortedAccounts]
-  );
-
-  const renderedAccounts = useMemo(
-    () => Object.values(accountsMap).reduce<Record<string, React.ReactNode>>((all, { account, address, delegation, isFavorite }, index) => {
-      all[address] = (
-        <Account
-          account={account}
-          delegation={delegation}
-          filter={filterOn}
-          isFavorite={isFavorite}
-          key={address}
-          proxy={proxies?.[index]}
-          setBalance={_setBalance}
-          toggleFavorite={toggleFavorite}
-        />
-      );
-
-      return all;
-    }, {}),
-    [_setBalance, accountsMap, filterOn, proxies, toggleFavorite]
-  );
-
-  const renderedGroups = useMemo(
-    () => GROUP_ORDER.reduce<Record<string, React.ReactNode[]>>((rendered, key) => {
-      const items = grouped[key];
-
-      if (items.length) {
-        rendered[key] = items.map((address) => renderedAccounts[address]);
-      }
-
-      return rendered;
-    }, {}),
-    [grouped, renderedAccounts]
-  );
-
-  const onSortChange = useCallback(
-    (sortBy: SortCategory) => setSortBy(({ sortFromMax }) => ({ sortBy, sortFromMax })),
-    []
-  );
-
-  const onSortDirectionChange = useCallback(
-    () => setSortBy(({ sortBy, sortFromMax }) => ({ sortBy, sortFromMax: !sortFromMax })),
-    []
-  );
-
-  const sortOptions = useRef(SORT_CATEGORY.map((text) => ({ text, value: text })));
+      sortAccounts(sortedAccounts, accountsMap, balances.accounts, sortBy, sortFromMax));
+  }, [accountsMap, balances, sortBy, sortFromMax]);
 
   return (
     <StyledDiv className={className}>
@@ -343,7 +339,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               <Button
                 icon='plus'
                 label={t<string>('Account')}
-                onClick={_openCreateModal}
+                onClick={toggleCreate}
               />
               <Button
                 icon='sync'
@@ -385,15 +381,15 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             header={header.accounts}
           />
         )
-        : GROUP_ORDER.map((key) =>
-          renderedGroups[key] && (
+        : GROUP_ORDER.map((group) =>
+          groups[group] && (
             <Table
               empty={t<string>('No accounts')}
-              header={header[key]}
+              header={header[group]}
               isSplit
-              key={key}
+              key={group}
             >
-              {renderedGroups[key]}
+              {groups[group]}
             </Table>
           )
         )
