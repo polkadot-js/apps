@@ -93,7 +93,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
           emptySpinner={emptySpinner}
           noBodyTag={noBodyTag}
         >
-          {children}
+          {!isChildrenEmpty && children}
         </Body>
         <Foot
           footer={footer}
