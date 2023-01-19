@@ -12,19 +12,15 @@ interface Props {
   className?: string;
   empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
+  isEmpty: boolean;
   noBodyTag?: boolean;
 }
 
-function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Props): React.ReactElement<Props> {
+function Body ({ children, className = '', empty, emptySpinner, isEmpty, noBodyTag }: Props): React.ReactElement<Props> {
   const bodyClassName = `${className} ui--Table-Body`;
 
-  return children
+  return isEmpty
     ? (
-      noBodyTag
-        ? <>{children}</>
-        : <tbody className={bodyClassName}>{children}</tbody>
-    )
-    : (
       <tbody className={bodyClassName}>
         <tr>
           <td colSpan={100}>{
@@ -34,6 +30,11 @@ function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Pro
           }</td>
         </tr>
       </tbody>
+    )
+    : (
+      noBodyTag
+        ? <>{children}</>
+        : <tbody className={bodyClassName}>{children}</tbody>
     );
 }
 

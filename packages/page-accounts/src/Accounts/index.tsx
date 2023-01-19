@@ -5,8 +5,9 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
+import type { SortCategory } from '../util';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
@@ -23,7 +24,7 @@ import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
 import { useTranslation } from '../translate';
-import { sortAccounts, SortCategory, sortCategory } from '../util';
+import { SORT_CATEGORY, sortAccounts } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
@@ -93,7 +94,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
-  const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
+  const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -107,6 +108,41 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useDelegations();
   const proxies = useProxies();
   const isLoading = useLoadingDelay();
+
+  const onSortChange = useCallback(
+    (sortBy: SortCategory) => setSortBy(({ sortFromMax }) => ({ sortBy, sortFromMax })),
+    []
+  );
+
+  const onSortDirectionChange = useCallback(
+    () => setSortBy(({ sortBy, sortFromMax }) => ({ sortBy, sortFromMax: !sortFromMax })),
+    []
+  );
+
+  const sortOptions = useRef(SORT_CATEGORY.map((text) => ({ text, value: text })));
+
+  const setBalance = useCallback(
+    (account: string, balance: AccountBalance) =>
+      setBalances(({ accounts }: Balances): Balances => {
+        accounts[account] = balance;
+
+        const aggregate = (key: keyof AccountBalance) =>
+          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
+
+        return {
+          accounts,
+          summary: {
+            bonded: aggregate('bonded'),
+            locked: aggregate('locked'),
+            redeemable: aggregate('redeemable'),
+            total: aggregate('total'),
+            transferrable: aggregate('transferrable'),
+            unbonding: aggregate('unbonding')
+          }
+        };
+      }),
+    []
+  );
 
   const canStoreAccounts = useMemo(
     () => isElectron || (!isIpfs && settings.get().storage === 'on'),
@@ -132,7 +168,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [api]
   );
 
-  const accountsWithInfo = useMemo(
+  const accountsMap = useMemo(
     () => allAccounts
       .map((address, index): Omit<SortedAccount, 'account'> & { account: KeyringAddress | undefined } => {
         const deleg = delegations && delegations[index]?.isDelegating && delegations[index]?.asDelegating;
@@ -149,17 +185,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           isFavorite: favoritesMap[address ?? ''] ?? false
         };
       })
-      .filter((a): a is SortedAccount => !!a.account),
+      .filter((a): a is SortedAccount => !!a.account)
+      .reduce((ret: Record<string, SortedAccount>, x) => {
+        ret[x.address] = x;
+
+        return ret;
+      }, {}),
     [allAccounts, favoritesMap, delegations]
-  );
-
-  const accountsMap = useMemo(
-    () => accountsWithInfo.reduce<Record<string, SortedAccount>>((ret, x) => {
-      ret[x.address] = x;
-
-      return ret;
-    }, {}),
-    [accountsWithInfo]
   );
 
   const header = useMemo(
@@ -184,75 +216,60 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t]
   );
 
-  useEffect((): void => {
-    // We add new accounts to the end
-    setSorted((sortedAccounts) =>
-      [...sortedAccounts.map((x) => accountsWithInfo.find((y) => x.address === y.address)).filter((x): x is SortedAccount => !!x),
-        ...accountsWithInfo.filter((x) => !sortedAccounts.find((y) => x.address === y.address))]);
-  }, [accountsWithInfo]);
-
-  const accounts = balances.accounts;
-
-  useEffect((): void => {
-    setSorted((sortedAccounts) =>
-      sortAccounts(sortedAccounts, accountsMap, accounts, sortBy, sortFromMax));
-  }, [accountsWithInfo, accountsMap, accounts, sortBy, sortFromMax]);
-
-  const _setBalance = useCallback(
-    (account: string, balance: AccountBalance) =>
-      setBalances(({ accounts }: Balances): Balances => {
-        accounts[account] = balance;
-
-        const aggregate = (key: keyof AccountBalance) =>
-          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
-
-        return {
-          accounts,
-          summary: {
-            bonded: aggregate('bonded'),
-            locked: aggregate('locked'),
-            redeemable: aggregate('redeemable'),
-            total: aggregate('total'),
-            transferrable: aggregate('transferrable'),
-            unbonding: aggregate('unbonding')
-          }
-        };
-      }),
-    []
-  );
-
-  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
-
   const grouped = useMemo(
     () => groupAccounts(sortedAccounts),
     [sortedAccounts]
   );
 
-  const accountComponents = useMemo(() => {
-    const ret: Record<string, React.ReactNode> = {};
-
-    accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
-      ret[address] =
+  const accounts = useMemo(
+    () => Object.values(accountsMap).reduce<Record<string, React.ReactNode>>((all, { account, address, delegation, isFavorite }, index) => {
+      all[address] = (
         <Account
           account={account}
           delegation={delegation}
           filter={filterOn}
           isFavorite={isFavorite}
-          key={`${index}:${address}`}
+          key={address}
           proxy={proxies?.[index]}
-          setBalance={_setBalance}
+          setBalance={setBalance}
           toggleFavorite={toggleFavorite}
-        />;
-    });
+        />
+      );
 
-    return ret;
-  }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
+      return all;
+    }, {}),
+    [accountsMap, filterOn, proxies, setBalance, toggleFavorite]
+  );
 
-  const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
+  const groups = useMemo(
+    () => GROUP_ORDER.reduce<Record<string, React.ReactNode[]>>((groups, group) => {
+      const items = grouped[group];
 
-  const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
+      if (items.length) {
+        groups[group] = items.map((account) => accounts[account]);
+      }
 
-  const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
+      return groups;
+    }, {}),
+    [grouped, accounts]
+  );
+
+  useEffect((): void => {
+    setSorted((prev) => [
+      ...prev
+        .map((x) => accountsMap[x.address])
+        .filter((x): x is SortedAccount => !!x),
+      ...Object
+        .keys(accountsMap)
+        .filter((a) => !prev.find((y) => a === y.address))
+        .map((a) => accountsMap[a])
+    ]);
+  }, [accountsMap]);
+
+  useEffect((): void => {
+    setSorted((sortedAccounts) =>
+      sortAccounts(sortedAccounts, accountsMap, balances.accounts, sortBy, sortFromMax));
+  }, [accountsMap, balances, sortBy, sortFromMax]);
 
   return (
     <StyledDiv className={className}>
@@ -301,9 +318,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             className='media--1500'
             defaultValue={sortBy}
             label={t<string>('sort by')}
-            onChange={onDropdownChange()}
-            onClick={onSortDirectionChange()}
-            options={dropdownOptions()}
+            onChange={onSortChange}
+            onClick={onSortDirectionChange}
+            options={sortOptions.current}
             sortDirection={
               sortFromMax
                 ? 'ascending'
@@ -322,7 +339,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               <Button
                 icon='plus'
                 label={t<string>('Account')}
-                onClick={_openCreateModal}
+                onClick={toggleCreate}
               />
               <Button
                 icon='sync'
@@ -364,19 +381,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             header={header.accounts}
           />
         )
-        : GROUP_ORDER.map((key) =>
-          grouped[key].length
-            ? (
-              <Table
-                empty={t<string>('No accounts')}
-                header={header[key]}
-                isSplit
-                key={key}
-              >
-                {grouped[key].map((a) => accountComponents[a])}
-              </Table>
-            )
-            : null
+        : GROUP_ORDER.map((group) =>
+          groups[group] && (
+            <Table
+              empty={t<string>('No accounts')}
+              header={header[group]}
+              isSplit
+              key={group}
+            >
+              {groups[group]}
+            </Table>
+          )
         )
       }
     </StyledDiv>
