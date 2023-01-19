@@ -18,6 +18,8 @@
   "Sign via Qr": "Sign via Qr",
   "Signed transaction": "Signed transaction",
   "Submit (no signature)": "Submit (no signature)",
+  "Submit individual": "Submit individual",
+  "Submit {{queueSize}} items": "Submit {{queueSize}} items",
   "The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.": "The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.",
   "The actual fully constructed signed output. This can be used for submission via other channels.": "The actual fully constructed signed output. This can be used for submission via other channels.",
   "The call hash as calculated for this transaction": "The call hash as calculated for this transaction",
