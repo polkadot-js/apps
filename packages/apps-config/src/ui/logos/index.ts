@@ -225,6 +225,7 @@ import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeSwapdex from './nodes/swapdex.svg';
 import nodeTernoa from './nodes/ternoa.svg';
+import nodeTheBifrost from './nodes/thebifrost.png';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
@@ -996,6 +997,8 @@ export const namedLogos: Record<string, unknown> = {
   ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
+  'thebifrost-mainnet': nodeTheBifrost,
+  'thebifrost-testnet': nodeTheBifrost,
   tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,

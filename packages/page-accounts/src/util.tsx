@@ -68,15 +68,16 @@ export function tryCreateAccount (commitAccount: () => CreateResult, success: st
   return status;
 }
 
-export const sortCategory = ['parent', 'name', 'date', 'balances'] as const;
-export type SortCategory = typeof sortCategory[number];
+export const SORT_CATEGORY = ['parent', 'name', 'date', 'balances'] as const;
 
-const comparator = (accounts: Record<string, SortedAccount | undefined>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean) => {
+export type SortCategory = typeof SORT_CATEGORY[number];
+
+function comparator (accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean): (a: SortedAccount, b: SortedAccount) => number {
   function accountQualifiedName (account: SortedAccount | undefined): string {
     if (account) {
       const parent = (account.account?.meta.parentAddress || '') as string;
 
-      return accountQualifiedName(accounts[parent]) + account.address;
+      return accountQualifiedName(accountsMap[parent]) + account.address;
     } else {
       return '';
     }
@@ -104,7 +105,7 @@ const comparator = (accounts: Record<string, SortedAccount | undefined>, balance
     case 'balances':
       return make((acc) => balances[acc.address]?.total ?? BN_ZERO, (a, b) => a.cmp(b));
   }
-};
+}
 
 export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
   return [...accountsList]
@@ -117,6 +118,8 @@ export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record
           : -1);
 }
 
-export const getJudgementColor = (name: DisplayedJudgement): 'green' | 'red' => {
-  return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
-};
+export function getJudgementColor (name: DisplayedJudgement): 'green' | 'red' {
+  return (name === 'Erroneous' || name === 'Low quality')
+    ? 'red'
+    : 'green';
+}

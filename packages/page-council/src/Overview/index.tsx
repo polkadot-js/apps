@@ -69,6 +69,7 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
         <Candidates
           allVotes={allVotes}
           electionsInfo={electionsInfo}
+          hasElections={hasElections}
         />
       )}
     </div>

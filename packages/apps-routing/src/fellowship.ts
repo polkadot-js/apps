@@ -13,7 +13,8 @@ export default function create (t: TFunction): Route {
       needsAccounts: true,
       needsApi: [
         'tx.fellowshipCollective.vote',
-        'tx.fellowshipReferenda.submit'
+        'tx.fellowshipReferenda.submit',
+        'consts.fellowshipReferenda.tracks'
       ]
     },
     group: 'governance',

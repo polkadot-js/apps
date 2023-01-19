@@ -1,42 +1,56 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TableProps as Props } from './types';
-
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import Columar from '../Columar';
+import { useWindowColumns } from '@polkadot/react-hooks';
+
 import Body from './Body';
+import Column from './Column';
 import Foot from './Foot';
 import Head from './Head';
+import Row from './Row';
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode | React.ReactNode[]] {
-  if (!Array.isArray(children)) {
-    return [!children, children];
-  }
-
-  const kids = children.filter((child) => !!child);
-  const isEmpty = kids.length === 0;
-
-  return [isEmpty, isEmpty ? null : kids];
+interface Props {
+  children?: React.ReactNode;
+  className?: string;
+  empty?: React.ReactNode | false;
+  emptySpinner?: React.ReactNode;
+  filter?: React.ReactNode;
+  footer?: React.ReactNode;
+  header?: ([React.ReactNode?, string?, number?, (() => void)?] | false | null | undefined)[];
+  headerChildren?: React.ReactNode;
+  isFixed?: boolean;
+  isInline?: boolean;
+  isSplit?: boolean;
+  legend?: React.ReactNode;
+  maxColumns?: 2 | 3;
+  noBodyTag?: boolean;
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
-  const [isEmpty, bodyChildren] = extractBodyChildren(children);
+interface ColumnProps {
+  children: React.ReactNode[];
+  className?: string;
+  numColumns: number;
+}
 
-  const splitBody = useMemo(
-    (): [React.ReactNode[], React.ReactNode[]] | null => {
-      if (!isSplit || isEmpty || !Array.isArray(bodyChildren) || bodyChildren.length === 0) {
-        return null;
-      }
-
-      const half = Math.ceil(bodyChildren.length / 2);
-
-      return [bodyChildren.slice(0, half), bodyChildren.slice(half)];
-    },
-    [bodyChildren, isEmpty, isSplit]
+function Split ({ children, className = '', numColumns }: ColumnProps): React.ReactElement<ColumnProps> {
+  return (
+    <div className={`${className} ui--Table-Split-${numColumns}`}>
+      <table className='noMargin'>
+        <tbody className='ui--Table-Body'>
+          {children}
+        </tbody>
+      </table>
+    </div>
   );
+}
+
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
+  const numColumns = useWindowColumns(maxColumns);
+  const isArray = Array.isArray(children);
+  const isEmpty = !children || (isArray && children.length === 0);
 
   const headerNode = (
     <Head
@@ -48,66 +62,69 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
     </Head>
   );
 
-  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${splitBody ? 'noMargin' : ''}`;
+  if (isSplit && isArray && !isEmpty && (numColumns > 1)) {
+    return (
+      <StyledDiv className={`${className} ui--Table isSplit`}>
+        {legend}
+        <table className='noMargin'>
+          {headerNode}
+        </table>
+        <div className='ui--Table-Split'>
+          {(numColumns === 2 ? [0, 1] : [0, 1, 2]).map((column) => (
+            <Split
+              key={column}
+              numColumns={numColumns}
+            >
+              {children.filter((_, i) => (i % numColumns) === column)}
+            </Split>
+          ))}
+        </div>
+      </StyledDiv>
+    );
+  }
 
   return (
-    <StyledDiv className={`${className} ui--Table ${splitBody ? 'isSplit' : ''}`}>
+    <StyledDiv className={`${className} ui--Table`}>
       {legend}
-      {splitBody
-        ? (
-          <>
-            <table className={tableClassName}>
-              {headerNode}
-            </table>
-            <Columar isPadded={false}>
-              <Columar.Column>
-                <table className={tableClassName}>
-                  <Body>
-                    {splitBody[0]}
-                  </Body>
-                </table>
-              </Columar.Column>
-              <Columar.Column>
-                <table className={tableClassName}>
-                  <Body>
-                    {splitBody[1]}
-                  </Body>
-                </table>
-              </Columar.Column>
-            </Columar>
-          </>
-        )
-        : (
-          <table className={tableClassName}>
-            {headerNode}
-            <Body
-              empty={empty}
-              emptySpinner={emptySpinner}
-              noBodyTag={noBodyTag}
-            >
-              {bodyChildren}
-            </Body>
-            <Foot
-              footer={footer}
-              isEmpty={isEmpty}
-            />
-          </table>
-        )
-      }
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
+        {headerNode}
+        <Body
+          empty={empty}
+          emptySpinner={emptySpinner}
+          isEmpty={isEmpty}
+          noBodyTag={noBodyTag}
+        >
+          {children}
+        </Body>
+        <Foot
+          footer={footer}
+          isEmpty={isEmpty}
+        />
+      </table>
     </StyledDiv>
   );
 }
 
 const BORDER_RADIUS = '0.5rem';
-const BORDER_SOLID = '1px solid var(--bg-page)'; // var(--border-table)
+const BORDER_SOLID = '1px solid var(--bg-page)';
 
 const StyledDiv = styled.div`
   max-width: 100%;
   width: 100%;
 
-  &.isSplit {
-    > .ui--Columar {
-      margin-bottom: 1.5rem;
+  .ui--Table-Split {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 1.5rem;
+
+    > .ui--Table-Split-3 {
+      max-width: 33.3%;
+      min-width: 33.3%;
+    }
+
+    > .ui--Table-Split-2 {
+      max-width: 50%;
+      min-width: 50%;
     }
   }
 
@@ -317,6 +334,10 @@ const StyledDiv = styled.div`
         padding-top: 0.125rem;
       }
 
+      &.no-pad {
+        padding: 0;
+      }
+
       &.number {
         font-variant-numeric: tabular-nums;
         text-align: right;
@@ -328,7 +349,8 @@ const StyledDiv = styled.div`
         .absolute {
           position: absolute;
           right: 0.5rem;
-          top: 0.75rem;
+          // this seems aligned with expander (when zoomed in)
+          top: 0.72rem;
           white-space: nowrap;
         }
       }
@@ -525,4 +547,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default React.memo(Table);
+const Table = React.memo(TableBase) as unknown as typeof TableBase & {
+  Column: typeof Column,
+  Row: typeof Row
+};
+
+Table.Column = Column;
+Table.Row = Row;
+
+export default Table;

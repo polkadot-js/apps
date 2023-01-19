@@ -334,7 +334,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3333,
     text: 't0rn',
     providers: {
-      t3rn: 'wss://dev.net.t3rn.io'
+      t3rn: 'wss://ws.t0rn.io'
     }
   },
   {

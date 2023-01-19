@@ -248,22 +248,6 @@ const StyledMain = styled.main`
       color: var(--color-error);
     }
   }
-
-  ${[
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24
-  ].map((n) => `
-    .greyAnim-${n} {
-      animation: greyAnim${n} 2s;
-    }
-
-    @keyframes greyAnim${n} {
-      0% { background: #a6a6a6; }
-      50% { background: darkorange; }
-      100% { background: #a6a6a6; }
-    }
-  `).join('')}
 `;
 
 export default React.memo(StakingApp);

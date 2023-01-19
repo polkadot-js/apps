@@ -20,7 +20,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
   }
 
   return (
-    <StyledThead className={className}>
+    <StyledThead className={`${className} ui--Table-Head`}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>

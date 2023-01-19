@@ -3,7 +3,6 @@
 
 import type { ChartData, ChartOptions } from 'chart.js';
 import type { BN } from '@polkadot/util';
-import type { LineProps } from './types';
 
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
@@ -12,6 +11,15 @@ import { isBn, objectSpread } from '@polkadot/util';
 
 import ErrorBoundary from '../ErrorBoundary';
 import { alphaColor } from './utils';
+
+export interface Props {
+  colors?: (string | undefined)[];
+  className?: string;
+  labels: string[];
+  legends: string[];
+  options?: ChartOptions;
+  values: (number | BN)[][];
+}
 
 interface Dataset {
   data: number[];
@@ -113,7 +121,7 @@ function getData (colors: (string | undefined)[] = [], legends: string[], labels
   }, { datasets: [] as Dataset[], labels });
 }
 
-function LineChart ({ className, colors, labels, legends, options, values }: LineProps): React.ReactElement<LineProps> | null {
+function LineChart ({ className = '', colors, labels, legends, options, values }: Props): React.ReactElement<Props> | null {
   const chartOptions = useMemo(
     () => getOptions(options),
     [options]
@@ -125,7 +133,7 @@ function LineChart ({ className, colors, labels, legends, options, values }: Lin
   );
 
   return (
-    <div className={className}>
+    <div className={`${className} ui--Chart-Line`}>
       <ErrorBoundary>
         <Chart.Line
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
