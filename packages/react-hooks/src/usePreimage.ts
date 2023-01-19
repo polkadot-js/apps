@@ -25,6 +25,7 @@ interface BytesParams {
 interface StatusParams {
   inlineData?: Uint8Array;
   paramsStatus?: [HexString];
+  proposalHash?: HexString;
   resultPreimageHash?: PreimageStatus;
 }
 
@@ -52,6 +53,46 @@ export function getParamType (api: ApiPromise): Result {
   }
 
   return 'unknown';
+}
+
+/** @internal Unwraps a passed preimage hash into components */
+export function getPreimageHash (api: ApiPromise, hashOrBounded: Hash | HexString | FrameSupportPreimagesBounded): StatusParams {
+  let proposalHash: HexString | undefined;
+  let inlineData: Uint8Array | undefined;
+
+  if (isString(hashOrBounded)) {
+    proposalHash = hashOrBounded;
+  } else if (isU8a(hashOrBounded)) {
+    proposalHash = hashOrBounded.toHex();
+  } else {
+    const bounded = hashOrBounded;
+
+    if (bounded.isInline) {
+      inlineData = bounded.asInline.toU8a(true);
+      proposalHash = u8aToHex(api.registry.hash(inlineData));
+    } else if (hashOrBounded.isLegacy) {
+      proposalHash = hashOrBounded.asLegacy.hash_.toHex();
+    } else if (hashOrBounded.isLookup) {
+      proposalHash = hashOrBounded.asLookup.hash_.toHex();
+    } else {
+      console.error(`Unhandled FrameSupportPreimagesBounded type ${hashOrBounded.type}`);
+    }
+  }
+
+  return {
+    inlineData,
+    paramsStatus: proposalHash && [proposalHash],
+    proposalHash,
+    resultPreimageHash: proposalHash && {
+      count: 0,
+      isCompleted: false,
+      isHashParam: getParamType(api) === 'hash',
+      proposalHash,
+      proposalLength: inlineData && new BN(inlineData.length),
+      registry: api.registry,
+      status: null
+    }
+  };
 }
 
 /** @internal Creates a final result */
@@ -152,45 +193,6 @@ function getBytesParams (interimResult: PreimageStatus, optStatus: Option<Pallet
       ? [result.proposalHash]
       : [[result.proposalHash, result.proposalLength || BN_ZERO]],
     resultPreimageFor: result
-  };
-}
-
-/** @internal Unwraps a passed preimage hash into components */
-export function getPreimageHash (api: ApiPromise, hashOrBounded: Hash | HexString | FrameSupportPreimagesBounded): StatusParams {
-  let proposalHash: HexString | undefined;
-  let inlineData: Uint8Array | undefined;
-
-  if (isString(hashOrBounded)) {
-    proposalHash = hashOrBounded;
-  } else if (isU8a(hashOrBounded)) {
-    proposalHash = hashOrBounded.toHex();
-  } else {
-    const bounded = hashOrBounded;
-
-    if (bounded.isInline) {
-      inlineData = bounded.asInline.toU8a(true);
-      proposalHash = u8aToHex(api.registry.hash(inlineData));
-    } else if (hashOrBounded.isLegacy) {
-      proposalHash = hashOrBounded.asLegacy.hash_.toHex();
-    } else if (hashOrBounded.isLookup) {
-      proposalHash = hashOrBounded.asLookup.hash_.toHex();
-    } else {
-      console.error(`Unhandled FrameSupportPreimagesBounded type ${hashOrBounded.type}`);
-    }
-  }
-
-  return {
-    inlineData,
-    paramsStatus: proposalHash && [proposalHash],
-    resultPreimageHash: proposalHash && {
-      count: 0,
-      isCompleted: false,
-      isHashParam: getParamType(api) === 'hash',
-      proposalHash,
-      proposalLength: inlineData && new BN(inlineData.length),
-      registry: api.registry,
-      status: null
-    }
   };
 }
 
