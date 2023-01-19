@@ -35,7 +35,10 @@ import { cacheUnlock, extractExternal, handleTxResults } from './util';
 interface Props {
   className?: string;
   currentItem: QueueTx;
+  isQueueSubmit: boolean;
+  queueSize: number;
   requestAddress: string | null;
+  setIsQueueSubmit: (isQueueSubmit: boolean) => void;
 }
 
 interface InnerTx {
@@ -189,7 +192,7 @@ function tryExtract (address: string | null): AddressFlags {
   }
 }
 
-function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
+function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAddress, setIsQueueSubmit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { getLedger } = useLedger();
@@ -206,6 +209,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState<BN | undefined>();
+  const [initialIsQueueSubmit] = useState(isQueueSubmit);
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));
@@ -344,6 +348,14 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
 
+  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !isBusy && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
+
+  if (isAutoCapable && initialIsQueueSubmit) {
+    setTimeout(_doStart, 1000);
+
+    return null;
+  }
+
   return (
     <>
       <StyledModalContent className={className}>
@@ -432,17 +444,29 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           tabIndex={2}
         />
         {!isBusy && (
-          <Toggle
-            className='signToggle'
-            isDisabled={!!currentItem.payload}
-            label={
-              isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
-            }
-            onChange={setIsSubmit}
-            value={isSubmit}
-          />
+          <div className='signToggle'>
+            <Toggle
+              isDisabled={!!currentItem.payload}
+              label={
+                isSubmit
+                  ? t<string>('Sign and Submit')
+                  : t<string>('Sign (no submission)')
+              }
+              onChange={setIsSubmit}
+              value={isSubmit}
+            />
+            {isAutoCapable && (
+              <Toggle
+                label={
+                  isQueueSubmit
+                    ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
+                    : t<string>('Submit individual')
+                }
+                onChange={setIsQueueSubmit}
+                value={isQueueSubmit}
+              />
+            )}
+          </div>
         )}
       </Modal.Actions>
     </>
