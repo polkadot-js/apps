@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/react-components/i18n';
@@ -10,7 +10,7 @@ import { ThemeProvider } from 'styled-components';
 
 import AccountsApp from '@polkadot/app-accounts';
 import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
@@ -25,7 +25,7 @@ const renderAccounts = () => {
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api
+        <ApiCtxRoot
           apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
           isElectron={false}
           store={memoryStore}
@@ -38,7 +38,7 @@ const renderAccounts = () => {
               />
             </div>
           </WaitForApi>
-        </Api>
+        </ApiCtxRoot>
       </ThemeProvider>
     </MemoryRouter>
   );

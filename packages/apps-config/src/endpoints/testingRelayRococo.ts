@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -17,11 +17,19 @@ import { getTeleports } from './util';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: EndpointOption[] = [
   {
+    info: 'rococoAcurast',
+    paraId: 4191,
+    text: 'Acurast Testnet',
+    providers: {
+      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+    }
+  },
+  {
     info: 'rococoAmplitude',
     paraId: 2124,
-    text: 'Amplitude',
+    text: 'Amplitude testnet (Foucoco)',
     providers: {
-      PendulumChain: 'wss://pencol-roc-00.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
     }
   },
   {
@@ -120,11 +128,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoEthos',
+    paraId: 2095,
+    text: 'Ethos',
+    providers: {
+      Jur: 'wss://ethos.jur.io'
+    }
+  },
+  {
     info: 'rococoFrequency',
     paraId: 4044,
     text: 'Frequency',
     providers: {
-      // Frequency: 'wss://collator1.frequency.xyz' // https://github.com/polkadot-js/apps/issues/8355
+      Frequency: 'wss://rpc.rococo.frequency.xyz'
     }
   },
   {
@@ -269,7 +285,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3016,
     text: 'Snowbridge',
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network' // https://github.com/polkadot-js/apps/issues/8723
     }
   },
   {
@@ -318,7 +334,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3333,
     text: 't0rn',
     providers: {
-      t3rn: 'wss://dev.net.t3rn.io'
+      t3rn: 'wss://ws.t0rn.io'
     }
   },
   {

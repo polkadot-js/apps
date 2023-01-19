@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
-export const PolkassemblyIo = {
+export const PolkassemblyIo: ExternalDef = {
   chains: {
     Altair: 'Altair',
     Astar: 'astar',
@@ -31,15 +32,16 @@ export const PolkassemblyIo = {
   paths: {
     bounty: 'bounty',
     council: 'motion',
-    proposal: 'proposal',
-    referendum: 'referendum',
+    democracyProposal: 'proposal',
+    democracyReferendum: 'referendum',
+    referenda: 'referenda',
     tip: 'tip',
     treasury: 'treasury'
   },
   url: 'https://polkassembly.io/'
 };
 
-export const PolkassemblyNetwork = {
+export const PolkassemblyNetwork: ExternalDef = {
   ...PolkassemblyIo,
   chains: {
     Bifrost: 'bifrost',

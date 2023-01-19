@@ -1,19 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { formatNumber, isString, isUndefined } from '@polkadot/util';
 
-import CallDisplay from './Call';
-import Expander from './Expander';
+import CallExpander from './CallExpander';
 import { useTranslation } from './translate';
-import TreasuryProposal from './TreasuryProposal';
-import { isTreasuryProposalVote } from './util';
 
 interface Props {
   className?: string;
@@ -23,7 +19,7 @@ interface Props {
   expandNested?: boolean;
 }
 
-function ProposedAction ({ className = '', expandNested, idNumber, proposal, withLinks }: Props): React.ReactElement<Props> {
+function ProposedAction ({ className = '', idNumber, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const stringId = isString(idNumber) || isUndefined(idNumber)
     ? idNumber
@@ -31,46 +27,23 @@ function ProposedAction ({ className = '', expandNested, idNumber, proposal, wit
 
   if (!proposal) {
     return (
-      <h3>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</h3>
+      <div className={`${className} ui--ProposedAction`}>
+        <div>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</div>
+      </div>
     );
   }
 
-  const { meta, method, section } = proposal.registry.findMetaCall(proposal.callIndex);
-  const header = `${stringId ? `#${stringId}: ` : ''}${section}.${method}`;
-
   return (
-    <div className={`ui--ProposedAction ${className}`}>
-      <h3>{header}</h3>
-      <Expander summaryMeta={meta}>
-        {(isTreasuryProposalVote(proposal) && expandNested)
-          ? (
-            <TreasuryProposal
-              asInset={withLinks}
-              insetProps={{
-                withBottomMargin: true,
-                withTopMargin: true,
-                ...(withLinks ? { href: '/treasury' } : {})
-              }}
-              proposalId={proposal.args[0].toString()}
-            />
-          )
-          : <CallDisplay value={proposal} />
-        }
-      </Expander>
+    <div className={`${className} ui--ProposedAction`}>
+      <CallExpander
+        isHeader
+        labelHash={t<string>('preimage')}
+        stringId={stringId}
+        value={proposal}
+        withHash
+      />
     </div>
   );
 }
 
-export default React.memo(styled(ProposedAction)`
-  margin-left: 2rem;
-
-  .ui--ProposedAction-extrinsic {
-    > .ui--Params-Content {
-      padding-left: 0;
-    }
-  }
-
-  .ui--ProposedAction-header {
-    margin-bottom: 1rem;
-  }
-`);
+export default React.memo(ProposedAction);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -13,6 +13,7 @@ import { isFunction } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useEventTrigger } from './useEventTrigger';
+import { useMemoValue } from './useMemoValue';
 
 export interface Changes<T extends Codec> {
   added?: T[];
@@ -36,7 +37,7 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
     delete map[v.toHex()];
   });
 
-  return Object
+  const adjusted = Object
     .entries(map)
     .sort((a, b) =>
       // for BN-like objects, we use the built-in compare for sorting
@@ -45,12 +46,17 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
         : a[0].localeCompare(b[0])
     )
     .map(([, v]) => v);
+
+  return adjusted.length !== existing.length || adjusted.find((e, i) => !e.eq(existing[i]))
+    ? adjusted
+    : existing;
 }
 
-export function useEventChanges <T extends Codec> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise) => Changes<T>, startValue?: T[]): T[] | undefined {
+export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, startValue?: T[], additional?: A): T[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<T[] | undefined>();
-  const { blockHash, events } = useEventTrigger(checks);
+  const memoChecks = useMemoValue(checks);
+  const { blockHash, events } = useEventTrigger(memoChecks);
 
   // when startValue changes, we do a full refresh
   useEffect((): void => {
@@ -59,8 +65,8 @@ export function useEventChanges <T extends Codec> (checks: EventCheck[], filter:
 
   // add/remove any additional items detected (only when actual events occur)
   useEffect((): void => {
-    blockHash && setState((prev) => interleave(prev, filter(events, api)));
-  }, [api, blockHash, events, filter]);
+    blockHash && setState((prev) => interleave(prev, filter(events, api, additional)));
+  }, [additional, api, blockHash, events, filter]);
 
   return state;
 }

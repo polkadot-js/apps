@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -44,6 +44,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import fantour from './fantour';
+import frequency from './frequency';
 import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
@@ -56,11 +57,10 @@ import imbue from './imbue';
 import integritee from './integritee';
 import interbtc from './interbtc';
 import ipse from './ipse';
-import joystream from './joystream';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
+import jur from './jur';
 import khala from './khala';
-import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
 import kulupu from './kulupu';
@@ -185,6 +185,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
+  frequency,
+  'frequency-rococo': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,
@@ -200,13 +202,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-standalone': interbtc,
   'interlay-parachain': interbtc,
   'ipse-node': ipse,
-  'joystream-node': joystream,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  'jur-chain': jur,
   kerria: parallel,
   khala,
-  'kilt-parachain': kilt,
-  'kilt-spiritnet': kilt,
   'kintsugi-parachain': interbtc,
   konomi,
   kpron,
@@ -220,7 +220,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mangata,
   'mangata-parachain': mangata,
   'manta-node': manta,
-  'mashnet-node': kilt,
   mathchain,
   'mathchain-galois': galois,
   moonbase: moonbeam,

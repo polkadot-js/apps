@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -23,7 +23,7 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
 
   return (
     <Card isError>
-      <div className={className}>
+      <StyledDiv className={className}>
         {
           needsAttest.length > 1
             ? t('You need to sign an attestation for the following accounts:')
@@ -36,13 +36,13 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
             />
           ))
         }
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
 
-export default React.memo(styled(Warning)`
-  font-size: 1.15rem;
+const StyledDiv = styled.div`
+  font-size: var(--font-size-h3);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,4 +53,6 @@ export default React.memo(styled(Warning)`
   .ui--AddressMini-address {
     max-width: 20rem;
   }
-`);
+`;
+
+export default React.memo(Warning);

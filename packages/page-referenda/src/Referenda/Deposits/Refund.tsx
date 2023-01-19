@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -35,7 +35,6 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
           <Modal.Content>
             <Modal.Columns hint={t<string>('The transaction will be submitted from this account.')}>
               <InputAddress
-                help={t<string>('The account you want to refund from')}
                 label={t<string>('refund from account')}
                 onChange={setAccountId}
                 type='account'

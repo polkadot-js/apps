@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
@@ -9,7 +9,7 @@ import Icon from './Icon';
 interface Props {
   className?: string;
   isDisabled?: boolean;
-  label: React.ReactNode;
+  label?: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
   value?: boolean;
 }
@@ -23,8 +23,8 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 
   return (
-    <div
-      className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}
+    <StyledDiv
+      className={`${className} ui--Checkbox ${isDisabled ? 'isDisabled' : ''}`}
       onClick={_onClick}
     >
       <Icon
@@ -32,11 +32,11 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
         icon='check'
       />
       {label && <label>{label}</label>}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Checkbox)`
+const StyledDiv = styled.div`
   display: inline-block;
   cursor: pointer;
 
@@ -66,4 +66,6 @@ export default React.memo(styled(Checkbox)`
     border: 1px solid var(--color-checkbox);
     border-radius: 0.125rem;
   }
-`);
+`;
+
+export default React.memo(Checkbox);

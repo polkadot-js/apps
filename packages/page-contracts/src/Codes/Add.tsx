@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -46,7 +46,6 @@ function Add ({ onClose }: Props): React.ReactElement {
       <Modal.Content>
         <Input
           autoFocus
-          help={t('The code hash for the on-chain deployed code.')}
           isError={codeHash.length > 0 && !isCodeHashValid}
           label={t('code hash')}
           onChange={setCodeHash}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -63,7 +63,6 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account that will submit the rebag transaction.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to rebag with.')}
                 label={t<string>('rebag from account')}
                 onChange={setAccountId}
                 type='account'

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -23,17 +23,17 @@ function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): R
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner variant-${variant}`}>
+    <StyledSpinner className={`${className} ui--Spinner variant-${variant}`}>
       <img
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc as string}
       />
       {!noLabel && variant.startsWith('app') && <div className='text'>{label || t('Retrieving data')}</div>}
-    </div>
+    </StyledSpinner>
   );
 }
 
-export default React.memo(styled(Spinner)`
+const StyledSpinner = styled.div`
   display: block;
   line-height: 1rem;
   margin: 0 auto;
@@ -63,10 +63,12 @@ export default React.memo(styled(Spinner)`
   .text {
     color: inherit !important;
     margin: 0.25rem auto 1.5rem auto;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
 
     div+div {
       margin-top: 0.25rem;
     }
   }
-`);
+`;
+
+export default React.memo(Spinner);

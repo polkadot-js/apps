@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -7,7 +7,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Icon, LinkExternal } from '@polkadot/react-components';
+import { Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { useAccounts, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -27,6 +27,7 @@ interface Props {
 interface VoterState {
   hasVoted: boolean;
   hasVotedAye: boolean;
+  hasVotedNay: boolean;
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
@@ -37,15 +38,17 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { hasVoted, hasVotedAye } = useMemo(
     (): VoterState => {
       if (votes) {
-        const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+        const hasVotedAye = allAccounts.some((a) => votes.ayes.some((accountId) => accountId.eq(a)));
+        const hasVotedNay = allAccounts.some((a) => votes.nays.some((accountId) => accountId.eq(a)));
 
         return {
-          hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
-          hasVotedAye
+          hasVoted: hasVotedAye || hasVotedNay,
+          hasVotedAye,
+          hasVotedNay
         };
       }
 
-      return { hasVoted: false, hasVotedAye: false };
+      return { hasVoted: false, hasVotedAye: false, hasVotedNay: false };
     },
     [allAccounts, votes]
   );
@@ -58,7 +61,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={hash}
         proposal={proposal}

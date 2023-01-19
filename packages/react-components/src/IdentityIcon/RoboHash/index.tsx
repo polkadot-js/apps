@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Robots lovingly delivered by Robohash.org
@@ -71,7 +71,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={style}
     >
@@ -81,11 +81,11 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
           src={src}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(RoboHash)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   border-radius: 50%;
   position: relative;
@@ -102,4 +102,6 @@ export default React.memo(styled(RoboHash)`
       opacity: 0.35;
     }
   }
-`);
+`;
+
+export default React.memo(RoboHash);

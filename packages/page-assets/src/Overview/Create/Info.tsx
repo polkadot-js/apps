@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -26,11 +26,11 @@ function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Pro
   const [initial] = useState(() => defaultValue);
   const [initialId] = useState(() => openId);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [assetId, setAssetId] = useState<BN | null>(null);
-  const [assetDecimals, setAssetDecimals] = useState<BN | null>(null);
+  const [assetId, setAssetId] = useState<BN | undefined>();
+  const [assetDecimals, setAssetDecimals] = useState<BN | undefined>();
   const [assetName, setAssetName] = useState<string | null | undefined>(() => defaultValue?.assetName);
   const [assetSymbol, setAssetSymbol] = useState<string | null | undefined>(() => defaultValue?.assetSymbol);
-  const [minBalance, setMinBalance] = useState<BN | null>(null);
+  const [minBalance, setMinBalance] = useState<BN | undefined>();
 
   const [siDecimals, siSymbol] = useMemo(
     () => assetDecimals && assetSymbol
