@@ -1,4 +1,4 @@
-    4064	Jaco                          	Small batch submit adjustments (#8850)
+    4065	Jaco                          	Remove unneeded className to split table (#8851)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
