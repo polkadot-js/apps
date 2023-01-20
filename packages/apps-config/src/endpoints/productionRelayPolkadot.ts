@@ -73,7 +73,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     paraId: 2056,
     text: 'Aventus',
-    providers: { }
+    providers: {}
   },
   {
     info: 'bifrost',
@@ -461,6 +461,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
     'Dotters Net': 'wss://rpc.dotters.network/polkadot',
+    'IBP Network': 'wss://rpc.ibp.network/polkadot',
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/polkadot' // NOTE: Keep last
   },
