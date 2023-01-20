@@ -21,7 +21,7 @@ function useCurrentSessionInfoImpl () {
   },
   [sessionInfo]
   );
-  const historyDepth = useCall<number>(api.query.staking.historyDepth);
+  const historyDepth = api.consts.staking.historyDepth?.toNumber();
   const minimumSessionNumber = useMemo(() => {
     if (currentSession && historyDepth && sessionInfo) {
       return Math.max(currentSession - historyDepth * sessionInfo.sessionsPerEra.toNumber(), 1);
