@@ -46,7 +46,7 @@ jobs:
         env:
           AWS_REGION: us-east-1
 
-     - name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
         with:
@@ -77,7 +77,7 @@ jobs:
           kustomize-version: "3.8.6"
 
       - name: Update aleph-wallet devnet kustomize file and trigger ArgoCD deploy
-        env:                                                                                                          
+        env:
           RELEASE_IMAGE: public.ecr.aws/p6e8q1z1/aleph-wallet:${{ steps.vars.outputs.sha_short }}
           REGIONS_AWS: 'eu-central-1'
         run: |
