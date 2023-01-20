@@ -15,9 +15,9 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.123.2-10-x",
+  "version": "0.123.2-11-x",
   "versions": {
-    "git": "0.123.2-10-x",
+    "git": "0.123.2-11-x",
     "npm": "0.123.1"
   },
   "workspaces": [
