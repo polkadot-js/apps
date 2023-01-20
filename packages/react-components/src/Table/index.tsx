@@ -29,6 +29,11 @@ interface Props {
   noBodyTag?: boolean;
 }
 
+const COLUMN_INDEXES = {
+  2: [0, 1],
+  3: [0, 1, 2]
+} as const;
+
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
   const isArray = Array.isArray(children);
@@ -44,7 +49,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
     </Head>
   );
 
-  if (isSplit && isArray && !isEmpty && (numColumns > 1)) {
+  if (isSplit && isArray && !isEmpty && (numColumns !== 1)) {
     return (
       <StyledDiv className={`${className} ui--Table isSplit`}>
         {legend}
@@ -52,9 +57,9 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
           {headerNode}
         </table>
         <div className='ui--Table-Split'>
-          {(numColumns === 2 ? [0, 1] : [0, 1, 2]).map((column) => (
+          {COLUMN_INDEXES[numColumns].map((column) => (
             <div
-              className={`${className} ui--Table-Split-${numColumns}`}
+              className={`ui--Table-Split-${numColumns}`}
               key={column}
             >
               <table className='noMargin'>
