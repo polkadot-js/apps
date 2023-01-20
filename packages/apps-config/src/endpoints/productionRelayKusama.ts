@@ -621,6 +621,7 @@ export const prodRelayKusama: EndpointOption = {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
     'Dotters Net': 'wss://rpc.dotters.network/kusama',
+    'IBP Network': 'wss://rpc.ibp.network/kusama',
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/kusama' // NOTE: Keep last
   },
