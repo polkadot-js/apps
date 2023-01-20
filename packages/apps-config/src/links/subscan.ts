@@ -50,7 +50,7 @@ export const Subscan: ExternalDef = {
     Litmus: 'litmus',
     'Mangata Kusama Mainnet': 'mangatax',
     'Mangata Public Testnet': 'mangata-testnet',
-    Moonbase: 'moonbase',
+    'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
     'Nodle Parachain': 'nodle',
