@@ -29,24 +29,6 @@ interface Props {
   noBodyTag?: boolean;
 }
 
-interface ColumnProps {
-  children: React.ReactNode[];
-  className?: string;
-  numColumns: number;
-}
-
-function Split ({ children, className = '', numColumns }: ColumnProps): React.ReactElement<ColumnProps> {
-  return (
-    <div className={`${className} ui--Table-Split-${numColumns}`}>
-      <table className='noMargin'>
-        <tbody className='ui--Table-Body'>
-          {children}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
   const isArray = Array.isArray(children);
@@ -71,12 +53,16 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
         </table>
         <div className='ui--Table-Split'>
           {(numColumns === 2 ? [0, 1] : [0, 1, 2]).map((column) => (
-            <Split
+            <div
+              className={`${className} ui--Table-Split-${numColumns}`}
               key={column}
-              numColumns={numColumns}
             >
-              {children.filter((_, i) => (i % numColumns) === column)}
-            </Split>
+              <table className='noMargin'>
+                <tbody className='ui--Table-Body'>
+                  {children.filter((_, i) => (i % numColumns) === column)}
+                </tbody>
+              </table>
+            </div>
           ))}
         </div>
       </StyledDiv>
