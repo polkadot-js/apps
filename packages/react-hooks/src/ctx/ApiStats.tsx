@@ -35,10 +35,6 @@ function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number 
     }
   };
 
-  if (apis.length === 0) {
-    return { stats, when: Date.now() };
-  }
-
   for (let i = 0; i < apis.length; i++) {
     const s = apis[i].stats;
 
@@ -61,21 +57,22 @@ function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number 
   };
 }
 
+function mergeStats (curr: ApiStats, prev: ApiStats[]): ApiStats[] {
+  return prev.length === 0
+    ? [curr]
+    : prev.length === MAX_NUM
+      ? prev.concat(curr).slice(-MAX_NUM)
+      : prev.concat(curr);
+}
+
 export const ApiStatsCtx = React.createContext<ApiStats[]>(EMPTY_STATE);
 
 export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
   const stateFn = useCallback(
-    (prev: ApiStats[]): ApiStats[] => {
-      const curr = getStats(api);
-
-      return prev.length === 0
-        ? [curr]
-        : prev.length === MAX_NUM
-          ? prev.concat(curr).slice(-MAX_NUM)
-          : prev.concat(curr);
-    },
+    (prev: ApiStats[]): ApiStats[] =>
+      mergeStats(getStats(api), prev),
     [api]
   );
 
