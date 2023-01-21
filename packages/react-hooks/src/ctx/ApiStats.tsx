@@ -37,25 +37,21 @@ function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number 
 
   if (apis.length === 0) {
     return { stats, when: Date.now() };
-  } else if (apis.length === 1) {
-    return { stats: apis[0].stats || stats, when: Date.now() };
   }
 
   for (let i = 0; i < apis.length; i++) {
-    if (apis[i]) {
-      const s = apis[i].stats;
+    const s = apis[i].stats;
 
-      if (s) {
-        stats.active.requests += s.active.requests;
-        stats.active.subscriptions += s.active.subscriptions;
-        stats.total.bytesRecv += s.total.bytesRecv;
-        stats.total.bytesSent += s.total.bytesSent;
-        stats.total.cached += s.total.cached;
-        stats.total.errors += s.total.errors;
-        stats.total.requests += s.total.requests;
-        stats.total.subscriptions += s.total.subscriptions;
-        stats.total.timeout += s.total.timeout;
-      }
+    if (s) {
+      stats.active.requests += s.active.requests;
+      stats.active.subscriptions += s.active.subscriptions;
+      stats.total.bytesRecv += s.total.bytesRecv;
+      stats.total.bytesSent += s.total.bytesSent;
+      stats.total.cached += s.total.cached;
+      stats.total.errors += s.total.errors;
+      stats.total.requests += s.total.requests;
+      stats.total.subscriptions += s.total.subscriptions;
+      stats.total.timeout += s.total.timeout;
     }
   }
 
