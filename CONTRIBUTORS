@@ -1,4 +1,4 @@
-    4069	Jaco                          	Add useTimer hook (& use in ApiStatsCtx) (#8857)
+    4070	Jaco                          	Adjust useMemoValue (straight ref compares) (#8858)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
