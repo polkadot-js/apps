@@ -1,4 +1,4 @@
-    4065	Jaco                          	Remove unneeded className to split table (#8851)
+    4066	Jaco                          	Make usePreimage deal with inline calls (#8843)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
@@ -335,6 +335,7 @@
        1	Mikhail Fedosov               	feat: add 3dpass network (#8540)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	Min-seong Kwon                	Adds thebifrost-testnet,mainnet providers with logo (#8830)
+       1	MinjieTian                    	deleted onfinality ajuna endpoint (#8848)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
        1	Nantian                       	update acala rpc (#6704)
