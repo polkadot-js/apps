@@ -57,6 +57,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         empty={members && t<string>('No members')}
         header={hdrRef.current}
         isSplit
+        maxColumns={2}
       >
         {members && members.map((m) => (
           <Member
