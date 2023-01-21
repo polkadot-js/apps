@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { isDifferent } from './useMemoValue';
+import { stringify } from '@polkadot/util';
+
+import { getMemoValue, isDifferent } from './useMemoValue';
 
 describe('useMemoValue', (): void => {
   describe('isDifferent', (): void => {
@@ -55,6 +57,24 @@ describe('useMemoValue', (): void => {
         [1, [2, [3, 4]]],
         [1, [2, [3, 4]]]
       )).toEqual(true);
+    });
+  });
+
+  describe('getMemoValue', (): void => {
+    it('returns a new value when the previous is empty', (): void => {
+      expect(getMemoValue({ current: null }, 2)).toEqual(2);
+    });
+
+    it('returns a new value when the previous is a different type', (): void => {
+      expect(getMemoValue<unknown>({ current: { stringified: stringify({ value: 2 }), value: 2 } }, '2')).toEqual('2');
+    });
+
+    it('returns the previous value when different objects, but the same representation', (): void => {
+      const a = { some: { thing: 'test', zaz: [1, 2, 3] } };
+      const b = { some: { thing: 'test', zaz: [1, 2, 3] } };
+
+      expect(a === b).toEqual(false);
+      expect(getMemoValue({ current: { stringified: stringify({ value: a }), value: a } }, b) === a).toEqual(true);
     });
   });
 });
