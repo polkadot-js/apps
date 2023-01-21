@@ -5,10 +5,10 @@ import type { ApiPromise } from '@polkadot/api';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { ApiStats } from './types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { useApi } from '../useApi';
-import { useIsMountedRef } from '../useIsMountedRef';
+import { useTimer } from '../useTimer';
 
 interface Props {
   children?: React.ReactNode;
@@ -65,38 +65,21 @@ export const ApiStatsCtx = React.createContext<ApiStats[]>(EMPTY_STATE);
 
 export function ApiStatsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [stats, setStats] = useState(EMPTY_STATE);
-  const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mountedRef = useIsMountedRef();
 
-  useEffect((): () => void => {
-    function fireTimer (): void {
-      timerId.current = null;
+  const stateFn = useCallback(
+    (prev: ApiStats[]): ApiStats[] => {
+      const curr = getStats(api);
 
-      if (mountedRef.current) {
-        const curr = getStats(api);
+      return prev.length === 0
+        ? [curr]
+        : prev.length === MAX_NUM
+          ? prev.concat(curr).slice(-MAX_NUM)
+          : prev.concat(curr);
+    },
+    [api]
+  );
 
-        setStats((prev): ApiStats[] => {
-          if (prev.length === 0) {
-            return [curr];
-          }
-
-          return prev.length === MAX_NUM
-            ? prev.concat(curr).slice(-MAX_NUM)
-            : prev.concat(curr);
-        });
-
-        timerId.current = setTimeout(fireTimer, INTERVAL);
-      }
-    }
-
-    fireTimer();
-
-    return (): void => {
-      timerId.current && clearTimeout(timerId.current);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const stats = useTimer(stateFn, EMPTY_STATE, INTERVAL);
 
   return (
     <ApiStatsCtx.Provider value={stats}>
