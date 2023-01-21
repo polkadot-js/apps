@@ -29,10 +29,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
   const bestNumber = useBestNumber();
 
   const hdrRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('members'), 'start', 2],
-    [t<string>('deposit'), 'number'],
-    [t<string>('role'), 'number'],
-    []
+    [t<string>('members'), 'start', 3]
   ]);
 
   return (
@@ -59,6 +56,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
       <Table
         empty={members && t<string>('No members')}
         header={hdrRef.current}
+        isSplit
       >
         {members && members.map((m) => (
           <Member

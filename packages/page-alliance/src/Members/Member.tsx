@@ -6,7 +6,7 @@ import type { Member as MemberType } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, Table, Tag } from '@polkadot/react-components';
+import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -51,37 +51,36 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address all relative'>
         <AddressSmall value={accountId} />
+        <div className='absolute'>
+          {(info && info.isRetiringAt && (
+            <Tag
+              color='yellow'
+              hover={t<string>('Is retiring')}
+              label={t<string>('retirting')}
+            />
+          )) || (info && info.isUpForKicking && (
+            <Tag
+              color='red'
+              hover={t<string>('Up for kicking')}
+              label={t<string>('kicking')}
+            />
+          )) || (isPrime && (
+            <Tag
+              color='green'
+              hover={t<string>('Current prime member, default voting')}
+              label={t<string>('prime voter')}
+            />
+          )) || (isVoter && (
+            <Tag
+              color='green'
+              hover={t<string>('Allowed to vote on motions')}
+              label={t<string>('voter')}
+            />
+          ))}
+        </div>
       </td>
-      <td className='all'>
-        {(info && info.isRetiringAt && (
-          <Tag
-            color='yellow'
-            hover={t<string>('Is retiring')}
-            label={t<string>('retirting')}
-          />
-        )) || (info && info.isUpForKicking && (
-          <Tag
-            color='red'
-            hover={t<string>('Up for kicking')}
-            label={t<string>('kicking')}
-          />
-        )) || (isPrime && (
-          <Tag
-            color='green'
-            hover={t<string>('Current prime member, default voting')}
-            label={t<string>('prime voter')}
-          />
-        )) || (isVoter && (
-          <Tag
-            color='green'
-            hover={t<string>('Allowed to vote on motions')}
-            label={t<string>('voter')}
-          />
-        ))}
-      </td>
-      <Table.Column.Balance value={info?.deposit} />
       <td className='number'>
         {role}
       </td>
