@@ -38,8 +38,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2051,
     text: 'Ajuna Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
+      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
     }
   },
   {
