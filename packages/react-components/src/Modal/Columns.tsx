@@ -5,17 +5,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  align?: 'center' | 'left' | 'right';
   children: React.ReactNode;
   className?: string;
   hint?: React.ReactNode;
 }
 
-function Columns ({ children, className = '', hint }: Props): React.ReactElement<Props> {
+function Columns ({ align = 'left', children, className = '', hint }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`${className} ui--Modal-Columns`}>
-      <div>{children}</div>
+    <StyledDiv className={`${className} ui--Modal-Columns ${align}Align`}>
+      <div className='ui--Modal-Columns-content'>{children}</div>
       {hint && (
-        <div>{hint}</div>
+        <div className='ui--Modal-Columns-hint'>{hint}</div>
       )}
     </StyledDiv>
   );
@@ -25,6 +26,14 @@ const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
+
+  &.centerAlign > div.ui--Modal-Columns-content {
+    text-align: center;
+  }
+
+  &.rightAlign > div.ui--Modal-Columns-content {
+    text-align: right;
+  }
 
   &+& {
     margin-top: 0.25rem;

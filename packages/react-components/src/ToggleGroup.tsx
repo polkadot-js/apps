@@ -14,8 +14,8 @@ interface Option {
 
 interface Props {
   className?: string;
-  onChange: (index: number) => void;
-  options: (Option | null | false)[];
+  onChange: (index: number, value: string | number) => void;
+  options: (Option | null | undefined | false)[];
   value: number;
 }
 
@@ -23,21 +23,26 @@ interface ToggleProps {
   index: number;
   isDisabled?: boolean;
   isSelected: boolean;
-  onChange: (index: number) => void;
+  onChange: (index: number, value: string | number) => void;
   text: string;
+  value: string | number;
 }
 
-function ToggleIndex ({ index, isDisabled, isSelected, onChange, text }: ToggleProps): React.ReactElement<ToggleProps> {
+function ToggleIndex ({ index, isDisabled, isSelected, onChange, text, value }: ToggleProps): React.ReactElement<ToggleProps> {
   const _onClick = useCallback(
     (): void => {
-      !isDisabled && onChange(index);
+      !isDisabled && onChange(index, value);
     },
-    [isDisabled, index, onChange]
+    [isDisabled, index, onChange, value]
   );
 
   return (
     <Button
-      icon={isSelected ? 'check' : 'circle'}
+      icon={
+        isSelected
+          ? 'check'
+          : 'circle'
+      }
       isBasic
       isDisabled={isDisabled}
       isSelected={isSelected}
@@ -62,7 +67,7 @@ function ToggleGroup ({ className = '', onChange, options, value }: Props): Reac
 
   return (
     <StyledDiv className={`${className} ui--ToggleGroup`}>
-      {available.map(({ isDisabled, text }, index): React.ReactNode => (
+      {available.map(({ isDisabled, text, value: optValue }, index): React.ReactNode => (
         <ToggleIndexMemo
           index={index}
           isDisabled={isDisabled}
@@ -70,6 +75,7 @@ function ToggleGroup ({ className = '', onChange, options, value }: Props): Reac
           key={index}
           onChange={onChange}
           text={text}
+          value={optValue}
         />
       ))}
     </StyledDiv>

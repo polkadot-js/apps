@@ -1,11 +1,10 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda, TrackDescription } from '../types';
+import type { PalletReferenda, TrackDescription } from '../../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -17,8 +16,9 @@ import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { getTrackInfo, getTrackName } from '../util';
+import { useTranslation } from '../../translate';
+import { getTrackInfo } from '../../util';
+import TrackDropdown from './TrackDropdown';
 
 interface Props {
   className?: string;
@@ -39,35 +39,11 @@ interface ImageState {
   isImageLenValid: boolean;
 }
 
-interface TrackOpt {
-  text: React.ReactNode;
-  value: number;
-}
-
-function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[]): undefined | TrackOpt[] {
-  return tracks && tracks.map(({ id, info }): TrackOpt => {
-    const trackInfo = getTrackInfo(api, specName, palletReferenda, tracks, id.toNumber());
-    const trackName = getTrackName(id, info);
-
-    return {
-      text: trackInfo?.text
-        ? (
-          <div className='trackOption'>
-            <div className='normal'>{trackName}</div>
-            <div className='faded'>{trackInfo.text}</div>
-          </div>
-        )
-        : trackName,
-      value: id.toNumber()
-    };
-  });
-}
-
 function Submit ({ className = '', isMember, members, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, specName } = useApi();
   const bestNumber = useBestNumber();
-  const [isSubmitOpen, toggleSubmit] = useToggle();
+  const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [trackId, setTrack] = useState<number | undefined>(undefined);
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
@@ -132,11 +108,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
     [origin, trackInfo]
   );
 
-  const trackOpts = useMemo(
-    () => getTrackOptions(api, specName, palletReferenda, tracks),
-    [api, palletReferenda, specName, tracks]
-  );
-
   const enactOpts = useMemo(
     () => [
       { text: t<string>('After delay'), value: 'after' },
@@ -182,11 +153,11 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
 
   return (
     <>
-      {trackOpts && isSubmitOpen && (
+      {isOpen && (
         <StyledModal
           className={className}
           header={t<string>('Submit proposal')}
-          onClose={toggleSubmit}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -205,19 +176,11 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The origin (and by extension track) that you wish to submit for, each has a different period, different root and acceptance criteria.')}>
-              <Dropdown
-                defaultValue={trackOpts[0] && trackOpts[0].value}
-                label={t<string>('submission track')}
+              <TrackDropdown
                 onChange={setTrack}
-                options={trackOpts}
+                palletReferenda={palletReferenda}
+                tracks={tracks}
               />
-              {false && trackInfo?.text && (
-                <Input
-                  isDisabled
-                  label={t<string>('track overview')}
-                  value={trackInfo?.text}
-                />
-              )}
               {!trackInfo?.origin && (
                 <Params
                   className='originSelect'
@@ -260,7 +223,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
             </Modal.Columns>
             <Modal.Columns
-              className='centerEnactType'
+              align='center'
               hint={t<string>('The moment of enactment, either at a specific block, or after a specific number of blocks.')}
             >
               <ToggleGroup
@@ -307,7 +270,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               icon='plus'
               isDisabled={!selectedOrigin || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
-              onStart={toggleSubmit}
+              onStart={toggleOpen}
               params={[
                 selectedOrigin,
                 {
@@ -326,9 +289,9 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
       )}
       <Button
         icon='plus'
-        isDisabled={!isMember || !trackOpts}
+        isDisabled={!isMember}
         label={t<string>('Submit proposal')}
-        onClick={toggleSubmit}
+        onClick={toggleOpen}
       />
     </>
   );
@@ -339,19 +302,6 @@ const StyledModal = styled(Modal)`
     > .ui--Params-Content {
       padding-left: 0;
     }
-  }
-
-  .trackOption {
-    .faded {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-normal);
-      margin-top: 0.125rem;
-      opacity: var(--opacity-light);
-    }
-  }
-
-  .ui--Modal-Columns.centerEnactType > div:first-child {
-    text-align: center;
   }
 `;
 
