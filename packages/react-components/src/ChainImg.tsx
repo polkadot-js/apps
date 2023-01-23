@@ -38,7 +38,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
     return [!found || logo === 'empty', img, isFa];
   }, [logo, specName, systemChain, systemName]);
 
-  const iconClassName = `${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}${isInline ? ' isInline' : ''}`;
+  const iconClassName = `${className} ui--ChainImg ${(isEmpty && !withoutHl) ? 'highlight--bg' : ''} ${isInline ? 'isInline' : ''}`;
 
   return isFa
     ? (

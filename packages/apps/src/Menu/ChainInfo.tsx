@@ -68,7 +68,7 @@ const StyledDiv = styled.div`
       cursor: pointer;
     }
 
-    img {
+    .ui--ChainImg {
       height: 3rem;
       margin-right: 0.5rem;
       width: 3rem;
