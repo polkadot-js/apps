@@ -4,7 +4,6 @@
 import type { PalletReferenda, PalletVote, TrackDescription } from '../../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import { Button, InputAddress, Modal, Toggle, ToggleGroup, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
@@ -21,7 +20,13 @@ interface Props {
   className?: string;
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
-  tracks?: TrackDescription[];
+  tracks: TrackDescription[];
+}
+
+interface Option {
+  key: string;
+  name: string;
+  value: string;
 }
 
 function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): React.ReactElement<Props> {
@@ -39,12 +44,20 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
   const [accType, setAccType] = useState({ index: 0, type: 'address' });
 
   const allFell = useMemo(
-    () => activityFell && Object.keys(activityFell).map((key) => ({ key, name: key, value: key })),
+    () => activityFell &&
+      Object
+        .entries(activityFell)
+        .map(([key, act]) => (act.length > 0) && ({ key, name: key, value: key }))
+        .filter((a): a is Option => !!a),
     [activityFell]
   );
 
   const allVals = useMemo(
-    () => activityVals && Object.keys(activityVals).map((key) => ({ key, name: key, value: key })),
+    () => activityVals &&
+      Object
+        .entries(activityVals)
+        .map(([key, act]) => (act.length > 0) && ({ key, name: key, value: key }))
+        .filter((a): a is Option => !!a),
     [activityVals]
   );
 
@@ -68,7 +81,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
   return (
     <>
       {isOpen && (
-        <StyledModal
+        <Modal
           className={className}
           header={t<string>('Delegate votes')}
           onClose={toggleOpen}
@@ -84,7 +97,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
               />
             </Modal.Columns>
             <Modal.Columns
-              className='toggleRight'
+              align='right'
               hint={t<string>('Either delegate your votes for a single track as selected or delegate for all available tracks.')}
             >
               <Toggle
@@ -102,7 +115,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
             </Modal.Columns>
             {(typeOpts.length > 1) && (
               <Modal.Columns
-                className='toggleCenter'
+                align='center'
                 hint={t<string>('Select from a list of pre-propulated accounts (based on your account activity) or supply your own')}
               >
                 <ToggleGroup
@@ -165,7 +178,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
               tx={api.tx[palletVote].delegate}
             />
           </Modal.Actions>
-        </StyledModal>
+        </Modal>
       )}
       <Button
         icon='code-merge'
@@ -176,15 +189,5 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     </>
   );
 }
-
-const StyledModal = styled(Modal)`
-  .ui--Modal-Columns.toggleCenter > div:first-child {
-    text-align: center;
-  }
-
-  .ui--Modal-Columns.toggleRight > div:first-child {
-    text-align: right;
-  }
-`;
 
 export default React.memo(Delegate);

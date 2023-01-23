@@ -18,11 +18,11 @@ interface Props {
   className?: string;
   onChange: (trackId?: number) => void;
   palletReferenda: PalletReferenda;
-  tracks?: TrackDescription[];
+  tracks: TrackDescription[];
 }
 
-export function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[]): TrackOption[] | undefined {
-  return tracks && tracks.map(({ id, info }): TrackOption => {
+export function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[]): TrackOption[] | undefined {
+  return tracks.map(({ id, info }): TrackOption => {
     const trackInfo = getTrackInfo(api, specName, palletReferenda, tracks, id.toNumber());
     const trackName = getTrackName(id, info);
 

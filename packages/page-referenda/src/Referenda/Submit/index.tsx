@@ -223,7 +223,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
             </Modal.Columns>
             <Modal.Columns
-              className='centerEnactType'
+              align='center'
               hint={t<string>('The moment of enactment, either at a specific block, or after a specific number of blocks.')}
             >
               <ToggleGroup
@@ -302,10 +302,6 @@ const StyledModal = styled(Modal)`
     > .ui--Params-Content {
       padding-left: 0;
     }
-  }
-
-  .ui--Modal-Columns.centerEnactType > div:first-child {
-    text-align: center;
   }
 `;
 
