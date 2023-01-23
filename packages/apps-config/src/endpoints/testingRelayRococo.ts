@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -285,7 +285,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3016,
     text: 'Snowbridge',
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network' // https://github.com/polkadot-js/apps/issues/8723
     }
   },
   {
@@ -334,7 +334,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 3333,
     text: 't0rn',
     providers: {
-      t3rn: 'wss://dev.net.t3rn.io'
+      t3rn: 'wss://ws.t0rn.io'
     }
   },
   {

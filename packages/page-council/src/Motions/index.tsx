@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -25,7 +25,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { isMember, members } = useCollectiveMembers('council');
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],

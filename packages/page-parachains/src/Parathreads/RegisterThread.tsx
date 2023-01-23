@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BalanceOf } from '@polkadot/types/interfaces';
@@ -97,7 +97,6 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
         }
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
           <InputFile
-            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!wasm}
             label={t<string>('code')}
             onChange={_setWasm}
@@ -105,7 +104,6 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
           <InputFile
-            help={t<string>('The genesis state for the parachain.')}
             isError={!genesisState}
             label={t<string>('initial state')}
             onChange={_setGenesisState}

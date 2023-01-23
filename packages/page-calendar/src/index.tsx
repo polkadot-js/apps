@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DateState } from './types';
@@ -115,7 +115,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}
@@ -154,11 +154,11 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           }
         </div>
       </div>
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(CalendarApp)`
+const StyledMain = styled.main`
   .calendarFlex {
     align-items: flex-start;
     display: flex;
@@ -183,7 +183,7 @@ export default React.memo(styled(CalendarApp)`
       }
 
       .ui--Button-Group {
-        margin-top: 0;
+        margin: 0;
       }
     }
 
@@ -192,15 +192,22 @@ export default React.memo(styled(CalendarApp)`
       border-bottom: 0.25rem solid var(--bg-page);
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0.5rem 0 1rem;
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
+
+      > div:first-child {
+        align-items: center;
+        display: inline-flex;
+      }
 
       .all-events-button {
         margin-right: 1rem;
       }
 
       .ui--Button {
-        font-size: 1rem;
+        font-size: var(--font-size-small);
       }
     }
   }
-`);
+`;
+
+export default React.memo(CalendarApp);

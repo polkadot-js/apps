@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-signing authors & contributors
+// Copyright 2017-2023 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -68,7 +68,6 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account that will perform the message signing.')}>
           <InputAddress
-            help={t<string>('The selected account to be unlocked.')}
             isDisabled
             label={t<string>('account')}
             value={address}
@@ -77,7 +76,6 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
         <Modal.Columns hint={t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}>
           <Password
             autoFocus
-            help={t<string>('The account\'s password specified at the creation of this account.')}
             isError={!!unlockError}
             label={t<string>('password')}
             onChange={setPassword}

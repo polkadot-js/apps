@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord } from '@polkadot/types/lookup';
@@ -74,8 +74,9 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
   );
 
   return (
-    <td className={`${className} expand`}>
+    <td className={`${className} expand media--1200-noPad`}>
       <Expander
+        className='media--1200'
         renderChildren={ayes && renderAyes}
         summary={
           isConvictionVote
@@ -89,6 +90,7 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
         }
       />
       <Expander
+        className='media--1200'
         renderChildren={nays && renderNays}
         summary={
           isConvictionVote

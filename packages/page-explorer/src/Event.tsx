@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EventRecord } from '@polkadot/types/interfaces';
@@ -28,6 +28,7 @@ function Event ({ className = '', value: { event } }: Props): React.ReactElement
             className='details'
             eventName={eventName}
             value={event}
+            withExpander
           />
         )
         : null

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -9,16 +9,14 @@ import Labelled from '../Labelled';
 interface Props {
   children: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   label: React.ReactNode;
   withLabel?: boolean;
 }
 
-function LinkedWrapper ({ children, className = '', help, label, withLabel }: Props): React.ReactElement<Props> {
+function LinkedWrapper ({ children, className = '', label, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Labelled
-        help={help}
         label={label}
         withLabel={withLabel}
       >
@@ -26,11 +24,11 @@ function LinkedWrapper ({ children, className = '', help, label, withLabel }: Pr
           {children}
         </div>
       </Labelled>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LinkedWrapper)`
+const StyledDiv = styled.div`
   .ui--DropdownLinked-Items {
     .text {
       box-sizing: border-box;
@@ -62,9 +60,12 @@ export default React.memo(styled(LinkedWrapper)`
 
   .ui--DropdownLinked-Item-text {
     flex: 1;
-    opacity: 0.5;
+    font-size: var(--font-size-small);
+    opacity: var(--opacity-light);
     overflow: hidden;
     text-align: right;
     text-overflow: ellipsis;
   }
-`);
+`;
+
+export default React.memo(LinkedWrapper);

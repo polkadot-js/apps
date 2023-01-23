@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -72,7 +72,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         issuanceActive={activeIssuance}
         issuanceInactive={inactiveIssuance}
@@ -82,7 +82,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
       />
       <Button.Group>
         <Dropdown
-          className='topDropdown'
+          className='topDropdown media--800'
           label={t<string>('selected track')}
           onChange={setTrackSelected}
           options={trackOpts}
@@ -111,11 +111,11 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
           tracks={tracks}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Referenda)`
+const StyledDiv = styled.div`
   .ui--Dropdown.topDropdown {
     min-width: 25rem;
     padding-left: 0;
@@ -124,4 +124,6 @@ export default React.memo(styled(Referenda)`
       left: 1.55rem !important;
     }
   }
-`);
+`;
+
+export default React.memo(Referenda);

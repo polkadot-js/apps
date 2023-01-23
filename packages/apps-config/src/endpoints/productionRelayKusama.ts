@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -508,8 +508,17 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2100,
     text: 'SubsocialX',
     providers: {
-      'Dappforce 1': 'wss://para.f3joule.space',
-      'Dappforce 2': 'wss://para.subsocial.network'
+      'Dappforce 1': 'wss://para.f3joule.space'
+      // 'Dappforce 2': 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/8781
+    }
+  },
+  {
+    info: 'zero',
+    homepage: 'https://zero.io',
+    paraId: 2236,
+    text: 'subzero',
+    providers: {
+      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     }
   },
   {
@@ -570,6 +579,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://statemine-rpc.polkadot.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       Pinknode: 'wss://public-rpc.pinknode.io/statemine',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
@@ -585,6 +595,14 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
+  },
+  {
+    info: 'kusamaBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 
@@ -597,6 +615,7 @@ export const prodRelayKusama: EndpointOption = {
     Parity: 'wss://kusama-rpc.polkadot.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746

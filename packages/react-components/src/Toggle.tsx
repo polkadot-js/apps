@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
@@ -7,7 +7,6 @@ import styled from 'styled-components';
 interface Props {
   className?: string;
   isDisabled?: boolean;
-  isOverlay?: boolean;
   isRadio?: boolean;
   label: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
@@ -15,7 +14,7 @@ interface Props {
   value?: boolean;
 }
 
-function Toggle ({ className = '', isDisabled, isOverlay, isRadio, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+function Toggle ({ className = '', isDisabled, isRadio, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       if (!isDisabled) {
@@ -31,20 +30,20 @@ function Toggle ({ className = '', isDisabled, isOverlay, isRadio, label, onChan
   );
 
   return (
-    <div
-      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''}${isOverlay ? ' isOverlay' : ''}${isRadio ? ' isRadio' : ''} ${className}`}
+    <StyledDiv
+      className={`${className} ui--Toggle ${value ? 'isChecked' : ''} ${isDisabled ? 'isDisabled' : ''} ${isRadio ? 'isRadio' : ''}`}
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
-      <div className={`ui--Toggle-Slider${isRadio ? ' highlight--before-border' : ''}`} />
-    </div>
+      <div className={`ui--Toggle-Slider ${isRadio ? 'highlight--before-border' : ''}`} />
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Toggle)`
+const StyledDiv = styled.div`
   > label {
     display: inline-block;
-    margin: 0 0.5rem;
+    margin: 0 0.5rem !important;
   }
 
   > label,
@@ -100,10 +99,6 @@ export default React.memo(styled(Toggle)`
       width: 1.5rem;
     }
   }
+`;
 
-  &.isOverlay {
-    bottom: 1.375rem;
-    position: absolute;
-    right: 3.5rem;
-  }
-`);
+export default React.memo(Toggle);

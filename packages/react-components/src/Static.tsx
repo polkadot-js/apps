@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -11,7 +11,6 @@ interface Props {
   className?: string;
   copyValue?: string;
   defaultValue?: unknown;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -23,11 +22,10 @@ interface Props {
   withLabel?: boolean;
 }
 
-function Static ({ children, className = '', copyValue, defaultValue, help, isFull, isHidden, isSmall, label, value, withCopy, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className = '', copyValue, defaultValue, isFull, isHidden, isSmall, label, value, withCopy, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
-      help={help}
       isFull={isFull}
       isHidden={isHidden}
       isSmall={isSmall}

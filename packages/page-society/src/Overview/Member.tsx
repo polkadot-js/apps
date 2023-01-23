@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -56,7 +56,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
     [bestNumber, payouts]
   );
 
-  const isMember = useMemo(
+  const isOwner = useMemo(
     () => allAccounts.some((a) => a === key),
     [allAccounts, key]
   );
@@ -74,7 +74,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address relative all'>
         <AddressSmall value={accountId} />
         <div className='absolute'>
@@ -130,27 +130,26 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
             summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
           />
         )}
-      </td>
-      <td className='together'>{votedOn}</td>
-      <td className='number'>{formatNumber(strikes)}</td>
-      <td className='button start'>
-        <DesignKusama accountId={accountId} />
-        {availablePayout && (
+        {isOwner && availablePayout && (
           <TxButton
             accountId={accountId}
             icon='ellipsis-h'
-            isDisabled={!isMember}
             label='Payout'
             params={[]}
             tx={api.tx.society.payout}
           />
         )}
       </td>
-    </tr>
+      <td className='together'>{votedOn}</td>
+      <td className='number'>{formatNumber(strikes)}</td>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
+      </td>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Member)`
+const StyledTr = styled.tr`
   .payoutExpander {
     .payout+.payout {
       margin-top: 0.5rem;
@@ -174,4 +173,6 @@ export default React.memo(styled(Member)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Member);

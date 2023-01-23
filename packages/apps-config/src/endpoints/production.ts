@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types';
@@ -141,7 +141,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://edgeware.jelliedowl.net',
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
       Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
@@ -333,6 +333,14 @@ export const prodChains: EndpointOption[] = [
     text: 'Ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
+    }
+  },
+  {
+    info: 'thebifrost-mainnet',
+    text: 'The Bifrost Mainnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
+      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
     }
   },
   {

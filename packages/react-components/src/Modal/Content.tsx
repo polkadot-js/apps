@@ -1,19 +1,24 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { ContentProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 
-function Content ({ children, className = '' }: ContentProps) {
+interface Props {
+  className?: string;
+  children: React.ReactNode;
+}
+
+function Content ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className} ui--Modal__Content`}>
+    <StyledDiv className={`${className} ui--Modal-Content`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Content)`
+const StyledDiv = styled.div`
   padding: 1.5rem;
-`);
+`;
+
+export default React.memo(Content);

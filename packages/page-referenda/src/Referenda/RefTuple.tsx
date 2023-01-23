@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
@@ -50,13 +50,15 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
   return (
     <>
       <td
-        className='all'
+        className='no-pad'
         colSpan={4}
       />
       <Deposits
         canRefund
+        className='all'
         decision={decision}
         id={id}
+        noMedia
         palletReferenda={palletReferenda}
         submit={submit}
         track={track}

@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentProps as Props } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -15,6 +15,11 @@ import Address from './Address';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
+}
+
 const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
@@ -26,10 +31,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const isLoading = useLoadingDelay();
 
-  const headerRef = useRef([
-    [t('contacts'), 'start', 2],
-    [undefined, 'balances'],
-    []
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {
@@ -47,7 +50,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [allAddresses, favorites]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -57,6 +60,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <SummaryBox className='summary-box-contacts'>
         <section>
           <FilterInput
+            className='media--1000'
             filterOn={filterOn}
             label={t<string>('filter by name or tags')}
             setFilter={setFilter}
@@ -73,7 +77,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
-        withCollapsibleRows
+        isSplit
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
@@ -85,12 +89,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Overview)`
+const StyledDiv = styled.div`
   .summary-box-contacts {
     align-items: center;
   }
-`);
+`;
+
+export default React.memo(Overview);

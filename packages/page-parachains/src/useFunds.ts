@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -19,6 +19,7 @@ const EMPTY: Campaigns = {
   activeCap: BN_ZERO,
   activeRaised: BN_ZERO,
   funds: null,
+  isLoading: true,
   totalCap: BN_ZERO,
   totalRaised: BN_ZERO
 };

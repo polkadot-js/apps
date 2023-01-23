@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { INumber } from '@polkadot/types/types';
@@ -48,7 +48,6 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       <InputAddressSimple
         className='staking--queryInput'
         defaultValue={value}
-        help={t<string>('Display overview information for the selected validator, including blocks produced.')}
         label={t<string>('validator to query')}
         onChange={setValidatorId}
         onEnter={_onQuery}

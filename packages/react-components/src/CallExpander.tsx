@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call, Extrinsic } from '@polkadot/types/interfaces';
@@ -34,7 +34,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
     [value]
   );
 
-  if (!call) {
+  if (!call || !value) {
     return null;
   }
 
@@ -42,7 +42,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   const callName = `${section}.${method}`;
 
   return (
-    <div className={`ui--CallExpander ${className}`}>
+    <div className={`${className} ui--CallExpander`}>
       <Expander
         isHeader={isHeader}
         isLeft
@@ -60,6 +60,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
           tip={tip}
           value={value}
           withBorder={withBorder}
+          withExpander
           withHash={withHash}
           withSignature={withSignature}
         />

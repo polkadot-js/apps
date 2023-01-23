@@ -1,12 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Stats } from '@polkadot/react-components/ApiStats/types';
+import type { ChartOptions } from 'chart.js';
+import type { ApiStats } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { ApiStatsContext, CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Chart from '../Latency/Chart';
@@ -27,12 +29,22 @@ interface ChartInfo {
   requestsChart: ChartContents;
 }
 
+const OPTIONS: ChartOptions = {
+  aspectRatio: 6,
+  maintainAspectRatio: true,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
 // const COLORS_ERRORS = ['#8c0044', '#acacac'];
 
 const COLORS_BYTES = ['#00448c', '#008c44', '#acacac'];
 const COLORS_REQUESTS = ['#008c8c', '#00448c', '#8c4400', '#acacac'];
 
-function getPoints (all: Stats[]): ChartInfo {
+function getPoints (all: ApiStats[]): ChartInfo {
   const bytesChart: ChartContents = {
     labels: [],
     values: [[], [], []]
@@ -52,7 +64,6 @@ function getPoints (all: Stats[]): ChartInfo {
 
   for (let i = 1; i < all.length; i++) {
     const { stats: { active: { requests: aReq, subscriptions: aSub }, total: { bytesRecv, bytesSent, errors } }, when } = all[i];
-
     const time = new Date(when).toLocaleTimeString();
 
     bytesChart.labels.push(time);
@@ -85,7 +96,7 @@ function getPoints (all: Stats[]): ChartInfo {
 
 function Api ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const stats = useContext(ApiStatsContext);
+  const stats = useApiStats();
 
   const { bytesLegend, requestsLegend } = useMemo(
     () => ({
@@ -107,7 +118,7 @@ function Api ({ className }: Props): React.ReactElement<Props> {
   const { stats: { total: { bytesRecv, bytesSent, requests: tReq, subscriptions: tSub } } } = stats[stats.length - 1];
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('sent')}>{formatNumber(bytesSent / 1024)}kB</CardSummary>
@@ -121,20 +132,22 @@ function Api ({ className }: Props): React.ReactElement<Props> {
       <Chart
         colors={COLORS_REQUESTS}
         legends={requestsLegend}
+        options={OPTIONS}
         title={t<string>('requests')}
         value={requestsChart}
       />
       <Chart
         colors={COLORS_BYTES}
         legends={bytesLegend}
+        options={OPTIONS}
         title={t<string>('transfer')}
         value={bytesChart}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Api)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -145,4 +158,6 @@ export default React.memo(styled(Api)`
   .container+.container {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Api);

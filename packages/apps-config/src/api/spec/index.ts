@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -61,7 +61,6 @@ import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import jur from './jur';
 import khala from './khala';
-import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
 import kulupu from './kulupu';
@@ -208,7 +207,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jur-chain': jur,
   kerria: parallel,
   khala,
-  'kilt-spiritnet': kilt,
   'kintsugi-parachain': interbtc,
   konomi,
   kpron,

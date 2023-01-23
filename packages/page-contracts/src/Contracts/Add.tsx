@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -76,7 +76,6 @@ function Add ({ onClose }: Props): React.ReactElement {
         >
           <Input
             autoFocus
-            help={t<string>('The address for the deployed contract instance.')}
             isError={!isAddressValid}
             label={t<string>('contract address')}
             onChange={setAddress}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2023 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -22,7 +22,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = useHashes();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('calls'), 'start'],
     [undefined, 'all'],
     [undefined, 'media--1300']

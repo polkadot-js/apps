@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -9,7 +9,7 @@ import type { NominatedByMap, SortedTargets } from '../types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ActionsBanner from './ActionsBanner';
@@ -32,9 +32,14 @@ interface Props {
   toggleNominatedBy: () => void;
 }
 
+const EMPTY_PARA_VALS: Record<string, boolean> = {};
+const EMPTY_BY_AUTHOR: Record<string, string> = {};
+const EMPTY_ERA_POINTS: Record<string, string> = {};
+
 function Overview ({ className = '', favorites, hasAccounts, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { byAuthor, eraPoints } = useBlockAuthors();
   const [intentIndex, _setIntentIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(1);
   const recentlyOnline = useCall<DeriveHeartbeats>(api.derive.imOnline?.receivedHeartbeats);
@@ -69,7 +74,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   const isOwn = typeIndex === 0;
 
   return (
-    <div className={`staking--Overview ${className}`}>
+    <div className={`${className} staking--Overview`}>
       <Summary
         stakingOverview={stakingOverview}
         targets={targets}
@@ -90,6 +95,8 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
         />
       </Button.Group>
       <CurrentList
+        byAuthor={intentIndex === 0 ? byAuthor : EMPTY_BY_AUTHOR}
+        eraPoints={intentIndex === 0 ? eraPoints : EMPTY_ERA_POINTS}
         favorites={favorites}
         hasQueries={hasQueries}
         isIntentions={intentIndex === 1}
@@ -98,7 +105,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
         minCommission={intentIndex === 0 ? minCommission : undefined}
         nominatedBy={intentIndex === 1 ? nominatedBy : undefined}
         ownStashIds={ownStashIds}
-        paraValidators={paraValidators}
+        paraValidators={(intentIndex === 0 && paraValidators) || EMPTY_PARA_VALS}
         recentlyOnline={intentIndex === 0 ? recentlyOnline : undefined}
         stakingOverview={stakingOverview}
         targets={targets}

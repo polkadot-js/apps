@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from './types';
@@ -15,7 +15,7 @@ import ChartStake from './ChartStake';
 
 function Validator ({ className = '', labels, validatorId }: Props): React.ReactElement<Props> | null {
   return (
-    <Columar className={className}>
+    <StyledColumar className={className}>
       <Columar.Column>
         <ChartPoints
           labels={labels}
@@ -36,15 +36,17 @@ function Validator ({ className = '', labels, validatorId }: Props): React.React
           validatorId={validatorId}
         />
       </Columar.Column>
-    </Columar>
+    </StyledColumar>
   );
 }
 
-export default React.memo(styled(Validator)`
+const StyledColumar = styled(Columar)`
   .staking--Chart {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Validator);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
@@ -82,7 +82,6 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
     <section className='rpc--Selection'>
       <InputRpc
         defaultValue={defaultMethod}
-        help={t<string>('The actual JSONRPC module and function to make a call to.')}
         label={t<string>('call the selected endpoint')}
         onChange={_onChangeMethod}
       />

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -81,7 +81,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>
           <InputAddressSimple
             autoFocus
-            help={t<string>('The address that you have a valid proxy setup for.')}
             isError={!proxyInfo || proxyInfo.isEmpty}
             label={t<string>('proxied account')}
             onChange={setStashAddress}
@@ -91,7 +90,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
           <Input
             className='full'
-            help={t<string>('Name given to this proxied account. You can edit it at any later point in time.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}

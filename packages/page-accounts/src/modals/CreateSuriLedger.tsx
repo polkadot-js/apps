@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -53,21 +53,18 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
         ? (
           <>
             <Dropdown
-              help={t('The network to derive on')}
               label={t('Ledger app type (originated from)')}
               onChange={setChainType}
               options={netOpts.current}
               value={chainType}
             />
             <Dropdown
-              help={t('The account type (derivation) to use')}
               label={t('account type')}
               onChange={setAccIndex}
               options={accOps.current}
               value={accIndex}
             />
             <Dropdown
-              help={t('The address index (derivation on account) to use')}
               label={t('address index')}
               onChange={setAddIndex}
               options={addOps.current}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
@@ -20,12 +20,11 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal);
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('external'), 'start'],
     [t('proposer'), 'address'],
     [t('locked')],
-    [],
-    [undefined, 'media--1000']
+    []
   ]);
 
   return (

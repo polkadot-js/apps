@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HashState } from './types';
@@ -37,7 +37,6 @@ function Add ({ className, imageHash }: Props): React.ReactElement<Props> {
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>
               <InputAddress
-                help={t<string>('The account you want to register the preimage from')}
                 label={t<string>('send from account')}
                 labelExtra={
                   <Available

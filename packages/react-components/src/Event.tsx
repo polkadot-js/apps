@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DecodedEvent } from '@polkadot/api-contract/types';
@@ -8,10 +8,10 @@ import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 
-import { Input } from '@polkadot/react-components';
-import { balanceEvents, balanceEventsOverrides } from '@polkadot/react-components/constants';
 import Params from '@polkadot/react-params';
 
+import { balanceEvents, balanceEventsOverrides } from './constants';
+import Input from './Input';
 import { useTranslation } from './translate';
 import { getContractAbi } from './util';
 
@@ -20,6 +20,7 @@ export interface Props {
   className?: string;
   eventName?: string;
   value: Event;
+  withExpander?: boolean;
 }
 
 interface Value {
@@ -31,7 +32,7 @@ interface AbiEvent extends DecodedEvent {
   values: Value[];
 }
 
-function EventDisplay ({ children, className = '', eventName, value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className = '', eventName, value, withExpander }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const names = value.data.names;
   const params = value.typeDef.map((type, i) => ({
@@ -77,13 +78,14 @@ function EventDisplay ({ children, className = '', eventName, value }: Props): R
   );
 
   return (
-    <div className={`ui--Event ${className}`}>
+    <div className={`${className} ui--Event`}>
       {children}
       <Params
         isDisabled
         overrides={overrides}
         params={params}
         values={values}
+        withExpander={withExpander}
       >
         {abiEvent && (
           <>

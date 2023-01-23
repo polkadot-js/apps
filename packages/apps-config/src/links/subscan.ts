@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
-export default {
+export const Subscan: ExternalDef = {
   chains: {
     Acala: 'acala',
     'Acala Mandala TC5': 'acala-testnet',
@@ -49,7 +50,7 @@ export default {
     Litmus: 'litmus',
     'Mangata Kusama Mainnet': 'mangatax',
     'Mangata Public Testnet': 'mangata-testnet',
-    Moonbase: 'moonbase',
+    'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
     'Nodle Parachain': 'nodle',
@@ -91,9 +92,9 @@ export default {
     block: 'block',
     bounty: 'bounty',
     council: 'council',
+    democracyProposal: 'democracy_proposal',
+    democracyReferendum: 'referenda',
     extrinsic: 'extrinsic',
-    proposal: 'democracy_proposal',
-    referendum: 'referenda',
     techcomm: 'tech',
     tip: 'treasury_tip',
     treasury: 'treasury',

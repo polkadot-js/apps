@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
@@ -15,14 +15,19 @@ interface Props {
   accountIndex: string | undefined;
   address: string;
   isBeingEdited: (arg: boolean) => void;
-  onUpdateName: () => void;
+  onUpdateName?: (() => void) | null;
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
 function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
   const { flags, isEditing, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
-  useEffect(() => {
+  const refs = useMemo(
+    () => [sidebarRef],
+    [sidebarRef]
+  );
+
+  useEffect((): void => {
     isBeingEdited(isEditing());
   }, [isBeingEdited, isEditing]);
 
@@ -42,7 +47,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
       }
     }, [isEditing, setName, setTags, setIsEditingName, setIsEditingTags, address]);
 
-  useOutsideClick([sidebarRef], onCancel);
+  useOutsideClick(refs, onCancel);
 
   return (
     <>
@@ -62,7 +67,6 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           isEditable
           isEditing={isEditingTags}
           onChange={setTags}
-          size='tiny'
           value={tags}
           withEditButton={false}
           withTitle

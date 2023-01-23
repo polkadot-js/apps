@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LineData } from './types';
@@ -24,7 +24,7 @@ function ChartDisplay ({ className = '', colors, header, labels, legends, values
   );
 
   return (
-    <div className={`staking--Chart ${className}${isLoading ? ' isLoading' : ''}`}>
+    <StyledDiv className={`${className} staking--Chart ${isLoading ? 'isLoading' : ''}`}>
       <h1>{header}</h1>
       <Chart.Line
         colors={colors}
@@ -35,11 +35,11 @@ function ChartDisplay ({ className = '', colors, header, labels, legends, values
       {isLoading && (
         <Spinner />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ChartDisplay)`
+const StyledDiv = styled.div`
   &.isLoading {
     position: relative;
 
@@ -54,4 +54,6 @@ export default React.memo(styled(ChartDisplay)`
       right: 0;
     }
   }
-`);
+`;
+
+export default React.memo(ChartDisplay);

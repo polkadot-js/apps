@@ -1,23 +1,22 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types';
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
@@ -152,8 +151,7 @@ const transformRecovery = {
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const api = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
@@ -243,11 +241,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const isVisible = useMemo(
     () => calcVisible(filter, accName, tags),
     [accName, filter, tags]
-  );
-
-  const _onFavorite = useCallback(
-    () => toggleFavorite(address),
-    [address, toggleFavorite]
   );
 
   const _onForget = useCallback(
@@ -472,17 +465,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
-        <td className='favorite'>
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
-          />
-        </td>
+      <StyledTr className={`${className} isExpanded isFirst packedBottom`}>
+        <Table.Column.Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
+        />
         <td className='address all relative'>
           <AddressSmall
-            parentAddress={meta.parentAddress}
+            parentAddress={meta.parentAddress as string}
             value={address}
             withShortAddress
           />
@@ -686,16 +677,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             )}
           </div>
         </td>
-        <td className='balance'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BAL_OPTS_DEFAULT}
-            withExtended={false}
-          />
-        </td>
-        <td className='fast-actions'>
-          <div className='fast-actions-row'>
+        <td className='actions button'>
+          <Button.Group>
             {isFunction(api.api.tx.balances?.transfer) && (
               <Button
                 className='send-button'
@@ -705,7 +688,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               />
             )}
             <Popup
-              className={`theme--${theme}`}
               isDisabled={!menuItems.length}
               value={
                 <Menu>
@@ -713,31 +695,42 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 </Menu>
               }
             />
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />
-          </div>
+          </Button.Group>
         </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
-        <td className='top tagInfo'>
-          <Columar isFull>
+        <td
+          className='balance all'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_DEFAULT}
+          />
+        </td>
+        <td />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            convictionLocks={convictionLocks}
+            withBalance={BAL_OPTS_EXPANDED}
+          />
+          <Columar size='tiny'>
             <Columar.Column>
-              <LinkExternal
-                data={address}
-                isMain
-                type='address'
-              />
-            </Columar.Column>
-          </Columar>
-          <Columar>
-            <Columar.Column>
-              <div
-                className='tags'
-                data-testid='tags'
-              >
+              <div data-testid='tags'>
                 <Tags
                   value={tags}
                   withTitle
@@ -749,65 +742,26 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               <CryptoType accountId={address} />
             </Columar.Column>
           </Columar>
-        </td>
-        <td className='balance top'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            convictionLocks={convictionLocks}
-            withBalance={BAL_OPTS_EXPANDED}
-            withExtended={false}
-          />
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Account)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
-  .ui--Columar {
-    margin: 0.5rem 0 1.5rem 0;
-  }
-
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-
+const StyledTr = styled.tr`
   .devBadge {
-    opacity: 0.65;
+    opacity: var(--opacity-light);
   }
+`;
 
-  && td.button {
-    padding-bottom: 0.5rem;
-  }
-
-  && td.fast-actions {
-    padding-left: 0.2rem;
-    padding-right: 1rem;
-    width: 1%;
-
-    .fast-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      & > * + * {
-        margin-left: 0.35rem;
-      }
-
-      .send-button {
-        min-width: 6.5rem;
-      }
-    }
-  }
-`);
+export default React.memo(Account);

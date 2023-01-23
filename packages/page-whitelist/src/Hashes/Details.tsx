@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2023 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -7,7 +7,7 @@ import React from 'react';
 
 import Call from '@polkadot/app-preimages/Preimages/Call';
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import usePreimage from '@polkadot/app-preimages/usePreimage';
+import { usePreimage } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;

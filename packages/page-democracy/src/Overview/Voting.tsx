@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
@@ -22,7 +22,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [conviction, setConviction] = useState(0);
+  const [conviction, setConviction] = useState(1);
   const [isVotingOpen, toggleVoting] = useToggle();
 
   const isCurrentVote = useMemo(
@@ -70,7 +70,6 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               )}
               <ConvictionDropdown
-                help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
                 label={t<string>('conviction')}
                 onChange={setConviction}
                 value={conviction}

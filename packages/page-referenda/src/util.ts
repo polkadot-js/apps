@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -22,7 +22,7 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
   let info: TrackInfoExt | undefined;
 
   if (tracks && trackId !== undefined) {

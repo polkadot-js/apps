@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
@@ -22,16 +22,18 @@ function Summary ({ className = '', members, proposalHashes, type }: Props): Rea
       <CardSummary label={t<string>('members')}>
         {formatNumber(members.length)}
       </CardSummary>
-      {proposalCount && (
-        <section>
-          <CardSummary label={t<string>('proposals')}>
-            {formatNumber(proposalHashes?.length)}
-          </CardSummary>
-          <CardSummary label={t<string>('total')}>
-            {formatNumber(proposalCount)}
-          </CardSummary>
-        </section>
-      )}
+      <section>
+        <CardSummary label={t<string>('proposals')}>
+          {proposalHashes
+            ? formatNumber(proposalHashes?.length)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
+        <CardSummary label={t<string>('total')}>
+          {proposalCount
+            ? formatNumber(proposalCount)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
+      </section>
     </SummaryBox>
   );
 }

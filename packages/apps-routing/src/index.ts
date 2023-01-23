@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -35,6 +35,7 @@ import settings from './settings';
 import signing from './signing';
 import society from './society';
 import staking from './staking';
+import staking2 from './staking2';
 import storage from './storage';
 import sudo from './sudo';
 import techcomm from './techcomm';
@@ -54,6 +55,7 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    staking2(t),
     collator(t),
     // governance v2
     referenda(t),
