@@ -96,11 +96,11 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     () => balance && conviction && toAccount && includeTracks
       ? isAllTracks
         ? api.tx.utility.forceBatch(includeTracks.map((trackId) =>
-          api.tx[palletReferenda as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
+          api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
         ))
-        : api.tx[palletReferenda as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
+        : api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
       : null,
-    [api, balance, conviction, includeTracks, isAllTracks, palletReferenda, toAccount, trackId]
+    [api, balance, conviction, includeTracks, isAllTracks, palletVote, toAccount, trackId]
   );
 
   const isStep1Valid = !!(accountId && activityFrom && includeTracks && (includeTracks.length > 0));
