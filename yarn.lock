@@ -3224,7 +3224,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.67.184
+    "@polkadot/dev": ^0.67.185
     "@polkadot/react-components": ^0.123.2-16-x
     "@types/react-dom": ^18.0.10
     "@types/tmp": ^0.2.3
@@ -3257,7 +3257,7 @@ __metadata:
     "@babel/runtime": ^7.20.7
     "@polkadot/apps-config": ^0.123.2-16-x
     "@polkadot/apps-routing": ^0.123.2-16-x
-    "@polkadot/dev": ^0.67.184
+    "@polkadot/dev": ^0.67.185
     "@polkadot/react-api": ^0.123.2-16-x
     "@polkadot/react-components": ^0.123.2-16-x
     "@polkadot/react-hooks": ^0.123.2-16-x
@@ -3288,9 +3288,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.184":
-  version: 0.67.184
-  resolution: "@polkadot/dev@npm:0.67.184"
+"@polkadot/dev@npm:^0.67.185":
+  version: 0.67.185
+  resolution: "@polkadot/dev@npm:0.67.185"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -3385,7 +3385,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: bf58cda3accd1ea18c7d6e0851bc55c9208ad8ac20eb8985a5e15f39f5204e9a9daa7b2a7595b83659f53dd7b4e9c7de1605b8644db226a90b0fa7cd029cf806
+  checksum: f8b2ade71c6ba98c5b17cc87ca929d3f4187f3b81c7f743859bc3e68285b57895e7cd8b2ca41a2642b9ea7716f1be7afa978eb122a70b6cda1b61d1bd8df7bd0
   languageName: node
   linkType: hard
 
@@ -16385,7 +16385,7 @@ __metadata:
     "@babel/runtime": ^7.20.7
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.67.184
+    "@polkadot/dev": ^0.67.185
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.2.5
