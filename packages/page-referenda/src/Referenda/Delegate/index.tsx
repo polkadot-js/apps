@@ -3,7 +3,7 @@
 
 import type { PalletReferenda, PalletVote, TrackDescription } from '../../types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -25,18 +25,14 @@ function Delegate ({ className, palletVote }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const actFell = useActivityFellows(palletVote);
+  const actNoms = useActivityNominators(palletVote, accountId);
 
   // get the activity for this specific user
   console.log('useActivityAccount=', useActivityAccount(palletVote, accountId));
 
   // anything that is supplied by the user
-  // useActivityAccount(palletVote, selectedAccount)
-
-  // get all activity for our nominees
-  console.log('useActivityNominators=', useActivityNominators(palletVote, accountId));
-
-  // we also need the activity for all fellows
-  console.log('useActivityFellows=', useActivityFellows(palletVote));
+  // useActivityAccount(palletVote, toAccount)
 
   return (
     <>

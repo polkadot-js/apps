@@ -12,9 +12,7 @@ import useVotingFor from './useVotingFor';
 
 function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): VoteResult | null | undefined {
   const params = useMemo(
-    () => accountId
-      ? [accountId]
-      : null,
+    () => (accountId && [accountId]) || null,
     [accountId]
   );
 

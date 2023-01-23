@@ -36,19 +36,15 @@ function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undef
 
   // for the supplied accounts, retrieve the de-dupes parent identity
   const identityParam = useMemo(
-    () => accountIds
-      ? accountIds.length
-        ? [accountIds]
-        : []
-      : undefined,
+    () => accountIds && [accountIds],
     [accountIds]
   );
 
-  const identities = useCall(identityParam && identityParam[0] && api.query.identity?.superOf?.multi, identityParam, SUPEROF_OPT);
+  const identities = useCall(identityParam && !!identityParam[0].length && api.query.identity?.superOf?.multi, identityParam, SUPEROF_OPT);
 
   return useMemo(
     () => identityParam
-      ? identityParam[0]
+      ? identityParam[0].length
         ? isFunction(api.query.identity?.superOf)
           ? identities
           : accountIds
