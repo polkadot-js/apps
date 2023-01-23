@@ -9,8 +9,8 @@ import { createNamedHook } from '@polkadot/react-hooks';
 import useActivity from './useActivity';
 import useNominators from './useNominators';
 
-function useActivityNominatorsImpl (palletVote: PalletVote, accountId?: string | null): VoteResult | null | undefined {
-  const nominators = useNominators(accountId);
+function useActivityNominatorsImpl (palletVote: PalletVote): VoteResult | null | undefined {
+  const nominators = useNominators();
 
   return useActivity(palletVote, nominators);
 }

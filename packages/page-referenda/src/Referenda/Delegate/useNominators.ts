@@ -6,31 +6,40 @@ import type { PalletStakingNominations } from '@polkadot/types/lookup';
 
 import { useMemo } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 const NOMINATORS_OPT = {
-  transform: (optNominators: Option<PalletStakingNominations>): string[] =>
-    optNominators.isSome
-      ? optNominators.unwrap().targets.map((w) => w.toString())
-      : []
+  transform: (optNominators: Option<PalletStakingNominations>[]): string[] =>
+    optNominators.reduce<string[]>((all, o) =>
+      o.isSome
+        ? all.concat(
+          o.unwrap().targets
+            .map((w) => w.toString())
+            .filter((w) => !all.includes(w))
+        )
+        : all, []
+    )
 };
 
-function useNominatorsImpl (accountId?: string | null): string[] | null | undefined {
+// A list of all validators that any of our accounts nominate
+// (deduped accross accounts)
+function useNominatorsImpl (): string[] | null | undefined {
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
 
   const nomineesParam = useMemo(
-    () => (accountId && [accountId]) || null,
-    [accountId]
+    () => [allAccounts],
+    [allAccounts]
   );
 
-  const nominees = useCall(nomineesParam && api.query.staking?.nominators, nomineesParam, NOMINATORS_OPT);
+  const nominees = useCall(!!allAccounts.length && nomineesParam && api.query.staking?.nominators?.multi, nomineesParam, NOMINATORS_OPT);
 
   return useMemo(
-    () => isFunction(api.query.staking?.nominators)
-      ? nomineesParam && nominees
+    () => isFunction(api.query.staking?.nominators) && allAccounts.length
+      ? nominees
       : [],
-    [api, nominees, nomineesParam]
+    [allAccounts, api, nominees]
   );
 }
 
