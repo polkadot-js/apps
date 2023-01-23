@@ -37,13 +37,15 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
   const [isAllTracks, toggleAllTracks] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [toAccount, setToAccount] = useState<string | null>(null);
-  const [, setTrackId] = useState<number | undefined>();
+  const [trackId, setTrackId] = useState<number>(0);
   const activityFell = useActivityFellows(palletVote);
   const activityVals = useActivityNominators(palletVote);
   const activityTo = useActivityAccount(palletVote, toAccount);
   const [accType, setAccType] = useState({ index: 0, type: 'address' });
 
   const allFell = useMemo(
+    // We also filter the fellows by activity - since there are a number
+    // we just want to skip those that does not have any activity
     () => activityFell &&
       Object
         .entries(activityFell)
@@ -56,7 +58,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     () => activityVals &&
       Object
         .entries(activityVals)
-        .map(([key, act]) => (act.length > 0) && ({ key, name: key, value: key }))
+        .map(([key]) => ({ key, name: key, value: key }))
         .filter((a): a is Option => !!a),
     [activityVals]
   );
@@ -128,44 +130,49 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
             <Modal.Columns hint={t<string>('The account that you wish to delegate to')}>
               {accType.type === 'address'
                 ? (
-                  <>
-                    <InputAddress
-                      key='address'
-                      label={t<string>('delegate to address')}
-                      onChange={setToAccount}
-                      type='allPlus'
-                    />
-                    <Activity value={activityTo} />
-                  </>
+                  <InputAddress
+                    key='address'
+                    label={t<string>('delegate to address')}
+                    onChange={setToAccount}
+                    type='allPlus'
+                  />
                 )
                 : accType.type === 'validators'
                   ? (
-                    <>
-                      <InputAddress
-                        defaultValue={allVals?.[0].value}
-                        key='validators'
-                        label={t<string>('delegate to validator')}
-                        onChange={setToAccount}
-                        options={allVals}
-                      />
-                      <Activity value={activityFell && !!toAccount && activityFell[toAccount]} />
-                    </>
+                    <InputAddress
+                      defaultValue={allVals?.[0].value}
+                      key='validators'
+                      label={t<string>('delegate to validator')}
+                      onChange={setToAccount}
+                      options={allVals}
+                      type='allPlus'
+                    />
                   )
                   : accType.type === 'fellows'
                     ? (
-                      <>
-                        <InputAddress
-                          defaultValue={allFell?.[0].value}
-                          key='fellows'
-                          label={t<string>('delegate to fellow')}
-                          onChange={setToAccount}
-                          options={allFell}
-                        />
-                        <Activity value={activityVals && !!toAccount && activityVals[toAccount]} />
-                      </>
+                      <InputAddress
+                        defaultValue={allFell?.[0].value}
+                        key='fellows'
+                        label={t<string>('delegate to fellow')}
+                        onChange={setToAccount}
+                        options={allFell}
+                        type='allPlus'
+                      />
                     )
                     : null
               }
+              <Activity
+                palletReferenda={palletReferenda}
+                trackId={isAllTracks ? -1 : trackId}
+                tracks={tracks}
+                value={
+                  accType.type === 'fellows'
+                    ? activityFell && !!toAccount && activityFell[toAccount]
+                    : accType.type === 'validators'
+                      ? activityVals && !!toAccount && activityVals[toAccount]
+                      : activityTo
+                }
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions>

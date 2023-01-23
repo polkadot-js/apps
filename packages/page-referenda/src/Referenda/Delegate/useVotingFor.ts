@@ -17,7 +17,7 @@ type ForParam = [accountId: string, classId: BN];
 
 const FOR_OPT = {
   transform: ([[ids], votes]: [[ForParam[]], PalletConvictionVotingVoteVoting[]]): VoteResult =>
-    ids.reduce<VoteResult>((all, [accountId, classId], index) => {
+    ids.sort((a, b) => a[1].cmp(b[1])).reduce<VoteResult>((all, [accountId, classId], index) => {
       if (!all[accountId]) {
         all[accountId] = [];
       }

@@ -11,8 +11,8 @@ import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
 import { getTrackInfo, getTrackName } from '../../util';
 
-function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[]): TrackOption[] | undefined {
-  return tracks && tracks.map(({ id, info }): TrackOption => {
+function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[]): TrackOption[] {
+  return tracks.map(({ id, info }): TrackOption => {
     const trackInfo = getTrackInfo(api, specName, palletReferenda, tracks, id.toNumber());
     const trackName = getTrackName(id, info);
 
@@ -30,7 +30,7 @@ function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: st
   });
 }
 
-function useTrackOptionsImpl (palletReferenda: string, tracks?: TrackDescription[]): TrackOption[] | null {
+function useTrackOptionsImpl (palletReferenda: string, tracks: TrackDescription[]): TrackOption[] {
   const { api, specName } = useApi();
 
   return useMemo(
