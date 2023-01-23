@@ -35,8 +35,8 @@ function AddressToggle ({ address, className = '', filter, isHidden, noToggle, o
   );
 
   return (
-    <div
-      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || !isVisible ? ' isHidden' : ''}`}
+    <StyledDiv
+      className={`${className} ui--AddressToggle ${(value || noToggle) ? 'isAye' : 'isNay'} ${isHidden || !isVisible ? 'isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
@@ -52,11 +52,11 @@ function AddressToggle ({ address, className = '', filter, isHidden, noToggle, o
           />
         </div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AddressToggle)`
+const StyledDiv = styled.div`
   align-items: flex-start;
   border: 1px solid transparent; /* #eee */
   border-radius: 0.25rem;
@@ -71,7 +71,7 @@ export default React.memo(styled(AddressToggle)`
 
   .ui--AddressToggle-address {
     filter: grayscale(100%);
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   &:hover {
@@ -104,4 +104,6 @@ export default React.memo(styled(AddressToggle)`
       opacity: 1;
     }
   }
-`);
+`;
+
+export default React.memo(AddressToggle);

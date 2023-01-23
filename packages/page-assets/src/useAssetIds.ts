@@ -7,6 +7,8 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
+const EMPTY_PARAMS: unknown[] = [];
+
 const OPT_KEY = {
   transform: (keys: StorageKey<[u32]>[]): u32[] =>
     keys.map(({ args: [id] }) => id)
@@ -29,7 +31,7 @@ function filter (records: EventRecord[]): Changes<u32> {
 
 function useAssetIdsImpl (): u32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.assets.asset, [], OPT_KEY);
+  const startValue = useMapKeys(api.query.assets.asset, EMPTY_PARAMS, OPT_KEY);
 
   return useEventChanges([
     api.events.assets.Created,

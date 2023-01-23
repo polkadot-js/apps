@@ -5,7 +5,7 @@ import type { PopupWindowProps as Props } from './types';
 
 import React from 'react';
 import { createPortal } from 'react-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
@@ -13,8 +13,8 @@ function PopupWindow ({ children, className = '', position, triggerRef, windowRe
   const { pointerStyle, renderCoords: { x, y } } = usePopupWindow(windowRef, triggerRef, position);
 
   return createPortal(
-    <div
-      className={`${className} ${pointerStyle}Pointer`}
+    <StyledDiv
+      className={`${className} ${pointerStyle}Pointer ${position}Position`}
       data-testid='popup-window'
       ref={windowRef}
       style={
@@ -25,12 +25,12 @@ function PopupWindow ({ children, className = '', position, triggerRef, windowRe
       }
     >
       {children}
-    </div>,
+    </StyledDiv>,
     document.body
   );
 }
 
-export default React.memo(styled(PopupWindow)`
+const StyledDiv = styled.div`
   background-color: var(--bg-menu);
   border: 1px solid #d4d4d5;
   border-radius: 4px;
@@ -43,28 +43,30 @@ export default React.memo(styled(PopupWindow)`
   top: 0;
   z-index: -1;
 
+  &.leftPosition {
+    &::before {
+      left: unset;
+      right: 0.75rem;
+    }
+  }
+
+  &.rightPosition {
+    &::before {
+      left: 0.75rem;
+      right: unset;
+    }
+  }
+
   &::before {
+    background-color: var(--bg-menu);
     bottom: -0.5rem;
     box-shadow: 1px 1px 0 0 #bababc;
+    content: '';
+    height: 1rem;
     position: absolute;
     right: 50%;
     top: unset;
-
-    ${({ position }) => position === 'left' && css`
-      left: unset;
-      right: 0.75rem;
-    `}
-
-    ${({ position }) => position === 'right' && css`
-      left: 0.75rem;
-      right: unset;
-    `}
-
-    content: '';
-    background-color: var(--bg-menu);
-
     width: 1rem;
-    height: 1rem;
     transform: rotate(45deg);
     z-index: 2;
   }
@@ -97,4 +99,6 @@ export default React.memo(styled(PopupWindow)`
   & > *:last-child:not(.ui--Menu) {
     margin-bottom: 1rem;
   }
-`);
+`;
+
+export default React.memo(PopupWindow);

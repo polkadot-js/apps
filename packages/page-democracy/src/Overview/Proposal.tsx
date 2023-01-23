@@ -91,7 +91,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='proposal'
+                type='democracyProposal'
                 withTitle
               />
             </Columar.Column>

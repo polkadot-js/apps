@@ -29,7 +29,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
     ? <>{renderProvided({ className, label, value: bonded })}</>
     : (
       <Bonded
-        className={`ui--Bonded ${className}`}
+        className={`${className} ui--Bonded`}
         label={label}
         params={params}
       />

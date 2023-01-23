@@ -20,7 +20,7 @@ function AvailableDisplay ({ className = '', label, params }: Props): React.Reac
 
   return (
     <Available
-      className={`ui--Available ${className}`}
+      className={`${className} ui--Available`}
       label={label}
       params={params}
     />

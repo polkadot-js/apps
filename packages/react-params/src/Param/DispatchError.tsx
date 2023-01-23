@@ -5,7 +5,6 @@ import type { DispatchError } from '@polkadot/types/interfaces';
 import type { Props as BaseProps } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { Input } from '@polkadot/react-components';
 
@@ -85,8 +84,4 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(ErrorDisplay)`
-  // .ui--Labelled-content {
-  //   background: rgba(196, 0, 0, 0.1);
-  // }
-`);
+export default React.memo(ErrorDisplay);

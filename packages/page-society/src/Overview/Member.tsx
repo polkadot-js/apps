@@ -74,7 +74,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address relative all'>
         <AddressSmall value={accountId} />
         <div className='absolute'>
@@ -145,11 +145,11 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
       <td className='button start'>
         <DesignKusama accountId={accountId} />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Member)`
+const StyledTr = styled.tr`
   .payoutExpander {
     .payout+.payout {
       margin-top: 0.5rem;
@@ -173,4 +173,6 @@ export default React.memo(styled(Member)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Member);

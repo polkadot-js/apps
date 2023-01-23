@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'react-i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { Preimage } from '@polkadot/app-preimages/types';
+import type { Preimage } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { PalletVote, TrackInfo } from '../../types';
 
@@ -106,7 +106,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   return (
     <>
       {isOpen && (
-        <Modal
+        <StyledModal
           className={className}
           header={t<string>('Vote on referendum')}
           onClose={toggleOpen}
@@ -211,7 +211,7 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
               )
             }
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='check-to-slot'
@@ -223,8 +223,10 @@ function Voting ({ className, id, isConvictionVote, isMember, members, palletVot
   );
 }
 
-export default React.memo(styled(Voting)`
+const StyledModal = styled(Modal)`
   .ui--Modal-Columns.centerVoteType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Voting);

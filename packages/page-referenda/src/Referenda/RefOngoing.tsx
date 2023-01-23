@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -9,8 +10,9 @@ import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import usePreimage, { getPreimageHash } from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
+import { useApi, usePreimage } from '@polkadot/react-hooks';
+import { getPreimageHash } from '@polkadot/react-hooks/usePreimage';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
@@ -27,16 +29,15 @@ interface Expanded {
     decideEnd: BN | null;
     confirmEnd: BN | null;
   };
-  proposalHash: HexString;
-  shortHash: string;
+  proposalHash?: HexString;
   submissionDeposit: PalletReferendaDeposit | null;
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
   tallyTotal: BN;
 }
 
-function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
+function expandOngoing (api: ApiPromise, info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
   const ongoing = info.asOngoing;
-  const proposalHash = getPreimageHash(ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash);
+  const proposalHash = getPreimageHash(api, ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash).proposalHash;
   let prepareEnd: BN | null = null;
   let decideEnd: BN | null = null;
   let confirmEnd: BN | null = null;
@@ -69,7 +70,6 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       prepareEnd
     },
     proposalHash,
-    shortHash: `${proposalHash.slice(0, 10)}…${proposalHash.slice(-8)}`,
     submissionDeposit: unwrapDeposit(ongoing.submissionDeposit),
     tally: ongoing.tally,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
@@ -78,10 +78,11 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
 
 function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
-  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, shortHash, submissionDeposit, tally, tallyTotal } = useMemo(
-    () => expandOngoing(info, track),
-    [info, track]
+  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, submissionDeposit, tally, tallyTotal } = useMemo(
+    () => expandOngoing(api, info, track),
+    [api, info, track]
   );
 
   const preimage = usePreimage(proposalHash);
@@ -97,7 +98,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : <div className='shortHash'>{shortHash}</div>
+          : <div className='shortHash'>{proposalHash}</div>
         }
       </td>
       <Deposits

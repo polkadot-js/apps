@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useMemo } from 'react';

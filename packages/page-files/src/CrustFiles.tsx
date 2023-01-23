@@ -218,7 +218,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     FileSaver.saveAs(blob, 'files.json');
   }, [wFiles]);
 
-  return <main className={className}>
+  return <StyledMain className={className}>
     <header></header>
     <input
       onChange={_onInputFile}
@@ -355,10 +355,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     <div>
       {t('Note: The file list is cached locally, switching browsers or devices will not keep displaying the original browser information.')}
     </div>
-  </main>;
+  </StyledMain>;
 }
 
-export default React.memo(styled(CrustFiles)`
+const StyledMain = styled.main`
   h1 {
     text-transform: unset !important;
   }
@@ -398,4 +398,6 @@ export default React.memo(styled(CrustFiles)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(CrustFiles);

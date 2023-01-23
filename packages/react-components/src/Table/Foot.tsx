@@ -16,13 +16,13 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
   }
 
   return (
-    <tfoot className={className}>
+    <StyledTfoot className={`${className} ui--Table-Foot`}>
       {footer}
-    </tfoot>
+    </StyledTfoot>
   );
 }
 
-export default React.memo(styled(Foot)`
+const StyledTfoot = styled.tfoot`
   td {
     color: var(--color-table-foot);
     font: var(--font-sans);
@@ -36,4 +36,6 @@ export default React.memo(styled(Foot)`
   tr {
     background: var(--bg-page);
   }
-`);
+`;
+
+export default React.memo(Foot);

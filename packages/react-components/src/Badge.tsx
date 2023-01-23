@@ -13,7 +13,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color?: 'blue' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
+  color?: 'blue' | 'counter' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
   hover?: React.ReactNode;
   hoverAction?: React.ReactNode;
   icon?: IconName;
@@ -48,9 +48,9 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   ), [color, hover, hoverAction, onClick]);
 
   return (
-    <div
+    <StyledDiv
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isBlock ? ' isBlock' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
+      className={`${className} ui--Badge ${hover ? 'isTooltip' : ''} ${isBlock ? 'isBlock' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${isHighlight ? 'highlight--bg' : ''} ${color}Color ${icon ? 'withIcon' : ''} ${info ? 'withInfo' : ''} ${hoverAction ? 'withAction' : ''} ${theme}Theme`}
       data-testid={badgeTestId}
       onClick={hoverAction ? undefined : onClick}
     >
@@ -67,22 +67,22 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
       {hover && (
         <Tooltip
           className='accounts-badge'
-          clickable={!!hoverAction}
+          isClickable={!!hoverAction}
           text={hoverContent}
           trigger={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
 // FIXME We really need to get rid of the px sizing here
-export default React.memo(styled(Badge)`
+const StyledDiv = styled.div`
   border-radius: 16px;
   box-sizing: border-box;
   color: #eeedec;
   display: inline-block;
-  font-size: 12px;
+  font-size: var(--font-size-tiny);
   height: 20px;
   line-height: 20px;
   margin-right: 0.43rem;
@@ -223,4 +223,6 @@ export default React.memo(styled(Badge)`
   .action-icon {
     margin-left: 4px;
   }
-`);
+`;
+
+export default React.memo(Badge);

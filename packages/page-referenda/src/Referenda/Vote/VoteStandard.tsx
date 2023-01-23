@@ -51,7 +51,6 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
         onChange={setBalance}
       />
       <ConvictionDropdown
-        help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
         label={t<string>('conviction')}
         onChange={setConviction}
         value={conviction}

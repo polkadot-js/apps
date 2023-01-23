@@ -12,16 +12,18 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
 import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
+import Expander from './Expander';
+import Icon from './Icon';
 import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
+import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
@@ -560,7 +562,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   });
 
   return (
-    <div className={`ui--AddressInfo ${className}${withBalanceToggle ? ' ui--AddressInfo-expander' : ''}`}>
+    <div className={`${className} ui--AddressInfo ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
         {renderBalances(props, lookup.current, bestNumber, t)}
         {withHexSessionId && withHexSessionId[0] && (

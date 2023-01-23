@@ -9,9 +9,8 @@ import type { PalletReferenda, TrackDescription } from '../../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
-import { useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
@@ -26,7 +25,7 @@ interface Props {
   isMember: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
-  tracks?: TrackDescription[];
+  tracks: TrackDescription[];
 }
 
 interface HashState {
@@ -44,15 +43,15 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   const { t } = useTranslation();
   const { api, specName } = useApi();
   const bestNumber = useBestNumber();
-  const [isSubmitOpen, toggleSubmit] = useToggle();
+  const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [trackId, setTrack] = useState<number | undefined>(undefined);
   const [origin, setOrigin] = useState<RawParam['value'] | null>(null);
   const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
   const [{ imageLen, imageLenDefault, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: BN_ZERO, isImageLenValid: false });
   const [enactIndex, setEnactIndex] = useState(0);
-  const [afterBlocks, setAfterBlocks] = useState(BN_HUNDRED);
-  const [atBlock, setAtBlock] = useState(BN_ONE);
+  const [afterBlocks, setAfterBlocks] = useState<BN | undefined>(BN_HUNDRED);
+  const [atBlock, setAtBlock] = useState<BN | undefined>(BN_ONE);
   const [initialAt, setInitialAt] = useState<BN | undefined>();
   const preimage = usePreimage(imageHash);
 
@@ -142,8 +141,8 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
   );
 
   const _onChangeImageLen = useCallback(
-    (value: BN): void => {
-      setImageLen((prev) => ({
+    (value?: BN): void => {
+      value && setImageLen((prev) => ({
         imageLen: value,
         imageLenDefault: prev.imageLenDefault,
         isImageLenValid: !value.isZero()
@@ -154,18 +153,17 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
 
   return (
     <>
-      {isSubmitOpen && (
-        <Modal
+      {isOpen && (
+        <StyledModal
           className={className}
           header={t<string>('Submit proposal')}
-          onClose={toggleSubmit}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('The account you want to propose from')}
                 label={t<string>('propose from account')}
                 labelExtra={
                   <Available
@@ -209,7 +207,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
             >
               <Input
                 autoFocus
-                help={t<string>('The preimage hash of the proposal')}
                 isError={!isImageHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeImageHash}
@@ -217,7 +214,6 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               />
               <InputNumber
                 defaultValue={imageLenDefault}
-                help={t<string>('The preimage length of the proposal')}
                 isDisabled={!!preimage?.proposalLength && !preimage?.proposalLength.isZero() && isImageHashValid && isImageLenValid}
                 isError={!isImageLenValid}
                 key='inputLength'
@@ -274,7 +270,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               icon='plus'
               isDisabled={!selectedOrigin || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t<string>('Submit proposal')}
-              onStart={toggleSubmit}
+              onStart={toggleOpen}
               params={[
                 selectedOrigin,
                 {
@@ -289,19 +285,19 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               tx={api.tx[palletReferenda as 'referenda'].submit}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='plus'
         isDisabled={!isMember}
         label={t<string>('Submit proposal')}
-        onClick={toggleSubmit}
+        onClick={toggleOpen}
       />
     </>
   );
 }
 
-export default React.memo(styled(Submit)`
+const StyledModal = styled(Modal)`
   .originSelect, .timeSelect {
     > .ui--Params-Content {
       padding-left: 0;
@@ -311,4 +307,6 @@ export default React.memo(styled(Submit)`
   .ui--Modal-Columns.centerEnactType > div:first-child {
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(Submit);

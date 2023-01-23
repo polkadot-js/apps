@@ -33,7 +33,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
   );
 
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section className='media--1100'>
         {info && members && (
           <CardSummary label={t<string>('members')}>
@@ -83,11 +83,11 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
           </CardSummary>
         )}
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .society--header--account {
     white-space: nowrap;
 
@@ -99,4 +99,6 @@ export default React.memo(styled(Summary)`
       margin-right: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Summary);

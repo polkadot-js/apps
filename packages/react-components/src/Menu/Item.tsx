@@ -17,8 +17,8 @@ function Item ({ children, className = '', icon, isDisabled, label, onClick }: I
   );
 
   return (
-    <div
-      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}${isDisabled ? ' isDisabled' : ''}`}
+    <StyledDiv
+      className={`${className} ui--Menu__Item ${icon ? 'hasIcon' : ''} ${isDisabled ? 'isDisabled' : ''}`}
       onClick={_onClick}
     >
       {icon && (
@@ -28,11 +28,11 @@ function Item ({ children, className = '', icon, isDisabled, label, onClick }: I
         />
       )}
       {label}{children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Item)`
+const StyledDiv = styled.div`
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -59,4 +59,6 @@ export default React.memo(styled(Item)`
     cursor: default;
     opacity: 0.5;
   }
-`);
+`;
+
+export default React.memo(Item);

@@ -27,7 +27,7 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
   ]);
 
   return (
-    <main className={`bounties--App ${className}`}>
+    <main className={`${className} bounties--App`}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -7,7 +7,6 @@ import React, { useCallback } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 interface Props {
   balance?: Balance;
@@ -27,21 +26,22 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <>
-      <td className='expand'>
+    <tr className='isExpanded isLast packedTop'>
+      <td
+        className='expand all'
+        colSpan={2}
+      >
         <ExpanderScroll
-          className={balance ? '' : '--tmp'}
           renderChildren={renderVoters}
-          summary={<FormatBalance value={balance} />}
+          summary={
+            <FormatBalance
+              className={balance && voters ? '' : '--tmp'}
+              value={balance}
+            />
+          }
         />
       </td>
-      <td className='number'>
-        {voters
-          ? formatNumber(voters.length)
-          : <span className='--tmp'>123</span>
-        }
-      </td>
-    </>
+    </tr>
   );
 }
 

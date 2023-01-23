@@ -73,7 +73,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         issuanceActive={activeIssuance}
         issuanceInactive={inactiveIssuance}
@@ -119,11 +119,11 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
           tracks={tracks}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Referenda)`
+const StyledDiv = styled.div`
   .ui--Dropdown.topDropdown {
     min-width: 25rem;
     padding-left: 0;
@@ -132,4 +132,6 @@ export default React.memo(styled(Referenda)`
       left: 1.55rem !important;
     }
   }
-`);
+`;
+
+export default React.memo(Referenda);

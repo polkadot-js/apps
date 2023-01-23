@@ -14,15 +14,6 @@ interface Props {
   size?: 'default' | 'small' | 'tiny';
 }
 
-interface ColumnProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-type ColumarType = React.ComponentType<Props> & {
-  Column: React.ComponentType<ColumnProps>;
-};
-
 const MIN_WIDTH_DEFAULT = '1025px';
 const MIN_WIDTH_SMALL = '750px';
 const MIN_WIDTH_TINY = '550px';
@@ -60,21 +51,21 @@ const FLEX_OPTIONS = `
 
 function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Column ${className}`}>
+    <div className={`${className} ui--Column`}>
       {children}
     </div>
   );
 }
 
-function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
+function ColumarBase ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size ${className}`}>
+    <StyledDiv className={`${className} ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-const ColumarStyled = React.memo(styled(Columar)`
+const StyledDiv = styled.div`
   &.isReverse {
     flex-direction: row-reverse;
   }
@@ -140,8 +131,12 @@ const ColumarStyled = React.memo(styled(Columar)`
       padding-right: 0;
     }
   }
-`) as unknown as ColumarType;
+`;
 
-ColumarStyled.Column = Column;
+const Columar = React.memo(ColumarBase) as unknown as typeof ColumarBase & {
+  Column: typeof Column
+};
 
-export default ColumarStyled;
+Columar.Column = Column;
+
+export default Columar;

@@ -15,13 +15,13 @@ function rootElement () {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  isCickable?: boolean;
+  isClickable?: boolean;
   place?: 'bottom' | 'top' | 'right' | 'left';
   text?: React.ReactNode;
   trigger: string;
 }
 
-function Tooltip ({ children, className = '', isCickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ children, className = '', isClickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -39,9 +39,9 @@ function Tooltip ({ children, className = '', isCickable = false, place, text, t
   }, [tooltipContainer]);
 
   return createPortal(
-    <ReactTooltip
-      className={`ui--Tooltip ${className}`}
-      clickable={isCickable}
+    <StyledReactTooltip
+      className={`${className} ui--Tooltip`}
+      clickable={isClickable}
       effect='solid'
       id={trigger}
       place={place}
@@ -49,12 +49,12 @@ function Tooltip ({ children, className = '', isCickable = false, place, text, t
       <div className='tooltipSpacer'>
         {text}{children}
       </div>
-    </ReactTooltip>,
+    </StyledReactTooltip>,
     tooltipContainer
   );
 }
 
-export default React.memo(styled(Tooltip)`
+const StyledReactTooltip = styled(ReactTooltip)`
   .tooltipSpacer {
     padding: 0.375rem;
   }
@@ -101,7 +101,7 @@ export default React.memo(styled(Tooltip)`
   .faded {
     margin-top: 0;
     opacity: 0.75 !important;
-    font-size: 0.85em !important;
+    font-size: var(--font-size-tiny) !important;
 
     .faded {
       font-size: 1em !important;
@@ -115,4 +115,6 @@ export default React.memo(styled(Tooltip)`
   .row+.row {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tooltip);

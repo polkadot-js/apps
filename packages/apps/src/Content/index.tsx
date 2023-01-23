@@ -59,7 +59,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {!missingApis
         ? (
           <div className='connecting'>
@@ -95,11 +95,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           </>
         )
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Content)`
+const StyledDiv = styled.div`
   flex-grow: 1;
   overflow: hidden auto;
   padding: 0 0 1rem 0;
@@ -125,4 +125,6 @@ export default React.memo(styled(Content)`
       padding: 0 0.75rem;
     }
   }
-`);
+`;
+
+export default React.memo(Content);

@@ -23,7 +23,7 @@ interface Props {
 
 function Overview ({ className, info, isMember, mapMembers, ownMembers, payoutTotal }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         info={info}
         payoutTotal={payoutTotal}
@@ -34,12 +34,14 @@ function Overview ({ className, info, isMember, mapMembers, ownMembers, payoutTo
         ownMembers={ownMembers}
       />
       <Members mapMembers={mapMembers} />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Overview)`
+const StyledDiv = styled.div`
   .overviewSection {
     margin-bottom: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Overview);

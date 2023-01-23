@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ChartOptions } from 'chart.js';
 import type { ApiStats } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo } from 'react';
@@ -28,6 +29,16 @@ interface ChartInfo {
   requestsChart: ChartContents;
 }
 
+const OPTIONS: ChartOptions = {
+  aspectRatio: 6,
+  maintainAspectRatio: true,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
 // const COLORS_ERRORS = ['#8c0044', '#acacac'];
 
 const COLORS_BYTES = ['#00448c', '#008c44', '#acacac'];
@@ -53,7 +64,6 @@ function getPoints (all: ApiStats[]): ChartInfo {
 
   for (let i = 1; i < all.length; i++) {
     const { stats: { active: { requests: aReq, subscriptions: aSub }, total: { bytesRecv, bytesSent, errors } }, when } = all[i];
-
     const time = new Date(when).toLocaleTimeString();
 
     bytesChart.labels.push(time);
@@ -108,7 +118,7 @@ function Api ({ className }: Props): React.ReactElement<Props> {
   const { stats: { total: { bytesRecv, bytesSent, requests: tReq, subscriptions: tSub } } } = stats[stats.length - 1];
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('sent')}>{formatNumber(bytesSent / 1024)}kB</CardSummary>
@@ -122,20 +132,22 @@ function Api ({ className }: Props): React.ReactElement<Props> {
       <Chart
         colors={COLORS_REQUESTS}
         legends={requestsLegend}
+        options={OPTIONS}
         title={t<string>('requests')}
         value={requestsChart}
       />
       <Chart
         colors={COLORS_BYTES}
         legends={bytesLegend}
+        options={OPTIONS}
         title={t<string>('transfer')}
         value={bytesChart}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Api)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -146,4 +158,6 @@ export default React.memo(styled(Api)`
   .container+.container {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Api);

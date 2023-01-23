@@ -32,15 +32,11 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
     [onAdd, value]
   );
 
-  const { method, section } = value;
-  const meta = (api.consts[section][method] as ConstantCodec).meta;
-
   return (
     <section className='storage--actionrow'>
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
-          help={meta?.docs.join(' ')}
           label={t<string>('selected constant query')}
           onChange={setValue}
         />

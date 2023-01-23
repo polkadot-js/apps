@@ -10,11 +10,11 @@ import { toAddress } from './util';
 
 interface Props {
   autoFocus?: boolean;
+  bytesLength?: 20 | 32;
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | null;
   forceIconType?: 'ethereum' | 'substrate';
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -23,14 +23,15 @@ interface Props {
   onChange?: (address: string | null) => void;
   onEnter?: () => void;
   onEscape?: () => void;
+  placeholder?: string;
 }
 
-function InputAddressSimple ({ autoFocus, children, className = '', defaultValue, forceIconType, help, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = useCallback(
     (_address: string): void => {
-      const address = toAddress(_address) || null;
+      const address = toAddress(_address, undefined, bytesLength) || null;
       const output = noConvert
         ? address
           ? _address
@@ -40,15 +41,14 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
       setAddress(output);
       onChange && onChange(output);
     },
-    [noConvert, onChange]
+    [bytesLength, noConvert, onChange]
   );
 
   return (
-    <div className={`${className} ui--InputAddressSimple`}>
+    <StyledDiv className={`${className} ui--InputAddressSimple`}>
       <Input
         autoFocus={autoFocus}
         defaultValue={defaultValue}
-        help={help}
         isDisabled={isDisabled}
         isError={isError || !address}
         isFull={isFull}
@@ -56,6 +56,7 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
+        placeholder={placeholder}
       >
         {children}
       </Input>
@@ -65,11 +66,11 @@ function InputAddressSimple ({ autoFocus, children, className = '', defaultValue
         size={32}
         value={address}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputAddressSimple)`
+const StyledDiv = styled.div`
   position: relative;
 
   .ui--InputAddressSimpleIcon {
@@ -80,4 +81,6 @@ export default React.memo(styled(InputAddressSimple)`
     position: absolute;
     top: 1rem;
   }
-`);
+`;
+
+export default React.memo(InputAddressSimple);

@@ -3,11 +3,11 @@
 
 import type { PeerInfo } from '@polkadot/types/interfaces';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Table } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, stringPascalCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -16,34 +16,63 @@ interface Props {
   peers?: PeerInfo[] | null;
 }
 
+function sortPeers (peers: PeerInfo[]) {
+  return peers
+    .map(({ bestHash, bestNumber, peerId, roles }) => ({
+      bestHash: bestHash.toHex(),
+      bestNumber,
+      peerId: peerId.toString(),
+      roles: stringPascalCase(roles)
+    }))
+    .sort((a, b) => a.peerId.localeCompare(b.peerId))
+    .sort((a, b) => a.roles.localeCompare(b.roles))
+    .sort((a, b) => b.bestNumber.cmp(a.bestNumber));
+}
+
 function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('connected peers'), 'start'],
-    [t('role'), 'start'],
-    [t('best #'), 'number'],
-    [t('best hash'), 'hash']
+    [t('connected peers'), 'start', 2],
+    [t('best hash'), 'start'],
+    [t('best #'), 'number']
   ]);
 
+  const sorted = useMemo(
+    () => peers && sortPeers(peers),
+    [peers]
+  );
+
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('no peers connected')}
       header={headerRef.current}
     >
-      {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
-        <tr key={peer.peerId.toString()}>
-          <td className='hash'>{peer.peerId.toString()}</td>
-          <td>{peer.roles.toString().toLowerCase()}</td>
-          <td className='number all'>{formatNumber(peer.bestNumber)}</td>
-          <td className='hash'>{peer.bestHash.toHex()}</td>
+      {sorted?.map(({ bestHash, bestNumber, peerId, roles }) => (
+        <tr key={peerId}>
+          <td className='roles'>{roles}</td>
+          <td className='hash overflow'>{peerId}</td>
+          <td className='hash overflow'>{bestHash}</td>
+          <td className='number bestNumber'>{formatNumber(bestNumber)}</td>
         </tr>
       ))}
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Peers)`
+const StyledTable = styled(Table)`
   overflow-x: auto;
-`);
+
+  td.roles {
+    max-width: 9ch;
+    width: 9ch;
+  }
+
+  td.bestNumber {
+    max-width: 11ch;
+    width: 11ch;
+  }
+`;
+
+export default React.memo(Peers);

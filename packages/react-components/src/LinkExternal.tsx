@@ -65,7 +65,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
   }
 
   return (
-    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
+    <StyledDiv className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
       {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
       {withTitle && (
         <h5>{t('external links')}</h5>
@@ -76,11 +76,11 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
           : <div>{t<string>('none')}</div>
         }
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LinkExternal)`
+const StyledDiv = styled.div`
   text-align: right;
 
   &.isMain {
@@ -141,4 +141,6 @@ export default React.memo(styled(LinkExternal)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(LinkExternal);

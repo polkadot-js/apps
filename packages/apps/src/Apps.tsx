@@ -33,7 +33,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper ${themeClassName} ${className}`}>
+      <StyledDiv className={`${className} apps--Wrapper ${themeClassName}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
@@ -42,26 +42,34 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
           <ConnectingOverlay />
           <div id={PORTAL_ID} />
         </AccountSidebar>
-      </div>
+      </StyledDiv>
       <WarmUp />
     </>
   );
 }
 
-export default React.memo(styled(Apps)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 
-  .--hidden {
-    display: none;
-  }
+  ${[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24
+  ].map((n) => `
+    .greyAnim-${n} {
+      animation: greyAnim${n} 2s;
+    }
 
-  .--tmp {
-    background: grey;
-    filter: blur(2px);
-    opacity: 0.2;
-  }
-`);
+    @keyframes greyAnim${n} {
+      0% { background: #a6a6a6; }
+      50% { background: darkorange; }
+      100% { background: #a6a6a6; }
+    }
+  `).join('')}
+`;
+
+export default React.memo(Apps);

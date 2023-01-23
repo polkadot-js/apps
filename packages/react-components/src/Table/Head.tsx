@@ -10,7 +10,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
-  header?: (null | undefined | HeaderDef)[];
+  header?: (false | null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
@@ -20,7 +20,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
   }
 
   return (
-    <thead className={className}>
+    <StyledThead className={`${className} ui--Table-Head`}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>
@@ -36,19 +36,17 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
           >
             {index === 0
               ? <h1>{label}</h1>
-              : isEmpty
-                ? ''
-                : label
+              : !isEmpty && label && <label>{label}</label>
             }
           </th>
         )}
       </tr>
       {children}
-    </thead>
+    </StyledThead>
   );
 }
 
-export default React.memo(styled(Head)`
+const StyledThead = styled.thead`
   z-index: 1;
 
   th {
@@ -60,21 +58,23 @@ export default React.memo(styled(Head)`
     vertical-align: middle;
     white-space: nowrap;
 
-    h1, h2 {
-      font-size: 1.75rem;
-    }
-
     h1 {
       display: table-cell;
       vertical-align: middle;
 
       .sub {
         display: inline-block;
-        font-size: 1rem;
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-normal);
+        opacity: var(--opacity-light);
         padding-left: 1.5rem;
         text-overflow: ellipsis;
         vertical-align: middle;
       }
+    }
+
+    > label {
+      margin: 0 !important;
     }
 
     &.address {
@@ -141,4 +141,6 @@ export default React.memo(styled(Head)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Head);

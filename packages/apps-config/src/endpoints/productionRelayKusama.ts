@@ -508,8 +508,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2100,
     text: 'SubsocialX',
     providers: {
-      'Dappforce 1': 'wss://para.f3joule.space',
-      'Dappforce 2': 'wss://para.subsocial.network'
+      'Dappforce 1': 'wss://para.f3joule.space'
+      // 'Dappforce 2': 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/8781
     }
   },
   {
@@ -595,6 +595,14 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
+  },
+  {
+    info: 'kusamaBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 

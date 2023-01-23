@@ -48,7 +48,6 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
             <InputBalance
               autoFocus
               defaultValue={startBalance}
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the funds currently unlocking.')}
               isError={!maxAdditional || maxAdditional.eqn(0) || maxAdditional.gt(startBalance)}
               label={t<string>('rebonded amount')}
               onChange={setMaxAdditional}

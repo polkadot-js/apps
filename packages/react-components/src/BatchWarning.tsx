@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { MarkWarning } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import MarkWarning from './MarkWarning';
 import { useTranslation } from './translate';
 
 function BatchWarning (): React.ReactElement | null {

@@ -197,7 +197,7 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 }
 
 // TODO council votes, tips closing
-function useScheduledImpl (): EntryInfo[] {
+function useScheduledImpl (): EntryInfoTyped[] {
   const { api } = useApi();
   const blockTime = useBlockInterval();
   const bestNumber = useBestNumber();

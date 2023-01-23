@@ -29,7 +29,7 @@ function SelectMethod ({ className = '', defs, isError, onChange, options, value
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
       options={options}
