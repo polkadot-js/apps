@@ -61,6 +61,7 @@ const STYLE = `
   background: white;
   border-radius: 50%;
   box-sizing: border-box;
+  color: #333;
 
   &.isInline {
     display: inline-block;
