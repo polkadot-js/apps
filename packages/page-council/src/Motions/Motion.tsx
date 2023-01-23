@@ -64,6 +64,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
       <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={hash}
+        isCollective
         proposal={proposal}
       />
       <td className='number together'>
