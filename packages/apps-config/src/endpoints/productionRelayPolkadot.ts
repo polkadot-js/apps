@@ -90,7 +90,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://parachain.bitgreen.org'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
     }
   },
   {
