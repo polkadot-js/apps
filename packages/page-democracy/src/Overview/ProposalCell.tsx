@@ -18,21 +18,24 @@ import TreasuryCell from './TreasuryCell';
 interface Props {
   className?: string;
   imageHash: Hash | HexString;
+  isCollective?: boolean;
   proposal?: Proposal | null;
 }
 
 const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority', 'fastTrack'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
-function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className = '', imageHash, isCollective, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const preimage = usePreimage(imageHash);
 
   // while we still have this endpoint, democracy will use it
-  const displayProposal = api.query.democracy?.preimages
+  const displayProposal = isCollective
     ? proposal
-    : preimage?.proposal;
+    : api.query.democracy?.preimages
+      ? proposal
+      : preimage?.proposal;
 
   if (!displayProposal) {
     const textHash = imageHash.toString();
