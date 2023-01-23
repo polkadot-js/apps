@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.20.7",
-    "@polkadot/api": "^9.11.3",
+    "@polkadot/api": "^9.12.1",
     "@polkadot/extension-compat-metamask": "^0.44.8",
     "@polkadot/extension-dapp": "^0.44.8",
-    "@polkadot/rpc-provider": "^9.11.3",
+    "@polkadot/rpc-provider": "^9.12.1",
     "fflate": "^0.7.4",
     "rxjs": "^7.8.0"
   }
