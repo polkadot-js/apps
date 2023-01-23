@@ -18,4 +18,13 @@ export interface Info {
   peers?: PeerInfo[] | null;
 }
 
+export interface PalletSupersigPreimageCall {
+  // supersigs?: Vec<SupersigId> | null;
+  data?: string | null;
+  provider?: string | null;
+  deposit?: number | null;
+
+  
+}
+
 

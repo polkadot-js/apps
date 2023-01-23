@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Info, SupersigInfo } from './types';
+import type { Info, SupersigInfo, PalletSupersigPreimageCall } from './types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -16,24 +16,23 @@ import Summary from './Summary';
 
 const POLL_TIMEOUT = 9900;
 
-async function retrieveInfo (api: ApiPromise): Promise<Partial<SupersigInfo>> {
+async function retrieveInfo (api: ApiPromise): Promise<Partial<PalletSupersigPreimageCall>> {
 
   
   try {
-    const [account] = await Promise.all([
+    const [callno, supersigno] = await Promise.all([
       
 
       // const account = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
-      const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty',
+      // const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty',
       // api.derive.chain.bestNumber(),
       // api.rpc.system.health().catch(() => null),
       // api.rpc.system.peers().catch(() => null),
-      api.rpc.superSig.getUserSupersigs(account)
+      api.query.supersig.calls(callno, supersigno).catch(() => null),
 
-      getSupersig
     ]);
 
-    return { supersigs };
+    return { calldata };
   } catch (error) {
     return {};
   }
@@ -41,7 +40,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<SupersigInfo>> {
 
 function SupersigInfo (): React.ReactElement {
   const { api } = useApi();
-  const getSupersig = useCall<UserSupersig[]>(api.rpc.superSig.getUserSupersigs);
+   const getSupersig = useCall<UserSupersig[]>(api.rpc.superSig.getUserSupersigs);
 
   const { t } = useTranslation();
   // const { api } = useApi();

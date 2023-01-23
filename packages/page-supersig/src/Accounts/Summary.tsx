@@ -3,7 +3,7 @@
 
 import '../augment-supersig.ts';
 //import type { MembersList, FetchProposalState, UserSupersig } from 'supersig-types/dist/interfaces/'
-import type { AccountBalance, SupersigsAssociated } from '../typesAccount';
+import type { AccountBalance, SupersigsAssociated, SortedSupersig } from '../typesAccount';
 // import { ApiPromise } from '@polkadot/api';
 // import definitions from 'supersig-types/dist/interfaces/';
 
@@ -25,8 +25,8 @@ function Summary ({ balance, supersigs, className }: Props) {
   const { api } = useApi();
   const { t } = useTranslation();
   const supersig = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-  const getUserSupersigs = api.rpc.superSig.getUserSupersigs(supersig)
-  // const activeSupersigMember = useCall<UserSupersig>(api.rpc.superSig.getUserSupersigs(supersig))>;
+  // const getUserSupersigs = api.rpc.superSig.getUserSupersigs(supersig)
+  // const activeSupersigMember = useCall<...any[]>(api.rpc.superSig.getUserSupersigs())>;
   //api.rpc.superSig.listMembers(supersigs)
 
 
@@ -48,6 +48,7 @@ function Summary ({ balance, supersigs, className }: Props) {
            {balance.total.gtn(0) &&
             <CardSummary label={t<string>('total balance')}>
               <FormatBalance value={balance.total} />
+              
             </CardSummary>}
           {/*{balance.transferrable.gtn(0) &&
             <CardSummary label={t<string>('total transferrable')}>
