@@ -5,14 +5,16 @@ import type { PalletReferenda, TrackDescription, TrackInfoExt } from '../../type
 import type { VoteResultItem } from './types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
-import { MarkWarning } from '@polkadot/react-components';
+import { MarkWarning, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import { getTrackInfo } from '../../util';
 
 interface Props {
+  allowEmpty?: boolean;
   className?: string;
   palletReferenda: PalletReferenda;
   trackId: number;
@@ -20,7 +22,7 @@ interface Props {
   value?: VoteResultItem[] | null | false;
 }
 
-function Activity ({ className, palletReferenda, tracks, value }: Props): React.ReactElement<Props> | null {
+function Activity ({ allowEmpty, className, palletReferenda, tracks, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, specName } = useApi();
 
@@ -36,24 +38,42 @@ function Activity ({ className, palletReferenda, tracks, value }: Props): React.
   }
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {infos.length
         ? (
-          <ul>
-            {infos.map(([{ classId, delegating }, info], index) => (
-              <li key={index}>
-                {(info && info.trackName) || classId.toString()}{delegating && '/delegating'}
-              </li>
+          <Table isInline>
+            {infos.map(([{ casting, classId, delegating }, info], index) => (
+              <tr key={index}>
+                <td className='all'>
+                  {(info && info.trackName) || classId.toString()}
+                </td>
+                <td className='together'>
+                  {
+                    (delegating &&
+                      t<string>('delegating')) ||
+                    (casting &&
+                      `${casting.length} ${casting.length === 1 ? t<string>('vote') : t<string>('votes')}`)
+                  }
+                </td>
+              </tr>
             ))}
-          </ul>
+          </Table>
         )
         : <MarkWarning content={t<string>('This account has no voting/delating activity in the chain state')} />
       }
-      {infos.some(([{ delegating }]) => delegating) && (
+      {!allowEmpty && infos.some(([{ delegating }]) => delegating) && (
         <MarkWarning content={t<string>('This account has some delegations in itself')} />
       )}
-    </div>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  .ui--Table {
+    font-size: var(--font-percent-small);
+    opacity: var(--opacity-light);
+    padding-left: 2rem;
+  }
+`;
 
 export default React.memo(Activity);

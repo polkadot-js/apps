@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { PalletReferenda, TrackDescription } from '../../types';
 
 import React from 'react';
@@ -13,14 +14,16 @@ import useTrackOptions from './useTrackOptions';
 
 interface Props {
   className?: string;
+  exclude?: (BN | number)[];
+  include?: (BN | number)[];
   onChange: (trackId: number) => void;
   palletReferenda: PalletReferenda;
   tracks: TrackDescription[];
 }
 
-function TrackDropdown ({ className, onChange, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
+function TrackDropdown ({ className, exclude, include, onChange, palletReferenda, tracks }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const trackOpts = useTrackOptions(palletReferenda, tracks);
+  const trackOpts = useTrackOptions(palletReferenda, tracks, include, exclude);
 
   return (
     <Dropdown
