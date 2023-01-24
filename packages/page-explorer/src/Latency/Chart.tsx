@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ChartOptions } from 'chart.js';
 import type { ChartContents } from './types';
 
 import React from 'react';
@@ -12,24 +13,25 @@ interface Props {
   className?: string;
   colors: string[];
   legends: string[];
+  options?: ChartOptions;
   title: string;
   value: ChartContents;
 }
 
-const OPTIONS = {
+const OPTIONS: ChartOptions = {
   aspectRatio: 6,
   maintainAspectRatio: true
 };
 
-function ChartDisplay ({ className, colors, legends, title, value: { labels, values } }: Props): React.ReactElement<Props> {
+function ChartDisplay ({ className, colors, legends, options, title, value: { labels, values } }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={className}>
-      <h1>{title}</h1>
       <Chart.Line
         colors={colors}
         labels={labels}
         legends={legends}
-        options={OPTIONS}
+        options={options || OPTIONS}
+        title={title}
         values={values}
       />
     </StyledDiv>

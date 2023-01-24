@@ -34,7 +34,7 @@ interface Props {
   labelExtra?: React.ReactNode;
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
-  options?: KeyringSectionOption[];
+  options?: KeyringSectionOption[] | null;
   optionsAll?: Record<string, Option[]>;
   placeholder?: string;
   type?: KeyringOption$Type;

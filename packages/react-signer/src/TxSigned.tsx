@@ -348,9 +348,10 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
 
-  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !isBusy && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
+  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
 
-  if (isAutoCapable && initialIsQueueSubmit) {
+  if (!isBusy && isAutoCapable && initialIsQueueSubmit) {
+    setBusy(true);
     setTimeout(_doStart, 1000);
 
     return null;
@@ -443,8 +444,8 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
           onClick={_doStart}
           tabIndex={2}
         />
-        {!isBusy && (
-          <div className='signToggle'>
+        <div className='signToggle'>
+          {!isBusy && (
             <Toggle
               isDisabled={!!currentItem.payload}
               label={
@@ -455,19 +456,19 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
               onChange={setIsSubmit}
               value={isSubmit}
             />
-            {isAutoCapable && (
-              <Toggle
-                label={
-                  isQueueSubmit
-                    ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
-                    : t<string>('Submit individual')
-                }
-                onChange={setIsQueueSubmit}
-                value={isQueueSubmit}
-              />
-            )}
-          </div>
-        )}
+          )}
+          {isAutoCapable && (
+            <Toggle
+              label={
+                isQueueSubmit
+                  ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
+                  : t<string>('Submit individual')
+              }
+              onChange={setIsQueueSubmit}
+              value={isQueueSubmit}
+            />
+          )}
+        </div>
       </Modal.Actions>
     </>
   );

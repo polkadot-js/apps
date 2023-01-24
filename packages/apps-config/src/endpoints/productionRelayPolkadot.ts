@@ -39,7 +39,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Ajuna Network',
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
+      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     }
   },
   {
@@ -91,7 +91,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://parachain.bitgreen.org'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
     }
   },
   {

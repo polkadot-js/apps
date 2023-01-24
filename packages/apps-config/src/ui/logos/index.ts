@@ -85,7 +85,6 @@ import chainVara from './chains/vara.svg';
 import chainVirto from './chains/virto.png';
 import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
-import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -244,6 +243,9 @@ import nodeZero from './nodes/zero.svg';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
+const chainWestendCollectives = { fa: 'people-group' };
+const chainWestendBridgeHub = { fa: 'bridge' };
+
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
@@ -286,7 +288,7 @@ export const chainLogos = Object.entries({
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
-  Collectives: chainWestendColl,
+  Collectives: chainWestendCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
   'Contracts on Rococo': chainRococoContracts,
@@ -356,6 +358,7 @@ export const chainLogos = Object.entries({
   Konomi: nodeKonomi,
   Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
+  'Kusama BridgeHub': chainWestendBridgeHub,
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
   'Kusama CC3': chainKusama,
@@ -481,7 +484,8 @@ export const chainLogos = Object.entries({
   'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend Collectives': chainWestendColl,
+  'Westend BridgeHub': chainWestendBridgeHub,
+  'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -827,6 +831,7 @@ export const namedLogos: Record<string, unknown> = {
   kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kusamaBridgeHub: chainWestendBridgeHub,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -867,7 +872,7 @@ export const namedLogos: Record<string, unknown> = {
   pichiu: nodePichiu,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
-  polkadotCollectives: chainWestendColl,
+  polkadotCollectives: chainWestendCollectives,
   polkafoundry: nodePolkaFoundry,
   polkasmith: nodePolkaSmith,
   polymesh: nodePolymesh,
@@ -1013,7 +1018,8 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendCollectives: chainWestendColl,
+  westendBridgeHub: chainWestendBridgeHub,
+  westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,

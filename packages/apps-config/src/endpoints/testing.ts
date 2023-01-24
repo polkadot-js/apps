@@ -96,13 +96,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'bitgreen',
-    text: 'Bitgreen Testnet',
-    providers: {
-      // Bitgreen: 'wss://standalonetestnet.bitgreen.org' // https://github.com/polkadot-js/apps/issues/8693
-    }
-  },
-  {
     info: 'cess-testnet',
     text: 'CESS Testnet',
     providers: {

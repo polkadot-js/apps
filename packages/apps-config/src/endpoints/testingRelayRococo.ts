@@ -73,10 +73,10 @@ export const testParasRococo: EndpointOption[] = [
   },
   {
     info: 'rococoBitgreen',
-    paraId: 3024,
+    paraId: 20048,
     text: 'Bitgreen',
     providers: {
-      Bitgreen: 'wss://testnet.bitgreen.org'
+      Bitgreen: 'wss://staging.bitgreen.org'
     }
   },
   {
@@ -108,7 +108,7 @@ export const testParasRococo: EndpointOption[] = [
     paraId: 2087,
     text: 'Dali',
     providers: {
-      Composable: 'wss://rpc.composablefinance.ninja'
+      // Composable: 'wss://rpc.composablefinance.ninja' // https://github.com/polkadot-js/apps/issues/8867
     }
   },
   {

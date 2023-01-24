@@ -31,11 +31,9 @@ function Body ({ children, className = '', empty, emptySpinner, isEmpty, noBodyT
         </tr>
       </tbody>
     )
-    : (
-      noBodyTag
-        ? <>{children}</>
-        : <tbody className={bodyClassName}>{children}</tbody>
-    );
+    : noBodyTag
+      ? <>{children}</>
+      : <tbody className={bodyClassName}>{children}</tbody>;
 }
 
 export default React.memo(Body);

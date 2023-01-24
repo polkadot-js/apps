@@ -6,6 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
+import styled from 'styled-components';
 
 import { isBn, objectSpread } from '@polkadot/util';
 
@@ -19,6 +20,7 @@ export interface Props {
   legends: string[];
   options?: ChartOptions;
   values: (number | BN)[][];
+  title?: React.ReactNode;
 }
 
 interface Dataset {
@@ -84,7 +86,10 @@ const BASE_OPTS: ChartOptions = {
   },
   scales: {
     x: {
-      beginAtZero: true
+      ticks: {
+        maxRotation: 60,
+        minRotation: 60
+      }
     }
   }
 };
@@ -97,6 +102,10 @@ function getOptions (options: ChartOptions = {}): ChartOptions {
       annotation: objectSpread({}, BASE_OPTS.plugins?.annotation, options.plugins?.annotation),
       crosshair: objectSpread({}, BASE_OPTS.plugins?.crosshair, options.plugins?.crosshair),
       tooltip: objectSpread({}, BASE_OPTS.plugins?.tooltip, options.plugins?.tooltip)
+    }),
+    scales: objectSpread({}, BASE_OPTS.scales, options.scales, {
+      x: objectSpread({}, BASE_OPTS.scales?.x, options.scales?.x),
+      y: objectSpread({}, BASE_OPTS.scales?.y, options.scales?.y)
     })
   });
 }
@@ -121,7 +130,7 @@ function getData (colors: (string | undefined)[] = [], legends: string[], labels
   }, { datasets: [] as Dataset[], labels });
 }
 
-function LineChart ({ className = '', colors, labels, legends, options, values }: Props): React.ReactElement<Props> | null {
+function LineChart ({ className = '', colors, labels, legends, options, title, values }: Props): React.ReactElement<Props> | null {
   const chartOptions = useMemo(
     () => getOptions(options),
     [options]
@@ -133,7 +142,8 @@ function LineChart ({ className = '', colors, labels, legends, options, values }
   );
 
   return (
-    <div className={`${className} ui--Chart-Line`}>
+    <StyledDiv className={`${className} ui--Chart-Line`}>
+      {title && <h1 className='ui--Chart-Header'>{title}</h1>}
       <ErrorBoundary>
         <Chart.Line
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -142,8 +152,16 @@ function LineChart ({ className = '', colors, labels, legends, options, values }
           options={chartOptions as any}
         />
       </ErrorBoundary>
-    </div>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  h1.ui--Chart-Header {
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
+    padding-left: 0.25rem;
+  }
+`;
 
 export default React.memo(LineChart);
