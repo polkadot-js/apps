@@ -70,9 +70,9 @@ function ChartPrefs ({ labels, validatorId }: Props): React.ReactElement<Props> 
   return (
     <Chart
       colors={COLORS_POINTS}
-      header={t<string>('commission')}
       labels={labels}
       legends={legendsRef.current}
+      title={t<string>('commission')}
       values={values}
     />
   );

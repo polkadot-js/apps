@@ -26,12 +26,12 @@ const OPTIONS: ChartOptions = {
 function ChartDisplay ({ className, colors, legends, options, title, value: { labels, values } }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={className}>
-      <h1>{title}</h1>
       <Chart.Line
         colors={colors}
         labels={labels}
         legends={legends}
         options={options || OPTIONS}
+        title={title}
         values={values}
       />
     </StyledDiv>
