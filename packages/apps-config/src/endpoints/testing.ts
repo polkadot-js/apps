@@ -193,6 +193,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ferrum',
+    text: 'Ferrum Testnet',
+    providers: {
+      Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+    }
+  },
+  {
     info: 'substrate',
     text: 'Flaming Fir',
     providers: {
