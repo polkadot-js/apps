@@ -32,6 +32,7 @@ import chainDeBio from './chains/debio.svg';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
+import chainFerrum from './chains/ferrum.png';
 import chainFrequency from './chains/frequency.svg';
 import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
@@ -316,6 +317,7 @@ export const chainLogos = Object.entries({
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
   'Ethos Testnet': chainEthos,
+  'Ferrum Testnet': chainFerrum,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequency,
   Galital: nodeGalital,
@@ -792,6 +794,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
   fantour: nodeFantour,
+  ferrum: chainFerrum,
   frequency: chainFrequency,
   galital: nodeGalital,
   galois: nodeMath,
