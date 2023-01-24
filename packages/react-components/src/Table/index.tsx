@@ -375,6 +375,10 @@ const StyledDiv = styled.div`
           * + h5 {
             margin-top: 1rem;
           }
+
+          .ui--Chart-Line {
+            padding: 0 0.5rem;
+          }
         }
       }
 

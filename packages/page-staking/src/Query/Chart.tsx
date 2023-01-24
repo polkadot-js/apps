@@ -11,13 +11,13 @@ import { Chart, Spinner } from '@polkadot/react-components';
 interface Props {
   className?: string;
   colors: (string | undefined)[];
-  header: string;
   labels: string[];
   legends: string[];
+  title: string;
   values: LineData;
 }
 
-function ChartDisplay ({ className = '', colors, header, labels, legends, values }: Props): React.ReactElement<Props> {
+function ChartDisplay ({ className = '', colors, labels, legends, title, values }: Props): React.ReactElement<Props> {
   const isLoading = useMemo(
     () => !labels || labels.length === 0 || !values || values.length === 0 || !values[0] || !values[0].length,
     [labels, values]
@@ -25,11 +25,11 @@ function ChartDisplay ({ className = '', colors, header, labels, legends, values
 
   return (
     <StyledDiv className={`${className} staking--Chart ${isLoading ? 'isLoading' : ''}`}>
-      <h1>{header}</h1>
       <Chart.Line
         colors={colors}
         labels={labels}
         legends={legends}
+        title={title}
         values={values}
       />
       {isLoading && (

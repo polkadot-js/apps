@@ -133,14 +133,14 @@ function Api ({ className }: Props): React.ReactElement<Props> {
         colors={COLORS_REQUESTS}
         legends={requestsLegend}
         options={OPTIONS}
-        title={t<string>('requests')}
+        title={t<string>('requests made')}
         value={requestsChart}
       />
       <Chart
         colors={COLORS_BYTES}
         legends={bytesLegend}
         options={OPTIONS}
-        title={t<string>('transfer')}
+        title={t<string>('bytes transferred')}
         value={bytesChart}
       />
     </StyledDiv>
