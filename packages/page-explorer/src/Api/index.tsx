@@ -7,7 +7,7 @@ import type { ApiStats } from '@polkadot/react-hooks/ctx/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, NextTick, SummaryBox } from '@polkadot/react-components';
 import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -111,38 +111,55 @@ function Api ({ className }: Props): React.ReactElement<Props> {
     [stats]
   );
 
-  if (stats.length <= 3) {
-    return <Spinner />;
-  }
-
-  const { stats: { total: { bytesRecv, bytesSent, requests: tReq, subscriptions: tSub } } } = stats[stats.length - 1];
+  const last = stats[stats.length - 1];
+  const isLoaded = last && (stats.length > 3);
+  const EMPTY_NUMBER = <span className='--tmp'>99</span>;
+  const EMPTY_BYTES = <span className='--tmp'>1,000kB</span>;
 
   return (
     <StyledDiv className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('sent')}>{formatNumber(bytesSent / 1024)}kB</CardSummary>
-          <CardSummary label={t<string>('recv')}>{formatNumber(bytesRecv / 1024)}kB</CardSummary>
+          <CardSummary label={t<string>('sent')}>
+            {isLoaded
+              ? <>{formatNumber(last.stats.total.bytesSent / 1024)}kB</>
+              : EMPTY_BYTES}
+          </CardSummary>
+          <CardSummary label={t<string>('recv')}>
+            {isLoaded
+              ? <>{formatNumber(last.stats.total.bytesRecv / 1024)}kB</>
+              : EMPTY_BYTES}
+          </CardSummary>
         </section>
         <section>
-          <CardSummary label={t<string>('total req')}>{formatNumber(tReq)}</CardSummary>
-          <CardSummary label={t<string>('total sub')}>{formatNumber(tSub)}</CardSummary>
+          <CardSummary label={t<string>('total req')}>
+            {isLoaded
+              ? <>{formatNumber(last.stats.total.requests)}</>
+              : EMPTY_NUMBER}
+          </CardSummary>
+          <CardSummary label={t<string>('total sub')}>
+            {isLoaded
+              ? <>{formatNumber(last.stats.total.subscriptions)}</>
+              : EMPTY_NUMBER}
+          </CardSummary>
         </section>
       </SummaryBox>
-      <Chart
-        colors={COLORS_REQUESTS}
-        legends={requestsLegend}
-        options={OPTIONS}
-        title={t<string>('requests made')}
-        value={requestsChart}
-      />
-      <Chart
-        colors={COLORS_BYTES}
-        legends={bytesLegend}
-        options={OPTIONS}
-        title={t<string>('bytes transferred')}
-        value={bytesChart}
-      />
+      <NextTick isActive={isLoaded}>
+        <Chart
+          colors={COLORS_REQUESTS}
+          legends={requestsLegend}
+          options={OPTIONS}
+          title={t<string>('requests made')}
+          value={requestsChart}
+        />
+        <Chart
+          colors={COLORS_BYTES}
+          legends={bytesLegend}
+          options={OPTIONS}
+          title={t<string>('bytes transferred')}
+          value={bytesChart}
+        />
+      </NextTick>
     </StyledDiv>
   );
 }
