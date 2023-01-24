@@ -186,7 +186,7 @@ export default React.memo(styled(Badge)`
 
   &.important {
     background: linear-gradient(0deg, rgba(230, 0, 122, 0.08), rgba(230, 0, 122, 0.08)), rgba(230, 0, 122, 0.01);
-    color: #E6007A;
+    color: #1961CE;
   }
 
   &.withAction.withIcon:not(.withInfo) {

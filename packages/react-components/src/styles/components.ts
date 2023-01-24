@@ -134,7 +134,7 @@ export default (_theme: ThemeDef): string => `
       color: #3BBEFF;
 
       &.purpleColor {
-        color: #E6007A;
+        color: #1961CE;
       }
     }
   }

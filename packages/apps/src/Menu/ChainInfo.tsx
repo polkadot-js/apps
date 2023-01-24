@@ -71,7 +71,10 @@ export default React.memo(styled(ChainInfo)`
     img {
       height: 3rem;
       margin-right: 0.5rem;
-      width: 3rem;
+      width: 150px;
+      object-fit: cover;
+      border-radius: unset;
+      background: transparent;
     }
 
     .ui--Icon.dropdown,

@@ -88,7 +88,7 @@ function tattooSpiro (ctx: CanvasRenderingContext2D, bits: boolean[]): void {
     ctx.translate(0, -radius);
     ctx.beginPath();
     ctx.arc(0, 0, (bits[i] ? dot : dot / 2), 0, 2 * Math.PI);
-    ctx.fillStyle = bits[i] ? 'black' : '#e6007a';
+    ctx.fillStyle = bits[i] ? 'black' : '#1961CE';
     ctx.fill();
     ctx.restore();
   }
@@ -105,7 +105,7 @@ function tattooPink (ctx: CanvasRenderingContext2D, bits: boolean[]): void {
     ring(ctx, 0.5 - (31 / 500) * (i + 0.5), rows[i], (ctx, on) => {
       ctx.beginPath();
       ctx.arc(0, 0, (on ? 8 : 4) / 500, 0, 2 * Math.PI);
-      ctx.fillStyle = on ? 'black' : '#e6007a';
+      ctx.fillStyle = on ? 'black' : '#1961CE';
       ctx.fill();
     });
   }
