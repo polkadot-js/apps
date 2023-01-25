@@ -207,7 +207,7 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
     [api, hashOrBounded]
   );
 
-  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(paramsStatus && api.query.preimage?.statusFor, paramsStatus);
+  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(!inlineData && paramsStatus && api.query.preimage?.statusFor, paramsStatus);
 
   // from the retrieved status (if any), get the on-chain stored bytes
   const { paramsBytes, resultPreimageFor } = useMemo(
