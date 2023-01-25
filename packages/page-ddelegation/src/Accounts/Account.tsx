@@ -16,7 +16,7 @@ import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressSmall, Badge, Button, ChainLock, Forget, Icon, Menu, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -58,28 +58,6 @@ interface ReferendaUnlockable {
   referendaUnlockTx: SubmittableExtrinsic<'promise'> | null;
   ids: [classId: BN, refId: BN][];
 }
-
-const BAL_OPTS_DEFAULT = {
-  available: false,
-  bonded: false,
-  locked: false,
-  redeemable: false,
-  reserved: false,
-  total: true,
-  unlocking: false,
-  vested: false
-};
-
-const BAL_OPTS_EXPANDED = {
-  available: true,
-  bonded: true,
-  locked: true,
-  redeemable: true,
-  reserved: true,
-  total: false,
-  unlocking: true,
-  vested: true
-};
 
 function calcVisible (filter: string, name: string, tags: string[]): boolean {
   if (filter.length === 0) {
@@ -694,81 +672,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 />
               )}
             </td>
-            {/* <td className='number'>
-              <CryptoType accountId={address} />
-            </td>
-            <td className='number media--1500'>
-              {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-            </td>
-            <td className='number'>
-              <AddressInfo
-                address={address}
-                balancesAll={balancesAll}
-                withBalance={BAL_OPTS_DEFAULT}
-                withExtended={false}
-              />
-            </td> */}
             {delegation?.accountDelegated && (
-                <td className='button'>
-                  {isFunction(api.api.tx.balances?.transfer) && (
-                    <Button
-                      icon='stop'
-                      label={t<string>('Undelegate')}
-                      onClick={toggleUndelegate}
-                    />
-                  )}
-                  {/* <Popup
-              className={`theme--${theme}`}
-              isOpen={isSettingsOpen}
-              onClose={toggleSettings}
-              trigger={
-                <Button
-                  icon='ellipsis-v'
-                  isDisabled={!menuItems.length}
-                  onClick={toggleSettings}
-                />
-              }
-            >
-              <Menu
-                onClick={toggleSettings}
-                text
-                vertical
-              >
-                {menuItems}
-              </Menu>
-            </Popup> */}
-                </td>
-              )}
-            {/* <td className='fast-actions'>
-              <div className='fast-actions-row'>
-                <LinkExternal
-                  className='ui--AddressCard-exporer-link media--1400'
-                  data={address}
-                  type='address'
-                />
+              <td className='button'>
                 {isFunction(api.api.tx.balances?.transfer) && (
                   <Button
-                    className='send-button'
-                    icon='paper-plane'
-                    label={t<string>('send')}
-                    onClick={toggleTransfer}
+                    icon='stop'
+                    label={t<string>('Undelegate')}
+                    onClick={toggleUndelegate}
                   />
                 )}
-                <Popup
-                  className={`theme--${theme}`}
-                  isDisabled={!menuItems.length}
-                  value={
-                    <Menu>
-                      {menuItems}
-                    </Menu>
-                  }
-                />
-                <ExpandButton
-                  expanded={isExpanded}
-                  onClick={toggleIsExpanded}
-                />
-              </div>
-            </td> */}
+              </td>
+            )}
           </tr>
           <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
             <td colSpan={2} />
@@ -785,15 +699,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             </td>
             <td className='media--1500' />
             <td />
-            {/* <td>
-              <AddressInfo
-                address={address}
-                balancesAll={balancesAll}
-                convictionLocks={convictionLocks}
-                withBalance={BAL_OPTS_EXPANDED}
-                withExtended={false}
-              />
-            </td> */}
             <td colSpan={2} />
           </tr>
         </div>

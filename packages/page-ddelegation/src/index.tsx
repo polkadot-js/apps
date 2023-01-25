@@ -7,16 +7,14 @@ import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useAccounts, useIpfs } from '@polkadot/react-hooks';
+import { useAccounts, useIpfs, useToggle } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
+import DelegateModal from './modals/Delegate';
 import Accounts from './Accounts';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';
 import Vanity from './Vanity';
-
-import DelegateModal from './modals/Delegate';
-
 
 export { useCounter };
 
@@ -26,6 +24,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
+  const [isDelegateOpen, toggleDelegate] = useToggle();
 
   const tabsRef = useRef([
     // {
@@ -47,13 +46,15 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
         items={tabsRef.current}
       />
-      <DelegateModal/>
-        <Route>
-          <Accounts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
-         </Route>
+      <DelegateModal
+        onClose={toggleDelegate}
+      />
+      <Route>
+        <Accounts
+          basePath={basePath}
+          onStatusChange={onStatusChange}
+        />
+      </Route>
     </main>
   );
 }

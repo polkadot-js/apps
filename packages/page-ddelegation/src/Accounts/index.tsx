@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -8,38 +8,29 @@ import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import CreateModal from '../modals/Create';
-import ImportModal from '../modals/Import';
-import Ledger from '../modals/Ledger';
-import Multisig from '../modals/MultisigCreate';
-import Proxy from '../modals/ProxiedAdd';
-import Qr from '../modals/Qr';
 import { useTranslation } from '../translate';
 import { sortAccounts, SortCategory, sortCategory } from '../util';
 import Account from './Account';
-import BannerClaims from './BannerClaims';
-import BannerExtension from './BannerExtension';
-import Summary from './Summary';
 
-// interface Balances {
-//   accounts: Record<string, AccountBalance>;
-//   summary?: AccountBalance;
-// }
+interface Balances {
+  accounts: Record<string, AccountBalance>;
+  summary?: AccountBalance;
+}
 
-// interface Props {
-//   className?: string;
-//   onStatusChange: (status: ActionStatus) => void;
-// }
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
+}
 
-// interface SortControls {
-//   sortBy: SortCategory;
-//   sortFromMax: boolean;
-// }
+interface SortControls {
+  sortBy: SortCategory;
+  sortFromMax: boolean;
+}
 
 const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
@@ -49,17 +40,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const { isIpfs } = useIpfs();
-  const { isLedgerEnabled } = useLedger();
+
+  const [ddelegation, setdelegation] = useState<Delegation | undefined>(undefined);
+
   const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
-  const [isImportOpen, toggleImport] = useToggle();
-  const [isLedgerOpen, toggleLedger] = useToggle();
-  const [isMultisigOpen, toggleMultisig] = useToggle();
-  const [isProxyOpen, toggleProxy] = useToggle();
-  const [isQrOpen, toggleQr] = useToggle();
-
-  const [delegationn, setdelegation] = useState();
-
 
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
@@ -70,8 +54,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const proxies = useProxies();
   const isLoading = useLoadingDelay();
 
-  // We use favorites only to check if it includes some element,
-  // so Object is better than array for that because hashmap access is O(1).
   const favoritesMap = useMemo(
     () => Object.fromEntries(favorites.map((x) => [x, true])),
     [favorites]
@@ -165,16 +147,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
-      
   const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
 
     accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
       // setdelegation(delegation);
       if (delegation !== undefined) {
-        setdelegation(delegation !== undefined ? delegation : null);
+        setdelegation(delegation);
       }
-      console.log(delegation,"delegation!!!!!!!!!!!!!")
+
+      console.log(delegation, 'delegation!!!!!!!!!!!!!');
       ret[address] =
         <Account
           account={account}
@@ -195,138 +177,28 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
 
-
-  console.log(delegationn,"PLEASE!!!")
+  console.log(ddelegation, 'PLEASE!!!');
 
   const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
 
   // console.log(sortedAccounts.length,"sortedAccounts")
   // console.log(delegations !== undefined ? delegations : 0,"delegations")
-  console.log(delegationn,"delegations")
-
+  console.log(ddelegation, 'delegations');
 
   return (
     <div className={className}>
-      {/* {isCreateOpen && (
-        <CreateModal
-          onClose={toggleCreate}
-          onStatusChange={onStatusChange}
-        />
-      )}
-      {isImportOpen && (
-        <ImportModal
-          onClose={toggleImport}
-          onStatusChange={onStatusChange}
-        />
-      )}
-      {isLedgerOpen && (
-        <Ledger onClose={toggleLedger} />
-      )}
-      {isMultisigOpen && (
-        <Multisig
-          onClose={toggleMultisig}
-          onStatusChange={onStatusChange}
-        />
-      )}
-      {isProxyOpen && (
-        <Proxy
-          onClose={toggleProxy}
-          onStatusChange={onStatusChange}
-        />
-      )}
-      {isQrOpen && (
-        <Qr
-          onClose={toggleQr}
-          onStatusChange={onStatusChange}
-        />
-      )} */}
-      {/* <BannerExtension />
-      <BannerClaims />
-      <Summary balance={balances.summary} />
-      <SummaryBox>
-        <section
-          className='dropdown-section'
-          data-testid='sort-by-section'
+      {ddelegation === undefined
+        ? null
+        : <Table
+          className='table'
+          empty={ddelegation === undefined && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+          header={header.current}
+          withCollapsibleRows
         >
-          <SortDropdown
-            defaultValue={sortBy}
-            label={t<string>('sort by')}
-            onChange={onDropdownChange()}
-            onClick={onSortDirectionChange()}
-            options={dropdownOptions()}
-            sortDirection={sortFromMax ? 'ascending' : 'descending'}
-          />
-          <FilterInput
-            filterOn={filterOn}
-            label={t<string>('filter by name or tags')}
-            setFilter={setFilter}
-          />
-        </section>
-        <Button.Group>
-          <Button
-            icon='plus'
-            isDisabled={isIpfs}
-            label={t<string>('Add account')}
-            onClick={_openCreateModal}
-          />
-          <Button
-            icon='sync'
-            isDisabled={isIpfs}
-            label={t<string>('Restore JSON')}
-            onClick={toggleImport}
-          />
-          <Button
-            icon='qrcode'
-            label={t<string>('Add via Qr')}
-            onClick={toggleQr}
-          />
-          {isLedgerEnabled && (
-            <>
-              <Button
-                icon='project-diagram'
-                label={t<string>('Add via Ledger')}
-                onClick={toggleLedger}
-              />
-            </>
-          )}
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletMultisig || !hasAccounts}
-            label={t<string>('Multisig')}
-            onClick={toggleMultisig}
-          />
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletProxy || !hasAccounts}
-            label={t<string>('Proxied')}
-            onClick={toggleProxy}
-          />
-        </Button.Group>
-      </SummaryBox> */}
-
-
-      {/* <Table
-        empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
-        header={header.current}
-        withCollapsibleRows
-      >
-        {!isLoading &&
-          sortedAccounts.map(({ address }) => accountComponents[address])
-        }
-      </Table> */}
-
-{delegationn === undefined ? 
-  null
- : <Table
- className="table"
- empty={delegationn === undefined && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
- header={header.current}
-    withCollapsibleRows
-  >
-    {!isLoading &&
+          {!isLoading &&
       sortedAccounts.map(({ address }) => accountComponents[address])
-    }
-  </Table>}
+          }
+        </Table>}
     </div>
   );
 }

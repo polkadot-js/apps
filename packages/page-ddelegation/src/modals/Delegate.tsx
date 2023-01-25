@@ -43,7 +43,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
 
   return (
     <table>
-    {/* <Modal
+      {/* <Modal
       className='staking--Delegate'
       header={previousDelegatedAccount
         ? t<string>('democracy vote delegation')
@@ -105,26 +105,26 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         </Modal.Columns>
       </Modal.Content>
       {previousDelegatedAccount && (
-          <TxButton
-            accountId={delegatingAccount}
-            icon='trash-alt'
-            label={t<string>('Undelegate')}
-            onStart={onClose}
-            tx={api.tx.democracy.undelegate}
-          />
-        )}
         <TxButton
           accountId={delegatingAccount}
-          icon='sign-in-alt'
-          isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
-          label={previousDelegatedAccount
-            ? t<string>('Save delegation')
-            : t<string>('Delegate')
-          }
+          icon='trash-alt'
+          label={t<string>('Undelegate')}
           onStart={onClose}
-          params={[delegatedAccount, conviction, amount]}
-          tx={api.tx.democracy.delegate}
+          tx={api.tx.democracy.undelegate}
         />
+      )}
+      <TxButton
+        accountId={delegatingAccount}
+        icon='sign-in-alt'
+        isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
+        label={previousDelegatedAccount
+          ? t<string>('Save delegation')
+          : t<string>('Delegate')
+        }
+        onStart={onClose}
+        params={[delegatedAccount, conviction, amount]}
+        tx={api.tx.democracy.delegate}
+      />
       <Modal.Actions>
         {/* {previousDelegatedAccount && (
           <TxButton
@@ -148,7 +148,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           tx={api.tx.democracy.delegate}
         /> */}
       </Modal.Actions>
-    {/* </Modal> */}
+      {/* </Modal> */}
     </table>
   );
 }

@@ -4,10 +4,18 @@
 import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
+<<<<<<< HEAD
 import { createCustom, createDev, createOwn } from './development.js';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
 import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
 import { expandEndpoints } from './util.js';
+=======
+import { defaultT } from '../util';
+import { createCustom, createDev, createOwn } from './development';
+import { prodChains, prodEdgewareNetwork, prodRelayKusama, prodRelayPolkadot } from './production';
+import { testChains, testRelayRococo, testRelayWestend } from './testing';
+import { expandEndpoints } from './util';
+>>>>>>> bd1fc43151 (lint & types fixed)
 
 export { CUSTOM_ENDPOINT_KEY } from './development.js';
 export * from './production.js';
