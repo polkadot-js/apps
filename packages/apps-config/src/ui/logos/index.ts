@@ -247,7 +247,6 @@ import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
 const chainWestendCollectives = { fa: 'people-group' };
-const chainWestendBridgeHub = { fa: 'bridge' };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -362,7 +361,7 @@ export const chainLogos = Object.entries({
   Konomi: nodeKonomi,
   Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
-  'Kusama BridgeHub': chainWestendBridgeHub,
+  'Kusama BridgeHub': nodeBridgeHubBlack,
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
   'Kusama CC3': chainKusama,
@@ -489,7 +488,7 @@ export const chainLogos = Object.entries({
   'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend BridgeHub': chainWestendBridgeHub,
+  'Westend BridgeHub': nodeBridgeHubBlack,
   'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
@@ -837,7 +836,7 @@ export const namedLogos: Record<string, unknown> = {
   kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
-  kusamaBridgeHub: chainWestendBridgeHub,
+  kusamaBridgeHub: nodeBridgeHubBlack,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -1025,7 +1024,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendBridgeHub: chainWestendBridgeHub,
+  westendBridgeHub: nodeBridgeHubBlack,
   westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
