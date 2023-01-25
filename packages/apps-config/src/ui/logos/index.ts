@@ -115,6 +115,8 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.png';
+import nodeBridgeHubBlack from './nodes/BridgeHubBlack.svg';
+import nodeBridgeHub from './nodes/nodeBridgeHub.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -436,6 +438,7 @@ export const chainLogos = Object.entries({
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
+  'Rococo Bridgehub': nodeBridgeHubBlack,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -900,6 +903,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
+  rococoBridgehub: nodeBridgeHubBlack,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
