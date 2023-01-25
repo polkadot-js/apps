@@ -115,6 +115,7 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.png';
+import nodeBridgeHubBlack from './nodes/BridgeHubBlack.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -245,7 +246,6 @@ import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
 
 const chainWestendCollectives = { fa: 'people-group' };
-const chainWestendBridgeHub = { fa: 'bridge' };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -360,7 +360,7 @@ export const chainLogos = Object.entries({
   Konomi: nodeKonomi,
   Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
-  'Kusama BridgeHub': chainWestendBridgeHub,
+  'Kusama BridgeHub': nodeBridgeHubBlack,
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
   'Kusama CC3': chainKusama,
@@ -436,6 +436,7 @@ export const chainLogos = Object.entries({
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
+  'Rococo Bridgehub': nodeBridgeHubBlack,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -486,7 +487,7 @@ export const chainLogos = Object.entries({
   'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend BridgeHub': chainWestendBridgeHub,
+  'Westend BridgeHub': nodeBridgeHubBlack,
   'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
@@ -834,7 +835,7 @@ export const namedLogos: Record<string, unknown> = {
   kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
-  kusamaBridgeHub: chainWestendBridgeHub,
+  kusamaBridgeHub: nodeBridgeHubBlack,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -900,6 +901,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
+  rococoBridgehub: nodeBridgeHubBlack,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
@@ -1021,7 +1023,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendBridgeHub: chainWestendBridgeHub,
+  westendBridgeHub: nodeBridgeHubBlack,
   westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
