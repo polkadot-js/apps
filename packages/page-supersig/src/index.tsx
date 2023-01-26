@@ -13,6 +13,7 @@ import type { DecodedExtrinsic } from './Extrinsics/types';
 import Execute from './Execute';
 import Overview from './Accounts';
 import { useTranslation } from './translate';
+import Contacts from './Supersig/Contacts';
 // import SupersigInfo from './SupersigInfo'
 
 
@@ -87,6 +88,7 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
           <SupersigInfo />
         </Route> */}
         <Route path={`${basePath}/supersigs`}>
+          <Contacts basePath={basePath} />
         </Route>
         <Route path={`${basePath}/proposals`}>
         </Route>
