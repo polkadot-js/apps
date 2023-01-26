@@ -441,7 +441,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     text: 'Collectives',
     teleport: [-1],
     providers: {
-      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
+      OnFinality: 'wss://collectives.api.onfinality.io/public-ws'
     }
   }
 ];
