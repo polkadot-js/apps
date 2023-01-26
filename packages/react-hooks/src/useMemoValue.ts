@@ -10,6 +10,11 @@ interface State<T> {
   value: T;
 }
 
+// since we use these in tests, we are not using React.MutableRef<State<T>>
+interface Ref<T> {
+  current: State<T> | null;
+}
+
 /**
  * @internal
  *
@@ -29,7 +34,7 @@ export function isDifferent (a: unknown, b: unknown, depth = -1): boolean {
       ? a.some((ai, i) => isDifferent(ai, b[i], depth))
       // not equal and not an array
       : true
-    // straigh match, exact object found
+    // exact value match found
     : false;
 }
 
@@ -39,21 +44,15 @@ export function isDifferent (a: unknown, b: unknown, depth = -1): boolean {
  * Checks the supplied value against the previous state, returning either the
  * previous state (if we have a match) or a new object for future compares.
  **/
-export function getMemoValue <T> (ref: { current: State<T> | null }, value: T): T {
-  let curr = ref.current;
-
+export function getMemoValue <T> (ref: Ref<T>, value: T): T {
   // check that either we have no previous or the value changed
-  if (!curr || isDifferent(curr.value, value)) {
+  if (!ref.current || isDifferent(ref.current.value, value)) {
     const stringified = stringify({ value });
 
     // no previous or the stringified result is different
-    if (!curr || curr.stringified !== stringified) {
-      curr = { stringified, value };
+    if (!ref.current || ref.current.stringified !== stringified) {
+      ref.current = { stringified, value };
     }
-  }
-
-  if (ref.current !== curr) {
-    ref.current = curr;
   }
 
   return ref.current.value;

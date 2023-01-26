@@ -15,6 +15,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
 import useSummary from '../useSummary';
+import Delegate from './Delegate';
 import Group from './Group';
 import Submit from './Submit';
 import Summary from './Summary';
@@ -88,6 +89,13 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
           options={trackOpts}
           value={trackSelected}
         />
+        {isConvictionVote && (
+          <Delegate
+            palletReferenda={palletReferenda}
+            palletVote={palletVote}
+            tracks={tracks}
+          />
+        )}
         <AddPreimage />
         <Submit
           isMember={isMember}

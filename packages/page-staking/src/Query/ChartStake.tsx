@@ -83,9 +83,9 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
   return (
     <Chart
       colors={COLORS_STAKE}
-      header={t<string>('elected stake')}
       labels={labels}
       legends={legends}
+      title={t<string>('elected stake')}
       values={values}
     />
   );

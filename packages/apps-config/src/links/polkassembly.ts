@@ -48,7 +48,7 @@ export const PolkassemblyNetwork: ExternalDef = {
     'KILT Spiritnet': 'kilt',
     Karura: 'karura',
     'Khala Network': 'khala',
-    Moonbase: 'moonbase',
+    'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver'
   },

@@ -5,7 +5,6 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { Bytes } from '@polkadot/types';
 import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { IExtrinsic, Registry } from '@polkadot/types/types';
@@ -181,6 +180,7 @@ export interface PreimageStatus {
   count: number;
   deposit?: PreimageDeposit;
   isCompleted: boolean;
+  isHashParam: boolean;
   proposalHash: HexString;
   proposalLength?: BN;
   registry: Registry;
@@ -188,7 +188,6 @@ export interface PreimageStatus {
 }
 
 export interface PreimageBytes {
-  bytes?: Bytes | null;
   proposal?: Call | null;
   proposalError?: string | null;
   proposalWarning?: string | null;

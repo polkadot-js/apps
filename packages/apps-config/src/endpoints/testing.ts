@@ -96,13 +96,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'bitgreen',
-    text: 'Bitgreen Testnet',
-    providers: {
-      // Bitgreen: 'wss://standalonetestnet.bitgreen.org' // https://github.com/polkadot-js/apps/issues/8693
-    }
-  },
-  {
     info: 'cess-testnet',
     text: 'CESS Testnet',
     providers: {
@@ -197,6 +190,13 @@ export const testChains: EndpointOption[] = [
     text: 'Fantour',
     providers: {
       // FantourDev: 'wss://test-ws.fantour.io' // https://github.com/polkadot-js/apps/issues/6519
+    }
+  },
+  {
+    info: 'ferrum',
+    text: 'Ferrum Testnet',
+    providers: {
+      Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
     }
   },
   {

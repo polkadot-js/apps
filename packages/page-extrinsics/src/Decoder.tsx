@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { Call } from '@polkadot/types/interfaces';
+import type { Call, ExtrinsicPayload } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 import type { DecodedExtrinsic } from './types';
 
@@ -12,7 +12,7 @@ import styled from 'styled-components';
 
 import { Call as CallDisplay, Input, InputExtrinsic, MarkError } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { assert, isHex } from '@polkadot/util';
+import { assert, compactToU8a, isHex, u8aConcat, u8aEq } from '@polkadot/util';
 
 import Decoded from './Decoded';
 import { useTranslation } from './translate';
@@ -30,6 +30,7 @@ interface ExtrinsicInfo {
   extrinsicFn: SubmittableExtrinsicFunction<'promise'> | null;
   extrinsicHex: string | null;
   extrinsicKey: string;
+  extrinsicPayload: ExtrinsicPayload | null;
   isCall: boolean;
 }
 
@@ -40,6 +41,7 @@ const DEFAULT_INFO: ExtrinsicInfo = {
   extrinsicFn: null,
   extrinsicHex: null,
   extrinsicKey: 'none',
+  extrinsicPayload: null,
   isCall: true
 };
 
@@ -48,7 +50,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
   const [initialValue] = useState(() => defaultValue || encoded);
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, extrinsicKey, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
+  const [{ decoded, extrinsicCall, extrinsicError, extrinsicFn, extrinsicKey, extrinsicPayload, isCall }, setExtrinsicInfo] = useState<ExtrinsicInfo>(DEFAULT_INFO);
 
   const _setExtrinsicHex = useCallback(
     (hex: string): void => {
@@ -56,8 +58,9 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
         assert(isHex(hex), 'Expected a hex-encoded call');
 
         let extrinsicCall: Call;
+        let extrinsicPayload: ExtrinsicPayload | null = null;
         let decoded: SubmittableExtrinsic<'promise'> | null = null;
-        let isCall = true;
+        let isCall = false;
 
         try {
           // cater for an extrinsic input
@@ -68,13 +71,36 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
 
           decoded = tx;
           extrinsicCall = api.createType('Call', decoded.method);
-          isCall = false;
-        } catch (e) {
-          // attempt to decode as Call
-          extrinsicCall = api.createType('Call', hex);
+        } catch {
+          try {
+            // attempt to decode as Call
+            extrinsicCall = api.createType('Call', hex);
 
-          // ensure we used all bytes (as we did above)
-          assert(extrinsicCall.toHex() === hex, 'Unable to decode data as Call, length mismatch in supplied data');
+            const callHex = extrinsicCall.toHex();
+
+            if (callHex === hex) {
+              // all good, we have a call
+              isCall = true;
+            } else if (hex.startsWith(callHex)) {
+              // this could be an un-prefixed payload...
+              const prefixed = u8aConcat(compactToU8a(extrinsicCall.encodedLength), hex);
+
+              extrinsicPayload = api.createType('ExtrinsicPayload', prefixed);
+
+              assert(u8aEq(extrinsicPayload.toU8a(), prefixed), 'Unable to decode data as un-prefixed ExtrinsicPayload');
+
+              extrinsicCall = api.createType('Call', extrinsicPayload.method.toHex());
+            } else {
+              throw new Error('Unable to decode data as Call, length mismatch in supplied data');
+            }
+          } catch {
+            // final attempt, we try this as-is as a (prefixed) payload
+            extrinsicPayload = api.createType('ExtrinsicPayload', hex);
+
+            assert(extrinsicPayload.toHex() === hex, 'Unable to decode input data as Call, Extrinsic or ExtrinsicPayload');
+
+            extrinsicCall = api.createType('Call', extrinsicPayload.method.toHex());
+          }
         }
 
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
@@ -85,7 +111,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
           decoded = extrinsicFn(...extrinsicCall.args);
         }
 
-        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex, extrinsicKey, isCall });
+        setExtrinsicInfo({ ...DEFAULT_INFO, decoded, extrinsicCall, extrinsicFn, extrinsicHex: hex, extrinsicKey, extrinsicPayload, isCall });
         setLast({ call: extrinsicCall, fn: extrinsicFn, hex });
       } catch (e) {
         setExtrinsicInfo({ ...DEFAULT_INFO, extrinsicError: (e as Error).message });
@@ -124,6 +150,7 @@ function Decoder ({ className, defaultValue, setLast }: Props): React.ReactEleme
       <Decoded
         extrinsic={decoded}
         isCall={isCall}
+        payload={extrinsicPayload}
         withData={false}
       />
     </StyledDiv>

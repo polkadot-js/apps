@@ -93,9 +93,9 @@ function ChartRewards ({ labels, validatorId }: Props): React.ReactElement<Props
   return (
     <Chart
       colors={COLORS_REWARD}
-      header={t<string>('rewards & slashes')}
       labels={labels}
       legends={legends}
+      title={t<string>('rewards & slashes')}
       values={values}
     />
   );

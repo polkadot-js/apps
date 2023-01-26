@@ -6,7 +6,7 @@ import type { ChartContents, Detail } from './types';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, NextTick, SummaryBox } from '@polkadot/react-components';
 import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -178,20 +178,17 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
-      {isLoaded
-        ? ORDER.map((key, i) =>
-          shouldRender[i] && (
-            <Chart
-              colors={COLORS[key]}
-              key={key}
-              legends={legend[key]}
-              title={title[key]}
-              value={points[key]}
-            />
-          )
-        )
-        : <Spinner />
-      }
+      <NextTick isActive={isLoaded}>
+        {ORDER.map((key) => (
+          <Chart
+            colors={COLORS[key]}
+            key={key}
+            legends={legend[key]}
+            title={title[key]}
+            value={points[key]}
+          />
+        ))}
+      </NextTick>
     </StyledDiv>
   );
 }

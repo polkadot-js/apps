@@ -406,17 +406,17 @@ function Referendum (props: Props): React.ReactElement<Props> {
         >
           {chartProps && (
             <Columar>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
+                  title={t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}
                   {...chartProps[0]}
                 />
               </Columar.Column>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
+                  title={t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}
                   {...chartProps[1]}
                 />
               </Columar.Column>
@@ -478,14 +478,6 @@ function Referendum (props: Props): React.ReactElement<Props> {
 }
 
 const StyledTr = styled.tr`
-  .chartColumn {
-    h1 {
-      margin-bottom: 0;
-      margin-top: 1rem;
-      padding-left: 3rem;
-    }
-  }
-
   .shortHash {
     max-width: var(--width-shorthash);
     min-width: 3em;
