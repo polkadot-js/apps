@@ -55,7 +55,10 @@ function Summary ({ sigCnt, totalProposalCnt, totalBalance }: Props) {
             <p>{totalProposalCnt}</p>
           </CardSummary>
           <CardSummary label={t<string>('Total Funds')}>
-            <p>{totalBalance}UNIT</p>
+            <FormatBalance
+              className='result'
+              value={totalBalance}
+            />
           </CardSummary>
     </div>
   );

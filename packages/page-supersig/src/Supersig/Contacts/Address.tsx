@@ -18,6 +18,11 @@ import { useTranslation } from '../translate';
 import { Vec } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import IdentityIcon from '@polkadot/react-components/IdentityIcon';
+import { FormatBalance } from '@polkadot/react-query';
+
+import { largeNumSum } from '../../util';
+
 
 interface Props {
   address: string;
@@ -27,13 +32,11 @@ interface Props {
   toggleFavorite: (address: string) => void;
   totalProposalCnt: number;
   setTotalProposalCnt: () => void;
-  totalBalance: number;
-  setTotalBalance: () => void;
 }
 
 const isEditable = true;
 
-function Address ({ address, className = '', filter, isFavorite, toggleFavorite, totalProposalCnt, setTotalProposalCnt, totalBalance, setTotalBalance }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite, totalProposalCnt, setTotalProposalCnt }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
@@ -43,7 +46,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
   const [accName, setAccName] = useState('');
   const [memberCnt, setMemberCnt] = useState(0);
   const [proposalCnt, setProposalCnt] = useState(0);
-  const [balancesSum, setBalancesSum] = useState(0);
+  const [balancesSum, setBalancesSum] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
@@ -77,31 +80,25 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
       }
     );
     setMemberCnt(data.result.length);
-    // let tempBSum = 0;
-    // data.result.map((item, i)=>{
-    //   tempBSum += useBalancesAll(item[0]);
-    // })
     
-    var tempBalance : number = 0;
+    var tempBalance:string = '';
     var tempMemberAccounts : Array<object> = [];
-    data.result.map(async (item) => {
+    await Promise.all(data.result.map(async(item: any) => {
       let balance = await api.api.derive.balances?.all(item[0]);
-      tempBalance += formatNumber(balance.accountNonce);
+      var membalance = (balance.freeBalance.add(balance.reservedBalance)).toString();
+      if(tempBalance.length > membalance.length){
+        tempBalance = largeNumSum(tempBalance, membalance);
+      }else{
+        tempBalance = largeNumSum(membalance, tempBalance);
+      }
 
-      let info = {id: item[0], balance: formatNumber(balance.accountNonce)};
+      let info = {id: item[0], balance: membalance};
 
       tempMemberAccounts.push(info);
-      // if (balance?.accountNonce.gt(BN_ZERO)) {
-      //   tempBalance += formatNumber(balance.accountNonce);
-      //   console.log(formatNumber(balance.accountNonce));
-      // }
-    })
+    }))
 
-
-    console.log(tempMemberAccounts)
     setBalancesSum(tempBalance);
     setMemberAccounts(tempMemberAccounts);
-    // console.log(t);
 
   }
 
@@ -115,11 +112,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
     const current = keyring.getAddress(address);
     getInfo();
     getProposal();
-
-    // Get totalBalance
-    if (balancesAll?.accountNonce.gt(BN_ZERO)) {
-      setTotalBalance(totalBalance + formatNumber(balancesAll.accountNonce));
-    }
 
     setCurrent(current || null);
     setGenesisHash((current && current.meta.genesisHash) || null);
@@ -216,9 +208,15 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
     return (
       <div style={{maxHeight: "100px", overflow: "auto", padding: "20px 20px", borderRadius: "6px", width: "250px", position: "absolute", background: "#e5e5e5", overflow: 'auto'}}>
         {
-          memberAccounts && memberAccounts.map((item, index) => <div key={index}>
-            <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden'}}>{item.id}</p>
-            <p>{item.balance}UNIT</p>
+          memberAccounts && memberAccounts.map((item, index) => <div key={index} style={{display: "-webkit-box"}}>
+            <IdentityIcon value={item.id as Uint8Array} />
+            <div>
+              <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{item.id}</p>
+              <FormatBalance
+                className='result'
+                value={item.balance}
+              />
+            </div>
           </div>)
         }
       </div>
@@ -285,7 +283,10 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
           { proposalCnt }
         </td>
         <td className='number' onClick={() => setShowDetail(!showDetail)}>
-          { balancesSum } ({memberCnt})
+          <FormatBalance
+            className='result'
+            value={balancesSum}
+          /> ({formatNumber(memberCnt)})
           { showDetail &&  <BalanceDetail />}
         </td>
         <td className='number media--1500'>

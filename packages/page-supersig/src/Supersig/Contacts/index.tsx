@@ -4,15 +4,17 @@
 import type { ComponentProps as Props } from '../types';
 
 import React, { useEffect, useRef, useState } from 'react';
+import type { BN } from '@polkadot/util';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from '../modals/Create';
 import { useTranslation } from '../translate';
 import Address from './Address';
 import Summary from './Summary';
+import { largeNumSum } from '../../util';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
@@ -28,6 +30,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [totalProposalCnt, setTotalProposalCnt] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
   const isLoading = useLoadingDelay();
+  const api = useApi();
 
   const headerRef = useRef([
     [t('Supersigs'), 'start', 2],
@@ -51,7 +54,24 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               : -1
         )
     );
+   setbalance(); 
   }, [allAddresses, favorites]);
+
+  const setbalance = async() => {
+    var totalbalances:string = '';
+
+    await Promise.all(allAddresses.map(async (address)=>{
+      let balancesAll = await api.api.derive.balances?.all(address);
+      let sigBalance = (balancesAll.freeBalance.add(balancesAll.reservedBalance)).toString();
+      if(totalbalances.length > sigBalance.length){
+        totalbalances = largeNumSum(totalbalances, sigBalance);
+      }else{
+        totalbalances = largeNumSum(sigBalance, totalbalances);
+      }
+    }))
+    setTotalBalance(totalbalances);
+  }
+
 
   return (
     <div className={className} style={{overflow: "auto"}}>
@@ -76,8 +96,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             toggleFavorite={toggleFavorite}
             totalProposalCnt={totalProposalCnt}
             setTotalProposalCnt={setTotalProposalCnt}
-            totalBalance={totalBalance}
-            setTotalBalance={setTotalBalance}
           />
         ))}
       </Table>
