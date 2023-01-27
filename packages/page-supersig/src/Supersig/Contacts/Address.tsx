@@ -206,7 +206,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
 
   const BalanceDetail = () : JSX.Element => {
     return (
-      <div style={{maxHeight: "100px", overflow: "auto", padding: "20px 20px", borderRadius: "6px", width: "250px", position: "absolute", background: "#e5e5e5", overflow: 'auto'}}>
+      <div style={{maxHeight: "200px", overflow: "auto", padding: "20px 20px", borderRadius: "6px", width: "250px", position: "absolute", background: "#e5e5e5", overflow: 'auto'}}>
         {
           memberAccounts && memberAccounts.map((item, index) => <div key={index} style={{display: "-webkit-box"}}>
             <IdentityIcon value={item.id as Uint8Array} />
