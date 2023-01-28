@@ -29,7 +29,7 @@ interface Props {
 function Output ({ children, className = '', isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <StyledLabelled
-      className={className}
+      className={`${className} ui--Output`}
       isFull={isFull}
       isHidden={isHidden}
       isSmall={isSmall}
