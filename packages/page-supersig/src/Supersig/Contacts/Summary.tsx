@@ -22,17 +22,17 @@ interface Props {
   // balance?: AccountBalance;
   // supersigs?: SupersigsAssociated;
   sigCnt: SortedAddress[] | undefined;
-  totalProposalCnt: number;
+  totalProposals: number;
+  totalBalance: string;
 }
 
-function Summary ({ sigCnt, totalProposalCnt, totalBalance }: Props) {
+function Summary ({ sigCnt, totalProposals, totalBalance }: Props) {
   const { api } = useApi();
   const { t } = useTranslation();
   const supersig = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
   // const getUserSupersigs = api.rpc.superSig.getUserSupersigs(supersig)
   // const activeSupersigMember = useCall<...any[]>(api.rpc.superSig.getUserSupersigs())>;
   //api.rpc.superSig.listMembers(supersigs)
-
 
 
 
@@ -52,7 +52,7 @@ function Summary ({ sigCnt, totalProposalCnt, totalBalance }: Props) {
               </CardSummary>
           }
           <CardSummary label={t<string>('Proposals')}>
-            <p>{totalProposalCnt}</p>
+            <p>{totalProposals}</p>
           </CardSummary>
           <CardSummary label={t<string>('Total Funds')}>
             <FormatBalance

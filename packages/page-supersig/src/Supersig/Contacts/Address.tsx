@@ -9,7 +9,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import axios  from 'axios';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
@@ -30,13 +30,11 @@ interface Props {
   filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
-  totalProposalCnt: number;
-  setTotalProposalCnt: () => void;
 }
 
 const isEditable = true;
 
-function Address ({ address, className = '', filter, isFavorite, toggleFavorite, totalProposalCnt, setTotalProposalCnt }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
@@ -53,7 +51,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const [showDetail, setShowDetail] = useState(false);
   
   const [memberAccounts, setMemberAccounts] = useState<Array<object>>([]);
 
@@ -63,27 +60,11 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
   );
 
   const getInfo = async () => {
-    const {data} = await axios.post(
-      'http://localhost:9933/',
-      {
-          id: 1,
-          jsonrpc: '2.0',
-          method: 'superSig_listMembers',
-          params: [
-              address
-          ]
-      },
-      {
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      }
-    );
-    setMemberCnt(data.result.length);
-    
+    let members: any[] = await (await api.api.rpc.superSig.listMembers(address)).toArray();
+    setMemberCnt(members.length);
     var tempBalance:string = '';
     var tempMemberAccounts : Array<object> = [];
-    await Promise.all(data.result.map(async(item: any) => {
+    await Promise.all(members && members.map(async(item: any) => {
       let balance = await api.api.derive.balances?.all(item[0]);
       var membalance = (balance.freeBalance.add(balance.reservedBalance)).toString();
       if(tempBalance.length > membalance.length){
@@ -92,7 +73,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
         tempBalance = largeNumSum(membalance, tempBalance);
       }
 
-      let info = {id: item[0], balance: membalance};
+      let info = {id: item[0].toString(), balance: membalance};
 
       tempMemberAccounts.push(info);
     }))
@@ -105,7 +86,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
   const getProposal = async () => {
     const proposals : FetchListProposals = await api.api.rpc.superSig.listProposals(address);
     setProposalCnt(proposals.proposals_info.length);
-    setTotalProposalCnt(totalProposalCnt + proposals.proposals_info.length);
   }
 
   useEffect((): void => {
@@ -204,22 +184,39 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
     return null;
   }
 
-  const BalanceDetail = () : JSX.Element => {
+  interface IMemberItem {
+    id?: Uint8Array | String;
+    balance?: String;
+  }
+
+  const BalanceDetail = () : React.ReactElement => {
+
+    const renderVoters = useCallback(
+      () => memberAccounts && memberAccounts.map((item: IMemberItem, index: number): React.ReactNode =>
+        <div key={index} style={{display: "-webkit-box"}}>
+          <IdentityIcon value={item.id as Uint8Array} />
+          <div>
+            <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{item.id}</p>
+            <FormatBalance
+              className='result'
+              value={item.balance}
+            />
+          </div>
+        </div>
+      ),
+      [memberAccounts]
+    );
+
     return (
-      <div style={{maxHeight: "200px", overflow: "auto", padding: "20px 20px", borderRadius: "6px", width: "250px", position: "absolute", background: "#e5e5e5", overflow: 'auto'}}>
-        {
-          memberAccounts && memberAccounts.map((item, index) => <div key={index} style={{display: "-webkit-box"}}>
-            <IdentityIcon value={item.id as Uint8Array} />
-            <div>
-              <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{item.id}</p>
-              <FormatBalance
-                className='result'
-                value={item.balance}
-              />
-            </div>
-          </div>)
-        }
-      </div>
+      <ExpanderScroll
+        renderChildren={renderVoters}
+        summary={<>
+          <FormatBalance
+              className='result'
+              value={balancesSum}
+            /> ({formatNumber(memberCnt)})
+          </>}
+      />
     )
   }
 
@@ -282,12 +279,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite,
         <td className='number'>
           { proposalCnt }
         </td>
-        <td className='number' onClick={() => setShowDetail(!showDetail)}>
-          <FormatBalance
-            className='result'
-            value={balancesSum}
-          /> ({formatNumber(memberCnt)})
-          { showDetail &&  <BalanceDetail />}
+        <td className='number'>
+          <BalanceDetail />
         </td>
         <td className='number media--1500'>
           {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}

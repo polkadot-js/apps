@@ -5,10 +5,10 @@ import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps as Props } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { hexToU8a } from '@polkadot/util';
 import { ethereumEncode } from '@polkadot/util-crypto';
@@ -28,6 +28,8 @@ interface NameState {
   name: string;
 }
 
+const STORE_FAVS = 'accounts:favorites';
+
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isEthereum } = useApi();
@@ -35,6 +37,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
   const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
   const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
 
   const _onChangeAddress = useCallback(
     (addressInput: string): void => {
@@ -102,16 +105,18 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           : t<string>('address created');
 
         InputAddress.setLastValue('address', address);
+        
       } catch (error) {
         status.status = 'error';
         status.message = (error as Error).message;
       }
-
+      toggleFavorite(address);
       onStatusChange(status);
       onClose();
     },
     [info, isAddressExisting, isValid, name, onClose, onStatusChange, t]
   );
+
 
   return (
     <Modal
