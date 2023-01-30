@@ -550,9 +550,6 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   button {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
-    line-height: 1rem;
-    text-transform: var(--text-transform-label);
-    vertical-align: middle;
   }
 
   main {

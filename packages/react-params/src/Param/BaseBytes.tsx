@@ -20,7 +20,6 @@ interface Props {
   defaultValue: RawParam;
   isDisabled?: boolean;
   isError?: boolean;
-  isInOption?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   length?: number;

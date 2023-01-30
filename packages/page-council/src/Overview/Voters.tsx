@@ -32,7 +32,6 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
         colSpan={2}
       >
         <ExpanderScroll
-          className={balance ? '' : '--placeholder'}
           renderChildren={renderVoters}
           summary={
             <FormatBalance

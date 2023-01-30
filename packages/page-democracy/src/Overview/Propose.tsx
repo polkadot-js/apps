@@ -6,7 +6,6 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useState } from 'react';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, usePreimage } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';

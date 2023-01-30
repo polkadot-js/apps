@@ -40,8 +40,6 @@ function useMembersImpl (): Member[] | undefined {
   const role0 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[0]]);
   const role1 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[1]]);
   const role2 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[2]]);
-  // for the Founder role, we don't expect and actual value
-  const role3 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[3]]);
 
   useEffect((): void => {
     role0 && role1 && role2 &&

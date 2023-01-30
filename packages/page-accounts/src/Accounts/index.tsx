@@ -7,7 +7,7 @@ import type { BN } from '@polkadot/util';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import type { SortCategory } from '../util';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
