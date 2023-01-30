@@ -4,6 +4,7 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountIdIsh, ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
@@ -15,6 +16,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
 import type  { MembersList, FetchProposalState, UserSupersig, FetchListProposals } from 'supersig-types/dist/interfaces/default'
 import { useTranslation } from '../translate';
+import { Observable } from '@polkadot/types/types';
 import { Vec } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -53,6 +55,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   
   const [memberAccounts, setMemberAccounts] = useState<Array<object>>([]);
+  const members = useCall<MembersList>(api.api.rpc.superSig.listMembers, [address]);
+  const proposals = useCall<FetchListProposals>(api.api.rpc.superSig.listProposals, [address]);
 
   const _setTags = useCallback(
     (tags: string[]): void => setTags(tags.sort()),
@@ -60,11 +64,10 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 
   const getInfo = async () => {
-    let members: any[] = await (await api.api.rpc.superSig.listMembers(address)).toArray();
-    setMemberCnt(members.length);
+    setMemberCnt(((members?.toArray()) || []).length);
     var tempBalance:string = '';
     var tempMemberAccounts : Array<object> = [];
-    await Promise.all(members && members.map(async(item: any) => {
+    await Promise.all((members?.toArray() || []).map(async(item: any) => {
       let balance = await api.api.derive.balances?.all(item[0]);
       var membalance = (balance.freeBalance.add(balance.reservedBalance)).toString();
       if(tempBalance.length > membalance.length){
@@ -83,20 +86,15 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   }
 
-  const getProposal = async () => {
-    const proposals : FetchListProposals = await api.api.rpc.superSig.listProposals(address);
-    setProposalCnt(proposals.proposals_info.length);
-  }
-
   useEffect((): void => {
     const current = keyring.getAddress(address);
     getInfo();
-    getProposal();
+    setProposalCnt((proposals?.proposals_info || []).length);
 
     setCurrent(current || null);
     setGenesisHash((current && current.meta.genesisHash) || null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api]);
+  }, [api, members,proposals]);
 
   useEffect((): void => {
     const { identity, nickname } = info || {};
