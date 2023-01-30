@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## 0.124.1 Jan 30, 2023
+
+Contributed:
+
+- TheBifrost testnet & logo changes (Thanks to https://github.com/alstjd0921)
+- Add Kusama BridgeHub (Thanks to https://github.com/BulatSaif)
+- subsquare link for Rococo (Thanks to https://github.com/wliyongfeng)
+- Adjust external Moonbase links (Thanks to https://github.com/albertov19)
+- Add Collectives OnFinality endpoint (Thanks to https://github.com/banananeko)
+- Remove Ajuna OnFinality endpoint (Thanks to https://github.com/MinjieTian)
+- Add Ajuna RadiumBlock endpoint (Thanks to https://github.com/radiumb)
+- Update Bitgreen endpoints (Thanks to https://github.com/abhath-labs)
+- Adjust Subsocial providers (Thanks to https://github.com/teodorus-nathaniel)
+- Add IPB endpoints to Westend (Thanks to https://github.com/miloskriz)
+- Add Ferrum network (Thanks to https://github.com/3ierratango)
+- Dwellir endpoint for Amplitude (Thanks to https://github.com/Maharacha)
+- Add logos for BridgeHub chains (Thanks to https://github.com/serban300)
+
+Changes:
+
+- Align council & other collective layouts
+- Add `ExtrinsicPayload` decoding in extrinsics -> Decode
+- Allow for non-promt signing of multiple txs
+- Optimize multi-column Table renders
+- Adjust `usePreimage` to handle inline calls
+- Remove `Founding` role in alliance (aligns with latest Substrate)
+- Ensure API stats graph correctly displays in/out transfers
+- Add `useTimer` hook (used in `ApiCtx`)
+- Allow for `fa-*` icons for chains (initially used in Collectives/BridgeHub)
+- Allow for conviction voting delegation setup
+- Disable unreachable endpoints
+- Dedupe/align chart titles
+- Wrap network latency & API stats wraphs in `NextTick`
+- Adjust display for RPC output labels
+
+
 ## 0.123.1 Jan 16, 2023
 
 Contributed:
