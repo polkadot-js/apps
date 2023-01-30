@@ -71,7 +71,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={style}
     >
@@ -81,11 +81,11 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
           src={src}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(RoboHash)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   border-radius: 50%;
   position: relative;
@@ -102,4 +102,6 @@ export default React.memo(styled(RoboHash)`
       opacity: 0.35;
     }
   }
-`);
+`;
+
+export default React.memo(RoboHash);

@@ -75,11 +75,10 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   );
 
   return (
-    <div className={`toolbox--Verify ${className}`}>
+    <StyledDiv className={`${className} toolbox--Verify`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
-          help={t<string>('The account that signed the input')}
           isError={!isValidPk}
           isInput
           label={t<string>('verify using address')}
@@ -90,7 +89,6 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         <Input
           autoFocus
           className='full'
-          help={t<string>('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
           label={t<string>('using the following data')}
           onChange={_onChangeData}
           value={data}
@@ -106,7 +104,6 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         </div>
         <Input
           className='full'
-          help={t<string>('The signature as by the account being checked, supplied as a hex-formatted string.')}
           isError={!isValidSignature}
           label={t<string>('the supplied signature')}
           onChange={_onChangeSignature}
@@ -116,14 +113,12 @@ function Verify ({ className = '' }: Props): React.ReactElement {
       <div className='ui--row'>
         <Dropdown
           defaultValue={cryptoType}
-          help={t<string>('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
           isDisabled
           label={t<string>('signature crypto type')}
           options={cryptoOptions}
         />
         <Static
           className='medium'
-          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
           label={t<string>('hex input data')}
           value={
             isHexData
@@ -132,11 +127,11 @@ function Verify ({ className = '' }: Props): React.ReactElement {
           }
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Verify)`
+const StyledDiv = styled.div`
   .ui--AlignedIconContainer {
     position: absolute;
     z-index: 1;
@@ -147,4 +142,6 @@ export default React.memo(styled(Verify)`
     position: relative;
     top: 1.25rem;
   }
-`);
+`;
+
+export default React.memo(Verify);

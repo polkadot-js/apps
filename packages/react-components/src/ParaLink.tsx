@@ -31,7 +31,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
     : endpoints[0];
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <ChainImg
         isInline
         logo={info || 'empty'}
@@ -46,11 +46,11 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
         )
         : text
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ParaLink)`
+const StyledDiv = styled.div`
   vertical-align: middle;
   white-space: nowrap;
 
@@ -63,4 +63,6 @@ export default React.memo(styled(ParaLink)`
     text-overflow: ellipsis;
     vertical-align: middle;
   }
-`);
+`;
+
+export default React.memo(ParaLink);

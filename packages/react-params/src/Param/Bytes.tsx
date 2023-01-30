@@ -4,7 +4,6 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
@@ -32,14 +31,23 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
     [onChange]
   );
 
+  const toggleLabel = !isDisabled && (
+    <Toggle
+      label={t<string>('file upload')}
+      onChange={setFileInput}
+      value={isFileDrop}
+    />
+  );
+
   return (
-    <div className={className}>
+    <div className={`${className} --relative`}>
       {!isDisabled && isFileDrop
         ? (
           <File
             isDisabled={isDisabled}
             isError={isError || !isValid}
             label={label}
+            labelExtra={toggleLabel}
             onChange={_onChangeFile}
             withLabel={withLabel}
           />
@@ -51,6 +59,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
             isError={isError}
             isInOption={isInOption}
             label={label}
+            labelExtra={toggleLabel}
             length={-1}
             name={name}
             onChange={onChange}
@@ -62,18 +71,9 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, isInOption,
           />
         )
       }
-      {!isDisabled && !isInOption && (
-        <Toggle
-          isOverlay
-          label={t<string>('file upload')}
-          onChange={setFileInput}
-          value={isFileDrop}
-        />
-      )}
+      {}
     </div>
   );
 }
 
-export default React.memo(styled(Bytes)`
-  position: relative;
-`);
+export default React.memo(Bytes);

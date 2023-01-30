@@ -42,6 +42,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
       <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={imageHash}
+        isCollective
         proposal={derive.proposal}
       />
       <td className='number'>

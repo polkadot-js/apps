@@ -45,7 +45,6 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
               <Modal.Columns hint={t<string>('The Curator account that will be used to send this transaction. Any applicable fees will be paid by this account.')}>
                 <InputAddress
                   defaultValue={curatorId}
-                  help={t<string>("Curator's account that will reward the bounty to the implementer.")}
                   isDisabled={true}
                   label={t<string>('award with account')}
                   type='account'
@@ -54,7 +53,6 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
               </Modal.Columns>
               <Modal.Columns hint={t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}>
                 <InputAddress
-                  help={t<string>('Choose the Beneficiary for this bounty.')}
                   label={t<string>('implementer account')}
                   onChange={setBeneficiaryId}
                   withLabel

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -28,19 +28,19 @@ function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: P
         <CardSummary label={t<string>('seats')}>
           {electionsInfo
             ? <>{formatNumber(electionsInfo.members.length)}{electionsInfo.desiredSeats && <>&nbsp;/&nbsp;{formatNumber(electionsInfo.desiredSeats)}</>}</>
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         {hasElections && (
           <>
             <CardSummary label={t<string>('runners up')}>
               {electionsInfo
                 ? <>{formatNumber(electionsInfo.runnersUp.length)}{electionsInfo.desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(electionsInfo.desiredRunnersUp)}</>}</>
-                : <span className='--placeholder'>99</span>}
+                : <span className='--tmp'>99 / 99</span>}
             </CardSummary>
             <CardSummary label={t<string>('candidates')}>
               {electionsInfo
                 ? formatNumber(electionsInfo.candidateCount)
-                : <span className='--placeholder'>99</span>}
+                : <span className='--tmp'>99</span>}
             </CardSummary>
           </>
         )}

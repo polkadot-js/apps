@@ -21,7 +21,7 @@ import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polka
 
 import { useTranslation } from '../translate';
 
-type ParamsType = { type: TypeDefExt }[];
+type ParamsType = { name?: string, type: TypeDefExt }[];
 
 interface KeyState {
   defaultValues: RawParams | undefined | null;
@@ -61,16 +61,18 @@ function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterabl
   }
 
   return types.map((str, index) => {
+    let name: string | undefined;
     let type: TypeDefExt;
 
     if (isIterable && index === (types.length - 1)) {
+      // name = 'entryKey';
       type = getTypeDef(`Option<${str}>`);
       type.withOptionActive = true;
     } else {
       type = getTypeDef(str);
     }
 
-    return { type };
+    return { name, type };
   });
 }
 
@@ -206,14 +208,13 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
     [isIterable, isValid, values]
   );
 
-  const { creator: { meta, method, section } } = key;
+  const { creator: { method, section } } = key;
 
   return (
-    <section className={`${className} storage--actionrow`}>
+    <StyledSection className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
-          help={meta && meta.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />
@@ -261,11 +262,11 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           onClick={_onAdd}
         />
       </div>
-    </section>
+    </StyledSection>
   );
 }
 
-export default React.memo(styled(Modules)`
+const StyledSection = styled.section`
   .ui--Column:last-child .ui--Labelled {
     padding-left: 0.5rem;
 
@@ -273,4 +274,6 @@ export default React.memo(styled(Modules)`
       left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
     }
   }
-`);
+`;
+
+export default React.memo(Modules);

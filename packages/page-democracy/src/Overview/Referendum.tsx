@@ -5,7 +5,6 @@ import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
@@ -181,7 +180,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='referendum'
+                type='democracyReferendum'
                 withTitle
               />
             </Columar.Column>
@@ -192,12 +191,4 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   );
 }
 
-export default React.memo(styled(Referendum)`
-  td.chart {
-    padding: 0.5rem 0;
-
-    .ui--Progress {
-      display: inline-block;
-    }
-  }
-`);
+export default React.memo(Referendum);

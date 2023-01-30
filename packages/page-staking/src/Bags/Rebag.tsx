@@ -63,7 +63,6 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account that will submit the rebag transaction.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to rebag with.')}
                 label={t<string>('rebag from account')}
                 onChange={setAccountId}
                 type='account'

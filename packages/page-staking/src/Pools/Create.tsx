@@ -8,7 +8,7 @@ import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO, bnMax } from '@polkadot/util';
+import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useAmountError from './useAmountError';
@@ -28,7 +28,7 @@ function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, 
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [amount, setAmount] = useState<BN>(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const [metadata, setMetadata] = useState('');
 
   const minValue = useMemo(

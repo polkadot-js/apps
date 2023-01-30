@@ -465,7 +465,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst packedBottom`}>
+      <StyledTr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
@@ -473,7 +473,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
         <td className='address all relative'>
           <AddressSmall
-            parentAddress={meta.parentAddress}
+            parentAddress={meta.parentAddress as string}
             value={address}
             withShortAddress
           />
@@ -701,8 +701,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           isExpanded={isExpanded}
           toggle={toggleIsExpanded}
         />
-      </tr>
-      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
+      </StyledTr>
+      <StyledTr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
         <td
           className='balance all'
@@ -715,8 +715,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         </td>
         <td />
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
         <td />
         <td
           className='balance columar'
@@ -753,13 +753,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Account)`
+const StyledTr = styled.tr`
   .devBadge {
-    opacity: 0.65;
+    opacity: var(--opacity-light);
   }
-`);
+`;
+
+export default React.memo(Account);

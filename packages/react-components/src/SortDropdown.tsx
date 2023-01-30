@@ -10,7 +10,7 @@ interface Props {
   className?: string;
   defaultValue: string;
   label: string;
-  onChange: (value: unknown) => void;
+  onChange: (value: any) => void;
   onClick: () => void;
   options: unknown[];
   sortDirection: 'descending' | 'ascending';
@@ -18,7 +18,7 @@ interface Props {
 
 function SortDropdown ({ className = '', defaultValue, label, onChange, onClick, options, sortDirection }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Sort ${className}`}>
+    <StyledDiv className={`${className} ui--Sort`}>
       <Dropdown
         defaultValue={defaultValue}
         label={label}
@@ -37,11 +37,11 @@ function SortDropdown ({ className = '', defaultValue, label, onChange, onClick,
           icon='sort-down'
         />
       </button>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(SortDropdown)`
+const StyledDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -139,4 +139,6 @@ export default React.memo(styled(SortDropdown)`
   .ui--Labelled.ui--Dropdown:hover::after {
     left: 7.857rem;
   }
-`);
+`;
+
+export default React.memo(SortDropdown);

@@ -48,7 +48,7 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
   const drawAngle = (angle === 360) ? 360 : angle % 360;
 
   return (
-    <div className={`ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--placeholder' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''}`}>
       <div className='background highlight--bg' />
       <Clip
         angle={
@@ -69,16 +69,18 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
       <div className='inner'>
         <div>{Math.floor(angle * 100 / 360)}%</div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Progress)`
+const SIZE = '3.5rem';
+
+const StyledDiv = styled.div`
   border-radius: 100%;
   clip-path: circle(50%);
-  height: 4rem;
+  height: ${SIZE};
   position: relative;
-  width: 4rem;
+  width: ${SIZE};
 
   &.isDisabled {
     filter: grayscale(100%);
@@ -145,4 +147,6 @@ export default React.memo(styled(Progress)`
       clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
     }
   }
-`);
+`;
+
+export default React.memo(Progress);

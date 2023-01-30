@@ -1,13 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { Text } from '@polkadot/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
@@ -19,14 +17,12 @@ interface Meta {
 export interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: string;
-  helpIcon?: IconName;
   isOpen?: boolean;
   isHeader?: boolean;
   isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
-  renderChildren?: () => React.ReactNode;
+  renderChildren?: (() => React.ReactNode | undefined | null) | null;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
@@ -65,7 +61,7 @@ function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
   ];
 }
 
-function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withBreaks, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 
   const demandChildren = useMemo(
@@ -102,7 +98,7 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isHeader ? ' isHeader' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Expander ${isExpanded ? 'isExpanded' : ''} ${isHeader ? 'isHeader' : ''} ${isPadded ? 'isPadded' : ''} ${hasContent ? 'hasContent' : ''} ${withBreaks ? 'withBreaks' : ''}`}>
       <div
         className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}
@@ -112,12 +108,6 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
           <div className='ui--Expander-summary-title'>
             {summaryHead}
           </div>
-          {help && (
-            <LabelHelp
-              help={help}
-              icon={helpIcon}
-            />
-          )}
           {summary}
           {headerSub && (
             <div className='ui--Expander-summary-header-sub'>{isExpanded ? headerSub : headerSubMini}</div>
@@ -128,11 +118,11 @@ function Expander ({ children, className = '', help, helpIcon, isHeader, isLeft,
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children || demandChildren}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Expander)`
+const StyledDiv = styled.div`
   max-width: 60rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -192,7 +182,7 @@ export default React.memo(styled(Expander)`
 
       .ui--Expander-summary-header-sub {
         font-size: var(--font-size-small);
-        opacity: 0.6;
+        opacity: var(--opacity-light);
       }
     }
 
@@ -224,4 +214,6 @@ export default React.memo(styled(Expander)`
   &.isPadded .ui--Expander-summary {
     margin-left: 2.25rem;
   }
-`);
+`;
+
+export default React.memo(Expander);

@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-// these are reversed (catering for old "Founder" role)
-const ROLES = <const> ['Retiring', 'Ally', 'Fellow', 'Founder'];
+const ROLES = <const> ['Retiring', 'Ally', 'Fellow'];
 
 function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
   const all: Member[] = [];
@@ -47,9 +46,9 @@ function useMembersImpl (): Member[] | undefined {
   useEffect((): void => {
     role0 && role1 && role2 &&
       setState((prev = []) =>
-        addMembers(prev, role0, role1, role2, role3 || [])
+        addMembers(prev, role0, role1, role2)
       );
-  }, [role0, role1, role2, role3]);
+  }, [role0, role1, role2]);
 
   return state;
 }

@@ -14,7 +14,6 @@ import { useTranslation } from './translate';
 
 export interface Props {
   className?: string;
-  help?: string
   label?: React.ReactNode;
   onChange?: (value: number) => void;
   value?: number;
@@ -41,7 +40,7 @@ function createOptions (blockTime: BN, voteLockingPeriod: BN, t: TFunction): { t
   ];
 }
 
-function Convictions ({ className = '', help, label, onChange, value, voteLockingPeriod }: Props): React.ReactElement<Props> | null {
+function Convictions ({ className = '', label, onChange, value, voteLockingPeriod }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const blockTime = useBlockInterval();
   const optionsRef = useRef(createOptions(blockTime, voteLockingPeriod, t));
@@ -49,7 +48,6 @@ function Convictions ({ className = '', help, label, onChange, value, voteLockin
   return (
     <Dropdown
       className={className}
-      help={help}
       label={label}
       onChange={onChange}
       options={optionsRef.current}

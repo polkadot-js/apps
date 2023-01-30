@@ -121,7 +121,6 @@ function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props)
           ? undefined
           : defaultValue
       }
-      help={t<string>('The amount that is associated with this vote. This value is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
       label={label || t<string>('vote value')}

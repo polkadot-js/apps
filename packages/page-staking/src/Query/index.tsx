@@ -48,7 +48,6 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       <InputAddressSimple
         className='staking--queryInput'
         defaultValue={value}
-        help={t<string>('Display overview information for the selected validator, including blocks produced.')}
         label={t<string>('validator to query')}
         onChange={setValidatorId}
         onEnter={_onQuery}

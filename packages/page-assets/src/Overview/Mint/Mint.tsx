@@ -22,7 +22,7 @@ interface Props {
 function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState<BN | null>(null);
+  const [amount, setAmount] = useState<BN | undefined>();
   const [recipientId, setRecipientId] = useState<string | null>(null);
 
   const isAmountValid = useMemo(

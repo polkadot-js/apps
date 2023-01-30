@@ -32,8 +32,9 @@ interface Result {
   weight: BN | V2WeightConstruct;
 }
 
-// a random address that we are using for our queries
-const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';
+// this is 32 bytes in length, it allows construction for both AccountId32 & AccountId20
+export const ZERO_ACCOUNT = '0x9876543210abcdef9876543210abcdef9876543210abcdef9876543210abcdef';
+
 const EMPTY_STATE: Partial<Result> = {
   encodedCallLength: 0,
   v1Weight: BN_ZERO,
@@ -59,7 +60,7 @@ function useWeightImpl (call?: Call | null): Result {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Result>(() => objectSpread({
-    isWeightV2: !isFunction(api.registry.createType('Weight').toBn)
+    isWeightV2: !isFunction(api.registry.createType<V1Weight>('Weight').toBn)
   }, EMPTY_STATE));
 
   useEffect((): void => {

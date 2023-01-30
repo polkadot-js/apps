@@ -216,7 +216,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   }
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <header>
         <Columar>
           <Columar.Column>
@@ -231,7 +231,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
             </div>
             <Progress
-              color='auto'
               total={modProgress[1]}
               value={modProgress[0]}
             />
@@ -248,7 +247,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
             </div>
             <Progress
-              color='auto'
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
@@ -287,11 +285,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           tval={strings[key]}
         />
       )}
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(Translate)`
+const StyledMain = styled.main`
   .ui--Column {
     display: flex;
 
@@ -310,4 +308,6 @@ export default React.memo(styled(Translate)`
     justify-content: flex-end;
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Translate);

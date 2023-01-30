@@ -21,7 +21,7 @@ function LockedVoteDisplay ({ className = '', label, params }: Props): React.Rea
 
   return (
     <LockedVote
-      className={`ui--LockedVote ${className}`}
+      className={`${className} ui--LockedVote`}
       label={label}
       params={params}
     />

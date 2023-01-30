@@ -22,10 +22,10 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
   let info: TrackInfoExt | undefined;
 
-  if (tracks && trackId !== undefined) {
+  if (tracks && trackId !== undefined && trackId !== -1) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
     const track = tracks.find(({ id }) => id.eqn(trackId));
 
@@ -37,7 +37,10 @@ export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda
       );
 
       if (base) {
-        info = objectSpread<TrackInfoExt>({ track }, base);
+        info = objectSpread<TrackInfoExt>({
+          track,
+          trackName: getTrackName(track.id, track.info)
+        }, base);
       }
     }
   }

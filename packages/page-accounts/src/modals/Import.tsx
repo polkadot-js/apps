@@ -124,7 +124,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           <InputFile
             accept={acceptedFormats}
             className='full'
-            help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
             isError={!pair}
             label={t<string>('backup file')}
             onChange={_onChangeFile}
@@ -135,7 +134,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           <Password
             autoFocus
             className='full'
-            help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
             isError={!isPassValid}
             label={t<string>('password')}
             onChange={_onChangePass}

@@ -65,7 +65,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address top'>
         {isForgetOpen && (
           <Forget
@@ -116,12 +116,14 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           onClick={toggleIsForgetOpen}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Contract)`
+const StyledTr = styled.tr`
   td.top a+a {
     margin-left: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Contract);

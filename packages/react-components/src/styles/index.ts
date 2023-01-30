@@ -8,7 +8,6 @@ import { createGlobalStyle } from 'styled-components';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
-import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
 
@@ -362,6 +361,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: var(--bg-page);
     color: var(--color-text);
     font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     height: 100%;
   }
 
@@ -487,24 +487,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h1, h2, h3, h4, h5 {
-    color: var(--color-summary);
+    color: var(--color-header);
     font: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-header);
     margin-bottom: 0.25rem;
   }
 
-  h5 {
-    color: var(--color-label);
-    font-style: normal;
-    font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-label);
-    line-height: 1rem;
-    text-transform: var(--text-transform-label);
-    margin-bottom: 0.25rem;
-  }
 
   h1 {
-    font-size: 1.75rem;
+    font-size: var(--font-size-h1);
     text-transform: lowercase;
 
     em {
@@ -514,7 +505,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h2 {
-    font-size: 1.71428571rem;
+    font-size: var(--font-size-h2);
+  }
+
+  h3 {
+    font-size: var(--font-size-h3);
+  }
+
+  h4 {
+    font-size: var(--font-size-h4);
   }
 
   header {
@@ -532,10 +531,24 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   label {
     box-sizing: border-box;
-    color: var(--color-label);
     display: block;
     font: var(--font-sans);
+  }
+
+  // we treat h5 and label as equivalents
+  label, h5 {
+    color: var(--color-label);
     font-size: var(--font-size-label);
+    font-style: normal;
+    font-weight: var(--font-weight-label);
+    line-height: 1rem;
+    margin-bottom: 0.25rem !important;
+    text-transform: var(--text-transform-label);
+    vertical-align: middle;
+  }
+
+  button {
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
     line-height: 1rem;
     text-transform: var(--text-transform-label);
@@ -553,6 +566,5 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
-  ${cssRx}
   ${cssComponents(theme)}
 `);

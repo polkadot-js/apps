@@ -32,7 +32,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2124,
     text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech',
+      Dwellir: 'wss://amplitude-rpc.dwellir.com'
     }
   },
   {
@@ -168,7 +169,7 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       // GMorDieDAO: 'wss://kusama.gmordie.com', // https://github.com/polkadot-js/apps/issues/8457
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
-      TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org',
+      // TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org', // https://github.com/polkadot-js/apps/issues/8867
       Leemo: 'wss://leemo.gmordie.com',
       'GM Intern': 'wss://intern.gmordie.com',
       // NOTE: Keep this as the last entry, nothing after it
@@ -386,8 +387,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2102,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk',
-      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws'
+      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
+      // OnFinality: 'wss://pichiu.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8867
     }
   },
   {
@@ -516,8 +517,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2100,
     text: 'SubsocialX',
     providers: {
-      'Dappforce 1': 'wss://para.f3joule.space',
-      'Dappforce 2': 'wss://para.subsocial.network'
+      'Dappforce 1': 'wss://para.subsocial.network'
     }
   },
   {
@@ -603,6 +603,14 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
     },
     teleport: [-1]
+  },
+  {
+    info: 'kusamaBridgeHub',
+    paraId: 1002,
+    text: 'BridgeHub',
+    providers: {
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
+    }
   }
 ];
 

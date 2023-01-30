@@ -32,14 +32,14 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
         <CardSummary label={t<string>('auctions')}>
           {auctionInfo
             ? formatNumber(auctionInfo.numAuctions)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('active')}>
           {auctionInfo
             ? auctionInfo.leasePeriod
               ? t<string>('yes')
               : t<string>('no')
-            : <span className='--placeholder'>{t<string>('no')}</span>
+            : <span className='--tmp'>{t<string>('no')}</span>
           }
         </CardSummary>
       </section>

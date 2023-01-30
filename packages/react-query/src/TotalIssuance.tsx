@@ -21,7 +21,7 @@ function TotalIssuance ({ children, className = '', label }: Props): React.React
     <div className={className}>
       {label || ''}
       <FormatBalance
-        className={totalIssuance ? '' : '--placeholder'}
+        className={totalIssuance ? '' : '--tmp'}
         value={totalIssuance || 1}
         withSi
       />

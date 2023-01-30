@@ -125,14 +125,14 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
+    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuContainer'>
         <div className='menuSection'>
           <ChainInfo />
           <ul className='menuItems'>
             {visibleGroups.map(({ name, routes }): React.ReactNode => (
               <Grouping
-                isActive={activeRoute && activeRoute.group === name.toLowerCase()}
+                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
                 key={name}
                 name={name}
                 routes={routes}
@@ -154,11 +154,11 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
         <NodeInfo className='media--1400' />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Menu)`
+const StyledDiv = styled.div`
   width: 100%;
   padding: 0;
   z-index: 220;
@@ -254,4 +254,6 @@ export default React.memo(styled(Menu)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Menu);

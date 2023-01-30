@@ -12,16 +12,18 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
 import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
+import Expander from './Expander';
+import Icon from './Icon';
 import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
+import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
@@ -242,7 +244,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     <React.Fragment key={0}>
       <Label label={withLabel ? t<string>('total') : ''} />
       <FormatBalance
-        className={`result ${balancesAll ? '' : '--placeholder'}`}
+        className={`result ${balancesAll ? '' : '--tmp'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
         value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}
@@ -278,36 +280,31 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           }
           value={deriveBalances.vestedBalance}
         >
-          <Tooltip
-            text={
-              <>
+          <Tooltip trigger={`${address}-vested-trigger`}>
+            <div>
+              {formatBalance(deriveBalances.vestedClaimable, { forceUnit: '-' })}
+              <div className='faded'>{t('available to be unlocked')}</div>
+            </div>
+            {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
+              <div
+                className='inner'
+                key={`item:${index}`}
+              >
                 <div>
-                  {formatBalance(deriveBalances.vestedClaimable, { forceUnit: '-' })}
-                  <div className='faded'>{t('available to be unlocked')}</div>
+                  {formatBalance(vested, { forceUnit: '-' })}
+                  <div className='faded'>{t('of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</div>
                 </div>
-                {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
-                  <div
-                    className='inner'
-                    key={`item:${index}`}
-                  >
-                    <div>
-                      {formatBalance(vested, { forceUnit: '-' })}
-                      <div className='faded'>{t('of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</div>
-                    </div>
-                    <div>
-                      <BlockToTime value={endBlock.sub(bestNumber)} />
-                      <div className='faded'>{t('until block')} {formatNumber(endBlock)}</div>
-                    </div>
-                    <div>
-                      {formatBalance(perBlock)}
-                      <div className='faded'>{t('per block')}</div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            }
-            trigger={`${address}-vested-trigger`}
-          />
+                <div>
+                  <BlockToTime value={endBlock.sub(bestNumber)} />
+                  <div className='faded'>{t('until block')} {formatNumber(endBlock)}</div>
+                </div>
+                <div>
+                  {formatBalance(perBlock)}
+                  <div className='faded'>{t('per block')}</div>
+                </div>
+              </div>
+            ))}
+          </Tooltip>
         </FormatBalance>
       </React.Fragment>
     );
@@ -328,17 +325,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
               icon='info-circle'
               tooltip={`${address}-locks-trigger`}
             />
-            <Tooltip
-              text={deriveBalances.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
-                <div key={index}>
+            <Tooltip trigger={`${address}-locks-trigger`}>
+              {deriveBalances.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
+                <div
+                  className='row'
+                  key={index}
+                >
                   {amount?.isMax()
                     ? t<string>('everything')
                     : formatBalance(amount, { forceUnit: '-' })
                   }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
                 </div>
               ))}
-              trigger={`${address}-locks-trigger`}
-            />
+            </Tooltip>
           </>
         }
         value={isAllLocked ? 'all' : deriveBalances.lockedBalance}
@@ -359,15 +358,14 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                   icon='info-circle'
                   tooltip={`${address}-named-reserves-trigger`}
                 />
-                <Tooltip
-                  text={allReserves.map(({ amount, id }, index): React.ReactNode => (
+                <Tooltip trigger={`${address}-named-reserves-trigger`}>
+                  {allReserves.map(({ amount, id }, index): React.ReactNode => (
                     <div key={index}>
                       {formatBalance(amount, { forceUnit: '-' })
                       }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}
                     </div>
                   ))}
-                  trigger={`${address}-named-reserves-trigger`}
-                />
+                </Tooltip>
               </>
             )
             : <IconVoid />
@@ -457,9 +455,12 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                   icon='clock'
                   tooltip={`${address}-conviction-locks-trigger`}
                 />
-                <Tooltip
-                  text={convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
-                    <div key={index}>
+                <Tooltip trigger={`${address}-conviction-locks-trigger`}>
+                  {convictionLocks.map(({ endBlock, locked, refId, total }, index): React.ReactNode => (
+                    <div
+                      className='row'
+                      key={index}
+                    >
                       <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
                       <div className='faded nowrap'>{
                         endBlock.eq(BN_MAX_INTEGER)
@@ -474,8 +475,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                       }</div>
                     </div>
                   ))}
-                  trigger={`${address}-conviction-locks-trigger`}
-                />
+                </Tooltip>
               </>
             }
             value={max}
@@ -562,7 +562,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   });
 
   return (
-    <div className={`ui--AddressInfo ${className}${withBalanceToggle ? ' ui--AddressInfo-expander' : ''}`}>
+    <div className={`${className} ui--AddressInfo ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
         {renderBalances(props, lookup.current, bestNumber, t)}
         {withHexSessionId && withHexSessionId[0] && (

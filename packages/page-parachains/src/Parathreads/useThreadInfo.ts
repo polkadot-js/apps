@@ -7,8 +7,6 @@ import type { PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParach
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
-import { sliceHex } from '../util';
-
 interface Result {
   headHex: string | null;
   lifecycle: PolkadotRuntimeParachainsParasParaLifecycle | null;
@@ -23,9 +21,9 @@ const OPT_MULTI = {
   },
   transform: ([optHead, optGenesis, optLifecycle, optInfo]: [Option<HeadData>, Option<PolkadotRuntimeParachainsParasParaGenesisArgs>, Option<PolkadotRuntimeParachainsParasParaLifecycle>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>]): Result => ({
     headHex: optHead.isSome
-      ? sliceHex(optHead.unwrap())
+      ? optHead.unwrap().toHex()
       : optGenesis.isSome
-        ? sliceHex(optGenesis.unwrap().genesisHead)
+        ? optGenesis.unwrap().genesisHead.toHex()
         : null,
     lifecycle: optLifecycle.unwrapOr(null),
     manager: optInfo.isSome

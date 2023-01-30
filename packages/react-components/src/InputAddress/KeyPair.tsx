@@ -23,7 +23,7 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
   );
 
   return (
-    <div className={`ui--KeyPair ${className}`}>
+    <StyledDiv className={`${className} ui--KeyPair`}>
       <IdentityIcon
         className='icon'
         value={address}
@@ -34,11 +34,11 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
       <div className='address'>
         {shortAddr}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(KeyPair)`
+const StyledDiv = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -48,10 +48,11 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font: var(--font-mono);
     font-size: var(--font-size-small);
     margin-left: 1rem;
-    opacity: 0.6;
+    max-width: var(--width-shortaddr);
+    min-width: var(--width-shortaddr);
+    opacity: var(--opacity-light);
     overflow: hidden;
     text-align: right;
   }
@@ -73,4 +74,6 @@ export default React.memo(styled(KeyPair)`
       text-transform: uppercase;
     }
   }
-`);
+`;
+
+export default React.memo(KeyPair);

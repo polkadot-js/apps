@@ -12,7 +12,6 @@ import styled from 'styled-components';
 
 import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_THREE } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
@@ -212,9 +211,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   const footerStash = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='number'>
-        {stashAvail && <FormatBalance value={stashAvail} />}
-      </td>
+      <Table.Column.Balance value={stashAvail} />
       <td colSpan={4} />
     </tr>
   ), [stashAvail]);
@@ -222,15 +219,13 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   const footerVal = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='number'>
-        {valAvail && <FormatBalance value={valAvail} />}
-      </td>
+      <Table.Column.Balance value={valAvail} />
       <td colSpan={4} />
     </tr>
   ), [valAvail]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Button.Group>
         <ToggleGroup
           onChange={setMyStashesIndex}
@@ -293,11 +288,11 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           ))}
         </Table>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Payouts)`
+const StyledDiv = styled.div`
   .payout-eras {
     padding-left: 0.25rem;
     vertical-align: middle;
@@ -306,4 +301,6 @@ export default React.memo(styled(Payouts)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(Payouts);

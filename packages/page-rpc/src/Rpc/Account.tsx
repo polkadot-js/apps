@@ -29,7 +29,7 @@ function Account ({ className = '', defaultValue, isError, onChange }: Props): R
   }, [accountId, accountNonce, onChange]);
 
   return (
-    <div className={`ui--row ${className}`}>
+    <StyledDiv className={`${className} ui--row`}>
       <div className='large'>
         <InputAddress
           defaultValue={defaultValue}
@@ -52,11 +52,13 @@ function Account ({ className = '', defaultValue, isError, onChange }: Props): R
           />
         </Labelled>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Account)`
+const StyledDiv = styled.div`
   box-sizing: border-box;
   padding-left: 2em;
-`);
+`;
+
+export default React.memo(Account);

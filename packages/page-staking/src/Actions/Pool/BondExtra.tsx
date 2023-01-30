@@ -27,7 +27,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
   const { t } = useTranslation();
   const { api } = useApi();
   const [type, setType] = useState(DEFAULT_TYPE);
-  const [amount, setAmount] = useState(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
   const typeRef = useRef([
@@ -57,7 +57,6 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
           {type === 'free' && (
             <InputBalance
               autoFocus
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={isAmountError}
               label={t<string>('additional free funds to bond')}
               labelExtra={

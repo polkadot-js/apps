@@ -13,11 +13,11 @@ import { useTranslation } from './translate';
 export interface InputFilePropsBase {
   className?: string;
   clearContent?: boolean;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
   label: React.ReactNode;
+  labelExtra?: React.ReactNode;
   placeholder?: React.ReactNode | null | false;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -59,7 +59,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, labelExtra, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -100,7 +100,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })}>
+        <StyledDiv {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
           <input {...getInputProps()} />
           <em className='label'>
             {
@@ -114,7 +114,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
                 })
             }
           </em>
-        </div>
+        </StyledDiv>
       )}
     </Dropzone>
   );
@@ -122,9 +122,9 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
   return label
     ? (
       <Labelled
-        help={help}
         isFull={isFull}
         label={label}
+        labelExtra={labelExtra}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
@@ -134,11 +134,11 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
     : dropZone;
 }
 
-export default React.memo(styled(InputFile)`
+const StyledDiv = styled.div`
   background: var(--bg-input);
   border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   margin: 0.25rem 0;
   padding: 0.67857143em 1em;
   width: 100% !important;
@@ -151,4 +151,6 @@ export default React.memo(styled(InputFile)`
   &:hover {
     cursor: pointer;
   }
-`);
+`;
+
+export default React.memo(InputFile);

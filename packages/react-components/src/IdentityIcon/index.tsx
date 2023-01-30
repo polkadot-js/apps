@@ -3,12 +3,12 @@
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { ThemeProps } from '../types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { getSystemIcon } from '@polkadot/apps-config';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
@@ -18,6 +18,7 @@ import RoboHash from './RoboHash';
 
 interface Props {
   className?: string;
+  forceIconType?: 'ethereum' | 'substrate';
   prefix?: IdentityProps['prefix'];
   size?: number;
   theme?: IdentityProps['theme'] | 'robohash';
@@ -32,16 +33,17 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
   return !!(value && (value as AccountId).toHuman);
 }
 
-function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
   const { isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(systemName, specName);
+
   const Custom = thisTheme === 'robohash'
     ? RoboHash
     : undefined;
 
-  const _onCopy = useCallback(
+  const onCopy = useCallback(
     (account: string) => queueAction({
       account,
       action: t('clipboard'),
@@ -52,19 +54,19 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
   );
 
   return (
-    <BaseIdentityIcon
+    <StyledBaseIdentityIcon
       Custom={Custom}
       className={className}
-      onCopy={_onCopy}
+      onCopy={onCopy}
       prefix={prefix}
       size={size}
-      theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
+      theme={forceIconType || (isEthereum ? 'ethereum' : thisTheme as 'substrate')}
       value={isCodec(value) ? value.toString() : value}
     />
   );
 }
 
-export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
+const StyledBaseIdentityIcon = styled(BaseIdentityIcon)(({ theme }: ThemeProps) => `
   ${theme.theme === 'dark'
     ? `circle:first-child {
       fill: #282829;
@@ -75,4 +77,6 @@ export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
   border-radius: 50%;
   display: inline-block;
   overflow: hidden;
-`));
+`);
+
+export default React.memo(IdentityIcon);

@@ -74,7 +74,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   const isOwn = typeIndex === 0;
 
   return (
-    <div className={`staking--Overview ${className}`}>
+    <div className={`${className} staking--Overview`}>
       <Summary
         stakingOverview={stakingOverview}
         targets={targets}

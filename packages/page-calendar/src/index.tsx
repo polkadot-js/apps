@@ -115,7 +115,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}
@@ -154,11 +154,11 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           }
         </div>
       </div>
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(CalendarApp)`
+const StyledMain = styled.main`
   .calendarFlex {
     align-items: flex-start;
     display: flex;
@@ -208,4 +208,6 @@ export default React.memo(styled(CalendarApp)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(CalendarApp);

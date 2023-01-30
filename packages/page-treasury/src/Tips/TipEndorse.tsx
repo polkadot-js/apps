@@ -64,7 +64,6 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
             <Modal.Columns hint={t<string>('Your endorsement will be applied for this account.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('Select the account you wish to submit the tip from.')}
                 label={t<string>('submit with account')}
                 onChange={setAccountId}
                 type='account'
@@ -75,7 +74,6 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
               <InputBalance
                 autoFocus
                 defaultValue={median}
-                help={t<string>('The tip amount that should be allocated')}
                 isZeroable
                 label={t<string>('value')}
                 onChange={setValue}

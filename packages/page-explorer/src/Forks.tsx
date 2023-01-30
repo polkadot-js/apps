@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiProps } from '@polkadot/react-api/types';
 import type { Header } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -32,10 +31,8 @@ interface Link {
   hdr: LinkHeader;
 }
 
-interface Props extends ApiProps {
+interface Props {
   className?: string;
-  finHead?: Header;
-  newHead?: Header;
 }
 
 type UnsubFn = () => void;
@@ -375,7 +372,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
@@ -387,11 +384,11 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
           {renderRows(createRows(tree.arr))}
         </tbody>
       </table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Forks)`
+const StyledDiv = styled.div`
   margin-bottom: 1.5rem;
 
   table {
@@ -423,7 +420,7 @@ export default React.memo(styled(Forks)`
         }
 
         .parent {
-          font-size: 0.75rem;
+          font-size: var(--font-size-small);
           line-height: 0.75rem;
           max-width: 4.5rem;
         }
@@ -460,4 +457,6 @@ export default React.memo(styled(Forks)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Forks);

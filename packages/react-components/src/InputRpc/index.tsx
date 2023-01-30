@@ -20,13 +20,12 @@ import useRpcs from './useRpcs';
 interface Props {
   className?: string;
   defaultValue: DefinitionRpcExt;
-  help?: React.ReactNode;
   label: React.ReactNode;
   onChange?: (value: DefinitionRpcExt) => void;
   withLabel?: boolean;
 }
 
-function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputRpc ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const rpcs = useRpcs();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, rpcs, defaultValue.section));
@@ -62,7 +61,6 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

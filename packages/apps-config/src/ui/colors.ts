@@ -59,6 +59,7 @@ const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
 const chainEthos = '#203050';
 const chainFantour = '#5a189a';
+const chainFerrum = '#b37700';
 const chainFrequency = '#4b64ff';
 const chainFrequencyRococo = '#29fd47';
 const chainGalital = '#00063F';
@@ -354,6 +355,7 @@ export const chainColors: Record<string, string> = Object.entries({
   EquilibriumTestnet: chainGenshiro,
   'Ethos Testnet': chainEthos,
   'Fantour Development': chainFantour,
+  'Ferrum Testnet': chainFerrum,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequencyRococo,
   Galital: chainGalital,

@@ -19,7 +19,6 @@ import SelectSection from './SelectSection';
 interface Props {
   className?: string;
   defaultValue: ConstValueBase;
-  help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: ConstValue) => void;
@@ -39,7 +38,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
   };
 }
 
-function InputConsts ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputConsts ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -74,7 +73,6 @@ function InputConsts ({ className = '', defaultValue, help, label, onChange, wit
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

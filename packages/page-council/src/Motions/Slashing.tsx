@@ -87,7 +87,6 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
               <InputAddress
                 filter={members}
-                help={t<string>('Select the account you wish to make the proposal with.')}
                 label={t<string>('propose from account')}
                 onChange={setAcountId}
                 type='account'
@@ -99,7 +98,6 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
                 ? (
                   <Dropdown
                     defaultValue={eras[0].value}
-                    help={t<string>('The unapplied slashed era to cancel.')}
                     label={t<string>('the era to cancel for')}
                     onChange={setSelectedEra}
                     options={eras}

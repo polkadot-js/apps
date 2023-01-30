@@ -41,7 +41,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
+    <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
         onClick={isUnreachable ? undefined : _selectUrl}
@@ -77,11 +77,11 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
           url={url}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(NetworkDisplay)`
+const StyledDiv = styled.div`
   border-left: 0.25rem solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -90,7 +90,7 @@ export default React.memo(styled(NetworkDisplay)`
   position: relative;
 
   &.isUnreachable {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   &.isSelected,
@@ -104,6 +104,10 @@ export default React.memo(styled(NetworkDisplay)`
     justify-content: flex-start;
     position: relative;
 
+    &+.ui--Toggle {
+      margin-top: 1rem;
+    }
+
     &.isChild .endpointIcon {
       margin-left: 1.25rem;
     }
@@ -114,8 +118,8 @@ export default React.memo(styled(NetworkDisplay)`
 
     .endpointValue {
       .endpointExtra {
-        font-size: 0.75rem;
-        opacity: 0.8;
+        font-size: var(--font-size-small);
+        opacity: var(--opacity-light);
       }
     }
   }
@@ -123,6 +127,9 @@ export default React.memo(styled(NetworkDisplay)`
   // we jiggle our labels somewhat...
   label {
     font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
     text-transform: none;
   }
-`);
+`;
+
+export default React.memo(NetworkDisplay);
