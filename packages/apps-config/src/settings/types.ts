@@ -21,3 +21,10 @@ export interface LinkOption extends Option {
   paraId?: number;
   textBy: string;
 }
+
+export type ChainSpecName = string;
+export interface FeeAsset {
+  assetId: number;
+  symbol: string;
+  decimals: number;
+}
