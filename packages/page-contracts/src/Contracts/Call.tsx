@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -69,7 +70,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       .query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
       .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasRequired
+          ? convertWeight(gasRequired).v1Weight
           : null
       ))
       .catch(() => setEstimatedWeight(null));
