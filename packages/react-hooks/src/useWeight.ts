@@ -60,7 +60,7 @@ function useWeightImpl (call?: Call | null): Result {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Result>(() => objectSpread({
-    isWeightV2: !isFunction(api.registry.createType('Weight').toBn)
+    isWeightV2: !isFunction(api.registry.createType<V1Weight>('Weight').toBn)
   }, EMPTY_STATE));
 
   useEffect((): void => {
