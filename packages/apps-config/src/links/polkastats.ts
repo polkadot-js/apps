@@ -6,6 +6,8 @@ import type { ExternalDef } from './types';
 
 import { externalLogos } from '../ui/logos';
 
+// NOTE Not maintained, see breakage reports in
+// https://github.com/polkadot-js/apps/issues/8903
 export const Polkastats: ExternalDef = {
   chains: {
     Kusama: 'kusama',
