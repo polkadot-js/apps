@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { isBoolean, isNumber } from '@polkadot/util';
 
-import { useCacheMap } from '../useCacheMap';
+import { useCacheMap } from '../useCache';
 
 const EMPTY: UseHeartbeat = {};
 

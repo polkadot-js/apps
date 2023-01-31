@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCacheValue';
+import { useCacheValue } from './useCache';
 import useValidatorsAll from './useValidatorsAll';
 
 function excludeValidators (from: Validator[], exclude: Validator[]): Validator[] {
