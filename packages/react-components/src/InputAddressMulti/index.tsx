@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useDebounce, useLoadingDelay } from '@polkadot/react-hooks';
+import { useDebounce, useNextTick } from '@polkadot/react-hooks';
 
 import Input from '../Input';
 import Spinner from '../Spinner';
@@ -39,7 +39,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
   const filter = useDebounce(_filter);
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   useEffect((): void => {
     defaultValue && setSelected(defaultValue);
@@ -86,9 +86,8 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         <div className='ui--InputAddressMulti-column'>
           <label>{availableLabel}</label>
           <div className='ui--InputAddressMulti-items'>
-            {isLoading
-              ? <Spinner />
-              : available.map((address) => (
+            {isNextTick
+              ? available.map((address) => (
                 <Available
                   address={address}
                   filter={filter}
@@ -97,6 +96,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
                   onSelect={onSelect}
                 />
               ))
+              : <Spinner />
             }
           </div>
         </div>

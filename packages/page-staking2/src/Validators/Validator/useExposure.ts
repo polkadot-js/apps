@@ -8,9 +8,13 @@ import type { UseExposure, UseExposureExposure } from '../types';
 import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { BN, objectSpread } from '@polkadot/util';
 
-type Cache = Record<string, UseExposure>;
+interface CacheEntry extends UseExposure {
+  activeEra: BN;
+}
+
+type Cache = Record<string, CacheEntry>;
 
 const OPT_EXPOSURE = {
   transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
@@ -62,11 +66,19 @@ function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): U
     [clipExposure, fullExposure]
   );
 
+  // clear the cached result on era changes
   useEffect((): void => {
-    if (result) {
-      cache[stashId] = result;
+    if (activeEra && (!cache[stashId] || !activeEra.eq(cache[stashId].activeEra))) {
+      cache[stashId] = { activeEra };
     }
-  }, [result, stashId]);
+  }, [activeEra, stashId]);
+
+  // update the cached result on exposure changes
+  useEffect((): void => {
+    if (result && activeEra && cache[stashId] && activeEra.eq(cache[stashId].activeEra)) {
+      cache[stashId] = objectSpread<CacheEntry>({ activeEra }, result);
+    }
+  }, [activeEra, result, stashId]);
 
   return result || cache[stashId];
 }

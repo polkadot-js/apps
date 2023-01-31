@@ -3,6 +3,7 @@
 
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { SessionInfo } from './types';
 
 import { useEffect, useMemo } from 'react';
@@ -10,8 +11,8 @@ import { useEffect, useMemo } from 'react';
 import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
 interface Cache {
-  currentEra: SessionInfo['currentEra'];
-  elected?: string[];
+  currentEra: BN;
+  elected: string[];
 }
 
 const OPT_ELECTED = {
@@ -23,15 +24,13 @@ const OPT_ELECTED = {
 
 // since this would only change once per era for the full runtime,
 // we just store it globally to not have expensive map-key lookups
-const cached: Cache = {
-  currentEra: null
-};
+let cache: Cache | undefined;
 
 function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | undefined {
   const { api } = useApi();
 
   const electedParams = useMemo(
-    () => currentEra && (!cached.currentEra || !cached.currentEra.eq(currentEra))
+    () => cache && currentEra && !cache.currentEra.eq(currentEra)
       ? [currentEra]
       : null,
     [currentEra]
@@ -41,16 +40,14 @@ function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | unde
 
   useEffect((): void => {
     if (currentEra && elected) {
-      cached.currentEra = currentEra;
-      cached.elected = elected;
+      cache = { currentEra, elected };
     }
   }, [currentEra, elected]);
 
   return elected || (
-    currentEra &&
-    cached.currentEra &&
-    cached.currentEra.eq(currentEra) &&
-    cached.elected
+    cache &&
+    currentEra?.eq(cache.currentEra) &&
+    cache.elected
   ) || undefined;
 }
 

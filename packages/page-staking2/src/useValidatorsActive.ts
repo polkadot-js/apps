@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId32 } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { SessionInfo, Validator } from './types';
 
 import { useEffect } from 'react';
@@ -9,6 +10,11 @@ import { useEffect } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import useTaggedValidators from './useTaggedValidators';
+
+interface Cache {
+  activeEra: BN;
+  validators: Validator[];
+}
 
 const OPT_VALIDATORS = {
   transform: (validators: AccountId32[]): Validator[] =>
@@ -26,20 +32,24 @@ const OPT_VALIDATORS = {
     })
 };
 
-let cache: Validator[] | undefined;
+let cache: Cache | undefined;
 
 function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
-  const validators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
-  const result = useTaggedValidators(favorites, sessionInfo, validators);
+  const sessionValidators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
+  const validators = useTaggedValidators(favorites, sessionInfo, sessionValidators);
 
   useEffect((): void => {
-    if (result) {
-      cache = result;
+    if (validators && sessionInfo.activeEra) {
+      cache = { activeEra: sessionInfo.activeEra, validators };
     }
-  }, [result]);
+  }, [sessionInfo, validators]);
 
-  return result || cache;
+  return validators || (
+    cache &&
+    sessionInfo.activeEra?.eq(cache.activeEra) &&
+    cache.validators
+  ) || undefined;
 }
 
 export default createNamedHook('useValidatorsActive', useValidatorsActiveImpl);

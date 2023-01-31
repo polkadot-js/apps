@@ -7,7 +7,7 @@ export type UsePoints = Record<string, number>;
 
 export interface UseHeartbeat {
   authoredBlocks?: number;
-  isOnline: boolean;
+  isOnline?: boolean;
 }
 
 export interface UseExposureExposureEntry {

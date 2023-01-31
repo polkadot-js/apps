@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, Validator } from '../types';
+import type { SessionInfo } from '../types';
 
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import useValidatorsActive from '../useValidatorsActive';
 import ListActive from './ListActive';
 import ListWaiting from './ListWaiting';
 import usePoints from './usePoints';
@@ -19,13 +20,15 @@ interface Props {
   isRelay: boolean;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validatorsActive?: Validator[];
 }
 
-function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [intentIndex, setIntentIndex] = useState(0);
+  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
   const points = usePoints(sessionInfo);
+
+  console.log(validatorsActive);
 
   const intentOptions = useRef([
     { text: t('Active'), value: 'active' },

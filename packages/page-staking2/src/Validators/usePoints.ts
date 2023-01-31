@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { SessionInfo } from '../types';
 import type { UsePoints } from './types';
 
@@ -11,7 +12,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 interface Cache {
-  activeEra: SessionInfo['activeEra'];
+  activeEra: BN;
   points?: UsePoints;
 }
 
@@ -26,9 +27,7 @@ const OPT_POINTS = {
       }, {})
 };
 
-const cached: Cache = {
-  activeEra: null
-};
+let cache: Cache | undefined;
 
 function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
   const { api } = useApi();
@@ -42,20 +41,15 @@ function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
 
   useEffect((): void => {
     if (activeEra && points) {
-      cached.activeEra = activeEra;
-      cached.points = points;
+      cache = { activeEra, points };
     }
   }, [activeEra, points]);
 
-  return useMemo(
-    () => points || (
-      activeEra &&
-      cached.activeEra &&
-      cached.activeEra.eq(activeEra) &&
-      cached.points
-    ) || undefined,
-    [activeEra, points]
-  );
+  return points || (
+    cache &&
+    activeEra?.eq(cache.activeEra) &&
+    cache.points
+  ) || undefined;
 }
 
 export default createNamedHook('usePoints', usePointsImpl);

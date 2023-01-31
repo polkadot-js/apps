@@ -7,7 +7,7 @@ import React, { useRef } from 'react';
 
 import Legend from '@polkadot/app-staking/Legend';
 import { Table } from '@polkadot/react-components';
-import { useLoadingDelay } from '@polkadot/react-hooks';
+import { useNextTick } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useValidatorsWaiting from '../useValidatorsWaiting';
@@ -24,7 +24,7 @@ interface Props {
 
 function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
   const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
 
   const headerWaiting = useRef<[string?, string?, number?][]>([
@@ -35,13 +35,13 @@ function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   return (
     <Table
       className={className}
-      empty={!isLoading && validatorsWaiting && t<string>('No waiting validators found')}
+      empty={isNextTick && validatorsWaiting && t<string>('No waiting validators found')}
       emptySpinner={t<string>('Retrieving waiting validators')}
       header={headerWaiting.current}
       isSplit
       legend={<Legend isRelay={isRelay} />}
     >
-      {!isLoading && validatorsWaiting?.map((v) => (
+      {isNextTick && validatorsWaiting?.map((v) => (
         <ValidatorRow
           isRelay={isRelay}
           key={v.key}
