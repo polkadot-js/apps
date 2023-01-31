@@ -5,12 +5,14 @@ import type { SessionInfo, Validator } from '../../types';
 
 import React, { useMemo, useRef } from 'react';
 
-import { AddressSmall, Table, Tag } from '@polkadot/react-components';
+import { Table, Tag } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import Status from './Status';
+import Bottom from './Row/Bottom';
+import Middle from './Row/Middle';
+import Top from './Row/Top';
 import useExposure from './useExposure';
 import useHeartbeat from './useHeartbeat';
 
@@ -28,18 +30,11 @@ interface PropsExpanded {
   validator: Validator;
 }
 
-function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
-  return (
-    <tr className={`${className} isExpanded isLast`}>
-      <td />
-      <td />
-      <td />
-      <td />
-    </tr>
-  );
+function ActiveExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
+  return <td className={className} />;
 }
 
-function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
+function Active ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
   const pointsRef = useRef<{ counter: number, points: number }>({ counter: 0, points: 0 });
   const exposure = useExposure(validator, sessionInfo);
@@ -61,39 +56,27 @@ function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavori
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst packedBottom`}>
-        <Table.Column.Favorite
-          address={validator.stashId}
-          isFavorite={validator.isFavorite}
-          toggle={toggleFavorite}
-        />
-        <td
-          className='statusInfo'
-          rowSpan={2}
-        >
-          <Status
-            heartbeat={heartbeat}
-            isRelay={isRelay}
-            validator={validator}
+      <Top
+        className={className}
+        heartbeat={heartbeat}
+        isExpanded={isExpanded}
+        isRelay={isRelay}
+        toggleExpanded={toggleExpanded}
+        toggleFavorite={toggleFavorite}
+        validator={validator}
+      >
+        {points && (
+          <Tag
+            className={`${pointsAnimClass} absolute`}
+            color='lightgrey'
+            label={formatNumber(points)}
           />
-        </td>
-        <td className='address relative all'>
-          <AddressSmall value={validator.stashId} />
-          {points && (
-            <Tag
-              className={`${pointsAnimClass} absolute`}
-              color='lightgrey'
-              label={formatNumber(points)}
-            />
-          )}
-        </td>
-        <Table.Column.Expand
-          isExpanded={isExpanded}
-          toggle={toggleExpanded}
-        />
-      </tr>
-      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
-        <td />
+        )}
+      </Top>
+      <Middle
+        className={className}
+        isExpanded={isExpanded}
+      >
         <Table.Column.Balance
           className='relative'
           label={
@@ -108,13 +91,15 @@ function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavori
           value={exposure?.clipped?.total}
           withLoading
         />
-        <td />
-      </tr>
-      {isExpanded && (
-        <ValidatorExpanded validator={validator} />
-      )}
+      </Middle>
+      <Bottom
+        className={className}
+        isExpanded={isExpanded}
+      >
+        <ActiveExpanded validator={validator} />
+      </Bottom>
     </>
   );
 }
 
-export default React.memo(Validator);
+export default React.memo(Active);

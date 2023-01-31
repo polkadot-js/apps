@@ -30,7 +30,7 @@ function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | unde
   const { api } = useApi();
 
   const electedParams = useMemo(
-    () => cache && currentEra && !cache.currentEra.eq(currentEra)
+    () => currentEra && (!cache || !cache.currentEra.eq(currentEra))
       ? [currentEra]
       : null,
     [currentEra]

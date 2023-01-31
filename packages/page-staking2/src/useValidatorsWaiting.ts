@@ -12,11 +12,11 @@ import useValidatorsAll from './useValidatorsAll';
 
 interface Cache {
   activeEra: BN;
-  validators: Validator[];
+  tagged: Validator[];
 }
 
-function excludeValidators (from?: Validator[], exclude?: Validator[]): Validator[] | undefined {
-  return from && exclude && from.filter(({ stashId }) =>
+function excludeValidators (from: Validator[], exclude: Validator[]): Validator[] {
+  return from.filter(({ stashId }) =>
     !exclude.some((v) => v.stashId === stashId)
   );
 }
@@ -28,21 +28,21 @@ function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo
 
   // both active and all is already sorted and tagged, so we don't
   // need to re-sort the waiting list
-  const validators = useMemo(
-    () => excludeValidators(allValidators, activeValidators),
+  const tagged = useMemo(
+    () => allValidators && activeValidators && excludeValidators(allValidators, activeValidators),
     [activeValidators, allValidators]
   );
 
   useEffect((): void => {
-    if (validators && sessionInfo.activeEra) {
-      cache = { activeEra: sessionInfo.activeEra, validators };
+    if (tagged && sessionInfo.activeEra) {
+      cache = { activeEra: sessionInfo.activeEra, tagged };
     }
-  }, [sessionInfo, validators]);
+  }, [sessionInfo, tagged]);
 
-  return validators || (
+  return tagged || (
     cache &&
     sessionInfo.activeEra?.eq(cache.activeEra) &&
-    cache.validators
+    cache.tagged
   ) || undefined;
 }
 
