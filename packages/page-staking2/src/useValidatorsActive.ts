@@ -6,7 +6,7 @@ import type { SessionInfo, Validator } from './types';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCacheValue';
+import { useCacheValue } from './useCache';
 import useTaggedValidators from './useTaggedValidators';
 
 const OPT_VALIDATORS = {

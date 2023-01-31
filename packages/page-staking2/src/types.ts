@@ -3,10 +3,6 @@
 
 import type { BN } from '@polkadot/util';
 
-export interface CacheValue<T> {
-  value?: T;
-}
-
 export interface SessionInfo {
   activeEra?: BN | null;
   currentEra?: BN | null;

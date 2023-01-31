@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { useCacheMap } from '../useCacheMap';
+import { useCacheMap } from '../useCache';
 
 const OPT_EXPOSURE = {
   transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
