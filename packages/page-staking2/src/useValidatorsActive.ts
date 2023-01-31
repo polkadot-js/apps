@@ -30,7 +30,7 @@ function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo)
   const sessionValidators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
   const tagged = useTaggedValidators(favorites, sessionInfo, sessionValidators);
 
-  return useCacheValue('useValidatorsActive', sessionInfo.activeEra, tagged);
+  return useCacheValue('useValidatorsActive', tagged);
 }
 
 export default createNamedHook('useValidatorsActive', useValidatorsActiveImpl);

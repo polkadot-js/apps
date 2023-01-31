@@ -33,7 +33,7 @@ function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
 
   const points = useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
 
-  return useCacheValue('usePoints', activeEra, points);
+  return useCacheValue('usePoints', points);
 }
 
 export default createNamedHook('usePoints', usePointsImpl);

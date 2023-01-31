@@ -65,7 +65,7 @@ function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): V
 
   const tagged = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
 
-  return useCacheValue('useValidatorsAll', sessionInfo.currentEra, tagged);
+  return useCacheValue('useValidatorsAll', tagged);
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);
