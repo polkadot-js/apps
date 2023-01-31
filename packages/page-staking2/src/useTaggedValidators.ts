@@ -13,7 +13,11 @@ import useElectedValidators from './useElectedValidators';
 function sort (a: Validator, b: Validator): number {
   return a.isFavorite === b.isFavorite
     ? a.isOwned === b.isOwned
-      ? 0
+      ? a.isElected === b.isElected
+        ? 0
+        : a.isElected
+          ? -1
+          : 1
       : a.isOwned
         ? -1
         : 1
@@ -22,16 +26,14 @@ function sort (a: Validator, b: Validator): number {
       : 1;
 }
 
-function withElected (validators: Validator[], elected?: string[]): Validator[] {
-  return elected
-    ? validators.map((v): Validator => {
-      const isElected = elected.includes(v.stashId);
+function withElected (validators: Validator[], elected: string[]): Validator[] {
+  return validators.map((v): Validator => {
+    const isElected = elected.includes(v.stashId);
 
-      return v.isElected !== isElected
-        ? objectSpread({}, v, { isElected })
-        : v;
-    })
-    : validators;
+    return v.isElected !== isElected
+      ? objectSpread({}, v, { isElected })
+      : v;
+  });
 }
 
 function withSort (allAccounts: string[], favorites: string[], validators: Validator[]): Validator[] {
@@ -52,7 +54,7 @@ function useTaggedValidatorsImpl (favorites: string[], sessionInfo: SessionInfo,
   const elected = useElectedValidators(sessionInfo);
 
   const flagged = useMemo(
-    () => validators && withElected(validators, elected),
+    () => elected && validators && withElected(validators, elected),
     [elected, validators]
   );
 

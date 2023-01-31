@@ -64,15 +64,15 @@ function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): V
     [validators]
   );
 
-  const result = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+  const tagged = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
 
   useEffect((): void => {
-    if (result) {
-      cache = result;
+    if (tagged) {
+      cache = tagged;
     }
-  }, [result]);
+  }, [tagged, validatorsIndexed]);
 
-  return result || cache;
+  return tagged || cache;
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);

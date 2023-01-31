@@ -5,10 +5,11 @@ import type { Validator } from '../../types';
 
 import React from 'react';
 
-import { AddressSmall, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import Status from '../Active/Status';
+import Bottom from '../Active/Row/Bottom';
+import Middle from '../Active/Row/Middle';
+import Top from '../Active/Row/Top';
 
 interface Props {
   className?: string;
@@ -21,52 +22,36 @@ interface PropsExpanded {
   validator: Validator;
 }
 
-function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
-  return (
-    <tr className={`${className} isExpanded isLast`}>
-      <td />
-      <td />
-      <td />
-      <td />
-    </tr>
-  );
+function WaitingExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
+  return <td className={className} />;
 }
 
-function Validator ({ className = '', toggleFavorite, validator }: Props): React.ReactElement<Props> {
+function Waiting ({ className = '', toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst packedBottom`}>
-        <Table.Column.Favorite
-          address={validator.stashId}
-          isFavorite={validator.isFavorite}
-          toggle={toggleFavorite}
-        />
-        <td
-          className='statusInfo'
-          rowSpan={2}
-        >
-          <Status validator={validator} />
-        </td>
-        <td className='address relative all'>
-          <AddressSmall value={validator.stashId} />
-        </td>
-        <Table.Column.Expand
-          isExpanded={isExpanded}
-          toggle={toggleExpanded}
-        />
-      </tr>
-      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
-        <td colSpan={2} />
+      <Top
+        className={className}
+        isExpanded={isExpanded}
+        toggleExpanded={toggleExpanded}
+        toggleFavorite={toggleFavorite}
+        validator={validator}
+      />
+      <Middle
+        className={className}
+        isExpanded={isExpanded}
+      >
         <td />
-        <td />
-      </tr>
-      {isExpanded && (
-        <ValidatorExpanded validator={validator} />
-      )}
+      </Middle>
+      <Bottom
+        className={className}
+        isExpanded={isExpanded}
+      >
+        <WaitingExpanded validator={validator} />
+      </Bottom>
     </>
   );
 }
 
-export default React.memo(Validator);
+export default React.memo(Waiting);

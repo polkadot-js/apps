@@ -13,7 +13,7 @@ import useTaggedValidators from './useTaggedValidators';
 
 interface Cache {
   activeEra: BN;
-  validators: Validator[];
+  tagged: Validator[];
 }
 
 const OPT_VALIDATORS = {
@@ -37,18 +37,18 @@ let cache: Cache | undefined;
 function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
   const sessionValidators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
-  const validators = useTaggedValidators(favorites, sessionInfo, sessionValidators);
+  const tagged = useTaggedValidators(favorites, sessionInfo, sessionValidators);
 
   useEffect((): void => {
-    if (validators && sessionInfo.activeEra) {
-      cache = { activeEra: sessionInfo.activeEra, validators };
+    if (tagged && sessionInfo.activeEra) {
+      cache = { activeEra: sessionInfo.activeEra, tagged };
     }
-  }, [sessionInfo, validators]);
+  }, [sessionInfo, tagged]);
 
-  return validators || (
+  return tagged || (
     cache &&
     sessionInfo.activeEra?.eq(cache.activeEra) &&
-    cache.validators
+    cache.tagged
   ) || undefined;
 }
 
