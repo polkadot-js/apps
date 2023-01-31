@@ -4,11 +4,15 @@
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { SessionInfo, Validator } from '../../types';
-import type { Heartbeat } from './types';
+import type { Heartbeat } from '../types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+
+type Cache = Record<string, Heartbeat>;
+
+const EMPTY: Heartbeat = { isOnline: false };
 
 const OPT_BLOCKS = {
   transform: (authoredBlocks: u32): number =>
@@ -20,6 +24,8 @@ const OPT_BEATS = {
   transform: (receivedHeartbeats: Option<Codec>): boolean =>
     receivedHeartbeats.isSome
 };
+
+const cache: Cache = {};
 
 function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession }: SessionInfo): Heartbeat {
   const { api } = useApi();
@@ -35,13 +41,21 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
   const authoredBlocks = useCall(params && api.query.imOnline.authoredBlocks, params?.authoredBlocks, OPT_BLOCKS);
   const receivedHeartbeats = useCall(params && api.query.imOnline.receivedHeartbeats, params?.receivedHeartbeats, OPT_BEATS);
 
-  return useMemo(
-    () => ({
+  const result = useMemo(
+    () => authoredBlocks && receivedHeartbeats && ({
       authoredBlocks,
       isOnline: !!(authoredBlocks || receivedHeartbeats)
     }),
     [authoredBlocks, receivedHeartbeats]
   );
+
+  useEffect((): void => {
+    if (result) {
+      cache[stashId] = result;
+    }
+  }, [result, stashId]);
+
+  return result || cache[stashId] || EMPTY;
 }
 
 export default createNamedHook('useHeartbeat', useHeartbeatImpl);

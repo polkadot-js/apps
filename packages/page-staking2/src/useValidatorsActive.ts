@@ -4,6 +4,8 @@
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { SessionInfo, Validator } from './types';
 
+import { useEffect } from 'react';
+
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import useTaggedValidators from './useTaggedValidators';
@@ -24,11 +26,20 @@ const OPT_VALIDATORS = {
     })
 };
 
+let cache: Validator[] | undefined;
+
 function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
   const validators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
+  const result = useTaggedValidators(favorites, sessionInfo, validators);
 
-  return useTaggedValidators(favorites, sessionInfo, validators);
+  useEffect((): void => {
+    if (result) {
+      cache = result;
+    }
+  }, [result]);
+
+  return result || cache;
 }
 
 export default createNamedHook('useValidatorsActive', useValidatorsActiveImpl);

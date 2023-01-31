@@ -3,11 +3,10 @@
 
 import type { SessionInfo, Validator } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useValidatorsActive from './useValidatorsActive';
 import useValidatorsAll from './useValidatorsAll';
 
 function excludeValidators (from?: Validator[], exclude?: Validator[]): Validator[] | undefined {
@@ -16,16 +15,25 @@ function excludeValidators (from?: Validator[], exclude?: Validator[]): Validato
   );
 }
 
-function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
-  const activeValidators = useValidatorsActive(favorites, sessionInfo);
+let cache: Validator[] | undefined;
+
+function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo, activeValidators?: Validator[]): Validator[] | undefined {
   const allValidators = useValidatorsAll(favorites, sessionInfo);
 
   // both active and all is already sorted and tagged, so we don't
   // need to re-sort the waiting list
-  return useMemo(
+  const result = useMemo(
     () => excludeValidators(allValidators, activeValidators),
     [activeValidators, allValidators]
   );
+
+  useEffect((): void => {
+    if (result) {
+      cache = result;
+    }
+  }, [result]);
+
+  return result || cache;
 }
 
 export default createNamedHook('useValidatorsWaiting', useValidatorsWaitingImpl);

@@ -6,7 +6,7 @@ import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
 import type { SessionInfo, Validator } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
@@ -49,6 +49,8 @@ function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
   });
 }
 
+let cache: Validator[] | undefined;
+
 function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.staking.validators, EMPTY_PARAMS, OPT_VALIDATORS);
@@ -62,7 +64,15 @@ function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): V
     [validators]
   );
 
-  return useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+  const result = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+
+  useEffect((): void => {
+    if (result) {
+      cache = result;
+    }
+  }, [result]);
+
+  return result || cache;
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);

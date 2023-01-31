@@ -46,15 +46,12 @@ function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | unde
     }
   }, [currentEra, elected]);
 
-  return useMemo(
-    () => (
-      currentEra &&
-      cached.currentEra &&
-      cached.currentEra.eq(currentEra) &&
-      cached.elected
-    ) || elected,
-    [currentEra, elected]
-  );
+  return elected || (
+    currentEra &&
+    cached.currentEra &&
+    cached.currentEra.eq(currentEra) &&
+    cached.elected
+  ) || undefined;
 }
 
 export default createNamedHook('useElectedValidators', useElectedValidatorsImpl);
