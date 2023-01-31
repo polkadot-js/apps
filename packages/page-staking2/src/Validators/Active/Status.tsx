@@ -44,16 +44,15 @@ function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPa
         )
         : emptyBadge
       }
-      {isRelay && (
-        isPara
-          ? (
-            <Badge
-              color='purple'
-              icon='vector-square'
-            />
-          )
-          : emptyBadge
-      )}
+      {isRelay && isPara
+        ? (
+          <Badge
+            color='purple'
+            icon='vector-square'
+          />
+        )
+        : emptyBadge
+      }
       {isChilled
         ? (
           <Badge
