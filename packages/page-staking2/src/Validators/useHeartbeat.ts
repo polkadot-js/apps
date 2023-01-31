@@ -3,20 +3,15 @@
 
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { BN } from '@polkadot/util';
 import type { SessionInfo, Validator } from '../types';
 import type { UseHeartbeat } from './types';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { isBoolean, isNumber, objectSpread } from '@polkadot/util';
+import { isBoolean, isNumber } from '@polkadot/util';
 
-interface CacheEntry extends UseHeartbeat {
-  currentSession: BN;
-}
-
-type Cache = Record<string, CacheEntry>;
+import { useCacheMap } from '../useCacheMap';
 
 const EMPTY: UseHeartbeat = {};
 
@@ -30,8 +25,6 @@ const OPT_BEATS = {
   transform: (receivedHeartbeats: Option<Codec>): boolean =>
     receivedHeartbeats.isSome
 };
-
-const cache: Cache = {};
 
 function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession }: SessionInfo): UseHeartbeat {
   const { api } = useApi();
@@ -57,21 +50,7 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
     [authoredBlocks, receivedHeartbeats]
   );
 
-  // when the session changes, empty the cache
-  useEffect((): void => {
-    if (currentSession && (!cache[stashId] || !currentSession.eq(cache[stashId].currentSession))) {
-      cache[stashId] = { currentSession };
-    }
-  }, [currentSession, stashId]);
-
-  // set the new heartbeat info based on retrieved
-  useEffect((): void => {
-    if (result && currentSession && currentSession.eq(cache[stashId].currentSession)) {
-      cache[stashId] = objectSpread<CacheEntry>({ currentSession }, result);
-    }
-  }, [currentSession, result, stashId]);
-
-  return result || cache[stashId] || EMPTY;
+  return useCacheMap('useHeartbeat', stashId, currentSession, result) || EMPTY;
 }
 
 export default createNamedHook('useHeartbeat', useHeartbeatImpl);
