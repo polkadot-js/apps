@@ -110,8 +110,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2002,
     text: 'Clover',
     providers: {
-      Clover: 'wss://rpc-para.clover.finance'
-      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
+      Clover: 'wss://rpc-para.clover.finance',
+      OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, renenabled for PolkadotJS
     }
   },
   {
@@ -132,7 +132,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2019,
     text: 'Composable Finance',
     providers: {
-      Composable: 'wss://rpc.composable.finance'
+      Composable: 'wss://rpc.composable.finance',
+      OnFinality: 'wss://composable.api.onfinality.io/public-ws'
     }
   },
   {
@@ -169,7 +170,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Efinity',
     providers: {
       Efinity: 'wss://rpc.efinity.io',
-      Dwellir: 'wss://efinity-rpc.dwellir.com'
+      Dwellir: 'wss://efinity-rpc.dwellir.com',
+      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     }
   },
   {
@@ -218,8 +220,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'HydraDX',
     providers: {
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      Dwellir: 'wss://hydradx-rpc.dwellir.com'
-      // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623
+      Dwellir: 'wss://hydradx-rpc.dwellir.com',
+      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623, Renabled for PolkadotJS
     }
   },
   {
@@ -353,7 +355,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2012,
     text: 'Parallel',
     providers: {
-      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
+      OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
       Parallel: 'wss://rpc.parallel.fi'
     }
   },
@@ -415,7 +417,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Unique America': 'wss://us-ws.unique.network/',
       'Unique Asia': 'wss://asia-ws.unique.network/',
-      'Unique Europe': 'wss://eu-ws.unique.network/'
+      'Unique Europe': 'wss://eu-ws.unique.network/',
+      OnFinality: 'wss://unique.api.onfinality.io/public-ws'
     }
   }
 ];
