@@ -28,7 +28,7 @@ function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | unde
 
   const elected = useMapKeys(electedParams && api.query.staking.erasStakers, electedParams, OPT_ELECTED);
 
-  return useCacheValue('useElectedValidators', currentEra, elected);
+  return useCacheValue('useElectedValidators', elected);
 }
 
 export default createNamedHook('useElectedValidators', useElectedValidatorsImpl);

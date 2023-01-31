@@ -50,7 +50,7 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
     [authoredBlocks, receivedHeartbeats]
   );
 
-  return useCacheMap('useHeartbeat', stashId, currentSession, result) || EMPTY;
+  return useCacheMap('useHeartbeat', stashId, result) || EMPTY;
 }
 
 export default createNamedHook('useHeartbeat', useHeartbeatImpl);

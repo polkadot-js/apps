@@ -60,7 +60,7 @@ function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): U
     [clipExposure, fullExposure]
   );
 
-  return useCacheMap('useExposure', stashId, activeEra, result);
+  return useCacheMap('useExposure', stashId, result);
 }
 
 export default createNamedHook('useExposure', useExposureImpl);

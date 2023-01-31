@@ -26,7 +26,7 @@ function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo
     [activeValidators, allValidators]
   );
 
-  return useCacheValue('useValidatorsWaiting', sessionInfo.activeEra, tagged);
+  return useCacheValue('useValidatorsWaiting', tagged);
 }
 
 export default createNamedHook('useValidatorsWaiting', useValidatorsWaitingImpl);
