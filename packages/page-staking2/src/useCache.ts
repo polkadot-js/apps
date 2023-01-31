@@ -24,10 +24,6 @@ const cacheVal: Record<CacheValKey, CacheValue<any>> = {
   useValidatorsWaiting: {}
 };
 
-function getResultValue <T> (cached?: CacheValue<T>, value?: T): T | undefined {
-  return value || cached?.value;
-}
-
 export function clearCache (): void {
   for (const k of Object.keys(cacheMap)) {
     cacheMap[k as CacheMapKey] = {};
@@ -46,7 +42,7 @@ export function useCacheMap <T> (section: CacheMapKey, id: string, value?: T): T
     }
   }, [id, section, value]);
 
-  return getResultValue(cacheMap[section][id] as CacheValue<T>, value);
+  return value || (cacheMap[section][id] as CacheValue<T>)?.value;
 }
 
 export function useCacheValue <T> (section: CacheValKey, value?: T): T | undefined {
@@ -57,5 +53,5 @@ export function useCacheValue <T> (section: CacheValKey, value?: T): T | undefin
     }
   }, [section, value]);
 
-  return getResultValue(cacheVal[section] as CacheValue<T>, value);
+  return value || (cacheVal[section] as CacheValue<T>)?.value;
 }
