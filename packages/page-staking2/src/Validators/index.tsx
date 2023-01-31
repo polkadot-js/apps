@@ -10,9 +10,9 @@ import { Button, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import useValidatorsActive from '../useValidatorsActive';
-import ListActive from './ListActive';
-import ListWaiting from './ListWaiting';
+import Active from './Active';
 import usePoints from './usePoints';
+import Waiting from './Waiting';
 
 interface Props {
   className?: string;
@@ -44,7 +44,7 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
       </Button.Group>
       {intentIndex === 0
         ? (
-          <ListActive
+          <Active
             isRelay={isRelay}
             points={points}
             sessionInfo={sessionInfo}
@@ -53,7 +53,7 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
           />
         )
         : (
-          <ListWaiting
+          <Waiting
             favorites={favorites}
             isRelay={isRelay}
             sessionInfo={sessionInfo}

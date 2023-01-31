@@ -1,56 +1,54 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Validator } from '../../types';
+import type { SessionInfo, Validator } from '../../types';
 
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { useToggle } from '@polkadot/react-hooks';
+import Legend from '@polkadot/app-staking/Legend';
+import { Table } from '@polkadot/react-components';
+import { useNextTick } from '@polkadot/react-hooks';
 
-import Bottom from '../Active/Row/Bottom';
-import Middle from '../Active/Row/Middle';
-import Top from '../Active/Row/Top';
+import { useTranslation } from '../../translate';
+import useValidatorsWaiting from '../../useValidatorsWaiting';
+import Entry from './Entry';
 
 interface Props {
   className?: string;
+  favorites: string[];
+  isRelay: boolean;
+  sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validator: Validator;
+  validatorsActive?: Validator[];
 }
 
-interface PropsExpanded {
-  className?: string;
-  validator: Validator;
-}
+function Waiting ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const isNextTick = useNextTick();
+  const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
 
-function WaitingExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
-  return <td className={className} />;
-}
-
-function Waiting ({ className = '', toggleFavorite, validator }: Props): React.ReactElement<Props> {
-  const [isExpanded, toggleExpanded] = useToggle();
+  const header = useRef<[string?, string?, number?][]>([
+    // favorite, badges, details, expand
+    [t<string>('waiting'), 'start', 4]
+  ]);
 
   return (
-    <>
-      <Top
-        className={className}
-        isExpanded={isExpanded}
-        toggleExpanded={toggleExpanded}
-        toggleFavorite={toggleFavorite}
-        validator={validator}
-      />
-      <Middle
-        className={className}
-        isExpanded={isExpanded}
-      >
-        <td />
-      </Middle>
-      <Bottom
-        className={className}
-        isExpanded={isExpanded}
-      >
-        <WaitingExpanded validator={validator} />
-      </Bottom>
-    </>
+    <Table
+      className={className}
+      empty={isNextTick && validatorsWaiting && t<string>('No waiting validators found')}
+      emptySpinner={t<string>('Retrieving waiting validators')}
+      header={header.current}
+      isSplit
+      legend={<Legend isRelay={isRelay} />}
+    >
+      {isNextTick && validatorsWaiting?.map((v) => (
+        <Entry
+          key={v.key}
+          toggleFavorite={toggleFavorite}
+          validator={v}
+        />
+      ))}
+    </Table>
   );
 }
 

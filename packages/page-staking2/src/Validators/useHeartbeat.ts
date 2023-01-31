@@ -4,8 +4,8 @@
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { SessionInfo, Validator } from '../../types';
-import type { UseHeartbeat } from '../types';
+import type { SessionInfo, Validator } from '../types';
+import type { UseHeartbeat } from './types';
 
 import { useEffect, useMemo } from 'react';
 
