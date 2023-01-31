@@ -37,10 +37,12 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
   const { api } = useApi();
 
   const params = useMemo(
-    () => currentSession && ({
-      authoredBlocks: [currentSession, stashId],
-      receivedHeartbeats: [currentSession, stashIndex]
-    }),
+    () => stashIndex === -1
+      ? undefined
+      : currentSession && ({
+        authoredBlocks: [currentSession, stashId],
+        receivedHeartbeats: [currentSession, stashIndex]
+      }),
     [currentSession, stashId, stashIndex]
   );
 

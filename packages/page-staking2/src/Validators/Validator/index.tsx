@@ -3,7 +3,7 @@
 
 import type { SessionInfo, Validator } from '../../types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
@@ -41,12 +41,22 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
 
 function Validator ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
+  const pointsRef = useRef<{ counter: number, points: number }>({ counter: 0, points: 0 });
   const exposure = useExposure(validator, sessionInfo);
   const heartbeat = useHeartbeat(validator, sessionInfo);
 
   const pointsAnimClass = useMemo(
-    () => (points && `greyAnim-${Date.now() % 25}`) || '',
-    [points]
+    (): string => {
+      if (!points || pointsRef.current.points === points) {
+        return '';
+      }
+
+      pointsRef.current.points = points;
+      pointsRef.current.counter = (pointsRef.current.counter + 1) % 25;
+
+      return `greyAnim-${pointsRef.current.counter}`;
+    },
+    [points, pointsRef]
   );
 
   return (

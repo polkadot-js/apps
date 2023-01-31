@@ -28,8 +28,6 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   const validatorsActive = useValidatorsActive(favorites, sessionInfo);
   const points = usePoints(sessionInfo);
 
-  console.log(validatorsActive);
-
   const intentOptions = useRef([
     { text: t('Active'), value: 'active' },
     { text: t('Waiting'), value: 'waiting' }
