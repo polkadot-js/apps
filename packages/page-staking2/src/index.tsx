@@ -12,7 +12,6 @@ import { useApi, useFavorites } from '@polkadot/react-hooks';
 import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSessionInfo from './useSessionInfo';
-import useValidatorsActive from './useValidatorsActive';
 import Validators from './Validators';
 
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
@@ -20,7 +19,6 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const sessionInfo = useSessionInfo();
-  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
 
   const isRelay = useMemo(
     () => !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices,
@@ -44,10 +42,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       <Switch>
         <Route>
           <Validators
+            favorites={favorites}
             isRelay={isRelay}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
-            validatorsSession={validatorsActive}
           />
         </Route>
       </Switch>

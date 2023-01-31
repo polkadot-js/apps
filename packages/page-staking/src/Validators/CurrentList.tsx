@@ -9,7 +9,7 @@ import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBlockAuthors, useLoadingDelay } from '@polkadot/react-hooks';
+import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering';
 import Legend from '../Legend';
@@ -113,9 +113,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const { api } = useApi();
   const { byAuthor, eraPoints } = useBlockAuthors();
   const [nameFilter, setNameFilter] = useState<string>('');
-
-  // we have a very large list, so we use a loading delay
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const { validators, waiting } = useMemo(
     () => getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds),
@@ -123,12 +121,12 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   );
 
   const list = useMemo(
-    () => isLoading
-      ? undefined
-      : isIntentions
+    () => isNextTick
+      ? isIntentions
         ? nominatedBy && waiting
-        : validators,
-    [isIntentions, isLoading, nominatedBy, validators, waiting]
+        : validators
+      : undefined,
+    [isIntentions, isNextTick, nominatedBy, validators, waiting]
   );
 
   const infoMap = useMemo(

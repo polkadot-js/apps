@@ -2,27 +2,34 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { SessionInfo } from '../types';
+import type { UsePoints } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-type Result = Record<string, number>;
+interface Cache {
+  activeEra: BN;
+  points?: UsePoints;
+}
 
 const OPT_POINTS = {
-  transform: ({ individual }: PalletStakingEraRewardPoints): Result =>
+  transform: ({ individual }: PalletStakingEraRewardPoints): UsePoints =>
     [...individual.entries()]
       .filter(([, points]) => points.gt(BN_ZERO))
-      .reduce((result: Result, [stashId, points]): Result => {
+      .reduce((result: UsePoints, [stashId, points]): UsePoints => {
         result[stashId.toString()] = points.toNumber();
 
         return result;
       }, {})
 };
 
-function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
+let cache: Cache | undefined;
+
+function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
   const { api } = useApi();
 
   const queryParams = useMemo(
@@ -30,7 +37,19 @@ function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
     [activeEra]
   );
 
-  return useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
+  const points = useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
+
+  useEffect((): void => {
+    if (activeEra && points) {
+      cache = { activeEra, points };
+    }
+  }, [activeEra, points]);
+
+  return points || (
+    cache &&
+    activeEra?.eq(cache.activeEra) &&
+    cache.points
+  ) || undefined;
 }
 
 export default createNamedHook('usePoints', usePointsImpl);

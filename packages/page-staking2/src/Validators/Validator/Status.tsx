@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Validator } from '../../types';
-import type { Heartbeat } from './types';
+import type { UseHeartbeat } from '../types';
 
 import React, { useMemo } from 'react';
 
@@ -10,7 +10,7 @@ import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {
-  heartbeat: Heartbeat;
+  heartbeat: UseHeartbeat;
   isChilled?: boolean;
   isPara?: boolean;
   isRelay?: boolean;

@@ -1,14 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { SessionInfo, Validator } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useValidatorsActive from './useValidatorsActive';
 import useValidatorsAll from './useValidatorsAll';
+
+interface Cache {
+  activeEra: BN;
+  validators: Validator[];
+}
 
 function excludeValidators (from?: Validator[], exclude?: Validator[]): Validator[] | undefined {
   return from && exclude && from.filter(({ stashId }) =>
@@ -16,16 +21,29 @@ function excludeValidators (from?: Validator[], exclude?: Validator[]): Validato
   );
 }
 
-function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
-  const activeValidators = useValidatorsActive(favorites, sessionInfo);
+let cache: Cache | undefined;
+
+function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo, activeValidators?: Validator[]): Validator[] | undefined {
   const allValidators = useValidatorsAll(favorites, sessionInfo);
 
   // both active and all is already sorted and tagged, so we don't
   // need to re-sort the waiting list
-  return useMemo(
+  const validators = useMemo(
     () => excludeValidators(allValidators, activeValidators),
     [activeValidators, allValidators]
   );
+
+  useEffect((): void => {
+    if (validators && sessionInfo.activeEra) {
+      cache = { activeEra: sessionInfo.activeEra, validators };
+    }
+  }, [sessionInfo, validators]);
+
+  return validators || (
+    cache &&
+    sessionInfo.activeEra?.eq(cache.activeEra) &&
+    cache.validators
+  ) || undefined;
 }
 
 export default createNamedHook('useValidatorsWaiting', useValidatorsWaitingImpl);

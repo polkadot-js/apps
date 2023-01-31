@@ -3,34 +3,21 @@
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { SessionInfo, Validator } from '../../types';
+import type { UseExposure, UseExposureExposure } from '../types';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { BN, objectSpread } from '@polkadot/util';
 
-interface ExposureEntry {
-  who: string,
-  value: BN
+interface CacheEntry extends UseExposure {
+  activeEra: BN;
 }
 
-interface Exposure {
-  others: ExposureEntry[];
-  own: BN;
-  total: BN;
-}
-
-interface Result {
-  clipped?: Exposure;
-  exposure?: Exposure;
-  waiting?: {
-    others: ExposureEntry[],
-    total: BN
-  };
-}
+type Cache = Record<string, CacheEntry>;
 
 const OPT_EXPOSURE = {
-  transform: ({ others, own, total }: PalletStakingExposure): Exposure => ({
+  transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
     others: others
       .map(({ value, who }) => ({
         value: value.unwrap(),
@@ -42,28 +29,28 @@ const OPT_EXPOSURE = {
   })
 };
 
-function getResult (exposure?: Exposure, clipped?: Exposure): Result {
-  let waiting: Result['waiting'];
+function getResult (exposure: UseExposureExposure, clipped: UseExposureExposure): UseExposure {
+  let waiting: UseExposure['waiting'];
 
-  if (exposure && clipped) {
-    const others = exposure.others.filter(({ who }) =>
-      !clipped.others.find((c) =>
-        who === c.who
-      )
-    );
+  const others = exposure.others.filter(({ who }) =>
+    !clipped.others.find((c) =>
+      who === c.who
+    )
+  );
 
-    if (others.length) {
-      waiting = {
-        others,
-        total: others.reduce((total, { value }) => total.iadd(value), new BN(0))
-      };
-    }
+  if (others.length) {
+    waiting = {
+      others,
+      total: others.reduce((total, { value }) => total.iadd(value), new BN(0))
+    };
   }
 
   return { clipped, exposure, waiting };
 }
 
-function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): Result | undefined {
+const cache: Cache = {};
+
+function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): UseExposure | undefined {
   const { api } = useApi();
 
   const params = useMemo(
@@ -74,10 +61,26 @@ function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): R
   const fullExposure = useCall(params && api.query.staking.erasStakers, params, OPT_EXPOSURE);
   const clipExposure = useCall(params && api.query.staking.erasStakersClipped, params, OPT_EXPOSURE);
 
-  return useMemo(
-    () => getResult(fullExposure, clipExposure),
+  const result = useMemo(
+    () => fullExposure && clipExposure && getResult(fullExposure, clipExposure),
     [clipExposure, fullExposure]
   );
+
+  // clear the cached result on era changes
+  useEffect((): void => {
+    if (activeEra && (!cache[stashId] || !activeEra.eq(cache[stashId].activeEra))) {
+      cache[stashId] = { activeEra };
+    }
+  }, [activeEra, stashId]);
+
+  // update the cached result on exposure changes
+  useEffect((): void => {
+    if (result && activeEra && cache[stashId] && activeEra.eq(cache[stashId].activeEra)) {
+      cache[stashId] = objectSpread<CacheEntry>({ activeEra }, result);
+    }
+  }, [activeEra, result, stashId]);
+
+  return result || cache[stashId];
 }
 
 export default createNamedHook('useExposure', useExposureImpl);

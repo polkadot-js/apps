@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from '../modals/Create';
 import { useTranslation } from '../translate';
@@ -29,7 +29,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[] | undefined>();
   const [filterOn, setFilter] = useState<string>('');
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('contacts'), 'start', 4]
@@ -75,11 +75,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         </Button.Group>
       </SummaryBox>
       <Table
-        empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
+        empty={isNextTick && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
         isSplit
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
+        {isNextTick && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
