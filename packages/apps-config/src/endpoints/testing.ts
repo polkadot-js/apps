@@ -168,7 +168,7 @@ export const testChains: EndpointOption[] = [
     info: 'dotmog',
     text: 'DOTMog',
     providers: {
-      DOTMog: 'wss://mogiway-01.dotmog.com'
+      // DOTMog: 'wss://mogiway-01.dotmog.com' // https://github.com/polkadot-js/apps/issues/8895
     }
   },
   {
