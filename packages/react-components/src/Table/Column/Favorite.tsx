@@ -1,23 +1,32 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColFavoriteProps as Props } from '../types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../../Icon';
 
-function Favorite ({ address, className = '', isFavorite, toggle }: Props): React.ReactElement<Props> {
+export interface Props {
+  address: string;
+  className?: string;
+  colSpan?: number;
+  isFavorite: boolean;
+  rowSpan?: number;
+  toggle: (address: string) => void;
+}
+
+function Favorite ({ address, className = '', colSpan, isFavorite, rowSpan, toggle }: Props): React.ReactElement<Props> {
   const onClick = useCallback(
     () => toggle(address),
     [address, toggle]
   );
 
   return (
-    <td
-      className={`ui--Table-Column-Favorite ${className}`}
+    <StyledTd
+      className={`${className} ui--Table-Column-Favorite`}
+      colSpan={colSpan}
       onClick={onClick}
+      rowSpan={rowSpan}
     >
       <Icon
         color={
@@ -27,11 +36,11 @@ function Favorite ({ address, className = '', isFavorite, toggle }: Props): Reac
         }
         icon='star'
       />
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Favorite)`
+const StyledTd = styled.td`
   && {
     box-sizing: content-box;
     cursor: pointer;
@@ -40,4 +49,6 @@ export default React.memo(styled(Favorite)`
     text-align: right;
     width: 1rem;
   }
-`);
+`;
+
+export default React.memo(Favorite);

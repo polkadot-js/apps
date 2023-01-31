@@ -8,7 +8,7 @@ import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
@@ -64,6 +64,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     [api, runtimeVersion]
   );
 
+  useEffect((): void => {
+    error && setBlkError(error);
+  }, [error]);
+
   const systemEvents = useMemo(
     () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
     [events]
@@ -100,7 +104,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => getHeader
       ? [
-        [formatNumber(getHeader.number.unwrap()), 'start', 1],
+        [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
         [t('hash'), 'start'],
         [t('parent'), 'start'],
         [t('extrinsics'), 'start media--1300'],
@@ -124,7 +128,13 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       />
       <Table header={header}>
         {blkError
-          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } })}</td></tr>
+          ? (
+            <tr>
+              <td colSpan={6}>
+                <MarkError content={t<string>('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } }) } />
+              </td>
+            </tr>
+          )
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
@@ -141,10 +151,12 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
               <td className='media--1000'>
-                <LinkExternal
-                  data={value}
-                  type='block'
-                />
+                {value && (
+                  <LinkExternal
+                    data={value}
+                    type='block'
+                  />
+                )}
               </td>
             </tr>
           )

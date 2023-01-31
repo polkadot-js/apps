@@ -3,7 +3,7 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { CopyButton } from '@polkadot/react-components';
@@ -13,21 +13,16 @@ interface Props {
   value: HexString;
 }
 
-function Hash ({ className, value }: Props): React.ReactElement<Props> {
-  const shortHash = useMemo(
-    () => `${value.slice(0, 10)}…${value.slice(-8)}`,
-    [value]
-  );
-
+function Hash ({ className = '', value }: Props): React.ReactElement<Props> {
   return (
-    <td className={className}>
-      <div className='shortHash'>{shortHash}</div>
+    <StyledTd className={`${className} hash`}>
+      <div className='shortHash'>{value}</div>
       <CopyButton value={value} />
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Hash)`
+const StyledTd = styled.td`
   white-space: nowrap;
 
   > div {
@@ -36,10 +31,10 @@ export default React.memo(styled(Hash)`
   }
 
   .shortHash {
-    font: var(--font-mono);
-
     + div {
       margin-left: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Hash);

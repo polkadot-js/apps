@@ -200,6 +200,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'ferrum',
+    text: 'Ferrum Testnet',
+    providers: {
+      Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+    }
+  },
+  {
     info: 'substrate',
     text: 'Flaming Fir',
     providers: {
@@ -580,6 +587,14 @@ export const testChains: EndpointOption[] = [
     text: 'Ternoa Testnet',
     providers: {
       CapsuleCorp: 'wss://testnet.ternoa.com/'
+    }
+  },
+  {
+    info: 'thebifrost-testnet',
+    text: 'The Bifrost Testnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.testnet.thebifrost.io/ws',
+      'Pilab #2': 'wss://public-02.testnet.thebifrost.io/ws'
     }
   },
   {

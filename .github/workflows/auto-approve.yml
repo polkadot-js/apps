@@ -9,7 +9,7 @@ jobs:
     if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && (!github.event.pull_request || github.event.pull_request.head.repo.full_name == github.repository)"
     runs-on: ubuntu-latest
     steps:
-      - uses: jacogr/action-approve@9d6ce78d26f23ad29d009d034822cf773f2cb50e
+      - uses: jacogr/action-approve@795afd1dd096a2071d7ec98740661af4e853b7da
         with:
           authors: jacogr
           labels: -auto

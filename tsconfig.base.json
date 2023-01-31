@@ -76,6 +76,8 @@
       "@polkadot/app-society/*": ["page-society/src/*"],
       "@polkadot/app-staking": ["page-staking/src"],
       "@polkadot/app-staking/*": ["page-staking/src/*"],
+      "@polkadot/app-staking2": ["page-staking2/src"],
+      "@polkadot/app-staking2/*": ["page-staking2/src/*"],
       "@polkadot/app-storage": ["page-storage/src"],
       "@polkadot/app-storage/*": ["page-storage/src/*"],
       "@polkadot/app-sudo": ["page-sudo/src"],

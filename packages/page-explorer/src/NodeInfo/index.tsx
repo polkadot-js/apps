@@ -37,16 +37,14 @@ function NodeInfo (): React.ReactElement {
   const [nextRefresh, setNextRefresh] = useState(() => Date.now());
 
   useEffect((): () => void => {
-    const _getStatus = (): void => {
+    const getStatus = (): void => {
+      setNextRefresh(Date.now() + POLL_TIMEOUT);
       retrieveInfo(api).then(setInfo).catch(console.error);
     };
 
-    _getStatus();
+    getStatus();
 
-    const timerId = window.setInterval((): void => {
-      setNextRefresh(Date.now() + POLL_TIMEOUT);
-      _getStatus();
-    }, POLL_TIMEOUT);
+    const timerId = window.setInterval(getStatus, POLL_TIMEOUT);
 
     return (): void => {
       window.clearInterval(timerId);

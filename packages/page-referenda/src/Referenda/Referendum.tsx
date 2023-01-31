@@ -10,7 +10,7 @@ import type { CurveGraph, ReferendumProps as Props } from '../types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Chart, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
@@ -390,19 +390,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
         <Table.Column.Id value={id} />
         <Component {...props} />
-        <td className='actions'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          </div>
-        </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -410,17 +406,17 @@ function Referendum (props: Props): React.ReactElement<Props> {
         >
           {chartProps && (
             <Columar>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
+                  title={t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}
                   {...chartProps[0]}
                 />
               </Columar.Column>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
+                  title={t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}
                   {...chartProps[1]}
                 />
               </Columar.Column>
@@ -476,22 +472,20 @@ function Referendum (props: Props): React.ReactElement<Props> {
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
-  .chartColumn {
-    h1 {
-      font-size: 1.25rem;
-      margin-bottom: 0;
-      margin-top: 1rem;
-      text-align: center;
-    }
-  }
-
+const StyledTr = styled.tr`
   .shortHash {
-    font: var(--font-mono);
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
   }
-`);
+`;
+
+export default React.memo(Referendum);

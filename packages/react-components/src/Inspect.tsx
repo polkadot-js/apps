@@ -6,10 +6,10 @@ import type { Inspect } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { u8aToHex } from '@polkadot/util';
 
+import Output from './Output';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -67,7 +67,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
   }
 
   return (
-    <Output
+    <StyledOutput
       className={className}
       isDisabled
       label={label}
@@ -97,11 +97,11 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
           )}
         </tbody>
       </table>
-    </Output>
+    </StyledOutput>
   );
 }
 
-export default React.memo(styled(DecodedInspect)`
+const StyledOutput = styled(Output)`
   table {
     width: 100%;
 
@@ -145,4 +145,6 @@ export default React.memo(styled(DecodedInspect)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(DecodedInspect);

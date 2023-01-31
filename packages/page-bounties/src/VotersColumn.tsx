@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
@@ -19,10 +20,10 @@ interface Props {
   status: BountyStatus;
 }
 
-const icons = {
+const icons: Record<string, IconName> = {
   ayes: 'check',
   nays: 'times'
-};
+} as const;
 
 function VotersColumn ({ className, option, proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
   return (
     <>
       {proposal &&
-        <div className={className}>
+        <StyledDiv className={className}>
           <div className='vote-numbers'>
             <span className='vote-numbers-icon'><Icon icon={icons[option]} /></span>
             <span className='vote-numbers-label'>
@@ -51,12 +52,13 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
             </span>
           </div>
           {voters}
-        </div>}
+        </StyledDiv>
+      }
     </>
   );
 }
 
-export default React.memo(styled(VotersColumn)`
+const StyledDiv = styled.div`
   width: 50%;
 
   .vote-numbers {
@@ -72,10 +74,12 @@ export default React.memo(styled(VotersColumn)`
 
   .vote-numbers-label {
     margin-left: 0.75rem;
-    font-weight: bold;
-    font-size: 0.7rem;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-tiny);
     line-height: 0.85rem;
     text-transform: uppercase;
     color: var(--color-label);
   }
-`);
+`;
+
+export default React.memo(VotersColumn);

@@ -21,7 +21,7 @@ function TotalInactive ({ children, className = '', label }: Props): React.React
     <div className={className}>
       {label || ''}
       <FormatBalance
-        className={inactiveIssuance ? '' : '--placeholder'}
+        className={inactiveIssuance ? '' : '--tmp'}
         value={inactiveIssuance || 1}
         withSi
       />

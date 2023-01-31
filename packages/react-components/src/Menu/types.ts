@@ -26,3 +26,9 @@ export interface BaseProps {
 export interface DividerProps {
   className?: string;
 }
+
+export type MenuType = React.FC<BaseProps> & {
+  Divider: React.FC<DividerProps>;
+  Item: React.FC<ItemProps>;
+  Header: React.FC<HeaderProps>;
+};

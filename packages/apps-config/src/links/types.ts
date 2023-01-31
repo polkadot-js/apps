@@ -3,13 +3,36 @@
 
 import type { BN } from '@polkadot/util';
 
-export type LinkTypes = 'address' | 'block' | 'bounty' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'techcomm' | 'tip' | 'treasury';
+export interface LinkPath {
+  // general
+  address?: string;
+  block?: string;
+  extrinsic?: string;
+  validator?: string;
+
+  // governance 1
+  bounty?: string;
+  council?: string;
+  democracyExternal?: string;
+  democracyProposal?: string;
+  democracyReferendum?: string;
+  techcomm?: string;
+  tip?: string;
+  treasury?: string;
+
+  // governance 2
+  fellowshipReferenda?: string;
+  rankedPolls?: string;
+  referenda?: string;
+}
+
+export type LinkTypes = keyof LinkPath;
 
 export interface ExternalDef {
   chains: Record<string, string>;
   isActive: boolean;
   logo: string;
-  paths: Partial<Record<LinkTypes, string>>;
+  paths: LinkPath;
   url: string;
   create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

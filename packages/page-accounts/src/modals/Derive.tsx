@@ -148,7 +148,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
 
   const sourceStatic = (
     <InputAddress
-      help={t<string>('The selected account to perform the derivation on.')}
       isDisabled
       label={t<string>('derive root account')}
       value={from}
@@ -178,7 +177,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Password
                   autoFocus
-                  help={t<string>('The password to unlock the selected account.')}
                   isError={!!lockedError}
                   label={t<string>('password')}
                   onChange={_onChangeRootPass}
@@ -195,7 +193,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Input
                   autoFocus
-                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
                   label={t<string>('derivation path')}
                   onChange={setSuri}
                   placeholder={t<string>('//hard/soft')}

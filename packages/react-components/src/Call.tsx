@@ -101,7 +101,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
   }, [callName, value, withHash, withSignature]);
 
   return (
-    <div className={`ui--Call ${className}`}>
+    <StyledDiv className={`${className} ui--Call`}>
       <Params
         isDisabled
         onError={onError}
@@ -146,11 +146,11 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           )}
         </div>
       </Params>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Call)`
+const StyledDiv = styled.div`
   .ui--Labelled.hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -180,4 +180,6 @@ export default React.memo(styled(Call)`
   > .ui--Params {
     margin-top: -0.25rem;
   }
-`);
+`;
+
+export default React.memo(Call);

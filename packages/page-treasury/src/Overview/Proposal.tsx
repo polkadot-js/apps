@@ -7,7 +7,6 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -42,9 +41,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <td className='address all'>
           <AddressSmall value={proposal.beneficiary} />
         </td>
-        <td className='number'>
-          <FormatBalance value={proposal.value} />
-        </td>
+        <Table.Column.Balance value={proposal.value} />
         <td className='address'>
           <AddressMini
             balance={proposal.bond}

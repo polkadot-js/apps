@@ -15,7 +15,7 @@ interface Props {
   accountIndex: string | undefined;
   address: string;
   isBeingEdited: (arg: boolean) => void;
-  onUpdateName: () => void;
+  onUpdateName?: (() => void) | null;
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -67,7 +67,6 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           isEditable
           isEditing={isEditingTags}
           onChange={setTags}
-          size='tiny'
           value={tags}
           withEditButton={false}
           withTitle

@@ -14,13 +14,13 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withExpander, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
+    <StyledDiv className={`${className} ui--Params ${withBorder ? 'withBorder' : ''} ${withPadding ? 'withPadding' : ''} ${withExpander ? 'withExpander' : ''}`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Holder)`
+const StyledDiv = styled.div`
   &.withBorder {
     padding-left: 2rem;
 
@@ -41,10 +41,11 @@ export default React.memo(styled(Holder)`
     padding-left: 4rem;
   }
 
-  .ui--Param-composite .ui--row > .ui--Labelled > label {
-    text-transform: none !important;
-    font: var(--font-mono);
-    font-size: var(--font-size-label);
+  .ui--Param-composite .ui--row,
+  .ui--Param-composite .ui--row .ui--InputAddressSimple {
+    & > .ui--Labelled > label {
+      text-transform: none !important;
+    }
   }
 
   .ui--row {
@@ -52,7 +53,6 @@ export default React.memo(styled(Holder)`
   }
 
   .ui--Param-Address {
-    font: var(--font-mono);
   }
 
   .ui--Params-Content {
@@ -66,7 +66,7 @@ export default React.memo(styled(Holder)`
 
   .ui--Param-text {
     display: inline-block;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: 1.714rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -106,4 +106,6 @@ export default React.memo(styled(Holder)`
       right: 3.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Holder);

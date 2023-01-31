@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -24,7 +25,7 @@ interface Props {
   className?: string;
   contract: ContractPromise;
   messageIndex: number;
-  onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
+  onCallResult?: (messageIndex: number, result?: ContractCallOutcome) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
 }
@@ -69,7 +70,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       .query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
       .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasRequired
+          ? convertWeight(gasRequired).v1Weight
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -111,14 +112,13 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
-    <Modal
-      className={[className || '', 'app--contracts-Modal'].join(' ')}
+    <StyledModal
+      className={`${className} app--contracts-Modal`}
       header={t<string>('Call a contract')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
-          help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t<string>('contract to use')}
           type='contract'
@@ -126,7 +126,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         />
         <InputAddress
           defaultValue={accountId}
-          help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t<string>('call from account')}
           labelExtra={
             <Available
@@ -142,7 +141,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           <>
             <Dropdown
               defaultValue={messageIndex}
-              help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t<string>('message to send')}
               onChange={onChangeMessage}
@@ -162,7 +160,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         {message.isPayable && (
           <InputBalance
-            help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
@@ -172,7 +169,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         <InputMegaGas
           estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
-          help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />
@@ -222,11 +218,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           )
         }
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Call)`
+const StyledModal = styled(Modal)`
   .rpc-toggle {
     margin-top: 1rem;
     display: flex;
@@ -240,4 +236,6 @@ export default React.memo(styled(Call)`
   .outcomes {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Call);

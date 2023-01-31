@@ -1,12 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { determineUnassignCuratorAction } from '../helpers';
 import { useBountyStatus, useUserRole } from '../hooks';
@@ -19,7 +21,7 @@ import GiveUp from './GiveUp';
 import SlashCurator from './SlashCurator';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   className?: string;
   description: string;
   index: BountyIndex;

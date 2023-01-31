@@ -8,6 +8,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
@@ -19,7 +20,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, BN_ZERO, nextTick } from '@polkadot/util';
+import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import Address from './Address';
@@ -34,7 +35,10 @@ import { cacheUnlock, extractExternal, handleTxResults } from './util';
 interface Props {
   className?: string;
   currentItem: QueueTx;
-  requestAddress: string;
+  isQueueSubmit: boolean;
+  queueSize: number;
+  requestAddress: string | null;
+  setIsQueueSubmit: (isQueueSubmit: boolean) => void;
 }
 
 interface InnerTx {
@@ -188,7 +192,7 @@ function tryExtract (address: string | null): AddressFlags {
   }
 }
 
-function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
+function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAddress, setIsQueueSubmit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { getLedger } = useLedger();
@@ -204,7 +208,8 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
-  const [tip, setTip] = useState(BN_ZERO);
+  const [tip, setTip] = useState<BN | undefined>();
+  const [initialIsQueueSubmit] = useState(isQueueSubmit);
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));
@@ -343,9 +348,18 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
 
+  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
+
+  if (!isBusy && isAutoCapable && initialIsQueueSubmit) {
+    setBusy(true);
+    setTimeout(_doStart, 1000);
+
+    return null;
+  }
+
   return (
     <>
-      <Modal.Content className={className}>
+      <StyledModalContent className={className}>
         <ErrorBoundary
           error={error}
           onError={toggleRenderError}
@@ -410,7 +424,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
           }
         </ErrorBoundary>
-      </Modal.Content>
+      </StyledModalContent>
       <Modal.Actions>
         <Button
           icon={
@@ -430,25 +444,37 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           onClick={_doStart}
           tabIndex={2}
         />
-        {!isBusy && (
-          <Toggle
-            className='signToggle'
-            isDisabled={!!currentItem.payload}
-            label={
-              isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
-            }
-            onChange={setIsSubmit}
-            value={isSubmit}
-          />
-        )}
+        <div className='signToggle'>
+          {!isBusy && (
+            <Toggle
+              isDisabled={!!currentItem.payload}
+              label={
+                isSubmit
+                  ? t<string>('Sign and Submit')
+                  : t<string>('Sign (no submission)')
+              }
+              onChange={setIsSubmit}
+              value={isSubmit}
+            />
+          )}
+          {isAutoCapable && (
+            <Toggle
+              label={
+                isQueueSubmit
+                  ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
+                  : t<string>('Submit individual')
+              }
+              onChange={setIsQueueSubmit}
+              value={isQueueSubmit}
+            />
+          )}
+        </div>
       </Modal.Actions>
     </>
   );
 }
 
-export default React.memo(styled(TxSigned)`
+const StyledModalContent = styled(Modal.Content)`
   .tipToggle {
     width: 100%;
     text-align: right;
@@ -457,4 +483,6 @@ export default React.memo(styled(TxSigned)`
   .ui--Checks {
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(TxSigned);

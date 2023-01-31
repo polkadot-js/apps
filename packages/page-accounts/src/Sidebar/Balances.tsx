@@ -19,7 +19,7 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   const { t } = useTranslation();
 
   return (
-    <section className={className}>
+    <StyledSection className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
         {t<string>('balance')}
       </div>
@@ -30,11 +30,11 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
         withBalance={WITH_BALANCE}
         withLabel
       />
-    </section>
+    </StyledSection>
   );
 }
 
-export default React.memo(styled(Balances)`
+const StyledSection = styled.section`
   .balanceExpander {
     justify-content: flex-start;
 
@@ -48,8 +48,10 @@ export default React.memo(styled(Balances)`
       }
 
       .ui--Expander-content .ui--FormatBalance-value {
-        font-size: 0.93rem;
+        font-size: var(--font-size-small);
       }
     }
   }
-`);
+`;
+
+export default React.memo(Balances);

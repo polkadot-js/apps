@@ -13,13 +13,13 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   icon?: IconName;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 function EditButton ({ children, className = '', icon = 'edit', onClick }: Props): React.ReactElement<Props> {
   return (
-    <div
-      className={`ui--EditButton ${className}`}
+    <StyledDiv
+      className={`${className} ui--EditButton`}
       onClick={onClick}
     >
       {children}
@@ -29,11 +29,11 @@ function EditButton ({ children, className = '', icon = 'edit', onClick }: Props
           icon={icon}
         />
       </span>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(EditButton)`
+const StyledDiv = styled.div`
   cursor: pointer;
 
   .ui--Icon.icon-button {
@@ -45,4 +45,6 @@ export default React.memo(styled(EditButton)`
   .editSpan {
     white-space: nowrap;
   }
-`);
+`;
+
+export default React.memo(EditButton);

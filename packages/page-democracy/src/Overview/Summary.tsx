@@ -35,39 +35,41 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
         <CardSummary label={t<string>('proposals')}>
           {activeProposals
             ? formatNumber(activeProposals.length)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {publicPropCount
             ? formatNumber(publicPropCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
       <section>
         <CardSummary label={t<string>('referenda')}>
           {referendumCount !== undefined
             ? formatNumber(referendumCount)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary label={t<string>('total')}>
           {referendumTotal
             ? formatNumber(referendumTotal)
-            : <span className='--placeholder'>99</span>}
+            : <span className='--tmp'>99</span>}
         </CardSummary>
       </section>
-      <section className='media--1100'>
-        <CardSummary
-          label={t<string>('launch period')}
-          progress={{
-            isBlurred: !bestNumber,
-            total: api.consts.democracy.launchPeriod,
-            value: bestNumber
-              ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
-              : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
-            withTime: true
-          }}
-        />
-      </section>
+      {api.consts.democracy.launchPeriod && (
+        <section className='media--1100'>
+          <CardSummary
+            label={t<string>('launch period')}
+            progress={{
+              isBlurred: !bestNumber,
+              total: api.consts.democracy.launchPeriod,
+              value: bestNumber
+                ? bestNumber.mod(api.consts.democracy.launchPeriod).iadd(BN_ONE)
+                : api.consts.democracy.launchPeriod.mul(BN_TWO).div(BN_THREE),
+              withTime: true
+            }}
+          />
+        </section>
+      )}
     </SummaryBox>
   );
 }

@@ -17,15 +17,13 @@ function RefOther ({ value: { info } }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='all' />
-      <td className='address' />
+      <td
+        className='all no-pad'
+        colSpan={5}
+      />
       <RefEnd
         label={info.type}
         when={when}
-      />
-      <td
-        className='number'
-        colSpan={4}
       />
     </>
   );

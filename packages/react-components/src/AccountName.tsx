@@ -24,7 +24,7 @@ interface Props {
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
-  toggle?: boolean;
+  toggle?: unknown;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
   withSidebar?: boolean;
 }
@@ -60,6 +60,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
 const MATCHERS: AddrMatcher[] = [
   createAllMatcher('modlpy/socie', 'Society'),
   createAllMatcher('modlpy/trsry', 'Treasury'),
+  createAllMatcher('modlpy/xcmch', 'XCM'),
   createNumMatcher('modlpy/cfund', 'Crowdloan'),
   // Substrate master
   createNumMatcher('modlpy/npols\x00', 'Pool', 'Stash'),
@@ -209,8 +210,8 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 
   return (
-    <span
-      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
+    <StyledSpan
+      className={`${className}  ui--AccountName ${withSidebar ? 'withSidebar' : ''}`}
       data-testid='account-name'
       onClick={
         withSidebar
@@ -219,11 +220,11 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       }
     >
       {label || ''}{override || name}{children}
-    </span>
+    </StyledSpan>
   );
 }
 
-export default React.memo(styled(AccountName)`
+const StyledSpan = styled.span`
   border: 1px dotted transparent;
   line-height: 1;
   vertical-align: middle;
@@ -249,9 +250,12 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font: var(--font-mono);
-        opacity: 0.6;
+        display: inline-block;
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
+        opacity: var(--opacity-light);
         text-transform: none;
+        white-space: nowrap;
       }
 
       .sub,
@@ -260,9 +264,11 @@ export default React.memo(styled(AccountName)`
       }
 
       .sub {
-        font-size: 0.75rem;
-        opacity: 0.75;
+        font-size: var(--font-size-tiny);
+        opacity: var(--opacity-light);
       }
     }
   }
-`);
+`;
+
+export default React.memo(AccountName);

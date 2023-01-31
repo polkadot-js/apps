@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import { AddressRow, Button, Modal } from '@polkadot/react-components';
-
+import AddressRow from './AddressRow';
+import Button from './Button';
+import Modal from './Modal';
 import { useTranslation } from './translate';
 
 type Mode = 'account' | 'address' | 'contract' | 'code';

@@ -9,7 +9,6 @@ import Labelled from './Labelled';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   isError?: boolean;
   isReadOnly?: boolean;
   label?: React.ReactNode;
@@ -18,7 +17,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function TextArea ({ children, className, help, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
+function TextArea ({ children, className, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>): void => {
       onChange && onChange(value);
@@ -27,9 +26,8 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
   );
 
   return (
-    <Labelled
+    <StyledLabelled
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >
@@ -47,11 +45,11 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
         />
         {children}
       </div>
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(TextArea)`
+const StyledLabelled = styled(Labelled)`
   .TextAreaWithDropdown {
     display: flex;
     textarea {
@@ -96,4 +94,6 @@ export default React.memo(styled(TextArea)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(TextArea);

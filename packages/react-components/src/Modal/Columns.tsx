@@ -1,26 +1,39 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ColumnsProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 
-function Columns ({ children, className = '', hint }: ColumnsProps): React.ReactElement<ColumnsProps> {
+interface Props {
+  align?: 'center' | 'left' | 'right';
+  children: React.ReactNode;
+  className?: string;
+  hint?: React.ReactNode;
+}
+
+function Columns ({ align = 'left', children, className = '', hint }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Modal-Columns ${className}`}>
-      <div>{children}</div>
+    <StyledDiv className={`${className} ui--Modal-Columns ${align}Align`}>
+      <div className='ui--Modal-Columns-content'>{children}</div>
       {hint && (
-        <div>{hint}</div>
+        <div className='ui--Modal-Columns-hint'>{hint}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Columns)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
+
+  &.centerAlign > div.ui--Modal-Columns-content {
+    text-align: center;
+  }
+
+  &.rightAlign > div.ui--Modal-Columns-content {
+    text-align: right;
+  }
 
   &+& {
     margin-top: 0.25rem;
@@ -56,4 +69,6 @@ export default React.memo(styled(Columns)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Columns);

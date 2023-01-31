@@ -1,39 +1,36 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PopupWindowProps } from './types';
+import type { PopupWindowProps as Props } from './types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
-function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: PopupWindowProps) {
-  const { pointerStyle, renderCoords } = usePopupWindow(windowRef, triggerRef, position);
-
-  const style = useMemo(
-    () => ({
-      transform: `translate3d(${renderCoords.x}px, ${renderCoords.y}px, 0)`,
-      zIndex: 1000
-    }),
-    [renderCoords]
-  );
+function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: Props): React.ReactElement<Props> {
+  const { pointerStyle, renderCoords: { x, y } } = usePopupWindow(windowRef, triggerRef, position);
 
   return createPortal(
-    <div
-      className={`${className} ${pointerStyle}Pointer`}
+    <StyledDiv
+      className={`${className} ${pointerStyle}Pointer ${position}Position`}
       data-testid='popup-window'
       ref={windowRef}
-      style={style}
+      style={
+        (x && y && {
+          transform: `translate3d(${x}px, ${y}px, 0)`,
+          zIndex: 1000
+        }) || undefined
+      }
     >
       {children}
-    </div>,
+    </StyledDiv>,
     document.body
   );
 }
 
-export default React.memo(styled(PopupWindow)`
+const StyledDiv = styled.div`
   background-color: var(--bg-menu);
   border: 1px solid #d4d4d5;
   border-radius: 4px;
@@ -46,28 +43,30 @@ export default React.memo(styled(PopupWindow)`
   top: 0;
   z-index: -1;
 
+  &.leftPosition {
+    &::before {
+      left: unset;
+      right: 0.75rem;
+    }
+  }
+
+  &.rightPosition {
+    &::before {
+      left: 0.75rem;
+      right: unset;
+    }
+  }
+
   &::before {
-    bottom: -0.45rem;
+    background-color: var(--bg-menu);
+    bottom: -0.5rem;
     box-shadow: 1px 1px 0 0 #bababc;
+    content: '';
+    height: 1rem;
     position: absolute;
     right: 50%;
     top: unset;
-
-    ${({ position }) => position === 'left' && css`
-      left: unset;
-      right: 0.8rem;
-    `}
-
-    ${({ position }) => position === 'right' && css`
-      left: 0.8rem;
-      right: unset;
-    `}
-
-    content: '';
-    background-color: var(--bg-menu);
-
     width: 1rem;
-    height: 1rem;
     transform: rotate(45deg);
     z-index: 2;
   }
@@ -75,7 +74,7 @@ export default React.memo(styled(PopupWindow)`
   &.bottomPointer::before {
     box-shadow: -1px -1px 0 0 #bababc;
 
-    top: -0.45rem;
+    top: -0.5rem;
     bottom: unset;
   }
 
@@ -100,4 +99,6 @@ export default React.memo(styled(PopupWindow)`
   & > *:last-child:not(.ui--Menu) {
     margin-bottom: 1rem;
   }
-`);
+`;
+
+export default React.memo(PopupWindow);

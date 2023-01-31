@@ -123,7 +123,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
     >
       <Modal.Content>
         <InputAddress
-          help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
           isInput={false}
           label={t('deployment account')}
           labelExtra={
@@ -156,7 +155,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         {contractAbi && (
           <>
             <Dropdown
-              help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
               isDisabled={contractAbi.constructors.length <= 1}
               label={t('deployment constructor')}
               onChange={setConstructorIndex}
@@ -172,7 +170,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         )}
         {contractAbi?.constructors[constructorIndex].isPayable && (
           <InputBalance
-            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
@@ -181,22 +178,20 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           />
         )}
         <Input
-          help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}
           label={t<string>('unique deployment salt')}
+          labelExtra={
+            <Toggle
+              label={t<string>('use deployment salt')}
+              onChange={setWithSalt}
+              value={withSalt}
+            />
+          }
           onChange={setSalt}
           placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
           value={withSalt ? salt : t<string>('<none>')}
-        >
-          <Toggle
-            isOverlay
-            label={t<string>('use deployment salt')}
-            onChange={setWithSalt}
-            value={withSalt}
-          />
-        </Input>
+        />
         <InputMegaGas
-          help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           weight={weight}
         />
       </Modal.Content>

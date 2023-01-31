@@ -12,7 +12,8 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         'tx.referenda.submit',
-        'tx.convictionVoting.vote'
+        'tx.convictionVoting.vote',
+        'consts.referenda.tracks'
       ]
     },
     group: 'governance',

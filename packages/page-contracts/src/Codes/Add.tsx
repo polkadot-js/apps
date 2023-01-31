@@ -46,7 +46,6 @@ function Add ({ onClose }: Props): React.ReactElement {
       <Modal.Content>
         <Input
           autoFocus
-          help={t('The code hash for the on-chain deployed code.')}
           isError={codeHash.length > 0 && !isCodeHashValid}
           label={t('code hash')}
           onChange={setCodeHash}

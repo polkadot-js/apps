@@ -144,6 +144,7 @@ export const testRelayWestend: EndpointOption = {
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'Dotters Net': 'wss://rpc.dotters.network/westend',
+    'IBP Network': 'wss://rpc.ibp.network/westend',
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     // NOTE: Keep this as the last entry, nothing after it
     'light client': 'light://substrate-connect/westend' // NOTE: Keep last

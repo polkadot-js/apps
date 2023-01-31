@@ -27,7 +27,7 @@ export default (_theme: ThemeDef): string => `
     border-color: var(--border-input);
     color: var(--color-text);
     font: var(--font-sans);
-    font-size: 1rem;
+    font-size: var(--font-size-base);
 
     &:focus {
       background: var(--bg-input);

@@ -4,11 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LabelHelp from './LabelHelp';
-
 interface Props {
   className?: string;
-  help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
   isOuter?: boolean;
@@ -22,7 +19,7 @@ interface Props {
 
 const defaultLabel: React.ReactNode = <div>&nbsp;</div>;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -32,20 +29,20 @@ function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, 
   }
 
   return (
-    <div className={`ui--Labelled${isSmall ? ' isSmall' : ''}${isFull ? ' isFull' : ''}${isOuter ? ' isOuter' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Labelled ${isSmall ? 'isSmall' : ''} ${isFull ? 'isFull' : ''} ${isOuter ? 'isOuter' : ''}`}>
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }{help && <LabelHelp help={help} />}</label>
+      }</label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Labelled)`
+const StyledDiv = styled.div`
   &.ui--Labelled {
     display: block;
     position: relative;
@@ -105,21 +102,38 @@ export default React.memo(styled(Labelled)`
 
       &.isOuter {
         margin: 0.25rem 0;
+
+        .labelExtra {
+          top: -0.125rem;
+          // right: 0;
+        }
       }
 
       .labelExtra {
         color: var(--color-label);
         font-size: var(--font-size-label);
-        font-weight: var(--font-weight-normal);
-        right: 1.75rem;
+        font-weight: var(--font-weight-label);
+        position: absolute;
+        right: 1.25rem;
         text-align: right;
         text-transform: var(--text-transform-label);
+        top: 0.75rem;
+        z-index: 1;
+
+        > .ui--Toggle > label {
+          padding-right: 0 !important;
+        }
       }
 
       > .ui--Labelled-content {
         box-sizing: border-box;
         flex: 1 1;
         min-width: 0;
+
+        > .--tmp {
+          // existing is a bit too much
+          opacity: 0.15;
+        }
 
         .ui.selection.dropdown {
           &:not(.floating) {
@@ -165,4 +179,6 @@ export default React.memo(styled(Labelled)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Labelled);

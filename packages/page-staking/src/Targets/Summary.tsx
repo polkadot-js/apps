@@ -6,6 +6,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -16,6 +17,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   avgStaked?: BN;
+  className?: string;
   lastEra?: BN;
   lowStaked?: BN;
   minNominated?: BN;
@@ -48,7 +50,7 @@ function getProgressInfo (value?: BN, total?: BN): ProgressInfo {
   };
 }
 
-function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
@@ -63,16 +65,18 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
     [avgStaked, lowStaked]
   );
 
+  const percent = <span className='percent'>%</span>;
+
   return (
-    <SummaryBox>
+    <StyledSummaryBox className={className}>
       <section className='media--800'>
         <CardSummary
           label={t<string>('total staked')}
           progress={progressStake}
         >
           <FormatBalance
-            className={progressStake.isBlurred ? '--placeholder' : ''}
-            value={progressStake.total}
+            className={progressStake.isBlurred ? '--tmp' : ''}
+            value={progressStake.value}
             withSi
           />
         </CardSummary>
@@ -81,9 +85,9 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
         <CardSummary label={t<string>('returns')}>
           {totalIssuance && (stakedReturn > 0)
             ? Number.isFinite(stakedReturn)
-              ? <>{stakedReturn.toFixed(1)}%</>
+              ? <>{stakedReturn.toFixed(1)}{percent}</>
               : '-.-%'
-            : <span className='--placeholder'>0.0%</span>
+            : <span className='--tmp'>0.0{percent}</span>
           }
         </CardSummary>
       </section>
@@ -92,7 +96,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
           label={`${t<string>('lowest / avg staked')}`}
           progress={progressAvg}
         >
-          <span className={progressAvg.isBlurred ? '--placeholder' : ''}>
+          <span className={progressAvg.isBlurred ? '--tmp' : ''}>
             <FormatBalance
               value={progressAvg.value}
               withCurrency={false}
@@ -100,7 +104,7 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
             />
             &nbsp;/&nbsp;
             <FormatBalance
-              className={progressAvg.isBlurred ? '--placeholder' : ''}
+              className={progressAvg.isBlurred ? '--tmp' : ''}
               value={progressAvg.total}
               withSi
             />
@@ -136,14 +140,20 @@ function Summary ({ avgStaked, lastEra, lowStaked, minNominated, minNominatorBon
       <section>
         <CardSummary label={t<string>('last reward')}>
           <FormatBalance
-            className={lastReward ? '' : '--placeholder'}
+            className={lastReward ? '' : '--tmp'}
             value={lastReward || 1}
             withSi
           />
         </CardSummary>
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
+
+const StyledSummaryBox = styled(SummaryBox)`
+  .percent {
+    font-size: var(--font-percent-tiny);
+  }
+`;
 
 export default React.memo(Summary);

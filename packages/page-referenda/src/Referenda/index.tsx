@@ -15,6 +15,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import useReferenda from '../useReferenda';
 import useSummary from '../useSummary';
+import Delegate from './Delegate';
 import Group from './Group';
 import Submit from './Submit';
 import Summary from './Summary';
@@ -72,7 +73,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         issuanceActive={activeIssuance}
         issuanceInactive={inactiveIssuance}
@@ -88,6 +89,13 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
           options={trackOpts}
           value={trackSelected}
         />
+        {isConvictionVote && (
+          <Delegate
+            palletReferenda={palletReferenda}
+            palletVote={palletVote}
+            tracks={tracks}
+          />
+        )}
         <AddPreimage />
         <Submit
           isMember={isMember}
@@ -111,11 +119,11 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
           tracks={tracks}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Referenda)`
+const StyledDiv = styled.div`
   .ui--Dropdown.topDropdown {
     min-width: 25rem;
     padding-left: 0;
@@ -124,4 +132,6 @@ export default React.memo(styled(Referenda)`
       left: 1.55rem !important;
     }
   }
-`);
+`;
+
+export default React.memo(Referenda);

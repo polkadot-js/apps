@@ -32,6 +32,7 @@ import chainDeBio from './chains/debio.svg';
 import chainDorafactory from './chains/dorafactory.png';
 import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
+import chainFerrum from './chains/ferrum.png';
 import chainFrequency from './chains/frequency.svg';
 import chainGeminis from './chains/geminis.png';
 import chainGenshiro from './chains/genshiro.svg';
@@ -85,7 +86,6 @@ import chainVara from './chains/vara.svg';
 import chainVirto from './chains/virto.png';
 import chainWatr from './chains/watr.png';
 import chainEggnet from './chains/webb.png';
-import chainWestendColl from './chains/westend-collectives.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -115,6 +115,7 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.png';
+import nodeBridgeHubBlack from './nodes/BridgeHubBlack.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -225,6 +226,7 @@ import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeSwapdex from './nodes/swapdex.svg';
 import nodeTernoa from './nodes/ternoa.svg';
+import nodeTheBifrost from './nodes/thebifrost.png';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
@@ -242,6 +244,8 @@ import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 import emptyLogo from './empty.svg';
 // last-resort fallback, just something empty
+
+const chainWestendCollectives = { fa: 'people-group' };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -285,7 +289,7 @@ export const chainLogos = Object.entries({
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
-  Collectives: chainWestendColl,
+  Collectives: chainWestendCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
   'Contracts on Rococo': chainRococoContracts,
@@ -313,6 +317,7 @@ export const chainLogos = Object.entries({
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
   'Ethos Testnet': chainEthos,
+  'Ferrum Testnet': chainFerrum,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequency,
   Galital: nodeGalital,
@@ -355,6 +360,7 @@ export const chainLogos = Object.entries({
   Konomi: nodeKonomi,
   Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
+  'Kusama BridgeHub': nodeBridgeHubBlack,
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
   'Kusama CC3': chainKusama,
@@ -430,6 +436,7 @@ export const chainLogos = Object.entries({
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
+  'Rococo Bridgehub': nodeBridgeHubBlack,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -480,7 +487,8 @@ export const chainLogos = Object.entries({
   'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend Collectives': chainWestendColl,
+  'Westend BridgeHub': nodeBridgeHubBlack,
+  'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -787,6 +795,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
   fantour: nodeFantour,
+  ferrum: chainFerrum,
   frequency: chainFrequency,
   galital: nodeGalital,
   galois: nodeMath,
@@ -826,6 +835,7 @@ export const namedLogos: Record<string, unknown> = {
   kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kusamaBridgeHub: nodeBridgeHubBlack,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -866,7 +876,7 @@ export const namedLogos: Record<string, unknown> = {
   pichiu: nodePichiu,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
-  polkadotCollectives: chainWestendColl,
+  polkadotCollectives: chainWestendCollectives,
   polkafoundry: nodePolkaFoundry,
   polkasmith: nodePolkaSmith,
   polymesh: nodePolymesh,
@@ -891,6 +901,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
+  rococoBridgehub: nodeBridgeHubBlack,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
@@ -996,6 +1007,8 @@ export const namedLogos: Record<string, unknown> = {
   ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,
+  'thebifrost-mainnet': nodeTheBifrost,
+  'thebifrost-testnet': nodeTheBifrost,
   tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
@@ -1010,7 +1023,8 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendCollectives: chainWestendColl,
+  westendBridgeHub: nodeBridgeHubBlack,
+  westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,

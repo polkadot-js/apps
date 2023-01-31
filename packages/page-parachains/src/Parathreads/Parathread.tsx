@@ -41,7 +41,9 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
       <Table.Column.Id value={id} />
       <td className='badge'><ParaLink id={id} /></td>
       <td className='address media--2000'>{manager && <AddressSmall value={manager} />}</td>
-      <td className='start together hash media--1500'>{headHex}</td>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{headHex}</div>
+      </td>
       <td className='start'>
         <Lifecycle
           lifecycle={lifecycle}

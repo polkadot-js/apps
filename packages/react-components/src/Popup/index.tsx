@@ -6,9 +6,9 @@ import type { PopupProps } from './types';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components/index';
 import { useOutsideClick, useTheme, useToggle } from '@polkadot/react-hooks';
 
+import Button from '../Button';
 import PopupWindow from './PopupWindow';
 
 function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAction, position = 'left', value }: PopupProps) {
@@ -44,7 +44,7 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
   }, [isOpen, onCloseAction]);
 
   return (
-    <div className={`ui--Popup ${themeClassName} ${className}`}>
+    <StyledDiv className={`${className} ui--Popup ${themeClassName}`}>
       {isOpen && (
         <PopupWindow
           position={position}
@@ -68,13 +68,15 @@ function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAc
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Popup)`
+const StyledDiv = styled.div`
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-`);
+`;
+
+export default React.memo(Popup);

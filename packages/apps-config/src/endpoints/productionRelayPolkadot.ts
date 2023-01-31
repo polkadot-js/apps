@@ -38,7 +38,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2051,
     text: 'Ajuna Network',
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
+      AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
+      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     }
   },
   {
@@ -90,7 +91,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://parachain.bitgreen.org'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
     }
   },
   {
@@ -138,10 +139,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'crustParachain',
     homepage: 'https://crust.network',
     paraId: 2008,
-    isUnreachable: true,
     text: 'Crust',
     providers: {
-      Crust: 'wss://rpc.crust.network'
+      Crust: 'wss://crust-parachain.crustapps.net'
     }
   },
   {
@@ -169,8 +169,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     text: 'Efinity',
     providers: {
       Efinity: 'wss://rpc.efinity.io',
-      Dwellir: 'wss://efinity-rpc.dwellir.com',
-      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
+      Dwellir: 'wss://efinity-rpc.dwellir.com'
     }
   },
   {
@@ -442,7 +441,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     text: 'Collectives',
     teleport: [-1],
     providers: {
-      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
+      OnFinality: 'wss://collectives.api.onfinality.io/public-ws'
     }
   }
 ];

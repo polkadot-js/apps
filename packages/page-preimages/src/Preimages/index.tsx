@@ -27,12 +27,12 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('preimages'), 'start', 2],
     [undefined, 'media--1300'],
-    [t('size'), 'media--1000'],
+    [t('length'), 'media--1000'],
     [t('status'), 'start media--1200']
   ]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary hashes={hashes} />
       <Button.Group>
         <Add />
@@ -49,14 +49,16 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Hashes)`
-  td.preimage-status {
+const StyledDiv = styled.div`
+  td.preimageStatus {
     div+.ui--Button {
       margin-top: 0.25rem;
     }
   }
-`);
+`;
+
+export default React.memo(Hashes);

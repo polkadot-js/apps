@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
+import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
@@ -13,7 +13,7 @@ import { useTranslation } from '../translate';
 import BountyInfo from './BountyInfo';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   blocksUntilUpdate?: BN;
   status: BountyStatus;
 }

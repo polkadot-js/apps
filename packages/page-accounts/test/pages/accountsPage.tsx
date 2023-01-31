@@ -9,13 +9,22 @@ import { Page } from '@polkadot/test-support/pages/Page';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { AccountOverrides } from '@polkadot/test-support/types';
 import { assertText, clickButton } from '@polkadot/test-support/utils/renderedScreenUtils';
+import { settings } from '@polkadot/ui-settings';
 
 import AccountOverview from '../../src/Accounts/index';
 import { AccountRow } from '../pageElements/AccountRow';
 
+const NOOP_CHANGE = () => undefined;
+
+// set the account creation for localStorage to on
+settings.set({ ...settings.get(), storage: 'on' });
+
 export class AccountsPage extends Page {
   constructor () {
-    super(<AccountOverview />, 'Account-');
+    super(
+      <AccountOverview onStatusChange={NOOP_CHANGE} />,
+      'Account-'
+    );
   }
 
   async getAccountRows (): Promise<AccountRow[]> {

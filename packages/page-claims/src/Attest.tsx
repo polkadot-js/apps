@@ -22,9 +22,9 @@ import { getStatement } from './util';
 interface Props {
   accountId: string;
   className?: string;
-  ethereumAddress: EthereumAddress | null;
+  ethereumAddress?: EthereumAddress | string | null;
   onSuccess?: TxCallback;
-  statementKind?: StatementKind;
+  statementKind?: StatementKind | null;
   systemChain: string;
 }
 
@@ -69,7 +69,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
   if (noClaim || !statementSentence) {
     return (
       <Card isError>
-        <div className={className}>
+        <StyledDiv className={className}>
           {noClaim && (
             <p>{t<string>('There is no on-chain claimable balance associated with the Ethereum account {{ethereumAddress}}', {
               replace: { ethereumAddress }
@@ -80,7 +80,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
               replace: { ethereumAddress }
             })}</p>
           )}
-        </div>
+        </StyledDiv>
       </Card>
     );
   }
@@ -88,32 +88,32 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
   if (!accounts.isAccount(accountId)) {
     return (
       <Card isError>
-        <div className={className}>
+        <StyledDiv className={className}>
           {t<string>('We found a pre-claim with this Polkadot address. However, attesting requires signing with this account. To continue with attesting, please add this account as an owned account first.')}
-          <h3>
+          <h2>
             <FormatBalance
               label={t<string>('Account balance:')}
               value={claimValue}
             />
-          </h3>
-        </div>
+          </h2>
+        </StyledDiv>
       </Card>
     );
   }
 
   return (
     <Card isSuccess>
-      <div className={className}>
+      <StyledDiv className={className}>
         <Statement
           kind={statementKind}
           systemChain={systemChain}
         />
-        <h3>
+        <h2>
           <FormatBalance
             label={t<string>('Account balance:')}
             value={claimValue}
           />
-        </h3>
+        </h2>
         <Button.Group>
           <TxButton
             accountId={accountId}
@@ -125,9 +125,11 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
             tx={api.tx.claims.attest}
           />
         </Button.Group>
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
 
-export default React.memo(styled(Attest)`${ClaimStyles}`);
+const StyledDiv = styled.div`${ClaimStyles}`;
+
+export default React.memo(Attest);

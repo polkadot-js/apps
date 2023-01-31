@@ -123,7 +123,6 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
       {isCallOpen && contract && (
         <Call
           contract={contract}
-          isOpen={isCallOpen}
           messageIndex={messageIndex}
           onCallResult={onCallResult}
           onChangeMessage={_setMessageIndex}
