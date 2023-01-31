@@ -28,8 +28,8 @@ function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
 
   const header = useRef<[string?, string?, number?][]>([
-    // favorite, details, expand
-    [t<string>('waiting'), 'start', 3]
+    // favorite, badges, details, expand
+    [t<string>('waiting'), 'start', 4]
   ]);
 
   return (

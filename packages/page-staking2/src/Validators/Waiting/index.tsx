@@ -5,7 +5,7 @@ import type { Validator } from '../../types';
 
 import React from 'react';
 
-import { AddressSmall, Table } from '@polkadot/react-components';
+import { AddressSmall, Badge, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
@@ -25,6 +25,7 @@ function ValidatorExpanded ({ className = '' }: PropsExpanded): React.ReactEleme
       <td />
       <td />
       <td />
+      <td />
     </tr>
   );
 }
@@ -40,6 +41,22 @@ function Validator ({ className = '', toggleFavorite, validator }: Props): React
           isFavorite={validator.isFavorite}
           toggle={toggleFavorite}
         />
+        <td className='badge'>
+          {validator.isElected
+            ? (
+              <Badge
+                color='blue'
+                icon='chevron-right'
+              />
+            )
+            : (
+              <Badge
+                className='opaque'
+                color='gray'
+              />
+            )
+          }
+        </td>
         <td className='address relative all'>
           <AddressSmall value={validator.stashId} />
         </td>
@@ -49,7 +66,7 @@ function Validator ({ className = '', toggleFavorite, validator }: Props): React
         />
       </tr>
       <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
-        <td />
+        <td colSpan={2} />
         <td />
         <td />
       </tr>
