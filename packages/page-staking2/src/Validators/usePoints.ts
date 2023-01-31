@@ -3,7 +3,7 @@
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
 import type { SessionInfo } from '../types';
-import type { Points } from './types';
+import type { UsePoints } from './types';
 
 import { useEffect, useMemo } from 'react';
 
@@ -12,14 +12,14 @@ import { BN_ZERO } from '@polkadot/util';
 
 interface Cache {
   activeEra: SessionInfo['activeEra'];
-  points?: Points;
+  points?: UsePoints;
 }
 
 const OPT_POINTS = {
-  transform: ({ individual }: PalletStakingEraRewardPoints): Points =>
+  transform: ({ individual }: PalletStakingEraRewardPoints): UsePoints =>
     [...individual.entries()]
       .filter(([, points]) => points.gt(BN_ZERO))
-      .reduce((result: Points, [stashId, points]): Points => {
+      .reduce((result: UsePoints, [stashId, points]): UsePoints => {
         result[stashId.toString()] = points.toNumber();
 
         return result;
@@ -30,7 +30,7 @@ const cached: Cache = {
   activeEra: null
 };
 
-function usePointsImpl ({ activeEra }: SessionInfo): Points | undefined {
+function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
   const { api } = useApi();
 
   const queryParams = useMemo(

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo, Validator } from '../types';
-import type { Points } from './types';
 
 import React, { useRef } from 'react';
 
@@ -18,13 +17,12 @@ interface Props {
   className?: string;
   favorites: string[];
   isRelay: boolean;
-  points?: Points;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
   validatorsActive?: Validator[];
 }
 
-function ListActive ({ className = '', favorites, isRelay, points, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isLoading = useLoadingDelay();
   const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
@@ -47,7 +45,6 @@ function ListActive ({ className = '', favorites, isRelay, points, sessionInfo, 
         <ValidatorRow
           isRelay={isRelay}
           key={v.key}
-          points={points?.[v.stashId]}
           sessionInfo={sessionInfo}
           toggleFavorite={toggleFavorite}
           validator={v}

@@ -4,15 +4,15 @@
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { SessionInfo, Validator } from '../../types';
-import type { Heartbeat } from '../types';
+import type { UseHeartbeat } from '../types';
 
 import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-type Cache = Record<string, Heartbeat>;
+type Cache = Record<string, UseHeartbeat>;
 
-const EMPTY: Heartbeat = { isOnline: false };
+const EMPTY: UseHeartbeat = { isOnline: false };
 
 const OPT_BLOCKS = {
   transform: (authoredBlocks: u32): number =>
@@ -27,7 +27,7 @@ const OPT_BEATS = {
 
 const cache: Cache = {};
 
-function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession }: SessionInfo): Heartbeat {
+function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession }: SessionInfo): UseHeartbeat {
   const { api } = useApi();
 
   const params = useMemo(

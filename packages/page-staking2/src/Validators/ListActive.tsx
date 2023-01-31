@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo, Validator } from '../types';
-import type { Points } from './types';
+import type { UsePoints } from './types';
 
 import React, { useRef } from 'react';
 
@@ -16,7 +16,7 @@ import ValidatorRow from './Validator';
 interface Props {
   className?: string;
   isRelay: boolean;
-  points?: Points;
+  points?: UsePoints;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
   validatorsActive?: Validator[];

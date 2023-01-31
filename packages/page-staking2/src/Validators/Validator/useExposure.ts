@@ -3,36 +3,17 @@
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { SessionInfo, Validator } from '../../types';
+import type { UseExposure, UseExposureExposure } from '../types';
 
 import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-interface ExposureEntry {
-  who: string,
-  value: BN
-}
-
-interface Exposure {
-  others: ExposureEntry[];
-  own: BN;
-  total: BN;
-}
-
-interface Result {
-  clipped?: Exposure;
-  exposure?: Exposure;
-  waiting?: {
-    others: ExposureEntry[],
-    total: BN
-  };
-}
-
-type Cache = Record<string, Result>;
+type Cache = Record<string, UseExposure>;
 
 const OPT_EXPOSURE = {
-  transform: ({ others, own, total }: PalletStakingExposure): Exposure => ({
+  transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
     others: others
       .map(({ value, who }) => ({
         value: value.unwrap(),
@@ -44,8 +25,8 @@ const OPT_EXPOSURE = {
   })
 };
 
-function getResult (exposure: Exposure, clipped: Exposure): Result {
-  let waiting: Result['waiting'];
+function getResult (exposure: UseExposureExposure, clipped: UseExposureExposure): UseExposure {
+  let waiting: UseExposure['waiting'];
 
   const others = exposure.others.filter(({ who }) =>
     !clipped.others.find((c) =>
@@ -65,7 +46,7 @@ function getResult (exposure: Exposure, clipped: Exposure): Result {
 
 const cache: Cache = {};
 
-function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): Result | undefined {
+function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): UseExposure | undefined {
   const { api } = useApi();
 
   const params = useMemo(
