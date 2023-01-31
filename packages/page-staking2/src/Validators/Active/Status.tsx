@@ -10,7 +10,7 @@ import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {
-  heartbeat: UseHeartbeat;
+  heartbeat?: UseHeartbeat;
   isChilled?: boolean;
   isPara?: boolean;
   isRelay?: boolean;
@@ -18,7 +18,7 @@ interface Props {
   validator: Validator;
 }
 
-function Status ({ heartbeat: { authoredBlocks, isOnline }, isChilled, isPara, isRelay, nominators, validator: { isElected } }: Props): React.ReactElement<Props> {
+function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPara, isRelay, nominators, validator: { isElected } }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
 
   const isNominating = useMemo(

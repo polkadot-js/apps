@@ -5,8 +5,10 @@ import type { Validator } from '../../types';
 
 import React from 'react';
 
-import { AddressSmall, Badge, Table } from '@polkadot/react-components';
+import { AddressSmall, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
+
+import Status from '../Active/Status';
 
 interface Props {
   className?: string;
@@ -41,21 +43,11 @@ function Validator ({ className = '', toggleFavorite, validator }: Props): React
           isFavorite={validator.isFavorite}
           toggle={toggleFavorite}
         />
-        <td className='badge'>
-          {validator.isElected
-            ? (
-              <Badge
-                color='blue'
-                icon='chevron-right'
-              />
-            )
-            : (
-              <Badge
-                className='opaque'
-                color='gray'
-              />
-            )
-          }
+        <td
+          className='statusInfo'
+          rowSpan={2}
+        >
+          <Status validator={validator} />
         </td>
         <td className='address relative all'>
           <AddressSmall value={validator.stashId} />
