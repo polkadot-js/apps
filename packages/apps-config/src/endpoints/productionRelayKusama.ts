@@ -121,7 +121,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2105,
     text: 'Darwinia Crab',
     providers: {
-      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
+      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/',
+      OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
     }
   },
   {
@@ -352,7 +353,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2085,
     text: 'Parallel Heiko',
     providers: {
-      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421
+      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
       Parallel: 'wss://heiko-rpc.parallel.fi'
     }
   },
@@ -379,8 +380,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2102,
     text: 'Pichiu',
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
-      // OnFinality: 'wss://pichiu.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8867
+      'Kylin Network': 'wss://kusama.kylin-node.co.uk',
+      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8867, reenabled for PolkadotJS
     }
   },
   {
@@ -401,8 +402,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
-      // OnFinality: 'wss://quartz.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
+      OnFinality: 'wss://quartz.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable, reenabled for PolkadotJS
     }
   },
   {
@@ -591,8 +592,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1001,
     text: 'Encointer Network',
     providers: {
-      'Encointer Association': 'wss://kusama.api.encointer.org'
-      // OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553
+      'Encointer Association': 'wss://kusama.api.encointer.org',
+      OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553, reenabled for Polkadot JS
     },
     teleport: [-1]
   },
