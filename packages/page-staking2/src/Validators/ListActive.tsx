@@ -11,7 +11,7 @@ import { Table } from '@polkadot/react-components';
 import { useNextTick } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import ValidatorRow from './Validator';
+import Active from './Active';
 
 interface Props {
   className?: string;
@@ -26,7 +26,7 @@ function ListActive ({ className = '', isRelay, points, sessionInfo, toggleFavor
   const { t } = useTranslation();
   const isNextTick = useNextTick();
 
-  const headerActive = useRef<[string?, string?, number?][]>([
+  const header = useRef<[string?, string?, number?][]>([
     // favorite, badges, details, expand
     [t<string>('validators'), 'start', 4]
   ]);
@@ -36,12 +36,12 @@ function ListActive ({ className = '', isRelay, points, sessionInfo, toggleFavor
       className={className}
       empty={isNextTick && validatorsActive && t<string>('No session validators found')}
       emptySpinner={t<string>('Retrieving session validators')}
-      header={headerActive.current}
+      header={header.current}
       isSplit
       legend={<Legend isRelay={isRelay} />}
     >
       {isNextTick && validatorsActive?.map((v) => (
-        <ValidatorRow
+        <Active
           isRelay={isRelay}
           key={v.key}
           points={points?.[v.stashId]}

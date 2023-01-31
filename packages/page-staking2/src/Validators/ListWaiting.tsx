@@ -11,7 +11,7 @@ import { useNextTick } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useValidatorsWaiting from '../useValidatorsWaiting';
-import ValidatorRow from './Validator';
+import Waiting from './Waiting';
 
 interface Props {
   className?: string;
@@ -27,7 +27,7 @@ function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   const isNextTick = useNextTick();
   const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
 
-  const headerWaiting = useRef<[string?, string?, number?][]>([
+  const header = useRef<[string?, string?, number?][]>([
     // favorite, badges, details, expand
     [t<string>('waiting'), 'start', 4]
   ]);
@@ -37,15 +37,13 @@ function ListActive ({ className = '', favorites, isRelay, sessionInfo, toggleFa
       className={className}
       empty={isNextTick && validatorsWaiting && t<string>('No waiting validators found')}
       emptySpinner={t<string>('Retrieving waiting validators')}
-      header={headerWaiting.current}
+      header={header.current}
       isSplit
       legend={<Legend isRelay={isRelay} />}
     >
       {isNextTick && validatorsWaiting?.map((v) => (
-        <ValidatorRow
-          isRelay={isRelay}
+        <Waiting
           key={v.key}
-          sessionInfo={sessionInfo}
           toggleFavorite={toggleFavorite}
           validator={v}
         />
