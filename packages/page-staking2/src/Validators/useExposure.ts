@@ -2,19 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { SessionInfo, Validator } from '../../types';
-import type { UseExposure, UseExposureExposure } from '../types';
+import type { SessionInfo, Validator } from '../types';
+import type { UseExposure, UseExposureExposure } from './types';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN, objectSpread } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
-interface CacheEntry extends UseExposure {
-  activeEra: BN;
-}
-
-type Cache = Record<string, CacheEntry>;
+import { useCacheMap } from '../useCacheMap';
 
 const OPT_EXPOSURE = {
   transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
@@ -48,8 +44,6 @@ function getResult (exposure: UseExposureExposure, clipped: UseExposureExposure)
   return { clipped, exposure, waiting };
 }
 
-const cache: Cache = {};
-
 function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): UseExposure | undefined {
   const { api } = useApi();
 
@@ -66,21 +60,7 @@ function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): U
     [clipExposure, fullExposure]
   );
 
-  // clear the cached result on era changes
-  useEffect((): void => {
-    if (activeEra && (!cache[stashId] || !activeEra.eq(cache[stashId].activeEra))) {
-      cache[stashId] = { activeEra };
-    }
-  }, [activeEra, stashId]);
-
-  // update the cached result on exposure changes
-  useEffect((): void => {
-    if (result && activeEra && cache[stashId] && activeEra.eq(cache[stashId].activeEra)) {
-      cache[stashId] = objectSpread<CacheEntry>({ activeEra }, result);
-    }
-  }, [activeEra, result, stashId]);
-
-  return result || cache[stashId];
+  return useCacheMap('useExposure', stashId, activeEra, result);
 }
 
 export default createNamedHook('useExposure', useExposureImpl);

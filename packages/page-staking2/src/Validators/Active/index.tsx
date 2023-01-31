@@ -2,103 +2,55 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo, Validator } from '../../types';
+import type { UsePoints } from '../types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 
-import { Table, Tag } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import Legend from '@polkadot/app-staking/Legend';
+import { Table } from '@polkadot/react-components';
+import { useNextTick } from '@polkadot/react-hooks';
 
-import Bottom from './Row/Bottom';
-import Middle from './Row/Middle';
-import Top from './Row/Top';
-import useExposure from './useExposure';
-import useHeartbeat from './useHeartbeat';
+import { useTranslation } from '../../translate';
+import Entry from './Entry';
 
 interface Props {
   className?: string;
   isRelay: boolean;
-  points?: number;
+  points?: UsePoints;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validator: Validator;
+  validatorsActive?: Validator[];
 }
 
-interface PropsExpanded {
-  className?: string;
-  validator: Validator;
-}
+function Active ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const isNextTick = useNextTick();
 
-function ActiveExpanded ({ className = '' }: PropsExpanded): React.ReactElement<PropsExpanded> {
-  return <td className={className} />;
-}
-
-function Active ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
-  const [isExpanded, toggleExpanded] = useToggle();
-  const pointsRef = useRef<{ counter: number, points: number }>({ counter: 0, points: 0 });
-  const exposure = useExposure(validator, sessionInfo);
-  const heartbeat = useHeartbeat(validator, sessionInfo);
-
-  const pointsAnimClass = useMemo(
-    (): string => {
-      if (!points || pointsRef.current.points === points) {
-        return '';
-      }
-
-      pointsRef.current.points = points;
-      pointsRef.current.counter = (pointsRef.current.counter + 1) % 25;
-
-      return `greyAnim-${pointsRef.current.counter}`;
-    },
-    [points, pointsRef]
-  );
+  const header = useRef<[string?, string?, number?][]>([
+    // favorite, badges, details, expand
+    [t<string>('validators'), 'start', 4]
+  ]);
 
   return (
-    <>
-      <Top
-        className={className}
-        heartbeat={heartbeat}
-        isExpanded={isExpanded}
-        isRelay={isRelay}
-        toggleExpanded={toggleExpanded}
-        toggleFavorite={toggleFavorite}
-        validator={validator}
-      >
-        {points && (
-          <Tag
-            className={`${pointsAnimClass} absolute`}
-            color='lightgrey'
-            label={formatNumber(points)}
-          />
-        )}
-      </Top>
-      <Middle
-        className={className}
-        isExpanded={isExpanded}
-      >
-        <Table.Column.Balance
-          className='relative'
-          label={
-            exposure?.waiting && (
-              <>
-                <span>(</span>
-                <FormatBalance value={exposure.waiting.total} />
-                <span>, {exposure.waiting.others.length})</span>
-              </>
-            )
-          }
-          value={exposure?.clipped?.total}
-          withLoading
+    <Table
+      className={className}
+      empty={isNextTick && validatorsActive && t<string>('No session validators found')}
+      emptySpinner={t<string>('Retrieving session validators')}
+      header={header.current}
+      isSplit
+      legend={<Legend isRelay={isRelay} />}
+    >
+      {isNextTick && validatorsActive?.map((v) => (
+        <Entry
+          isRelay={isRelay}
+          key={v.key}
+          points={points?.[v.stashId]}
+          sessionInfo={sessionInfo}
+          toggleFavorite={toggleFavorite}
+          validator={v}
         />
-      </Middle>
-      <Bottom
-        className={className}
-        isExpanded={isExpanded}
-      >
-        <ActiveExpanded validator={validator} />
-      </Bottom>
-    </>
+      ))}
+    </Table>
   );
 }
 
