@@ -27,15 +27,13 @@ function sort (a: Validator, b: Validator): number {
 }
 
 function withElected (validators: Validator[], elected: string[]): Validator[] {
-  return elected
-    ? validators.map((v): Validator => {
-      const isElected = elected.includes(v.stashId);
+  return validators.map((v): Validator => {
+    const isElected = elected.includes(v.stashId);
 
-      return v.isElected !== isElected
-        ? objectSpread({}, v, { isElected })
-        : v;
-    })
-    : validators;
+    return v.isElected !== isElected
+      ? objectSpread({}, v, { isElected })
+      : v;
+  });
 }
 
 function withSort (allAccounts: string[], favorites: string[], validators: Validator[]): Validator[] {
