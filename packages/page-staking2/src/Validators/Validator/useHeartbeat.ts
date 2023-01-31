@@ -9,6 +9,7 @@ import type { UseHeartbeat } from '../types';
 import { useEffect, useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { isBoolean, isNumber } from '@polkadot/util';
 
 type Cache = Record<string, UseHeartbeat>;
 
@@ -42,7 +43,7 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
   const receivedHeartbeats = useCall(params && api.query.imOnline.receivedHeartbeats, params?.receivedHeartbeats, OPT_BEATS);
 
   const result = useMemo(
-    () => authoredBlocks && receivedHeartbeats && ({
+    () => isNumber(authoredBlocks) && isBoolean(receivedHeartbeats) && ({
       authoredBlocks,
       isOnline: !!(authoredBlocks || receivedHeartbeats)
     }),
