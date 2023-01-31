@@ -60,8 +60,8 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
   });
 });
 
-jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
-  useLoadingDelay: () => false
+jest.mock('@polkadot/react-hooks/useNextTick', () => ({
+  useNextTick: () => true
 }));
 
 jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
