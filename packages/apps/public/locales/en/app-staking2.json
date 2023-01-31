@@ -1,7 +1,12 @@
 {
+  "Active": "Active",
   "No session validators found": "No session validators found",
+  "No waiting validators found": "No waiting validators found",
   "Retrieving session validators": "Retrieving session validators",
+  "Retrieving waiting validators": "Retrieving waiting validators",
   "Validators": "Validators",
+  "Waiting": "Waiting",
   "favorites": "favorites",
-  "validators": "validators"
+  "validators": "validators",
+  "waiting": "waiting"
 }
