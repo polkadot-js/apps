@@ -302,9 +302,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Automata 1RPC': 'wss://1rpc.io/glmr',
       Blast: 'wss://moonbeam.public.blastapi.io',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/moonbeam',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
-
     }
   },
   {
