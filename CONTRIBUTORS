@@ -6,7 +6,7 @@
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
-      28	Joakim Nyman                  	Added Dwellir rpc endpoint for Amplitude. (#8880)
+      29	Joakim Nyman                  	Removed Dwellir endpoint for Edgeware. (#8914)
       25	Aleksandr Krupenkin           	Added Shiden Crowdloan 2 (#7426)
       25	Krzysztof Jelski              	Increase UI test timeouts and mark interBTC unreachable (#6247)
       25	Luke Schoen                   	fix typo kusama (#3083)
