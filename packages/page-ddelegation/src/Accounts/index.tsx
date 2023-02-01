@@ -43,7 +43,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const [ddelegation, setdelegation] = useState<Delegation | undefined>(undefined);
 
-  const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
+  // const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
 
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
@@ -59,17 +59,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [favorites]
   );
 
-  // detect multisigs
-  const hasPalletMultisig = useMemo(
-    () => isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
-    [api]
-  );
+  // // detect multisigs
+  // const hasPalletMultisig = useMemo(
+  //   () => isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
+  //   [api]
+  // );
 
-  // proxy support
-  const hasPalletProxy = useMemo(
-    () => isFunction(api.tx.proxy?.addProxy),
-    [api]
-  );
+  // // proxy support
+  // const hasPalletProxy = useMemo(
+  //   () => isFunction(api.tx.proxy?.addProxy),
+  //   [api]
+  // );
 
   const accountsWithInfo = useMemo(
     () => allAccounts
@@ -145,7 +145,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
-  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
+  // const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
   const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
@@ -173,13 +173,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     return ret;
   }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
 
-  const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
+  // const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
 
-  const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
+  // const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
 
   console.log(ddelegation, 'PLEASE!!!');
 
-  const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
+  // const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
 
   // console.log(sortedAccounts.length,"sortedAccounts")
   // console.log(delegations !== undefined ? delegations : 0,"delegations")

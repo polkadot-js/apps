@@ -14,28 +14,23 @@ import DelegateModal from './modals/Delegate';
 import Accounts from './Accounts';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';
-import Vanity from './Vanity';
 
 export { useCounter };
 
-const HIDDEN_ACC = ['vanity'];
+// const HIDDEN_ACC = ['vanity'];
 
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { hasAccounts } = useAccounts();
-  const { isIpfs } = useIpfs();
+  // const { hasAccounts } = useAccounts();
+  // const { isIpfs } = useIpfs();
   const [isDelegateOpen, toggleDelegate] = useToggle();
 
   const tabsRef = useRef([
-    // {
-    //   isRoot: true,
-    //   name: 'overview',
-    //   text: t<string>('My accounts')
-    // },
-    // {
-    //   name: 'vanity',
-    //   text: t<string>('Vanity generator')
-    // }
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t<string>('Delegation')
+    }
   ]);
 
   return (
@@ -43,7 +38,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
-        hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
+        // hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
         items={tabsRef.current}
       />
       <DelegateModal
