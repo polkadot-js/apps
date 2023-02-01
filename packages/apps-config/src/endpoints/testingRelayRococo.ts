@@ -120,14 +120,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'tangle',
-    paraId: 4006,
-    text: 'Tangle Rococo',
-    providers: {
-      Webb: 'wss://arana-alpha-1.webb.tools'
-    }
-  },
-  {
     info: 'rococoEthos',
     paraId: 2095,
     text: 'Ethos',
@@ -335,6 +327,14 @@ export const testParasRococo: EndpointOption[] = [
     text: 't0rn',
     providers: {
       t3rn: 'wss://ws.t0rn.io'
+    }
+  },
+  {
+    info: 'tangle',
+    paraId: 4006,
+    text: 'Tangle Rococo',
+    providers: {
+      Webb: 'wss://arana-alpha-1.webb.tools'
     }
   },
   {
