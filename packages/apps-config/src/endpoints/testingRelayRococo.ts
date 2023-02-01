@@ -332,7 +332,7 @@ export const testParasRococo: EndpointOption[] = [
   {
     info: 'tangle',
     paraId: 4006,
-    text: 'Tangle Rococo',
+    text: 'Tangle',
     providers: {
       Webb: 'wss://arana-alpha-1.webb.tools'
     }
