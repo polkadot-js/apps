@@ -121,8 +121,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2105,
     text: 'Darwinia Crab',
     providers: {
-      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/',
-      OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
+      'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
     }
   },
   {
