@@ -133,9 +133,8 @@ export const prodChains: EndpointOption[] = [
     text: 'Edgeware',
     providers: {
       JelliedOwl: 'wss://edgeware.jelliedowl.net',
-      'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
+      'Commonwealth Labs': 'wss://mainnet2.edgewa.re'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
-      Dwellir: 'wss://edgeware-rpc.dwellir.com'
     }
   },
   {
