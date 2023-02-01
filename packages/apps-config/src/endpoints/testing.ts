@@ -568,6 +568,13 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'tangle',
+    text: 'Tangle Alpha',
+    providers: {
+      Webb: 'wss://tangle-archive.webb.tools'
+    }
+  },
+  {
     info: 'ternoa-alphanet',
     text: 'Ternoa Alphanet',
     providers: {

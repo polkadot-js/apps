@@ -77,6 +77,7 @@ import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
+import chainTangle from './chains/tangle.png';
 import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainTuring from './chains/turing.png';
@@ -85,7 +86,6 @@ import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
 import chainVirto from './chains/virto.png';
 import chainWatr from './chains/watr.png';
-import chainEggnet from './chains/webb.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -312,7 +312,6 @@ export const chainLogos = Object.entries({
   'Dolphin Testnet': nodeDolphin,
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
-  'Egg Rococo': chainEggnet,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
@@ -466,6 +465,8 @@ export const chainLogos = Object.entries({
   Subzero: nodeZero,
   swapdex: nodeSwapdex,
   t0rn: chainT0rn,
+  'Tangle Rococo': chainTangle,
+  'Tangle Testnet': chainTangle,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -790,7 +791,6 @@ export const namedLogos: Record<string, unknown> = {
   eave: nodeEave,
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,
-  Eggnet: chainEggnet,
   empty: emptyLogo,
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
@@ -1004,6 +1004,7 @@ export const namedLogos: Record<string, unknown> = {
   swapdex: nodeSwapdex,
   t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
+  tangle: chainTangle,
   ternoa: nodeTernoa,
   'ternoa-alphanet': nodeTernoa,
   'ternoa-testnet': nodeTernoa,

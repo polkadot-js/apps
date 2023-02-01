@@ -120,11 +120,11 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'Eggnet',
+    info: 'tangle',
     paraId: 4006,
-    text: 'Eggnet',
+    text: 'Tangle Rococo',
     providers: {
-      // Webb: 'wss://rococo1.webb.tools' // https://github.com/polkadot-js/apps/issues/8175
+      Webb: 'wss://arana-alpha-1.webb.tools'
     }
   },
   {
