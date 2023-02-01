@@ -102,27 +102,33 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   const { allAccounts } = useAccounts();
   const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 4));
 
+  const [maxBlock, baseExtrinsic, maxExtrinsic] = useMemo(
+    () => [
+      convertWeight(
+        api.consts.system.blockWeights
+          ? api.consts.system.blockWeights.maxBlock
+          : api.consts.system.maximumBlockWeight as Weight
+      ),
+      bnWeight(convertWeight(
+        api.consts.system.blockWeights
+          ? api.consts.system.blockWeights.perClass.normal.baseExtrinsic
+          : BN_ZERO as unknown as Weight
+      )),
+      bnWeight(convertWeight(
+        api.consts.system.blockWeights && api.consts.system.blockWeights.perClass.normal.maxExtrinsic.isSome
+          ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic.unwrap()
+          : BN_ZERO as unknown as Weight
+      ))
+    ],
+    [api]
+  );
+
   useEffect((): void => {
     txs && txs.length && allAccounts[0] && txs[0].hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
         try {
           const paymentInfo = await txs[0].paymentInfo(allAccounts[0]);
           const weight = convertWeight(paymentInfo.weight);
-          const maxBlock = convertWeight(
-            api.consts.system.blockWeights
-              ? api.consts.system.blockWeights.maxBlock
-              : api.consts.system.maximumBlockWeight as Weight
-          );
-          const baseExtrinsic = bnWeight(convertWeight(
-            api.consts.system.blockWeights
-              ? api.consts.system.blockWeights.perClass.normal.baseExtrinsic
-              : BN_ZERO as unknown as Weight
-          ));
-          const maxExtrinsic = bnWeight(convertWeight(
-            api.consts.system.blockWeights && api.consts.system.blockWeights.perClass.normal.maxExtrinsic.isSome
-              ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic.unwrap()
-              : BN_ZERO as unknown as Weight
-          ));
 
           setBatchSize((prev) =>
             weight.v1Weight.isZero()
@@ -145,7 +151,7 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
           console.error(error);
         }
       });
-  }, [allAccounts, api, options, txs]);
+  }, [allAccounts, api, maxBlock, baseExtrinsic, maxExtrinsic, options, txs]);
 
   return useMemo(
     () => txs && txs.length
