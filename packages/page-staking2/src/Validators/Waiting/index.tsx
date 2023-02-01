@@ -5,7 +5,6 @@ import type { SessionInfo, Validator } from '../../types';
 
 import React, { useRef } from 'react';
 
-import Legend from '@polkadot/app-staking/Legend';
 import { Table } from '@polkadot/react-components';
 import { useNextTick } from '@polkadot/react-hooks';
 
@@ -16,13 +15,13 @@ import Entry from './Entry';
 interface Props {
   className?: string;
   favorites: string[];
-  isRelay: boolean;
+  legend: React.ReactNode;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
   validatorsActive?: Validator[];
 }
 
-function Waiting ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+function Waiting ({ className = '', favorites, legend, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isNextTick = useNextTick();
   const validatorsWaiting = useValidatorsWaiting(favorites, sessionInfo, validatorsActive);
@@ -39,7 +38,7 @@ function Waiting ({ className = '', favorites, isRelay, sessionInfo, toggleFavor
       emptySpinner={t<string>('Retrieving waiting validators')}
       header={header.current}
       isSplit
-      legend={<Legend isRelay={isRelay} />}
+      legend={legend}
     >
       {isNextTick && validatorsWaiting?.map((v) => (
         <Entry

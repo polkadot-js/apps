@@ -5,20 +5,20 @@ import type { Validator } from '../../types';
 import type { UseHeartbeat } from '../types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {
+  className?: string;
   heartbeat?: UseHeartbeat;
   isChilled?: boolean;
-  isPara?: boolean;
-  isRelay?: boolean;
   nominators?: string[];
   validator: Validator;
 }
 
-function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPara, isRelay, nominators, validator: { isElected } }: Props): React.ReactElement<Props> {
+function Status ({ className, heartbeat: { authoredBlocks, isOnline } = {}, isChilled, nominators, validator: { isElected, isPara } }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
 
   const isNominating = useMemo(
@@ -34,7 +34,7 @@ function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPa
   );
 
   return (
-    <div>
+    <StyledDiv className={className}>
       {isNominating
         ? (
           <Badge
@@ -44,7 +44,7 @@ function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPa
         )
         : emptyBadge
       }
-      {isRelay && isPara
+      {isPara
         ? (
           <Badge
             color='purple'
@@ -74,7 +74,9 @@ function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPa
           ? (
             <Badge
               color='green'
-              info={authoredBlocks}
+              info={
+                <span className='authoredBlocks'>{authoredBlocks}</span>
+              }
             />
           )
           : (
@@ -85,8 +87,15 @@ function Status ({ heartbeat: { authoredBlocks, isOnline } = {}, isChilled, isPa
           )
         : emptyBadge
       }
-    </div>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  .authoredBlocks {
+    vertical-align: top;
+    font-size: var(--font-percent-tiny);
+  }
+`;
 
 export default React.memo(Status);

@@ -6,7 +6,6 @@ import type { UsePoints } from '../types';
 
 import React, { useRef } from 'react';
 
-import Legend from '@polkadot/app-staking/Legend';
 import { Table } from '@polkadot/react-components';
 import { useNextTick } from '@polkadot/react-hooks';
 
@@ -15,14 +14,14 @@ import Entry from './Entry';
 
 interface Props {
   className?: string;
-  isRelay: boolean;
+  legend: React.ReactNode;
   points?: UsePoints;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
   validatorsActive?: Validator[];
 }
 
-function Active ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
+function Active ({ className = '', legend, points, sessionInfo, toggleFavorite, validatorsActive }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isNextTick = useNextTick();
 
@@ -38,11 +37,10 @@ function Active ({ className = '', isRelay, points, sessionInfo, toggleFavorite,
       emptySpinner={t<string>('Retrieving session validators')}
       header={header.current}
       isSplit
-      legend={<Legend isRelay={isRelay} />}
+      legend={legend}
     >
       {isNextTick && validatorsActive?.map((v) => (
         <Entry
-          isRelay={isRelay}
           key={v.key}
           points={points?.[v.stashId]}
           sessionInfo={sessionInfo}
