@@ -15,13 +15,12 @@ interface Props {
   className?: string;
   heartbeat?: UseHeartbeat;
   isExpanded: boolean;
-  isRelay?: boolean;
   toggleExpanded: () => void;
   toggleFavorite: (stashId: string) => void;
   validator: Validator;
 }
 
-function Top ({ children, className = '', heartbeat, isExpanded, isRelay, toggleExpanded, toggleFavorite, validator }: Props): React.ReactElement<Props> {
+function Top ({ children, className = '', heartbeat, isExpanded, toggleExpanded, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   return (
     <tr className={`${className} isExpanded isFirst packedBottom`}>
       <Table.Column.Favorite
@@ -35,7 +34,6 @@ function Top ({ children, className = '', heartbeat, isExpanded, isRelay, toggle
       >
         <Status
           heartbeat={heartbeat}
-          isRelay={isRelay}
           validator={validator}
         />
       </td>

@@ -6,6 +6,7 @@ import type { SessionInfo } from '../types';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import Legend from '@polkadot/app-staking/Legend';
 import { Button, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -33,6 +34,8 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
     { text: t('Waiting'), value: 'waiting' }
   ]);
 
+  const legend = <Legend isRelay={isRelay} />;
+
   return (
     <StyledDiv className={className}>
       <Button.Group>
@@ -45,7 +48,7 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
       {intentIndex === 0
         ? (
           <Active
-            isRelay={isRelay}
+            legend={legend}
             points={points}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
@@ -55,7 +58,7 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
         : (
           <Waiting
             favorites={favorites}
-            isRelay={isRelay}
+            legend={legend}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
             validatorsActive={validatorsActive}

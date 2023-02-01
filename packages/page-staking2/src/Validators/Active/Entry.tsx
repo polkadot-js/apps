@@ -18,7 +18,6 @@ import Top from './Row/Top';
 
 interface Props {
   className?: string;
-  isRelay: boolean;
   points?: number;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
@@ -34,7 +33,7 @@ function EntryExpanded ({ className = '' }: PropsExpanded): React.ReactElement<P
   return <td className={className} />;
 }
 
-function Entry ({ className = '', isRelay, points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
+function Entry ({ className = '', points, sessionInfo, toggleFavorite, validator }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle();
   const pointsRef = useRef<{ counter: number, points: number }>({ counter: 0, points: 0 });
   const exposure = useExposure(validator, sessionInfo);
@@ -60,7 +59,6 @@ function Entry ({ className = '', isRelay, points, sessionInfo, toggleFavorite, 
         className={className}
         heartbeat={heartbeat}
         isExpanded={isExpanded}
-        isRelay={isRelay}
         toggleExpanded={toggleExpanded}
         toggleFavorite={toggleFavorite}
         validator={validator}

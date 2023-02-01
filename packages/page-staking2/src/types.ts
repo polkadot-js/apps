@@ -13,6 +13,7 @@ export interface Validator {
   isElected: boolean;
   isFavorite: boolean;
   isOwned: boolean;
+  isPara?: boolean;
   key: string;
   stashId: string;
   stashIndex: number;
