@@ -136,7 +136,6 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
               ? prev
               : Math.floor(
                 (
-                  known.maxExtrinsic.proofSize.gt(BN_ZERO) &&
                   known.maxExtrinsic.refTime.gt(BN_ZERO) &&
                   // 65% below is around 86%, use same safety ratio
                   0.85 * weightDiv(
