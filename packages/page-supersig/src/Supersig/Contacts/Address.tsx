@@ -66,11 +66,12 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   const getInfo = async () => {
     setMemberCnt(((members?.toArray()) || []).length);
-    console.log(members?.toArray());
     var tempBalance:string = '';
     var tempMemberAccounts : Array<object> = [];
     await Promise.all((members?.toArray() || []).map(async(item: any) => {
       let balance = await api.api.derive.balances?.all(item[0]);
+      console.log(item[1]);
+
       var membalance = (balance.freeBalance.add(balance.reservedBalance)).toString();
       if(tempBalance.length > membalance.length){
         tempBalance = largeNumSum(tempBalance, membalance);
@@ -190,11 +191,26 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     const VoterComponent = ({voter}:{voter:AccountId}) : React.ReactElement<{voter:AccountId}> => {
       let balances = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [voter]);
       let voterbalance = balances ? (balances?.freeBalance.add(balances?.reservedBalance)).toString() : '0';
+      const [voterRole, setVoterRole] = useState<string>('');
+      const getRole = async (address: AccountId) => {
+        let role:string = '';
+        await Promise.all((members?.toArray() || []).map((mem: any) => {
+          if(mem[0] = address){
+            role = mem[1].type;
+          }
+        }))
+        setVoterRole(role);
+      }
+      useEffect(()=>{
+        getRole(voter);
+      },[]);
+
       return (
         <div style={{display: "-webkit-box", border: '1px dashed lightgrey', margin: '5px', padding: '3px 3px 3px 20px', }}>
           <IdentityIcon value={voter as Uint8Array} />
           <div>
             <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{voter.toString()}</p>
+            <p>{voterRole}</p>
             {
               <FormatBalance
                 className='result'
@@ -389,13 +405,14 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         <td className='fast-actions-addresses'>
           <div className='fast-actions-row'>
             {isFunction(api.api.tx.balances?.transfer) && (
-              <Button
-                className='send-button'
-                icon='paper-plane'
-                key='propose'
-                label={t<string>('propose')}
-                onClick={_toggleTransfer}
-              />
+              <a href="#/supersig/create">
+                <Button
+                  className='send-button'
+                  icon='paper-plane'
+                  key='propose'
+                  label={t<string>('propose')}
+                />
+              </a>
             )}
             <Popup
               className={`theme--${theme}`}

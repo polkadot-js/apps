@@ -65,6 +65,6 @@ export default React.memo(styled(ExpanderScroll)`
     margin: 0 0 0 auto;
     max-height: 13.75rem;
     max-width: 25rem;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
 `);
