@@ -138,6 +138,9 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
                 (
                   known.maxExtrinsic.refTime.gt(BN_ZERO) &&
                   // 65 div 75 below is around 86% of space, use same safety ratio here
+                  // (Since we also have a max total limit for normal, this ensure faster
+                  // throughput when the chain is busy at the expense of having less txs
+                  // per batch - it does _eventually_ go through without the ratio)
                   0.85 * weightDiv(
                     weightSub(known.maxExtrinsic, known.baseExtrinsic),
                     weightSub(weight.v2Weight, known.baseExtrinsic)
