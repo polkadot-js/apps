@@ -4,17 +4,17 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountIdIsh, ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
-import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
+import type { SubmittableExtrinsic, PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import axios  from 'axios';
+import type { Call } from '@polkadot/types/interfaces';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressMini, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressMini, IconLink, Input, Expander, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags, InputAddress } from '@polkadot/react-components';
 import { useApi, useCall, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
-import type  { MembersList, FetchProposalState, UserSupersig, FetchListProposals } from 'supersig-types/dist/interfaces/default'
+import { BN_ZERO, formatNumber, isFunction, u8aToHex } from '@polkadot/util';
+import type  { MembersList, FetchProposalState, UserSupersig, FetchListProposals, ProposalState } from 'supersig-types/dist/interfaces/default'
 import { useTranslation } from '../translate';
 import { Observable } from '@polkadot/types/types';
 import { Vec } from '@polkadot/types';
@@ -22,7 +22,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import IdentityIcon from '@polkadot/react-components/IdentityIcon';
 import { FormatBalance } from '@polkadot/react-query';
-
+import { decodeAddress } from '@polkadot/util-crypto';
 import { largeNumSum } from '../../util';
 
 
@@ -57,6 +57,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [memberAccounts, setMemberAccounts] = useState<Array<object>>([]);
   const members = useCall<MembersList>(api.api.rpc.superSig.listMembers, [address]);
   const proposals = useCall<FetchListProposals>(api.api.rpc.superSig.listProposals, [address]);
+  const nonce = u8aToHex(decodeAddress(address)).toString();
 
   const _setTags = useCallback(
     (tags: string[]): void => setTags(tags.sort()),
@@ -65,6 +66,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   const getInfo = async () => {
     setMemberCnt(((members?.toArray()) || []).length);
+    console.log(members?.toArray());
     var tempBalance:string = '';
     var tempMemberAccounts : Array<object> = [];
     await Promise.all((members?.toArray() || []).map(async(item: any) => {
@@ -182,6 +184,85 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     return null;
   }
 
+
+  const ProposalDetail = () : React.ReactElement => {
+
+    const VoterComponent = ({voter}:{voter:AccountId}) : React.ReactElement<{voter:AccountId}> => {
+      let balances = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [voter]);
+      let voterbalance = balances ? (balances?.freeBalance.add(balances?.reservedBalance)).toString() : '0';
+      return (
+        <div style={{display: "-webkit-box", border: '1px dashed lightgrey', margin: '5px', padding: '3px 3px 3px 20px', }}>
+          <IdentityIcon value={voter as Uint8Array} />
+          <div>
+            <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{voter.toString()}</p>
+            {
+              <FormatBalance
+                className='result'
+                value={voterbalance}
+              />
+            }
+          </div>
+        </div>
+      )
+    }
+
+    const renderProposalInfo = useCallback(
+      () => proposals && proposals.proposals_info.map((item: ProposalState, index: number): React.ReactNode =>{
+        let extrinsicCall: Call;
+        extrinsicCall = api.api.createType('Call', item.encoded_call.toString());
+        const { method, section } = api.api.registry.findMetaCall(extrinsicCall.callIndex);
+        let approvelink = '#/supersig/create/0x08016d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + item.encoded_call.toString().slice(2);
+        return(
+          <Expander 
+            key={index}
+            className="w-full"
+            summary={`${section}.${method}`}
+          >
+            <InputAddress
+              defaultValue={item.provider}
+              isDisabled
+              label={t<string>('Provider')}
+            />
+            <Input
+              defaultValue={item.id.toString()}
+              isDisabled
+              label={t<string>('CallId')}
+            />
+            <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
+              <Expander
+                summary={t<string>('Voters(' + item.voters.length.toString() + '/' + proposals.no_of_members.toString() + ')')}
+              >
+                {
+                  item.voters.map((voterId: AccountId, i: number) => {
+                    return(
+                      <VoterComponent voter={voterId} key={i} />
+                    )}
+                  )
+                }
+              </Expander>
+            </div>
+            <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
+              <IconLink
+                icon='file-signature'
+                label={t<string>('Vote')}
+                href={approvelink}
+              />
+            </div>
+          </Expander>
+        )
+      }),
+      [proposals]
+    );
+
+    return (
+      proposalCnt == 0 ? <>{proposalCnt}</> :
+      <ExpanderScroll
+        renderChildren={renderProposalInfo}
+        summary={t<string>(proposalCnt.toString())}
+      />
+    )
+  }
+
   interface IMemberItem {
     id?: Uint8Array | String;
     balance?: String;
@@ -189,7 +270,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   const BalanceDetail = () : React.ReactElement => {
 
-    const renderVoters = useCallback(
+    const renderMembers = useCallback(
       () => memberAccounts && memberAccounts.map((item: IMemberItem, index: number): React.ReactNode =>
         <div key={index} style={{display: "-webkit-box"}}>
           <IdentityIcon value={item.id as Uint8Array} />
@@ -207,7 +288,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
     return (
       <ExpanderScroll
-        renderChildren={renderVoters}
+        renderChildren={renderMembers}
         summary={<>
           <FormatBalance
               className='result'
@@ -272,10 +353,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           )}
         </td>
         <td className='number'>
-          { memberCnt }
-        </td>
-        <td className='number'>
-          { proposalCnt }
+          <ProposalDetail />
         </td>
         <td className='number'>
           <BalanceDetail />

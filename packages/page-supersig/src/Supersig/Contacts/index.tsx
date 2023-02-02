@@ -38,7 +38,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('Supersigs'), 'start', 2],
-    [t('no of members'), 'filter'],
     [t('proposals'), 'number'],
     [t('balance of members'), 'number'],
     [undefined, 'media--1500'],
