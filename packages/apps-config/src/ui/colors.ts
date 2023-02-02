@@ -16,7 +16,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chain3dpass = '#323232';
-const chainAband = '7358ff';
+const chainAband = '#7358ff';
 const chainAcala = '#645AFF';
 const chainAcurastRococoTestnet = '#000000';
 const chainAjuna = '#161212';
