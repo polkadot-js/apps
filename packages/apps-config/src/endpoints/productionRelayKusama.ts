@@ -22,7 +22,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2257,
     text: 'Aband',
     providers: {
-      Aband DAO: 'wss://rpc-parachain.a.band',
+      'Aband DAO': 'wss://rpc-parachain.a.band',
     }
   },
 
