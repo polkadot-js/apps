@@ -104,6 +104,35 @@ function getKnown (api: ApiPromise): Known {
   };
 }
 
+function getBatchSize ({ v1Weight, v2Weight }: WeightResult, { baseExtrinsic, maxBlock, maxExtrinsic }: Known): number {
+  let div = 0;
+
+  // for newer chains we will try and calculate the size based on the supplied constants
+  // (At least maxExtrinsic is Option<...>, hence also having the fallback ratio)
+  if (baseExtrinsic && maxExtrinsic) {
+    // 65 div 75 below is around 86% of space, use same safety ratio here
+    // (Since we also have a max total limit for normal, this ensure faster
+    // throughput when the chain is busy at the expense of having less txs
+    // per batch - it does _eventually_ go through without the ratio)
+    div = Math.floor(
+      0.85 * weightDiv(
+        weightSub(maxExtrinsic, baseExtrinsic),
+        weightSub(v2Weight, baseExtrinsic)
+      )
+    );
+  }
+
+  // If we don't have a size calculation above, we create the extrinsic with a fallback
+  // of up to 65% of the block weight (applied here as 64 for a safety margin)
+  // (This is based on the Kusama/Polkadot 75% allowance for all extrinsics)
+  return div || Math.floor(
+    maxBlock.refTime
+      .muln(64)
+      .div(v1Weight)
+      .toNumber() / 100
+  );
+}
+
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {
     return txs;
@@ -150,25 +179,7 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
           setBatchSize((prev) =>
             weight.v1Weight.isZero()
               ? prev
-              : Math.floor(
-                (
-                  known.baseExtrinsic &&
-                  known.maxExtrinsic &&
-                  // 65 div 75 below is around 86% of space, use same safety ratio here
-                  // (Since we also have a max total limit for normal, this ensure faster
-                  // throughput when the chain is busy at the expense of having less txs
-                  // per batch - it does _eventually_ go through without the ratio)
-                  0.85 * weightDiv(
-                    weightSub(known.maxExtrinsic, known.baseExtrinsic),
-                    weightSub(weight.v2Weight, known.baseExtrinsic)
-                  )
-                ) || (
-                  known.maxBlock.refTime
-                    .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-                    .div(weight.v1Weight)
-                    .toNumber() / 100
-                )
-              )
+              : getBatchSize(weight, known)
           );
         } catch (error) {
           console.error(error);
