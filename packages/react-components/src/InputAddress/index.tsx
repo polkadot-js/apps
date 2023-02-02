@@ -60,7 +60,7 @@ const MULTI_DEFAULT: string[] = [];
 
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
-    return toAddress(value) || null;
+    return toAddress(value, false, keyring.keyring.type === 'ethereum' ? 20 : 32) || null;
   } catch (error) {
     // noop, handled by return
   }
