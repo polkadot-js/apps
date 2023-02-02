@@ -23,6 +23,12 @@ interface BNWeight {
 
 type WeightSimple = WeightResult['v2Weight'] | BNWeight;
 
+interface Known {
+  baseExtrinsic: BNWeight | null;
+  maxBlock: BNWeight;
+  maxExtrinsic: BNWeight | null;
+}
+
 // converts a weight construct to only contain BN values
 function bnWeight (a: WeightSimple): BNWeight {
   return {
@@ -72,6 +78,32 @@ function weightDiv (_a: WeightSimple, _b: WeightSimple): number {
   ) / 100;
 }
 
+function getKnown (api: ApiPromise): Known {
+  return {
+    baseExtrinsic: api.consts.system.blockWeights
+      ? bnWeight(
+        convertWeight(
+          api.consts.system.blockWeights.perClass.normal.baseExtrinsic
+        ).v2Weight
+      )
+      : null,
+    maxBlock: bnWeight(
+      convertWeight(
+        api.consts.system.blockWeights
+          ? api.consts.system.blockWeights.maxBlock
+          : api.consts.system.maximumBlockWeight as Weight
+      ).v2Weight
+    ),
+    maxExtrinsic: api.consts.system.blockWeights && api.consts.system.blockWeights.perClass.normal.maxExtrinsic.isSome
+      ? bnWeight(
+        convertWeight(
+          api.consts.system.blockWeights.perClass.normal.maxExtrinsic.unwrap()
+        ).v2Weight
+      )
+      : null
+  };
+}
+
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {
     return txs;
@@ -104,23 +136,7 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 4));
 
   const known = useMemo(
-    () => ({
-      baseExtrinsic: bnWeight(convertWeight(
-        api.consts.system.blockWeights
-          ? api.consts.system.blockWeights.perClass.normal.baseExtrinsic
-          : BN_ZERO as unknown as Weight
-      ).v2Weight),
-      maxBlock: bnWeight(convertWeight(
-        api.consts.system.blockWeights
-          ? api.consts.system.blockWeights.maxBlock
-          : api.consts.system.maximumBlockWeight as Weight
-      ).v2Weight),
-      maxExtrinsic: bnWeight(convertWeight(
-        api.consts.system.blockWeights && api.consts.system.blockWeights.perClass.normal.maxExtrinsic.isSome
-          ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic.unwrap()
-          : BN_ZERO as unknown as Weight
-      ).v2Weight)
-    }),
+    () => getKnown(api),
     [api]
   );
 
@@ -136,7 +152,8 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
               ? prev
               : Math.floor(
                 (
-                  known.maxExtrinsic.refTime.gt(BN_ZERO) &&
+                  known.baseExtrinsic &&
+                  known.maxExtrinsic &&
                   // 65 div 75 below is around 86% of space, use same safety ratio here
                   // (Since we also have a max total limit for normal, this ensure faster
                   // throughput when the chain is busy at the expense of having less txs
