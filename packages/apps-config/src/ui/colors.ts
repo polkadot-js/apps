@@ -25,7 +25,8 @@ const chainAmplitude = '#5DEFA7';
 const chainAmplitudeRococo = '#5DEFA7';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
-const chainEggnet = '#0099ff';
+const chainTangle = '#483d8b';
+const chainTangleDev = '#0099ff';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBajun = '#161212';
@@ -349,7 +350,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
-  'Egg Rococo': chainEggnet,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
@@ -500,6 +500,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Subzero: chainZero,
   swapdex: chainSwapdex,
   t0rn: chainT0rn,
+  'Tangle Rococo': chainTangle,
+  'Tangle Testnet': chainTangleDev,
   Tick: chainRoccoTick,
   'Tinkernet Rococo Testnet': chainTinkerRococo,
   Track: chainRoccoTrack,
@@ -637,6 +639,7 @@ export const nodeColors = Object.entries({
   Subspace: nodeSubspace,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
+  'Tangle Parachain': chainTangle,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
