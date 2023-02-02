@@ -9,45 +9,46 @@ import type { BatchOptions, BatchType, WeightResult } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { BN_ZERO, bnMax, bnMin, bnToBn, isCompact, isFunction, nextTick } from '@polkadot/util';
+import { BN_HUNDRED, BN_ZERO, bnMax, bnMin, bnToBn, isCompact, isFunction, nextTick } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { convertWeight } from './useWeight';
 
-type WeightSimple = Omit<WeightResult, 'v1Weight'>;
+interface BNWeight {
+  proofSize: BN;
+  refTime: BN;
+}
+
+type WeightSimple = WeightResult['v2Weight'] | BNWeight;
 
 // converts a weight construct to only contain BN values
-function bnWeight (a: WeightSimple): { v2Weight: { proofSize: BN, refTime: BN } } {
+function bnWeight (a: WeightSimple): BNWeight {
   return {
-    v2Weight: {
-      proofSize: a.v2Weight.proofSize
-        ? bnToBn(
-          isCompact(a.v2Weight.proofSize)
-            ? a.v2Weight.proofSize.unwrap()
-            : a.v2Weight.proofSize
-        )
-        : BN_ZERO,
-      refTime: bnToBn(
-        isCompact(a.v2Weight.refTime)
-          ? a.v2Weight.refTime.unwrap()
-          : a.v2Weight.refTime
+    proofSize: a.proofSize
+      ? bnToBn(
+        isCompact(a.proofSize)
+          ? a.proofSize.unwrap()
+          : a.proofSize
       )
-    }
+      : BN_ZERO,
+    refTime: bnToBn(
+      isCompact(a.refTime)
+        ? a.refTime.unwrap()
+        : a.refTime
+    )
   };
 }
 
 // subtract 2 BN-only weight values
-function weightSub (_a: WeightSimple, _b: WeightSimple): WeightSimple {
+function weightSub (_a: WeightSimple, _b: WeightSimple): BNWeight {
   const a = bnWeight(_a);
   const b = bnWeight(_b);
 
   return {
-    v2Weight: {
-      proofSize: bnMax(BN_ZERO, a.v2Weight.proofSize.sub(b.v2Weight.proofSize)),
-      refTime: bnMax(BN_ZERO, a.v2Weight.refTime.sub(b.v2Weight.refTime))
-    }
+    proofSize: bnMax(BN_ZERO, a.proofSize.sub(b.proofSize)),
+    refTime: bnMax(BN_ZERO, a.refTime.sub(b.refTime))
   };
 }
 
@@ -56,19 +57,19 @@ function weightDiv (_a: WeightSimple, _b: WeightSimple): number {
   const a = bnWeight(_a);
   const b = bnWeight(_b);
   const r = {
-    v2Weight: {
-      proofSize: b.v2Weight.proofSize.isZero()
-        ? BN_ZERO
-        : bnMax(BN_ZERO, a.v2Weight.proofSize.div(b.v2Weight.proofSize)),
-      refTime: b.v2Weight.refTime.isZero()
-        ? BN_ZERO
-        : bnMax(BN_ZERO, a.v2Weight.refTime.div(b.v2Weight.refTime))
-    }
+    proofSize: b.proofSize.isZero()
+      ? BN_ZERO
+      : bnMax(BN_ZERO, a.proofSize.mul(BN_HUNDRED).div(b.proofSize)),
+    refTime: b.refTime.isZero()
+      ? BN_ZERO
+      : bnMax(BN_ZERO, a.refTime.mul(BN_HUNDRED).div(b.refTime))
   };
 
-  return r.v2Weight.proofSize.isZero()
-    ? r.v2Weight.refTime.toNumber()
-    : bnMin(r.v2Weight.proofSize, r.v2Weight.refTime).toNumber();
+  return (
+    r.proofSize.isZero()
+      ? r.refTime.toNumber()
+      : bnMin(r.proofSize, r.refTime).toNumber()
+  ) / 100;
 }
 
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
@@ -102,24 +103,24 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
   const { allAccounts } = useAccounts();
   const [batchSize, setBatchSize] = useState(() => Math.floor(options?.max || 4));
 
-  const [maxBlock, baseExtrinsic, maxExtrinsic] = useMemo(
-    () => [
-      convertWeight(
-        api.consts.system.blockWeights
-          ? api.consts.system.blockWeights.maxBlock
-          : api.consts.system.maximumBlockWeight as Weight
-      ),
-      bnWeight(convertWeight(
+  const known = useMemo(
+    () => ({
+      baseExtrinsic: bnWeight(convertWeight(
         api.consts.system.blockWeights
           ? api.consts.system.blockWeights.perClass.normal.baseExtrinsic
           : BN_ZERO as unknown as Weight
-      )),
-      bnWeight(convertWeight(
+      ).v2Weight),
+      maxBlock: bnWeight(convertWeight(
+        api.consts.system.blockWeights
+          ? api.consts.system.blockWeights.maxBlock
+          : api.consts.system.maximumBlockWeight as Weight
+      ).v2Weight),
+      maxExtrinsic: bnWeight(convertWeight(
         api.consts.system.blockWeights && api.consts.system.blockWeights.perClass.normal.maxExtrinsic.isSome
           ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic.unwrap()
           : BN_ZERO as unknown as Weight
-      ))
-    ],
+      ).v2Weight)
+    }),
     [api]
   );
 
@@ -133,25 +134,28 @@ function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false,
           setBatchSize((prev) =>
             weight.v1Weight.isZero()
               ? prev
-              : (
-                maxExtrinsic.v2Weight.proofSize.gt(BN_ZERO) &&
-                maxExtrinsic.v2Weight.refTime.gt(BN_ZERO) &&
-                weightDiv(
-                  weightSub(maxExtrinsic, baseExtrinsic),
-                  weightSub(weight, baseExtrinsic)
+              : Math.floor(
+                (
+                  known.maxExtrinsic.proofSize.gt(BN_ZERO) &&
+                  known.maxExtrinsic.refTime.gt(BN_ZERO) &&
+                  // 65% below is around 86%, use same safety ratio
+                  0.85 * weightDiv(
+                    weightSub(known.maxExtrinsic, known.baseExtrinsic),
+                    weightSub(weight.v2Weight, known.baseExtrinsic)
+                  )
+                ) || (
+                  known.maxBlock.refTime
+                    .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+                    .div(weight.v1Weight)
+                    .toNumber() / 100
                 )
-              ) || Math.floor(
-                maxBlock.v1Weight
-                  .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-                  .div(weight.v1Weight)
-                  .toNumber() / 100
               )
           );
         } catch (error) {
           console.error(error);
         }
       });
-  }, [allAccounts, api, maxBlock, baseExtrinsic, maxExtrinsic, options, txs]);
+  }, [allAccounts, api, known, options, txs]);
 
   return useMemo(
     () => txs && txs.length
