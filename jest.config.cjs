@@ -15,17 +15,25 @@ const ESM_PKG = [
 ];
 
 // Jest does not support import maps... more issues
-const ESM_MAPS = {
+const MAP_ESM = {
   'is-ipfs': '<rootDir>/node_modules/is-ipfs/dist/src/index.js',
   'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
   'multiformats': '<rootDir>/node_modules/multiformats/src/index.js',
   'uint8arrays/to-string': '<rootDir>/node_modules/uint8arrays/src/to-string.js'
 }
 
+// file mapping
+const MAP_FILE = {
+  '\\.(css|less)$': 'empty/object',
+  '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
+  '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
+}
+
 module.exports = {
   ...config,
   moduleNameMapper: {
-    ...ESM_MAPS,
+    ...MAP_ESM,
+    ...MAP_FILE,
     ...(
       findPackages()
         .filter(({ name }) => !['@polkadot/apps'].includes(name))
@@ -35,10 +43,7 @@ module.exports = {
           return modules;
         }, {})
     ),
-    '@polkadot/apps/(.*)$': '<rootDir>/packages/apps/src/$1',
-    '\\.(css|less)$': 'empty/object',
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
-    '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
+    '@polkadot/apps/(.*)$': '<rootDir>/packages/apps/src/$1'
   },
   setupFilesAfterEnv: ['<rootDir>/jest/setupEnv.cjs'],
   testEnvironment: 'jsdom',
