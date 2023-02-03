@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ZERO, bnMax } from '@polkadot/util';
 
-import usePoolAccounts from '../usePoolAccounts';
+import usePoolAccounts from './usePoolAccounts';
 
 const OPT_MULTI = {
   defaultValue: null,
