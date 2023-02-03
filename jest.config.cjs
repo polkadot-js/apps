@@ -9,7 +9,7 @@ const findPackages = require('./scripts/findPackages.cjs');
   // ... TL;DR We still end up with a massive list here
 const ESM_PKG = [
   // general packages
-  'bail', 'character-entities', 'chart.js', 'comma-separated-tokens', 'decode-named-character-reference', 'hast-to-', 'hast-util-', 'hastscript', 'html-void-elements', 'is-plain-obj', 'mdast-', 'micromark', 'multiformats', 'property-information', 'query-string', 'react-markdown', 'rehype-raw', 'remark-parse', 'remark-rehype', 'space-separated-tokens', 'trough', 'uint8arrays', 'unified', 'unist-', 'vfile', 'vfile-', 'web-namespaces', 'zwitch',
+  'bail', 'character-entities', 'chart.js', 'comma-separated-tokens', 'decode-named-character-reference', 'decode-uri-component', 'filter-obj', 'hast-to-', 'hast-util-', 'hastscript', 'html-void-elements', 'is-ipfs', 'is-plain-obj', 'mdast-', 'micromark', 'multiformats', 'property-information', 'query-string', 'react-markdown', 'rehype-raw', 'remark-parse', 'remark-rehype', 'space-separated-tokens', 'split-on-first', 'trough', 'uint8arrays', 'unified', 'unist-', 'vfile', 'vfile-', 'web-namespaces', 'zwitch',
   // type packages
   '@logion/node-api'
 ];

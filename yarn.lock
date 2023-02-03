@@ -3596,7 +3596,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.20.13
     "@polkadot/hw-ledger": ^10.3.1
-    is-ipfs: 8.0.1
+    is-ipfs: ^8.0.1
   languageName: unknown
   linkType: soft
 
@@ -12756,19 +12756,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-ipfs@npm:8.0.1":
-  version: 8.0.1
-  resolution: "is-ipfs@npm:8.0.1"
-  dependencies:
-    "@multiformats/mafmt": ^11.0.3
-    "@multiformats/multiaddr": ^11.0.0
-    iso-url: ^1.1.3
-    multiformats: ^11.0.0
-    uint8arrays: ^4.0.2
-  checksum: 5f990985d2bb56e07a55ae74803404c736ed2e0e532b01356124b96e8d90b9a01dd7eea26bd083f49ea96c3fed6331e1b02059c1df3c1a00c8ae031d0031c44b
-  languageName: node
-  linkType: hard
-
 "is-ipfs@npm:^0.6.0":
   version: 0.6.3
   resolution: "is-ipfs@npm:0.6.3"
@@ -12780,6 +12767,19 @@ __metadata:
     multibase: ~0.6.0
     multihashes: ~0.4.13
   checksum: 10670511dc954e56512449e38faae43b6b36f29dd0132911d951db6e988d6af9daa1f8fb54f16867a17540f0338050addb2a0c1ceba6482a059913031e441ee4
+  languageName: node
+  linkType: hard
+
+"is-ipfs@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "is-ipfs@npm:8.0.1"
+  dependencies:
+    "@multiformats/mafmt": ^11.0.3
+    "@multiformats/multiaddr": ^11.0.0
+    iso-url: ^1.1.3
+    multiformats: ^11.0.0
+    uint8arrays: ^4.0.2
+  checksum: 5f990985d2bb56e07a55ae74803404c736ed2e0e532b01356124b96e8d90b9a01dd7eea26bd083f49ea96c3fed6331e1b02059c1df3c1a00c8ae031d0031c44b
   languageName: node
   linkType: hard
 

@@ -15,6 +15,6 @@
   "dependencies": {
     "@babel/runtime": "^7.20.13",
     "@polkadot/hw-ledger": "^10.3.1",
-    "is-ipfs": "8.0.1"
+    "is-ipfs": "^8.0.1"
   }
 }
