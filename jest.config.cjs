@@ -14,9 +14,18 @@ const ESM_PKG = [
   '@logion/node-api'
 ];
 
+// Jest does not support import maps... more issues
+const ESM_MAPS = {
+  'is-ipfs': '<rootDir>/node_modules/is-ipfs/dist/src/index.js',
+  'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
+  'multiformats': '<rootDir>/node_modules/multiformats/src/index.js',
+  'uint8arrays/to-string': '<rootDir>/node_modules/uint8arrays/src/to-string.js'
+}
+
 module.exports = {
   ...config,
   moduleNameMapper: {
+    ...ESM_MAPS,
     ...(
       findPackages()
         .filter(({ name }) => !['@polkadot/apps'].includes(name))
