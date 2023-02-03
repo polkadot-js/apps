@@ -60,11 +60,11 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
 
 export default React.memo(styled(ExpanderScroll)`
   .tableContainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     display: block;
     margin: 0 0 0 auto;
     max-height: 13.75rem;
-    max-width: 25rem;
-    overflow-x: auto;
+    // max-width: 25rem;
+    // overflow-x: auto;
   }
 `);

@@ -35,7 +35,6 @@ function Summary ({ sigCnt, totalProposals, totalBalance }: Props) {
   //api.rpc.superSig.listMembers(supersigs)
 
 
-
   // const activeProposals = useCall<unknown[]>(api.derive.democracy.proposals);
 
 

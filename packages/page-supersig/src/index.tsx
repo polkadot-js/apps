@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import type { TFunction } from 'i18next';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -28,6 +28,11 @@ function createPathRef (basePath: string): Record<string, string | string[]> {
     decode: [
       `${basePath}/decode/:encoded`,
       `${basePath}/decode`
+    ],
+    create: [
+      `${basePath}/create/:encoded`,
+      `${basePath}/create`,
+      `${basePath}`
     ]
   };
 }
@@ -48,6 +53,7 @@ function createItemsRef (t: TFunction): TabItem[] {
       text: t<string>('Proposals')
     },
     {
+      hasParams: true,
       name: 'create',
       text: t<string>('Create/Approve')
     },
@@ -67,17 +73,12 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
   const itemsRef = useRef(createItemsRef(t));
   const pathRef = useRef(createPathRef(basePath));
 
-
-  
-
   return (
     <main className='supersig--App'>
       <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
-       // items2={items}
        items={itemsRef.current} 
-       
       />
       
       <Switch>
@@ -98,8 +99,8 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
             setLast={setDecoded}
           />
         </Route>
-        <Route>
-          <Submission defaultValue={decoded} />
+        <Route path={pathRef.current.create}>
+          <Submission />
         </Route>
       </Switch>
     </main>
