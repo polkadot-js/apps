@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types';
 
 import React, { useRef } from 'react';
 

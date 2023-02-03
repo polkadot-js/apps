@@ -3,8 +3,8 @@
 
 import type { TFunction } from 'i18next';
 import type { DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { OwnPool } from '../types';
 import type { PayoutStash, PayoutValidator } from './types';
 
 import React, { useMemo, useRef, useState } from 'react';

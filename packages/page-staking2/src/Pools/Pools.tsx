@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { OwnPool } from '../types';
-import type { Params } from './types';
+import type { OwnPool, Params } from './types';
 
 import React, { useMemo, useRef, useState } from 'react';
 

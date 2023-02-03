@@ -3,8 +3,9 @@
 
 import '@polkadot/api-augment';
 
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
