@@ -17,7 +17,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'coins',
     name: 'bounties',
-    text: t('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
+    text: t<string>('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
     useCounter
   };
 }

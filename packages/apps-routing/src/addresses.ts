@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'accounts',
     icon: 'address-card',
     name: 'addresses',
-    text: t('nav.addresses', 'Address book', { ns: 'apps-routing' })
+    text: t<string>('nav.addresses', 'Address book', { ns: 'apps-routing' })
   };
 }

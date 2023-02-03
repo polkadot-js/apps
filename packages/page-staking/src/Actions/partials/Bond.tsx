@@ -174,7 +174,7 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
         />
         {isAccount && (
           <InputAddress
-            label={t('the payment account')}
+            label={t<string>('the payment account')}
             onChange={setDestAccount}
             type='account'
             value={destAccount}

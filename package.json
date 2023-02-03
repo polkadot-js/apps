@@ -69,7 +69,7 @@
     "@babel/runtime": "^7.20.13",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.68.3",
+    "@polkadot/dev": "^0.68.4",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.0",
@@ -83,7 +83,7 @@
     "concurrently": "^7.6.0",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "^21.3.5",
+    "electron": "^22.2.0",
     "electron-builder": "23.6.0",
     "electron-builder-notarize": "^1.5.1",
     "i18next-scanner": "^4.1.1",
@@ -124,6 +124,6 @@
     "@polkadot/x-ws": "^10.3.1",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.3.1",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   }
 }

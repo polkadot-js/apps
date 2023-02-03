@@ -20,7 +20,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'people-arrows',
     name: 'fellowship',
-    text: t('nav.fellowship', 'Fellowship', { ns: 'apps-routing' }),
+    text: t<string>('nav.fellowship', 'Fellowship', { ns: 'apps-routing' }),
     useCounter
   };
 }

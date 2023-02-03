@@ -10,12 +10,12 @@ interface Option {
 
 export function createDestPrev (t: TFunction): Option[] {
   return [
-    { text: t('Stash account (increase the amount at stake)'), value: 'Staked' },
-    { text: t('Stash account (do not increase the amount at stake)'), value: 'Stash' },
-    { text: t('Controller account'), value: 'Controller' }
+    { text: t<string>('Stash account (increase the amount at stake)'), value: 'Staked' },
+    { text: t<string>('Stash account (do not increase the amount at stake)'), value: 'Stash' },
+    { text: t<string>('Controller account'), value: 'Controller' }
   ];
 }
 
 export function createDestCurr (t: TFunction): Option[] {
-  return createDestPrev(t).concat({ text: t('Specified payment account'), value: 'Account' });
+  return createDestPrev(t).concat({ text: t<string>('Specified payment account'), value: 'Account' });
 }

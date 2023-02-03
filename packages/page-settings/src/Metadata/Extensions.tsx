@@ -45,7 +45,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('Extensions'), 'start']
+    [t<string>('Extensions'), 'start']
   ]);
 
   return (

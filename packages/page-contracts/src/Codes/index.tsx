@@ -18,10 +18,10 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('code hashes'), 'start'],
+    [t<string>('code hashes'), 'start'],
     [],
     [],
-    [t('status'), 'start'],
+    [t<string>('status'), 'start'],
     []
   ]);
 

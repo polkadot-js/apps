@@ -26,13 +26,13 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
   const leaseMap = useParaMap(ids);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('parathreads'), 'start', 2],
+    [t<string>('parathreads'), 'start', 2],
     ['', 'media--2000'],
-    [t('head'), 'start media--1500'],
-    [t('lifecycle'), 'start'],
+    [t<string>('head'), 'start media--1500'],
+    [t<string>('lifecycle'), 'start'],
     [],
-    [], // [t('chain'), 'no-pad-left'],
-    [t('leases')],
+    [], // [t<string>('chain'), 'no-pad-left'],
+    [t<string>('leases')],
     ['', 'media--900']
   ]);
 

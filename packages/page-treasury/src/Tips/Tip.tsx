@@ -158,7 +158,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               accountId={finder}
               className='media--1400'
               icon='times'
-              label={t('Cancel')}
+              label={t<string>('Cancel')}
               params={[hash]}
               tx={(api.tx.tips || api.tx.treasury).retractTip}
             />

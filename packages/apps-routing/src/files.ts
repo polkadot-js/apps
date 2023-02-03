@@ -16,6 +16,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'file',
     name: 'files',
-    text: t('nav.files', 'Files (IPFS)', { ns: 'apps-routing' })
+    text: t<string>('nav.files', 'Files (IPFS)', { ns: 'apps-routing' })
   };
 }

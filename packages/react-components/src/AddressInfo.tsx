@@ -464,9 +464,9 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                       <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
                       <div className='faded nowrap'>{
                         endBlock.eq(BN_MAX_INTEGER)
-                          ? t('ongoing referendum')
+                          ? t<string>('ongoing referendum')
                           : bestNumber.gte(endBlock)
-                            ? t('lock expired')
+                            ? t<string>('lock expired')
                             : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
                               <BlockToTime
                                 isInline

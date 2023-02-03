@@ -28,6 +28,6 @@ export default function create (t: TFunction): Route {
     group: 'accounts',
     icon: 'share-square',
     name: 'teleport',
-    text: t('nav.teleport', 'Teleport', { ns: 'apps-routing' })
+    text: t<string>('nav.teleport', 'Teleport', { ns: 'apps-routing' })
   };
 }

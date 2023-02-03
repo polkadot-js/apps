@@ -65,7 +65,7 @@ function Add ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t('Add an existing contract')}
+      header={t<string>('Add an existing contract')}
       onClose={onClose}
     >
       <Modal.Content>

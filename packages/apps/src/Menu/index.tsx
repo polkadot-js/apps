@@ -99,12 +99,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
-    accounts: t('Accounts'),
-    developer: t('Developer'),
-    files: t('Files'),
-    governance: t('Governance'),
-    network: t('Network'),
-    settings: t('Settings')
+    accounts: t<string>('Accounts'),
+    developer: t<string>('Developer'),
+    files: t<string>('Files'),
+    governance: t<string>('Governance'),
+    network: t<string>('Network'),
+    settings: t<string>('Settings')
   });
 
   const hasSudo = useMemo(
