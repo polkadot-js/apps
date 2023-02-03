@@ -51482,6 +51482,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [
@@ -51963,6 +51991,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [
@@ -52444,6 +52500,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [
@@ -54063,6 +54147,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [
@@ -65722,6 +65834,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }
@@ -69028,6 +69163,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }
@@ -70985,7 +71143,8 @@ export const typesBundle = {
                 "DAI",
                 "ETH",
                 "XSTUSD",
-                "XST"
+                "XST",
+                "TBCD"
               ]
             },
             "RewardInfo": {
@@ -72629,7 +72788,8 @@ export const typesBundle = {
                 "DAI",
                 "ETH",
                 "XSTUSD",
-                "XST"
+                "XST",
+                "TBCD"
               ]
             },
             "RewardInfo": {
@@ -75402,6 +75562,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [
@@ -75883,6 +76071,34 @@ export const typesBundle = {
           }
         },
         "reward": {
+          "estimateEscrowRewardRate": {
+            "description": "Estimate the escrow reward rate for a given account",
+            "params": [
+              {
+                "name": "account_id",
+                "type": "AccountId"
+              },
+              {
+                "name": "amount",
+                "type": "Option<Balance>"
+              },
+              {
+                "name": "lock_time",
+                "type": "Option<BlockNumber>"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
+          "estimateVaultRewardRate": {
+            "description": "Estimate the vault reward rate a given vault id",
+            "params": [
+              {
+                "name": "vault_id",
+                "type": "VaultId"
+              }
+            ],
+            "type": "UnsignedFixedPoint"
+          },
           "computeEscrowReward": {
             "description": "Get a given user's rewards due",
             "params": [

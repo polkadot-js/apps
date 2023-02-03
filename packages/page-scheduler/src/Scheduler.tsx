@@ -93,11 +93,11 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('scheduled'), 'start'],
-    [t('id'), 'start'],
-    [t('remaining')],
-    [t('period')],
-    [t('count')]
+    [t<string>('scheduled'), 'start'],
+    [t<string>('id'), 'start'],
+    [t<string>('remaining')],
+    [t<string>('period')],
+    [t<string>('count')]
   ]);
 
   return (

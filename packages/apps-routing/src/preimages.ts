@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'panorama',
     name: 'preimages',
-    text: t('nav.preimages', 'Preimages', { ns: 'apps-routing' })
+    text: t<string>('nav.preimages', 'Preimages', { ns: 'apps-routing' })
   };
 }

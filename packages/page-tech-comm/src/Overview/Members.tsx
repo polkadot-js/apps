@@ -17,7 +17,7 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
   const { t } = useTranslation();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('members'), 'start', 3]
+    [t<string>('members'), 'start', 3]
   ]);
 
   return (

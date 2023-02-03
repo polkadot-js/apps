@@ -115,7 +115,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
               />
             </Modal.Columns>
             {bondValue && (
-              <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
+              <Modal.Columns hint={t<string>('The amount will be reserved for the duration of your vote')}>
                 <InputBalance
                   defaultValue={bondValue}
                   isDisabled

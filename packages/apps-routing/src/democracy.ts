@@ -32,7 +32,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'calendar-check',
     name: 'democracy',
-    text: t('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
+    text: t<string>('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
     useCounter
   };
 }

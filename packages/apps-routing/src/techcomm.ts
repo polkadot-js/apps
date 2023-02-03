@@ -19,7 +19,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'microchip',
     name: 'techcomm',
-    text: t('nav.tech-comm', 'Tech. comm.', { ns: 'apps-routing' }),
+    text: t<string>('nav.tech-comm', 'Tech. comm.', { ns: 'apps-routing' }),
     useCounter
   };
 }

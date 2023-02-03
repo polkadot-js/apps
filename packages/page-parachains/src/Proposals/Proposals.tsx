@@ -23,12 +23,12 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('proposals'), 'start', 3],
+    [t<string>('proposals'), 'start', 3],
     [],
     [],
-    [t('proposer'), 'address'],
-    [t('balance'), 'media--1100'],
-    [t('initial state'), 'start media--1400'],
+    [t<string>('proposer'), 'address'],
+    [t<string>('balance'), 'media--1100'],
+    [t<string>('initial state'), 'start media--1400'],
     []
   ]);
 

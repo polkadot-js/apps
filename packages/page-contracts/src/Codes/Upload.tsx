@@ -132,7 +132,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}
+      header={t<string>('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}
       onClose={onClose}
     >
       <Modal.Content>
@@ -140,7 +140,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           <>
             <InputAddress
               isInput={false}
-              label={t('deployment account')}
+              label={t<string>('deployment account')}
               labelExtra={
                 <Available
                   label={t<string>('transferrable')}
@@ -185,7 +185,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           <>
             <Dropdown
               isDisabled={contractAbi.constructors.length <= 1}
-              label={t('deployment constructor')}
+              label={t<string>('deployment constructor')}
               onChange={setConstructorIndex}
               options={constructOptions}
               value={constructorIndex}
@@ -237,7 +237,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           extrinsic={uploadTx}
           icon='upload'
           isDisabled={!isSubmittable}
-          label={t('Deploy')}
+          label={t<string>('Deploy')}
           onClick={onClose}
           onSuccess={_onSuccess}
         />

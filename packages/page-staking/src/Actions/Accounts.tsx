@@ -27,10 +27,10 @@ function Accounts ({ allSlashes, className, footer, isInElection, list, minCommi
   const { t } = useTranslation();
 
   const hdrRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('stashes'), 'start', 2],
-    [t('controller'), 'address'],
-    [t('rewards'), 'start media--1200'],
-    [t('bonded'), 'number'],
+    [t<string>('stashes'), 'start', 2],
+    [t<string>('controller'), 'address'],
+    [t<string>('rewards'), 'start media--1200'],
+    [t<string>('bonded'), 'number'],
     [],
     []
   ]);

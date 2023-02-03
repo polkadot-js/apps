@@ -117,35 +117,35 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
         <StyledTr className={`${className} isExpanded isLast`}>
           <td colSpan={4}>
             <div className='label-column-right'>
-              <div className='label'>{t('creator')}</div>
+              <div className='label'>{t<string>('creator')}</div>
               <div className='inline-balance'><AddressMini value={info.bonded.roles.depositor} /></div>
             </div>
             {info.bonded.roles.root.isSome && (
               <div className='label-column-right'>
-                <div className='label'>{t('root')}</div>
+                <div className='label'>{t<string>('root')}</div>
                 <div className='inline-balance'><AddressMini value={info.bonded.roles.root.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.nominator.isSome && (
               <div className='label-column-right'>
-                <div className='label'>{t('nominator')}</div>
+                <div className='label'>{t<string>('nominator')}</div>
                 <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator.unwrap()} /></div>
               </div>
             )}
             {info.bonded.roles.stateToggler.isSome && (
               <div className='label-column-right'>
-                <div className='label'>{t('toggler')}</div>
+                <div className='label'>{t<string>('toggler')}</div>
                 <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler.unwrap()} /></div>
               </div>
             )}
           </td>
           <td colSpan={4}>
             <div className='label-column-right'>
-              <div className='label'>{t('stash')}</div>
+              <div className='label'>{t<string>('stash')}</div>
               <div className='inline-balance'><AddressMini value={info.stashId} /></div>
             </div>
             <div className='label-column-right'>
-              <div className='label'>{t('rewards')}</div>
+              <div className='label'>{t<string>('rewards')}</div>
               <div className='inline-balance'><AddressMini value={info.rewardId} /></div>
             </div>
           </td>

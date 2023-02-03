@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'link',
     name: 'parachains',
-    text: t('nav.parachains', 'Parachains', { ns: 'apps-routing' })
+    text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })
   };
 }

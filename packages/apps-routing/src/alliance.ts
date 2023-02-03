@@ -17,7 +17,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'people-group',
     name: 'alliance',
-    text: t('nav.alliance', 'Alliance', { ns: 'apps-routing' }),
+    text: t<string>('nav.alliance', 'Alliance', { ns: 'apps-routing' }),
     useCounter
   };
 }

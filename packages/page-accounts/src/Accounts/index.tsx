@@ -197,13 +197,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(
     (): Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> => {
       const ret: Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> = {
-        accounts: [[<>{t('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
-        hardware: [[<>{t('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
-        injected: [[<>{t('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
-        multisig: [[<>{t('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
-        proxied: [[<>{t('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
-        qr: [[<>{t('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
-        testing: [[<>{t('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
+        accounts: [[<>{t<string>('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
+        hardware: [[<>{t<string>('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
+        injected: [[<>{t<string>('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
+        multisig: [[<>{t<string>('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
+        proxied: [[<>{t<string>('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
+        qr: [[<>{t<string>('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
+        testing: [[<>{t<string>('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
       };
 
       Object.values(ret).forEach((a): void => {

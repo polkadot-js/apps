@@ -53,6 +53,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'certificate',
     name: 'test-staking',
-    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
+    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
   };
 }

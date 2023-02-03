@@ -21,9 +21,9 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   const bestNumber = useBestNumber();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('members'), 'start', 2],
-    [t('voted on'), 'start'],
-    [t('strikes')],
+    [t<string>('members'), 'start', 2],
+    [t<string>('voted on'), 'start'],
+    [t<string>('strikes')],
     []
   ]);
 

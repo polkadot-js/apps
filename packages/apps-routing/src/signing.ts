@@ -16,6 +16,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'signature',
     name: 'signing',
-    text: t('nav.signing', 'Sign and verify', { ns: 'apps-routing' })
+    text: t<string>('nav.signing', 'Sign and verify', { ns: 'apps-routing' })
   };
 }

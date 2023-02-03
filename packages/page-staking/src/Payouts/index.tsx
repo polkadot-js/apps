@@ -186,9 +186,9 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
 
   const headerStashes = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
-      [t('eras'), 'start'],
-      [myStashesIndex ? t('own') : t('total')],
+      [myStashesIndex ? t<string>('payout/stash') : t<string>('overall/validator'), 'start', 2],
+      [t<string>('eras'), 'start'],
+      [myStashesIndex ? t<string>('own') : t<string>('total')],
       [('remaining')],
       [undefined, undefined, 3]
     ],
@@ -196,16 +196,16 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   );
 
   const headerValidatorsRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('payout/validator'), 'start', 2],
-    [t('eras'), 'start'],
-    [t('own')],
+    [t<string>('payout/validator'), 'start', 2],
+    [t<string>('eras'), 'start'],
+    [t<string>('own')],
     [('remaining')],
     [undefined, undefined, 3]
   ]);
 
   const valOptions = useMemo(() => [
-    { isDisabled: !hasOwnValidators, text: t('Own validators'), value: 'val' },
-    { text: t('Own stashes'), value: 'all' }
+    { isDisabled: !hasOwnValidators, text: t<string>('Own validators'), value: 'val' },
+    { text: t<string>('Own stashes'), value: 'all' }
   ], [hasOwnValidators, t]);
 
   const footerStash = useMemo(() => (
@@ -249,8 +249,8 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           className='warning centered'
           withIcon={false}
         >
-          <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
-          <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
+          <p>{t<string>('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
+          <p>{t<string>('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
         </MarkWarning>
       )}
       <Table

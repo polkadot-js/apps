@@ -166,7 +166,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               )
             }
           </Modal.Columns>
-          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+          <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
             {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'
