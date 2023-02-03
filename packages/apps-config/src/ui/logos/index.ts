@@ -10,7 +10,7 @@
 // alphabetical
 import { sanitize } from '../util';
 import chain3dpass from './chains/3dpass.png';
-import chainAband from './chains/aband.jpg';
+import chainAband from './chains/aband.png';
 import chainAcala from './chains/acala.svg';
 import chainAcurast from './chains/acurast.png';
 import chainAleph from './chains/aleph.svg';
