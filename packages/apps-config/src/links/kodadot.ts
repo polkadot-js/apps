@@ -19,11 +19,12 @@ export const KodaDot: ExternalDef = {
     Westend: 'westend',
     Westmint: 'westmint'
   },
-  create: (_chain: string, _path: string, data: BN | number | string): string => `${getNetwork(_chain)}${data.toString()}`,
+  create: (_chain: string, _path: string, data: BN | number | string): string =>
+    `${getNetwork(_chain)}${data.toString()}`,
+  homepage: 'https://kodadot.xyz',
   isActive: true,
-  logo: externalLogos.kodadot as string,
   paths: {
     address: 'account'
   },
-  url: 'https://kodadot.xyz'
+  uiLogo: externalLogos.kodadot as string
 };
