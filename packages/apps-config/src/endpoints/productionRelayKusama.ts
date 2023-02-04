@@ -6,8 +6,6 @@ import type { EndpointOption } from './types';
 import { KUSAMA_GENESIS } from '../api/constants';
 import { getTeleports } from './util';
 
-/* eslint-disable sort-keys */
-
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
@@ -17,554 +15,553 @@ import { getTeleports } from './util';
 // IMPORTANT: Alphabetical based on text
 export const prodParasKusama: EndpointOption[] = [
   {
-    info: 'altair',
     homepage: 'https://centrifuge.io/altair',
+    info: 'altair',
     paraId: 2088,
-    text: 'Altair',
     providers: {
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
       OnFinality: 'wss://altair.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Altair'
   },
   {
-    info: 'amplitude',
     homepage: 'https://pendulumchain.org/amplitude',
+    info: 'amplitude',
     paraId: 2124,
-    text: 'Amplitude',
     providers: {
-      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech',
-      Dwellir: 'wss://amplitude-rpc.dwellir.com'
-    }
+      Dwellir: 'wss://amplitude-rpc.dwellir.com',
+      PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
+    },
+    text: 'Amplitude'
   },
   {
-    info: 'bajun',
     homepage: 'https://ajuna.io',
+    info: 'bajun',
     paraId: 2119,
-    text: 'Bajun Network',
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.bajun.network',
       Dwellir: 'wss://bajun-rpc.dwellir.com',
       OnFinality: 'wss://bajun.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Bajun Network'
   },
   {
-    info: 'basilisk',
     homepage: 'https://app.basilisk.cloud',
+    info: 'basilisk',
     paraId: 2090,
-    text: 'Basilisk',
     providers: {
       Basilisk: 'wss://rpc.basilisk.cloud',
       Dwellir: 'wss://basilisk-rpc.dwellir.com'
-    }
+    },
+    text: 'Basilisk'
   },
   {
-    info: 'bifrost',
     homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
+    info: 'bifrost',
     paraId: 2001,
-    text: 'Bifrost',
     providers: {
+      Dwellir: 'wss://bifrost-rpc.dwellir.com',
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-      Dwellir: 'wss://bifrost-rpc.dwellir.com'
-    }
+      OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+    },
+    text: 'Bifrost'
   },
   {
-    info: 'bitcountryPioneer',
     homepage: 'https://bit.country/?ref=polkadotjs',
+    info: 'bitcountryPioneer',
     paraId: 2096,
-    text: 'Bit.Country Pioneer',
     providers: {
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Bit.Country Pioneer'
   },
   {
-    info: 'calamari',
     homepage: 'https://www.calamari.network/',
+    info: 'calamari',
     paraId: 2084,
-    text: 'Calamari',
     providers: {
       'Manta Network': 'wss://ws.calamari.systems/'
-    }
+    },
+    text: 'Calamari'
   },
   {
-    info: 'shadow',
     homepage: 'https://crust.network/',
+    info: 'shadow',
     paraId: 2012,
-    text: 'Crust Shadow',
     providers: {
       Crust: 'wss://rpc-shadow.crust.network/'
-    }
+    },
+    text: 'Crust Shadow'
   },
   {
-    info: 'shadow',
     homepage: 'https://crust.network/',
-    paraId: 2225,
-    text: 'Crust Shadow 2',
+    info: 'shadow',
     isUnreachable: true,
+    paraId: 2225,
     providers: {
       // also duplicated right above (hence marked unreachable)
       // Crust: 'wss://rpc-shadow.crust.network/' // https://github.com/polkadot-js/apps/issues/8355
-    }
+    },
+    text: 'Crust Shadow 2'
   },
   {
-    info: 'ipci',
     homepage: 'https://ipci.io',
+    info: 'ipci',
     paraId: 2222,
-    text: 'DAO IPCI',
     providers: {
       Airalab: 'wss://kusama.rpc.ipci.io'
-    }
+    },
+    text: 'DAO IPCI'
   },
   {
-    info: 'crab',
     homepage: 'https://crab.network',
+    info: 'crab',
     paraId: 2105,
-    text: 'Darwinia Crab',
     providers: {
       'Darwinia Network': 'wss://crab-parachain-rpc.darwinia.network/'
-    }
+    },
+    text: 'Darwinia Crab'
   },
   {
-    info: 'dorafactory',
     homepage: 'https://dorafactory.org/kusama/',
+    info: 'dorafactory',
     paraId: 2115,
-    text: 'Dora Factory',
     providers: {
       DORA: 'wss://kusama.dorafactory.org'
-    }
+    },
+    text: 'Dora Factory'
   },
   {
-    info: 'genshiro',
     homepage: 'https://genshiro.equilibrium.io',
+    info: 'genshiro',
     isUnreachable: true,
     paraId: 2024,
-    text: 'Genshiro',
     providers: {
       Equilibrium: 'wss://node.genshiro.io'
-    }
+    },
+    text: 'Genshiro'
   },
   {
-    info: 'genshiro',
     homepage: 'https://genshiro.equilibrium.io',
+    info: 'genshiro',
     isUnreachable: true,
     paraId: 2226,
-    text: 'Genshiro crowdloan 2',
     providers: {
       Equilibrium: 'wss://node.genshiro.io'
-    }
+    },
+    text: 'Genshiro crowdloan 2'
   },
   {
-    info: 'gm',
     homepage: 'https://gmordie.com',
+    info: 'gm',
     paraId: 2123,
-    text: 'GM',
     providers: {
       // GMorDieDAO: 'wss://kusama.gmordie.com', // https://github.com/polkadot-js/apps/issues/8457
-      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      'GM Intern': 'wss://intern.gmordie.com',
       // TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org', // https://github.com/polkadot-js/apps/issues/8867
       Leemo: 'wss://leemo.gmordie.com',
-      'GM Intern': 'wss://intern.gmordie.com',
-      // NOTE: Keep this as the last entry, nothing after it
-      'light client': 'light://substrate-connect/kusama/gm' // NOTE: Keep last
-    }
+      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      'light client': 'light://substrate-connect/kusama/gm'
+    },
+    text: 'GM'
   },
   {
-    info: 'imbue',
     homepage: 'https://imbue.network',
+    info: 'imbue',
     paraId: 2121,
-    text: 'Imbue Network',
     providers: {
       'Imbue Network': 'wss://imbue-kusama.imbue.network'
-    }
+    },
+    text: 'Imbue Network'
   },
   {
-    info: 'integritee',
     homepage: 'https://integritee.network',
+    info: 'integritee',
     paraId: 2015,
-    text: 'Integritee Network',
     providers: {
       Integritee: 'wss://kusama.api.integritee.network',
       OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Integritee Network'
   },
   {
-    info: 'tinker',
     homepage: 'https://invarch.network/tinkernet',
+    info: 'tinker',
     paraId: 2125,
-    text: 'InvArch Tinkernet',
     providers: {
       // 'InvArch Team': 'wss://tinker.invarch.network', // https://github.com/polkadot-js/apps/issues/8623
       OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
-      // NOTE: Keep this as the last entry, nothing after it
-      'light client': 'light://substrate-connect/kusama/tinkernet' // NOTE: Keep last
-    }
+      'light client': 'light://substrate-connect/kusama/tinkernet'
+    },
+    text: 'InvArch Tinkernet'
   },
   {
-    info: 'kabocha',
     homepage: 'https://kabocha.network',
+    info: 'kabocha',
     paraId: 2113,
-    text: 'Kabocha',
     providers: {
       JelliedOwl: 'wss://kabocha.jelliedowl.net'
-    }
+    },
+    text: 'Kabocha'
   },
   {
-    info: 'karura',
     homepage: 'https://acala.network/karura/join-karura',
+    info: 'karura',
     paraId: 2000,
-    text: 'Karura',
     providers: {
       'Acala Foundation 0': 'wss://karura-rpc-0.aca-api.network',
       'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
-      'Polkawallet 0': 'wss://karura.polkawallet.io',
+      Dwellir: 'wss://karura-rpc.dwellir.com',
       OnFinality: 'wss://karura.api.onfinality.io/public-ws',
-      Dwellir: 'wss://karura-rpc.dwellir.com'
-    }
+      'Polkawallet 0': 'wss://karura.polkawallet.io'
+    },
+    text: 'Karura'
   },
   {
-    info: 'khala',
     homepage: 'https://phala.network/',
+    info: 'khala',
     paraId: 2004,
-    text: 'Khala Network',
     providers: {
-      Phala: 'wss://khala-api.phala.network/ws',
-      OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Dwellir: 'wss://khala-rpc.dwellir.com',
+      OnFinality: 'wss://khala.api.onfinality.io/public-ws',
+      Phala: 'wss://khala-api.phala.network/ws',
       Pinknode: 'wss://public-rpc.pinknode.io/khala'
-    }
+    },
+    text: 'Khala Network'
   },
   {
-    info: 'kico',
     homepage: 'https://dico.io/',
+    info: 'kico',
     paraId: 2107,
-    text: 'KICO',
     providers: {
       'DICO Foundation': 'wss://rpc.kico.dico.io'
       // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
-    }
+
+    },
+    text: 'KICO'
   },
   {
-    info: 'kico 2',
     homepage: 'https://dico.io/',
+    info: 'kico 2',
     paraId: 2235,
-    text: 'KICO 2',
     providers: {
       // 'DICO Foundation': 'wss://rpc.kico2.dico.io' // https://github.com/polkadot-js/apps/issues/8415
-    }
+    },
+    text: 'KICO 2'
   },
   {
-    info: 'kintsugi',
     homepage: 'https://kintsugi.interlay.io/',
+    info: 'kintsugi',
     paraId: 2092,
-    text: 'Kintsugi BTC',
     providers: {
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
       OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Kintsugi BTC'
   },
   {
-    info: 'kpron',
     homepage: 'http://apron.network/',
+    info: 'kpron',
     isUnreachable: true,
     paraId: 2019,
-    text: 'Kpron',
     providers: {
       Kpron: 'wss://kusama-kpron-rpc.apron.network/'
-    }
+    },
+    text: 'Kpron'
   },
   {
-    info: 'listen',
     homepage: 'https://listen.io/',
+    info: 'listen',
     paraId: 2118,
-    text: 'Listen Network',
     providers: {
       'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
       'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
-    }
+    },
+    text: 'Listen Network'
   },
   {
-    info: 'litmus',
     homepage: 'https://kusama-crowdloan.litentry.com',
-    paraId: 2106,
+    info: 'litmus',
     isUnreachable: false,
-    text: 'Litmus',
+    paraId: 2106,
     providers: {
       Litentry: 'wss://rpc.litmus-parachain.litentry.io'
-    }
+    },
+    text: 'Litmus'
   },
   {
-    info: 'loomNetwork',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+    // https://github.com/polkadot-js/apps/issues/5888
     homepage: 'https://loomx.io/',
+    info: 'loomNetwork',
+    isUnreachable: true,
     paraId: 2080,
-    text: 'Loom Network',
     providers: {
       LoomNetwork: 'wss://kusama.dappchains.com'
-    }
+    },
+    text: 'Loom Network'
   },
   {
-    info: 'luhn',
     homepage: 'https://luhn.network/',
+    info: 'luhn',
     paraId: 2232,
-    text: 'Luhn Network',
     providers: {
       'Hashed Systems': 'wss://c1.luhn.network'
-    }
+    },
+    text: 'Luhn Network'
   },
   {
-    info: 'mangata',
     homepage: 'https://mangata.finance',
+    info: 'mangata',
     paraId: 2110,
-    text: 'Mangata',
     providers: {
       Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
       OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Mangata'
   },
   {
-    info: 'mars',
     homepage: 'https://www.aresprotocol.io/mars',
+    info: 'mars',
     paraId: 2008,
-    text: 'Mars',
     providers: {
       AresProtocol: 'wss://wss.mars.aresprotocol.io'
-    }
+    },
+    text: 'Mars'
   },
   {
-    info: 'moonriver',
     homepage: 'https://moonbeam.network/networks/moonriver/',
+    info: 'moonriver',
     paraId: 2023,
-    text: 'Moonriver',
     providers: {
-      'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       Blast: 'wss://moonriver.public.blastapi.io',
+      'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonriver.unitedbloc.com:2001'
-    }
+    },
+    text: 'Moonriver'
   },
   {
-    info: 'heiko',
     homepage: 'https://parallel.fi',
+    info: 'heiko',
     paraId: 2085,
-    text: 'Parallel Heiko',
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
+      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+      // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
       Parallel: 'wss://heiko-rpc.parallel.fi'
-    }
+    },
+    text: 'Parallel Heiko'
   },
   {
-    info: 'heiko',
     homepage: 'https://parallel.fi',
-    paraId: 2126,
+    info: 'heiko',
     isUnreachable: true,
-    text: 'Parallel Heiko 2',
-    providers: {}
+    paraId: 2126,
+    providers: {},
+    text: 'Parallel Heiko 2'
   },
   {
-    info: 'picasso',
     homepage: 'https://picasso.composable.finance/',
+    info: 'picasso',
     paraId: 2087,
-    text: 'Picasso',
     providers: {
       Composable: 'wss://rpc.composablenodes.tech'
-    }
+    },
+    text: 'Picasso'
   },
   {
-    info: 'pichiu',
     homepage: 'https://kylin.network/',
+    info: 'pichiu',
     paraId: 2102,
-    text: 'Pichiu',
     providers: {
       'Kylin Network': 'wss://kusama.kylin-node.co.uk',
       OnFinality: 'wss://pichiu.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8867, reenabled for PolkadotJS
-    }
+    },
+    text: 'Pichiu'
   },
   {
-    info: 'polkasmith',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6595
     homepage: 'https://polkasmith.polkafoundry.com/',
+    info: 'polkasmith',
     paraId: 2009,
-    text: 'PolkaSmith by PolkaFoundry',
     providers: {
-      PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
-    }
+      // PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com' // https://github.com/polkadot-js/apps/issues/6595
+    },
+    text: 'PolkaSmith by PolkaFoundry'
   },
   {
-    info: 'quartz',
     homepage: 'https://unique.network/',
+    info: 'quartz',
     paraId: 2095,
-    text: 'QUARTZ by UNIQUE',
     providers: {
+      OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable, reenabled for PolkadotJS
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable, reenabled for PolkadotJS
-    }
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
+    },
+    text: 'QUARTZ by UNIQUE'
   },
   {
-    info: 'riodefi',
     homepage: 'https://riodefi.com',
+    info: 'riodefi',
     paraId: 2227,
-    text: 'RioDeFi',
     providers: {
       RioProtocol: 'wss://rio-kusama.riocorenetwork.com'
-    }
+    },
+    text: 'RioDeFi'
   },
   {
-    info: 'robonomics',
     homepage: 'http://robonomics.network/',
+    info: 'robonomics',
     paraId: 2048,
-    text: 'Robonomics',
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
+      Leemo: 'wss://robonomics.leemo.me',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
-      Samsara: 'wss://robonomics.0xsamsara.com',
-      Leemo: 'wss://robonomics.leemo.me'
-    }
+      Samsara: 'wss://robonomics.0xsamsara.com'
+    },
+    text: 'Robonomics'
   },
   {
-    info: 'robonomics',
     homepage: 'http://robonomics.network/',
-    paraId: 2240,
-    text: 'Robonomics 2',
+    info: 'robonomics',
     isUnreachable: true,
+    paraId: 2240,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
+      Leemo: 'wss://robonomics.leemo.me',
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
-      Samsara: 'wss://robonomics.0xsamsara.com',
-      Leemo: 'wss://robonomics.leemo.me'
-    }
+      Samsara: 'wss://robonomics.0xsamsara.com'
+    },
+    text: 'Robonomics 2'
   },
   {
-    info: 'sakura',
     homepage: 'https://clover.finance/',
+    info: 'sakura',
     isUnreachable: true,
     paraId: 2016,
-    text: 'Sakura',
     providers: {
       Clover: 'wss://api-sakura.clover.finance'
-    }
+    },
+    text: 'Sakura'
   },
   {
-    info: 'shiden',
     homepage: 'https://shiden.astar.network/',
+    info: 'shiden',
     paraId: 2007,
-    text: 'Shiden',
     providers: {
-      StakeTechnologies: 'wss://rpc.shiden.astar.network',
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/shiden',
-      // NOTE: Keep this as the last entry, nothing after it
-      'light client': 'light://substrate-connect/kusama/shiden' // NOTE: Keep last
-    }
+      StakeTechnologies: 'wss://rpc.shiden.astar.network',
+      'light client': 'light://substrate-connect/kusama/shiden'
+    },
+    text: 'Shiden'
   },
   {
-    info: 'shiden',
     homepage: 'https://shiden.astar.network/',
-    paraId: 2120,
-    text: 'Shiden Crowdloan 2',
+    info: 'shiden',
     isUnreachable: true,
+    paraId: 2120,
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network'
-    }
+    },
+    text: 'Shiden Crowdloan 2'
   },
   {
-    info: 'snow',
     homepage: 'https://icenetwork.io/snow',
-    paraId: 2129,
-    text: 'SNOW Network',
+    info: 'snow',
     isUnreachable: false,
+    paraId: 2129,
     providers: {
       IceNetwork: 'wss://snow-rpc.icenetwork.io'
-    }
+    },
+    text: 'SNOW Network'
   },
   {
-    info: 'sora_ksm',
     homepage: 'https://sora.org/',
+    info: 'sora_ksm',
     paraId: 2011,
-    text: 'SORA',
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
-    }
+    },
+    text: 'SORA'
   },
   {
+    homepage: 'http://subgame.org/',
     info: 'subgame',
     isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7982
-    homepage: 'http://subgame.org/',
     paraId: 2018,
-    text: 'SubGame Gamma',
     providers: {
       SubGame: 'wss://gamma.subgame.org/'
-    }
+    },
+    text: 'SubGame Gamma'
   },
   {
-    info: 'subsocialX',
     homepage: 'https://subsocial.network/',
+    info: 'subsocialX',
     paraId: 2100,
-    text: 'SubsocialX',
     providers: {
       'Dappforce 1': 'wss://para.subsocial.network'
-    }
+    },
+    text: 'SubsocialX'
   },
   {
-    info: 'zero',
     homepage: 'https://zero.io',
+    info: 'zero',
     paraId: 2236,
-    text: 'subzero',
     providers: {
       ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
-    }
+    },
+    text: 'subzero'
   },
   {
-    info: 'tanganika',
     homepage: 'https://www.datahighway.com/',
+    info: 'tanganika',
     paraId: 2116,
-    text: 'Tanganika',
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
-    }
+    },
+    text: 'Tanganika'
   },
   {
-    info: 'trustbase',
-    isUnreachable: true, // no providers (yet)
     homepage: 'https://trustbase.network/',
+    info: 'trustbase',
+    isUnreachable: true,
     paraId: 2078,
-    text: 'TrustBase',
-    providers: {}
+    providers: {},
+    text: 'TrustBase'
   },
   {
-    info: 'turing',
     homepage: 'https://oak.tech',
+    info: 'turing',
     paraId: 2114,
-    text: 'Turing Network',
     providers: {
-      OAK: 'wss://rpc.turing.oak.tech',
-      Dwellir: 'wss://turing-rpc.dwellir.com'
-    }
+      Dwellir: 'wss://turing-rpc.dwellir.com',
+      OAK: 'wss://rpc.turing.oak.tech'
+    },
+    text: 'Turing Network'
   },
   {
-    info: 'unorthodox',
     homepage: 'https://standard.tech/',
+    info: 'unorthodox',
     paraId: 2094,
-    text: 'Unorthodox',
     providers: {
       // 'Standard Protocol': 'wss://rpc.kusama.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
-    }
+    },
+    text: 'Unorthodox'
   },
   {
-    info: 'zeitgeist',
     homepage: 'https://zeitgeist.pm',
+    info: 'zeitgeist',
     paraId: 2101,
-    text: 'Zeitgeist',
     providers: {
       // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
-    }
+    },
+    text: 'Zeitgeist'
   }
 ];
 
@@ -572,35 +569,35 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   {
     info: 'statemine',
     paraId: 1000,
-    text: 'Statemine',
     providers: {
-      Parity: 'wss://statemine-rpc.polkadot.io',
-      OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Dwellir: 'wss://statemine-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
+      OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+      Parity: 'wss://statemine-rpc.polkadot.io',
       Pinknode: 'wss://public-rpc.pinknode.io/statemine',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
-    teleport: [-1]
+    teleport: [-1],
+    text: 'Statemine'
   },
   {
-    info: 'encointer',
     homepage: 'https://encointer.org/',
+    info: 'encointer',
     paraId: 1001,
-    text: 'Encointer Network',
     providers: {
       'Encointer Association': 'wss://kusama.api.encointer.org',
       OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553, reenabled for Polkadot JS
     },
-    teleport: [-1]
+    teleport: [-1],
+    text: 'Encointer Network'
   },
   {
     info: 'kusamaBridgeHub',
     paraId: 1002,
-    text: 'BridgeHub',
     providers: {
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
-    }
+    },
+    text: 'BridgeHub'
   }
 ];
 
@@ -608,23 +605,22 @@ export const prodRelayKusama: EndpointOption = {
   dnslink: 'kusama',
   genesisHash: KUSAMA_GENESIS,
   info: 'kusama',
-  text: 'Kusama',
-  providers: {
-    Parity: 'wss://kusama-rpc.polkadot.io',
-    OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-    Dwellir: 'wss://kusama-rpc.dwellir.com',
-    'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
-    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
-    Pinknode: 'wss://public-rpc.pinknode.io/kusama',
-    // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'Automata 1RPC': 'wss://1rpc.io/ksm',
-    'Dotters Net': 'wss://rpc.dotters.network/kusama',
-    // NOTE: Keep this as the last entry, nothing after it
-    'light client': 'light://substrate-connect/kusama' // NOTE: Keep last
-  },
-  teleport: getTeleports(prodParasKusamaCommon),
   linked: [
     ...prodParasKusamaCommon,
     ...prodParasKusama
-  ]
+  ],
+  providers: {
+    // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+    'Automata 1RPC': 'wss://1rpc.io/ksm',
+    'Dotters Net': 'wss://rpc.dotters.network/kusama',
+    Dwellir: 'wss://kusama-rpc.dwellir.com',
+    'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
+    OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
+    Parity: 'wss://kusama-rpc.polkadot.io',
+    Pinknode: 'wss://public-rpc.pinknode.io/kusama',
+    RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
+    'light client': 'light://substrate-connect/kusama'
+  },
+  teleport: getTeleports(prodParasKusamaCommon),
+  text: 'Kusama'
 };

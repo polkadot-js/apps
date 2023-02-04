@@ -26,7 +26,7 @@ interface Props {
 function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
-    .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
+    .map(([name, { chains, create, homepage, isActive, paths, uiLogo }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -40,11 +40,11 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
           key={name}
           rel='noopener noreferrer'
           target='_blank'
-          title={`${name}, ${url}`}
+          title={`${name}, ${homepage}`}
         >
           {isText
             ? name
-            : <img src={logo} />
+            : <img src={uiLogo} />
           }
         </a>
       );
@@ -55,6 +55,7 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
 function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
+
   const links = useMemo(
     () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
     [systemChain, data, hash, isSidebar, isText, type]

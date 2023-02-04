@@ -14,11 +14,11 @@ export const Statescan: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.statescan.io/${path}/${data.toString()}`,
+  homepage: 'https://statescan.io/',
   isActive: true,
-  logo: externalLogos.statescan as string,
   paths: {
     address: 'account',
     block: 'block'
   },
-  url: 'https://statescan.io/'
+  uiLogo: externalLogos.statescan as string
 };

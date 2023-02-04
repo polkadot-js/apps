@@ -17,13 +17,13 @@ export const Polkastats: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkastats.io/${path}/${data.toString()}`,
+  homepage: 'https://polkastats.io/',
   isActive: true,
-  logo: externalLogos.polkastats as string,
   paths: {
     address: 'account',
     block: 'block',
     extrinsic: 'extrinsic',
     validator: 'validator'
   },
-  url: 'https://polkastats.io/'
+  uiLogo: externalLogos.polkastats as string
 };

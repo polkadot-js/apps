@@ -85,8 +85,8 @@ export const Subscan: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
+  homepage: 'https://subscan.io/',
   isActive: true,
-  logo: externalLogos.subscan as string,
   paths: {
     address: 'account',
     block: 'block',
@@ -100,5 +100,5 @@ export const Subscan: ExternalDef = {
     treasury: 'treasury',
     validator: 'validator'
   },
-  url: 'https://subscan.io/'
+  uiLogo: externalLogos.subscan as string
 };

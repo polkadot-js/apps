@@ -13,12 +13,12 @@ export const Dotreasury: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://www.dotreasury.com/${chain}/${path}/${data.toString()}`,
+  homepage: 'https://dotreasury.com/',
   isActive: true,
-  logo: externalLogos.dotreasury as string,
   paths: {
     bounty: 'bounties',
     tip: 'tips',
     treasury: 'proposals'
   },
-  url: 'https://dotreasury.com/'
+  uiLogo: externalLogos.dotreasury as string
 };
