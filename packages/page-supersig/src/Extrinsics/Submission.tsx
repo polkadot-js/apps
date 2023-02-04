@@ -5,18 +5,25 @@ import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkad
 import type { RawParam } from '@polkadot/react-params/types';
 import type { DecodedExtrinsic } from './types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
+import { useParams } from 'react-router-dom';
+import type { HexString } from '@polkadot/util/types';
+import type { ApiPromise } from '@polkadot/api';
 
 import Decoded from './Decoded';
 import { useTranslation } from './translate';
+import { Call as CallDisplay, Input, InputExtrinsic } from '@polkadot/react-components';
+import type { Call } from '@polkadot/types/interfaces';
+import { assert, isHex, stringToHex } from '@polkadot/util';
 
 interface Props {
   className?: string;
-  defaultValue: DecodedExtrinsic | null;
+  defaultValue?: DecodedExtrinsic | null;
+  setLast?: (value: DecodedExtrinsic | null) => void;
 }
 
 interface DefaultExtrinsic {
@@ -28,7 +35,7 @@ function extractDefaults (value: DecodedExtrinsic | null, defaultFn: Submittable
   if (!value) {
     return { defaultFn };
   }
-
+  
   return {
     defaultArgs: value.call.args.map((value) => ({
       isValid: true,
@@ -38,9 +45,33 @@ function extractDefaults (value: DecodedExtrinsic | null, defaultFn: Submittable
   };
 }
 
-function Selection ({ className, defaultValue }: Props): React.ReactElement<Props> {
+function getDecodedExtr (api:ApiPromise, encodedVal: string): DecodedExtrinsic|null {
+  try {
+    let extrinsicCall: Call;
+    let hex = encodedVal;
+    let decoded: SubmittableExtrinsic<'promise'> | null = null;
+    assert(isHex(hex), 'Expected a hex-encoded call');
+
+    try {
+      decoded = api.tx(hex);
+      extrinsicCall = api.createType('Call', decoded.method);
+    } catch (e) {
+      extrinsicCall = api.createType('Call', hex);
+    }
+    const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
+    const extrinsicFn = api.tx[section][method];
+
+    return { call: extrinsicCall, fn: extrinsicFn, hex};
+  } catch (e) {
+    return null;
+  }
+}
+
+function Selection ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { encoded } = useParams<{ encoded: string }>();
+  const [initialValue] = useState<null | DecodedExtrinsic>(()=>getDecodedExtr(api, encoded));
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
@@ -49,7 +80,7 @@ function Selection ({ className, defaultValue }: Props): React.ReactElement<Prop
   const [accountId, setAccountId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [{ defaultArgs, defaultFn }] = useState<DefaultExtrinsic>(() => extractDefaults(defaultValue, apiDefaultTxSudoSupersig));
+  const [defaultExtr] = useState<DefaultExtrinsic>(() => extractDefaults(initialValue, apiDefaultTxSudoSupersig));
 
   const _onExtrinsicChange = useCallback(
     (method?: SubmittableExtrinsic<'promise'>) =>
@@ -77,8 +108,8 @@ function Selection ({ className, defaultValue }: Props): React.ReactElement<Prop
         type='account'
       />
       <Extrinsic
-        defaultArgs={defaultArgs}
-        defaultValue={defaultFn}
+        defaultArgs={defaultExtr.defaultArgs}
+        defaultValue={defaultExtr.defaultFn}
         label={t<string>('submit the following extrinsic')}
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}

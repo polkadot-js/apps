@@ -13,7 +13,7 @@ import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressMini, IconLink, Input, Expander, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags, InputAddress } from '@polkadot/react-components';
 import { useApi, useCall, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber, isFunction, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, formatNumber, isFunction, u8aToHex, hexStripPrefix } from '@polkadot/util';
 import type  { MembersList, FetchProposalState, UserSupersig, FetchListProposals, ProposalState } from 'supersig-types/dist/interfaces/default'
 import { useTranslation } from '../translate';
 import { Observable } from '@polkadot/types/types';
@@ -70,8 +70,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     var tempMemberAccounts : Array<object> = [];
     await Promise.all((members?.toArray() || []).map(async(item: any) => {
       let balance = await api.api.derive.balances?.all(item[0]);
-      console.log(item[1]);
-
       var membalance = (balance.freeBalance.add(balance.reservedBalance)).toString();
       if(tempBalance.length > membalance.length){
         tempBalance = largeNumSum(tempBalance, membalance);
@@ -227,44 +225,51 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         let extrinsicCall: Call;
         extrinsicCall = api.api.createType('Call', item.encoded_call.toString());
         const { method, section } = api.api.registry.findMetaCall(extrinsicCall.callIndex);
-        let approvelink = '#/supersig/create/0x08016d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + item.encoded_call.toString().slice(2);
+        let call_id = u8aToHex(item.id.toU8a(), -1, false).toString();
+        for(let k = 0; k < ( 32 - call_id.length ); k++){
+          call_id += '0';
+        }
+        let approvelink = '#/supersig/create/0x08026d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + call_id;
+        
         return(
-          <Expander 
-            key={index}
-            className="w-full"
-            summary={`${section}.${method}`}
-          >
-            <InputAddress
-              defaultValue={item.provider}
-              isDisabled
-              label={t<string>('Provider')}
-            />
-            <Input
-              defaultValue={item.id.toString()}
-              isDisabled
-              label={t<string>('CallId')}
-            />
-            <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
-              <Expander
-                summary={t<string>('Voters(' + item.voters.length.toString() + '/' + proposals.no_of_members.toString() + ')')}
-              >
-                {
-                  item.voters.map((voterId: AccountId, i: number) => {
-                    return(
-                      <VoterComponent voter={voterId} key={i} />
-                    )}
-                  )
-                }
-              </Expander>
-            </div>
-            <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
-              <IconLink
-                icon='file-signature'
-                label={t<string>('Vote')}
-                href={approvelink}
+          <div style={{minHeight: '35px', alignItems: 'center', display: 'flex'}}>
+            <Expander 
+              key={index}
+              className="w-full"
+              summary={`${section}.${method}`}
+            >
+              <InputAddress
+                defaultValue={item.provider}
+                isDisabled
+                label={t<string>('Provider')}
               />
-            </div>
-          </Expander>
+              <Input
+                defaultValue={item.id.toString()}
+                isDisabled
+                label={t<string>('CallId')}
+              />
+              <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
+                <Expander
+                  summary={t<string>('Voters(' + item.voters.length.toString() + '/' + proposals.no_of_members.toString() + ')')}
+                >
+                  {
+                    item.voters.map((voterId: AccountId, i: number) => {
+                      return(
+                        <VoterComponent voter={voterId} key={i} />
+                      )}
+                    )
+                  }
+                </Expander>
+              </div>
+              <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
+                <IconLink
+                  icon='file-signature'
+                  label={t<string>('Vote')}
+                  href={approvelink}
+                />
+              </div>
+            </Expander>
+          </div>
         )
       }),
       [proposals]
@@ -405,12 +410,13 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         <td className='fast-actions-addresses'>
           <div className='fast-actions-row'>
             {isFunction(api.api.tx.balances?.transfer) && (
-              <a href="#/supersig/create">
+              <a href={`#/supersig/create/0x08016d6f646c69642f7375736967${nonce.slice(26, 28)}00000000000000000000000000000000000000`}>
                 <Button
                   className='send-button'
                   icon='paper-plane'
                   key='propose'
                   label={t<string>('propose')}
+                  onClick={()=>{}}
                 />
               </a>
             )}
