@@ -147,8 +147,6 @@ const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainSwapdex = '#E94082';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
-const chainTinker = '#161616';
-const chainTinkerRococo = 'linear-gradient(90deg, rgba(253,52,166,1) 0%, rgba(22,213,239,1) 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
@@ -159,9 +157,7 @@ const chainUnitNetwork = '#a351ef';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVara = '#32e37d';
-const chainVirto = '#063970';
 const chainVln = '#33cc33';
-const chainWatr = '#373b39';
 const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainWhala = '#03f3f3';
@@ -245,7 +241,6 @@ const nodeUnique = chainUnique;
 const nodeOpal = chainOpal;
 const nodeWeb3games = '#000000';
 const nodeWestlake = chainWestlake;
-const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -345,7 +340,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
-  'InvArch Tinker Network': chainTinker,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -457,7 +451,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Tangle Rococo': chainTangle,
   'Tangle Testnet': chainTangleDev,
   Tick: chainRoccoTick,
-  'Tinkernet Rococo Testnet': chainTinkerRococo,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
@@ -469,10 +462,8 @@ export const chainColors: Record<string, string> = Object.entries({
   UNIT: chainUnitv,
   UnitNetwork: chainUnitNetwork,
   'Vara Network': chainVara,
-  VirtoRococo: chainVirto,
   'VLN PC': chainVln,
   Wapex: chainTotem,
-  'Watr Network': chainWatr,
   'Web3Games Plum': chainWeb3games,
   Westlake: chainWestlake,
   Whala: chainWhala,
@@ -524,7 +515,6 @@ export const nodeColors = Object.entries({
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
   'InvArch Brainstorm Node': chainBrainstorm,
-  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
@@ -590,8 +580,6 @@ export const nodeColors = Object.entries({
   'UnitNetwork Node': nodeUnitNetwork,
   'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
-  'Zeitgeist Collator': nodeZeitgeist,
-  'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,

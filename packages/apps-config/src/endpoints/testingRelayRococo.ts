@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { chainsTuringPNG } from '../ui/logos/chains';
-import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -343,7 +343,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // 'InvArch Team': 'wss://rococo.invarch.network' // https://github.com/polkadot-js/apps/issues/8266
     },
-    text: 'Tinkernet'
+    text: 'Tinkernet',
+    uiColor: 'linear-gradient(90deg, rgba(253,52,166,1) 0%, rgba(22,213,239,1) 100%)',
+    uiLogo: chainsTinkerPNG
   },
   {
     info: 'rococoTuring',
@@ -368,7 +370,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
     },
-    text: 'Virto'
+    text: 'Virto',
+    uiColor: '#063970',
+    uiLogo: chainsVirtoPNG
   },
   {
     info: 'rococoWatr',
@@ -376,7 +380,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Watr: 'wss://rpc.dev.watr.org'
     },
-    text: 'Watr Network'
+    text: 'Watr Network',
+    uiColor: '#373b39',
+    uiLogo: chainsWatrPNG
   },
   {
     info: 'rococoZeitgeist',
@@ -384,7 +390,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Zeitgeist: 'wss://roc.zeitgeist.pm'
     },
-    text: 'Zeitgeist Battery Station'
+    text: 'Zeitgeist Battery Station',
+    uiColor: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+    uiLogo: nodesZeitgeistPNG
   }
 ];
 

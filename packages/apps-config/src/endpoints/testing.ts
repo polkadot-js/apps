@@ -3,6 +3,8 @@
 
 import type { EndpointOption } from './types';
 
+import { nodesZeitgeistPNG } from '../ui/logos/nodes';
+
 export * from './testingRelayRococo';
 export * from './testingRelayWestend';
 
@@ -648,7 +650,9 @@ export const testChains: EndpointOption[] = [
     providers: {
       Zeitgeist: 'wss://bsr.zeitgeist.pm'
     },
-    text: 'Zeitgeist Battery Station'
+    text: 'Zeitgeist Battery Station',
+    uiColor: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+    uiLogo: nodesZeitgeistPNG
   },
   {
     info: 'zero',

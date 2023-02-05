@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
-import { chainsKusamaSVG, chainsTuringPNG } from '../ui/logos/chains';
-import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsKusamaSVG, chainsTinkerPNG, chainsTuringPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -195,7 +195,9 @@ export const prodParasKusama: EndpointOption[] = [
       OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
       'light client': 'light://substrate-connect/kusama/tinkernet'
     },
-    text: 'InvArch Tinkernet'
+    text: 'InvArch Tinkernet',
+    uiColor: '#161616',
+    uiLogo: chainsTinkerPNG
   },
   {
     homepage: 'https://kabocha.network',
@@ -565,7 +567,9 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     },
-    text: 'Zeitgeist'
+    text: 'Zeitgeist',
+    uiColor: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+    uiLogo: nodesZeitgeistPNG
   }
 ];
 

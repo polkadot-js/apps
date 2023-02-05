@@ -77,13 +77,10 @@ import chainStandard from './chains/standard.png';
 import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTangle from './chains/tangle.png';
-import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
-import chainVirto from './chains/virto.png';
-import chainWatr from './chains/watr.png';
 import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeArctic from './nodes/arctic.png';
@@ -218,7 +215,6 @@ import nodeWestend from './nodes/westend_colour.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
 import nodeZCloak from './nodes/zCloak.svg';
-import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 import { externalEmptySVG } from './external';
@@ -314,7 +310,6 @@ export const chainLogos = Object.entries({
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
-  'InvArch Tinker Network': chainTinker,
   ipci: nodeIPCI,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
@@ -448,11 +443,9 @@ export const chainLogos = Object.entries({
   'Unitv Network': nodeUnitv,
   Unorthodox: chainUnorthodox,
   'Vara Network': chainVara,
-  VirtoRococo: chainVirto,
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Wapex: nodeTotem,
-  'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
   'Westend Collectives': chainWestendCollectives,
@@ -544,7 +537,6 @@ export const nodeLogos = Object.entries({
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
   'InvArch Brainstorm Node': chainBrainstorm,
-  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
@@ -665,8 +657,6 @@ export const nodeLogos = Object.entries({
   'Whala Node': nodeWhala,
   WILT: nodeKilt,
   'zcloak node': nodeZCloak,
-  'Zeitgeist Collator': nodeZeitgeist,
-  'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, unknown>>((logos, [node, external]) => ({
@@ -895,16 +885,12 @@ export const namedLogos: Record<string, unknown> = {
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
-  rococoTinkernet: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoUnitNetwork: nodeUnitNetwork,
   rococoUnitv: nodeUnitv,
-  rococoVirto: chainVirto,
   rococoVln: nodeVln,
-  rococoWatr: chainWatr,
-  rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,
   shadow: nodeShadow,
@@ -946,7 +932,6 @@ export const namedLogos: Record<string, unknown> = {
   'ternoa-testnet': nodeTernoa,
   'thebifrost-mainnet': nodeTheBifrost,
   'thebifrost-testnet': nodeTheBifrost,
-  tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
   uniarts: nodeUniarts,
@@ -965,7 +950,6 @@ export const namedLogos: Record<string, unknown> = {
   westlake: nodeWestlake,
   whala: nodeWhala,
   zCloak: nodeZCloak,
-  zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
 
