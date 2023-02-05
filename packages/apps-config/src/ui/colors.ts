@@ -150,7 +150,6 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainTuring = '#A8278C';
-const chainT0rn = '#212322';
 const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
 const chainUnitNetwork = '#a351ef';
@@ -447,7 +446,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Subspace: nodeSubspace,
   Subzero: chainZero,
   swapdex: chainSwapdex,
-  t0rn: chainT0rn,
   'Tangle Rococo': chainTangle,
   'Tangle Testnet': chainTangleDev,
   Tick: chainRoccoTick,
@@ -492,7 +490,6 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
-  'Circuit Collator': chainT0rn,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,

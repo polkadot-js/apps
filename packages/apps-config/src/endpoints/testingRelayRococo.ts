@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
+import { chainsT0rnPNG, chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
 import { nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
@@ -327,7 +327,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       t3rn: 'wss://ws.t0rn.io'
     },
-    text: 't0rn'
+    text: 't0rn',
+    uiColor: '#212322',
+    uiLogo: chainsT0rnPNG
   },
   {
     info: 'tangle',

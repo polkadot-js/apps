@@ -74,7 +74,6 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainSnowbridge from './chains/snowbridge.png';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
-import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTangle from './chains/tangle.png';
 import nodeTotem from './chains/totem.svg';
@@ -427,7 +426,6 @@ export const chainLogos = Object.entries({
   subspace: nodeSubspace,
   Subzero: nodeZero,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   'Tangle Rococo': chainTangle,
   'Tangle Testnet': chainTangle,
   Tick: chainRococoTick,
@@ -634,7 +632,6 @@ export const nodeLogos = Object.entries({
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   'Ternoa Node': nodeTernoa,
   'Totem Parachain Collator': nodeTotem,
   'TrustBase Collator': nodeTrustBase,
@@ -924,7 +921,6 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
   tangle: chainTangle,
   ternoa: nodeTernoa,
