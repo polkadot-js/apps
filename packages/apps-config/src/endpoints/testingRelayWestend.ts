@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
+import { nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -109,7 +110,9 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westmint-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Westmint'
+    text: 'Westmint',
+    uiColor: '#77bb77',
+    uiLogo: nodesStatemineSVG
   },
   {
     info: 'westendCollectives',

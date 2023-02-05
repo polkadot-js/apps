@@ -19,7 +19,7 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, uiLogo } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -49,7 +49,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
         <ChainImg
           className='endpointIcon'
           isInline
-          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
+          logo={uiLogo || (icon === 'local' ? 'empty' : (icon || 'empty'))}
           withoutHl
         />
         <div className='endpointValue'>

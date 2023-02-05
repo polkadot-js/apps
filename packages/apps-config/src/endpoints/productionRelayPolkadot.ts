@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -431,7 +432,9 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    text: 'Statemint'
+    text: 'Statemint',
+    uiColor: '#86e62a',
+    uiLogo: nodesStatemineSVG
   },
   {
     info: 'polkadotCollectives',

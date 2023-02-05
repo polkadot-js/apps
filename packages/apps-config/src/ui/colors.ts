@@ -267,9 +267,6 @@ const nodeCESS = '#2269a9';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
-const specStatemine = '#113911';
-const specStatemint = '#86e62a';
-const specWestmint = '#77bb77';
 
 export { emptyColor };
 
@@ -485,10 +482,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Stagex: chainTotem,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
-  Statemine: specStatemine,
-  'Statemine Test': specStatemine,
-  Statemint: specStatemint,
-  'Statemint Test': specStatemint,
   'Steam PC': chainRococoEave,
   SubDAO: chainSubDAO,
   'SubDAO PC1': chainSubDAO,
@@ -522,8 +515,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
-  Westmint: specWestmint,
-  'Westmint Test': specWestmint,
   Whala: chainWhala,
   WILT: chainKilt,
   'zcloak poc1': nodeZCloak,
@@ -626,8 +617,6 @@ export const nodeColors = Object.entries({
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
   'Stafi node': nodeStafi,
-  'Statemine Collator': specStatemint,
-  'Statemint Collator': specStatemint,
   SubDAO: nodeSubDAO,
   'SubDAO Collator': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
@@ -647,7 +636,6 @@ export const nodeColors = Object.entries({
   'UnitNetwork Node': nodeUnitNetwork,
   'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
-  'Westmint Collator': specWestmint,
   'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
@@ -660,10 +648,7 @@ export const nodeColors = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const specColors = Object.entries({
-  shell: specShell,
-  statemine: specStatemine,
-  statemint: specStatemint,
-  westmint: specWestmint
+  shell: specShell
 }).reduce<Record<string, string>>((colors, [spec, color]) => ({
   ...colors,
   [sanitize(spec)]: color

@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
+import { nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -578,7 +579,9 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    text: 'Statemine'
+    text: 'Statemine',
+    uiColor: '#113911',
+    uiLogo: nodesStatemineSVG
   },
   {
     homepage: 'https://encointer.org/',

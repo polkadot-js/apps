@@ -15,7 +15,9 @@ export interface Network {
   providers: {
     name: string;
     url: string;
-  }[]
+  }[];
+  uiColor?: string;
+  uiLogo?: string;
 }
 
 export interface Group {

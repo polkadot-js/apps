@@ -28,7 +28,9 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
   const { apiEndpoint, specName, systemChain, systemName } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
     const found = logo && logo !== 'empty'
-      ? namedLogos[logo]
+      ? logo.startsWith('data:image/')
+        ? logo
+        : namedLogos[logo]
       : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
     const imgBase = found || externalEmptySVG;
     const isFa = !!((imgBase as Record<string, string>).fa);

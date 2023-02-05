@@ -202,7 +202,6 @@ import nodeSoonsocial from './nodes/soonsocial.png';
 import nodeSoonsocialX from './nodes/soonsocialX.png';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
-import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
@@ -434,9 +433,6 @@ export const chainLogos = Object.entries({
   'SORA Rococo': nodeSora,
   Spanner: chainSpanner,
   Stagex: nodeTotem,
-  Statemine: nodeStatemine,
-  'Statemine Test': nodeStatemine,
-  'Statemint Test': nodeStatemine,
   'Steam PC': nodeEave,
   subdao: nodeSubDAO,
   'SubDAO PC1': nodeSubDAO,
@@ -476,8 +472,6 @@ export const chainLogos = Object.entries({
   'Westend BridgeHub': nodeBridgeHubBlack,
   'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
-  Westmint: nodeStatemine,
-  'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
   'zcloak poc1': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [chain, external]) => ({
@@ -654,8 +648,6 @@ export const nodeLogos = Object.entries({
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
-  'Statemine Collator': nodeStatemine,
-  'Statemint Collator': nodeStatemine,
   subdao: nodeSubDAO,
   'SubDAO Collator': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
@@ -686,7 +678,6 @@ export const nodeLogos = Object.entries({
   'Web3Games Node': nodeWeb3games,
   Westend: nodeWestend,
   Westlake: nodeWestlake,
-  'Westmint Collator': nodeStatemine,
   Whala: nodeWhala,
   'Whala Node': nodeWhala,
   WILT: nodeKilt,
@@ -704,10 +695,7 @@ export const nodeLogos = Object.entries({
 export const specLogos = Object.entries({
   oak: chainOAK,
   shell: nodeShell,
-  statemine: nodeStatemine,
-  statemint: nodeStatemine,
-  turing: chainTuring,
-  westmint: nodeStatemine
+  turing: chainTuring
 }).reduce<Record<string, unknown>>((logos, [spec, external]) => ({
   ...logos,
   [sanitize(spec)]: external
@@ -935,7 +923,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoSora: nodeSora,
   rococoSpreehafen: chainRoccoDataHighway,
   rococoStandard: chainStandard,
-  rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
@@ -970,8 +957,6 @@ export const namedLogos: Record<string, unknown> = {
   spanner: chainSpanner,
   stafi: nodeStafi,
   stagex: nodeTotem,
-  statemine: nodeStatemine,
-  statemint: nodeStatemine,
   subdao: nodeSubDAO,
   'SubDAO PC1': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
@@ -1014,7 +999,6 @@ export const namedLogos: Record<string, unknown> = {
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
-  westmint: nodeStatemine,
   whala: nodeWhala,
   zCloak: nodeZCloak,
   zeitgeist: nodeZeitgeist,
