@@ -327,7 +327,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'mars',
     paraId: 2008,
     providers: {
-      AresProtocol: 'wss://wss.mars.aresprotocol.io'
+      // AresProtocol: 'wss://wss.mars.aresprotocol.io' // https://github.com/polkadot-js/apps/issues/8937
     },
     text: 'Mars'
   },
