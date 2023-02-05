@@ -26,7 +26,7 @@ export const testParasWestend: EndpointOption[] = [
     info: 'integritee',
     paraId: 2081,
     providers: {
-      Integritee: 'wss://teerw1.integritee.network'
+      // Integritee: 'wss://teerw1.integritee.network' // https://github.com/polkadot-js/apps/issues/8937
     },
     text: 'Integritee Network'
   },
