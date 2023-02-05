@@ -4,7 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsTuringPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -350,7 +351,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       OAK: 'wss://rpc.turing-staging.oak.tech'
     },
-    text: 'Turing Network (Staging)'
+    text: 'Turing Network (Staging)',
+    uiLogo: chainsTuringPNG
   },
   {
     info: 'rococoUnitNetwork',
@@ -424,7 +426,8 @@ export const testParasRococoCommon: EndpointOption[] = [
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Bridgehub'
+    text: 'Bridgehub',
+    uiLogo: nodesBridgeHubBlackSVG
   }
 ];
 

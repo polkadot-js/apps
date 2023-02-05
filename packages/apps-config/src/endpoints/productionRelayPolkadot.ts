@@ -4,7 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
-import { nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsOakPNG } from '../ui/logos/chains';
+import { nodesPolkadotCircleSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -323,7 +324,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       OAK: 'wss://rpc.oak.tech'
     },
-    text: 'OAK Network'
+    text: 'OAK Network',
+    uiLogo: chainsOakPNG
   },
   {
     homepage: 'https://www.omnibtc.finance',
@@ -470,5 +472,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
-  text: 'Polkadot'
+  text: 'Polkadot',
+  uiColor: '#e6007a',
+  uiLogo: nodesPolkadotCircleSVG
 };

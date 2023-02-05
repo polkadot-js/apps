@@ -84,7 +84,6 @@ const chainKiltDev = '#f05a27';
 const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKilt} 100%)`;
 const chainKiltRilt = `linear-gradient(45deg, ${chainKilt} 0%, ${chainKiltDev} 100%)`;
 const chainKonomi = '#007aff';
-const chainKusama = '#000000';
 const chainKusamaDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
@@ -120,7 +119,6 @@ const chainPichiu = '#ed007e';
 const chainPhala = '#c6fa4c';
 const chainPhoenix = '#d42181';
 const chainPolkadex = '#7C30DD';
-const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
@@ -370,10 +368,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Konomi: chainKonomi,
   Kpron: nodeKpron,
   Kulupu: chainKulupu,
-  Kusama: chainKusama,
-  'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama,
-  'Kusama CC3': chainKusama,
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
@@ -431,8 +425,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Pioneer Network': chainBitCountryPioneer,
   PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
-  Polkadot: chainPolkadot,
-  'Polkadot CC1': chainPolkadot,
   PolkaSmith: chainPolkaSmith,
   'Pontem Testnet': chainPontem,
   'Prism PC1': chainPrism,

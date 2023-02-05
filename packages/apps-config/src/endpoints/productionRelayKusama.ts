@@ -4,7 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
-import { nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsKusamaSVG, chainsTuringPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -543,7 +544,8 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://turing-rpc.dwellir.com',
       OAK: 'wss://rpc.turing.oak.tech'
     },
-    text: 'Turing Network'
+    text: 'Turing Network',
+    uiLogo: chainsTuringPNG
   },
   {
     homepage: 'https://standard.tech/',
@@ -601,7 +603,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
     },
-    text: 'BridgeHub'
+    text: 'BridgeHub',
+    uiLogo: nodesBridgeHubBlackSVG
   }
 ];
 
@@ -626,5 +629,7 @@ export const prodRelayKusama: EndpointOption = {
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
-  text: 'Kusama'
+  text: 'Kusama',
+  uiColor: '#000',
+  uiLogo: chainsKusamaSVG
 };

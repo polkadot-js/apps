@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
-import { nodesStatemineSVG } from '../ui/logos/nodes';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -129,7 +129,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
-    text: 'BridgeHub'
+    text: 'BridgeHub',
+    uiLogo: nodesBridgeHubBlackSVG
   }
 ];
 

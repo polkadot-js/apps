@@ -45,7 +45,6 @@ import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
-import chainKusama from './chains/kusama.svg';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainLuhn from './chains/luhn.png';
@@ -80,7 +79,6 @@ import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTangle from './chains/tangle.png';
 import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
-import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
@@ -101,7 +99,6 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.png';
-import nodeBridgeHubBlack from './nodes/BridgeHubBlack.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -180,8 +177,6 @@ import nodePhoenix from './nodes/phoenix.png';
 import nodePichiu from './nodes/pichiu.png';
 import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePolkadex from './nodes/polkadex.svg';
-import nodePolkadot from './nodes/polkadot-circle.svg';
-import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
@@ -194,7 +189,6 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeRocfinity from './nodes/rocfinity.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
-import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSnow from './nodes/snow.png';
@@ -342,11 +336,6 @@ export const chainLogos = Object.entries({
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
   Kpron: nodeApron,
-  Kusama: chainKusama, // new name after CC3
-  'Kusama BridgeHub': nodeBridgeHubBlack,
-  'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama,
-  'Kusama CC3': chainKusama,
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
   'Listen Network': chainListen,
@@ -384,7 +373,6 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
-  'OAK Network': chainOAK,
   Odyssey: nodeAresOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -419,7 +407,6 @@ export const chainLogos = Object.entries({
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
-  'Rococo Bridgehub': nodeBridgeHubBlack,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -453,7 +440,6 @@ export const chainLogos = Object.entries({
   Trick: chainRococoTrick,
   trustbase: nodeTrustBase,
   'TrustBase PC1': nodeTrustBase,
-  turing: chainTuring,
   'uni arts staging network': nodeUniarts,
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
@@ -469,7 +455,6 @@ export const chainLogos = Object.entries({
   'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend BridgeHub': nodeBridgeHubBlack,
   'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
   WILT: nodeKilt,
@@ -613,7 +598,6 @@ export const nodeLogos = Object.entries({
   'Parallel Heiko': nodeParallel,
   'Parallel Heiko Dev': nodeParallel,
   Parami: nodeParami,
-  'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
   Pendulum: chainPendulum,
   Phala: nodePhala,
@@ -625,7 +609,6 @@ export const nodeLogos = Object.entries({
   'Pichiu Node': nodePichiu,
   'Pioneer Network Collator Node': nodePioneerNetwork,
   'Polkadex Node': nodePolkadex,
-  'polkadot-js': nodePolkadotJs,
   'PolkaFoundry Node': nodePolkaFoundry,
   'PolkaFoundry Parachain Collator': nodePolkaFoundry,
   'PolkaSmith Parachain Collator': nodePolkaSmith,
@@ -691,16 +674,6 @@ export const nodeLogos = Object.entries({
   [sanitize(node)]: external
 }), {});
 
-// Alphabetical overrides based on the actual specName
-export const specLogos = Object.entries({
-  oak: chainOAK,
-  shell: nodeShell,
-  turing: chainTuring
-}).reduce<Record<string, unknown>>((logos, [spec, external]) => ({
-  ...logos,
-  [sanitize(spec)]: external
-}), {});
-
 // Alphabetical overrides when we pass an explicit external name
 // NOTE: Matches with what is defined as "info" in settings/endpoints.ts
 // (Generally would be the 'network' key in the known ss58 as per
@@ -711,7 +684,6 @@ export const namedLogos: Record<string, unknown> = {
   acala: chainAcala,
   ajuna: nodeAjuna,
   aleph: chainAleph,
-  alexander: nodePolkadot,
   altair: chainAltair,
   amplitude: chainAmplitude,
   arctic: nodeArctic,
@@ -807,8 +779,6 @@ export const namedLogos: Record<string, unknown> = {
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
-  kusama: chainKusama,
-  kusamaBridgeHub: nodeBridgeHubBlack,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -848,7 +818,6 @@ export const namedLogos: Record<string, unknown> = {
   picasso: chainPicasso,
   pichiu: nodePichiu,
   polkadex: nodePolkadex,
-  polkadot: nodePolkadot,
   polkadotCollectives: chainWestendCollectives,
   polkafoundry: nodePolkaFoundry,
   polkasmith: nodePolkaSmith,
@@ -874,7 +843,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
-  rococoBridgehub: nodeBridgeHubBlack,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
@@ -931,7 +899,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
-  rococoTuring: chainTuring,
   rococoUnitNetwork: nodeUnitNetwork,
   rococoUnitv: nodeUnitv,
   rococoVirto: chainVirto,
@@ -941,7 +908,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,
   shadow: nodeShadow,
-  shell: nodeShell,
   sherpax: nodeSherpax,
   shibuya: chainShiden,
   shiden: chainShiden,
@@ -983,7 +949,6 @@ export const namedLogos: Record<string, unknown> = {
   tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
-  turing: chainTuring,
   uniarts: nodeUniarts,
   unique: nodeUnique,
   unitnetwork: nodeUnitNetwork,
@@ -994,7 +959,6 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendBridgeHub: nodeBridgeHubBlack,
   westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,

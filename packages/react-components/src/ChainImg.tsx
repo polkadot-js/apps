@@ -6,7 +6,7 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { chainLogos, namedLogos, nodeLogos, specLogos } from '@polkadot/apps-config';
+import { chainLogos, namedLogos, nodeLogos } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -25,13 +25,13 @@ function sanitize (value?: string): string {
 }
 
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
-  const { apiEndpoint, specName, systemChain, systemName } = useApi();
+  const { apiEndpoint, systemChain, systemName } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
     const found = logo && logo !== 'empty'
       ? logo.startsWith('data:image/')
         ? logo
         : namedLogos[logo]
-      : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
+      : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
     const imgBase = found || externalEmptySVG;
     const isFa = !!((imgBase as Record<string, string>).fa);
     const img = isFa
@@ -39,7 +39,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
       : imgBase;
 
     return [!found || logo === 'empty', img, isFa];
-  }, [apiEndpoint, logo, specName, systemChain, systemName]);
+  }, [apiEndpoint, logo, systemChain, systemName]);
 
   const iconClassName = `${className} ui--ChainImg ${(isEmpty && !withoutHl) ? 'highlight--bg' : ''} ${isInline ? 'isInline' : ''}`;
 
