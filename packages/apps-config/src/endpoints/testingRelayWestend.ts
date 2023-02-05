@@ -152,5 +152,6 @@ export const testRelayWestend: EndpointOption = {
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),
-  text: 'Westend'
+  text: 'Westend',
+  uiColor: '#da68a7'
 };

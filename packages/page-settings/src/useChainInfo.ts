@@ -22,7 +22,7 @@ function useChainInfoImpl (): ChainInfo | null {
         chainType: isEthereum
           ? 'ethereum'
           : 'substrate',
-        color: apiEndpoint?.uiColor || getSystemColor(systemChain, systemName, specName),
+        color: apiEndpoint?.uiColor || getSystemColor(systemChain, systemName),
         genesisHash: api.genesisHash.toHex(),
         icon: getSystemIcon(systemName, specName),
         metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),

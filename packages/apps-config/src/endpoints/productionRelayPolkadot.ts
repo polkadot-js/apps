@@ -29,7 +29,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io'
     },
-    text: 'Acala'
+    text: 'Acala',
+    uiColor: '#645AFF'
   },
   {
     homepage: 'https://ajuna.io',
@@ -115,14 +116,12 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     homepage: 'http://www.coinversation.io/',
     info: 'coinversation',
-    // this is also a duplicate as a Live and Testing network -
-    // it is either/or, not and
-    isUnreachable: true,
     paraId: 2027,
     providers: {
       // Coinversation: 'wss://rpc.coinversation.io/' // https://github.com/polkadot-js/apps/issues/6635
     },
-    text: 'Coinversation'
+    text: 'Coinversation',
+    uiColor: '#e6017a'
   },
   {
     homepage: 'https://composable.finance/',
@@ -401,9 +400,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'http://subgame.org/',
     info: 'subgame',
     paraId: 2017,
-    providers: {// SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
+    providers: {
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
     },
-    text: 'SubGame Gamma'
+    text: 'SubGame Gamma',
+    uiColor: '#EB027D'
   },
   {
     homepage: 'https://unique.network/',

@@ -444,5 +444,6 @@ export const testRelayRococo: EndpointOption = {
     'light client': 'light://substrate-connect/rococo'
   },
   teleport: getTeleports(testParasRococoCommon),
-  text: 'Rococo'
+  text: 'Rococo',
+  uiColor: '#6f36dc'
 };

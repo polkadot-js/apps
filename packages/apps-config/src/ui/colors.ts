@@ -9,14 +9,8 @@ import { sanitize } from './util';
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
-// defaults
-const emptyColor = '#99999';
-
 // based on chain name
 // alphabetical
-const chainSherpax = '#6bbee8';
-const chain3dpass = '#323232';
-const chainAcala = '#645AFF';
 const chainAcurastRococoTestnet = '#000000';
 const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
@@ -38,7 +32,6 @@ const chainBeastEave = '#900048';
 const chainBitgreen = '#224851';
 const chainBrainstorm = '#161616';
 const chainCalamari = '#000000';
-const chainCoinversation = '#e6017a';
 const chainCollectives = '#e6777a'; // '#dfcdfc';
 const chainCompetitorsClub = '#213830';
 const chainComposableFinance = '#C90E8A';
@@ -133,7 +126,6 @@ const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainQuartz = '#FF4D6A';
-const chainRocco = '#6f36dc';
 const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
@@ -173,12 +165,10 @@ const chainVirto = '#063970';
 const chainVln = '#33cc33';
 const chainWatr = '#373b39';
 const chainWeb3games = '#000000';
-const chainWestend = '#da68a7';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const chainCESS = '#2269a9';
 const chainRiodefi = '#4E7AED';
 // based on node name
 // alphabetical
@@ -193,7 +183,6 @@ const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCentrifuge = '#fcc367';
-const nodeCoinversation = '#e6017a';
 const nodeCompetitorsClub = '#213830';
 const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
@@ -261,22 +250,10 @@ const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const nodeSubGame = '#EB027D';
-const nodeZCloak = 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)';
-const nodeCESS = '#2269a9';
-
-// based on the spec name
-const specShell = '#2e86ab'; // '#0596FC';
-
-export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  '3DP testnet': chain3dpass,
-  '3dpass - The Ledger of Things': chain3dpass,
-  Acala: chainAcala,
-  'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
   'Acurast Rococo Testnet': chainAcurastRococoTestnet,
@@ -313,11 +290,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
   Centrifuge: nodeCentrifuge,
-  'CESS Testnet': chainCESS,
   ChainOLI: chainOLI,
   ChainX: chainChainx,
   Clover: chainClover,
-  Coinversation: chainCoinversation,
   Collectives: chainCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
@@ -469,11 +444,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Riochain Staging': chainRiochain,
   Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
-  Rococo: chainRocco,
   Sakura: chainSakura,
   Shadow: chainShadow,
-  Sherpax: chainSherpax,
-  'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
   'SORA Kusama': chainSora,
@@ -486,9 +458,6 @@ export const chainColors: Record<string, string> = Object.entries({
   SubDAO: chainSubDAO,
   'SubDAO PC1': chainSubDAO,
   'SubDAO Staging': chainSubDAO,
-  subgame: nodeSubGame,
-  'SubGame Gamma': nodeSubGame,
-  'SubGame Staging': nodeSubGame,
   Subspace: nodeSubspace,
   Subzero: chainZero,
   swapdex: chainSwapdex,
@@ -513,11 +482,9 @@ export const chainColors: Record<string, string> = Object.entries({
   Wapex: chainTotem,
   'Watr Network': chainWatr,
   'Web3Games Plum': chainWeb3games,
-  Westend: chainWestend,
   Westlake: chainWestlake,
   Whala: chainWhala,
   WILT: chainKilt,
-  'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
@@ -542,9 +509,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
-  'CESS Testnet': nodeCESS,
   'Circuit Collator': chainT0rn,
-  Coinversation: nodeCoinversation,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
@@ -620,9 +585,6 @@ export const nodeColors = Object.entries({
   SubDAO: nodeSubDAO,
   'SubDAO Collator': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
-  subgame: nodeSubGame,
-  'SubGame Gamma': nodeSubGame,
-  'SubGame Staging': nodeSubGame,
   'Subsocial Collator': nodeSubsocialX,
   'subsocial node': nodeSubsocial,
   Subspace: nodeSubspace,
@@ -636,20 +598,10 @@ export const nodeColors = Object.entries({
   'UnitNetwork Node': nodeUnitNetwork,
   'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
-  'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
   [sanitize(node)]: color
-}), {});
-
-// Alphabetical overrides based on the actual software node type
-// NOTE: This is as retrieved via the system.name RPC
-export const specColors = Object.entries({
-  shell: specShell
-}).reduce<Record<string, string>>((colors, [spec, color]) => ({
-  ...colors,
-  [sanitize(spec)]: color
 }), {});

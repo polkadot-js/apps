@@ -19,7 +19,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       '3dpass': 'wss://rpc2.3dpass.org'
     },
-    text: '3DPass'
+    text: '3DPass',
+    uiColor: '#323232'
   },
   {
     info: 'aleph',
@@ -267,7 +268,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       ChainX: 'wss://mainnet.sherpax.io'
     },
-    text: 'SherpaX'
+    text: 'SherpaX',
+    uiColor: '#6bbee8'
   },
   {
     info: 'sora-substrate',
@@ -299,7 +301,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       SubGame: 'wss://mainnet.subgame.org/'
     },
-    text: 'SubGame'
+    text: 'SubGame',
+    uiColor: '#EB027D'
   },
   {
     info: 'subsocial',

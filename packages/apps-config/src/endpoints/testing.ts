@@ -19,7 +19,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       '3dpass': 'wss://test-rpc.3dpass.org'
     },
-    text: '3DPass Testnet'
+    text: '3DPass Testnet',
+    uiColor: '#323232'
   },
   {
     info: 'ajuna',
@@ -98,7 +99,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
     },
-    text: 'CESS Testnet'
+    text: 'CESS Testnet',
+    uiColor: '#2269a9'
   },
   {
     info: 'clover',
@@ -106,16 +108,6 @@ export const testChains: EndpointOption[] = [
       // Clover: 'wss://api.clover.finance/' // Cannot construct unknown type BridgeNetworks
     },
     text: 'Clover'
-  },
-  {
-    // this is also a duplicate as a parachain under Polkadot and live under production -
-    // it is either/or, not and
-    info: 'coinversation',
-    isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
-    providers: {
-      Coinversation: 'wss://rpc.coinversation.io/'
-    },
-    text: 'Coinversation'
   },
   {
     info: 'creditcoin-testnet',
@@ -487,7 +479,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Chainx: 'wss://sherpax-testnet.chainx.org'
     },
-    text: 'Sherpax Testnet'
+    text: 'Sherpax Testnet',
+    uiColor: '#6bbee8'
   },
   {
     info: 'shibuya',
@@ -533,7 +526,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // SubGame: 'wss://staging.subgame.org' // https://github.com/polkadot-js/apps/issues/7982
     },
-    text: 'SubGame Staging'
+    text: 'SubGame Staging',
+    uiColor: '#EB027D'
   },
   {
     info: 'subspace-farmnet',
@@ -646,7 +640,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'zCloak Network': 'wss://test1.zcloak.network' // https://github.com/polkadot-js/apps/issues/7408
     },
-    text: 'zCloak-network'
+    text: 'zCloak-network',
+    uiColor: 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)'
   },
   {
     info: 'zeitgeist',

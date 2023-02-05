@@ -497,7 +497,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       SubGame: 'wss://gamma.subgame.org/'
     },
-    text: 'SubGame Gamma'
+    text: 'SubGame Gamma',
+    uiColor: '#EB027D'
   },
   {
     homepage: 'https://subsocial.network/',
