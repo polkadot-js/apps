@@ -12,7 +12,6 @@ import { sanitize } from './util';
 // based on chain name
 // alphabetical
 const chainAcurastRococoTestnet = '#000000';
-const chainAjuna = '#161212';
 const chainAleph = '#00CCAB';
 const chainAltair = '#ffb700';
 const chainAmplitude = '#5DEFA7';
@@ -23,7 +22,6 @@ const chainTangle = '#483d8b';
 const chainTangleDev = '#0099ff';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
-const chainBajun = '#161212';
 const chainBitCountry = '#191a2e';
 const chainBittensor = '#252525';
 const chainBitCountryPioneer = '#000000';
@@ -165,7 +163,6 @@ const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainRiodefi = '#4E7AED';
 // based on node name
 // alphabetical
-const nodeAjuna = '#161212';
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
@@ -249,7 +246,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
   'Acurast Rococo Testnet': chainAcurastRococoTestnet,
-  'Ajuna Testnet': chainAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -262,7 +258,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
-  'Bajun Testnet': chainBajun,
   'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
@@ -476,7 +471,6 @@ export const chainColors: Record<string, string> = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
-  'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   Astar: nodeAstar,
   'Automata ContextFree Node': nodeAutomataContextFree,

@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types';
 
-import { nodesZeitgeistPNG } from '../ui/logos/nodes';
+import { nodesAjunaPNG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 
 export * from './testingRelayRococo';
 export * from './testingRelayWestend';
@@ -29,7 +29,9 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Ajuna Network': 'wss://rpc-test.ajuna.network'
     },
-    text: 'Ajuna Testnet'
+    text: 'Ajuna Testnet',
+    uiColor: '#161212',
+    uiLogo: nodesAjunaPNG
   },
   {
     info: 'aleph',

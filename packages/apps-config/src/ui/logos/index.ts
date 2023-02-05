@@ -80,7 +80,6 @@ import nodeTotem from './chains/totem.svg';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
-import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeArctic from './nodes/arctic.png';
 import nodeAres from './nodes/ares.png';
@@ -224,7 +223,6 @@ const chainWestendCollectives = { fa: 'people-group' };
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
   'Acurast Rococo Testnet': chainAcurast,
-  'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -460,7 +458,6 @@ export const chainLogos = Object.entries({
 export const nodeLogos = Object.entries({
   'Acala Node': chainAcala,
   'Acurast Parachain Collator': chainAcurast,
-  'Ajuna Node': nodeAjuna,
   Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
@@ -669,7 +666,6 @@ export const namedLogos: Record<string, unknown> = {
   '3dpass': chain3dpass,
   '3dpass-testnet': chain3dpass,
   acala: chainAcala,
-  ajuna: nodeAjuna,
   aleph: chainAleph,
   altair: chainAltair,
   amplitude: chainAmplitude,

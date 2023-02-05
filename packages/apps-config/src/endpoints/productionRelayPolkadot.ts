@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
 import { chainsOakPNG } from '../ui/logos/chains';
-import { nodesPolkadotCircleSVG, nodesStatemineSVG } from '../ui/logos/nodes';
+import { nodesAjunaPNG, nodesPolkadotCircleSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -41,7 +41,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
-    text: 'Ajuna Network'
+    text: 'Ajuna Network',
+    uiColor: '#161212',
+    uiLogo: nodesAjunaPNG
   },
   {
     homepage: 'https://www.aresprotocol.io/',
