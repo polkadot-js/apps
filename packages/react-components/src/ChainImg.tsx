@@ -29,7 +29,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
     const found = logo && logo !== 'empty'
       ? namedLogos[logo]
-      : (apiEndpoint && apiEndpoint.uiLogo) || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
+      : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
     const imgBase = found || externalEmptySVG;
     const isFa = !!((imgBase as Record<string, string>).fa);
     const img = isFa
