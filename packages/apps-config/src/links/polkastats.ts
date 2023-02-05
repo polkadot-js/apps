@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkastatsPNG } from '../ui/logos/external';
 
 // NOTE Not maintained, see breakage reports in
 // https://github.com/polkadot-js/apps/issues/8903
@@ -25,5 +25,5 @@ export const Polkastats: ExternalDef = {
     extrinsic: 'extrinsic',
     validator: 'validator'
   },
-  uiLogo: externalLogos.polkastats as string
+  uiLogo: externalPolkastatsPNG
 };

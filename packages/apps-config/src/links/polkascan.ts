@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkascanPNG } from '../ui/logos/external';
 
 export const Polkascan: ExternalDef = {
   chains: {
@@ -27,5 +27,5 @@ export const Polkascan: ExternalDef = {
     techcomm: 'techcomm/proposal',
     treasury: 'treasury/proposal'
   },
-  uiLogo: externalLogos.polkascan as string
+  uiLogo: externalPolkascanPNG
 };

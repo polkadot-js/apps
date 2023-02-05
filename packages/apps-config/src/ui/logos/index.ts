@@ -86,20 +86,6 @@ import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
 import chainVirto from './chains/virto.png';
 import chainWatr from './chains/watr.png';
-import extensionPolkadotJs from './extensions/polkadot-js.svg';
-import externalCommonwealth from './external/commonwealth.png';
-import externalDotreasury from './external/dotreasury.svg';
-import externalDotScanner from './external/dotscanner.png';
-import externalKodaDot from './external/kodadot.png';
-import externalPolkaholic from './external/polkaholic.png';
-import externalPolkascan from './external/polkascan.png';
-import externalPolkassembly from './external/polkassembly.png';
-import externalPolkastats from './external/polkastats.png';
-import externalSingular from './external/singular.svg';
-import externalStatescan from './external/statescan.svg';
-import externalSubId from './external/subid.svg';
-import externalSubscan from './external/subscan.png';
-import externalSubsquare from './external/subsquare.svg';
 import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeArctic from './nodes/arctic.png';
@@ -242,8 +228,7 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import emptyLogo from './empty.svg';
-// last-resort fallback, just something empty
+import { externalEmptySVG } from './external';
 
 const chainWestendCollectives = { fa: 'people-group' };
 
@@ -495,9 +480,9 @@ export const chainLogos = Object.entries({
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
   'zcloak poc1': nodeZCloak
-}).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
+}).reduce<Record<string, unknown>>((logos, [chain, external]) => ({
   ...logos,
-  [sanitize(chain)]: logo
+  [sanitize(chain)]: external
 }), {});
 
 // Alphabetical overrides based on the actual software node type
@@ -710,9 +695,9 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
   'Zenlink Collator': nodeZenlink
-}).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
+}).reduce<Record<string, unknown>>((logos, [node, external]) => ({
   ...logos,
-  [sanitize(node)]: logo
+  [sanitize(node)]: external
 }), {});
 
 // Alphabetical overrides based on the actual specName
@@ -723,12 +708,12 @@ export const specLogos = Object.entries({
   statemint: nodeStatemine,
   turing: chainTuring,
   westmint: nodeStatemine
-}).reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
+}).reduce<Record<string, unknown>>((logos, [spec, external]) => ({
   ...logos,
-  [sanitize(spec)]: logo
+  [sanitize(spec)]: external
 }), {});
 
-// Alphabetical overrides when we pass an explicit logo name
+// Alphabetical overrides when we pass an explicit external name
 // NOTE: Matches with what is defined as "info" in settings/endpoints.ts
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
@@ -791,7 +776,7 @@ export const namedLogos: Record<string, unknown> = {
   eave: nodeEave,
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,
-  empty: emptyLogo,
+  empty: externalEmptySVG,
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
   fantour: nodeFantour,
@@ -1036,35 +1021,8 @@ export const namedLogos: Record<string, unknown> = {
   zero: nodeZero
 };
 
-// extension logos
-export const extensionLogos: Record<string, unknown> = {
-  'polkadot-js': extensionPolkadotJs
-};
-
-// external logos, i.e. for explorers
-export const externalLogos: Record<string, unknown> = {
-  commonwealth: externalCommonwealth,
-  dotreasury: externalDotreasury,
-  dotscanner: externalDotScanner,
-  kodadot: externalKodaDot,
-  polkaholic: externalPolkaholic,
-  polkascan: externalPolkascan,
-  polkassembly: externalPolkassembly,
-  polkastats: externalPolkastats,
-  singular: externalSingular,
-  statescan: externalStatescan,
-  subid: externalSubId,
-  subscan: externalSubscan,
-  subsquare: externalSubsquare
-};
-
-// empty logos
-export const emptyLogos: Record<string, unknown> = {
-  empty: emptyLogo
-};
-
 // preload all
-[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].forEach((imageSet): void => {
+[chainLogos, namedLogos, nodeLogos].forEach((imageSet): void => {
   Object.values(imageSet).forEach((src): void => {
     new Image().src = src as string;
   });

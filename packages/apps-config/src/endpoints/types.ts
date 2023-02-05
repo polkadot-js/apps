@@ -41,4 +41,6 @@ export interface LinkOption extends Option {
   textRelay?: React.ReactNode;
   value: string;
   valueRelay?: string[];
+  uiColor?: string;
+  uiLogo?: string;
 }

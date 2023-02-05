@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubsquareSVG } from '../ui/logos/external';
 
 export const Subsquare: ExternalDef = {
   chains: {
@@ -43,5 +43,5 @@ export const Subsquare: ExternalDef = {
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
   },
-  uiLogo: externalLogos.subsquare as string
+  uiLogo: externalSubsquareSVG
 };

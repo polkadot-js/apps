@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkaholicPNG } from '../ui/logos/external';
 
 export const Polkaholic: ExternalDef = {
   chains: {
@@ -67,5 +67,5 @@ export const Polkaholic: ExternalDef = {
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  uiLogo: externalLogos.polkaholic as string
+  uiLogo: externalPolkaholicPNG
 };

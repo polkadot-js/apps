@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubscanPNG } from '../ui/logos/external';
 
 export const Subscan: ExternalDef = {
   chains: {
@@ -100,5 +100,5 @@ export const Subscan: ExternalDef = {
     treasury: 'treasury',
     validator: 'validator'
   },
-  uiLogo: externalLogos.subscan as string
+  uiLogo: externalSubscanPNG
 };

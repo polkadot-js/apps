@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkassemblyPNG } from '../ui/logos/external';
 
 export const PolkassemblyIo: ExternalDef = {
   chains: {
@@ -38,7 +38,7 @@ export const PolkassemblyIo: ExternalDef = {
     tip: 'tip',
     treasury: 'treasury'
   },
-  uiLogo: externalLogos.polkassembly as string
+  uiLogo: externalPolkassemblyPNG
 };
 
 export const PolkassemblyNetwork: ExternalDef = {

@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSingularSVG } from '../ui/logos/external';
 
 const getNetwork = (_chain: string) => {
   switch (_chain) {
@@ -27,5 +27,5 @@ export const Singular: ExternalDef = {
   paths: {
     address: 'account'
   },
-  uiLogo: externalLogos.singular as string
+  uiLogo: externalSingularSVG
 };

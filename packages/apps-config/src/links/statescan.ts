@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalStatescanSVG } from '../ui/logos/external';
 
 export const Statescan: ExternalDef = {
   chains: {
@@ -20,5 +20,5 @@ export const Statescan: ExternalDef = {
     address: 'account',
     block: 'block'
   },
-  uiLogo: externalLogos.statescan as string
+  uiLogo: externalStatescanSVG
 };
