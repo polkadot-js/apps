@@ -482,7 +482,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     },
     teleport: [-1],
     text: 'Collectives',
-    uiColor: '#e6777a'
+    uiColor: '#e6777a',
+    uiLogo: 'fa;people-group'
   }
 ];
 

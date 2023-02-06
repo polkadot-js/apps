@@ -4,7 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
-import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsInterlaySVG, chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG, nodesWhalaSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -21,7 +22,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8219
     },
-    text: 'Charcoal'
+    text: 'Charcoal',
+    uiLogo: nodesCentrifugePNG
   },
   {
     info: 'integritee',
@@ -30,7 +32,8 @@ export const testParasWestend: EndpointOption[] = [
       // Integritee: 'wss://teerw1.integritee.network' // https://github.com/polkadot-js/apps/issues/8937
     },
     text: 'Integritee Network',
-    uiColor: '#658ea9'
+    uiColor: '#658ea9',
+    uiLogo: nodesIntegriteeSVG
   },
   {
     info: 'interlay',
@@ -38,7 +41,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Interlay: 'wss://api-westend.interlay.io/parachain' // https://github.com/polkadot-js/apps/issues/6261
     },
-    text: 'Interlay'
+    text: 'Interlay',
+    uiLogo: chainsInterlaySVG
   },
   {
     info: 'moonshadow',
@@ -47,7 +51,8 @@ export const testParasWestend: EndpointOption[] = [
       // PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network' // https://github.com/polkadot-js/apps/issues/6181
     },
     text: 'Moonshadow',
-    uiColor: '#53cbc9'
+    uiColor: '#53cbc9',
+    uiLogo: nodesMoonshadowPNG
   },
   {
     homepage: 'https://darwinia.network/',
@@ -57,7 +62,8 @@ export const testParasWestend: EndpointOption[] = [
       // Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     },
     text: 'Pangoro',
-    uiColor: '#4B30DD'
+    uiColor: '#4B30DD',
+    uiLogo: nodesPangoroSVG
   },
   {
     homepage: 'https://kylin.network/',
@@ -66,7 +72,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/8710
     },
-    text: 'Pichiu'
+    text: 'Pichiu',
+    uiLogo: nodesKylinPNG
   },
   {
     info: 'westendStandard',
@@ -74,7 +81,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // 'Standard Protocol': 'wss://rpc.westend.standard.tech' // https://github.com/polkadot-js/apps/issues/8525
     },
-    text: 'Standard'
+    text: 'Standard',
+    uiLogo: chainsStandardPNG
   },
   {
     info: 'karura',
@@ -82,7 +90,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // 'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network' // https://github.com/polkadot-js/apps/issues/5830
     },
-    text: 'Wendala'
+    text: 'Wendala',
+    uiLogo: chainsKaruraSVG
   },
   {
     info: 'whala',
@@ -91,7 +100,8 @@ export const testParasWestend: EndpointOption[] = [
       // Phala: 'wss://whala.phala.network/ws' // https://github.com/polkadot-js/apps/issues/6181
     },
     text: 'Whala',
-    uiColor: '#03f3f3'
+    uiColor: '#03f3f3',
+    uiLogo: nodesWhalaSVG
   },
   {
     homepage: 'https://www.kilt.io/',
@@ -101,7 +111,8 @@ export const testParasWestend: EndpointOption[] = [
       'KILT Protocol': 'wss://westend.kilt.io:9977'
     },
     text: 'WILT',
-    uiColor: '#8c145a'
+    uiColor: '#8c145a',
+    uiLogo: nodesKiltPNG
   }
 ];
 
@@ -127,7 +138,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     },
     teleport: [-1],
     text: 'Collectives',
-    uiColor: '#e6777a'
+    uiColor: '#e6777a',
+    uiLogo: 'fa;people-group'
   },
   {
     info: 'westendBridgeHub',
@@ -160,5 +172,6 @@ export const testRelayWestend: EndpointOption = {
   },
   teleport: getTeleports(testParasWestendCommon),
   text: 'Westend',
-  uiColor: '#da68a7'
+  uiColor: '#da68a7',
+  uiLogo: nodesWestendColourSVG
 };
