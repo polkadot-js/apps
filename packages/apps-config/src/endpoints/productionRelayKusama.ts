@@ -182,7 +182,8 @@ export const prodParasKusama: EndpointOption[] = [
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
       'light client': 'light://substrate-connect/kusama/gm'
     },
-    text: 'GM'
+    text: 'GM',
+    uiColor: '#f47b36'
   },
   {
     homepage: 'https://imbue.network',

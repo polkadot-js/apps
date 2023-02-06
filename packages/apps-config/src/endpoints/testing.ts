@@ -145,7 +145,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       DeBio: 'wss://ws-rpc.testnet.debio.network'
     },
-    text: 'DeBio Testnet'
+    text: 'DeBio Testnet',
+    uiColor: '#FF56E0'
   },
   {
     info: 'dock-testnet',

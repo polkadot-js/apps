@@ -113,7 +113,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Composable: 'wss://rpc.composablefinance.ninja' // https://github.com/polkadot-js/apps/issues/8867
     },
-    text: 'Dali'
+    text: 'Dali',
+    uiColor: '#000000'
   },
   {
     info: 'rococoDolphin',

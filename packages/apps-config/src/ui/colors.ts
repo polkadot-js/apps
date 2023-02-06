@@ -24,10 +24,7 @@ const chainCreditcoinTestnet = '#00DF83';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
-const chainChainx = '#F6C94A';
 const chainDarwinia = '#FF0083';
-const chainDali = '#000000';
-const chainDeBio = '#FF56E0';
 const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
@@ -41,7 +38,6 @@ const chainGalital = '#00063F';
 const chainGalois = '#000000';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
-const chainGM = '#f47b36';
 const chainHanonycash = '#0099CC';
 const chainHashed = '#9199A9';
 const chainHeiko = '#42d5de';
@@ -57,7 +53,6 @@ const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
-const chainKulupu = '#003366';
 const chainKico = '#29B58D';
 const chainKico2 = '#29B58D';
 const chainKilt = '#8c145a';
@@ -240,7 +235,6 @@ export const chainColors: Record<string, string> = Object.entries({
   BitgreenRococo: chainBitgreen,
   Centrifuge: nodeCentrifuge,
   ChainOLI: chainOLI,
-  ChainX: chainChainx,
   Collectives: chainCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
@@ -253,8 +247,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
   'Crust Testnet': chainCrust,
-  'Dali Rococo': chainDali,
-  'Dali Westend': chainDali,
   Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
@@ -263,8 +255,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
-  DeBio: chainDeBio,
-  'DeBio Testnet': chainDeBio,
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
@@ -281,7 +271,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
-  'GM Parachain': chainGM,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   'Hashed Network': chainHashed,
@@ -314,7 +303,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
   Kpron: nodeKpron,
-  Kulupu: chainKulupu,
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
@@ -437,7 +425,6 @@ export const nodeColors = Object.entries({
   'Crown Sterling': nodeCrownSterling,
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
-  DeBio: chainDeBio,
   'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
@@ -449,7 +436,6 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
-  'GM Collator': chainGM,
   'Hashed Network': nodeHashed,
   'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,

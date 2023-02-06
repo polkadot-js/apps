@@ -66,7 +66,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       ChainX: 'wss://mainnet.chainx.org/ws'
     },
-    text: 'ChainX'
+    text: 'ChainX',
+    uiColor: '#F6C94A'
   },
   {
     info: 'competitors-club',
@@ -119,7 +120,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       DeBio: 'wss://ws-rpc.debio.network'
     },
-    text: 'DeBio'
+    text: 'DeBio',
+    uiColor: '#FF56E0'
   },
   {
     info: 'dock-pos-mainnet',
@@ -177,7 +179,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
     },
-    text: 'Kulupu'
+    text: 'Kulupu',
+    uiColor: '#003366'
   },
   {
     info: 'kusari',
