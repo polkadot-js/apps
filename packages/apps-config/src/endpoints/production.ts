@@ -3,6 +3,9 @@
 
 import type { EndpointOption } from './types';
 
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCompetitorsClubPNG, chainsCreditcoinPNG, chainsCrownSterlingPNG } from '../ui/logos/chains';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG } from '../ui/logos/nodes';
+
 export * from './productionRelayKusama';
 export * from './productionRelayPolkadot';
 
@@ -20,7 +23,8 @@ export const prodChains: EndpointOption[] = [
       '3dpass': 'wss://rpc2.3dpass.org'
     },
     text: '3DPass',
-    uiColor: '#323232'
+    uiColor: '#323232',
+    uiLogo: chains3dpassPNG
   },
   {
     info: 'aleph',
@@ -28,7 +32,8 @@ export const prodChains: EndpointOption[] = [
       'Aleph Zero Foundation': 'wss://ws.azero.dev'
     },
     text: 'Aleph Zero',
-    uiColor: '#00CCAB'
+    uiColor: '#00CCAB',
+    uiLogo: chainsAlephSVG
   },
   {
     info: 'Ares Odyssey',
@@ -36,7 +41,8 @@ export const prodChains: EndpointOption[] = [
       'Ares Protocol': 'wss://odyssey.aresprotocol.io'
     },
     text: 'Ares Odyssey',
-    uiColor: '#1295F0'
+    uiColor: '#1295F0',
+    uiLogo: nodesAresOdysseySVG
   },
   {
     info: 'automata',
@@ -45,7 +51,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
     },
     text: 'Automata',
-    uiColor: '#EC7032'
+    uiColor: '#EC7032',
+    uiLogo: nodesAutomataPNG
   },
   {
     info: 'bittensor',
@@ -53,14 +60,16 @@ export const prodChains: EndpointOption[] = [
       'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     },
     text: 'Bittensor',
-    uiColor: '#252525'
+    uiColor: '#252525',
+    uiLogo: chainsBittensorPNG
   },
   {
     info: 'centrifuge',
     providers: {
       // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     },
-    text: 'Centrifuge Standalone [Archived]'
+    text: 'Centrifuge Standalone [Archived]',
+    uiLogo: nodesCentrifugePNG
   },
   {
     info: 'chainx',
@@ -68,7 +77,8 @@ export const prodChains: EndpointOption[] = [
       ChainX: 'wss://mainnet.chainx.org/ws'
     },
     text: 'ChainX',
-    uiColor: '#F6C94A'
+    uiColor: '#F6C94A',
+    uiLogo: nodesChainxSVG
   },
   {
     info: 'competitors-club',
@@ -76,7 +86,8 @@ export const prodChains: EndpointOption[] = [
       // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     },
     text: 'Competitors Club',
-    uiColor: '#213830'
+    uiColor: '#213830',
+    uiLogo: chainsCompetitorsClubPNG
   },
   {
     info: 'creditcoin',
@@ -84,7 +95,8 @@ export const prodChains: EndpointOption[] = [
       'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     },
     text: 'Creditcoin',
-    uiColor: '#2D353F'
+    uiColor: '#2D353F',
+    uiLogo: chainsCreditcoinPNG
   },
   {
     info: 'crown-sterling',
@@ -92,7 +104,8 @@ export const prodChains: EndpointOption[] = [
       'Crown Sterling': 'wss://blockchain.crownsterling.io'
     },
     text: 'Crown Sterling',
-    uiColor: '#13264b'
+    uiColor: '#13264b',
+    uiLogo: chainsCrownSterlingPNG
   },
   {
     info: 'crust',
