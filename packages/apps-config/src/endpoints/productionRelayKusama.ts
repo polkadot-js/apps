@@ -15,15 +15,14 @@ import { getTeleports } from './util';
 // IMPORTANT: Alphabetical based on text
 export const prodParasKusama: EndpointOption[] = [
   {
-    info: 'aband',
     homepage: 'https://a.band',
+    info: 'aband',
     paraId: 2257,
-    text: 'Aband',
     providers: {
       'Aband DAO': 'wss://rpc-parachain.a.band'
-    }
+    },
+    text: 'Aband'
   },
-
   {
     homepage: 'https://centrifuge.io/altair',
     info: 'altair',
