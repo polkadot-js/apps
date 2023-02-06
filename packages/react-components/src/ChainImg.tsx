@@ -6,7 +6,6 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { chainLogos, namedLogos, nodeLogos } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -15,31 +14,24 @@ import Icon from './Icon';
 interface Props {
   className?: string;
   isInline?: boolean;
-  logo?: keyof typeof namedLogos;
+  logo?: string;
   onClick?: () => any;
   withoutHl?: boolean;
 }
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
-}
-
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
-  const { apiEndpoint, systemChain, systemName } = useApi();
+  const { apiEndpoint } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
-    const found = logo && logo !== 'empty'
-      ? logo.startsWith('data:image/') || logo.startsWith('fa;')
-        ? logo
-        : namedLogos[logo]
-      : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
+    const found = logo || apiEndpoint?.uiLogo;
     const imgBase = found || externalEmptySVG;
-    const isFa = (imgBase as string).startsWith('fa;');
-    const img = isFa
-      ? (imgBase as string).substring(3)
-      : imgBase;
+    const [isFa, img] = !imgBase || imgBase === 'empty' || !(imgBase.startsWith('data:') || imgBase.startsWith('fa;'))
+      ? [false, externalEmptySVG]
+      : imgBase.startsWith('fa;')
+        ? [true, imgBase.substring(3)]
+        : [false, imgBase];
 
     return [!found || logo === 'empty', img, isFa];
-  }, [apiEndpoint, logo, systemChain, systemName]);
+  }, [apiEndpoint, logo]);
 
   const iconClassName = `${className} ui--ChainImg ${(isEmpty && !withoutHl) ? 'highlight--bg' : ''} ${isInline ? 'isInline' : ''}`;
 
