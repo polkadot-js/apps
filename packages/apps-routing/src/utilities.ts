@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'wrench',
     name: 'utilities',
-    text: t('nav.utilities', 'Utilities', { ns: 'apps-routing' })
+    text: t<string>('nav.utilities', 'Utilities', { ns: 'apps-routing' })
   };
 }

@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'arrows-to-circle',
     name: 'runtime',
-    text: t('nav.runtime', 'Runtime calls', { ns: 'apps-routing' })
+    text: t<string>('nav.runtime', 'Runtime calls', { ns: 'apps-routing' })
   };
 }

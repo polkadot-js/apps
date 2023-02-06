@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
-import type { TFunction } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { CurveGraph, ReferendumProps as Props } from '../types';
@@ -80,7 +80,7 @@ function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, e
         const blocks = blockNumber.sub(bestNumber);
         const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
         const calc = calcBlockTime(blockInterval, blocks, t);
-        const result = [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
+        const result = [`#${label}`, t<string>('{{when}} (est.)', { replace: { when } }), calc[1]];
 
         if (extraTitle) {
           result.push(extraTitle);
@@ -209,9 +209,9 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
       confirmX && blockNumber.gte(confirmX[0])
         ? blockNumber.lte(confirmX[1])
-          ? t('Confirmation period')
+          ? t<string>('Confirmation period')
           : blockNumber.lte(confirmX[2])
-            ? t('Enactment period')
+            ? t<string>('Enactment period')
             : ''
         : ''
     );

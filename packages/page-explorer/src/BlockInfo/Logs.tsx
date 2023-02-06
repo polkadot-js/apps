@@ -106,7 +106,7 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('logs'), 'start']
+    [t<string>('logs'), 'start']
   ]);
 
   return (

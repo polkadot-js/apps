@@ -307,7 +307,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='link'
           key='identityMain'
-          label={t('Set on-chain identity')}
+          label={t<string>('Set on-chain identity')}
           onClick={toggleIdentityMain}
         />
       ),
@@ -315,7 +315,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='vector-square'
           key='identitySub'
-          label={t('Set on-chain sub-identities')}
+          label={t<string>('Set on-chain sub-identities')}
           onClick={toggleIdentitySub}
         />
       ),
@@ -323,7 +323,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='broom'
           key='clearDemocracy'
-          label={t('Clear expired democracy locks')}
+          label={t<string>('Clear expired democracy locks')}
           onClick={_clearDemocracyLocks}
         />
       ),
@@ -331,7 +331,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='broom'
           key='clearReferenda'
-          label={t('Clear expired referenda locks')}
+          label={t<string>('Clear expired referenda locks')}
           onClick={_clearReferendaLocks}
         />
       ),
@@ -339,17 +339,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='unlock'
           key='vestingVest'
-          label={t('Unlock vested amount')}
+          label={t<string>('Unlock vested amount')}
           onClick={_vestingVest}
         />
       )
-    ], t('Identity')),
+    ], t<string>('Identity')),
     createMenuGroup('deriveGroup', [
       !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
         <Menu.Item
           icon='download'
           key='deriveAccount'
-          label={t('Derive account via derivation path')}
+          label={t<string>('Derive account via derivation path')}
           onClick={toggleDerive}
         />
       ),
@@ -357,17 +357,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='eye'
           key='showHwAddress'
-          label={t('Show address on hardware device')}
+          label={t<string>('Show address on hardware device')}
           onClick={_showOnHardware}
         />
       )
-    ], t('Derive')),
+    ], t<string>('Derive')),
     createMenuGroup('backupGroup', [
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
           icon='database'
           key='backupJson'
-          label={t('Create a backup file for this account')}
+          label={t<string>('Create a backup file for this account')}
           onClick={toggleBackup}
         />
       ),
@@ -383,56 +383,56 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='trash-alt'
           key='forgetAccount'
-          label={t('Forget this account')}
+          label={t<string>('Forget this account')}
           onClick={toggleForget}
         />
       )
-    ], t('Backup')),
+    ], t<string>('Backup')),
     isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
           icon='redo'
           key='makeRecoverable'
-          label={t('Make recoverable')}
+          label={t<string>('Make recoverable')}
           onClick={toggleRecoverSetup}
         />
       ),
       <Menu.Item
         icon='screwdriver'
         key='initRecovery'
-        label={t('Initiate recovery for another')}
+        label={t<string>('Initiate recovery for another')}
         onClick={toggleRecoverAccount}
       />
-    ], t('Recovery')),
+    ], t<string>('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         icon='file-signature'
         isDisabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
-        label={t('Multisig approvals')}
+        label={t<string>('Multisig approvals')}
         onClick={toggleMultisig}
       />
-    ], t('Multisig')),
+    ], t<string>('Multisig')),
     isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
         icon='user-edit'
         key='changeDelegate'
-        label={t('Change democracy delegation')}
+        label={t<string>('Change democracy delegation')}
         onClick={toggleDelegate}
       />,
       <Menu.Item
         icon='user-minus'
         key='undelegate'
-        label= {t('Undelegate')}
+        label= {t<string>('Undelegate')}
         onClick={toggleUndelegate}
       />
-    ], t('Undelegate')),
+    ], t<string>('Undelegate')),
     createMenuGroup('delegateGroup', [
       isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
         <Menu.Item
           icon='user-plus'
           key='delegate'
-          label={t('Delegate democracy votes')}
+          label={t<string>('Delegate democracy votes')}
           onClick={toggleDelegate}
         />
       ),
@@ -441,13 +441,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           icon='sitemap'
           key='proxy-overview'
           label={proxy?.[0].length
-            ? t('Manage proxies')
-            : t('Add proxy')
+            ? t<string>('Manage proxies')
+            : t<string>('Add proxy')
           }
           onClick={toggleProxyOverview}
         />
       )
-    ], t('Delegate')),
+    ], t<string>('Delegate')),
     isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'

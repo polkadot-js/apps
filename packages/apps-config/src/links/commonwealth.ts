@@ -17,13 +17,13 @@ export const Commonwealth: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string, hash?: string): string =>
     `https://commonwealth.im/${chain}/${path}/${HASH_PATHS.includes(path) ? (hash || '') : data.toString()}`,
+  homepage: 'https://commonwealth.im/',
   isActive: true,
-  logo: externalLogos.commonwealth as string,
   paths: {
     council: 'proposal/councilmotion',
     democracyProposal: 'proposal/democracyproposal',
     democracyReferendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
-  url: 'https://commonwealth.im/'
+  uiLogo: externalLogos.commonwealth as string
 };

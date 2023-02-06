@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { Preimage } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';

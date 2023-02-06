@@ -26,10 +26,10 @@ export const SubId: ExternalDef = {
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `https://sub.id/${data.toString()}`,
+  homepage: 'https://sub.id',
   isActive: true,
-  logo: externalLogos.subid as string,
   paths: {
     address: 'account'
   },
-  url: 'https://sub.id'
+  uiLogo: externalLogos.subid as string
 };

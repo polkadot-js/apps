@@ -16,6 +16,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'envelope-open-text',
     name: 'extrinsics',
-    text: t('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
+    text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
   };
 }

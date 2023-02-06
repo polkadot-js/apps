@@ -21,7 +21,7 @@ interface Props {
 
 function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const NO_NAME = ` - ${t('no name')} -`;
+  const NO_NAME = ` - ${t<string>('no name')} -`;
 
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<CollectionInfoComplete | null>(null);
@@ -55,8 +55,8 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('items'), 'start', 2],
-    [t('owner'), 'address media--1000']
+    [t<string>('items'), 'start', 2],
+    [t<string>('owner'), 'address media--1000']
   ]);
 
   useEffect((): void => {

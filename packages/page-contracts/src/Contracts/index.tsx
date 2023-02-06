@@ -53,17 +53,17 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='plus'
-          label={t('Upload & deploy code')}
+          label={t<string>('Upload & deploy code')}
           onClick={toggleUpload}
         />
         <Button
           icon='plus'
-          label={t('Add an existing code hash')}
+          label={t<string>('Add an existing code hash')}
           onClick={toggleHash}
         />
         <Button
           icon='plus'
-          label={t('Add an existing contract')}
+          label={t<string>('Add an existing contract')}
           onClick={toggleAdd}
         />
       </Button.Group>

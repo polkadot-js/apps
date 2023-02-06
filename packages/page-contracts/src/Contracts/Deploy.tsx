@@ -118,13 +118,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   return (
     <Modal
-      header={t('Deploy a contract')}
+      header={t<string>('Deploy a contract')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
           isInput={false}
-          label={t('deployment account')}
+          label={t<string>('deployment account')}
           labelExtra={
             <Available
               label={t<string>('transferrable')}
@@ -156,7 +156,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           <>
             <Dropdown
               isDisabled={contractAbi.constructors.length <= 1}
-              label={t('deployment constructor')}
+              label={t<string>('deployment constructor')}
               onChange={setConstructorIndex}
               options={constructOptions}
               value={constructorIndex}
@@ -201,7 +201,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           extrinsic={initTx}
           icon='upload'
           isDisabled={!isValid || !initTx}
-          label={t('Deploy')}
+          label={t<string>('Deploy')}
           onClick={onClose}
           onSuccess={_onSuccess}
           withSpinner

@@ -28,10 +28,10 @@ function Bounties ({ className }: Props): React.ReactElement {
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('bounties'), 'start', 3],
-    [t('value')],
-    [t('curator'), 'start'],
-    [t('next action'), 'start', 3]
+    [t<string>('bounties'), 'start', 3],
+    [t<string>('value')],
+    [t<string>('curator'), 'start'],
+    [t<string>('next action'), 'start', 3]
   ]);
 
   return (

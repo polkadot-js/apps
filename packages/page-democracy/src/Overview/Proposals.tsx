@@ -21,9 +21,9 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('proposals'), 'start', 2],
-    [t('proposer'), 'address'],
-    [t('locked'), 'media--1200'],
+    [t<string>('proposals'), 'start', 2],
+    [t<string>('proposer'), 'address'],
+    [t<string>('locked'), 'media--1200'],
     [undefined, undefined, 2]
   ]);
 

@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types';
 
 import React, { useRef } from 'react';
 
@@ -29,10 +30,10 @@ function Pools ({ className, list, targets }: Props): React.ReactElement<Props> 
   const sessionProgress = useCall<DeriveSessionProgress>(api.derive.session.progress);
 
   const hdrRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('pools'), 'start', 2],
-    [t('account'), 'address'],
-    [t('bonded')],
-    [t('claimable')],
+    [t<string>('pools'), 'start', 2],
+    [t<string>('account'), 'address'],
+    [t<string>('bonded')],
+    [t<string>('claimable')],
     [],
     []
   ]);

@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'podcast',
     name: 'poll',
-    text: t('nav.poll', 'Token poll', { ns: 'apps-routing' })
+    text: t<string>('nav.poll', 'Token poll', { ns: 'apps-routing' })
   };
 }

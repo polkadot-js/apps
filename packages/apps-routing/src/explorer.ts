@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'braille',
     name: 'explorer',
-    text: t('nav.explorer', 'Explorer', { ns: 'apps-routing' })
+    text: t<string>('nav.explorer', 'Explorer', { ns: 'apps-routing' })
   };
 }

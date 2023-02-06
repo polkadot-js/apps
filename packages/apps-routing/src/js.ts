@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'code',
     name: 'js',
-    text: t('nav.js', 'JavaScript', { ns: 'apps-routing' })
+    text: t<string>('nav.js', 'JavaScript', { ns: 'apps-routing' })
   };
 }

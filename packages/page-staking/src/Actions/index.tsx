@@ -3,8 +3,9 @@
 
 import '@polkadot/api-augment';
 
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -127,10 +128,10 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   ]);
 
   const stashTypes = useRef([
-    { text: t('All stashes'), value: 'all' },
-    { text: t('Nominators'), value: 'noms' },
-    { text: t('Validators'), value: 'vals' },
-    { text: t('Inactive'), value: 'chill' }
+    { text: t<string>('All stashes'), value: 'all' },
+    { text: t<string>('Nominators'), value: 'noms' },
+    { text: t<string>('Validators'), value: 'vals' },
+    { text: t<string>('Inactive'), value: 'chill' }
   ]);
 
   const state = useMemo(

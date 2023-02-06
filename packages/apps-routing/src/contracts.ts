@@ -32,6 +32,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'compress',
     name: 'contracts',
-    text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
+    text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })
   };
 }

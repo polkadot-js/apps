@@ -117,7 +117,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   );
 
   const emptyHeader = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('unapplied'), 'start']
+    [t<string>('unapplied'), 'start']
   ]);
 
   if (!rows.length) {
