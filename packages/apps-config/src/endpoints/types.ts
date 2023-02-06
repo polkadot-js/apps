@@ -11,7 +11,7 @@ interface BaseOption {
   summary?: string;
   teleport?: number[];
   uiColor?: string;
-  uiLogo: string;
+  uiLogo?: string;
 }
 
 export interface EndpointOption extends BaseOption {
