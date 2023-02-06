@@ -344,7 +344,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     },
-    text: 'Ternoa'
+    text: 'Ternoa',
+    uiColor: '#d622ff'
   },
   {
     info: 'thebifrost-mainnet',

@@ -308,7 +308,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
       'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
     },
-    text: 'Listen Network'
+    text: 'Listen Network',
+    uiColor: '#FFAD0A'
   },
   {
     homepage: 'https://kusama-crowdloan.litentry.com',

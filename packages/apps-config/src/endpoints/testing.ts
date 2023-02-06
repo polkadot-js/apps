@@ -333,7 +333,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Litentry: 'wss://testnet.litentry.io'
     },
-    text: 'Litentry Testnet'
+    text: 'Litentry Testnet',
+    uiColor: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)'
   },
   {
     info: 'logion',
@@ -555,7 +556,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // SubDAO: 'wss://alpha.subdao.org' // https://github.com/polkadot-js/apps/issues/7473
     },
-    text: 'SubDAO Staging'
+    text: 'SubDAO Staging',
+    uiColor: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)'
   },
   {
     info: 'subgame',
@@ -617,7 +619,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       CapsuleCorp: 'wss://testnet.ternoa.com/'
     },
-    text: 'Ternoa Testnet'
+    text: 'Ternoa Testnet',
+    uiColor: '#d622ff'
   },
   {
     info: 'thebifrost-testnet',
@@ -632,7 +635,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws' // https://github.com/polkadot-js/apps/issues/8060
     },
-    text: 'Turbulence'
+    text: 'Turbulence',
+    uiColor: '#004FFF'
   },
   {
     info: 'uniarts',

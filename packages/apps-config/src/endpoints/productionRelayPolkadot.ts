@@ -288,7 +288,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Dwellir: 'wss://litentry-rpc.dwellir.com',
       Litentry: 'wss://rpc.litentry-parachain.litentry.io'
     },
-    text: 'Litentry'
+    text: 'Litentry',
+    uiColor: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)'
   },
   {
     homepage: 'https://manta.network',
@@ -410,7 +411,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       SubDAO: 'wss://parachain-rpc.subdao.org'
     },
-    text: 'SubDAO'
+    text: 'SubDAO',
+    uiColor: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)'
   },
   {
     homepage: 'http://subgame.org/',

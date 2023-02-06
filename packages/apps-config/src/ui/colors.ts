@@ -31,8 +31,6 @@ const chainKiltDev = '#f05a27';
 const chainKonomi = '#007aff';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
-const chainListen = '#FFAD0A';
-const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
 const chainMoonrock = '#3d1d5a';
 const chainMyriad = '#7342CC';
@@ -53,14 +51,12 @@ const chainPontem = '#A92FAC';
 const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = '#FF0083';
 const chainRococoEave = '#900048';
-const chainRococoLaminar = '#004FFF';
 const chainRiochain = '#4d87f6';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
-const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
 const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
@@ -73,11 +69,7 @@ const chainWeb3games = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 // based on node name
 // alphabetical
-const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
-const nodeAstar = '#1b6dc1d9';
-const nodeAutomata = '#EC7032';
-const nodeAutomataContextFree = '#EC7032';
 const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -98,7 +90,6 @@ const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
 const nodeKusari = '#b8860b';
-const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeLuhn = '#2DCE89';
 const nodeManta = '#2070a6';
 const nodeMathChain = '#000000';
@@ -118,10 +109,8 @@ const nodePolymesh = '#1348e4';
 const nodePontem = '#A92FAC';
 const nodeRiochain = '#1A3BB3';
 const nodeRobonomics = '#2949d3';
-const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeSubsocialX = '#69058C';
-const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnitNetwork = '#a351ef';
 const nodeUnique = chainUnique;
@@ -179,9 +168,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Kpron: nodeKpron,
   kusari: chainKusari,
   'Kylin Testnet': chainKylin,
-  'laminar turbulence pc1': chainRococoLaminar,
-  'Listen Network': chainListen,
-  Litentry: chainLitentry,
   Litmus: chainLitmus,
   Mars: nodeAres,
   MathChain: nodeMathChain,
@@ -219,9 +205,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   'Steam PC': chainRococoEave,
-  SubDAO: chainSubDAO,
-  'SubDAO PC1': chainSubDAO,
-  'SubDAO Staging': chainSubDAO,
   'TrustBase PC1': chainTrustBase,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
@@ -240,10 +223,6 @@ export const chainColors: Record<string, string> = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
-  'Apron Node': nodeApron,
-  Astar: nodeAstar,
-  'Automata ContextFree Node': nodeAutomataContextFree,
-  'Automata Node': nodeAutomata,
   'Bajun Node': nodeBajun,
   'Bifrost Node': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
@@ -269,8 +248,6 @@ export const nodeColors = Object.entries({
   'Kpron Collator': nodeKpron,
   kusari: nodeKusari,
   'Kylin Parachain Collator': nodeKylin,
-  'Listen Network': chainListen,
-  'Litentry node': nodeLitentry,
   'Luhn Collator': nodeLuhn,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
@@ -295,12 +272,8 @@ export const nodeColors = Object.entries({
   'Rio Defi Chain Node': nodeRiochain,
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
-  SubDAO: nodeSubDAO,
-  'SubDAO Collator': nodeSubDAO,
-  'SubDAO Staging': nodeSubDAO,
   'Subsocial Collator': nodeSubsocialX,
   'subsocial node': nodeSubsocial,
-  'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
   'Unique Node': nodeUnique,
