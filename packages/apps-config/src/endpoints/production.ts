@@ -60,7 +60,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     },
-    text: 'Centrifuge Standalone [Archived]'
+    text: 'Centrifuge Standalone [Archived]',
+    uiColor: '#fcc367'
   },
   {
     info: 'chainx',
@@ -100,7 +101,8 @@ export const prodChains: EndpointOption[] = [
       'Crust Network': 'wss://rpc.crust.network',
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
-    text: 'Crust Network'
+    text: 'Crust Network',
+    uiColor: '#ff8812'
   },
   {
     info: 'darwinia',
@@ -108,7 +110,8 @@ export const prodChains: EndpointOption[] = [
       'Darwinia Network': 'wss://rpc.darwinia.network',
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
     },
-    text: 'Darwinia'
+    text: 'Darwinia',
+    uiColor: '#FF0083'
   },
   {
     info: 'crab',
@@ -117,7 +120,8 @@ export const prodChains: EndpointOption[] = [
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
       OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
     },
-    text: 'Darwinia Crab'
+    text: 'Darwinia Crab',
+    uiColor: '#512DBC'
   },
   {
     info: 'debio',
@@ -157,14 +161,16 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
     },
-    text: 'Equilibrium'
+    text: 'Equilibrium',
+    uiColor: '#1792ff'
   },
   {
     info: 'genshiro',
     providers: {
       Equilibrium: 'wss://node.genshiro.io'
     },
-    text: 'Genshiro'
+    text: 'Genshiro',
+    uiColor: '#e8662d'
   },
   {
     info: 'hanonycash',
@@ -179,7 +185,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Jsgenesis: 'wss://rpc.joystream.org'
     },
-    text: 'Joystream'
+    text: 'Joystream',
+    uiColor: '#4038FF'
   },
   {
     info: 'kulupu',
@@ -194,7 +201,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Swapdex: 'wss://ws.kusari.network'
     },
-    text: 'Kusari'
+    text: 'Kusari',
+    uiColor: '#b8860b'
   },
   {
     info: 'logion',
@@ -210,7 +218,8 @@ export const prodChains: EndpointOption[] = [
       //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
       // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     },
-    text: 'MathChain'
+    text: 'MathChain',
+    uiColor: '#000000'
   },
   {
     info: 'minix',
@@ -225,7 +234,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Myriad: 'wss://ws-rpc.myriad.social'
     },
-    text: 'Myriad'
+    text: 'Myriad',
+    uiColor: '#7342CC'
   },
   {
     info: 'neatcoin',
@@ -264,21 +274,24 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Polymath: 'wss://mainnet-rpc.polymesh.network'
     },
-    text: 'Polymesh Mainnet'
+    text: 'Polymesh Mainnet',
+    uiColor: '#1348e4'
   },
   {
     info: 'riochain',
     providers: {
       RioChain: 'wss://node.v1.riochain.io'
     },
-    text: 'RioChain'
+    text: 'RioChain',
+    uiColor: 'rgb(77, 135, 246)'
   },
   {
     info: 'robonomics',
     providers: {
       // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/pull/6761
     },
-    text: 'Robonomics'
+    text: 'Robonomics',
+    uiColor: '#2949d3'
   },
   {
     info: 'sherpax',
@@ -329,7 +342,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // DappForce: 'wss://rpc.subsocial.network' // https://github.com/polkadot-js/apps/issues/8046
     },
-    text: 'Subsocial'
+    text: 'Subsocial',
+    uiColor: '#b9018c'
   },
   {
     info: 'swapdex',
@@ -353,21 +367,24 @@ export const prodChains: EndpointOption[] = [
       'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
       'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
     },
-    text: 'The Bifrost Mainnet'
+    text: 'The Bifrost Mainnet',
+    uiColor: '#5a25f0'
   },
   {
     info: 'uniarts',
     providers: {
       UniArts: 'wss://mainnet.uniarts.vip:9443'
     },
-    text: 'UniArts'
+    text: 'UniArts',
+    uiColor: 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)'
   },
   {
     info: 'unitnetwork',
     providers: {
       // UnitNetwork: 'wss://www.unitnode3.info:443'
     },
-    text: 'UnitNetwork'
+    text: 'UnitNetwork',
+    uiColor: '#a351ef'
   },
   {
     info: 'westlake',
