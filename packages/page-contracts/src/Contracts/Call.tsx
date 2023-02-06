@@ -212,7 +212,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}
-              label={t('Execute')}
+              label={t<string>('Execute')}
               onStart={onClose}
             />
           )

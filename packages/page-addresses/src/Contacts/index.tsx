@@ -32,7 +32,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const isNextTick = useNextTick();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('contacts'), 'start', 4]
+    [t<string>('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {

@@ -22,11 +22,11 @@ function VotingDescriptionInfo ({ className, proposal, status }: Props): React.R
   const bestProposalName = proposalNameToDisplay(proposal, status);
   const { t } = useTranslation();
   const votingDescriptions = useRef<Record<string, string>>({
-    approveBounty: t('Bounty approval under voting'),
-    closeBounty: t('Bounty rejection under voting'),
-    proposeCurator: t('Curator proposal under voting'),
-    slashCurator: t('Curator slash under voting'),
-    unassignCurator: t('Unassign curator under voting')
+    approveBounty: t<string>('Bounty approval under voting'),
+    closeBounty: t<string>('Bounty rejection under voting'),
+    proposeCurator: t<string>('Curator proposal under voting'),
+    slashCurator: t<string>('Curator slash under voting'),
+    unassignCurator: t<string>('Unassign curator under voting')
   });
 
   return (

@@ -93,7 +93,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                       className={`${sessionInfo ? '' : '--tmp'} isSecondary`}
                       value={activeEraStart}
                     >
-                      &nbsp;{t('elapsed')}
+                      &nbsp;{t<string>('elapsed')}
                     </Elapsed>
                   )}
                 </CardSummary>

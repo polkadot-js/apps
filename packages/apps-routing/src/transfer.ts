@@ -20,6 +20,6 @@ export default function create (t: TFunction): Route {
     group: 'accounts',
     icon: 'paper-plane',
     name: 'transfer',
-    text: t('nav.transfer', 'Transfer', { ns: 'apps-routing' })
+    text: t<string>('nav.transfer', 'Transfer', { ns: 'apps-routing' })
   };
 }

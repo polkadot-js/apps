@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'timeline',
     name: 'collators',
-    text: t('nav.collator', 'Collators', { ns: 'apps-routing' })
+    text: t<string>('nav.collator', 'Collators', { ns: 'apps-routing' })
   };
 }

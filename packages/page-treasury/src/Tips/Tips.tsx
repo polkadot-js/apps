@@ -62,9 +62,9 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('tips'), 'start'],
-    [t('finder'), 'address media--1400'],
-    [t('reason'), 'start'],
+    [t<string>('tips'), 'start'],
+    [t<string>('finder'), 'address media--1400'],
+    [t<string>('reason'), 'start'],
     [undefined, 'media--1100'],
     [],
     [undefined, 'badge media--1700'],

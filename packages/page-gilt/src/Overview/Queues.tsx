@@ -19,9 +19,9 @@ function Queues ({ className, queueTotals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('queues'), 'start'],
-    [t('participants'), 'number'],
-    [t('balance'), 'number']
+    [t<string>('queues'), 'start'],
+    [t<string>('participants'), 'number'],
+    [t<string>('balance'), 'number']
   ]);
 
   return (

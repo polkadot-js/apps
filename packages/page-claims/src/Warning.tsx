@@ -26,8 +26,8 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
       <StyledDiv className={className}>
         {
           needsAttest.length > 1
-            ? t('You need to sign an attestation for the following accounts:')
-            : t('You need to sign an attestation for the following account:')
+            ? t<string>('You need to sign an attestation for the following accounts:')
+            : t<string>('You need to sign an attestation for the following account:')
         }{
           needsAttest.map((address) => (
             <AddressMini

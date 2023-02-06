@@ -22,10 +22,10 @@ export const Singular: ExternalDef = {
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `https://singular.app/space/${getNetwork(_chain)}${data.toString()}`,
+  homepage: 'https://singular.app',
   isActive: true,
-  logo: externalLogos.singular as string,
   paths: {
     address: 'account'
   },
-  url: 'https://singular.app'
+  uiLogo: externalLogos.singular as string
 };

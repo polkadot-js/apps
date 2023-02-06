@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'list-check',
     name: 'whitelist',
-    text: t('nav.whitelist', 'Whitelist', { ns: 'apps-routing' })
+    text: t<string>('nav.whitelist', 'Whitelist', { ns: 'apps-routing' })
   };
 }

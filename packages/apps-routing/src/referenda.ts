@@ -19,7 +19,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'person-booth',
     name: 'referenda',
-    text: t('nav.referenda', 'Referenda', { ns: 'apps-routing' }),
+    text: t<string>('nav.referenda', 'Referenda', { ns: 'apps-routing' }),
     useCounter
   };
 }

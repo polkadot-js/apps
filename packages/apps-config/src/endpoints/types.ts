@@ -18,6 +18,8 @@ export interface EndpointOption {
   summary?: string;
   teleport?: number[];
   text: string;
+  uiColor?: string;
+  uiLogo?: string;
 }
 
 export interface LinkOption extends Option {

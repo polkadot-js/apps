@@ -18,7 +18,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'people-carry',
     name: 'membership',
-    text: t('nav.membership', 'Membership', { ns: 'apps-routing' }),
+    text: t<string>('nav.membership', 'Membership', { ns: 'apps-routing' }),
     useCounter
   };
 }

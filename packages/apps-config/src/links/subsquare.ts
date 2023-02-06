@@ -30,8 +30,8 @@ export const Subsquare: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subsquare.io/${path}/${data.toString()}`,
+  homepage: 'https://subsquare.io/',
   isActive: true,
-  logo: externalLogos.subsquare as string,
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
@@ -43,5 +43,5 @@ export const Subsquare: ExternalDef = {
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
   },
-  url: 'https://subsquare.io/'
+  uiLogo: externalLogos.subsquare as string
 };

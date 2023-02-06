@@ -96,7 +96,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                 <TxButton
                   icon='paper-plane'
                   isUnsigned
-                  label={t('Claim')}
+                  label={t<string>('Claim')}
                   onSuccess={onSuccess}
                   {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />

@@ -25,8 +25,6 @@ const BYTES_TYPE = {
   type: 'Bytes'
 };
 
-const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';
-
 function parseFile (raw: Uint8Array): Parsed {
   const json = JSON.parse(u8aToString(raw)) as Record<string, string>;
   const keys = Object.keys(json);
@@ -52,7 +50,7 @@ function parseFile (raw: Uint8Array): Parsed {
 
 function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
+  const [placeholder, setPlaceholder] = useState<string>(t<string>('click to select or drag and drop JSON key/value (hex-encoded) file'));
 
   const _onChange = useCallback(
     (raw: Uint8Array): void => {
@@ -61,7 +59,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
       try {
         encoded = parseFile(raw);
 
-        setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
+        setPlaceholder(t<string>('{{count}} key/value pairs encoded for submission', {
           replace: {
             count: encoded.value.length
           }
@@ -69,7 +67,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
       } catch (error) {
         console.error('Error converting json k/v', error);
 
-        setPlaceholder(t(EMPTY_PLACEHOLDER));
+        setPlaceholder(t<string>('click to select or drag and drop JSON key/value (hex-encoded) file'));
       }
 
       onChange && onChange(encoded);

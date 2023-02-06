@@ -114,7 +114,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
     (code: string): void => {
       try {
         if (!isJsonObject(code)) {
-          throw Error(t('This is not a valid JSON object.'));
+          throw Error('This is not a valid JSON object.');
         }
 
         _onChangeTypes(stringToU8a(code));
@@ -124,7 +124,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         setTypesPlaceholder((error as Error).message);
       }
     },
-    [_onChangeTypes, t]
+    [_onChangeTypes]
   );
 
   const _saveDeveloper = useCallback(
@@ -149,7 +149,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         console.error(error);
         setIsTypesValid(false);
         onStatusChange({
-          action: t(`Error saving your custom types. ${(error as Error).message}`),
+          action: t<string>(`Error saving your custom types. ${(error as Error).message}`),
           status: 'error'
         });
       }

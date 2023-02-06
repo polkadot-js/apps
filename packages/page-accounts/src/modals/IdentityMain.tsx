@@ -132,7 +132,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           label={t<string>('display name')}
           maxLength={32}
           onChange={setValDisplay}
-          placeholder={t('My On-Chain Name')}
+          placeholder={t<string>('My On-Chain Name')}
           value={valDisplay}
         />
         <Input
@@ -148,7 +148,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           }
           maxLength={32}
           onChange={setValLegal}
-          placeholder={t('Full Legal Name')}
+          placeholder={t<string>('Full Legal Name')}
           value={hasLegal ? valLegal : '<none>'}
         />
         <Input
@@ -164,7 +164,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           }
           maxLength={32}
           onChange={setValEmail}
-          placeholder={t('somebody@example.com')}
+          placeholder={t<string>('somebody@example.com')}
           value={hasEmail ? valEmail : '<none>'}
         />
         <Input
@@ -180,7 +180,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           }
           maxLength={32}
           onChange={setValWeb}
-          placeholder={t('https://example.com')}
+          placeholder={t<string>('https://example.com')}
           value={hasWeb ? valWeb : '<none>'}
         />
         <Input
@@ -195,7 +195,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             />
           }
           onChange={setValTwitter}
-          placeholder={t('@YourTwitterName')}
+          placeholder={t<string>('@YourTwitterName')}
           value={hasTwitter ? valTwitter : '<none>'}
         />
         <Input
@@ -211,7 +211,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           }
           maxLength={32}
           onChange={setValRiot}
-          placeholder={t('@yourname:matrix.org')}
+          placeholder={t<string>('@yourname:matrix.org')}
           value={hasRiot ? valRiot : '<none>'}
         />
         <InputBalance

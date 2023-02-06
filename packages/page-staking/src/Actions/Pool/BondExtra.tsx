@@ -5,12 +5,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useRef, useState } from 'react';
 
+import useAmountError from '@polkadot/app-staking2/Pools/useAmountError';
 import { Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import useAmountError from '../../Pools/useAmountError';
 import { useTranslation } from '../../translate';
 import PoolInfo from '../partials/PoolInfo';
 

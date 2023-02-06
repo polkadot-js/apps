@@ -60,12 +60,12 @@ export const Polkaholic: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkaholic.io/${path}/${data.toString()}`,
+  homepage: 'https://polkaholic.io/',
   isActive: true,
-  logo: externalLogos.polkaholic as string,
   paths: {
     address: 'account',
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  url: 'https://polkaholic.io/'
+  uiLogo: externalLogos.polkaholic as string
 };
