@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsAventusSVG, chainsBitgreenPNG, chainsDaliPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsJurPNG, chainsKabochaSVG, chainsMangataPNG, chainsMoonsamaPNG, chainsOliSVG, chainsOrigintrailTestnetPNG, chainsRocfinitySVG, chainsRococoContractsPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesArcticPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesPangolinSVG, nodesRobonomicsSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
+import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
+import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -58,7 +58,7 @@ export const testParasRococo: EndpointOption[] = [
     providers: {},
     text: 'Aventus',
     ui: {
-      logo: chainsAventusSVG
+      logo: nodesAventusSVG
     }
   },
   {
@@ -151,7 +151,7 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Dali',
     ui: {
       color: '#000000',
-      logo: chainsDaliPNG
+      logo: nodesDaliPNG
     }
   },
   {
@@ -257,7 +257,7 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Kabocha (kabsoup)',
     ui: {
       color: 'repeating-radial-gradient(black, black 4px, yellow 5px)',
-      logo: chainsKabochaSVG
+      logo: nodesKabochaSVG
     }
   },
   {
@@ -328,7 +328,7 @@ export const testParasRococo: EndpointOption[] = [
     text: 'OLI',
     ui: {
       color: '#8CC63F',
-      logo: chainsOliSVG
+      logo: nodesOliSVG
     }
   },
   {
@@ -390,7 +390,7 @@ export const testParasRococo: EndpointOption[] = [
     text: 'Rocfinity',
     ui: {
       color: '#496ddb',
-      logo: chainsRocfinitySVG
+      logo: nodesRocfinitySVG
     }
   },
   {
@@ -586,7 +586,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     text: 'Contracts',
     ui: {
       color: '#000000',
-      logo: chainsRococoContractsPNG
+      logo: nodesSubstrateContractsNodePNG
     }
   },
   {

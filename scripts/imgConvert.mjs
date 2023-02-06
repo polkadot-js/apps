@@ -10,15 +10,15 @@ import { stringCamelCase } from '@polkadot/util';
 
 const WITH_ZLIB = false;
 
-const DIRS = ['extensions', 'external', 'chains', 'nodes'];
-
 const MIME = {
   gif: 'image/gif',
   png: 'image/png',
   svg: 'image/svg+xml'
 }
 
-for (let dir of DIRS) {
+const all = {};
+
+for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
   const result = {};
 
@@ -38,15 +38,42 @@ for (let dir of DIRS) {
           const data = `data:${mime};base64,${fs.readFileSync(full).toString('base64')}`;
           const compressed = Buffer.from(zlibSync(Buffer.from(data), { level: 9 }));
           const base64 = compressed.toString('base64');
+          const k = `${stringCamelCase(`${dir}_${parts.slice(0, parts.length - 1).join('_')}`)}${ext.toUpperCase()}`;
+          const v = WITH_ZLIB
+          ? `unz(';base64,${base64}', ${compressed.length}, ${data.length})`
+          : `'${data}'`;;
 
-          result[`${stringCamelCase(`${dir}_${parts.slice(0, parts.length - 1).join('_')}`)}${ext.toUpperCase()}`] = WITH_ZLIB
-            ? `unz(';base64,${base64}', ${compressed.length}, ${data.length})`
-            : `'${data}'`;
+          result[k] = v;
+          all[k] = v;
         }
       }
     });
 
     if (Object.keys(result).length) {
+      let srcs = '';
+
+      for (let dir of ['endpoints', 'extensions', 'links']) {
+      const srcroot = path.join('packages/apps-config/src', dir);
+
+        fs
+          .readdirSync(srcroot)
+          .forEach((file) => {
+            const full = path.join(srcroot, file);
+
+            if (fs.lstatSync(full).isFile() && file.endsWith('.ts')) {
+              srcs += fs.readFileSync(full).toString();
+            }
+          });
+      }
+
+      const notfound = Object
+        .keys(result)
+        .filter((k) => !srcs.includes(k));
+
+      if (notfound.length) {
+        console.log('\n', dir.padEnd(10), ' :: ', notfound.length, 'not referenced', '\n\t', notfound.join(', '), '\n');
+      }
+
       fs.writeFileSync(path.join(sub, 'index.ts'), `// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -62,3 +89,28 @@ ${Object.keys(result).sort().map((k) => `export const ${k} = ${result[k]};`).joi
     }
 }
 
+const allKeys = Object.keys(all);
+const dupes = {};
+
+ allKeys.forEach((a) => {
+  const d = allKeys.filter((b) =>
+    a !== b &&
+    all[a] === all[b]
+  );
+
+  if (d.length) {
+    dupes[a] = d;
+  }
+ });
+
+if (Object.keys(dupes).length) {
+  const dupeMsg = `${Object.keys(dupes).length} dupes found`;
+
+  console.log('\n', dupeMsg);
+
+  for (let [k, d] of Object.entries(dupes)) {
+    console.log('\t', k.padStart(20), ' :: ', d.join(', '));
+  }
+
+  throw new Error(`FATAL: ${dupeMsg}`);
+}
