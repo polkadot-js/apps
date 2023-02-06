@@ -116,7 +116,8 @@ function createWebpack (context, mode = 'production') {
           ...mapChunks('config', [
             /* 00 */ /apps-config\/src\/api/,
             /* 01 */ /apps-config\/src\/ui\/logos\/chains/,
-            /* 02 */ /apps-config\/src\/ui\/logos\/nodes/
+            /* 02 */ /apps-config\/src\/ui\/logos\/nodes/,
+            /* 03 */ /apps-config\/src\/ui\/logos\/(extensions|external)/
           ]),
           ...mapChunks('robohash', [
             /* 00 */ /RoboHash\/(backgrounds|sets\/set1)/,
