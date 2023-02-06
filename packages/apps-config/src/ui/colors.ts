@@ -3,7 +3,6 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
-import nodeBasiliskRococo from './logos/nodes/basilisk-rococo-bg.png';
 import { sanitize } from './util';
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -11,7 +10,6 @@ import { sanitize } from './util';
 
 // based on chain name
 // alphabetical
-const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainCrab = '#512DBC';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -80,7 +78,6 @@ const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
 const nodeAutomata = '#EC7032';
 const nodeAutomataContextFree = '#EC7032';
-const nodeBasilisk = '#49E49F';
 const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -134,7 +131,6 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  'Basilisk testnet': chainBasiliskTestnet,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost K Rococo': chainRoccoBifrost,
@@ -249,7 +245,6 @@ export const nodeColors = Object.entries({
   'Automata ContextFree Node': nodeAutomataContextFree,
   'Automata Node': nodeAutomata,
   'Bajun Node': nodeBajun,
-  Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bifrost Stage Testnet': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,

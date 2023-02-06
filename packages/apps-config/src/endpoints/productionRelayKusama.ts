@@ -70,7 +70,8 @@ export const prodParasKusama: EndpointOption[] = [
       Basilisk: 'wss://rpc.basilisk.cloud',
       Dwellir: 'wss://basilisk-rpc.dwellir.com'
     },
-    text: 'Basilisk'
+    text: 'Basilisk',
+    uiColor: '#49E49F'
   },
   {
     homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',

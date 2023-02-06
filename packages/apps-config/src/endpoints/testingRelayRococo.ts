@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
 import { chainsT0rnPNG, chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
+import { nodesAjunaPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -65,7 +65,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     },
-    text: 'Basilisk'
+    text: 'Basilisk',
+    uiColor: `url(${nodesBasiliskRococoBgPNG}) #000`
   },
   {
     info: 'rococoBifrost',
