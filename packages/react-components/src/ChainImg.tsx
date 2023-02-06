@@ -22,13 +22,13 @@ interface Props {
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { apiEndpoint } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
-    const found = logo && logo !== 'empty'
-      ? logo
-      : apiEndpoint?.uiLogo;
+    const found = logo || apiEndpoint?.uiLogo;
     const imgBase = found || externalEmptySVG;
-    const [isFa, img] = imgBase.startsWith('fa;')
-      ? [true, imgBase.substring(3)]
-      : [false, imgBase];
+    const [isFa, img] = logo === 'empty' || !logo || !(logo.startsWith('data:/') || logo.startsWith('fa;'))
+      ? [false, externalEmptySVG]
+      : imgBase.startsWith('fa;')
+        ? [true, imgBase.substring(3)]
+        : [false, imgBase];
 
     return [!found || logo === 'empty', img, isFa];
   }, [apiEndpoint, logo]);

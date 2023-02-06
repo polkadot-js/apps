@@ -4,7 +4,6 @@
 import React from 'react';
 
 export interface Network {
-  icon?: string;
   isChild?: boolean;
   isLightClient?: boolean;
   isRelay?: boolean;
