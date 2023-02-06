@@ -355,6 +355,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // DataHighway: 'wss://westlake.datahighway.com' // https://github.com/polkadot-js/apps/issues/7293
     },
-    text: 'Westlake'
+    text: 'Westlake',
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
   }
 ];

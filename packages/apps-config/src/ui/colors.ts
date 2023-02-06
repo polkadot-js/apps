@@ -24,7 +24,6 @@ const chainCreditcoinTestnet = '#00DF83';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
-const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = '#FF0083';
 const chainDali = '#000000';
@@ -118,7 +117,6 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
-const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSkyeKiwi = '#6667ab';
@@ -139,7 +137,6 @@ const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42
 const chainVara = '#32e37d';
 const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
-const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -219,7 +216,6 @@ const nodeUnitNetwork = '#a351ef';
 const nodeUnique = chainUnique;
 const nodeOpal = chainOpal;
 const nodeWeb3games = '#000000';
-const nodeWestlake = chainWestlake;
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -245,7 +241,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Centrifuge: nodeCentrifuge,
   ChainOLI: chainOLI,
   ChainX: chainChainx,
-  Clover: chainClover,
   Collectives: chainCollectives,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
@@ -382,7 +377,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Riochain Staging': chainRiochain,
   Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
-  Sakura: chainSakura,
   Shadow: chainShadow,
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
@@ -414,7 +408,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'VLN PC': chainVln,
   Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
-  Westlake: chainWestlake,
   Whala: chainWhala,
   WILT: chainKilt,
   'Zenlink PC1': chainZenlink,
@@ -525,7 +518,6 @@ export const nodeColors = Object.entries({
   'Unique Node': nodeUnique,
   'UnitNetwork Node': nodeUnitNetwork,
   'Web3Games Node': nodeWeb3games,
-  Westlake: nodeWestlake,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,

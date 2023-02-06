@@ -115,7 +115,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Clover: 'wss://rpc-para.clover.finance',
       OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, renenabled for PolkadotJS
     },
-    text: 'Clover'
+    text: 'Clover',
+    uiColor: 'linear-gradient(to right, #52ad75, #7cc773)'
   },
   {
     homepage: 'http://www.coinversation.io/',

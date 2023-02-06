@@ -113,7 +113,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Clover: 'wss://api.clover.finance/' // Cannot construct unknown type BridgeNetworks
     },
-    text: 'Clover'
+    text: 'Clover',
+    uiColor: 'linear-gradient(to right, #52ad75, #7cc773)'
   },
   {
     info: 'creditcoin-testnet',

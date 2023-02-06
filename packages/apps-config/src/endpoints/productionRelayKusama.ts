@@ -465,7 +465,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Clover: 'wss://api-sakura.clover.finance'
     },
-    text: 'Sakura'
+    text: 'Sakura',
+    uiColor: '#ff5995'
   },
   {
     homepage: 'https://shiden.astar.network/',
