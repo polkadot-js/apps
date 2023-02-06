@@ -3,6 +3,9 @@
 
 import type { EndpointOption } from './types';
 
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCompetitorsClubPNG, chainsCreditcoinPNG, chainsCrownSterlingPNG, chainsDebioSVG, chainsEfinitySVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadSVG, chainsSpannerPNG } from '../ui/logos/chains';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesBifrostSVG, nodesCentrifugePNG, nodesChainxSVG, nodesCrabSVG, nodesCrustSVG, nodesDarwiniaSVG, nodesDockMainnetPNG, nodesEdgewareWhitePNG, nodesHanonycashSVG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesUniartsPNG, nodesUnitnetworkPNG, nodesWestlakePNG } from '../ui/logos/nodes';
+
 export * from './productionRelayKusama';
 export * from './productionRelayPolkadot';
 
@@ -20,7 +23,8 @@ export const prodChains: EndpointOption[] = [
       '3dpass': 'wss://rpc2.3dpass.org'
     },
     text: '3DPass',
-    uiColor: '#323232'
+    uiColor: '#323232',
+    uiLogo: chains3dpassPNG
   },
   {
     info: 'aleph',
@@ -28,7 +32,8 @@ export const prodChains: EndpointOption[] = [
       'Aleph Zero Foundation': 'wss://ws.azero.dev'
     },
     text: 'Aleph Zero',
-    uiColor: '#00CCAB'
+    uiColor: '#00CCAB',
+    uiLogo: chainsAlephSVG
   },
   {
     info: 'Ares Odyssey',
@@ -36,7 +41,8 @@ export const prodChains: EndpointOption[] = [
       'Ares Protocol': 'wss://odyssey.aresprotocol.io'
     },
     text: 'Ares Odyssey',
-    uiColor: '#1295F0'
+    uiColor: '#1295F0',
+    uiLogo: nodesAresOdysseySVG
   },
   {
     info: 'automata',
@@ -45,7 +51,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
     },
     text: 'Automata',
-    uiColor: '#EC7032'
+    uiColor: '#EC7032',
+    uiLogo: nodesAutomataPNG
   },
   {
     info: 'bittensor',
@@ -53,7 +60,8 @@ export const prodChains: EndpointOption[] = [
       'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     },
     text: 'Bittensor',
-    uiColor: '#252525'
+    uiColor: '#252525',
+    uiLogo: chainsBittensorPNG
   },
   {
     info: 'centrifuge',
@@ -61,7 +69,8 @@ export const prodChains: EndpointOption[] = [
       // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     },
     text: 'Centrifuge Standalone [Archived]',
-    uiColor: '#fcc367'
+    uiColor: '#fcc367',
+    uiLogo: nodesCentrifugePNG
   },
   {
     info: 'chainx',
@@ -69,7 +78,8 @@ export const prodChains: EndpointOption[] = [
       ChainX: 'wss://mainnet.chainx.org/ws'
     },
     text: 'ChainX',
-    uiColor: '#F6C94A'
+    uiColor: '#F6C94A',
+    uiLogo: nodesChainxSVG
   },
   {
     info: 'competitors-club',
@@ -77,7 +87,8 @@ export const prodChains: EndpointOption[] = [
       // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     },
     text: 'Competitors Club',
-    uiColor: '#213830'
+    uiColor: '#213830',
+    uiLogo: chainsCompetitorsClubPNG
   },
   {
     info: 'creditcoin',
@@ -85,7 +96,8 @@ export const prodChains: EndpointOption[] = [
       'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     },
     text: 'Creditcoin',
-    uiColor: '#2D353F'
+    uiColor: '#2D353F',
+    uiLogo: chainsCreditcoinPNG
   },
   {
     info: 'crown-sterling',
@@ -93,7 +105,8 @@ export const prodChains: EndpointOption[] = [
       'Crown Sterling': 'wss://blockchain.crownsterling.io'
     },
     text: 'Crown Sterling',
-    uiColor: '#13264b'
+    uiColor: '#13264b',
+    uiLogo: chainsCrownSterlingPNG
   },
   {
     info: 'crust',
@@ -102,7 +115,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
     text: 'Crust Network',
-    uiColor: '#ff8812'
+    uiColor: '#ff8812',
+    uiLogo: nodesCrustSVG
   },
   {
     info: 'darwinia',
@@ -111,7 +125,8 @@ export const prodChains: EndpointOption[] = [
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
     },
     text: 'Darwinia',
-    uiColor: '#FF0083'
+    uiColor: '#FF0083',
+    uiLogo: nodesDarwiniaSVG
   },
   {
     info: 'crab',
@@ -121,7 +136,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
     },
     text: 'Darwinia Crab',
-    uiColor: '#512DBC'
+    uiColor: '#512DBC',
+    uiLogo: nodesCrabSVG
   },
   {
     info: 'debio',
@@ -129,14 +145,16 @@ export const prodChains: EndpointOption[] = [
       DeBio: 'wss://ws-rpc.debio.network'
     },
     text: 'DeBio',
-    uiColor: '#FF56E0'
+    uiColor: '#FF56E0',
+    uiLogo: chainsDebioSVG
   },
   {
     info: 'dock-pos-mainnet',
     providers: {
       'Dock Association': 'wss://mainnet-node.dock.io'
     },
-    text: 'Dock'
+    text: 'Dock',
+    uiLogo: nodesDockMainnetPNG
   },
   {
     info: 'edgeware',
@@ -146,7 +164,8 @@ export const prodChains: EndpointOption[] = [
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
     },
     text: 'Edgeware',
-    uiColor: '#111111'
+    uiColor: '#111111',
+    uiLogo: nodesEdgewareWhitePNG
   },
   {
     info: 'efinity',
@@ -154,7 +173,8 @@ export const prodChains: EndpointOption[] = [
       // Efinity: 'wss://rpc.efinity.io' // https://github.com/polkadot-js/apps/pull/6761
     },
     text: 'Efinity',
-    uiColor: '#496ddb'
+    uiColor: '#496ddb',
+    uiLogo: chainsEfinitySVG
   },
   {
     info: 'equilibrium',
@@ -162,7 +182,8 @@ export const prodChains: EndpointOption[] = [
       // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
     },
     text: 'Equilibrium',
-    uiColor: '#1792ff'
+    uiColor: '#1792ff',
+    uiLogo: chainsEquilibriumSVG
   },
   {
     info: 'genshiro',
@@ -170,7 +191,8 @@ export const prodChains: EndpointOption[] = [
       Equilibrium: 'wss://node.genshiro.io'
     },
     text: 'Genshiro',
-    uiColor: '#e8662d'
+    uiColor: '#e8662d',
+    uiLogo: chainsGenshiroSVG
   },
   {
     info: 'hanonycash',
@@ -178,7 +200,8 @@ export const prodChains: EndpointOption[] = [
       // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     },
     text: 'Hanonycash',
-    uiColor: '#0099CC'
+    uiColor: '#0099CC',
+    uiLogo: nodesHanonycashSVG
   },
   {
     info: 'joystream',
@@ -186,7 +209,8 @@ export const prodChains: EndpointOption[] = [
       Jsgenesis: 'wss://rpc.joystream.org'
     },
     text: 'Joystream',
-    uiColor: '#4038FF'
+    uiColor: '#4038FF',
+    uiLogo: nodesJoystreamSVG
   },
   {
     info: 'kulupu',
@@ -194,7 +218,8 @@ export const prodChains: EndpointOption[] = [
       Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
     },
     text: 'Kulupu',
-    uiColor: '#003366'
+    uiColor: '#003366',
+    uiLogo: nodesKulupuSVG
   },
   {
     info: 'kusari',
@@ -202,7 +227,8 @@ export const prodChains: EndpointOption[] = [
       Swapdex: 'wss://ws.kusari.network'
     },
     text: 'Kusari',
-    uiColor: '#b8860b'
+    uiColor: '#b8860b',
+    uiLogo: nodesKusariSVG
   },
   {
     info: 'logion',
@@ -210,7 +236,8 @@ export const prodChains: EndpointOption[] = [
       Logion: 'wss://rpc01.logion.network'
     },
     text: 'logion Standalone',
-    uiColor: 'rgb(21, 38, 101)'
+    uiColor: 'rgb(21, 38, 101)',
+    uiLogo: chainsLogionPNG
   },
   {
     info: 'mathchain',
@@ -219,7 +246,8 @@ export const prodChains: EndpointOption[] = [
       // 'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/8525
     },
     text: 'MathChain',
-    uiColor: '#000000'
+    uiColor: '#000000',
+    uiLogo: nodesMathSVG
   },
   {
     info: 'minix',
@@ -227,7 +255,8 @@ export const prodChains: EndpointOption[] = [
       // ChainX: 'wss://minichain-mainnet.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/7182
     },
     text: 'MiniX',
-    uiColor: '#5152f7'
+    uiColor: '#5152f7',
+    uiLogo: nodesMinixPNG
   },
   {
     info: 'myriad',
@@ -235,7 +264,8 @@ export const prodChains: EndpointOption[] = [
       Myriad: 'wss://ws-rpc.myriad.social'
     },
     text: 'Myriad',
-    uiColor: '#7342CC'
+    uiColor: '#7342CC',
+    uiLogo: chainsMyriadSVG
   },
   {
     info: 'neatcoin',
@@ -249,7 +279,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       NFTMart: 'wss://mainnet.nftmart.io/rpc/ws'
     },
-    text: 'NFTMart'
+    text: 'NFTMart',
+    uiLogo: nodesNftmartPNG
   },
   {
     info: 'nodle',
@@ -258,7 +289,8 @@ export const prodChains: EndpointOption[] = [
       // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     },
     text: 'Nodle',
-    uiColor: '#1ab394'
+    uiColor: '#1ab394',
+    uiLogo: nodesNodleSVG
   },
   {
     info: 'polkadex',
@@ -267,7 +299,8 @@ export const prodChains: EndpointOption[] = [
       'Polkadex Team': 'wss://mainnet.polkadex.trade'
     },
     text: 'Polkadex',
-    uiColor: '#7C30DD'
+    uiColor: '#7C30DD',
+    uiLogo: nodesPolkadexSVG
   },
   {
     info: 'polymesh',
@@ -275,7 +308,8 @@ export const prodChains: EndpointOption[] = [
       Polymath: 'wss://mainnet-rpc.polymesh.network'
     },
     text: 'Polymesh Mainnet',
-    uiColor: '#1348e4'
+    uiColor: '#1348e4',
+    uiLogo: nodesPolymeshSVG
   },
   {
     info: 'riochain',
@@ -283,7 +317,8 @@ export const prodChains: EndpointOption[] = [
       RioChain: 'wss://node.v1.riochain.io'
     },
     text: 'RioChain',
-    uiColor: 'rgb(77, 135, 246)'
+    uiColor: 'rgb(77, 135, 246)',
+    uiLogo: nodesRiochainSVG
   },
   {
     info: 'robonomics',
@@ -291,7 +326,8 @@ export const prodChains: EndpointOption[] = [
       // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/pull/6761
     },
     text: 'Robonomics',
-    uiColor: '#2949d3'
+    uiColor: '#2949d3',
+    uiLogo: nodesRobonomicsSVG
   },
   {
     info: 'sherpax',
@@ -299,7 +335,8 @@ export const prodChains: EndpointOption[] = [
       ChainX: 'wss://mainnet.sherpax.io'
     },
     text: 'SherpaX',
-    uiColor: '#6bbee8'
+    uiColor: '#6bbee8',
+    uiLogo: nodesSherpaxPNG
   },
   {
     info: 'sora-substrate',
@@ -310,7 +347,8 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
     },
     text: 'SORA',
-    uiColor: '#2D2926'
+    uiColor: '#2D2926',
+    uiLogo: nodesSoraSubstrateSVG
   },
   {
     info: 'spanner',
@@ -318,7 +356,8 @@ export const prodChains: EndpointOption[] = [
       // Spanner: 'wss://wss.spannerprotocol.com' // https://github.com/polkadot-js/apps/issues/6547
     },
     text: 'Spanner',
-    uiColor: '#EC3D3D'
+    uiColor: '#EC3D3D',
+    uiLogo: chainsSpannerPNG
   },
   {
     info: 'stafi',
@@ -327,7 +366,8 @@ export const prodChains: EndpointOption[] = [
       'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
     },
     text: 'Stafi',
-    uiColor: '#00F3AB'
+    uiColor: '#00F3AB',
+    uiLogo: nodesStafiPNG
   },
   {
     info: 'subgame',
@@ -335,7 +375,8 @@ export const prodChains: EndpointOption[] = [
       SubGame: 'wss://mainnet.subgame.org/'
     },
     text: 'SubGame',
-    uiColor: '#EB027D'
+    uiColor: '#EB027D',
+    uiLogo: nodesSubgameSVG
   },
   {
     info: 'subsocial',
@@ -343,7 +384,8 @@ export const prodChains: EndpointOption[] = [
       // DappForce: 'wss://rpc.subsocial.network' // https://github.com/polkadot-js/apps/issues/8046
     },
     text: 'Subsocial',
-    uiColor: '#b9018c'
+    uiColor: '#b9018c',
+    uiLogo: nodesSubsocialSVG
   },
   {
     info: 'swapdex',
@@ -351,7 +393,8 @@ export const prodChains: EndpointOption[] = [
       Swapdex: 'wss://ws.swapdex.network'
     },
     text: 'Swapdex',
-    uiColor: '#E94082'
+    uiColor: '#E94082',
+    uiLogo: nodesSwapdexSVG
   },
   {
     info: 'ternoa',
@@ -359,7 +402,8 @@ export const prodChains: EndpointOption[] = [
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     },
     text: 'Ternoa',
-    uiColor: '#d622ff'
+    uiColor: '#d622ff',
+    uiLogo: nodesTernoaSVG
   },
   {
     info: 'thebifrost-mainnet',
@@ -368,7 +412,8 @@ export const prodChains: EndpointOption[] = [
       'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
     },
     text: 'The Bifrost Mainnet',
-    uiColor: '#5a25f0'
+    uiColor: '#5a25f0',
+    uiLogo: nodesBifrostSVG
   },
   {
     info: 'uniarts',
@@ -376,7 +421,8 @@ export const prodChains: EndpointOption[] = [
       UniArts: 'wss://mainnet.uniarts.vip:9443'
     },
     text: 'UniArts',
-    uiColor: 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)'
+    uiColor: 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)',
+    uiLogo: nodesUniartsPNG
   },
   {
     info: 'unitnetwork',
@@ -384,7 +430,8 @@ export const prodChains: EndpointOption[] = [
       // UnitNetwork: 'wss://www.unitnode3.info:443'
     },
     text: 'UnitNetwork',
-    uiColor: '#a351ef'
+    uiColor: '#a351ef',
+    uiLogo: nodesUnitnetworkPNG
   },
   {
     info: 'westlake',
@@ -392,6 +439,7 @@ export const prodChains: EndpointOption[] = [
       // DataHighway: 'wss://westlake.datahighway.com' // https://github.com/polkadot-js/apps/issues/7293
     },
     text: 'Westlake',
-    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)',
+    uiLogo: nodesWestlakePNG
   }
 ];
