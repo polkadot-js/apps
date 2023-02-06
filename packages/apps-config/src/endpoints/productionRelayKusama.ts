@@ -79,7 +79,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     },
-    text: 'Bit.Country Pioneer'
+    text: 'Bit.Country Pioneer',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://www.calamari.network/',
@@ -88,7 +89,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Manta Network': 'wss://ws.calamari.systems/'
     },
-    text: 'Calamari'
+    text: 'Calamari',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://crust.network/',

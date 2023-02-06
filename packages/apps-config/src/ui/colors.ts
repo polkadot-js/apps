@@ -11,16 +11,10 @@ import { sanitize } from './util';
 
 // based on chain name
 // alphabetical
-const chainAutomata = '#EC7032';
-const chainAutomataContextFree = '#EC7032';
-const chainBitCountry = '#191a2e';
-const chainBittensor = '#252525';
-const chainBitCountryPioneer = '#000000';
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
 const chainBeastEave = '#900048';
 const chainBitgreen = '#224851';
 const chainBrainstorm = '#161616';
-const chainCalamari = '#000000';
 const chainCollectives = '#e6777a'; // '#dfcdfc';
 const chainCompetitorsClub = '#213830';
 const chainComposableFinance = '#C90E8A';
@@ -35,7 +29,6 @@ const chainChainx = '#F6C94A';
 const chainDarwinia = '#FF0083';
 const chainDali = '#000000';
 const chainDeBio = '#FF56E0';
-const chainDolphin = '#000000';
 const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
@@ -83,7 +76,6 @@ const chainLitmus = '#6822fb';
 const chainLogion = 'rgb(21, 38, 101)';
 const chainLuhn = '#2F8E85';
 const chainMinix = '#5152f7';
-const chainManta = '#2070a6';
 const chainMangata = '#030408';
 const chainMd5 = '#3584e4';
 const chainMoonrock = '#3d1d5a';
@@ -239,8 +231,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Ares Gladios': chainAresGladios,
   'Ares Odyssey': nodeOdyssey,
   'Ares PC1': chainRoccoAres,
-  Automata: chainAutomata,
-  'Automata ContextFree': chainAutomataContextFree,
   'Basilisk testnet': chainBasiliskTestnet,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
@@ -250,15 +240,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost PC1': chainRoccoBifrost,
   'Bifrost Polkadot': chainRoccoBifrost,
   'Bifrost Stage Testnet': chainRoccoBifrost,
-  'Bit.Country Tewai Chain': chainBitCountry,
   Bitgreen: chainBitgreen,
   BitgreenRococo: chainBitgreen,
-  Bittensor: chainBittensor,
-  'Bittensor Testnet': chainBittensor,
-  'Calamari Parachain': chainCalamari,
-  'Calamari Parachain Development': chainCalamari,
-  'Calamari Parachain Local': chainCalamari,
-  'Calamari Parachain Testnet': chainCalamari,
   Centrifuge: nodeCentrifuge,
   ChainOLI: chainOLI,
   ChainX: chainChainx,
@@ -287,8 +270,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   DeBio: chainDeBio,
   'DeBio Testnet': chainDeBio,
-  Dolphin: chainDolphin,
-  'Dolphin Testnet': chainDolphin,
   'Dora Factory': chainDorafactory,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
@@ -349,10 +330,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Luhn Network': chainLuhn,
   'Mangata Kusama Mainnet': chainMangata,
   'Mangata Public Testnet': chainMangata,
-  'Manta Parachain': chainManta,
-  'Manta Parachain Development': chainManta,
-  'Manta Parachain Local': chainManta,
-  'Manta Parachain Testnet': chainManta,
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
@@ -370,7 +347,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'mybank.network Testnet': chainMybank,
   Myriad: chainMyriad,
   'Myriad Testnet': chainMyriad,
-  'Nakamoto Bittensor Mainnet': chainBittensor,
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'Nodle Parachain': chainNodle,
@@ -393,7 +369,6 @@ export const chainColors: Record<string, string> = Object.entries({
   PHOENIX: chainPhoenix,
   Picasso: chainPicasso,
   'Pichiu Testnet': chainPichiu,
-  'Pioneer Network': chainBitCountryPioneer,
   PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   PolkaSmith: chainPolkaSmith,

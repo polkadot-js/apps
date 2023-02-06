@@ -76,7 +76,8 @@ export const testChains: EndpointOption[] = [
       'Automata Network': 'wss://cf-api.ata.network',
       OnFinality: 'wss://contextfree.api.onfinality.io/public-ws'
     },
-    text: 'Automata ContextFree'
+    text: 'Automata ContextFree',
+    uiColor: '#EC7032'
   },
   {
     info: 'edgeware',
@@ -157,7 +158,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Dolphin Testnet': 'wss://trillian.dolphin.red' // https://github.com/polkadot-js/apps/issues/7439
     },
-    text: 'Dolphin Testnet'
+    text: 'Dolphin Testnet',
+    uiColor: '#000000'
   },
   {
     info: 'dotmog',
@@ -344,7 +346,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Manta Testnet': 'wss://ws.f1.testnet.manta.network' // https://github.com/polkadot-js/apps/issues/6384
     },
-    text: 'Manta Testnet'
+    text: 'Manta Testnet',
+    uiColor: '#2070a6'
   },
   {
     info: 'minix',

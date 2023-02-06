@@ -43,14 +43,16 @@ export const prodChains: EndpointOption[] = [
       'Automata Network': 'wss://api.ata.network',
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
     },
-    text: 'Automata'
+    text: 'Automata',
+    uiColor: '#EC7032'
   },
   {
     info: 'bittensor',
     providers: {
       'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     },
-    text: 'Bittensor'
+    text: 'Bittensor',
+    uiColor: '#252525'
   },
   {
     info: 'centrifuge',

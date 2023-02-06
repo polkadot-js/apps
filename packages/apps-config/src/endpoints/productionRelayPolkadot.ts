@@ -293,7 +293,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
       // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
     },
-    text: 'Manta'
+    text: 'Manta',
+    uiColor: '#2070a6'
   },
   {
     homepage: 'https://moonbeam.network/networks/moonbeam/',
