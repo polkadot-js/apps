@@ -87,7 +87,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Phala: 'wss://whala.phala.network/ws' // https://github.com/polkadot-js/apps/issues/6181
     },
-    text: 'Whala'
+    text: 'Whala',
+    uiColor: '#03f3f3'
   },
   {
     homepage: 'https://www.kilt.io/',
@@ -96,7 +97,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       'KILT Protocol': 'wss://westend.kilt.io:9977'
     },
-    text: 'WILT'
+    text: 'WILT',
+    uiColor: '#8c145a'
   }
 ];
 

@@ -286,7 +286,8 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
     },
-    text: 'SORA'
+    text: 'SORA',
+    uiColor: '#2D2926'
   },
   {
     info: 'spanner',

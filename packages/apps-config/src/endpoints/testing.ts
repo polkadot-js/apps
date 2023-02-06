@@ -293,7 +293,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
-    text: 'KILT Peregrine'
+    text: 'KILT Peregrine',
+    uiColor: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)'
   },
   {
     info: 'kintsugi-testnet',
@@ -527,7 +528,8 @@ export const testChains: EndpointOption[] = [
       'Soramitsu #3': 'wss://ws.framenode-3.s2.stg1.sora2.soramitsu.co.jp',
       'Soramitsu #4': 'wss://ws.framenode-4.s2.stg1.sora2.soramitsu.co.jp'
     },
-    text: 'SORA-staging'
+    text: 'SORA-staging',
+    uiColor: '#2D2926'
   },
   {
     info: 'subdao',
@@ -635,7 +637,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Gear Tech': 'wss://rpc.vara-network.io'
     },
-    text: 'Vara'
+    text: 'Vara',
+    uiColor: '#32e37d'
   },
   {
     info: 'vodka',

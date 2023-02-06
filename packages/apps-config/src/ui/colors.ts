@@ -52,8 +52,6 @@ const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
-const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKilt} 100%)`;
-const chainKiltRilt = `linear-gradient(45deg, ${chainKilt} 0%, ${chainKiltDev} 100%)`;
 const chainKonomi = '#007aff';
 const chainKusamaDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainKusari = '#b8860b';
@@ -102,15 +100,11 @@ const chainRoccoDarwinia = '#FF0083';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
 const chainRococoLaminar = '#004FFF';
-const chainRoccoTick = '#22bb22';
-const chainRoccoTrack = '#bb2222';
-const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
-const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainSwapdex = '#E94082';
@@ -123,10 +117,8 @@ const chainUnique = '#40BCFF';
 const chainUnitNetwork = '#a351ef';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
-const chainVara = '#32e37d';
 const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
-const chainWhala = '#03f3f3';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainRiodefi = '#4E7AED';
@@ -192,7 +184,6 @@ const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,
 const nodeRealis = '#000000';
 const nodeRiochain = '#1A3BB3';
 const nodeRobonomics = '#2949d3';
-const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
@@ -282,7 +273,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Khala: chainKhala,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
-  'KILT Peregrine': chainKiltPeregrine,
   'KILT Peregrine Stagenet': chainKiltDev,
   'KILT Spiritnet': chainKilt,
   'KILT Spiritnet Development': chainKiltDev,
@@ -348,7 +338,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Prism Testnet': chainPrism,
   'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
-  RILT: chainKiltRilt,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
   Riodefi: chainRiodefi,
@@ -356,8 +345,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
-  'SORA Kusama': chainSora,
-  'SORA Rococo': chainSora,
   Spanner: chainSpanner,
   Stagex: chainTotem,
   Standard: chainStandard,
@@ -369,9 +356,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Subspace: nodeSubspace,
   Subzero: chainZero,
   swapdex: chainSwapdex,
-  Tick: chainRoccoTick,
-  Track: chainRoccoTrack,
-  Trick: chainRoccoTrick,
   'TrustBase PC1': chainTrustBase,
   'Turing Network': chainTuring,
   'Turing Network (Staging)': chainTuring,
@@ -380,12 +364,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   UnitNetwork: chainUnitNetwork,
-  'Vara Network': chainVara,
   'VLN PC': chainVln,
   Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
-  Whala: chainWhala,
-  WILT: chainKilt,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
@@ -472,7 +453,6 @@ export const nodeColors = Object.entries({
   'Rio Defi Chain Node': nodeRiochain,
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
-  SORA: nodeSora,
   'Stafi node': nodeStafi,
   SubDAO: nodeSubDAO,
   'SubDAO Collator': nodeSubDAO,

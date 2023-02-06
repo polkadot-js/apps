@@ -259,7 +259,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       'KILT Protocol': 'wss://rococo.kilt.io'
     },
-    text: 'RILT'
+    text: 'RILT',
+    uiColor: 'linear-gradient(45deg, #8c145a 0%, #f05a27 100%)'
   },
   {
     homepage: 'http://robonomics.network/',
@@ -300,7 +301,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     },
-    text: 'SORA'
+    text: 'SORA',
+    uiColor: '#2D2926'
   },
   {
     info: 'rococoSpreehafen',

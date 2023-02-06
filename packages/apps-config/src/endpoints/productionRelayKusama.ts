@@ -513,7 +513,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
     },
-    text: 'SORA'
+    text: 'SORA',
+    uiColor: '#2D2926'
   },
   {
     homepage: 'http://subgame.org/',
