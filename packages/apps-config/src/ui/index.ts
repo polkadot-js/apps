@@ -4,8 +4,6 @@
 import { identityNodes, identitySpec } from './identityIcons';
 import { sanitize } from './util';
 
-export * from './logos';
-
 export function getSystemIcon (systemName: string, specName: string): 'beachball' | 'polkadot' | 'substrate' {
   return (
     identityNodes[sanitize(systemName)] ||
