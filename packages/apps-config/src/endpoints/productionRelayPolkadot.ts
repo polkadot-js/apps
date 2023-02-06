@@ -4,6 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { chainsOakPNG, chainsPolkadotCircleSVG } from '../ui/logos/chains';
+import { nodesAjunaPNG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -28,7 +30,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
       'Polkawallet 0': 'wss://acala.polkawallet.io'
     },
-    text: 'Acala'
+    text: 'Acala',
+    uiColor: '#645AFF'
   },
   {
     homepage: 'https://ajuna.io',
@@ -38,7 +41,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
-    text: 'Ajuna Network'
+    text: 'Ajuna Network',
+    uiColor: '#161212',
+    uiLogo: nodesAjunaPNG
   },
   {
     homepage: 'https://www.aresprotocol.io/',
@@ -47,7 +52,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
     },
-    text: 'Ares Odyssey'
+    text: 'Ares Odyssey',
+    uiColor: '#1295F0'
   },
   {
     homepage: 'https://astar.network',
@@ -63,7 +69,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/polkadot/astar'
     },
-    text: 'Astar'
+    text: 'Astar',
+    uiColor: '#1b6dc1d9'
   },
   {
     homepage: 'https://www.aventus.io/',
@@ -89,7 +96,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Bitgreen: 'wss://mainnet.bitgreen.org'
     },
-    text: 'Bitgreen'
+    text: 'Bitgreen',
+    uiColor: '#224851'
   },
   {
     homepage: 'https://centrifuge.io',
@@ -109,19 +117,18 @@ export const prodParasPolkadot: EndpointOption[] = [
       Clover: 'wss://rpc-para.clover.finance',
       OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, renenabled for PolkadotJS
     },
-    text: 'Clover'
+    text: 'Clover',
+    uiColor: 'linear-gradient(to right, #52ad75, #7cc773)'
   },
   {
     homepage: 'http://www.coinversation.io/',
     info: 'coinversation',
-    // this is also a duplicate as a Live and Testing network -
-    // it is either/or, not and
-    isUnreachable: true,
     paraId: 2027,
     providers: {
       // Coinversation: 'wss://rpc.coinversation.io/' // https://github.com/polkadot-js/apps/issues/6635
     },
-    text: 'Coinversation'
+    text: 'Coinversation',
+    uiColor: '#e6017a'
   },
   {
     homepage: 'https://composable.finance/',
@@ -131,7 +138,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Composable: 'wss://rpc.composable.finance',
       OnFinality: 'wss://composable.api.onfinality.io/public-ws'
     },
-    text: 'Composable Finance'
+    text: 'Composable Finance',
+    uiColor: '#C90E8A'
   },
   {
     homepage: 'https://crust.network',
@@ -169,7 +177,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Efinity: 'wss://rpc.efinity.io',
       OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     },
-    text: 'Efinity'
+    text: 'Efinity',
+    uiColor: '#496ddb'
   },
   {
     homepage: 'https://equilibrium.io/',
@@ -189,7 +198,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
       'Frequency 1': 'wss://1.rpc.frequency.xyz'
     },
-    text: 'Frequency'
+    text: 'Frequency',
+    uiColor: '#4b64ff'
   },
   {
     homepage: 'https://geminis.network/',
@@ -208,7 +218,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Hashed Systems': 'wss://c1.hashed.network'
     },
-    text: 'Hashed Network'
+    text: 'Hashed Network',
+    uiColor: '#9199A9'
   },
   {
     homepage: 'https://hydradx.io/',
@@ -277,7 +288,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Dwellir: 'wss://litentry-rpc.dwellir.com',
       Litentry: 'wss://rpc.litentry-parachain.litentry.io'
     },
-    text: 'Litentry'
+    text: 'Litentry',
+    uiColor: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)'
   },
   {
     homepage: 'https://manta.network',
@@ -289,7 +301,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
       // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
     },
-    text: 'Manta'
+    text: 'Manta',
+    uiColor: '#2070a6'
   },
   {
     homepage: 'https://moonbeam.network/networks/moonbeam/',
@@ -313,7 +326,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/nodle'
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     homepage: 'https://oak.tech',
@@ -323,7 +337,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       OAK: 'wss://rpc.oak.tech'
     },
-    text: 'OAK Network'
+    text: 'OAK Network',
+    uiLogo: chainsOakPNG
   },
   {
     homepage: 'https://www.omnibtc.finance',
@@ -342,7 +357,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
-    text: 'OriginTrail'
+    text: 'OriginTrail',
+    uiColor: '#FB5DEB'
   },
   {
     homepage: 'https://parallel.fi',
@@ -384,7 +400,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
       // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
     },
-    text: 'Polkadex'
+    text: 'Polkadex',
+    uiColor: '#7C30DD'
   },
   {
     homepage: 'https://subdao.network/',
@@ -394,15 +411,18 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       SubDAO: 'wss://parachain-rpc.subdao.org'
     },
-    text: 'SubDAO'
+    text: 'SubDAO',
+    uiColor: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)'
   },
   {
     homepage: 'http://subgame.org/',
     info: 'subgame',
     paraId: 2017,
-    providers: {// SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
+    providers: {
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
     },
-    text: 'SubGame Gamma'
+    text: 'SubGame Gamma',
+    uiColor: '#EB027D'
   },
   {
     homepage: 'https://unique.network/',
@@ -431,7 +451,9 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    text: 'Statemint'
+    text: 'Statemint',
+    uiColor: '#86e62a',
+    uiLogo: nodesStatemineSVG
   },
   {
     info: 'polkadotCollectives',
@@ -441,7 +463,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Collectives'
+    text: 'Collectives',
+    uiColor: '#e6777a'
   }
 ];
 
@@ -466,5 +489,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
-  text: 'Polkadot'
+  text: 'Polkadot',
+  uiColor: '#e6007a',
+  uiLogo: chainsPolkadotCircleSVG
 };

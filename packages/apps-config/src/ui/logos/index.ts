@@ -46,7 +46,6 @@ import chainKabocha from './chains/kabocha.svg';
 import chainKarura from './chains/karura.svg';
 import chainKico from './chains/kico.png';
 import chainKintsugi from './chains/kintsugi.png';
-import chainKusama from './chains/kusama.svg';
 import chainListen from './chains/listen.png';
 import chainLogion from './chains/logion.png';
 import chainLuhn from './chains/luhn.png';
@@ -76,32 +75,12 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainSnowbridge from './chains/snowbridge.png';
 import chainSpanner from './chains/spanner.png';
 import chainStandard from './chains/standard.png';
-import chainT0rn from './chains/t0rn.png';
 import chainKusamaDataHighway from './chains/tanganika.png';
 import chainTangle from './chains/tangle.png';
-import chainTinker from './chains/tinker.png';
 import nodeTotem from './chains/totem.svg';
-import chainTuring from './chains/turing.png';
 import chainUnique from './chains/unique.svg';
 import chainUnorthodox from './chains/unorthodox.png';
 import chainVara from './chains/vara.svg';
-import chainVirto from './chains/virto.png';
-import chainWatr from './chains/watr.png';
-import extensionPolkadotJs from './extensions/polkadot-js.svg';
-import externalCommonwealth from './external/commonwealth.png';
-import externalDotreasury from './external/dotreasury.svg';
-import externalDotScanner from './external/dotscanner.png';
-import externalKodaDot from './external/kodadot.png';
-import externalPolkaholic from './external/polkaholic.png';
-import externalPolkascan from './external/polkascan.png';
-import externalPolkassembly from './external/polkassembly.png';
-import externalPolkastats from './external/polkastats.png';
-import externalSingular from './external/singular.svg';
-import externalStatescan from './external/statescan.svg';
-import externalSubId from './external/subid.svg';
-import externalSubscan from './external/subscan.png';
-import externalSubsquare from './external/subsquare.svg';
-import nodeAjuna from './nodes/ajuna.png';
 import nodeApron from './nodes/apron.png';
 import nodeArctic from './nodes/arctic.png';
 import nodeAres from './nodes/ares.png';
@@ -116,7 +95,6 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.png';
-import nodeBridgeHubBlack from './nodes/BridgeHubBlack.svg';
 import nodeCalamari from './nodes/calamari.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCESS from './nodes/cess.png';
@@ -195,8 +173,6 @@ import nodePhoenix from './nodes/phoenix.png';
 import nodePichiu from './nodes/pichiu.png';
 import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePolkadex from './nodes/polkadex.svg';
-import nodePolkadot from './nodes/polkadot-circle.svg';
-import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
@@ -209,7 +185,6 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeRocfinity from './nodes/rocfinity.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
-import nodeShell from './nodes/shell.svg';
 import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSnow from './nodes/snow.png';
@@ -217,7 +192,6 @@ import nodeSoonsocial from './nodes/soonsocial.png';
 import nodeSoonsocialX from './nodes/soonsocialX.png';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
-import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
@@ -240,11 +214,9 @@ import nodeWestend from './nodes/westend_colour.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
 import nodeZCloak from './nodes/zCloak.svg';
-import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import emptyLogo from './empty.svg';
-// last-resort fallback, just something empty
+import { externalEmptySVG } from './external';
 
 const chainWestendCollectives = { fa: 'people-group' };
 
@@ -253,7 +225,6 @@ const chainWestendCollectives = { fa: 'people-group' };
 export const chainLogos = Object.entries({
   Aband: chainAband,
   'Acurast Rococo Testnet': chainAcurast,
-  'Ajuna Testnet': nodeAjuna,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
@@ -338,7 +309,6 @@ export const chainLogos = Object.entries({
   'InterBTC Staging': nodeInterBTC,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
-  'InvArch Tinker Network': chainTinker,
   ipci: nodeIPCI,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
@@ -360,11 +330,6 @@ export const chainLogos = Object.entries({
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
   Kpron: nodeApron,
-  Kusama: chainKusama, // new name after CC3
-  'Kusama BridgeHub': nodeBridgeHubBlack,
-  'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama,
-  'Kusama CC3': chainKusama,
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
   'Listen Network': chainListen,
@@ -402,7 +367,6 @@ export const chainLogos = Object.entries({
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
-  'OAK Network': chainOAK,
   Odyssey: nodeAresOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
@@ -437,7 +401,6 @@ export const chainLogos = Object.entries({
   Robonomics: nodeRobonomics,
   Rocfinity: chainRocfinity,
   Rococo: chainRococo,
-  'Rococo Bridgehub': nodeBridgeHubBlack,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
@@ -451,9 +414,6 @@ export const chainLogos = Object.entries({
   'SORA Rococo': nodeSora,
   Spanner: chainSpanner,
   Stagex: nodeTotem,
-  Statemine: nodeStatemine,
-  'Statemine Test': nodeStatemine,
-  'Statemint Test': nodeStatemine,
   'Steam PC': nodeEave,
   subdao: nodeSubDAO,
   'SubDAO PC1': nodeSubDAO,
@@ -466,7 +426,6 @@ export const chainLogos = Object.entries({
   subspace: nodeSubspace,
   Subzero: nodeZero,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   'Tangle Rococo': chainTangle,
   'Tangle Testnet': chainTangle,
   Tick: chainRococoTick,
@@ -474,7 +433,6 @@ export const chainLogos = Object.entries({
   Trick: chainRococoTrick,
   trustbase: nodeTrustBase,
   'TrustBase PC1': nodeTrustBase,
-  turing: chainTuring,
   'uni arts staging network': nodeUniarts,
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
@@ -483,23 +441,18 @@ export const chainLogos = Object.entries({
   'Unitv Network': nodeUnitv,
   Unorthodox: chainUnorthodox,
   'Vara Network': chainVara,
-  VirtoRococo: chainVirto,
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Wapex: nodeTotem,
-  'Watr Network': chainWatr,
   'Web3Games Plum': nodeWeb3games,
   Westend: nodeWestend,
-  'Westend BridgeHub': nodeBridgeHubBlack,
   'Westend Collectives': chainWestendCollectives,
   Westlake: nodeWestlake,
-  Westmint: nodeStatemine,
-  'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
   'zcloak poc1': nodeZCloak
-}).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
+}).reduce<Record<string, unknown>>((logos, [chain, external]) => ({
   ...logos,
-  [sanitize(chain)]: logo
+  [sanitize(chain)]: external
 }), {});
 
 // Alphabetical overrides based on the actual software node type
@@ -508,7 +461,6 @@ export const nodeLogos = Object.entries({
   Aband: chainAband,
   'Acala Node': chainAcala,
   'Acurast Parachain Collator': chainAcurast,
-  'Ajuna Node': nodeAjuna,
   Amplitude: chainAmplitude,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
@@ -583,7 +535,6 @@ export const nodeLogos = Object.entries({
   'Integritee Node': nodeIntegritee,
   Interlay: chainInterlay,
   'InvArch Brainstorm Node': chainBrainstorm,
-  'InvArch Tinkernet Node': chainTinker,
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
@@ -637,7 +588,6 @@ export const nodeLogos = Object.entries({
   'Parallel Heiko': nodeParallel,
   'Parallel Heiko Dev': nodeParallel,
   Parami: nodeParami,
-  'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
   Pendulum: chainPendulum,
   Phala: nodePhala,
@@ -649,7 +599,6 @@ export const nodeLogos = Object.entries({
   'Pichiu Node': nodePichiu,
   'Pioneer Network Collator Node': nodePioneerNetwork,
   'Polkadex Node': nodePolkadex,
-  'polkadot-js': nodePolkadotJs,
   'PolkaFoundry Node': nodePolkaFoundry,
   'PolkaFoundry Parachain Collator': nodePolkaFoundry,
   'PolkaSmith Parachain Collator': nodePolkaSmith,
@@ -672,8 +621,6 @@ export const nodeLogos = Object.entries({
   Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
-  'Statemine Collator': nodeStatemine,
-  'Statemint Collator': nodeStatemine,
   subdao: nodeSubDAO,
   'SubDAO Collator': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
@@ -685,7 +632,6 @@ export const nodeLogos = Object.entries({
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   'Ternoa Node': nodeTernoa,
   'Totem Parachain Collator': nodeTotem,
   'TrustBase Collator': nodeTrustBase,
@@ -704,34 +650,18 @@ export const nodeLogos = Object.entries({
   'Web3Games Node': nodeWeb3games,
   Westend: nodeWestend,
   Westlake: nodeWestlake,
-  'Westmint Collator': nodeStatemine,
   Whala: nodeWhala,
   'Whala Node': nodeWhala,
   WILT: nodeKilt,
   'zcloak node': nodeZCloak,
-  'Zeitgeist Collator': nodeZeitgeist,
-  'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
   'Zenlink Collator': nodeZenlink
-}).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
+}).reduce<Record<string, unknown>>((logos, [node, external]) => ({
   ...logos,
-  [sanitize(node)]: logo
+  [sanitize(node)]: external
 }), {});
 
-// Alphabetical overrides based on the actual specName
-export const specLogos = Object.entries({
-  oak: chainOAK,
-  shell: nodeShell,
-  statemine: nodeStatemine,
-  statemint: nodeStatemine,
-  turing: chainTuring,
-  westmint: nodeStatemine
-}).reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
-  ...logos,
-  [sanitize(spec)]: logo
-}), {});
-
-// Alphabetical overrides when we pass an explicit logo name
+// Alphabetical overrides when we pass an explicit external name
 // NOTE: Matches with what is defined as "info" in settings/endpoints.ts
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
@@ -740,9 +670,7 @@ export const namedLogos: Record<string, unknown> = {
   '3dpass-testnet': chain3dpass,
   aband: chainAband,
   acala: chainAcala,
-  ajuna: nodeAjuna,
   aleph: chainAleph,
-  alexander: nodePolkadot,
   altair: chainAltair,
   amplitude: chainAmplitude,
   arctic: nodeArctic,
@@ -795,7 +723,7 @@ export const namedLogos: Record<string, unknown> = {
   eave: nodeEave,
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,
-  empty: emptyLogo,
+  empty: externalEmptySVG,
   encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
   fantour: nodeFantour,
@@ -838,8 +766,6 @@ export const namedLogos: Record<string, unknown> = {
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
-  kusama: chainKusama,
-  kusamaBridgeHub: nodeBridgeHubBlack,
   kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
@@ -879,7 +805,6 @@ export const namedLogos: Record<string, unknown> = {
   picasso: chainPicasso,
   pichiu: nodePichiu,
   polkadex: nodePolkadex,
-  polkadot: nodePolkadot,
   polkadotCollectives: chainWestendCollectives,
   polkafoundry: nodePolkaFoundry,
   polkasmith: nodePolkaSmith,
@@ -905,7 +830,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
   rococoBitgreen: chainBitgreen,
-  rococoBridgehub: nodeBridgeHubBlack,
   rococoCatalyst: nodeCentrifuge,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
@@ -954,26 +878,19 @@ export const namedLogos: Record<string, unknown> = {
   rococoSora: nodeSora,
   rococoSpreehafen: chainRoccoDataHighway,
   rococoStandard: chainStandard,
-  rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSoonsocialX,
   rococoSubzero: nodeZero,
   rococoTick: chainRococoTick,
-  rococoTinkernet: chainTinker,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
-  rococoTuring: chainTuring,
   rococoUnitNetwork: nodeUnitNetwork,
   rococoUnitv: nodeUnitv,
-  rococoVirto: chainVirto,
   rococoVln: nodeVln,
-  rococoWatr: chainWatr,
-  rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   sakura: nodeSakura,
   shadow: nodeShadow,
-  shell: nodeShell,
   sherpax: nodeSherpax,
   shibuya: chainShiden,
   shiden: chainShiden,
@@ -989,8 +906,6 @@ export const namedLogos: Record<string, unknown> = {
   spanner: chainSpanner,
   stafi: nodeStafi,
   stagex: nodeTotem,
-  statemine: nodeStatemine,
-  statemint: nodeStatemine,
   subdao: nodeSubDAO,
   'SubDAO PC1': nodeSubDAO,
   'SubDAO Staging': nodeSubDAO,
@@ -1006,7 +921,6 @@ export const namedLogos: Record<string, unknown> = {
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   swapdex: nodeSwapdex,
-  t0rn: chainT0rn,
   tanganika: chainKusamaDataHighway,
   tangle: chainTangle,
   ternoa: nodeTernoa,
@@ -1014,10 +928,8 @@ export const namedLogos: Record<string, unknown> = {
   'ternoa-testnet': nodeTernoa,
   'thebifrost-mainnet': nodeTheBifrost,
   'thebifrost-testnet': nodeTheBifrost,
-  tinker: chainTinker,
   'totem-parachain': nodeTotem,
   trustbase: nodeTrustBase,
-  turing: chainTuring,
   uniarts: nodeUniarts,
   unique: nodeUnique,
   unitnetwork: nodeUnitNetwork,
@@ -1028,47 +940,17 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
-  westendBridgeHub: nodeBridgeHubBlack,
   westendCollectives: chainWestendCollectives,
   westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
-  westmint: nodeStatemine,
   whala: nodeWhala,
   zCloak: nodeZCloak,
-  zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
 
-// extension logos
-export const extensionLogos: Record<string, unknown> = {
-  'polkadot-js': extensionPolkadotJs
-};
-
-// external logos, i.e. for explorers
-export const externalLogos: Record<string, unknown> = {
-  commonwealth: externalCommonwealth,
-  dotreasury: externalDotreasury,
-  dotscanner: externalDotScanner,
-  kodadot: externalKodaDot,
-  polkaholic: externalPolkaholic,
-  polkascan: externalPolkascan,
-  polkassembly: externalPolkassembly,
-  polkastats: externalPolkastats,
-  singular: externalSingular,
-  statescan: externalStatescan,
-  subid: externalSubId,
-  subscan: externalSubscan,
-  subsquare: externalSubsquare
-};
-
-// empty logos
-export const emptyLogos: Record<string, unknown> = {
-  empty: emptyLogo
-};
-
 // preload all
-[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].forEach((imageSet): void => {
+[chainLogos, namedLogos, nodeLogos].forEach((imageSet): void => {
   Object.values(imageSet).forEach((src): void => {
     new Image().src = src as string;
   });

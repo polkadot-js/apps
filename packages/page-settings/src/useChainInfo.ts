@@ -13,7 +13,7 @@ import { formatBalance, isNumber } from '@polkadot/util';
 import { base64Encode } from '@polkadot/util-crypto';
 
 function useChainInfoImpl (): ChainInfo | null {
-  const { api, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
+  const { api, apiEndpoint, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
   return useMemo(
     () => isApiReady
@@ -22,7 +22,7 @@ function useChainInfoImpl (): ChainInfo | null {
         chainType: isEthereum
           ? 'ethereum'
           : 'substrate',
-        color: getSystemColor(systemChain, systemName, specName),
+        color: apiEndpoint?.uiColor || getSystemColor(systemChain, systemName),
         genesisHash: api.genesisHash.toHex(),
         icon: getSystemIcon(systemName, specName),
         metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),
@@ -35,7 +35,7 @@ function useChainInfoImpl (): ChainInfo | null {
         types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
       }
       : null,
-    [api, isApiReady, specName, systemChain, systemName, isEthereum]
+    [api, apiEndpoint, isApiReady, specName, systemChain, systemName, isEthereum]
   );
 }
 

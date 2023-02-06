@@ -4,6 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
+import { chainsT0rnPNG, chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
+import { nodesAjunaPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -20,7 +22,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
     },
-    text: 'Acurast Testnet'
+    text: 'Acurast Testnet',
+    uiColor: '#000000'
   },
   {
     info: 'rococoAmplitude',
@@ -28,7 +31,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
     },
-    text: 'Amplitude testnet (Foucoco)'
+    text: 'Amplitude testnet (Foucoco)',
+    uiColor: '#5DEFA7'
   },
   {
     info: 'arctic',
@@ -51,7 +55,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       AjunaNetwork: 'wss://rpc-rococo.bajun.network'
     },
-    text: 'Bajun Network'
+    text: 'Bajun Network',
+    uiColor: '#161212',
+    uiLogo: nodesAjunaPNG
   },
   {
     info: 'rococoBasilisk',
@@ -59,7 +65,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
     },
-    text: 'Basilisk'
+    text: 'Basilisk',
+    uiColor: `url(${nodesBasiliskRococoBgPNG}) #000`
   },
   {
     info: 'rococoBifrost',
@@ -75,7 +82,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Bitgreen: 'wss://staging.bitgreen.org'
     },
-    text: 'Bitgreen'
+    text: 'Bitgreen',
+    uiColor: '#224851'
   },
   {
     info: 'rococoCatalyst',
@@ -107,7 +115,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Composable: 'wss://rpc.composablefinance.ninja' // https://github.com/polkadot-js/apps/issues/8867
     },
-    text: 'Dali'
+    text: 'Dali',
+    uiColor: '#000000'
   },
   {
     info: 'rococoDolphin',
@@ -123,7 +132,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Jur: 'wss://ethos.jur.io'
     },
-    text: 'Ethos'
+    text: 'Ethos',
+    uiColor: '#203050'
   },
   {
     info: 'rococoFrequency',
@@ -131,7 +141,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Frequency: 'wss://rpc.rococo.frequency.xyz'
     },
-    text: 'Frequency'
+    text: 'Frequency',
+    uiColor: '#29fd47'
   },
   {
     info: 'rococoGenshiro',
@@ -179,7 +190,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     },
-    text: 'Kabocha (kabsoup)'
+    text: 'Kabocha (kabsoup)',
+    uiColor: 'repeating-radial-gradient(black, black 4px, yellow 5px)'
   },
   {
     info: 'rococoLitentry',
@@ -187,7 +199,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
     },
-    text: 'Litentry'
+    text: 'Litentry',
+    uiColor: '#0a6a08'
   },
   {
     info: 'rococoMangata',
@@ -195,7 +208,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
     },
-    text: 'Mangata'
+    text: 'Mangata',
+    uiColor: '#030408'
   },
   {
     info: 'rococoMd5',
@@ -203,7 +217,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       'Hashed Systems': 'wss://c1.md5.network'
     },
-    text: 'MD5 Network'
+    text: 'MD5 Network',
+    uiColor: '#175bae'
   },
   {
     info: 'rococoMoonsama',
@@ -211,7 +226,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com' // https://github.com/polkadot-js/apps/issues/7526
     },
-    text: 'Moonsama'
+    text: 'Moonsama',
+    uiColor: '#000000'
   },
   {
     info: 'rococoNodle',
@@ -219,7 +235,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     homepage: 'https://www.my-oli.com/en/',
@@ -235,7 +252,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
     },
-    text: 'OriginTrail Testnet'
+    text: 'OriginTrail Testnet',
+    uiColor: '#0C0C0C'
   },
   {
     info: 'rococoPangolin',
@@ -251,7 +269,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       'KILT Protocol': 'wss://rococo.kilt.io'
     },
-    text: 'RILT'
+    text: 'RILT',
+    uiColor: 'linear-gradient(45deg, #8c145a 0%, #f05a27 100%)'
   },
   {
     homepage: 'http://robonomics.network/',
@@ -268,7 +287,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Efinity: 'wss://rpc.rococo.efinity.io'
     },
-    text: 'Rocfinity'
+    text: 'Rocfinity',
+    uiColor: '#496ddb'
   },
   {
     info: 'snowbridge',
@@ -292,7 +312,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.stg1.sora2.soramitsu.co.jp'
     },
-    text: 'SORA'
+    text: 'SORA',
+    uiColor: '#2D2926'
   },
   {
     info: 'rococoSpreehafen',
@@ -300,7 +321,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
     },
-    text: 'Spreehafen'
+    text: 'Spreehafen',
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
   },
   {
     homepage: 'https://totemaccounting.com/',
@@ -325,7 +347,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       t3rn: 'wss://ws.t0rn.io'
     },
-    text: 't0rn'
+    text: 't0rn',
+    uiColor: '#212322',
+    uiLogo: chainsT0rnPNG
   },
   {
     info: 'tangle',
@@ -333,7 +357,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Webb: 'wss://arana-alpha-1.webb.tools'
     },
-    text: 'Tangle'
+    text: 'Tangle',
+    uiColor: '#483d8b'
   },
   {
     info: 'rococoTinkernet',
@@ -341,7 +366,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // 'InvArch Team': 'wss://rococo.invarch.network' // https://github.com/polkadot-js/apps/issues/8266
     },
-    text: 'Tinkernet'
+    text: 'Tinkernet',
+    uiColor: 'linear-gradient(90deg, rgba(253,52,166,1) 0%, rgba(22,213,239,1) 100%)',
+    uiLogo: chainsTinkerPNG
   },
   {
     info: 'rococoTuring',
@@ -349,7 +376,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       OAK: 'wss://rpc.turing-staging.oak.tech'
     },
-    text: 'Turing Network (Staging)'
+    text: 'Turing Network (Staging)',
+    uiColor: '#A8278C',
+    uiLogo: chainsTuringPNG
   },
   {
     info: 'rococoUnitNetwork',
@@ -365,7 +394,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // VirtoNetwork: 'wss://rococo.virtonetwork.xyz' // https://github.com/polkadot-js/apps/issues/8024
     },
-    text: 'Virto'
+    text: 'Virto',
+    uiColor: '#063970',
+    uiLogo: chainsVirtoPNG
   },
   {
     info: 'rococoWatr',
@@ -373,7 +404,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Watr: 'wss://rpc.dev.watr.org'
     },
-    text: 'Watr Network'
+    text: 'Watr Network',
+    uiColor: '#373b39',
+    uiLogo: chainsWatrPNG
   },
   {
     info: 'rococoZeitgeist',
@@ -381,7 +414,9 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Zeitgeist: 'wss://roc.zeitgeist.pm'
     },
-    text: 'Zeitgeist Battery Station'
+    text: 'Zeitgeist Battery Station',
+    uiColor: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+    uiLogo: nodesZeitgeistPNG
   }
 ];
 
@@ -393,7 +428,9 @@ export const testParasRococoCommon: EndpointOption[] = [
       Parity: 'wss://rococo-rockmine-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Rockmine'
+    text: 'Rockmine',
+    uiColor: '#77bb77',
+    uiLogo: nodesStatemineSVG
   },
   {
     info: 'rococoContracts',
@@ -402,7 +439,8 @@ export const testParasRococoCommon: EndpointOption[] = [
       Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Contracts'
+    text: 'Contracts',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://encointer.org/',
@@ -421,7 +459,8 @@ export const testParasRococoCommon: EndpointOption[] = [
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Bridgehub'
+    text: 'Bridgehub',
+    uiLogo: nodesBridgeHubBlackSVG
   }
 ];
 
@@ -441,5 +480,6 @@ export const testRelayRococo: EndpointOption = {
     'light client': 'light://substrate-connect/rococo'
   },
   teleport: getTeleports(testParasRococoCommon),
-  text: 'Rococo'
+  text: 'Rococo',
+  uiColor: '#6f36dc'
 };

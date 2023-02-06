@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalDotreasurySVG } from '../ui/logos/external';
 
 export const Dotreasury: ExternalDef = {
   chains: {
@@ -20,5 +20,5 @@ export const Dotreasury: ExternalDef = {
     tip: 'tips',
     treasury: 'proposals'
   },
-  uiLogo: externalLogos.dotreasury as string
+  uiLogo: externalDotreasurySVG
 };

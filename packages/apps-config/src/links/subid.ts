@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubidSVG } from '../ui/logos/external';
 
 export const SubId: ExternalDef = {
   chains: {
@@ -31,5 +31,5 @@ export const SubId: ExternalDef = {
   paths: {
     address: 'account'
   },
-  uiLogo: externalLogos.subid as string
+  uiLogo: externalSubidSVG
 };

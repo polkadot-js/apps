@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalCommonwealthPNG } from '../ui/logos/external';
 
 const HASH_PATHS = ['proposal/councilmotion'];
 
@@ -25,5 +25,5 @@ export const Commonwealth: ExternalDef = {
     democracyReferendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
-  uiLogo: externalLogos.commonwealth as string
+  uiLogo: externalCommonwealthPNG
 };

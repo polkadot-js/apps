@@ -19,21 +19,24 @@ export const prodChains: EndpointOption[] = [
     providers: {
       '3dpass': 'wss://rpc2.3dpass.org'
     },
-    text: '3DPass'
+    text: '3DPass',
+    uiColor: '#323232'
   },
   {
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev'
     },
-    text: 'Aleph Zero'
+    text: 'Aleph Zero',
+    uiColor: '#00CCAB'
   },
   {
     info: 'Ares Odyssey',
     providers: {
       'Ares Protocol': 'wss://odyssey.aresprotocol.io'
     },
-    text: 'Ares Odyssey'
+    text: 'Ares Odyssey',
+    uiColor: '#1295F0'
   },
   {
     info: 'automata',
@@ -41,14 +44,16 @@ export const prodChains: EndpointOption[] = [
       'Automata Network': 'wss://api.ata.network',
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
     },
-    text: 'Automata'
+    text: 'Automata',
+    uiColor: '#EC7032'
   },
   {
     info: 'bittensor',
     providers: {
       'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
     },
-    text: 'Bittensor'
+    text: 'Bittensor',
+    uiColor: '#252525'
   },
   {
     info: 'centrifuge',
@@ -62,28 +67,32 @@ export const prodChains: EndpointOption[] = [
     providers: {
       ChainX: 'wss://mainnet.chainx.org/ws'
     },
-    text: 'ChainX'
+    text: 'ChainX',
+    uiColor: '#F6C94A'
   },
   {
     info: 'competitors-club',
     providers: {
       // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     },
-    text: 'Competitors Club'
+    text: 'Competitors Club',
+    uiColor: '#213830'
   },
   {
     info: 'creditcoin',
     providers: {
       'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     },
-    text: 'Creditcoin'
+    text: 'Creditcoin',
+    uiColor: '#2D353F'
   },
   {
     info: 'crown-sterling',
     providers: {
       'Crown Sterling': 'wss://blockchain.crownsterling.io'
     },
-    text: 'Crown Sterling'
+    text: 'Crown Sterling',
+    uiColor: '#13264b'
   },
   {
     info: 'crust',
@@ -115,7 +124,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       DeBio: 'wss://ws-rpc.debio.network'
     },
-    text: 'DeBio'
+    text: 'DeBio',
+    uiColor: '#FF56E0'
   },
   {
     info: 'dock-pos-mainnet',
@@ -131,14 +141,16 @@ export const prodChains: EndpointOption[] = [
       JelliedOwl: 'wss://edgeware.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
     },
-    text: 'Edgeware'
+    text: 'Edgeware',
+    uiColor: '#111111'
   },
   {
     info: 'efinity',
     providers: {
       // Efinity: 'wss://rpc.efinity.io' // https://github.com/polkadot-js/apps/pull/6761
     },
-    text: 'Efinity'
+    text: 'Efinity',
+    uiColor: '#496ddb'
   },
   {
     info: 'equilibrium',
@@ -159,7 +171,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     },
-    text: 'Hanonycash'
+    text: 'Hanonycash',
+    uiColor: '#0099CC'
   },
   {
     info: 'joystream',
@@ -173,7 +186,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
     },
-    text: 'Kulupu'
+    text: 'Kulupu',
+    uiColor: '#003366'
   },
   {
     info: 'kusari',
@@ -187,7 +201,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Logion: 'wss://rpc01.logion.network'
     },
-    text: 'logion Standalone'
+    text: 'logion Standalone',
+    uiColor: 'rgb(21, 38, 101)'
   },
   {
     info: 'mathchain',
@@ -202,7 +217,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // ChainX: 'wss://minichain-mainnet.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/7182
     },
-    text: 'MiniX'
+    text: 'MiniX',
+    uiColor: '#5152f7'
   },
   {
     info: 'myriad',
@@ -231,7 +247,8 @@ export const prodChains: EndpointOption[] = [
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     info: 'polkadex',
@@ -239,7 +256,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       'Polkadex Team': 'wss://mainnet.polkadex.trade'
     },
-    text: 'Polkadex'
+    text: 'Polkadex',
+    uiColor: '#7C30DD'
   },
   {
     info: 'polymesh',
@@ -267,7 +285,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       ChainX: 'wss://mainnet.sherpax.io'
     },
-    text: 'SherpaX'
+    text: 'SherpaX',
+    uiColor: '#6bbee8'
   },
   {
     info: 'sora-substrate',
@@ -277,14 +296,16 @@ export const prodChains: EndpointOption[] = [
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
       'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
     },
-    text: 'SORA'
+    text: 'SORA',
+    uiColor: '#2D2926'
   },
   {
     info: 'spanner',
     providers: {
       // Spanner: 'wss://wss.spannerprotocol.com' // https://github.com/polkadot-js/apps/issues/6547
     },
-    text: 'Spanner'
+    text: 'Spanner',
+    uiColor: '#EC3D3D'
   },
   {
     info: 'stafi',
@@ -292,14 +313,16 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
     },
-    text: 'Stafi'
+    text: 'Stafi',
+    uiColor: '#00F3AB'
   },
   {
     info: 'subgame',
     providers: {
       SubGame: 'wss://mainnet.subgame.org/'
     },
-    text: 'SubGame'
+    text: 'SubGame',
+    uiColor: '#EB027D'
   },
   {
     info: 'subsocial',
@@ -313,14 +336,16 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Swapdex: 'wss://ws.swapdex.network'
     },
-    text: 'Swapdex'
+    text: 'Swapdex',
+    uiColor: '#E94082'
   },
   {
     info: 'ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network'
     },
-    text: 'Ternoa'
+    text: 'Ternoa',
+    uiColor: '#d622ff'
   },
   {
     info: 'thebifrost-mainnet',
@@ -349,6 +374,7 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // DataHighway: 'wss://westlake.datahighway.com' // https://github.com/polkadot-js/apps/issues/7293
     },
-    text: 'Westlake'
+    text: 'Westlake',
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
   }
 ];

@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
+import { nodesBridgeHubBlackSVG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -86,7 +87,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Phala: 'wss://whala.phala.network/ws' // https://github.com/polkadot-js/apps/issues/6181
     },
-    text: 'Whala'
+    text: 'Whala',
+    uiColor: '#03f3f3'
   },
   {
     homepage: 'https://www.kilt.io/',
@@ -95,7 +97,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       'KILT Protocol': 'wss://westend.kilt.io:9977'
     },
-    text: 'WILT'
+    text: 'WILT',
+    uiColor: '#8c145a'
   }
 ];
 
@@ -109,7 +112,9 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westmint-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Westmint'
+    text: 'Westmint',
+    uiColor: '#77bb77',
+    uiLogo: nodesStatemineSVG
   },
   {
     info: 'westendCollectives',
@@ -118,7 +123,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Collectives'
+    text: 'Collectives',
+    uiColor: '#e6777a'
   },
   {
     info: 'westendBridgeHub',
@@ -126,7 +132,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
-    text: 'BridgeHub'
+    text: 'BridgeHub',
+    uiLogo: nodesBridgeHubBlackSVG
   }
 ];
 
@@ -149,5 +156,6 @@ export const testRelayWestend: EndpointOption = {
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),
-  text: 'Westend'
+  text: 'Westend',
+  uiColor: '#da68a7'
 };

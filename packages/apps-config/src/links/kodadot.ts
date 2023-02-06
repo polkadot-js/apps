@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalKodadotPNG } from '../ui/logos/external';
 
 const getNetwork = (_chain: string) => {
   const chain = _chain === 'kusama' ? 'rmrk' : _chain;
@@ -26,5 +26,5 @@ export const KodaDot: ExternalDef = {
   paths: {
     address: 'account'
   },
-  uiLogo: externalLogos.kodadot as string
+  uiLogo: externalKodadotPNG
 };

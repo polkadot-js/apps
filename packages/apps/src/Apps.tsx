@@ -21,13 +21,13 @@ export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const { themeClassName } = useTheme();
-  const { isDevelopment, specName, systemChain, systemName } = useApi();
+  const { apiEndpoint, isDevelopment, systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
     () => isDevelopment
       ? undefined
-      : getSystemColor(systemChain, systemName, specName),
-    [isDevelopment, specName, systemChain, systemName]
+      : apiEndpoint?.uiColor || getSystemColor(systemChain, systemName),
+    [apiEndpoint, isDevelopment, systemChain, systemName]
   );
 
   return (
