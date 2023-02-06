@@ -224,7 +224,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://kabocha.jelliedowl.net'
     },
-    text: 'Kabocha'
+    text: 'Kabocha',
+    uiColor: 'repeating-radial-gradient(black, black 4px, yellow 5px)'
   },
   {
     homepage: 'https://acala.network/karura/join-karura',
@@ -336,7 +337,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       'Hashed Systems': 'wss://c1.luhn.network'
     },
-    text: 'Luhn Network'
+    text: 'Luhn Network',
+    uiColor: '#2F8E85'
   },
   {
     homepage: 'https://mangata.finance',
@@ -573,6 +575,7 @@ export const prodParasKusama: EndpointOption[] = [
       OAK: 'wss://rpc.turing.oak.tech'
     },
     text: 'Turing Network',
+    uiColor: '#A8278C',
     uiLogo: chainsTuringPNG
   },
   {

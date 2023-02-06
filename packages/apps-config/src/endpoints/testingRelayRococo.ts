@@ -81,7 +81,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Bitgreen: 'wss://staging.bitgreen.org'
     },
-    text: 'Bitgreen'
+    text: 'Bitgreen',
+    uiColor: '#224851'
   },
   {
     info: 'rococoCatalyst',
@@ -139,7 +140,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Frequency: 'wss://rpc.rococo.frequency.xyz'
     },
-    text: 'Frequency'
+    text: 'Frequency',
+    uiColor: '#29fd47'
   },
   {
     info: 'rococoGenshiro',
@@ -187,7 +189,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
     },
-    text: 'Kabocha (kabsoup)'
+    text: 'Kabocha (kabsoup)',
+    uiColor: 'repeating-radial-gradient(black, black 4px, yellow 5px)'
   },
   {
     info: 'rococoLitentry',
@@ -195,7 +198,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
     },
-    text: 'Litentry'
+    text: 'Litentry',
+    uiColor: '#0a6a08'
   },
   {
     info: 'rococoMangata',
@@ -220,7 +224,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // Moonsama: 'wss://moonsama-testnet-rpc.moonsama.com' // https://github.com/polkadot-js/apps/issues/7526
     },
-    text: 'Moonsama'
+    text: 'Moonsama',
+    uiColor: '#000000'
   },
   {
     info: 'rococoNodle',
@@ -228,7 +233,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     homepage: 'https://www.my-oli.com/en/',
@@ -244,7 +250,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
     },
-    text: 'OriginTrail Testnet'
+    text: 'OriginTrail Testnet',
+    uiColor: '#0C0C0C'
   },
   {
     info: 'rococoPangolin',
@@ -366,6 +373,7 @@ export const testParasRococo: EndpointOption[] = [
       OAK: 'wss://rpc.turing-staging.oak.tech'
     },
     text: 'Turing Network (Staging)',
+    uiColor: '#A8278C',
     uiLogo: chainsTuringPNG
   },
   {

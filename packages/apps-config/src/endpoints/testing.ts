@@ -47,7 +47,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Nodle: 'wss://arcadia1.nodleprotocol.io' // https://github.com/polkadot-js/apps/issues/7652
     },
-    text: 'Arcadia'
+    text: 'Arcadia',
+    uiColor: '#1ab394'
   },
   {
     info: 'arctic',
@@ -121,7 +122,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
     },
-    text: 'Creditcoin Testnet'
+    text: 'Creditcoin Testnet',
+    uiColor: '#00DF83'
   },
   {
     info: 'Crust Maxwell',
@@ -227,14 +229,16 @@ export const testChains: EndpointOption[] = [
     providers: {
       // GamePower: 'wss://gamepower.io' // https://github.com/polkadot-js/apps/issues/7223
     },
-    text: 'GamePower'
+    text: 'GamePower',
+    uiColor: '#5d21a5'
   },
   {
     info: 'geek',
     providers: {
       // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     },
-    text: 'GeekCash'
+    text: 'GeekCash',
+    uiColor: '#4f46e5'
   },
   {
     info: 'halongbay',
@@ -365,7 +369,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     },
-    text: 'MiniX Testnet'
+    text: 'MiniX Testnet',
+    uiColor: '#5152f7'
   },
   {
     info: 'moonbaseAlpha',
@@ -375,14 +380,16 @@ export const testChains: EndpointOption[] = [
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     },
-    text: 'Moonbase Alpha'
+    text: 'Moonbase Alpha',
+    uiColor: '#F45B5B'
   },
   {
     info: 'mybank',
     providers: {
       // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
     },
-    text: 'mybank.network'
+    text: 'mybank.network',
+    uiColor: '#282736'
   },
   {
     info: 'myriad-tesnet',
@@ -407,7 +414,8 @@ export const testChains: EndpointOption[] = [
       'Geo Load Balancer': 'wss://ws-opal.unique.network',
       'North America': 'wss://us-ws-opal.unique.network'
     },
-    text: 'OPAL by UNIQUE'
+    text: 'OPAL by UNIQUE',
+    uiColor: '#3B9C9D'
   },
   {
     info: 'opportunity',
@@ -442,7 +450,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/' // https://github.com/polkadot-js/apps/issues/6181
     },
-    text: 'Phoenix Mashnet'
+    text: 'Phoenix Mashnet',
+    uiColor: '#d42181'
   },
   {
     info: 'pichiu',

@@ -81,7 +81,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
     },
-    text: 'Creditcoin'
+    text: 'Creditcoin',
+    uiColor: '#2D353F'
   },
   {
     info: 'crown-sterling',
@@ -137,7 +138,8 @@ export const prodChains: EndpointOption[] = [
       JelliedOwl: 'wss://edgeware.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
     },
-    text: 'Edgeware'
+    text: 'Edgeware',
+    uiColor: '#111111'
   },
   {
     info: 'efinity',
@@ -210,7 +212,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // ChainX: 'wss://minichain-mainnet.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/7182
     },
-    text: 'MiniX'
+    text: 'MiniX',
+    uiColor: '#5152f7'
   },
   {
     info: 'myriad',
@@ -239,7 +242,8 @@ export const prodChains: EndpointOption[] = [
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     info: 'polkadex',
@@ -302,7 +306,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
     },
-    text: 'Stafi'
+    text: 'Stafi',
+    uiColor: '#00F3AB'
   },
   {
     info: 'subgame',

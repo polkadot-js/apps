@@ -95,7 +95,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Bitgreen: 'wss://mainnet.bitgreen.org'
     },
-    text: 'Bitgreen'
+    text: 'Bitgreen',
+    uiColor: '#224851'
   },
   {
     homepage: 'https://centrifuge.io',
@@ -194,7 +195,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
       'Frequency 1': 'wss://1.rpc.frequency.xyz'
     },
-    text: 'Frequency'
+    text: 'Frequency',
+    uiColor: '#4b64ff'
   },
   {
     homepage: 'https://geminis.network/',
@@ -319,7 +321,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
       Pinknode: 'wss://public-rpc.pinknode.io/nodle'
     },
-    text: 'Nodle'
+    text: 'Nodle',
+    uiColor: '#1ab394'
   },
   {
     homepage: 'https://oak.tech',
@@ -349,7 +352,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
-    text: 'OriginTrail'
+    text: 'OriginTrail',
+    uiColor: '#FB5DEB'
   },
   {
     homepage: 'https://parallel.fi',
@@ -452,7 +456,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Collectives'
+    text: 'Collectives',
+    uiColor: '#e6777a'
   }
 ];
 
