@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
 import { chainsAbandPNG, chainsKusamaSVG, chainsTinkerPNG, chainsTuringPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
+import { nodesBajunPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -60,7 +60,7 @@ export const prodParasKusama: EndpointOption[] = [
     },
     text: 'Bajun Network',
     uiColor: '#161212',
-    uiLogo: nodesAjunaPNG
+    uiLogo: nodesBajunPNG
   },
   {
     homepage: 'https://app.basilisk.cloud',

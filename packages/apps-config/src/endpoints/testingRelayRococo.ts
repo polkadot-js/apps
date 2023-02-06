@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
 import { chainsT0rnPNG, chainsTinkerPNG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
+import { nodesBajunPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -57,7 +57,7 @@ export const testParasRococo: EndpointOption[] = [
     },
     text: 'Bajun Network',
     uiColor: '#161212',
-    uiLogo: nodesAjunaPNG
+    uiLogo: nodesBajunPNG
   },
   {
     info: 'rococoBasilisk',
