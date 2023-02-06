@@ -68,7 +68,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/polkadot/astar'
     },
-    text: 'Astar'
+    text: 'Astar',
+    uiColor: '#1b6dc1d9'
   },
   {
     homepage: 'https://www.aventus.io/',

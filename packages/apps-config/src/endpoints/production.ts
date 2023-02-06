@@ -27,7 +27,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev'
     },
-    text: 'Aleph Zero'
+    text: 'Aleph Zero',
+    uiColor: '#00CCAB'
   },
   {
     info: 'Ares Odyssey',

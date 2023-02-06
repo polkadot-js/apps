@@ -24,7 +24,8 @@ export const prodParasKusama: EndpointOption[] = [
       Centrifuge: 'wss://fullnode.altair.centrifuge.io',
       OnFinality: 'wss://altair.api.onfinality.io/public-ws'
     },
-    text: 'Altair'
+    text: 'Altair',
+    uiColor: '#ffb700'
   },
   {
     homepage: 'https://pendulumchain.org/amplitude',
@@ -34,7 +35,8 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://amplitude-rpc.dwellir.com',
       PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
     },
-    text: 'Amplitude'
+    text: 'Amplitude',
+    uiColor: '#5DEFA7'
   },
   {
     homepage: 'https://ajuna.io',
@@ -275,7 +277,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Kpron: 'wss://kusama-kpron-rpc.apron.network/'
     },
-    text: 'Kpron'
+    text: 'Kpron',
+    uiColor: 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)'
   },
   {
     homepage: 'https://listen.io/',
@@ -473,7 +476,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network'
     },
-    text: 'Shiden Crowdloan 2'
+    text: 'Shiden Crowdloan 2',
+    uiColor: '#1b6dc1d9'
   },
   {
     homepage: 'https://icenetwork.io/snow',

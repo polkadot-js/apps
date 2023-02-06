@@ -22,7 +22,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
     },
-    text: 'Acurast Testnet'
+    text: 'Acurast Testnet',
+    uiColor: '#000000'
   },
   {
     info: 'rococoAmplitude',
@@ -30,7 +31,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
     },
-    text: 'Amplitude testnet (Foucoco)'
+    text: 'Amplitude testnet (Foucoco)',
+    uiColor: '#5DEFA7'
   },
   {
     info: 'arctic',
@@ -339,7 +341,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Webb: 'wss://arana-alpha-1.webb.tools'
     },
-    text: 'Tangle'
+    text: 'Tangle',
+    uiColor: '#483d8b'
   },
   {
     info: 'rococoTinkernet',

@@ -39,7 +39,8 @@ export const testChains: EndpointOption[] = [
       'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
       Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
     },
-    text: 'Aleph Zero Testnet'
+    text: 'Aleph Zero Testnet',
+    uiColor: '#00CCAB'
   },
   {
     info: 'nodle',
@@ -492,7 +493,8 @@ export const testChains: EndpointOption[] = [
       Dwellir: 'wss://shibuya-rpc.dwellir.com',
       StakeTechnologies: 'wss://rpc.shibuya.astar.network'
     },
-    text: 'Shibuya'
+    text: 'Shibuya',
+    uiColor: '#1b6dc1d9'
   },
   {
     info: 'skyekiwi',
@@ -566,7 +568,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Webb: 'wss://tangle-archive.webb.tools'
     },
-    text: 'Tangle Alpha'
+    text: 'Tangle Alpha',
+    uiColor: '#0099ff'
   },
   {
     info: 'ternoa-alphanet',

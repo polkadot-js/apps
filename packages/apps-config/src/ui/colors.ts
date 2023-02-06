@@ -11,15 +11,6 @@ import { sanitize } from './util';
 
 // based on chain name
 // alphabetical
-const chainAcurastRococoTestnet = '#000000';
-const chainAleph = '#00CCAB';
-const chainAltair = '#ffb700';
-const chainAmplitude = '#5DEFA7';
-const chainAmplitudeRococo = '#5DEFA7';
-const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
-const chainAstar = '#1b6dc1d9';
-const chainTangle = '#483d8b';
-const chainTangleDev = '#0099ff';
 const chainAutomata = '#EC7032';
 const chainAutomataContextFree = '#EC7032';
 const chainBitCountry = '#191a2e';
@@ -245,17 +236,9 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
-  'Acurast Rococo Testnet': chainAcurastRococoTestnet,
-  'Aleph Zero': chainAleph,
-  'Aleph Zero Testnet': chainAleph,
-  Altair: chainAltair,
-  Amplitude: chainAmplitude,
-  'Amplitude Testnet': chainAmplitudeRococo,
-  'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
   'Ares Odyssey': nodeOdyssey,
   'Ares PC1': chainRoccoAres,
-  Astar: chainAstar,
   Automata: chainAutomata,
   'Automata ContextFree': chainAutomataContextFree,
   'Basilisk testnet': chainBasiliskTestnet,
@@ -441,8 +424,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Subspace: nodeSubspace,
   Subzero: chainZero,
   swapdex: chainSwapdex,
-  'Tangle Rococo': chainTangle,
-  'Tangle Testnet': chainTangleDev,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
@@ -563,7 +544,6 @@ export const nodeColors = Object.entries({
   Subspace: nodeSubspace,
   'subzero node': nodeZero,
   swapdex: nodeSwapdex,
-  'Tangle Parachain': chainTangle,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
