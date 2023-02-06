@@ -49,7 +49,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
         <ChainImg
           className='endpointIcon'
           isInline
-          logo={uiLogo}
+          logo={uiLogo || 'empty'}
           withoutHl
         />
         <div className='endpointValue'>
