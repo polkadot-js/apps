@@ -3269,6 +3269,7 @@ __metadata:
     "@polkadot/networks": ^10.3.1
     "@polkadot/types": ^9.13.6
     "@polkadot/util": ^10.3.1
+    "@polkadot/wasm-util": ^6.4.1
     "@polkadot/x-fetch": ^10.3.1
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
@@ -4024,7 +4025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/wasm-util@npm:6.4.1":
+"@polkadot/wasm-util@npm:6.4.1, @polkadot/wasm-util@npm:^6.4.1":
   version: 6.4.1
   resolution: "@polkadot/wasm-util@npm:6.4.1"
   dependencies:

@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
-import { chainsOakPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesPolkadotCircleSVG, nodesStatemineSVG } from '../ui/logos/nodes';
+import { chainsOakPNG, chainsPolkadotCircleSVG } from '../ui/logos/chains';
+import { nodesAjunaPNG, nodesStatemineSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -479,5 +479,5 @@ export const prodRelayPolkadot: EndpointOption = {
   teleport: getTeleports(prodParasPolkadotCommon),
   text: 'Polkadot',
   uiColor: '#e6007a',
-  uiLogo: nodesPolkadotCircleSVG
+  uiLogo: chainsPolkadotCircleSVG
 };
