@@ -58,11 +58,6 @@ ${
     : ''
 }
 ${Object.keys(result).sort().map((k) => `export const ${k} = ${result[k]};`).join('\n')}
-
-// preload all
-[${Object.keys(result).sort().join(', ')}].forEach((src): void => {
-  new Image().src = src;
-});
 `);
     }
 }
