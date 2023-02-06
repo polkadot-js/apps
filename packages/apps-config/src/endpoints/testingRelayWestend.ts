@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
-import { chainsInterlaySVG, chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains';
-import { nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG, nodesWhalaSVG } from '../ui/logos/nodes';
+import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains';
+import { nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -47,7 +47,7 @@ export const testParasWestend: EndpointOption[] = [
     },
     text: 'Interlay',
     ui: {
-      logo: chainsInterlaySVG
+      logo: nodesInterlaySVG
     }
   },
   {
@@ -118,7 +118,7 @@ export const testParasWestend: EndpointOption[] = [
     text: 'Whala',
     ui: {
       color: '#03f3f3',
-      logo: nodesWhalaSVG
+      logo: nodesKhalaSVG
     }
   },
   {

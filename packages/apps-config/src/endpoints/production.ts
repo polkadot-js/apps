@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types';
 
-import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCompetitorsClubPNG, chainsCreditcoinPNG, chainsCrownSterlingPNG, chainsDebioSVG, chainsEfinitySVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadSVG, chainsSpannerPNG } from '../ui/logos/chains';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesBifrostSVG, nodesCentrifugePNG, nodesChainxSVG, nodesCrabSVG, nodesCrustSVG, nodesDarwiniaSVG, nodesDockMainnetPNG, nodesEdgewareWhitePNG, nodesHanonycashSVG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesUniartsPNG, nodesUnitnetworkPNG, nodesWestlakePNG } from '../ui/logos/nodes';
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadSVG, chainsSpannerPNG } from '../ui/logos/chains';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesBifrostSVG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanonycashSVG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes';
 
 export * from './productionRelayKusama';
 export * from './productionRelayPolkadot';
@@ -103,7 +103,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Competitors Club',
     ui: {
       color: '#213830',
-      logo: chainsCompetitorsClubPNG
+      logo: nodesCompetitorsClubPNG
     }
   },
   {
@@ -125,7 +125,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Crown Sterling',
     ui: {
       color: '#13264b',
-      logo: chainsCrownSterlingPNG
+      logo: nodesCrownSterlingPNG
     }
   },
   {
@@ -183,7 +183,7 @@ export const prodChains: EndpointOption[] = [
     },
     text: 'Dock',
     ui: {
-      logo: nodesDockMainnetPNG
+      logo: nodesDockPNG
     }
   },
   {
@@ -207,7 +207,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Efinity',
     ui: {
       color: '#496ddb',
-      logo: chainsEfinitySVG
+      logo: nodesEfinitySVG
     }
   },
   {
@@ -530,7 +530,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Westlake',
     ui: {
       color: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)',
-      logo: nodesWestlakePNG
+      logo: nodesDatahighwayPNG
     }
   }
 ];
