@@ -239,7 +239,8 @@ export const prodParasKusama: EndpointOption[] = [
       OnFinality: 'wss://karura.api.onfinality.io/public-ws',
       'Polkawallet 0': 'wss://karura.polkawallet.io'
     },
-    text: 'Karura'
+    text: 'Karura',
+    uiColor: '#ff4c3b'
   },
   {
     homepage: 'https://phala.network/',
@@ -251,7 +252,8 @@ export const prodParasKusama: EndpointOption[] = [
       Phala: 'wss://khala-api.phala.network/ws',
       Pinknode: 'wss://public-rpc.pinknode.io/khala'
     },
-    text: 'Khala Network'
+    text: 'Khala Network',
+    uiColor: '#03f3f3'
   },
   {
     homepage: 'https://dico.io/',

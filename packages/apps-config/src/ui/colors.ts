@@ -26,10 +26,8 @@ const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainDarwinia = '#FF0083';
 const chainDorafactory = '#FF761C';
-const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
-const chainFantour = '#5a189a';
 const chainFerrum = '#b37700';
 const chainFrequency = '#4b64ff';
 const chainFrequencyRococo = '#29fd47';
@@ -46,10 +44,7 @@ const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
 const chainKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
-const chainKarura = '#ff4c3b';
-const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
-const chainKlug = '#000000';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
 const chainKonomi = '#007aff';
@@ -63,7 +58,6 @@ const chainLitmus = '#6822fb';
 const chainLuhn = '#2F8E85';
 const chainMinix = '#5152f7';
 const chainMangata = '#030408';
-const chainMd5 = '#3584e4';
 const chainMoonrock = '#3d1d5a';
 const chainMoonsama = '#000000';
 const chainMybank = '#282736';
@@ -156,13 +150,11 @@ const nodeKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
 const nodeKonomi = '#007aff';
 const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
-const nodeKlug = '#663399';
 const nodeKusari = '#b8860b';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeLuhn = '#2DCE89';
 const nodeManta = '#2070a6';
 const nodeMathChain = '#000000';
-const nodeMd5 = '#175bae';
 const nodeMoonbeam = '#53cbc9';
 const nodeMoonbase = '#F45B5B';
 const nodeMoonriver = '#0E132E';
@@ -241,12 +233,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
   'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dora Factory': chainDorafactory,
-  'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
-  'Fantour Development': chainFantour,
   'Ferrum Testnet': chainFerrum,
   Frequency: chainFrequency,
   'Frequency Rococo': chainFrequencyRococo,
@@ -269,8 +259,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Kabocha: chainKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
   Kapex: chainTotem,
-  Karura: chainKarura,
-  Khala: chainKhala,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
   'KILT Peregrine Stagenet': chainKiltDev,
@@ -278,7 +266,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Spiritnet Development': chainKiltDev,
   'KILT Testnet': chainKiltDev,
   Kintsugi: chainKintsugi,
-  'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
   Kpron: nodeKpron,
   kusari: chainKusari,
@@ -294,7 +281,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
-  'MD5 Network': chainMd5,
   Minix: chainMinix,
   'Minix Testnet': chainMinix,
   'Moonbase Alpha': nodeMoonbase,
@@ -415,7 +401,6 @@ export const nodeColors = Object.entries({
   'Joystream Node': nodeJoystream,
   Kabocha: chainKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
-  'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
   kusari: nodeKusari,
@@ -426,7 +411,6 @@ export const nodeColors = Object.entries({
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
-  'MD5 Collator': nodeMd5,
   'Moonsama Development': chainMoonsama,
   'mybank.network node': nodeMybank,
   Myriad: chainMyriad,

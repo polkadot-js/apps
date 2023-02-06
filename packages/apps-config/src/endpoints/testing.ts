@@ -168,7 +168,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // DOTMog: 'wss://mogiway-01.dotmog.com' // https://github.com/polkadot-js/apps/issues/8895
     },
-    text: 'DOTMog'
+    text: 'DOTMog',
+    uiColor: '#020609'
   },
   {
     info: 'encointer',
@@ -189,7 +190,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // FantourDev: 'wss://test-ws.fantour.io' // https://github.com/polkadot-js/apps/issues/6519
     },
-    text: 'Fantour'
+    text: 'Fantour',
+    uiColor: '#5a189a'
   },
   {
     info: 'ferrum',
@@ -279,7 +281,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Phala Network': 'wss://pc-test-3.phala.network/khala/ws' // https://github.com/polkadot-js/apps/issues/6930
     },
-    text: 'Khala (Para 3)'
+    text: 'Khala (Para 3)',
+    uiColor: '#03f3f3'
   },
   {
     info: 'kilt',
@@ -308,7 +311,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Klug Dossier': 'wss://klugdossier.net/' // https://github.com/polkadot-js/apps/issues/8081
     },
-    text: 'Klug Dossier'
+    text: 'Klug Dossier',
+    uiColor: '#663399'
   },
   {
     info: 'kylin',
