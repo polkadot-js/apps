@@ -33,7 +33,7 @@ export interface ExternalDef {
   homepage: string;
   isActive: boolean;
   paths: LinkPath;
-  uiLogo: string;
+  ui: { logo: string; }
 
   create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

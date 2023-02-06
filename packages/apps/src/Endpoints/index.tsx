@@ -60,8 +60,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
           nameRelay: e.textRelay as string,
           paraId: e.paraId,
           providers: [prov],
-          uiColor: e.uiColor,
-          uiLogo: e.uiLogo
+          ui: e.ui
         });
       }
     }

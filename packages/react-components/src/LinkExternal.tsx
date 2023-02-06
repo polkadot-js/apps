@@ -26,7 +26,7 @@ interface Props {
 function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
-    .map(([name, { chains, create, homepage, isActive, paths, uiLogo }]): React.ReactNode | null => {
+    .map(([name, { chains, create, homepage, isActive, paths, ui }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -44,7 +44,7 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
         >
           {isText
             ? name
-            : <img src={uiLogo} />
+            : <img src={ui.logo} />
           }
         </a>
       );

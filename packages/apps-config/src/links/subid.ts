@@ -31,5 +31,5 @@ export const SubId: ExternalDef = {
   paths: {
     address: 'account'
   },
-  uiLogo: externalSubidSVG
+  ui: { logo: externalSubidSVG }
 };

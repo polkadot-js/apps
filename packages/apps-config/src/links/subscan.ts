@@ -100,5 +100,5 @@ export const Subscan: ExternalDef = {
     treasury: 'treasury',
     validator: 'validator'
   },
-  uiLogo: externalSubscanPNG
+  ui: { logo: externalSubscanPNG }
 };

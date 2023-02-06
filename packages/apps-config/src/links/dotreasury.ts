@@ -20,5 +20,5 @@ export const Dotreasury: ExternalDef = {
     tip: 'tips',
     treasury: 'proposals'
   },
-  uiLogo: externalDotreasurySVG
+  ui: { logo: externalDotreasurySVG }
 };

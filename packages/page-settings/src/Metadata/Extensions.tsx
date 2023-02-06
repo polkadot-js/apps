@@ -25,11 +25,14 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
+
   const options = useMemo(
     () => (extensions || []).map(({ extension: { name, version } }, value) =>
-      iconOption(`${name} ${version}`, value, (knownExtensions[name]?.uiLogo) || externalEmptySVG)),
+      iconOption(`${name} ${version}`, value, knownExtensions[name]?.ui.logo || externalEmptySVG)
+    ),
     [extensions]
   );
+
   const _updateMeta = useCallback(
     (): void => {
       if (chainInfo && extensions?.[selectedIndex]) {

@@ -23,8 +23,10 @@ export const testChains: EndpointOption[] = [
       '3dpass': 'wss://test-rpc.3dpass.org'
     },
     text: '3DPass Testnet',
-    uiColor: '#323232',
-    uiLogo: chains3dpassPNG
+    ui: {
+      color: '#323232',
+      logo: chains3dpassPNG
+    }
   },
   {
     info: 'ajuna',
@@ -32,8 +34,10 @@ export const testChains: EndpointOption[] = [
       'Ajuna Network': 'wss://rpc-test.ajuna.network'
     },
     text: 'Ajuna Testnet',
-    uiColor: '#161212',
-    uiLogo: nodesAjunaPNG
+    ui: {
+      color: '#161212',
+      logo: nodesAjunaPNG
+    }
   },
   {
     info: 'aleph',
@@ -42,8 +46,10 @@ export const testChains: EndpointOption[] = [
       Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
     },
     text: 'Aleph Zero Testnet',
-    uiColor: '#00CCAB',
-    uiLogo: chainsAlephSVG
+    ui: {
+      color: '#00CCAB',
+      logo: chainsAlephSVG
+    }
   },
   {
     info: 'nodle',
@@ -51,8 +57,10 @@ export const testChains: EndpointOption[] = [
       // Nodle: 'wss://arcadia1.nodleprotocol.io' // https://github.com/polkadot-js/apps/issues/7652
     },
     text: 'Arcadia',
-    uiColor: '#1ab394',
-    uiLogo: nodesNodleSVG
+    ui: {
+      color: '#1ab394',
+      logo: nodesNodleSVG
+    }
   },
   {
     info: 'arctic',
@@ -60,7 +68,9 @@ export const testChains: EndpointOption[] = [
       Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
     },
     text: 'Arctic',
-    uiLogo: nodesArcticPNG
+    ui: {
+      logo: nodesArcticPNG
+    }
   },
   {
     info: 'Ares Gladios',
@@ -68,8 +78,10 @@ export const testChains: EndpointOption[] = [
       'Ares Protocol': 'wss://gladios.aresprotocol.io'
     },
     text: 'Ares Gladios',
-    uiColor: '#1295F0',
-    uiLogo: nodesAresGladiosSVG
+    ui: {
+      color: '#1295F0',
+      logo: nodesAresGladiosSVG
+    }
   },
   {
     info: 'jaz',
@@ -77,8 +89,10 @@ export const testChains: EndpointOption[] = [
       Jaz: 'wss://ws0.jaz.network'
     },
     text: 'Artio Testnet',
-    uiColor: '#121212',
-    uiLogo: nodesJazPNG
+    ui: {
+      color: '#121212',
+      logo: nodesJazPNG
+    }
   },
   {
     info: 'automata-contextfree',
@@ -87,8 +101,10 @@ export const testChains: EndpointOption[] = [
       OnFinality: 'wss://contextfree.api.onfinality.io/public-ws'
     },
     text: 'Automata ContextFree',
-    uiColor: '#EC7032',
-    uiLogo: nodesAutomataPNG
+    ui: {
+      color: '#EC7032',
+      logo: nodesAutomataPNG
+    }
   },
   {
     info: 'edgeware',
@@ -96,7 +112,9 @@ export const testChains: EndpointOption[] = [
       JelliedOwl: 'wss://beresheet.jelliedowl.net'
     },
     text: 'Beresheet',
-    uiLogo: nodesEdgewareWhitePNG
+    ui: {
+      logo: nodesEdgewareWhitePNG
+    }
   },
   {
     info: 'bifrost',
@@ -104,7 +122,9 @@ export const testChains: EndpointOption[] = [
       // Liebi: 'wss://bifrost-rpc.testnet.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/8139
     },
     text: 'Bifrost Stage Network',
-    uiLogo: nodesBifrostSVG
+    ui: {
+      logo: nodesBifrostSVG
+    }
   },
   {
     info: 'bitcountry',
@@ -112,7 +132,9 @@ export const testChains: EndpointOption[] = [
       'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
     },
     text: 'Bit.Country - Metaverse Network',
-    uiLogo: nodesBitcountryPNG
+    ui: {
+      logo: nodesBitcountryPNG
+    }
   },
   {
     info: 'cess-testnet',
@@ -120,8 +142,10 @@ export const testChains: EndpointOption[] = [
       CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
     },
     text: 'CESS Testnet',
-    uiColor: '#2269a9',
-    uiLogo: nodesCessPNG
+    ui: {
+      color: '#2269a9',
+      logo: nodesCessPNG
+    }
   },
   {
     info: 'clover',
@@ -129,8 +153,10 @@ export const testChains: EndpointOption[] = [
       // Clover: 'wss://api.clover.finance/' // Cannot construct unknown type BridgeNetworks
     },
     text: 'Clover',
-    uiColor: 'linear-gradient(to right, #52ad75, #7cc773)',
-    uiLogo: nodesCloverSVG
+    ui: {
+      color: 'linear-gradient(to right, #52ad75, #7cc773)',
+      logo: nodesCloverSVG
+    }
   },
   {
     info: 'creditcoin-testnet',
@@ -138,8 +164,10 @@ export const testChains: EndpointOption[] = [
       'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
     },
     text: 'Creditcoin Testnet',
-    uiColor: '#00DF83',
-    uiLogo: chainsCreditcoinTestPNG
+    ui: {
+      color: '#00DF83',
+      logo: chainsCreditcoinTestPNG
+    }
   },
   {
     info: 'Crust Maxwell',
@@ -149,8 +177,10 @@ export const testChains: EndpointOption[] = [
       // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
     },
     text: 'Crust Maxwell',
-    uiColor: '#2E333B',
-    uiLogo: nodesCrustMaxwellSVG
+    ui: {
+      color: '#2E333B',
+      logo: nodesCrustMaxwellSVG
+    }
   },
   {
     info: 'datahighway',
@@ -159,7 +189,9 @@ export const testChains: EndpointOption[] = [
       MXC: 'wss://spreehafen.datahighway.com'
     },
     text: 'Spreehafen',
-    uiLogo: nodesDatahighwayPNG
+    ui: {
+      logo: nodesDatahighwayPNG
+    }
   },
   {
     info: 'debio-testnet',
@@ -167,8 +199,10 @@ export const testChains: EndpointOption[] = [
       DeBio: 'wss://ws-rpc.testnet.debio.network'
     },
     text: 'DeBio Testnet',
-    uiColor: '#FF56E0',
-    uiLogo: chainsDebioSVG
+    ui: {
+      color: '#FF56E0',
+      logo: chainsDebioSVG
+    }
   },
   {
     info: 'dock-testnet',
@@ -176,7 +210,9 @@ export const testChains: EndpointOption[] = [
       // 'Dock Association': 'wss://knox-1.dock.io' // https://github.com/polkadot-js/apps/issues/6831
     },
     text: 'Dock',
-    uiLogo: nodesDockTestnetPNG
+    ui: {
+      logo: nodesDockTestnetPNG
+    }
   },
   {
     info: 'dolphin',
@@ -184,8 +220,10 @@ export const testChains: EndpointOption[] = [
       // 'Dolphin Testnet': 'wss://trillian.dolphin.red' // https://github.com/polkadot-js/apps/issues/7439
     },
     text: 'Dolphin Testnet',
-    uiColor: '#000000',
-    uiLogo: nodesDolphinSVG
+    ui: {
+      color: '#000000',
+      logo: nodesDolphinSVG
+    }
   },
   {
     info: 'dotmog',
@@ -193,8 +231,10 @@ export const testChains: EndpointOption[] = [
       // DOTMog: 'wss://mogiway-01.dotmog.com' // https://github.com/polkadot-js/apps/issues/8895
     },
     text: 'DOTMog',
-    uiColor: '#020609',
-    uiLogo: nodesDotmogSVG
+    ui: {
+      color: '#020609',
+      logo: nodesDotmogSVG
+    }
   },
   {
     info: 'encointer',
@@ -202,8 +242,10 @@ export const testChains: EndpointOption[] = [
       'Encointer Association': 'wss://gesell.encointer.org'
     },
     text: 'Encointer Gesell',
-    uiColor: '#0000cc',
-    uiLogo: nodesEncointerBlueSVG
+    ui: {
+      color: '#0000cc',
+      logo: nodesEncointerBlueSVG
+    }
   },
   {
     info: 'equilibrium',
@@ -211,8 +253,10 @@ export const testChains: EndpointOption[] = [
       // Equilibrium: 'wss://testnet.equilibrium.io' // https://github.com/polkadot-js/apps/issues/6250
     },
     text: 'Equilibrium',
-    uiColor: '#1792ff',
-    uiLogo: chainsEquilibriumSVG
+    ui: {
+      color: '#1792ff',
+      logo: chainsEquilibriumSVG
+    }
   },
   {
     info: 'fantour',
@@ -220,8 +264,10 @@ export const testChains: EndpointOption[] = [
       // FantourDev: 'wss://test-ws.fantour.io' // https://github.com/polkadot-js/apps/issues/6519
     },
     text: 'Fantour',
-    uiColor: '#5a189a',
-    uiLogo: nodesFantourPNG
+    ui: {
+      color: '#5a189a',
+      logo: nodesFantourPNG
+    }
   },
   {
     info: 'ferrum',
@@ -229,15 +275,18 @@ export const testChains: EndpointOption[] = [
       Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
     },
     text: 'Ferrum Testnet',
-    uiColor: '#b37700',
-    uiLogo: chainsFerrumPNG
+    ui: {
+      color: '#b37700',
+      logo: chainsFerrumPNG
+    }
   },
   {
     info: 'substrate',
     providers: {
       // Parity: 'wss://substrate-rpc.parity.io' // https://github.com/polkadot-js/apps/issues/5571
     },
-    text: 'Flaming Fir'
+    text: 'Flaming Fir',
+    ui: {}
   },
   {
     info: 'Galital',
@@ -245,8 +294,10 @@ export const testChains: EndpointOption[] = [
       // StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com' // https://github.com/polkadot-js/apps/issues/6721
     },
     text: 'Galital PC2',
-    uiColor: '#00063F',
-    uiLogo: nodesGalitalLogoPNG
+    ui: {
+      color: '#00063F',
+      logo: nodesGalitalLogoPNG
+    }
   },
   {
     info: 'galois',
@@ -255,8 +306,10 @@ export const testChains: EndpointOption[] = [
       'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
     },
     text: 'Galois',
-    uiColor: '#000000',
-    uiLogo: nodesMathSVG
+    ui: {
+      color: '#000000',
+      logo: nodesMathSVG
+    }
   },
   {
     info: 'gamepower',
@@ -264,8 +317,10 @@ export const testChains: EndpointOption[] = [
       // GamePower: 'wss://gamepower.io' // https://github.com/polkadot-js/apps/issues/7223
     },
     text: 'GamePower',
-    uiColor: '#5d21a5',
-    uiLogo: nodesGamepowerSVG
+    ui: {
+      color: '#5d21a5',
+      logo: nodesGamepowerSVG
+    }
   },
   {
     info: 'geek',
@@ -273,8 +328,10 @@ export const testChains: EndpointOption[] = [
       // 'Geek Team': 'wss://testnet.geekcash.org' // https://github.com/polkadot-js/apps/issues/8361
     },
     text: 'GeekCash',
-    uiColor: '#4f46e5',
-    uiLogo: nodesGeekSVG
+    ui: {
+      color: '#4f46e5',
+      logo: nodesGeekSVG
+    }
   },
   {
     info: 'halongbay',
@@ -282,8 +339,10 @@ export const testChains: EndpointOption[] = [
       // Halongbay: 'wss://halongbay.polkafoundry.com' // https://github.com/polkadot-js/apps/issues/6871
     },
     text: 'Halongbay Testnet',
-    uiColor: '#ff527c',
-    uiLogo: nodesPolkafoundrySVG
+    ui: {
+      color: '#ff527c',
+      logo: nodesPolkafoundrySVG
+    }
   },
   {
     info: 'interlay-testnet',
@@ -291,7 +350,9 @@ export const testChains: EndpointOption[] = [
       Interlay: 'wss://api-testnet.interlay.io/parachain/'
     },
     text: 'Interlay Testnet',
-    uiLogo: chainsInterlaySVG
+    ui: {
+      logo: chainsInterlaySVG
+    }
   },
   {
     info: 'brainstorm',
@@ -299,8 +360,10 @@ export const testChains: EndpointOption[] = [
       // 'InvArch Team': 'wss://brainstorm.invarch.network/' // https://github.com/polkadot-js/apps/issues/8020
     },
     text: 'InvArch Brainstorm Testnet',
-    uiColor: '#161616',
-    uiLogo: chainsBrainstormPNG
+    ui: {
+      color: '#161616',
+      logo: chainsBrainstormPNG
+    }
   },
   {
     info: 'ipse',
@@ -311,8 +374,10 @@ export const testChains: EndpointOption[] = [
       'IPSE USA': 'wss://testnet-usa.ipse.io'
     },
     text: 'IPSE',
-    uiColor: '#08a1e8',
-    uiLogo: nodesIpsePNG
+    ui: {
+      color: '#08a1e8',
+      logo: nodesIpsePNG
+    }
   },
   {
     info: 'jupiter',
@@ -320,8 +385,10 @@ export const testChains: EndpointOption[] = [
       // Patract: 'wss://ws.jupiter-poa.patract.cn' // https://github.com/polkadot-js/apps/issues/7765
     },
     text: 'Jupiter',
-    uiColor: '#7143ff',
-    uiLogo: nodesJupiterSVG
+    ui: {
+      color: '#7143ff',
+      logo: nodesJupiterSVG
+    }
   },
   {
     info: 'khala',
@@ -329,8 +396,10 @@ export const testChains: EndpointOption[] = [
       // 'Phala Network': 'wss://pc-test-3.phala.network/khala/ws' // https://github.com/polkadot-js/apps/issues/6930
     },
     text: 'Khala (Para 3)',
-    uiColor: '#03f3f3',
-    uiLogo: nodesKhalaSVG
+    ui: {
+      color: '#03f3f3',
+      logo: nodesKhalaSVG
+    }
   },
   {
     info: 'kilt',
@@ -338,7 +407,9 @@ export const testChains: EndpointOption[] = [
       'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
     },
     text: 'KILT Mashnet',
-    uiLogo: nodesKiltPNG
+    ui: {
+      logo: nodesKiltPNG
+    }
   },
   {
     info: 'kilt',
@@ -346,8 +417,10 @@ export const testChains: EndpointOption[] = [
       'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
     text: 'KILT Peregrine',
-    uiColor: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
-    uiLogo: nodesKiltPNG
+    ui: {
+      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
+      logo: nodesKiltPNG
+    }
   },
   {
     info: 'kintsugi-testnet',
@@ -355,8 +428,10 @@ export const testChains: EndpointOption[] = [
       Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain'
     },
     text: 'Kintsugi Testnet',
-    uiColor: '#1a0a2d',
-    uiLogo: chainsKintsugiPNG
+    ui: {
+      color: '#1a0a2d',
+      logo: chainsKintsugiPNG
+    }
   },
   {
     info: 'klugdossier',
@@ -364,8 +439,10 @@ export const testChains: EndpointOption[] = [
       // 'Klug Dossier': 'wss://klugdossier.net/' // https://github.com/polkadot-js/apps/issues/8081
     },
     text: 'Klug Dossier',
-    uiColor: '#663399',
-    uiLogo: nodesKlugPNG
+    ui: {
+      color: '#663399',
+      logo: nodesKlugPNG
+    }
   },
   {
     info: 'kylin',
@@ -373,7 +450,9 @@ export const testChains: EndpointOption[] = [
       // 'Kylin Network': 'wss://testnet.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/6635
     },
     text: 'Kylin Testnet',
-    uiLogo: nodesKylinPNG
+    ui: {
+      logo: nodesKylinPNG
+    }
   },
   {
     info: 'litentry',
@@ -381,8 +460,10 @@ export const testChains: EndpointOption[] = [
       Litentry: 'wss://testnet.litentry.io'
     },
     text: 'Litentry Testnet',
-    uiColor: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
-    uiLogo: nodesLitentryPNG
+    ui: {
+      color: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
+      logo: nodesLitentryPNG
+    }
   },
   {
     info: 'logion',
@@ -390,8 +471,10 @@ export const testChains: EndpointOption[] = [
       Logion: 'wss://chimay.logion.network'
     },
     text: 'logion Para Testnet',
-    uiColor: 'rgb(21, 38, 101)',
-    uiLogo: chainsLogionPNG
+    ui: {
+      color: 'rgb(21, 38, 101)',
+      logo: chainsLogionPNG
+    }
   },
   {
     info: 'logion',
@@ -399,8 +482,10 @@ export const testChains: EndpointOption[] = [
       Logion: 'wss://test-rpc01.logion.network'
     },
     text: 'logion Standalone Testnet',
-    uiColor: 'rgb(21, 38, 101)',
-    uiLogo: chainsLogionPNG
+    ui: {
+      color: 'rgb(21, 38, 101)',
+      logo: chainsLogionPNG
+    }
   },
   {
     info: 'acala',
@@ -409,7 +494,9 @@ export const testChains: EndpointOption[] = [
       // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
     },
     text: 'Mandala',
-    uiLogo: chainsAcalaSVG
+    ui: {
+      logo: chainsAcalaSVG
+    }
   },
   {
     info: 'manta',
@@ -417,8 +504,10 @@ export const testChains: EndpointOption[] = [
       // 'Manta Testnet': 'wss://ws.f1.testnet.manta.network' // https://github.com/polkadot-js/apps/issues/6384
     },
     text: 'Manta Testnet',
-    uiColor: '#2070a6',
-    uiLogo: nodesMantaPNG
+    ui: {
+      color: '#2070a6',
+      logo: nodesMantaPNG
+    }
   },
   {
     info: 'minix',
@@ -426,8 +515,10 @@ export const testChains: EndpointOption[] = [
       // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
     },
     text: 'MiniX Testnet',
-    uiColor: '#5152f7',
-    uiLogo: nodesMinixPNG
+    ui: {
+      color: '#5152f7',
+      logo: nodesMinixPNG
+    }
   },
   {
     info: 'moonbaseAlpha',
@@ -438,8 +529,10 @@ export const testChains: EndpointOption[] = [
       UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
     },
     text: 'Moonbase Alpha',
-    uiColor: '#F45B5B',
-    uiLogo: nodesMoonbaseAlphaPNG
+    ui: {
+      color: '#F45B5B',
+      logo: nodesMoonbaseAlphaPNG
+    }
   },
   {
     info: 'mybank',
@@ -447,8 +540,10 @@ export const testChains: EndpointOption[] = [
       // MYBANK: 'wss://mybank.network/substrate' // https://github.com/polkadot-js/apps/issues/5845
     },
     text: 'mybank.network',
-    uiColor: '#282736',
-    uiLogo: nodesMybankPNG
+    ui: {
+      color: '#282736',
+      logo: nodesMybankPNG
+    }
   },
   {
     info: 'myriad-tesnet',
@@ -456,8 +551,10 @@ export const testChains: EndpointOption[] = [
       Myriad: 'wss://ws-rpc.testnet.myriad.social'
     },
     text: 'Myriad Testnet',
-    uiColor: '#7342CC',
-    uiLogo: chainsMyriadSVG
+    ui: {
+      color: '#7342CC',
+      logo: chainsMyriadSVG
+    }
   },
   {
     info: 'nftmart',
@@ -466,8 +563,10 @@ export const testChains: EndpointOption[] = [
       NFTMartStaging: 'wss://staging-ws.nftmart.io'
     },
     text: 'NFTMart',
-    uiColor: '#307182',
-    uiLogo: nodesNftmartPNG
+    ui: {
+      color: '#307182',
+      logo: nodesNftmartPNG
+    }
   },
   {
     info: 'opal',
@@ -478,8 +577,10 @@ export const testChains: EndpointOption[] = [
       'North America': 'wss://us-ws-opal.unique.network'
     },
     text: 'OPAL by UNIQUE',
-    uiColor: '#3B9C9D',
-    uiLogo: chainsOpalLogoPNG
+    ui: {
+      color: '#3B9C9D',
+      logo: chainsOpalLogoPNG
+    }
   },
   {
     info: 'opportunity',
@@ -487,8 +588,10 @@ export const testChains: EndpointOption[] = [
       // 'Standard Protocol': 'wss://rpc.opportunity.standard.tech' // https://github.com/polkadot-js/apps/issues/7982
     },
     text: 'Opportunity',
-    uiColor: '#6143bc',
-    uiLogo: nodesOpportunityPNG
+    ui: {
+      color: '#6143bc',
+      logo: nodesOpportunityPNG
+    }
   },
   {
     info: 'pangolin',
@@ -496,8 +599,10 @@ export const testChains: EndpointOption[] = [
       'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
     },
     text: 'Pangolin',
-    uiColor: '#4B30DD',
-    uiLogo: nodesPangolinSVG
+    ui: {
+      color: '#4B30DD',
+      logo: nodesPangolinSVG
+    }
   },
   {
     info: 'pangoro',
@@ -505,8 +610,10 @@ export const testChains: EndpointOption[] = [
       'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
     },
     text: 'Pangoro',
-    uiColor: '#4B30DD',
-    uiLogo: nodesPangoroSVG
+    ui: {
+      color: '#4B30DD',
+      logo: nodesPangoroSVG
+    }
   },
   {
     info: 'phala',
@@ -514,7 +621,9 @@ export const testChains: EndpointOption[] = [
       'Phala Network': 'wss://poc5.phala.network/ws'
     },
     text: 'Phala (PoC 5)',
-    uiLogo: nodesPhalaSVG
+    ui: {
+      logo: nodesPhalaSVG
+    }
   },
   {
     info: 'phoenix',
@@ -522,8 +631,10 @@ export const testChains: EndpointOption[] = [
       // 'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/' // https://github.com/polkadot-js/apps/issues/6181
     },
     text: 'Phoenix Mashnet',
-    uiColor: '#d42181',
-    uiLogo: nodesPhoenixPNG
+    ui: {
+      color: '#d42181',
+      logo: nodesPhoenixPNG
+    }
   },
   {
     info: 'pichiu',
@@ -531,7 +642,9 @@ export const testChains: EndpointOption[] = [
       // 'Kylin Network': 'wss://westend.kylin-node.co.uk' // https://github.com/polkadot-js/apps/pull/6761
     },
     text: 'Pichiu Testnet',
-    uiLogo: nodesPichiuPNG
+    ui: {
+      logo: nodesPichiuPNG
+    }
   },
   {
     info: 'polkadex',
@@ -539,8 +652,10 @@ export const testChains: EndpointOption[] = [
       'Polkadex Team': 'wss://blockchain.polkadex.trade'
     },
     text: 'Polkadex',
-    uiColor: '#7C30DD',
-    uiLogo: nodesPolkadexSVG
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
+    }
   },
   {
     info: 'polymesh',
@@ -548,8 +663,10 @@ export const testChains: EndpointOption[] = [
       Polymath: 'wss://testnet-rpc.polymesh.live'
     },
     text: 'Polymesh Testnet',
-    uiColor: '#1348e4',
-    uiLogo: nodesPolymeshSVG
+    ui: {
+      color: '#1348e4',
+      logo: nodesPolymeshSVG
+    }
   },
   {
     info: 'pontem',
@@ -557,8 +674,10 @@ export const testChains: EndpointOption[] = [
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
     },
     text: 'Pontem',
-    uiColor: '#A92FAC',
-    uiLogo: nodesPontemSVG
+    ui: {
+      color: '#A92FAC',
+      logo: nodesPontemSVG
+    }
   },
   {
     info: 'prism',
@@ -566,8 +685,10 @@ export const testChains: EndpointOption[] = [
       // Prism: 'wss://testnet.psm.link' // https://github.com/polkadot-js/apps/issues/7340
     },
     text: 'Prism',
-    uiColor: 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
-    uiLogo: nodesPrismPNG
+    ui: {
+      color: 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
+      logo: nodesPrismPNG
+    }
   },
   {
     info: 'realis',
@@ -575,8 +696,10 @@ export const testChains: EndpointOption[] = [
       // 'Realis.Network': 'wss://rpc.realis.network/' // https://github.com/polkadot-js/apps/issues/7982
     },
     text: 'Realis.Network',
-    uiColor: '#000000',
-    uiLogo: nodesRealisPNG
+    ui: {
+      color: '#000000',
+      logo: nodesRealisPNG
+    }
   },
   {
     info: 'riochain',
@@ -584,8 +707,10 @@ export const testChains: EndpointOption[] = [
       // 'RioChain Staging': 'wss://node.v1.staging.riochain.io' // https://github.com/polkadot-js/apps/issues/6181
     },
     text: 'RioChain',
-    uiColor: '#4d87f6',
-    uiLogo: nodesRiochainSVG
+    ui: {
+      color: '#4d87f6',
+      logo: nodesRiochainSVG
+    }
   },
   {
     info: 'sherpax',
@@ -593,8 +718,10 @@ export const testChains: EndpointOption[] = [
       Chainx: 'wss://sherpax-testnet.chainx.org'
     },
     text: 'Sherpax Testnet',
-    uiColor: '#6bbee8',
-    uiLogo: nodesSherpaxPNG
+    ui: {
+      color: '#6bbee8',
+      logo: nodesSherpaxPNG
+    }
   },
   {
     info: 'shibuya',
@@ -603,8 +730,10 @@ export const testChains: EndpointOption[] = [
       StakeTechnologies: 'wss://rpc.shibuya.astar.network'
     },
     text: 'Shibuya',
-    uiColor: '#1b6dc1d9',
-    uiLogo: chainsShidenPNG
+    ui: {
+      color: '#1b6dc1d9',
+      logo: chainsShidenPNG
+    }
   },
   {
     info: 'skyekiwi',
@@ -612,8 +741,10 @@ export const testChains: EndpointOption[] = [
       SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
     },
     text: 'SkyeKiwi Testnet',
-    uiColor: '#6667ab',
-    uiLogo: chainsSkyekiwiPNG
+    ui: {
+      color: '#6667ab',
+      logo: chainsSkyekiwiPNG
+    }
   },
   {
     info: 'soonsocial',
@@ -621,7 +752,9 @@ export const testChains: EndpointOption[] = [
       // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
     },
     text: 'Soonsocial',
-    uiLogo: nodesSoonsocialPNG
+    ui: {
+      logo: nodesSoonsocialPNG
+    }
   },
   {
     info: 'sora-substrate',
@@ -632,8 +765,10 @@ export const testChains: EndpointOption[] = [
       'Soramitsu #4': 'wss://ws.framenode-4.s2.stg1.sora2.soramitsu.co.jp'
     },
     text: 'SORA-staging',
-    uiColor: '#2D2926',
-    uiLogo: nodesSoraSubstrateSVG
+    ui: {
+      color: '#2D2926',
+      logo: nodesSoraSubstrateSVG
+    }
   },
   {
     info: 'subdao',
@@ -641,8 +776,10 @@ export const testChains: EndpointOption[] = [
       // SubDAO: 'wss://alpha.subdao.org' // https://github.com/polkadot-js/apps/issues/7473
     },
     text: 'SubDAO Staging',
-    uiColor: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)',
-    uiLogo: nodesSubdaoPNG
+    ui: {
+      color: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)',
+      logo: nodesSubdaoPNG
+    }
   },
   {
     info: 'subgame',
@@ -650,8 +787,10 @@ export const testChains: EndpointOption[] = [
       // SubGame: 'wss://staging.subgame.org' // https://github.com/polkadot-js/apps/issues/7982
     },
     text: 'SubGame Staging',
-    uiColor: '#EB027D',
-    uiLogo: nodesSubgameSVG
+    ui: {
+      color: '#EB027D',
+      logo: nodesSubgameSVG
+    }
   },
   {
     info: 'subspace-farmnet',
@@ -659,8 +798,10 @@ export const testChains: EndpointOption[] = [
       // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     },
     text: 'Subspace Farmnet',
-    uiColor: '#562b8e',
-    uiLogo: nodesSubspacePNG
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
   },
   {
     info: 'subspace-gemini-1',
@@ -668,8 +809,10 @@ export const testChains: EndpointOption[] = [
       Europe: 'wss://eu.gemini-1b.subspace.network/ws'
     },
     text: 'Subspace Gemini 1',
-    uiColor: '#562b8e',
-    uiLogo: nodesSubspacePNG
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
   },
   {
     info: 'subspace-gemini-2a',
@@ -677,8 +820,10 @@ export const testChains: EndpointOption[] = [
       Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     },
     text: 'Subspace Gemini 2a',
-    uiColor: '#562b8e',
-    uiLogo: nodesSubspacePNG
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
   },
   {
     info: 'subspace',
@@ -686,8 +831,10 @@ export const testChains: EndpointOption[] = [
       // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
     },
     text: 'Subspace Testnet',
-    uiColor: '#562b8e',
-    uiLogo: nodesSubspacePNG
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
   },
   {
     info: 'tangle',
@@ -695,8 +842,10 @@ export const testChains: EndpointOption[] = [
       Webb: 'wss://tangle-archive.webb.tools'
     },
     text: 'Tangle Alpha',
-    uiColor: '#0099ff',
-    uiLogo: chainsTanglePNG
+    ui: {
+      color: '#0099ff',
+      logo: chainsTanglePNG
+    }
   },
   {
     info: 'ternoa-alphanet',
@@ -704,7 +853,9 @@ export const testChains: EndpointOption[] = [
       CapsuleCorp: 'wss://alphanet.ternoa.com'
     },
     text: 'Ternoa Alphanet',
-    uiLogo: nodesTernoaSVG
+    ui: {
+      logo: nodesTernoaSVG
+    }
   },
   {
     info: 'ternoa-testnet',
@@ -712,8 +863,10 @@ export const testChains: EndpointOption[] = [
       CapsuleCorp: 'wss://testnet.ternoa.com/'
     },
     text: 'Ternoa Testnet',
-    uiColor: '#d622ff',
-    uiLogo: nodesTernoaSVG
+    ui: {
+      color: '#d622ff',
+      logo: nodesTernoaSVG
+    }
   },
   {
     info: 'thebifrost-testnet',
@@ -722,7 +875,9 @@ export const testChains: EndpointOption[] = [
       'Pilab #2': 'wss://public-02.testnet.thebifrost.io/ws'
     },
     text: 'The Bifrost Testnet',
-    uiLogo: nodesBifrostSVG
+    ui: {
+      logo: nodesBifrostSVG
+    }
   },
   {
     info: 'laminar',
@@ -730,8 +885,10 @@ export const testChains: EndpointOption[] = [
       // Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws' // https://github.com/polkadot-js/apps/issues/8060
     },
     text: 'Turbulence',
-    uiColor: '#004FFF',
-    uiLogo: nodesLaminarCircleSVG
+    ui: {
+      color: '#004FFF',
+      logo: nodesLaminarCircleSVG
+    }
   },
   {
     info: 'uniarts',
@@ -739,7 +896,9 @@ export const testChains: EndpointOption[] = [
       // UniArts: 'wss://testnet.uniarts.network' // https://github.com/polkadot-js/apps/issues/8541
     },
     text: 'UniArts',
-    uiLogo: nodesUniartsPNG
+    ui: {
+      logo: nodesUniartsPNG
+    }
   },
   {
     info: 'unique',
@@ -747,8 +906,10 @@ export const testChains: EndpointOption[] = [
       // Unique: 'wss://testnet2.unique.network' // https://github.com/polkadot-js/apps/issues/7621
     },
     text: 'Unique',
-    uiColor: '#40BCFF',
-    uiLogo: chainsUniqueSVG
+    ui: {
+      color: '#40BCFF',
+      logo: chainsUniqueSVG
+    }
   },
   {
     info: 'unitv',
@@ -756,8 +917,10 @@ export const testChains: EndpointOption[] = [
       // 'Unit Network': 'wss://unitventures.io/' // https://github.com/polkadot-js/apps/issues/5684
     },
     text: 'Unit Network',
-    uiColor: '#1452F0',
-    uiLogo: nodesUnitnetworkPNG
+    ui: {
+      color: '#1452F0',
+      logo: nodesUnitnetworkPNG
+    }
   },
   {
     info: 'vara',
@@ -765,15 +928,18 @@ export const testChains: EndpointOption[] = [
       'Gear Tech': 'wss://rpc.vara-network.io'
     },
     text: 'Vara',
-    uiColor: '#32e37d',
-    uiLogo: chainsVaraSVG
+    ui: {
+      color: '#32e37d',
+      logo: chainsVaraSVG
+    }
   },
   {
     info: 'vodka',
     providers: {
       // Vodka: 'wss://vodka.rpc.neatcoin.org/ws' // https://github.com/polkadot-js/apps/issues/8175
     },
-    text: 'Vodka'
+    text: 'Vodka',
+    ui: {}
   },
   {
     info: 'web3games',
@@ -781,8 +947,10 @@ export const testChains: EndpointOption[] = [
       'Web3Games Foundation': 'wss://devnet.web3games.org'
     },
     text: 'Web3Games',
-    uiColor: '#000000',
-    uiLogo: nodesWeb3gamesSVG
+    ui: {
+      color: '#000000',
+      logo: nodesWeb3gamesSVG
+    }
   },
   {
     info: 'zCloak',
@@ -790,8 +958,10 @@ export const testChains: EndpointOption[] = [
       // 'zCloak Network': 'wss://test1.zcloak.network' // https://github.com/polkadot-js/apps/issues/7408
     },
     text: 'zCloak-network',
-    uiColor: 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)',
-    uiLogo: nodesZCloakSVG
+    ui: {
+      color: 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)',
+      logo: nodesZCloakSVG
+    }
   },
   {
     info: 'zeitgeist',
@@ -799,8 +969,10 @@ export const testChains: EndpointOption[] = [
       Zeitgeist: 'wss://bsr.zeitgeist.pm'
     },
     text: 'Zeitgeist Battery Station',
-    uiColor: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
-    uiLogo: nodesZeitgeistPNG
+    ui: {
+      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+      logo: nodesZeitgeistPNG
+    }
   },
   {
     info: 'zero',
@@ -808,6 +980,8 @@ export const testChains: EndpointOption[] = [
       // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     },
     text: 'Zero Alphaville',
-    uiColor: '#000000'
+    ui: {
+      color: '#000000'
+    }
   }
 ];

@@ -25,5 +25,5 @@ export const Polkastats: ExternalDef = {
     extrinsic: 'extrinsic',
     validator: 'validator'
   },
-  uiLogo: externalPolkastatsPNG
+  ui: { logo: externalPolkastatsPNG }
 };

@@ -43,5 +43,5 @@ export const Subsquare: ExternalDef = {
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
   },
-  uiLogo: externalSubsquareSVG
+  ui: { logo: externalSubsquareSVG }
 };

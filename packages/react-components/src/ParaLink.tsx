@@ -26,7 +26,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  const { text, uiLogo, value } = links.length
+  const { text, ui, value } = links.length
     ? links[links.length - 1]
     : endpoints[0];
 
@@ -34,7 +34,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
     <StyledDiv className={className}>
       <ChainImg
         isInline
-        logo={uiLogo || 'empty'}
+        logo={ui.logo || 'empty'}
         withoutHl
       />
       {links.length
