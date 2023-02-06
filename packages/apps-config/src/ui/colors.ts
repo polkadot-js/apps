@@ -16,6 +16,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainSherpax = '#6bbee8';
 const chain3dpass = '#323232';
+const chainAband = '#7358ff';
 const chainAcala = '#645AFF';
 const chainAcurastRococoTestnet = '#000000';
 const chainAjuna = '#161212';
@@ -278,6 +279,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   '3DP testnet': chain3dpass,
   '3dpass - The Ledger of Things': chain3dpass,
+  Aband: chainAband,
   Acala: chainAcala,
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
@@ -537,6 +539,7 @@ export const chainColors: Record<string, string> = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
+  Aband: chainAband,
   'Ajuna Node': nodeAjuna,
   'Apron Node': nodeApron,
   Astar: nodeAstar,
