@@ -28,14 +28,14 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
   const { apiEndpoint, systemChain, systemName } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
     const found = logo && logo !== 'empty'
-      ? logo.startsWith('data:image/')
+      ? logo.startsWith('data:image/') || logo.startsWith('fa;')
         ? logo
         : namedLogos[logo]
       : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
     const imgBase = found || externalEmptySVG;
-    const isFa = !!((imgBase as Record<string, string>).fa);
+    const isFa = (imgBase as string).startsWith('fa;');
     const img = isFa
-      ? (imgBase as Record<string, string>).fa
+      ? (imgBase as string).substring(3)
       : imgBase;
 
     return [!found || logo === 'empty', img, isFa];
