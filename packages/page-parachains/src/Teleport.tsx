@@ -22,7 +22,7 @@ interface Props {
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
 
-function createOption ({ paraId, text, uiLogo }: LinkOption): Option {
+function createOption ({ paraId, text, ui }: LinkOption): Option {
   return {
     text: (
       <div
@@ -31,7 +31,7 @@ function createOption ({ paraId, text, uiLogo }: LinkOption): Option {
       >
         <ChainImg
           className='ui--Dropdown-icon'
-          logo={uiLogo}
+          logo={ui.logo}
         />
         <div className='ui--Dropdown-name'>{text}</div>
       </div>

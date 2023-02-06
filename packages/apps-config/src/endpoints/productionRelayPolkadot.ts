@@ -31,8 +31,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Polkawallet 0': 'wss://acala.polkawallet.io'
     },
     text: 'Acala',
-    uiColor: '#645AFF',
-    uiLogo: chainsAcalaSVG
+    ui: {
+      color: '#645AFF',
+      logo: chainsAcalaSVG
+    }
   },
   {
     homepage: 'https://ajuna.io',
@@ -43,8 +45,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
     text: 'Ajuna Network',
-    uiColor: '#161212',
-    uiLogo: nodesAjunaPNG
+    ui: {
+      color: '#161212',
+      logo: nodesAjunaPNG
+    }
   },
   {
     homepage: 'https://www.aresprotocol.io/',
@@ -54,8 +58,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
     },
     text: 'Ares Odyssey',
-    uiColor: '#1295F0',
-    uiLogo: nodesAresOdysseySVG
+    ui: {
+      color: '#1295F0',
+      logo: nodesAresOdysseySVG
+    }
   },
   {
     homepage: 'https://astar.network',
@@ -72,8 +78,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'light client': 'light://substrate-connect/polkadot/astar'
     },
     text: 'Astar',
-    uiColor: '#1b6dc1d9',
-    uiLogo: chainsAstarPNG
+    ui: {
+      color: '#1b6dc1d9',
+      logo: chainsAstarPNG
+    }
   },
   {
     homepage: 'https://www.aventus.io/',
@@ -81,7 +89,9 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2056,
     providers: {},
     text: 'Aventus',
-    uiLogo: nodesAventusSVG
+    ui: {
+      logo: nodesAventusSVG
+    }
   },
   {
     homepage: 'https://crowdloan.bifrost.app',
@@ -92,8 +102,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
-    uiColor: '#5a25f0',
-    uiLogo: nodesBifrostSVG
+    ui: {
+      color: '#5a25f0',
+      logo: nodesBifrostSVG
+    }
   },
   {
     homepage: 'https://www.bitgreen.org',
@@ -103,8 +115,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Bitgreen: 'wss://mainnet.bitgreen.org'
     },
     text: 'Bitgreen',
-    uiColor: '#224851',
-    uiLogo: chainsBitgreenPNG
+    ui: {
+      color: '#224851',
+      logo: chainsBitgreenPNG
+    }
   },
   {
     homepage: 'https://centrifuge.io',
@@ -115,8 +129,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
     text: 'Centrifuge',
-    uiColor: '#fcc367',
-    uiLogo: nodesCentrifugePNG
+    ui: {
+      color: '#fcc367',
+      logo: nodesCentrifugePNG
+    }
   },
   {
     homepage: 'https://clover.finance',
@@ -127,8 +143,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, renenabled for PolkadotJS
     },
     text: 'Clover',
-    uiColor: 'linear-gradient(to right, #52ad75, #7cc773)',
-    uiLogo: nodesCloverSVG
+    ui: {
+      color: 'linear-gradient(to right, #52ad75, #7cc773)',
+      logo: nodesCloverSVG
+    }
   },
   {
     homepage: 'http://www.coinversation.io/',
@@ -138,8 +156,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       // Coinversation: 'wss://rpc.coinversation.io/' // https://github.com/polkadot-js/apps/issues/6635
     },
     text: 'Coinversation',
-    uiColor: '#e6017a',
-    uiLogo: chainsCoinversationPNG
+    ui: {
+      color: '#e6017a',
+      logo: chainsCoinversationPNG
+    }
   },
   {
     homepage: 'https://composable.finance/',
@@ -150,8 +170,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://composable.api.onfinality.io/public-ws'
     },
     text: 'Composable Finance',
-    uiColor: '#C90E8A',
-    uiLogo: chainsComposableFinancePNG
+    ui: {
+      color: '#C90E8A',
+      logo: chainsComposableFinancePNG
+    }
   },
   {
     homepage: 'https://crust.network',
@@ -161,7 +183,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       Crust: 'wss://crust-parachain.crustapps.net'
     },
     text: 'Crust',
-    uiLogo: nodesCrustParachainSVG
+    ui: {
+      logo: nodesCrustParachainSVG
+    }
   },
   {
     homepage: 'https://darwinia.network/',
@@ -171,8 +195,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     },
     text: 'Darwinia',
-    uiColor: '#FF0083',
-    uiLogo: nodesDarwiniaSVG
+    ui: {
+      color: '#FF0083',
+      logo: nodesDarwiniaSVG
+    }
   },
   {
     homepage: 'https://darwinia.network/',
@@ -182,8 +208,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Darwinia Network': 'wss://parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     },
     text: 'Darwinia Backup',
-    uiColor: '#FF0083',
-    uiLogo: nodesDarwiniaSVG
+    ui: {
+      color: '#FF0083',
+      logo: nodesDarwiniaSVG
+    }
   },
   {
     homepage: 'https://efinity.io',
@@ -195,8 +223,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     },
     text: 'Efinity',
-    uiColor: '#496ddb',
-    uiLogo: nodesEfinitySVG
+    ui: {
+      color: '#496ddb',
+      logo: nodesEfinitySVG
+    }
   },
   {
     homepage: 'https://equilibrium.io/',
@@ -207,8 +237,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Equilibrium: 'wss://node.pol.equilibrium.io/'
     },
     text: 'Equilibrium',
-    uiColor: '#1792ff',
-    uiLogo: chainsEquilibriumSVG
+    ui: {
+      color: '#1792ff',
+      logo: chainsEquilibriumSVG
+    }
   },
   {
     homepage: 'https://frequency.xyz',
@@ -219,8 +251,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Frequency 1': 'wss://1.rpc.frequency.xyz'
     },
     text: 'Frequency',
-    uiColor: '#4b64ff',
-    uiLogo: chainsFrequencySVG
+    ui: {
+      color: '#4b64ff',
+      logo: chainsFrequencySVG
+    }
   },
   {
     homepage: 'https://geminis.network/',
@@ -231,7 +265,9 @@ export const prodParasPolkadot: EndpointOption[] = [
       Geminis: 'wss://rpc.geminis.network'
     },
     text: 'Geminis',
-    uiLogo: chainsGeminisPNG
+    ui: {
+      logo: chainsGeminisPNG
+    }
   },
   {
     homepage: 'https://hashed.network/',
@@ -241,8 +277,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Hashed Systems': 'wss://c1.hashed.network'
     },
     text: 'Hashed Network',
-    uiColor: '#9199A9',
-    uiLogo: nodesHashedPNG
+    ui: {
+      color: '#9199A9',
+      logo: nodesHashedPNG
+    }
   },
   {
     homepage: 'https://hydradx.io/',
@@ -254,8 +292,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623, Renabled for PolkadotJS
     },
     text: 'HydraDX',
-    uiColor: '#f653a2',
-    uiLogo: chainsSnakenetSVG
+    ui: {
+      color: '#f653a2',
+      logo: chainsSnakenetSVG
+    }
   },
   {
     homepage: 'https://integritee.network',
@@ -265,8 +305,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Shell',
-    uiColor: '#658ea9',
-    uiLogo: nodesIntegriteeSVG
+    ui: {
+      color: '#658ea9',
+      logo: nodesIntegriteeSVG
+    }
   },
   {
     homepage: 'https://interlay.io/',
@@ -277,8 +319,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
     },
     text: 'Interlay',
-    uiColor: '#3E96FF',
-    uiLogo: nodesInterlaySVG
+    ui: {
+      color: '#3E96FF',
+      logo: nodesInterlaySVG
+    }
   },
   {
     homepage: 'https://totemaccounting.com/',
@@ -288,8 +332,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Totem: 'wss://k-ui.kapex.network'
     },
     text: 'Kapex',
-    uiColor: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
-    uiLogo: chainsTotemSVG
+    ui: {
+      color: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
+      logo: chainsTotemSVG
+    }
   },
   {
     homepage: 'https://www.kilt.io/',
@@ -301,8 +347,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
     },
     text: 'KILT Spiritnet',
-    uiColor: '#8c145a',
-    uiLogo: nodesKiltPNG
+    ui: {
+      color: '#8c145a',
+      logo: nodesKiltPNG
+    }
   },
   {
     homepage: 'https://kylin.network/',
@@ -312,8 +360,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
     },
     text: 'Kylin',
-    uiColor: '#ed007e',
-    uiLogo: nodesKylinPNG
+    ui: {
+      color: '#ed007e',
+      logo: nodesKylinPNG
+    }
   },
   {
     homepage: 'https://crowdloan.litentry.com',
@@ -324,8 +374,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Litentry: 'wss://rpc.litentry-parachain.litentry.io'
     },
     text: 'Litentry',
-    uiColor: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
-    uiLogo: nodesLitentryPNG
+    ui: {
+      color: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
+      logo: nodesLitentryPNG
+    }
   },
   {
     homepage: 'https://manta.network',
@@ -338,8 +390,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
     },
     text: 'Manta',
-    uiColor: '#2070a6',
-    uiLogo: nodesMantaPNG
+    ui: {
+      color: '#2070a6',
+      logo: nodesMantaPNG
+    }
   },
   {
     homepage: 'https://moonbeam.network/networks/moonbeam/',
@@ -353,8 +407,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
     },
     text: 'Moonbeam',
-    uiColor: '#53cbc9',
-    uiLogo: nodesMoonbeamPNG
+    ui: {
+      color: '#53cbc9',
+      logo: nodesMoonbeamPNG
+    }
   },
   {
     homepage: 'https://nodle.com',
@@ -366,8 +422,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Pinknode: 'wss://public-rpc.pinknode.io/nodle'
     },
     text: 'Nodle',
-    uiColor: '#1ab394',
-    uiLogo: nodesNodleSVG
+    ui: {
+      color: '#1ab394',
+      logo: nodesNodleSVG
+    }
   },
   {
     homepage: 'https://oak.tech',
@@ -378,8 +436,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OAK: 'wss://rpc.oak.tech'
     },
     text: 'OAK Network',
-    uiColor: '#A8278C',
-    uiLogo: chainsOakPNG
+    ui: {
+      color: '#A8278C',
+      logo: chainsOakPNG
+    }
   },
   {
     homepage: 'https://www.omnibtc.finance',
@@ -390,8 +450,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       OmniBTC: 'wss://psc-parachain.coming.chat'
     },
     text: 'OmniBTC',
-    uiColor: '#6759E9',
-    uiLogo: nodesOmnibtcSVG
+    ui: {
+      color: '#6759E9',
+      logo: nodesOmnibtcSVG
+    }
   },
   {
     homepage: 'https://parachain.origintrail.io',
@@ -401,8 +463,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
     text: 'OriginTrail',
-    uiColor: '#FB5DEB',
-    uiLogo: chainsOrigintrailPNG
+    ui: {
+      color: '#FB5DEB',
+      logo: chainsOrigintrailPNG
+    }
   },
   {
     homepage: 'https://parallel.fi',
@@ -413,8 +477,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Parallel: 'wss://rpc.parallel.fi'
     },
     text: 'Parallel',
-    uiColor: '#ef18ac',
-    uiLogo: nodesParallelSVG
+    ui: {
+      color: '#ef18ac',
+      logo: nodesParallelSVG
+    }
   },
   {
     homepage: 'https://pendulumchain.org/',
@@ -425,8 +491,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       PendulumChain: 'wss://rpc.pendulumchain.tech'
     },
     text: 'Pendulum',
-    uiColor: '#49E2FD',
-    uiLogo: chainsPendulumSVG
+    ui: {
+      color: '#49E2FD',
+      logo: chainsPendulumSVG
+    }
   },
   {
     homepage: 'https://phala.network',
@@ -437,8 +505,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       Phala: 'wss://api.phala.network/ws'
     },
     text: 'Phala Network',
-    uiColor: '#c6fa4c',
-    uiLogo: nodesPhalaSVG
+    ui: {
+      color: '#c6fa4c',
+      logo: nodesPhalaSVG
+    }
   },
   {
     // https://github.com/polkadot-js/apps/issues/7620
@@ -451,8 +521,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
     },
     text: 'Polkadex',
-    uiColor: '#7C30DD',
-    uiLogo: nodesPolkadexSVG
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
+    }
   },
   {
     homepage: 'https://subdao.network/',
@@ -463,8 +535,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       SubDAO: 'wss://parachain-rpc.subdao.org'
     },
     text: 'SubDAO',
-    uiColor: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)',
-    uiLogo: nodesSubdaoPNG
+    ui: {
+      color: 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)',
+      logo: nodesSubdaoPNG
+    }
   },
   {
     homepage: 'http://subgame.org/',
@@ -474,8 +548,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/pull/6761
     },
     text: 'SubGame Gamma',
-    uiColor: '#EB027D',
-    uiLogo: nodesSubgameSVG
+    ui: {
+      color: '#EB027D',
+      logo: nodesSubgameSVG
+    }
   },
   {
     homepage: 'https://unique.network/',
@@ -488,8 +564,10 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Unique Europe': 'wss://eu-ws.unique.network/'
     },
     text: 'Unique Network',
-    uiColor: '#40BCFF',
-    uiLogo: nodesUniqueSVG
+    ui: {
+      color: '#40BCFF',
+      logo: nodesUniqueSVG
+    }
   }
 ];
 
@@ -507,8 +585,10 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     },
     teleport: [-1],
     text: 'Statemint',
-    uiColor: '#86e62a',
-    uiLogo: nodesStatemineSVG
+    ui: {
+      color: '#86e62a',
+      logo: nodesStatemineSVG
+    }
   },
   {
     info: 'polkadotCollectives',
@@ -519,8 +599,10 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     },
     teleport: [-1],
     text: 'Collectives',
-    uiColor: '#e6777a',
-    uiLogo: 'fa;people-group'
+    ui: {
+      color: '#e6777a',
+      logo: 'fa;people-group'
+    }
   }
 ];
 
@@ -546,6 +628,8 @@ export const prodRelayPolkadot: EndpointOption = {
   },
   teleport: getTeleports(prodParasPolkadotCommon),
   text: 'Polkadot',
-  uiColor: '#e6007a',
-  uiLogo: chainsPolkadotCircleSVG
+  ui: {
+    color: '#e6007a',
+    logo: chainsPolkadotCircleSVG
+  }
 };

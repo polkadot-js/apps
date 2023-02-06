@@ -25,5 +25,5 @@ export const Commonwealth: ExternalDef = {
     democracyReferendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
-  uiLogo: externalCommonwealthPNG
+  ui: { logo: externalCommonwealthPNG }
 };

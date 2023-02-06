@@ -10,8 +10,10 @@ interface BaseOption {
   paraId?: number;
   summary?: string;
   teleport?: number[];
-  uiColor?: string;
-  uiLogo?: string;
+  ui: {
+    color?: string;
+    logo?: string;
+  }
 }
 
 export interface EndpointOption extends BaseOption {

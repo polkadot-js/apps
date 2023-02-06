@@ -19,5 +19,5 @@ export const DotScanner: ExternalDef = {
     address: 'account',
     block: 'block'
   },
-  uiLogo: externalDotscannerPNG
+  ui: { logo: externalDotscannerPNG }
 };

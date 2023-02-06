@@ -15,8 +15,10 @@ export interface Network {
     name: string;
     url: string;
   }[];
-  uiColor?: string;
-  uiLogo?: string;
+  ui: {
+    color?: string;
+    logo?: string;
+  }
 }
 
 export interface Group {

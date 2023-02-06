@@ -25,7 +25,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const uiHighlight = useMemo(
     () => isDevelopment
       ? undefined
-      : apiEndpoint?.uiColor,
+      : apiEndpoint?.ui.color,
     [apiEndpoint, isDevelopment]
   );
 

@@ -26,5 +26,5 @@ export const KodaDot: ExternalDef = {
   paths: {
     address: 'account'
   },
-  uiLogo: externalKodadotPNG
+  ui: { logo: externalKodadotPNG }
 };

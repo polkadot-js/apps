@@ -15,7 +15,7 @@ interface Known {
   all: Record<Browser, string>;
   desc: string;
   name: string;
-  uiLogo: string;
+  ui: { logo: string; }
 }
 
 // The list of known extensions including the links to tem on the store. This is used when
@@ -23,14 +23,16 @@ interface Known {
 // (Any known extension can and should be added here)
 
 export const knownExtensions: Record<string, Known> = {
-  'polksdot-js': {
+  'polkadot-js': {
     all: {
       chrome: 'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd',
       firefox: 'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/'
     },
     desc: 'Basic account injection and signer',
     name: 'polkadot-js extension',
-    uiLogo: extensionsPolkadotJsSVG
+    ui: {
+      logo: extensionsPolkadotJsSVG
+    }
   }
 };
 
