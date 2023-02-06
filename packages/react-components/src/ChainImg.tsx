@@ -33,9 +33,9 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
         : namedLogos[logo]
       : apiEndpoint?.uiLogo || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
     const imgBase = found || externalEmptySVG;
-    const isFa = (found as string)?.startsWith('fa;');
+    const isFa = (imgBase as string).startsWith('fa;');
     const img = isFa
-      ? (found as string).substring(3)
+      ? (imgBase as string).substring(3)
       : imgBase;
 
     return [!found || logo === 'empty', img, isFa];
