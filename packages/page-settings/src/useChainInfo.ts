@@ -5,7 +5,7 @@ import type { ChainInfo } from './types';
 
 import { useMemo } from 'react';
 
-import { getSystemColor, getSystemIcon } from '@polkadot/apps-config';
+import { getSystemIcon } from '@polkadot/apps-config';
 import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
@@ -22,7 +22,7 @@ function useChainInfoImpl (): ChainInfo | null {
         chainType: isEthereum
           ? 'ethereum'
           : 'substrate',
-        color: apiEndpoint?.uiColor || getSystemColor(systemChain, systemName),
+        color: apiEndpoint?.uiColor,
         genesisHash: api.genesisHash.toHex(),
         icon: getSystemIcon(systemName, specName),
         metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),

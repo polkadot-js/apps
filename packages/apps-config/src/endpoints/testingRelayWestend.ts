@@ -29,7 +29,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Integritee: 'wss://teerw1.integritee.network' // https://github.com/polkadot-js/apps/issues/8937
     },
-    text: 'Integritee Network'
+    text: 'Integritee Network',
+    uiColor: '#658ea9'
   },
   {
     info: 'interlay',
@@ -45,7 +46,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network' // https://github.com/polkadot-js/apps/issues/6181
     },
-    text: 'Moonshadow'
+    text: 'Moonshadow',
+    uiColor: '#53cbc9'
   },
   {
     homepage: 'https://darwinia.network/',
@@ -54,7 +56,8 @@ export const testParasWestend: EndpointOption[] = [
     providers: {
       // Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     },
-    text: 'Pangoro'
+    text: 'Pangoro',
+    uiColor: '#4B30DD'
   },
   {
     homepage: 'https://kylin.network/',
