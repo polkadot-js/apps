@@ -87,7 +87,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     },
-    text: 'Bifrost'
+    text: 'Bifrost',
+    uiColor: '#5a25f0'
   },
   {
     homepage: 'https://www.bitgreen.org',
@@ -107,7 +108,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
-    text: 'Centrifuge'
+    text: 'Centrifuge',
+    uiColor: '#fcc367'
   },
   {
     homepage: 'https://clover.finance',
@@ -157,7 +159,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
     },
-    text: 'Darwinia'
+    text: 'Darwinia',
+    uiColor: '#FF0083'
   },
   {
     homepage: 'https://darwinia.network/',
@@ -166,7 +169,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       // 'Darwinia Network': 'wss://parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
     },
-    text: 'Darwinia Backup'
+    text: 'Darwinia Backup',
+    uiColor: '#FF0083'
   },
   {
     homepage: 'https://efinity.io',
@@ -188,7 +192,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Dwellir: 'wss://equilibrium-rpc.dwellir.com',
       Equilibrium: 'wss://node.pol.equilibrium.io/'
     },
-    text: 'Equilibrium'
+    text: 'Equilibrium',
+    uiColor: '#1792ff'
   },
   {
     homepage: 'https://frequency.xyz',
@@ -230,7 +235,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Galactic Council': 'wss://rpc.hydradx.cloud',
       OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623, Renabled for PolkadotJS
     },
-    text: 'HydraDX'
+    text: 'HydraDX',
+    uiColor: '#f653a2'
   },
   {
     homepage: 'https://integritee.network',
@@ -239,7 +245,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Integritee: 'wss://polkadot.api.integritee.network'
     },
-    text: 'Integritee Shell'
+    text: 'Integritee Shell',
+    uiColor: '#658ea9'
   },
   {
     homepage: 'https://interlay.io/',
@@ -249,7 +256,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
       OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
     },
-    text: 'Interlay'
+    text: 'Interlay',
+    uiColor: '#3E96FF'
   },
   {
     homepage: 'https://totemaccounting.com/',
@@ -258,7 +266,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       Totem: 'wss://k-ui.kapex.network'
     },
-    text: 'Kapex'
+    text: 'Kapex',
+    uiColor: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)'
   },
   {
     homepage: 'https://www.kilt.io/',
@@ -269,7 +278,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'KILT Protocol': 'wss://spiritnet.kilt.io/',
       OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
     },
-    text: 'KILT Spiritnet'
+    text: 'KILT Spiritnet',
+    uiColor: '#8c145a'
   },
   {
     homepage: 'https://kylin.network/',
@@ -278,7 +288,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
     },
-    text: 'Kylin'
+    text: 'Kylin',
+    uiColor: '#ed007e'
   },
   {
     homepage: 'https://crowdloan.litentry.com',
@@ -315,7 +326,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
     },
-    text: 'Moonbeam'
+    text: 'Moonbeam',
+    uiColor: '#53cbc9'
   },
   {
     homepage: 'https://nodle.com',
@@ -338,6 +350,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       OAK: 'wss://rpc.oak.tech'
     },
     text: 'OAK Network',
+    uiColor: '#A8278C',
     uiLogo: chainsOakPNG
   },
   {
@@ -348,7 +361,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       OmniBTC: 'wss://psc-parachain.coming.chat'
     },
-    text: 'OmniBTC'
+    text: 'OmniBTC',
+    uiColor: '#6759E9'
   },
   {
     homepage: 'https://parachain.origintrail.io',
@@ -368,7 +382,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
       Parallel: 'wss://rpc.parallel.fi'
     },
-    text: 'Parallel'
+    text: 'Parallel',
+    uiColor: '#ef18ac'
   },
   {
     homepage: 'https://pendulumchain.org/',
@@ -378,7 +393,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       PendulumChain: 'wss://rpc.pendulumchain.tech'
     },
-    text: 'Pendulum'
+    text: 'Pendulum',
+    uiColor: '#49E2FD'
   },
   {
     homepage: 'https://phala.network',
@@ -388,7 +404,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       Phala: 'wss://api.phala.network/ws'
     },
-    text: 'Phala Network'
+    text: 'Phala Network',
+    uiColor: '#c6fa4c'
   },
   {
     // https://github.com/polkadot-js/apps/issues/7620
@@ -434,7 +451,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       'Unique Asia': 'wss://asia-ws.unique.network/',
       'Unique Europe': 'wss://eu-ws.unique.network/'
     },
-    text: 'Unique Network'
+    text: 'Unique Network',
+    uiColor: '#40BCFF'
   }
 ];
 

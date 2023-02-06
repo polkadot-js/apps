@@ -70,7 +70,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Jaz: 'wss://ws0.jaz.network'
     },
-    text: 'Artio Testnet'
+    text: 'Artio Testnet',
+    uiColor: '#121212'
   },
   {
     info: 'automata-contextfree',
@@ -133,7 +134,8 @@ export const testChains: EndpointOption[] = [
       // 'DCloud Foundation': 'wss://api.decloudf.com/' // https://github.com/polkadot-js/apps/issues/8060
       // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
     },
-    text: 'Crust Maxwell'
+    text: 'Crust Maxwell',
+    uiColor: '#2E333B'
   },
   {
     info: 'datahighway',
@@ -179,14 +181,16 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Encointer Association': 'wss://gesell.encointer.org'
     },
-    text: 'Encointer Gesell'
+    text: 'Encointer Gesell',
+    uiColor: '#0000cc'
   },
   {
     info: 'equilibrium',
     providers: {
       // Equilibrium: 'wss://testnet.equilibrium.io' // https://github.com/polkadot-js/apps/issues/6250
     },
-    text: 'Equilibrium'
+    text: 'Equilibrium',
+    uiColor: '#1792ff'
   },
   {
     info: 'fantour',
@@ -216,7 +220,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com' // https://github.com/polkadot-js/apps/issues/6721
     },
-    text: 'Galital PC2'
+    text: 'Galital PC2',
+    uiColor: '#00063F'
   },
   {
     info: 'galois',
@@ -224,7 +229,8 @@ export const testChains: EndpointOption[] = [
       MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
       'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
     },
-    text: 'Galois'
+    text: 'Galois',
+    uiColor: '#000000'
   },
   {
     info: 'gamepower',
@@ -247,7 +253,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Halongbay: 'wss://halongbay.polkafoundry.com' // https://github.com/polkadot-js/apps/issues/6871
     },
-    text: 'Halongbay Testnet'
+    text: 'Halongbay Testnet',
+    uiColor: '#ff527c'
   },
   {
     info: 'interlay-testnet',
@@ -311,7 +318,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain'
     },
-    text: 'Kintsugi Testnet'
+    text: 'Kintsugi Testnet',
+    uiColor: '#1a0a2d'
   },
   {
     info: 'klugdossier',
@@ -400,7 +408,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Myriad: 'wss://ws-rpc.testnet.myriad.social'
     },
-    text: 'Myriad Testnet'
+    text: 'Myriad Testnet',
+    uiColor: '#7342CC'
   },
   {
     info: 'nftmart',
@@ -408,7 +417,8 @@ export const testChains: EndpointOption[] = [
       NFTMartDev: 'wss://dev-ws.nftmart.io',
       NFTMartStaging: 'wss://staging-ws.nftmart.io'
     },
-    text: 'NFTMart'
+    text: 'NFTMart',
+    uiColor: '#307182'
   },
   {
     info: 'opal',
@@ -426,21 +436,24 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Standard Protocol': 'wss://rpc.opportunity.standard.tech' // https://github.com/polkadot-js/apps/issues/7982
     },
-    text: 'Opportunity'
+    text: 'Opportunity',
+    uiColor: '#6143bc'
   },
   {
     info: 'pangolin',
     providers: {
       'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
     },
-    text: 'Pangolin'
+    text: 'Pangolin',
+    uiColor: '#4B30DD'
   },
   {
     info: 'pangoro',
     providers: {
       'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
     },
-    text: 'Pangoro'
+    text: 'Pangoro',
+    uiColor: '#4B30DD'
   },
   {
     info: 'phala',
@@ -477,14 +490,16 @@ export const testChains: EndpointOption[] = [
     providers: {
       Polymath: 'wss://testnet-rpc.polymesh.live'
     },
-    text: 'Polymesh Testnet'
+    text: 'Polymesh Testnet',
+    uiColor: '#1348e4'
   },
   {
     info: 'pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
     },
-    text: 'Pontem'
+    text: 'Pontem',
+    uiColor: '#A92FAC'
   },
   {
     info: 'prism',
@@ -507,7 +522,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'RioChain Staging': 'wss://node.v1.staging.riochain.io' // https://github.com/polkadot-js/apps/issues/6181
     },
-    text: 'RioChain'
+    text: 'RioChain',
+    uiColor: '#4d87f6'
   },
   {
     info: 'sherpax',
@@ -531,7 +547,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
     },
-    text: 'SkyeKiwi Testnet'
+    text: 'SkyeKiwi Testnet',
+    uiColor: '#6667ab'
   },
   {
     info: 'soonsocial',
@@ -650,14 +667,16 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Unique: 'wss://testnet2.unique.network' // https://github.com/polkadot-js/apps/issues/7621
     },
-    text: 'Unique'
+    text: 'Unique',
+    uiColor: '#40BCFF'
   },
   {
     info: 'unitv',
     providers: {
       // 'Unit Network': 'wss://unitventures.io/' // https://github.com/polkadot-js/apps/issues/5684
     },
-    text: 'Unit Network'
+    text: 'Unit Network',
+    uiColor: '#1452F0'
   },
   {
     info: 'vara',
@@ -679,7 +698,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Web3Games Foundation': 'wss://devnet.web3games.org'
     },
-    text: 'Web3Games'
+    text: 'Web3Games',
+    uiColor: '#000000'
   },
   {
     info: 'zCloak',
