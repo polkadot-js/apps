@@ -138,7 +138,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Composable: 'wss://rpc.composable.finance',
       OnFinality: 'wss://composable.api.onfinality.io/public-ws'
     },
-    text: 'Composable Finance'
+    text: 'Composable Finance',
+    uiColor: '#C90E8A'
   },
   {
     homepage: 'https://crust.network',
@@ -176,7 +177,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       Efinity: 'wss://rpc.efinity.io',
       OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
     },
-    text: 'Efinity'
+    text: 'Efinity',
+    uiColor: '#496ddb'
   },
   {
     homepage: 'https://equilibrium.io/',
@@ -397,7 +399,8 @@ export const prodParasPolkadot: EndpointOption[] = [
       // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
       // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
     },
-    text: 'Polkadex'
+    text: 'Polkadex',
+    uiColor: '#7C30DD'
   },
   {
     homepage: 'https://subdao.network/',

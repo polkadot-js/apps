@@ -348,7 +348,8 @@ export const prodParasKusama: EndpointOption[] = [
       Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
       OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
     },
-    text: 'Mangata'
+    text: 'Mangata',
+    uiColor: '#030408'
   },
   {
     homepage: 'https://www.aresprotocol.io/mars',
@@ -397,7 +398,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       Composable: 'wss://rpc.composablenodes.tech'
     },
-    text: 'Picasso'
+    text: 'Picasso',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://kylin.network/',
@@ -549,7 +551,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     },
-    text: 'subzero'
+    text: 'subzero',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://www.datahighway.com/',

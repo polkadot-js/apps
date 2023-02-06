@@ -75,7 +75,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // 'Competitors Club': 'wss://node0.competitors.club/wss' // https://github.com/polkadot-js/apps/issues/8263
     },
-    text: 'Competitors Club'
+    text: 'Competitors Club',
+    uiColor: '#213830'
   },
   {
     info: 'creditcoin',
@@ -90,7 +91,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Crown Sterling': 'wss://blockchain.crownsterling.io'
     },
-    text: 'Crown Sterling'
+    text: 'Crown Sterling',
+    uiColor: '#13264b'
   },
   {
     info: 'crust',
@@ -147,7 +149,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Efinity: 'wss://rpc.efinity.io' // https://github.com/polkadot-js/apps/pull/6761
     },
-    text: 'Efinity'
+    text: 'Efinity',
+    uiColor: '#496ddb'
   },
   {
     info: 'equilibrium',
@@ -168,7 +171,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Hanonycash: 'wss://rpc.hanonycash.com' // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
     },
-    text: 'Hanonycash'
+    text: 'Hanonycash',
+    uiColor: '#0099CC'
   },
   {
     info: 'joystream',
@@ -252,7 +256,8 @@ export const prodChains: EndpointOption[] = [
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       'Polkadex Team': 'wss://mainnet.polkadex.trade'
     },
-    text: 'Polkadex'
+    text: 'Polkadex',
+    uiColor: '#7C30DD'
   },
   {
     info: 'polymesh',

@@ -12,22 +12,15 @@ import { sanitize } from './util';
 // based on chain name
 // alphabetical
 const chainBasiliskTestnet = `url(${String(nodeBasiliskRococo)}) #000`;
-const chainBrainstorm = '#161616';
-const chainCompetitorsClub = '#213830';
-const chainComposableFinance = '#C90E8A';
 const chainCrab = '#512DBC';
-const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainDarwinia = '#FF0083';
 const chainDorafactory = '#FF761C';
-const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
-const chainFerrum = '#b37700';
 const chainGalital = '#00063F';
 const chainGalois = '#000000';
 const chainGenshiro = '#e8662d';
-const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainIdavoll = '#ff43ff';
@@ -43,7 +36,6 @@ const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitmus = '#6822fb';
-const chainMangata = '#030408';
 const chainMoonrock = '#3d1d5a';
 const chainMyriad = '#7342CC';
 const chainNFTMart = '#815287';
@@ -55,14 +47,11 @@ const chainPangoro = '#4B30DD';
 const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
 const chainPendulum = '#49E2FD';
-const chainPicasso = '#000000';
 const chainPichiu = '#ed007e';
 const chainPhala = '#c6fa4c';
-const chainPolkadex = '#7C30DD';
 const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
-const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = '#FF0083';
 const chainRococoEave = '#900048';
@@ -83,7 +72,6 @@ const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
-const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 // based on node name
 // alphabetical
@@ -97,10 +85,6 @@ const nodeBajun = '#161212';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCentrifuge = '#fcc367';
-const nodeCompetitorsClub = '#213830';
-const nodeCrownSterling = '#13264b';
-const nodeDotMog = '#020609';
-const nodeEfinity = '#496ddb';
 const nodeEncointer = '#0000cc';
 const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
@@ -133,22 +117,18 @@ const nodePangoro = '#4B30DD';
 const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
 const nodePichiu = '#ed007e';
-const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
 const nodePontem = '#A92FAC';
-const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRiochain = '#1A3BB3';
 const nodeRobonomics = '#2949d3';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeSubsocialX = '#69058C';
-const nodeSubspace = '#562b8e';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnitNetwork = '#a351ef';
 const nodeUnique = chainUnique;
 const nodeWeb3games = '#000000';
-const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // Alphabetical overrides based on the actual matched chain name
@@ -164,10 +144,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost Stage Testnet': chainRoccoBifrost,
   Centrifuge: nodeCentrifuge,
   ChainOLI: chainOLI,
-  'Competitors Club': chainCompetitorsClub,
-  'Composable Finance': chainComposableFinance,
   'Crab Parachain': chainCrab,
-  'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
@@ -179,17 +156,14 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia Parachain': chainDarwinia,
   'Darwinia PC2': chainRoccoDarwinia,
   'Dora Factory': chainDorafactory,
-  Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
-  'Ferrum Testnet': chainFerrum,
   Galital: chainGalital,
   'Galois-PoC-1': chainGalois,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
-  hanonycash: chainHanonycash,
   HydraDX: chainSnakenet,
   'HydraDX testnet': chainHydrate,
   Idavoll: chainIdavoll,
@@ -197,7 +171,6 @@ export const chainColors: Record<string, string> = Object.entries({
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
-  'InvArch Brainstorm Testnet': chainBrainstorm,
   Kapex: chainTotem,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
@@ -214,8 +187,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Listen Network': chainListen,
   Litentry: chainLitentry,
   Litmus: chainLitmus,
-  'Mangata Kusama Mainnet': chainMangata,
-  'Mangata Public Testnet': chainMangata,
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
@@ -238,14 +209,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'Parami PC2': chainParami,
   Pendulum: chainPendulum,
   Phala: chainPhala,
-  Picasso: chainPicasso,
   'Pichiu Testnet': chainPichiu,
   PolkaBTC: chainInterbtc,
-  'Polkadex Testnet': chainPolkadex,
   PolkaSmith: chainPolkaSmith,
   'Pontem Testnet': chainPontem,
-  'Prism PC1': chainPrism,
-  'Prism Testnet': chainPrism,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
   Robonomics: nodeRobonomics,
@@ -259,8 +226,6 @@ export const chainColors: Record<string, string> = Object.entries({
   SubDAO: chainSubDAO,
   'SubDAO PC1': chainSubDAO,
   'SubDAO Staging': chainSubDAO,
-  Subspace: nodeSubspace,
-  Subzero: chainZero,
   'TrustBase PC1': chainTrustBase,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
@@ -270,8 +235,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'VLN PC': chainVln,
   Wapex: chainTotem,
   'Web3Games Plum': chainWeb3games,
-  'Zenlink PC1': chainZenlink,
-  'ZERO.IO': chainZero
+  'Zenlink PC1': chainZenlink
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [sanitize(chain)]: color
@@ -292,11 +256,7 @@ export const nodeColors = Object.entries({
   centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
-  'Competitors Club': nodeCompetitorsClub,
-  'Crown Sterling': nodeCrownSterling,
   'Dora Factory': chainDorafactory,
-  'DOTMog Node': nodeDotMog,
-  Efinity: nodeEfinity,
   'Encointer collator': nodeEncointer,
   'Encointer Node noTEE': nodeEncointer,
   'Fantour Development': nodeFantour,
@@ -307,7 +267,6 @@ export const nodeColors = Object.entries({
   'Imbue Parachain Collator': nodeImbue,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
-  'InvArch Brainstorm Node': chainBrainstorm,
   IpseTestnet: nodeIpse,
   'Jaz Node': nodeJaz,
   'Joystream Node': nodeJoystream,
@@ -336,11 +295,8 @@ export const nodeColors = Object.entries({
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,
   'Pichiu Parachain Collator': nodePichiu,
-  'Polkadex Node': nodePolkadex,
   'Polymesh Node': nodePolymesh,
   'Pontem Node': nodePontem,
-  'Prism Collator': nodePrism,
-  'Prism Node': nodePrism,
   'Rio Defi Chain Node': nodeRiochain,
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
@@ -349,8 +305,6 @@ export const nodeColors = Object.entries({
   'SubDAO Staging': nodeSubDAO,
   'Subsocial Collator': nodeSubsocialX,
   'subsocial node': nodeSubsocial,
-  Subspace: nodeSubspace,
-  'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,

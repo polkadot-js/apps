@@ -201,7 +201,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
     },
-    text: 'Ferrum Testnet'
+    text: 'Ferrum Testnet',
+    uiColor: '#b37700'
   },
   {
     info: 'substrate',
@@ -260,7 +261,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'InvArch Team': 'wss://brainstorm.invarch.network/' // https://github.com/polkadot-js/apps/issues/8020
     },
-    text: 'InvArch Brainstorm Testnet'
+    text: 'InvArch Brainstorm Testnet',
+    uiColor: '#161616'
   },
   {
     info: 'ipse',
@@ -466,7 +468,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Polkadex Team': 'wss://blockchain.polkadex.trade'
     },
-    text: 'Polkadex'
+    text: 'Polkadex',
+    uiColor: '#7C30DD'
   },
   {
     info: 'polymesh',
@@ -487,7 +490,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // Prism: 'wss://testnet.psm.link' // https://github.com/polkadot-js/apps/issues/7340
     },
-    text: 'Prism'
+    text: 'Prism',
+    uiColor: 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)'
   },
   {
     info: 'realis',
@@ -566,28 +570,32 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Subspace Network': 'wss://farm-rpc.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/8135
     },
-    text: 'Subspace Farmnet'
+    text: 'Subspace Farmnet',
+    uiColor: '#562b8e'
   },
   {
     info: 'subspace-gemini-1',
     providers: {
       Europe: 'wss://eu.gemini-1b.subspace.network/ws'
     },
-    text: 'Subspace Gemini 1'
+    text: 'Subspace Gemini 1',
+    uiColor: '#562b8e'
   },
   {
     info: 'subspace-gemini-2a',
     providers: {
       Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     },
-    text: 'Subspace Gemini 2a'
+    text: 'Subspace Gemini 2a',
+    uiColor: '#562b8e'
   },
   {
     info: 'subspace',
     providers: {
       // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
     },
-    text: 'Subspace Testnet'
+    text: 'Subspace Testnet',
+    uiColor: '#562b8e'
   },
   {
     info: 'tangle',
@@ -691,6 +699,7 @@ export const testChains: EndpointOption[] = [
     providers: {
       // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
     },
-    text: 'Zero Alphaville'
+    text: 'Zero Alphaville',
+    uiColor: '#000000'
   }
 ];

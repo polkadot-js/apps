@@ -207,7 +207,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
     },
-    text: 'Mangata'
+    text: 'Mangata',
+    uiColor: '#030408'
   },
   {
     info: 'rococoMd5',
@@ -285,7 +286,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Efinity: 'wss://rpc.rococo.efinity.io'
     },
-    text: 'Rocfinity'
+    text: 'Rocfinity',
+    uiColor: '#496ddb'
   },
   {
     info: 'snowbridge',
