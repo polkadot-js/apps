@@ -52,7 +52,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
     },
-    text: 'Ares Odyssey'
+    text: 'Ares Odyssey',
+    uiColor: '#1295F0'
   },
   {
     homepage: 'https://astar.network',
@@ -215,7 +216,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     providers: {
       'Hashed Systems': 'wss://c1.hashed.network'
     },
-    text: 'Hashed Network'
+    text: 'Hashed Network',
+    uiColor: '#9199A9'
   },
   {
     homepage: 'https://hydradx.io/',

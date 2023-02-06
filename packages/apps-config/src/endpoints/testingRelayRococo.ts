@@ -318,7 +318,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://spreehafen.datahighway.com'
     },
-    text: 'Spreehafen'
+    text: 'Spreehafen',
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
   },
   {
     homepage: 'https://totemaccounting.com/',
@@ -435,7 +436,8 @@ export const testParasRococoCommon: EndpointOption[] = [
       Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Contracts'
+    text: 'Contracts',
+    uiColor: '#000000'
   },
   {
     homepage: 'https://encointer.org/',

@@ -62,7 +62,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Ares Protocol': 'wss://gladios.aresprotocol.io'
     },
-    text: 'Ares Gladios'
+    text: 'Ares Gladios',
+    uiColor: '#1295F0'
   },
   {
     info: 'jaz',
@@ -493,7 +494,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Realis.Network': 'wss://rpc.realis.network/' // https://github.com/polkadot-js/apps/issues/7982
     },
-    text: 'Realis.Network'
+    text: 'Realis.Network',
+    uiColor: '#000000'
   },
   {
     info: 'riochain',

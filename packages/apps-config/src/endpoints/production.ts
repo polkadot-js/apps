@@ -35,7 +35,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       'Ares Protocol': 'wss://odyssey.aresprotocol.io'
     },
-    text: 'Ares Odyssey'
+    text: 'Ares Odyssey',
+    uiColor: '#1295F0'
   },
   {
     info: 'automata',
@@ -298,7 +299,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       // Spanner: 'wss://wss.spannerprotocol.com' // https://github.com/polkadot-js/apps/issues/6547
     },
-    text: 'Spanner'
+    text: 'Spanner',
+    uiColor: '#EC3D3D'
   },
   {
     info: 'stafi',
@@ -329,7 +331,8 @@ export const prodChains: EndpointOption[] = [
     providers: {
       Swapdex: 'wss://ws.swapdex.network'
     },
-    text: 'Swapdex'
+    text: 'Swapdex',
+    uiColor: '#E94082'
   },
   {
     info: 'ternoa',

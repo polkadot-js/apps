@@ -28,7 +28,6 @@ const chainGalital = '#00063F';
 const chainGalois = '#000000';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
-const chainHashed = '#9199A9';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainIdavoll = '#ff43ff';
@@ -39,7 +38,6 @@ const chainKintsugi = '#1a0a2d';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
 const chainKonomi = '#007aff';
-const chainKusamaDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
 const chainListen = '#FFAD0A';
@@ -65,13 +63,8 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainQuartz = '#FF4D6A';
-const chainRoccoAres = '#70FF8B';
-const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
-const chainRococoContracts = '#000000';
 const chainRoccoDarwinia = '#FF0083';
-const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
 const chainRococoLaminar = '#004FFF';
 const chainRiochain = '#4d87f6';
@@ -79,9 +72,7 @@ const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSkyeKiwi = '#6667ab';
 const chainSnakenet = '#f653a2';
-const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
-const chainSwapdex = '#E94082';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTotem = 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)';
 const chainTrustBase = '#ff43aa';
@@ -94,7 +85,6 @@ const chainVln = '#33cc33';
 const chainWeb3games = '#000000';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const chainRiodefi = '#4E7AED';
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -136,7 +126,6 @@ const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
-const nodeOdyssey = '#1295F0';
 const nodeOmniBTC = '#6759E9';
 const nodeOpportunity = '#6143bc';
 const nodePangolin = '#4B30DD';
@@ -148,14 +137,12 @@ const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
 const nodePontem = '#A92FAC';
 const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const nodeRealis = '#000000';
 const nodeRiochain = '#1A3BB3';
 const nodeRobonomics = '#2949d3';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeSubsocialX = '#69058C';
 const nodeSubspace = '#562b8e';
-const nodeSwapdex = '#E94082';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnitNetwork = '#a351ef';
@@ -167,9 +154,6 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  'Ares Gladios': chainAresGladios,
-  'Ares Odyssey': nodeOdyssey,
-  'Ares PC1': chainRoccoAres,
   'Basilisk testnet': chainBasiliskTestnet,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
@@ -182,7 +166,6 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainOLI: chainOLI,
   'Competitors Club': chainCompetitorsClub,
   'Composable Finance': chainComposableFinance,
-  'Contracts on Rococo': chainRococoContracts,
   'Crab Parachain': chainCrab,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
@@ -195,8 +178,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia Crab Redirect': chainCrab,
   'Darwinia Parachain': chainDarwinia,
   'Darwinia PC2': chainRoccoDarwinia,
-  'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
-  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dora Factory': chainDorafactory,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
@@ -209,7 +190,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
-  'Hashed Network': chainHashed,
   HydraDX: chainSnakenet,
   'HydraDX testnet': chainHydrate,
   Idavoll: chainIdavoll,
@@ -248,7 +228,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'OAK Network': chainOAK,
-  Odyssey: nodeOdyssey,
   'OLI Parachain': chainOLI,
   OmniBTC: chainOmniBTC,
   Pangolin: chainPangolin,
@@ -267,16 +246,12 @@ export const chainColors: Record<string, string> = Object.entries({
   'Pontem Testnet': chainPontem,
   'Prism PC1': chainPrism,
   'Prism Testnet': chainPrism,
-  'QUARTZ by UNIQUE': chainQuartz,
-  'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
-  Riodefi: chainRiodefi,
   Robonomics: nodeRobonomics,
   Shadow: chainShadow,
   Shiden: chainShiden,
   'SkyeKiwi Testnet Alpha': chainSkyeKiwi,
-  Spanner: chainSpanner,
   Stagex: chainTotem,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
@@ -286,7 +261,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubDAO Staging': chainSubDAO,
   Subspace: nodeSubspace,
   Subzero: chainZero,
-  swapdex: chainSwapdex,
   'TrustBase PC1': chainTrustBase,
   'uni arts staging network': chainUniarts,
   'UniArts Mainnet': chainUniarts,
@@ -320,8 +294,6 @@ export const nodeColors = Object.entries({
   'Centrifuge Chain Node': nodeCentrifuge,
   'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
-  'DataHighway Spreehafen Rococo Parachain Testnet': chainRoccoDataHighway,
-  'DataHighway Tanganika Kusama Parachain': chainKusamaDataHighway,
   'Dora Factory': chainDorafactory,
   'DOTMog Node': nodeDotMog,
   Efinity: nodeEfinity,
@@ -369,7 +341,6 @@ export const nodeColors = Object.entries({
   'Pontem Node': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
-  'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
@@ -380,7 +351,6 @@ export const nodeColors = Object.entries({
   'subsocial node': nodeSubsocial,
   Subspace: nodeSubspace,
   'subzero node': nodeZero,
-  swapdex: nodeSwapdex,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,

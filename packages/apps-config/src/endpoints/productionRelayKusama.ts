@@ -428,7 +428,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     },
-    text: 'QUARTZ by UNIQUE'
+    text: 'QUARTZ by UNIQUE',
+    uiColor: '#FF4D6A'
   },
   {
     homepage: 'https://riodefi.com',
@@ -437,7 +438,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       RioProtocol: 'wss://rio-kusama.riocorenetwork.com'
     },
-    text: 'RioDeFi'
+    text: 'RioDeFi',
+    uiColor: '#4E7AED'
   },
   {
     homepage: 'http://robonomics.network/',
@@ -556,7 +558,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       DataHighway: 'wss://tanganika.datahighway.com'
     },
-    text: 'Tanganika'
+    text: 'Tanganika',
+    uiColor: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)'
   },
   {
     homepage: 'https://trustbase.network/',
