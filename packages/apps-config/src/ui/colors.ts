@@ -29,7 +29,6 @@ const chainDorafactory = '#FF761C';
 const chainDotMog = '#020609';
 const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
-const chainEthos = '#203050';
 const chainFantour = '#5a189a';
 const chainFerrum = '#b37700';
 const chainFrequency = '#4b64ff';
@@ -46,15 +45,11 @@ const chainIdavoll = '#ff43ff';
 const chainImbue = '#baff36';
 const chainInterbtc = '#1a0a2d';
 const chainInterlay = '#3E96FF';
-const chainIpse = '#08a1e8';
 const chainKabocha = 'repeating-radial-gradient(black, black 4px, yellow 5px)';
-const chainJupiter = '#7143ff';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
-const chainKico = '#29B58D';
-const chainKico2 = '#29B58D';
 const chainKilt = '#8c145a';
 const chainKiltDev = '#f05a27';
 const chainKiltPeregrine = `linear-gradient(45deg, ${chainKiltDev} 0%, ${chainKilt} 100%)`;
@@ -67,7 +62,6 @@ const chainListen = '#FFAD0A';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainLitentryRococo = '#0a6a08';
 const chainLitmus = '#6822fb';
-const chainLogion = 'rgb(21, 38, 101)';
 const chainLuhn = '#2F8E85';
 const chainMinix = '#5152f7';
 const chainMangata = '#030408';
@@ -261,7 +255,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Equilibrium: chainEquilibrium,
   'Equilibrium parachain': chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
-  'Ethos Testnet': chainEthos,
   'Fantour Development': chainFantour,
   'Ferrum Testnet': chainFerrum,
   Frequency: chainFrequency,
@@ -282,16 +275,11 @@ export const chainColors: Record<string, string> = Object.entries({
   'InterBTC Staging': chainInterbtc,
   Interlay: chainInterlay,
   'InvArch Brainstorm Testnet': chainBrainstorm,
-  IpseTestnet: chainIpse,
-  'Jupiter A1': chainJupiter,
-  'Jupiter PC1': chainJupiter,
   Kabocha: chainKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
   Kapex: chainTotem,
   Karura: chainKarura,
   Khala: chainKhala,
-  KICO: chainKico,
-  KICO2: chainKico2,
   KILT: chainKilt,
   'KILT Local': chainKiltDev,
   'KILT Peregrine': chainKiltPeregrine,
@@ -446,8 +434,6 @@ export const nodeColors = Object.entries({
   'Joystream Node': nodeJoystream,
   Kabocha: chainKabocha,
   'Kabocha (kabsoup)': nodeKabocha,
-  KICO: chainKico,
-  KICO2: chainKico2,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
@@ -455,8 +441,6 @@ export const nodeColors = Object.entries({
   'Kylin Parachain Collator': nodeKylin,
   'Listen Network': chainListen,
   'Litentry node': nodeLitentry,
-  'logion Collator': chainLogion,
-  'Logion Node': chainLogion,
   'Luhn Collator': nodeLuhn,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,

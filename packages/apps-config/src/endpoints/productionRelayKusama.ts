@@ -262,7 +262,8 @@ export const prodParasKusama: EndpointOption[] = [
       // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
 
     },
-    text: 'KICO'
+    text: 'KICO',
+    uiColor: '#29B58D'
   },
   {
     homepage: 'https://dico.io/',
@@ -271,7 +272,8 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       // 'DICO Foundation': 'wss://rpc.kico2.dico.io' // https://github.com/polkadot-js/apps/issues/8415
     },
-    text: 'KICO 2'
+    text: 'KICO 2',
+    uiColor: '#29B58D'
   },
   {
     homepage: 'https://kintsugi.interlay.io/',

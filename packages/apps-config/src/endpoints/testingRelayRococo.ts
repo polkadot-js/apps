@@ -130,7 +130,8 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       Jur: 'wss://ethos.jur.io'
     },
-    text: 'Ethos'
+    text: 'Ethos',
+    uiColor: '#203050'
   },
   {
     info: 'rococoFrequency',

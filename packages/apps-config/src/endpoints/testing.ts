@@ -263,14 +263,16 @@ export const testChains: EndpointOption[] = [
       'IPSE Europe': 'wss://testnet-europe.ipse.io',
       'IPSE USA': 'wss://testnet-usa.ipse.io'
     },
-    text: 'IPSE'
+    text: 'IPSE',
+    uiColor: '#08a1e8'
   },
   {
     info: 'jupiter',
     providers: {
       // Patract: 'wss://ws.jupiter-poa.patract.cn' // https://github.com/polkadot-js/apps/issues/7765
     },
-    text: 'Jupiter'
+    text: 'Jupiter',
+    uiColor: '#7143ff'
   },
   {
     info: 'khala',
@@ -326,14 +328,16 @@ export const testChains: EndpointOption[] = [
     providers: {
       Logion: 'wss://chimay.logion.network'
     },
-    text: 'logion Para Testnet'
+    text: 'logion Para Testnet',
+    uiColor: 'rgb(21, 38, 101)'
   },
   {
     info: 'logion',
     providers: {
       Logion: 'wss://test-rpc01.logion.network'
     },
-    text: 'logion Standalone Testnet'
+    text: 'logion Standalone Testnet',
+    uiColor: 'rgb(21, 38, 101)'
   },
   {
     info: 'acala',
