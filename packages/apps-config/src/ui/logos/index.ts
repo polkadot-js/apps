@@ -10,6 +10,7 @@
 // alphabetical
 import { sanitize } from '../util';
 import chain3dpass from './chains/3dpass.png';
+import chainAband from './chains/aband.png';
 import chainAcala from './chains/acala.svg';
 import chainAcurast from './chains/acurast.png';
 import chainAleph from './chains/aleph.svg';
@@ -222,6 +223,7 @@ const chainWestendCollectives = { fa: 'people-group' };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  Aband: chainAband,
   'Acurast Rococo Testnet': chainAcurast,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
@@ -456,6 +458,7 @@ export const chainLogos = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
+  Aband: chainAband,
   'Acala Node': chainAcala,
   'Acurast Parachain Collator': chainAcurast,
   Amplitude: chainAmplitude,
@@ -665,6 +668,7 @@ export const nodeLogos = Object.entries({
 export const namedLogos: Record<string, unknown> = {
   '3dpass': chain3dpass,
   '3dpass-testnet': chain3dpass,
+  aband: chainAband,
   acala: chainAcala,
   aleph: chainAleph,
   altair: chainAltair,

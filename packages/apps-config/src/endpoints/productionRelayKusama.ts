@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
-import { chainsKusamaSVG, chainsTinkerPNG, chainsTuringPNG } from '../ui/logos/chains';
+import { chainsAbandPNG, chainsKusamaSVG, chainsTinkerPNG, chainsTuringPNG } from '../ui/logos/chains';
 import { nodesAjunaPNG, nodesBridgeHubBlackSVG, nodesStatemineSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
@@ -16,6 +16,17 @@ import { getTeleports } from './util';
 //
 // IMPORTANT: Alphabetical based on text
 export const prodParasKusama: EndpointOption[] = [
+  {
+    homepage: 'https://a.band',
+    info: 'aband',
+    paraId: 2257,
+    providers: {
+      'Aband DAO': 'wss://rpc-parachain.a.band'
+    },
+    text: 'Aband',
+    uiColor: '#7358ff',
+    uiLogo: chainsAbandPNG
+  },
   {
     homepage: 'https://centrifuge.io/altair',
     info: 'altair',
