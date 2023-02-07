@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types';
 
-import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadSVG, chainsSpannerPNG } from '../ui/logos/chains';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesBifrostSVG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanonycashSVG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes';
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesBifrostSVG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes';
 
 export * from './productionRelayKusama';
 export * from './productionRelayPolkadot';
@@ -240,7 +240,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Hanonycash',
     ui: {
       color: '#0099CC',
-      logo: nodesHanonycashSVG
+      logo: nodesHanyonycashPNG
     }
   },
   {
@@ -318,7 +318,7 @@ export const prodChains: EndpointOption[] = [
     text: 'Myriad',
     ui: {
       color: '#7342CC',
-      logo: chainsMyriadSVG
+      logo: chainsMyriadPNG
     }
   },
   {

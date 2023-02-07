@@ -9,7 +9,7 @@ import { zlibSync } from 'fflate/node';
 import { formatNumber, stringCamelCase } from '@polkadot/util';
 
 const WITH_ZLIB = false;
-const MAX_SIZE = 50000;
+const MAX_SIZE = 48 * 1024;
 
 const MIME = {
   gif: 'image/gif',
@@ -130,4 +130,6 @@ if (Object.keys(large).length) {
   large.forEach(([k, v]) =>
     console.log('\t', k.padStart(30), formatNumber(v).padStart(15))
   );
+
+  console.log();
 }
