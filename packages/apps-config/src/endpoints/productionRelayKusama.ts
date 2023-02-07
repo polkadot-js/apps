@@ -851,6 +851,7 @@ export const prodRelayKusama: EndpointOption = {
     'Dotters Net': 'wss://rpc.dotters.network/kusama',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
+    'IBP Network': 'wss://rpc.ibp.network/kusama',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Parity: 'wss://kusama-rpc.polkadot.io',
     Pinknode: 'wss://public-rpc.pinknode.io/kusama',
