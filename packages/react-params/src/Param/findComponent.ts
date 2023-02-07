@@ -55,7 +55,7 @@ const componentDef: TypeToComponent[] = [
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
-  { c: Call, t: ['Call', 'Proposal'] },
+  { c: Call, t: ['Call', 'Proposal', 'RuntimeCall'] },
   { c: Cid, t: ['PalletAllianceCid'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: DISPATCH_ERROR },
