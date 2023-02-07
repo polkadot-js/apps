@@ -7,7 +7,9 @@ const path = require('path');
 const HEADER = `// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Automatically generated, do not edit`;
+// Automatically generated, do not edit
+
+/* eslint-disable simple-import-sort/imports */`;
 const PATH = 'packages/react-components/src/IdentityIcon/RoboHash';
 
 function getCounter (index) {
@@ -15,9 +17,9 @@ function getCounter (index) {
 }
 
 function getFiles (dir) {
-  return fs
+  const all = fs
     .readdirSync(dir)
-    .filter((entry) => !['.', '..', 'index.ts'].includes(entry))
+    .filter((entry) => !entry.endsWith('.ts'))
     .map((entry) => {
       if (entry.includes('#')) {
         const newName = entry.replace(/#/g, '-');
@@ -29,11 +31,21 @@ function getFiles (dir) {
 
       return entry;
     })
-    .sort((a, b) => {
-      return (a.includes('-') && b.includes('-'))
+    .sort((a, b) =>
+      (a.includes('-') && b.includes('-'))
         ? a.split('-')[1].localeCompare(b.split('-')[1])
-        : 0;
-    });
+        : 0
+    );
+
+  for (let f of all) {
+    if (f.endsWith('.png')) {
+      const full = path.join(dir, f);
+
+      fs.writeFileSync(full.replace('.png', '.ts'), `${HEADER}\n\nexport default 'data:image/png;base64,${fs.readFileSync(full).toString('base64')}';\n`);
+    }
+  }
+
+  return all;
 }
 
 function extractBg () {
@@ -44,10 +56,7 @@ function extractBg () {
     getFiles(path.join(root, sub)).forEach((entry) => files.push(`./${sub}/${entry}`));
   });
 
-  const imports = files.map((file, index) => `import b${getCounter(index)} from '${file}';`);
-  const list = `const backgrounds: any[] = [${files.map((_, index) => `b${getCounter(index)}`).join(', ')}];`;
-
-  fs.writeFileSync(path.join(root, 'index.ts'), `${HEADER}\n\n${imports.join('\n')}\n\n${list}\n\nexport default backgrounds;\n`);
+  fs.writeFileSync(path.join(root, 'index.ts'), `${HEADER}\n\n${files.map((file, index) => `import b${getCounter(index)} from '${file.replace('.png', '')}';`).join('\n')}\n\nexport default [${files.map((_, index) => `b${getCounter(index)}`).join(', ')}];\n`);
 }
 
 function extractSets () {
@@ -59,7 +68,7 @@ function extractSets () {
   );
 
   const imports = [];
-  let list = 'const sets: any[][][] = [';
+  let list = '[';
 
   sets.forEach((areas, sindex) => {
     list = `${list}${sindex ? ',' : ''}\n  [`;
@@ -68,7 +77,7 @@ function extractSets () {
       const indexes = files.map((file, findex) => {
         const index = `s${getCounter(sindex)}${getCounter(aindex)}${getCounter(findex)}`;
 
-        imports.push(`import ${index} from '${file}';`);
+        imports.push(`import ${index} from '${file.replace('.png', '')}';`);
 
         return index;
       });
@@ -81,7 +90,7 @@ function extractSets () {
 
   list = `${list}\n];`;
 
-  fs.writeFileSync(path.join(root, 'index.ts'), `${HEADER}\n\n${imports.join('\n')}\n\n${list}\n\nexport default sets;\n`);
+  fs.writeFileSync(path.join(root, 'index.ts'), `${HEADER}\n\n${imports.join('\n')}\n\nexport default ${list}\n`);
 }
 
 extractBg();
