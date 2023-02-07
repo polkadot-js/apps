@@ -620,6 +620,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'Dotters Net': 'wss://rpc.dotters.network/polkadot',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
+    'IBP Network': 'wss://rpc.ibp.network/polkadot',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Parity: 'wss://rpc.polkadot.io',
     Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
