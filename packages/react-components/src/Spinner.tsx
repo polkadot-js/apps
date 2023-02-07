@@ -14,11 +14,6 @@ interface Props {
   variant?: 'app' | 'appPadded' | 'cover' | 'push' | 'mini';
 }
 
-// prefetch
-const img = new Image();
-
-img.src = spinnerSrc as string;
-
 function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
@@ -26,7 +21,7 @@ function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): R
     <StyledSpinner className={`${className} ui--Spinner variant-${variant}`}>
       <img
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
-        src={spinnerSrc as string}
+        src={spinnerSrc}
       />
       {!noLabel && variant.startsWith('app') && <div className='text'>{label || t<string>('Retrieving data')}</div>}
     </StyledSpinner>
