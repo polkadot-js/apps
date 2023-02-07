@@ -9,9 +9,11 @@ import { zlibSync } from 'fflate/node';
 import { formatNumber, stringCamelCase } from '@polkadot/util';
 
 const WITH_ZLIB = false;
+const MAX_SIZE = 50000;
 
 const MIME = {
   gif: 'image/gif',
+  jpeg: 'image/jpeg',
   png: 'image/png',
   svg: 'image/svg+xml'
 }
@@ -28,13 +30,13 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
     .forEach((file) => {
       const full = path.join(sub, file);
 
-      if (file !== 'index.ts' && fs.lstatSync(full).isFile()) {
+      if (!['index.ts', '.DS_Store'].includes(file) && fs.lstatSync(full).isFile()) {
         const parts = file.split('.');
         const ext = parts[parts.length - 1];
         const mime = MIME[ext];
 
         if (!mime) {
-          console.error(`Unable to determine mime for ${f}`);
+          throw new Error(`Unable to determine mime for ${file}`);
         } else {
           const data = `data:${mime};base64,${fs.readFileSync(full).toString('base64')}`;
           const compressed = Buffer.from(zlibSync(Buffer.from(data), { level: 9 }));
@@ -120,7 +122,7 @@ if (Object.keys(dupes).length) {
 const large = Object
   .entries(sizes)
   .sort((a, b) => b[1] - a[1])
-  .filter(([, v]) => v > 100000);
+  .filter(([, v]) => v > MAX_SIZE);
 
 if (Object.keys(large).length) {
   console.log('\n', `${Object.keys(large).length.toString().padStart(3)} large images found ::\n`);
