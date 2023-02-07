@@ -6,17 +6,20 @@ import path from 'node:path';
 
 import { zlibSync } from 'fflate/node';
 
-import { stringCamelCase } from '@polkadot/util';
+import { formatNumber, stringCamelCase } from '@polkadot/util';
 
 const WITH_ZLIB = false;
+const MAX_SIZE = 48 * 1024;
 
 const MIME = {
   gif: 'image/gif',
+  jpeg: 'image/jpeg',
   png: 'image/png',
   svg: 'image/svg+xml'
 }
 
 const all = {};
+const sizes = {};
 
 for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
@@ -27,13 +30,13 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
     .forEach((file) => {
       const full = path.join(sub, file);
 
-      if (file !== 'index.ts' && fs.lstatSync(full).isFile()) {
+      if (!['index.ts', '.DS_Store'].includes(file) && fs.lstatSync(full).isFile()) {
         const parts = file.split('.');
         const ext = parts[parts.length - 1];
         const mime = MIME[ext];
 
         if (!mime) {
-          console.error(`Unable to determine mime for ${f}`);
+          throw new Error(`Unable to determine mime for ${file}`);
         } else {
           const data = `data:${mime};base64,${fs.readFileSync(full).toString('base64')}`;
           const compressed = Buffer.from(zlibSync(Buffer.from(data), { level: 9 }));
@@ -41,10 +44,11 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
           const k = `${stringCamelCase(`${dir}_${parts.slice(0, parts.length - 1).join('_')}`)}${ext.toUpperCase()}`;
           const v = WITH_ZLIB
           ? `unz(';base64,${base64}', ${compressed.length}, ${data.length})`
-          : `'${data}'`;;
+          : `'${data}'`;
 
           result[k] = v;
           all[k] = v;
+          sizes[k] = v.length;
         }
       }
     });
@@ -71,7 +75,7 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
         .filter((k) => !srcs.includes(k));
 
       if (notfound.length) {
-        console.log('\n', dir.padEnd(10), ' :: ', notfound.length, 'not referenced', '\n\t', notfound.join(', '), '\n');
+        console.log('\n', notfound.length.toString().padStart(3), 'not referenced in', dir, '::\n\n\t', notfound.join(', '), '\n');
       }
 
       fs.writeFileSync(path.join(sub, 'index.ts'), `// Copyright 2017-2023 @polkadot/apps-config authors & contributors
@@ -104,13 +108,28 @@ const dupes = {};
  });
 
 if (Object.keys(dupes).length) {
-  const dupeMsg = `${Object.keys(dupes).length} dupes found`;
+  const dupeMsg = `${Object.keys(dupes).length.toString().padStart(3)} dupes found`;
 
-  console.log('\n', dupeMsg);
+  console.log('\n', dupeMsg, '::\n');
 
   for (let [k, d] of Object.entries(dupes)) {
-    console.log('\t', k.padStart(20), ' :: ', d.join(', '));
+    console.log('\t', k.padStart(30), ' >> ', d.join(', '));
   }
 
   throw new Error(`FATAL: ${dupeMsg}`);
+}
+
+const large = Object
+  .entries(sizes)
+  .sort((a, b) => b[1] - a[1])
+  .filter(([, v]) => v > MAX_SIZE);
+
+if (Object.keys(large).length) {
+  console.log('\n', `${Object.keys(large).length.toString().padStart(3)} large images found ::\n`);
+
+  large.forEach(([k, v]) =>
+    console.log('\t', k.padStart(30), formatNumber(v).padStart(15))
+  );
+
+  console.log();
 }
