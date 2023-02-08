@@ -45,8 +45,11 @@ function extractDefaults (value: DecodedExtrinsic | null, defaultFn: Submittable
   };
 }
 
-function getDecodedExtr (api:ApiPromise, encodedVal: string): DecodedExtrinsic|null {
+function getDecodedExtr (api:ApiPromise, encodedVal: string, defaultValue: DecodedExtrinsic | null): DecodedExtrinsic|null {
   try {
+    if(encodedVal == undefined && defaultValue){
+      return defaultValue;
+    }
     let extrinsicCall: Call;
     let hex = encodedVal;
     let decoded: SubmittableExtrinsic<'promise'> | null = null;
@@ -67,11 +70,11 @@ function getDecodedExtr (api:ApiPromise, encodedVal: string): DecodedExtrinsic|n
   }
 }
 
-function Selection ({ className }: Props): React.ReactElement<Props> {
+function Selection ({ className, defaultValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { encoded } = useParams<{ encoded: string }>();
-  const [initialValue] = useState<null | DecodedExtrinsic>(()=>getDecodedExtr(api, encoded));
+  const [initialValue] = useState<DecodedExtrinsic | null>(()=>getDecodedExtr(api, encoded, defaultValue));
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];

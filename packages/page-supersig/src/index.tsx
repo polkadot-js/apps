@@ -100,7 +100,7 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
           />
         </Route>
         <Route path={pathRef.current.create}>
-          <Submission />
+          <Submission defaultValue={decoded}/>
         </Route>
       </Switch>
     </main>
