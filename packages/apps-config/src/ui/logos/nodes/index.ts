@@ -50,6 +50,7 @@ export { nodesGeekSVG } from './generated/geekSVG';
 export { nodesHanyonycashPNG } from './generated/hanyonycashPNG';
 export { nodesHashedPNG } from './generated/hashedPNG';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG';
+export { nodesHumanodePNG } from './generated/humanodePNG';
 export { nodesIdavollPNG } from './generated/idavollPNG';
 export { nodesImbuePNG } from './generated/imbuePNG';
 export { nodesIntegriteeSVG } from './generated/integriteeSVG';
