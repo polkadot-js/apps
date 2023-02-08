@@ -38,7 +38,9 @@ export const PolkassemblyIo: ExternalDef = {
     tip: 'tip',
     treasury: 'treasury'
   },
-  ui: { logo: externalPolkassemblyPNG }
+  ui: {
+    logo: externalPolkassemblyPNG
+  }
 };
 
 export const PolkassemblyNetwork: ExternalDef = {

@@ -20,5 +20,7 @@ export const Statescan: ExternalDef = {
     address: 'account',
     block: 'block'
   },
-  ui: { logo: externalStatescanSVG }
+  ui: {
+    logo: externalStatescanSVG
+  }
 };

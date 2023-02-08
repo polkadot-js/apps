@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
 import type { Signer } from '@polkadot/api/types';
+import type { AuthIpfsEndpoint } from './types';
 
 import axios, { CancelTokenSource } from 'axios';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { createAuthIpfsEndpoints } from '@polkadot/apps-config';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
@@ -24,17 +25,6 @@ export interface Props {
   onSuccess?: (res: SaveFile) => void,
 }
 
-function ShowFile (p: { file: DirFile | File }) {
-  const f = p.file as DirFile;
-
-  return (
-    <div className='file'>
-      <Label label={f.webkitRelativePath || p.file.name} />
-      <span>{`${f.size} bytes`}</span>
-    </div>
-  );
-}
-
 interface AccountState {
   isExternal: boolean;
   isHardware: boolean;
@@ -47,6 +37,37 @@ interface SignerState {
 }
 
 const NOOP = (): void => undefined;
+
+function ShowFile (p: { file: DirFile | File }) {
+  const f = p.file as DirFile;
+
+  return (
+    <div className='file'>
+      <Label label={f.webkitRelativePath || p.file.name} />
+      <span>{`${f.size} bytes`}</span>
+    </div>
+  );
+}
+
+function createAuthIpfsEndpoints (t: TFunction): AuthIpfsEndpoint[] {
+  return [
+    {
+      location: t<string>('Singapore'),
+      text: t<string>('DCF'),
+      value: 'https://crustipfs.xyz'
+    },
+    {
+      location: t<string>('Seattle'),
+      text: t<string>('Crust Network'),
+      value: 'https://gw.crustfiles.app'
+    },
+    {
+      location: t<string>('Berlin'),
+      text: t<string>('⚡️ Thunder Gateway'),
+      value: 'https://gw.crustfiles.net'
+    }
+  ];
+}
 
 function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
