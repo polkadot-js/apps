@@ -341,6 +341,7 @@
        1	MinjieTian                    	deleted onfinality ajuna endpoint (#8848)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
+       1	MOZGIII                       	Add Humanode network endpoint and logo (#8919)
        1	Nantian                       	update acala rpc (#6704)
        1	nasa8x                        	Add GeekCash testnet, logo, color (#5265)
        1	NightingaleAsh                	Add loom network kusama (#5591)
