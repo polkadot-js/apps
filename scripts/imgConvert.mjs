@@ -25,7 +25,14 @@ const sizes = {};
 
 for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
+  const generated = path.join(sub, 'generated');
   const result = {};
+
+  if (fs.existsSync(generated)) {
+    fs.rmSync(generated, { recursive: true, force: true });
+  }
+
+  fs.mkdirSync(generated);
 
   fs
     .readdirSync(sub)
@@ -58,7 +65,7 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
       let srcs = '';
 
       for (let dir of ['endpoints', 'extensions', 'links']) {
-      const srcroot = path.join('packages/apps-config/src', dir);
+        const srcroot = path.join('packages/apps-config/src', dir);
 
         fs
           .readdirSync(srcroot)
