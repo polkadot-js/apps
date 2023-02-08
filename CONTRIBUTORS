@@ -1,4 +1,4 @@
-    4129	Jaco                          	Move inline files away from images (#8974)
+    4130	Jaco                          	Add webpack runtime chunk (#8976)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
