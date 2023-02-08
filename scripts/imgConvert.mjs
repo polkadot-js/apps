@@ -25,7 +25,14 @@ const sizes = {};
 
 for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
+  const generated = path.join(sub, 'generated');
   const result = {};
+
+  if (fs.existsSync(generated)) {
+    fs.rmSync(generated, { recursive: true, force: true });
+  }
+
+  fs.mkdirSync(generated);
 
   fs
     .readdirSync(sub)
@@ -58,7 +65,7 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
       let srcs = '';
 
       for (let dir of ['endpoints', 'extensions', 'links']) {
-      const srcroot = path.join('packages/apps-config/src', dir);
+        const srcroot = path.join('packages/apps-config/src', dir);
 
         fs
           .readdirSync(srcroot)
@@ -98,15 +105,15 @@ const dupes = {};
  });
 
 if (Object.keys(dupes).length) {
-  const dupeMsg = `${Object.keys(dupes).length.toString().padStart(3)} dupes found`;
+  const errMsg = `${Object.keys(dupes).length.toString().padStart(3)} dupes found`;
 
-  console.log('\n', dupeMsg, '::\n');
+  console.log('\n', errMsg, '::\n');
 
   for (let [k, d] of Object.entries(dupes)) {
     console.log('\t', k.padStart(30), ' >> ', d.join(', '));
   }
 
-  throw new Error(`FATAL: ${dupeMsg}`);
+  throw new Error(`FATAL: ${errMsg}`);
 }
 
 const large = Object
@@ -115,11 +122,13 @@ const large = Object
   .filter(([, v]) => v > MAX_SIZE);
 
 if (Object.keys(large).length) {
-  console.log('\n', `${Object.keys(large).length.toString().padStart(3)} large images found ::\n`);
+  const errMsg = `${Object.keys(large).length.toString().padStart(3)} large images found`;
+
+  console.log('\n', errMsg, '::\n');
 
   large.forEach(([k, v]) =>
     console.log('\t', k.padStart(30), formatNumber(v).padStart(15))
   );
 
-  console.log();
+  throw new Error(`FATAL: ${errMsg}`);
 }

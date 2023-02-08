@@ -34,7 +34,7 @@ export { chainsKusamaSVG } from './generated/kusamaSVG';
 export { chainsListenPNG } from './generated/listenPNG';
 export { chainsLogionPNG } from './generated/logionPNG';
 export { chainsMangataPNG } from './generated/mangataPNG';
-export { chainsMangataxSVG } from './generated/mangataxSVG';
+export { chainsMangataxPNG } from './generated/mangataxPNG';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG';
 export { chainsMyriadPNG } from './generated/myriadPNG';
 export { chainsOakPNG } from './generated/oakPNG';
