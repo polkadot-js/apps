@@ -103,6 +103,10 @@ export class BountiesPage {
           }
         },
         genesisHash: aGenesisHash(),
+        isApiConnected: true,
+        isApiInitialized: true,
+        isApiReady: true,
+        isEthereum: false,
         query: {},
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
@@ -124,15 +128,15 @@ export class BountiesPage {
         <div id='tooltips' />
         <Suspense fallback='...'>
           <QueueCtx.Provider value={queue}>
-            <KeyringCtxRoot>
-              <MemoryRouter>
-                <ThemeProvider theme={lightTheme}>
-                  <ApiCtx.Provider value={mockApi}>
+            <MemoryRouter>
+              <ThemeProvider theme={lightTheme}>
+                <ApiCtx.Provider value={mockApi}>
+                  <KeyringCtxRoot>
                     <Bounties />
-                  </ApiCtx.Provider>
-                </ThemeProvider>
-              </MemoryRouter>
-            </KeyringCtxRoot>
+                  </KeyringCtxRoot>
+                </ApiCtx.Provider>
+              </ThemeProvider>
+            </MemoryRouter>
           </QueueCtx.Provider>
         </Suspense>
       </>
