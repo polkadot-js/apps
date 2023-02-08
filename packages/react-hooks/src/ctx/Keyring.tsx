@@ -11,6 +11,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import { useApi } from '../useApi';
+
 interface Props {
   children?: React.ReactNode;
 }
@@ -38,10 +40,24 @@ export const KeyringCtx = React.createContext<State>(EMPTY);
  * The first check ensures that we never have dupes in the original. The second
  * ensures that e.g. an address is not also available as an account
  **/
-function filter (items: string[], others: string[] = []): string[] {
+function filter (isEthereum: boolean, items: string[], others: string[] = []): string[] {
+  const allowedLength = isEthereum
+    ? 20
+    : 32;
+
   return items.reduce<string[]>((result, a) => {
     if (!result.includes(a) && !others.includes(a)) {
-      result.push(a);
+      try {
+        const u8a = decodeAddress(a);
+
+        if (u8a.length === allowedLength) {
+          result.push(a);
+        } else {
+          console.warn(`Not adding address ${a}, not in correct format for chain (requires ${allowedLength}-byte publickey)`);
+        }
+      } catch {
+        console.error(a, allowedLength);
+      }
     }
 
     return result;
@@ -75,8 +91,8 @@ function createCheck (items: string[]): Accounts['isAccount'] {
     !!a && items.includes(a.toString());
 }
 
-function extractAccounts (accounts: SubjectInfo = {}): Accounts {
-  const allAccounts = filter(Object.keys(accounts));
+function extractAccounts (isEthereum: boolean, accounts: SubjectInfo = {}): Accounts {
+  const allAccounts = filter(isEthereum, Object.keys(accounts));
 
   return {
     allAccounts,
@@ -87,8 +103,8 @@ function extractAccounts (accounts: SubjectInfo = {}): Accounts {
   };
 }
 
-function extractAddresses (addresses: SubjectInfo = {}, accounts: string[]): Addresses {
-  const allAddresses = filter(Object.keys(addresses), accounts);
+function extractAddresses (isEthereum: boolean, addresses: SubjectInfo = {}, accounts: string[]): Addresses {
+  const allAddresses = filter(isEthereum, Object.keys(addresses), accounts);
 
   return {
     allAddresses,
@@ -100,27 +116,34 @@ function extractAddresses (addresses: SubjectInfo = {}, accounts: string[]): Add
 }
 
 export function KeyringCtxRoot ({ children }: Props): React.ReactElement<Props> {
+  const { isApiReady, isEthereum } = useApi();
   const [state, setState] = useState(EMPTY);
 
   useEffect((): () => void => {
-    const sub = combineLatest([
-      keyring.accounts.subject.pipe(
-        map((accInfo) => extractAccounts(accInfo))
-      ),
-      keyring.addresses.subject
-    ])
-      .pipe(
-        map(([accounts, addrInfo]): State => ({
-          accounts,
-          addresses: extractAddresses(addrInfo, accounts.allAccounts)
-        }))
-      )
-      .subscribe((state) => setState(state));
+    let sub: null | { unsubscribe: () => void } = null;
+
+    // Defer keyring injection until the API is ready - we need to have the chain
+    // info to determine which type of addresses we can use (before subscribing)
+    if (isApiReady) {
+      sub = combineLatest([
+        keyring.accounts.subject.pipe(
+          map((accInfo) => extractAccounts(isEthereum, accInfo))
+        ),
+        keyring.addresses.subject
+      ])
+        .pipe(
+          map(([accounts, addrInfo]): State => ({
+            accounts,
+            addresses: extractAddresses(isEthereum, addrInfo, accounts.allAccounts)
+          }))
+        )
+        .subscribe((state) => setState(state));
+    }
 
     return (): void => {
       sub && sub.unsubscribe();
     };
-  }, []);
+  }, [isApiReady, isEthereum]);
 
   return (
     <KeyringCtx.Provider value={state}>
