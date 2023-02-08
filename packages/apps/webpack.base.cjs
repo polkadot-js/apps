@@ -114,6 +114,7 @@ function createWebpack (context, mode = 'production') {
     },
     optimization: {
       minimize: mode === 'production',
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           // As far as possible, we try and keep this below 1M in size.
