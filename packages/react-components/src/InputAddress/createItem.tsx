@@ -6,9 +6,22 @@ import type { Option } from './types';
 
 import React from 'react';
 
+import { keyring } from '@polkadot/ui-keyring';
+import { decodeAddress } from '@polkadot/util-crypto';
+
 import KeyPair from './KeyPair';
 
-export default function createItem (option: KeyringSectionOption, isUppercase = true): Option {
+export default function createItem (option: KeyringSectionOption, isUppercase = true): Option | null {
+  try {
+    const u8a = decodeAddress(option.key);
+
+    if (u8a.length !== (keyring.keyring.type === 'ethereum' ? 20 : 32)) {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+
   return {
     ...option,
     text: (
