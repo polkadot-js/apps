@@ -103,10 +103,6 @@ export class BountiesPage {
           }
         },
         genesisHash: aGenesisHash(),
-        isApiConnected: true,
-        isApiInitialized: true,
-        isApiReady: true,
-        isEthereum: false,
         query: {},
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
@@ -115,6 +111,10 @@ export class BountiesPage {
           }
         }
       },
+      isApiConnected: true,
+      isApiInitialized: true,
+      isApiReady: true,
+      isEthereum: false,
       systemName: 'substrate'
     } as unknown as ApiProps;
 
