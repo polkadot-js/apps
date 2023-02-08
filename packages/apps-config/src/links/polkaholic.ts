@@ -67,5 +67,7 @@ export const Polkaholic: ExternalDef = {
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  ui: { logo: externalPolkaholicPNG }
+  ui: {
+    logo: externalPolkaholicPNG
+  }
 };

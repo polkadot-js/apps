@@ -17,9 +17,23 @@ function getCounter (index) {
 }
 
 function getFiles (dir) {
+  const genpath = path.join(dir, 'generated');
+
+  if (!fs.existsSync(genpath)) {
+    fs.mkdirSync(genpath, { force: true });
+  }
+
   const all = fs
     .readdirSync(dir)
-    .filter((entry) => !entry.endsWith('.ts'))
+    .filter((entry) => {
+      if (entry.endsWith('.ts')) {
+        fs.rmSync(path.join(dir, entry), { force: true });
+
+        return false;
+      }
+
+      return !entry.startsWith('.') && entry !== 'generated';
+    })
     .map((entry) => {
       if (entry.includes('#')) {
         const newName = entry.replace(/#/g, '-');
@@ -39,9 +53,7 @@ function getFiles (dir) {
 
   for (let f of all) {
     if (f.endsWith('.png')) {
-      const full = path.join(dir, f);
-
-      fs.writeFileSync(full.replace('.png', '.ts'), `${HEADER}\n\nexport default 'data:image/png;base64,${fs.readFileSync(full).toString('base64')}';\n`);
+      fs.writeFileSync(path.join(dir, `generated/${f}`).replace('.png', '.ts'), `${HEADER}\n\nexport default 'data:image/png;base64,${fs.readFileSync(path.join(dir, f)).toString('base64')}';\n`);
     }
   }
 
@@ -53,7 +65,7 @@ function extractBg () {
   const files = [];
 
   getFiles(root).forEach((sub) => {
-    getFiles(path.join(root, sub)).forEach((entry) => files.push(`./${sub}/${entry}`));
+    getFiles(path.join(root, sub)).forEach((entry) => files.push(`./${sub}/generated/${entry}`));
   });
 
   fs.writeFileSync(path.join(root, 'index.ts'), `${HEADER}\n\n${files.map((file, index) => `import b${getCounter(index)} from '${file.replace('.png', '')}';`).join('\n')}\n\nexport default [${files.map((_, index) => `b${getCounter(index)}`).join(', ')}];\n`);
@@ -63,7 +75,7 @@ function extractSets () {
   const root = path.join(__dirname, '..', PATH, 'sets');
   const sets = getFiles(root).map((sub) =>
     getFiles(path.join(root, sub)).map((dir) =>
-      getFiles(path.join(root, sub, dir)).map((entry) => `./${sub}/${dir}/${entry}`)
+      getFiles(path.join(root, sub, dir)).map((entry) => `./${sub}/${dir}/generated/${entry}`)
     )
   );
 

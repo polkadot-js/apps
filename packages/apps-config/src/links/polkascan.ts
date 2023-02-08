@@ -27,5 +27,7 @@ export const Polkascan: ExternalDef = {
     techcomm: 'techcomm/proposal',
     treasury: 'treasury/proposal'
   },
-  ui: { logo: externalPolkascanPNG }
+  ui: {
+    logo: externalPolkascanPNG
+  }
 };

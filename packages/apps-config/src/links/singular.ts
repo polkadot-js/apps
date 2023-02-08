@@ -27,5 +27,7 @@ export const Singular: ExternalDef = {
   paths: {
     address: 'account'
   },
-  ui: { logo: externalSingularSVG }
+  ui: {
+    logo: externalSingularSVG
+  }
 };
