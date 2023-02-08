@@ -98,8 +98,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'bifrost',
     paraId: 2030,
     providers: {
-      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
+      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws'
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
     },
     text: 'Bifrost',
     ui: {
@@ -139,8 +142,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'clover',
     paraId: 2002,
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, renenabled for PolkadotJS
+      Clover: 'wss://rpc-para.clover.finance'
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
     },
     text: 'Clover',
     ui: {
@@ -166,8 +172,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'composableFinance',
     paraId: 2019,
     providers: {
-      Composable: 'wss://rpc.composable.finance',
-      OnFinality: 'wss://composable.api.onfinality.io/public-ws'
+      Composable: 'wss://rpc.composable.finance'
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://composable.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
     },
     text: 'Composable Finance',
     ui: {
@@ -219,8 +228,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2021,
     providers: {
       Dwellir: 'wss://efinity-rpc.dwellir.com',
-      Efinity: 'wss://rpc.efinity.io',
-      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
+      Efinity: 'wss://rpc.efinity.io'
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://efinity.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
     },
     text: 'Efinity',
     ui: {
@@ -288,8 +300,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
-      'Galactic Council': 'wss://rpc.hydradx.cloud',
-      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8623, Renabled for PolkadotJS
+      'Galactic Council': 'wss://rpc.hydradx.cloud'
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
     },
     text: 'HydraDX',
     ui: {
@@ -473,7 +488,10 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
       Parallel: 'wss://rpc.parallel.fi'
     },
     text: 'Parallel',
@@ -558,7 +576,10 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
       'Unique America': 'wss://us-ws.unique.network/',
       'Unique Asia': 'wss://asia-ws.unique.network/',
       'Unique Europe': 'wss://eu-ws.unique.network/'

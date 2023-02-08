@@ -485,8 +485,10 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'heiko',
     paraId: 2085,
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-      // https://github.com/polkadot-js/apps/issues/8355, then enabled in https://github.com/polkadot-js/apps/pull/8413, then broken in https://github.com/polkadot-js/apps/issues/8421, reenabled for PolkadotJS
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
       Parallel: 'wss://heiko-rpc.parallel.fi'
     },
     text: 'Parallel Heiko',
@@ -526,7 +528,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2102,
     providers: {
       'Kylin Network': 'wss://kusama.kylin-node.co.uk',
-      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8867, reenabled for PolkadotJS
+      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws'
     },
     text: 'Pichiu',
     ui: {
@@ -552,7 +554,10 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'quartz',
     paraId: 2095,
     providers: {
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8436 re-added added previously removed, still unreachable, reenabled for PolkadotJS
+      // This is a possible false positive since OnFinality does not allow connections
+      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
+      // since we cannot manually check the urls twice daily when they are reported
+      // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
