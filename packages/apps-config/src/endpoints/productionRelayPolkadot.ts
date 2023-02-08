@@ -624,6 +624,17 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'polkadotBridgeHub',
+    paraId: 1002,
+    providers: {
+      Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io'
+    },
+    text: 'BridgeHub',
+    ui: {
+      logo: nodesBridgeHubBlackSVG
+    }
   }
 ];
 
