@@ -18,7 +18,7 @@ export default function create (t: TFunction): Route {
     group: 'accounts',
     icon: 'star',
     name: 'claims',
-    text: t('nav.claims', 'Claim Tokens', { ns: 'apps-routing' }),
+    text: t<string>('nav.claims', 'Claim Tokens', { ns: 'apps-routing' }),
     useCounter
   };
 }

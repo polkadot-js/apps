@@ -10,7 +10,8 @@ import Proposal from './Proposal';
 const components: ComponentMap = {
   Call,
   OpaqueCall,
-  Proposal
+  Proposal,
+  RuntimeCall: Call
 };
 
 export default components;

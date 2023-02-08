@@ -4,7 +4,6 @@
 import React from 'react';
 
 export interface Network {
-  icon?: string;
   isChild?: boolean;
   isLightClient?: boolean;
   isRelay?: boolean;
@@ -15,7 +14,11 @@ export interface Network {
   providers: {
     name: string;
     url: string;
-  }[]
+  }[];
+  ui: {
+    color?: string;
+    logo?: string;
+  }
 }
 
 export interface Group {

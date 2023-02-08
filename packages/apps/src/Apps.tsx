@@ -7,7 +7,6 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { getSystemColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi, useTheme } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -21,13 +20,13 @@ export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const { themeClassName } = useTheme();
-  const { isDevelopment, specName, systemChain, systemName } = useApi();
+  const { apiEndpoint, isDevelopment } = useApi();
 
   const uiHighlight = useMemo(
     () => isDevelopment
       ? undefined
-      : getSystemColor(systemChain, systemName, specName),
-    [isDevelopment, specName, systemChain, systemName]
+      : apiEndpoint?.ui.color,
+    [apiEndpoint, isDevelopment]
   );
 
   return (

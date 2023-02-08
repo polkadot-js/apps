@@ -51,10 +51,10 @@ function createInfo (value: string): string[] {
     hash: blake2AsU8a(value),
     index: 0
   };
-  const result = [getIndex(backgrounds, hash) as string];
+  const result = [getIndex(backgrounds, hash)];
 
   getIndex(sets, hash).forEach((section): void => {
-    result.push(getIndex(section, hash) as string);
+    result.push(getIndex(section, hash));
   });
 
   return result;

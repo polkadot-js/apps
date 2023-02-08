@@ -54,13 +54,13 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks[prev.networks.length - 1].providers.push(prov);
       } else if (!e.isUnreachable) {
         prev.networks.push({
-          icon: e.info,
           isChild: e.isChild,
           isRelay: !!e.genesisHash,
           name: e.text as string,
           nameRelay: e.textRelay as string,
           paraId: e.paraId,
-          providers: [prov]
+          providers: [prov],
+          ui: e.ui
         });
       }
     }

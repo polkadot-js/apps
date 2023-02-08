@@ -28,8 +28,8 @@ function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeigh
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
       [label || t<string>('extrinsics'), 'start', 2],
-      [t('events'), 'start media--1000', 2],
-      [t('weight'), 'media--1400'],
+      [t<string>('events'), 'start media--1000', 2],
+      [t<string>('weight'), 'media--1400'],
       [undefined, 'address media--1200']
     ],
     [label, t]

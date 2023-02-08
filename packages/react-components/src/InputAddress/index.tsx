@@ -45,7 +45,7 @@ interface Props {
 }
 
 type ExportedType = React.ComponentType<Props> & {
-  createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option;
+  createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option | null;
   setLastValue: (type: KeyringOption$Type, value: string) => void;
 };
 
@@ -60,7 +60,7 @@ const MULTI_DEFAULT: string[] = [];
 
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
-    return toAddress(value) || null;
+    return toAddress(value, false, keyring.keyring.type === 'ethereum' ? 20 : 32) || null;
   } catch (error) {
     // noop, handled by return
   }
@@ -80,7 +80,7 @@ function transformToAccountId (value: string): string | null {
     : accountId;
 }
 
-function createOption (address: string): Option {
+function createOption (address: string): Option | null {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -177,9 +177,13 @@ class InputAddress extends React.PureComponent<Props, State> {
           : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
-      ? dedupe(options.map((o) => createItem(o)))
+      ? dedupe(
+        options
+          .map((o) => createItem(o))
+          .filter((o): o is Option => !!o)
+      )
       : isDisabled && actualValue
-        ? [createOption(actualValue)]
+        ? [createOption(actualValue)].filter((o): o is Option => !!o)
         : actualValue
           ? this.addActual(actualValue)
           : this.getFiltered();
@@ -225,7 +229,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return this.hasValue(actualValue)
       ? base
-      : base.concat(createOption(actualValue));
+      : base.concat(...[createOption(actualValue)].filter((o): o is Option => !!o));
   }
 
   private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
@@ -377,11 +381,13 @@ const ExportedComponent = withMulti(
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
       Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
-        result[type] = options.map((option): Option | React.ReactNode =>
-          option.value === null
-            ? createHeader(option)
-            : createItem(option)
-        );
+        result[type] = options
+          .map((option): Option | React.ReactNode | null =>
+            option.value === null
+              ? createHeader(option)
+              : createItem(option)
+          )
+          .filter((o): o is Option | React.ReactNode => !!o);
 
         return result;
       }, {})

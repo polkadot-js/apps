@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'calendar-alt',
     name: 'calendar',
-    text: t('nav.calendar', 'Event calendar', { ns: 'apps-routing' })
+    text: t<string>('nav.calendar', 'Event calendar', { ns: 'apps-routing' })
   };
 }

@@ -8,7 +8,8 @@ import type { SortedTargets } from '../../types';
 
 import React from 'react';
 
-import usePoolInfo from '../../Pools/usePoolInfo';
+import usePoolInfo from '@polkadot/app-staking2/Pools/usePoolInfo';
+
 import Account from './Account';
 
 interface Props {

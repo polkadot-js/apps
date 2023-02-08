@@ -66,6 +66,10 @@ const StyledDiv = styled.div`
     text-align: right;
     text-overflow: ellipsis;
   }
+
+  > .ui--Labelled > label {
+    text-transform: none;
+  }
 `;
 
 export default React.memo(LinkedWrapper);

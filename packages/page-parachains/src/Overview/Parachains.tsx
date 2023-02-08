@@ -59,17 +59,17 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const [validators, validatorMap] = useValidators(ids);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('parachains'), 'start', 2],
+    [t<string>('parachains'), 'start', 2],
     ['', 'media--1400'],
-    [t('head'), 'start media--1500'],
-    [t('lifecycle'), 'start'],
+    [t<string>('head'), 'start media--1500'],
+    [t<string>('lifecycle'), 'start'],
     [],
-    [t('included'), undefined, 2],
-    [t('backed'), 'no-pad-left media--900'],
-    [t('timeout'), 'no-pad-left media--1600'],
-    [t('chain'), 'no-pad-left'],
-    [t('in/out'), 'media--1700', 2],
-    [t('leases'), 'media--1100']
+    [t<string>('included'), undefined, 2],
+    [t<string>('backed'), 'no-pad-left media--900'],
+    [t<string>('timeout'), 'no-pad-left media--1600'],
+    [t<string>('chain'), 'no-pad-left'],
+    [t<string>('in/out'), 'media--1700', 2],
+    [t<string>('leases'), 'media--1100']
   ]);
 
   const scheduledIds = useMemo(

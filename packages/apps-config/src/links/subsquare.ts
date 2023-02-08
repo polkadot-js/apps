@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubsquareSVG } from '../ui/logos/external';
 
 export const Subsquare: ExternalDef = {
   chains: {
@@ -30,8 +30,8 @@ export const Subsquare: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subsquare.io/${path}/${data.toString()}`,
+  homepage: 'https://subsquare.io/',
   isActive: true,
-  logo: externalLogos.subsquare as string,
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
@@ -43,5 +43,7 @@ export const Subsquare: ExternalDef = {
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
   },
-  url: 'https://subsquare.io/'
+  ui: {
+    logo: externalSubsquareSVG
+  }
 };

@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'leaf',
     name: 'gilt',
-    text: t('nav.gilt', 'Gilt', { ns: 'apps-routing' })
+    text: t<string>('nav.gilt', 'Gilt', { ns: 'apps-routing' })
   };
 }

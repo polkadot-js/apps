@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkastatsPNG } from '../ui/logos/external';
 
 // NOTE Not maintained, see breakage reports in
 // https://github.com/polkadot-js/apps/issues/8903
@@ -17,13 +17,15 @@ export const Polkastats: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkastats.io/${path}/${data.toString()}`,
+  homepage: 'https://polkastats.io/',
   isActive: true,
-  logo: externalLogos.polkastats as string,
   paths: {
     address: 'account',
     block: 'block',
     extrinsic: 'extrinsic',
     validator: 'validator'
   },
-  url: 'https://polkastats.io/'
+  ui: {
+    logo: externalPolkastatsPNG
+  }
 };

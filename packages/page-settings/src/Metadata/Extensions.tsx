@@ -6,7 +6,8 @@ import type { ChainInfo } from '../types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { emptyLogos, extensionLogos } from '@polkadot/apps-config';
+import { knownExtensions } from '@polkadot/apps-config';
+import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -24,11 +25,14 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
+
   const options = useMemo(
     () => (extensions || []).map(({ extension: { name, version } }, value) =>
-      iconOption(`${name} ${version}`, value, extensionLogos[name] || emptyLogos.empty)),
+      iconOption(`${name} ${version}`, value, knownExtensions[name]?.ui.logo || externalEmptySVG)
+    ),
     [extensions]
   );
+
   const _updateMeta = useCallback(
     (): void => {
       if (chainInfo && extensions?.[selectedIndex]) {
@@ -45,7 +49,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('Extensions'), 'start']
+    [t<string>('Extensions'), 'start']
   ]);
 
   return (

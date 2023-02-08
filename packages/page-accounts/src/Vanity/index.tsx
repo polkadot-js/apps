@@ -172,15 +172,15 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [t('matches'), 'start', 2],
-      [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+      [t<string>('matches'), 'start', 2],
+      [t<string>('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
         replace: {
           avg: (keyCount / (elapsed / 1000)).toFixed(3),
           count: keyCount,
           elapsed: (elapsed / 1000).toFixed(2)
         }
       }), 'start --digits'],
-      [t('secret'), 'start'],
+      [t<string>('secret'), 'start'],
       []
     ],
     [elapsed, keyCount, t]

@@ -51,12 +51,12 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef({
     candidates: [
-      [t('candidates'), 'start'],
-      [t('bid kind'), 'start'],
-      [t('value')]
+      [t<string>('candidates'), 'start'],
+      [t<string>('bid kind'), 'start'],
+      [t<string>('value')]
     ] as [React.ReactNode?, string?, number?][],
     members: [
-      [t('members'), 'start', 3]
+      [t<string>('members'), 'start', 3]
     ] as [React.ReactNode?, string?, number?][]
   });
 

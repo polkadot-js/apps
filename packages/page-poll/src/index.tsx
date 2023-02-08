@@ -84,10 +84,10 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, string, boolean, (value: boolean) => void][] = [
-    [t('No change'), t('No change from the original 2017 sale definitions; will mean a total of 10 million DOT from genesis.'), opt10m, setOpt10m],
-    [t('Split of 10x'), t('Split of 10x from the original sale; will mean a total of 100 million DOT from genesis. Apparent DOT price would be 10x lower and apparent account balances 10x higher.'), opt100m, setOpt100m],
-    [t('Split of 100x'), t('Split of 100x from the original sale; will mean a total of 1 billion DOT from genesis. Apparent DOT price would be 100x lower and apparent account balances 100x higher.'), opt1b, setOpt1b],
-    [t('Split of 1000x'), t('Split of 1000x from the original sale; will mean a total of 10 billion DOT from genesis. Apparent DOT price would be 1000x lower and apparent account balances 1000x higher.'), opt10b, setOpt10b]
+    [t<string>('No change'), t<string>('No change from the original 2017 sale definitions; will mean a total of 10 million DOT from genesis.'), opt10m, setOpt10m],
+    [t<string>('Split of 10x'), t<string>('Split of 10x from the original sale; will mean a total of 100 million DOT from genesis. Apparent DOT price would be 10x lower and apparent account balances 10x higher.'), opt100m, setOpt100m],
+    [t<string>('Split of 100x'), t<string>('Split of 100x from the original sale; will mean a total of 1 billion DOT from genesis. Apparent DOT price would be 100x lower and apparent account balances 100x higher.'), opt1b, setOpt1b],
+    [t<string>('Split of 1000x'), t<string>('Split of 1000x from the original sale; will mean a total of 10 billion DOT from genesis. Apparent DOT price would be 1000x lower and apparent account balances 1000x higher.'), opt10b, setOpt10b]
   ];
   const hasValue = opt10m || opt100m || opt1b || opt10b;
 
@@ -101,12 +101,12 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
       />
       <div className='pollContainer'>
         <div className='pollHeader'>
-          <h1>{t('denomination vote')}</h1>
+          <h1>{t<string>('denomination vote')}</h1>
           <div className='pollBlocksRight'>
             {turnout && (
               <div>
-                <div>{t('{{balance}} voted', { replace: { balance: formatBalance(turnout.voted) } })}</div>
-                <div>{t('{{percentage}}% turnout', { replace: { percentage: turnout.percentage.toFixed(2) } })}</div>
+                <div>{t<string>('{{balance}} voted', { replace: { balance: formatBalance(turnout.voted) } })}</div>
+                <div>{t<string>('{{percentage}}% turnout', { replace: { percentage: turnout.percentage.toFixed(2) } })}</div>
               </div>
             )}
             <div>
@@ -171,7 +171,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
           {canVote && (
             <>
               <InputAddress
-                label={t('vote using my account')}
+                label={t<string>('vote using my account')}
                 onChange={setAccountId}
                 type='account'
               />
@@ -180,7 +180,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
                   accountId={accountId}
                   icon='paper-plane'
                   isDisabled={!hasValue}
-                  label={t('Vote')}
+                  label={t<string>('Vote')}
                   params={[[opt10m, opt100m, opt1b, opt10b]]}
                   tx={api.tx.poll.vote}
                 />
@@ -190,14 +190,14 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
         </article>
         <div className='pollActions'>
           <ul>
-            <li>{t('Any combination of the four options may be approved of by the voter. There is no need to select only one option!')}</li>
-            <li>{t('Approving of all or none of the options is equivalent and will not affect the outcome of the poll.')}</li>
-            <li>{t('All voters may alter their votes any number of times prior to the close of the poll.')}</li>
-            <li>{t('Voting costs nothing other than the transaction fee and can be done from all accounts with a non-zero spendable balance.')}</li>
-            <li>{t('Locked funds (e.g. for staking) are counted.')}</li>
-            <li>{t('No discretionary lock-voting is in place; all DOT used to vote counts the same.')}</li>
-            <li>{t('Voting is made on a per-account basis; a single account must all vote the same way and cannot split its vote.')}</li>
-            <li>{t('This vote does not affect any economics of the Polkadot platform. Staking rewards, inflation, effective market capitalisation and the underlying balances of every account remain completely unchanged. It is "merely" about what units we use to denominate the balances into "DOT" for the purpose of display.')}</li>
+            <li>{t<string>('Any combination of the four options may be approved of by the voter. There is no need to select only one option!')}</li>
+            <li>{t<string>('Approving of all or none of the options is equivalent and will not affect the outcome of the poll.')}</li>
+            <li>{t<string>('All voters may alter their votes any number of times prior to the close of the poll.')}</li>
+            <li>{t<string>('Voting costs nothing other than the transaction fee and can be done from all accounts with a non-zero spendable balance.')}</li>
+            <li>{t<string>('Locked funds (e.g. for staking) are counted.')}</li>
+            <li>{t<string>('No discretionary lock-voting is in place; all DOT used to vote counts the same.')}</li>
+            <li>{t<string>('Voting is made on a per-account basis; a single account must all vote the same way and cannot split its vote.')}</li>
+            <li>{t<string>('This vote does not affect any economics of the Polkadot platform. Staking rewards, inflation, effective market capitalisation and the underlying balances of every account remain completely unchanged. It is "merely" about what units we use to denominate the balances into "DOT" for the purpose of display.')}</li>
           </ul>
         </div>
       </div>

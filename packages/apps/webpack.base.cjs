@@ -11,16 +11,19 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-function mapChunks (name, regs, inc) {
-  return regs.reduce((result, test, index) => ({
-    ...result,
-    [`${name}${index}`]: {
+function mapChunks (pre, regs) {
+  return regs.reduce((result, test, index) => {
+    const name = `${pre}.${`00${index}`.slice(-2)}`;
+
+    result[name] = {
       chunks: 'initial',
       enforce: true,
-      name: `${name}.${`0${index + (inc || 0)}`.slice(-2)}`,
+      name,
       test
-    }
-  }), {});
+    };
+
+    return result;
+  }, {});
 }
 
 function createWebpack (context, mode = 'production') {
@@ -111,26 +114,39 @@ function createWebpack (context, mode = 'production') {
     },
     optimization: {
       minimize: mode === 'production',
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          ...mapChunks('robohash', [
-            /* 00 */ /RoboHash\/(backgrounds|sets\/set1)/,
-            /* 01 */ /RoboHash\/sets\/set(2|3)/,
-            /* 02 */ /RoboHash\/sets\/set(4|5)/
+          // As far as possible, we try and keep this below 1M in size.
+          // This is trial-and-error and some will blow past, e.g. light client
+          ...mapChunks('mod.app', [
+            /* 00 */ /apps-config\/src\/api/,
+            /* 01 */ /apps-config\/src\/ui\/logos\/chains/,
+            /* 03 */ /apps-config\/src\/ui\/logos\/(extensions|external|nodes\/generated\/[0-9a-kA-K])/,
+            /* 04 */ /apps-config\/src\/ui\/logos\/nodes\/generated\/[l-zL-Z]/,
+            /* 05 */ /RoboHash\/(backgrounds|sets\/set2)/,
+            /* 06 */ /RoboHash\/sets\/set1-(blue|brown|green|grey|orange)/,
+            /* 07 */ /RoboHash\/sets\/set1-(pink|purple|red|white|yellow)/,
+            /* 08 */ /RoboHash\/sets\/set3/,
+            /* 09 */ /RoboHash\/sets\/set4/,
+            /* 10 */ /RoboHash\/sets\/set5\/(000|001|002|003|004|005|007)/,
+            /* 11 */ /RoboHash\/sets\/set5\/006/
           ]),
-          ...mapChunks('polkadot', [
-            /* 00 */ /node_modules\/@polkadot\/(wasm)/,
-            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen|x-)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@sora-substrate|@subsocial|@zondax|edgeware)/
+          ...mapChunks('mod.dot', [
+            // If we ever want to go deeper, this seemed like a good 50/50
+            // initial split ... could change over time
+            // /* 00 */ /node_modules\/@polkadot\/(api|metadata|types)/,
+            // /* 01 */ /node_modules\/@polkadot\/(?!api|metadata|types)/
+            /* 00 */ /node_modules\/@polkadot\//,
           ]),
-          ...mapChunks('react', [
-            /* 00 */ /node_modules\/(@fortawesome)/,
-            /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
-          ]),
-          ...mapChunks('other', [
-            /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
-            /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
-            /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|scryptsy|sha\.js|xxhashjs)/
+          // We didn't pull these based on name, but rather based on the sizes
+          // (large => small) as available in yarn analyze. The names here are
+          // intentionally greedy (without having conflicts with previous)
+          ...mapChunks('mod.ext', [
+            /* 00 */ /node_modules\/@substrate\/smoldot/,
+            /* 01 */ /node_modules\/@fortawesome/,
+            /* 02 */ /node_modules\/(react|qrcode|lodash|inherits|attr|is|util|simple|unist|decode|hoist|html|owasp|@stardust|base|@multiformats|multiformats|sha|elliptic|hast|bn|webrtc|@ledgerhq|semver|zwitch|hash|color|sdp|@interlay|fflate|event|vfile|ethereum|detect|lru|ed2curve|iso|uint8arrays|hmac|process|cipher|borand|safe|minimalistic|value|comma|file)/,
+            /* 03 */ /node_modules\/(style|chart|pako|@noble|rxjs|tweetnacl|codeflask|@zondax|axios|resolve|classnames|exe|history|query|string|tslib|md5|punycode|buffer|semantic|@semantic|core|i18next|readable|rtc|@substrate\/(connect|ss58)|secp256k1|@emotion|store|web|@babel|jdenticon|yalist|scheduler|keyboard|ripemd160|@chainsafe|bip|copy|inline|stream|ieee|prop|toggle|err|create|regenerator|@scure)/
           ])
         }
       }
