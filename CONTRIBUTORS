@@ -15,7 +15,7 @@
       23	WoeOm                         	Bump darwinia.js version (#5930)
       21	Yiwei Li                      	add OnFinality endpoint for Collectives (#8884)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
-      19	Yongfeng LI                   	Add subsquare external link for rococo (#8833)
+      20	Yongfeng LI                   	Correct statescan external links (#8975)
       18	fomod-in                      	Update translation.json (#5942)
       18	Wei Tang                      	Re-enable Neatcoin endpoint (#8271)
       17	Frank Liu                     	Add Onfinality endpoint for Statemint (#6513)
