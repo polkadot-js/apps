@@ -1,0 +1,13 @@
+//!
+
+//! Exports a function that provides bindings for the Wasi interface.
+
+//! Exports a function that provides bindings for the bindings found in the Rust part of the code.
+
+//! In order to use this code, call the function passing an object, then fill the `instance` field
+
+//! See <https://wasi.dev/>.
+
+//! These bindings can then be used by the Wasm virtual machine to invoke Wasi-related functions.
+
+//! of that object with the Wasm instance.

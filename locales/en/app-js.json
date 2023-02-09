@@ -1,0 +1,10 @@
+{
+  "Close": "Close",
+  "Console": "Console",
+  "Name your example": "Name your example",
+  "Never execute JS snippets from untrusted sources.": "Never execute JS snippets from untrusted sources.",
+  "Save snippet to local storage": "Save snippet to local storage",
+  "Select example": "Select example",
+  "This is a developer tool that allows you to execute selected snippets in a limited context.": "This is a developer tool that allows you to execute selected snippets in a limited context.",
+  "Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.": "Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment."
+}

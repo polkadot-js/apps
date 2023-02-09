@@ -1,0 +1,1 @@
+"use strict";(("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps=("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps||[]).push([[1112],{61898:(e,n,s)=>{s.d(n,{Z:()=>t});const t=function(e,n){if(!e)throw new Error("Invariant failed")}}}]);

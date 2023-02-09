@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="favicon.ico">
+    <title>Polkadot/Substrate Portal</title>
+    <script type="text/javascript" src="env-config.js"></script>
+    <style>
+      :root {
+        --font-mono: 0.889em Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier, monospace;
+        --font-sans: 1em "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+        /*
+          From https://www.modularscale.com/?1&rem&1.125 and https://type-scale.com/ -
+          1.125 (8:9) factor: 1.424rem, 1.266rem, 1.125rem, 1rem, 0.889rem, 0.79rem
+        */
+        --font-percent-small: 88.9%;
+        --font-percent-tiny: 79.0%;
+        --font-size-base: 1rem;
+        --font-size-h1: 1.424rem;
+        --font-size-h2: 1.266rem;
+        --font-size-h3: 1.125rem;
+        --font-size-small: 0.889rem;
+        --font-size-tiny: 0.79rem;
+
+        --font-weight-bold: 600; /* semi */
+        --font-weight-light: 200;
+        --font-weight-normal: 400;
+
+        --opacity-light: 0.6;
+
+        --width-full: 1750px;
+        --width-half: 875px;
+        --width-shortaddr: 6.5em;
+        --width-shorthash: 9em;
+
+        --font-weight-header: var(--font-weight-normal);
+        --font-size-label: var(--font-size-small);
+        --font-weight-label: var(--font-weight-bold);
+        --text-transform-label: lowercase;
+
+        --bg-menu-hover: rgba(255, 255, 255, 0.2);
+      }
+
+      [data-theme="dark"] {
+        --bg-input: #38393f;
+        --bg-input-error: #48393f;
+        --bg-inverse: rgba(78, 78, 78, 0.66);
+        --bg-menu: #26272c;
+        --bg-page: #26272c;
+        --bg-table: #3b3d3f;
+        --bg-tabs: #38393f;
+        --bg-toggle: #58595f;
+        --bg-sidebar: #1a1b20;
+        --bg-static-extra: rgba(200, 200, 200, 0.1);
+        --border-input: rgba(234, 236, 238, .15);
+        --border-table: #343536;
+        --border-tabs: #343536;
+        --color-checkbox: rgba(78, 78, 78, 0.66);
+        --color-error: rgba(255, 83, 83, 0.8);
+        /* --color-header: rgba(244, 242, 240, 0.8); */
+        /* --color-label: rgba(244, 242, 240, 0.45); */
+        /* --color-summary: rgba(244, 242, 240, 0.75); */
+        /* --color-table-foot: rgba(254, 240, 240, 0.66); */
+        /* --color-table-head: rgba(254, 240, 240, 0.8); */
+        --color-text: rgba(244, 242, 240, 0.8);
+        --opacity-gray: 0.1;
+      }
+
+      [data-theme="light"] {
+        --bg-input: #ffffff;
+        --bg-input-error: #fff6f6;
+        --bg-inverse: rgba(244, 242, 240, 0.91);
+        --bg-menu: #ffffff;
+        --bg-page: #f5f3f1;
+        --bg-table: #ffffff;
+        --bg-tabs: #ffffff;
+        --bg-toggle: #e4e5e6;
+        --bg-sidebar: #fafafa;
+        --bg-static-extra: rgba(200, 200, 200, 0.1);
+        --border-input: rgba(34, 36, 38, .15);
+        --border-table: #efedeb;
+        --border-tabs: #f1efed;
+        --color-checkbox: rgba(34, 36, 38, 0.15);
+        --color-error: rgba(139, 0, 0);
+        /* --color-header: rgba(78, 78, 78, 0.8); */
+        /* --color-label: rgba(78, 78, 78, 0.66); */
+        /* --color-summary: rgba(78, 78, 78, 0.66); */
+        /* --color-table-foot: rgba(78, 78, 78, 0.66); */
+        /* --color-table-head: rgba(78, 78, 78, 0.8); */
+        --color-text: rgba(78, 78, 78, 0.8); /* 1 */
+        --opacity-gray: 0.75;
+      }
+
+      .--absolute {
+        position: absolute;
+      }
+
+      .--digits {
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .--hidden {
+        display: none;
+      }
+
+      .--relative {
+        position: relative;
+      }
+
+      .--tmp {
+        background: grey;
+        filter: blur(2px);
+        opacity: 0.15;
+      }
+    </style>
+    <!--
+      Manually output the head tags individually to gain newlines to
+      helps us with git diffs not getting out of hand. This file is
+      therefore also not being minimized, but that _should_ be ok.
+
+      https://stackoverflow.com/a/62992909
+    -->
+    <script defer src="load.efc6680c7a0e9c1d.js" integrity="sha384-EDYj4r7yDEtJjmucMtrEcJm28Tvoqz8KsGBOgJHfAaPm9PB0RCxs12W2nFBpW3MP" crossorigin="anonymous"></script>
+    <script defer src="type.15d2911a3f16a68b.js" integrity="sha384-7CuuYmuvkiH2TTuELCfnQVBB3jRUFyVL/jd0ntoZWqxl5iIkxCWbiZAUhft/MMu5" crossorigin="anonymous"></script>
+    <script defer src="logo.bc6d5c1bf5b4c7d6.js" integrity="sha384-DZwxG2InYcEEf0Ndo9Lt5lL+OTvqfu4geJvxK6eexkl8ti/I7VlMSxLzdNKZfgLV" crossorigin="anonymous"></script>
+    <script defer src="logo.73ad32076127955e.js" integrity="sha384-vcpkcMdPodbi5WKKubVkLo71pt6EcEgf4a2ZyRkOpfzKIqz7E9yFPkZp4LLqtNfR" crossorigin="anonymous"></script>
+    <script defer src="logo.e451d7674130e315.js" integrity="sha384-9AGt3tOyuZV2Gk+hJmR5eISsU7oGgJ7AGOKk7MMhH4Lgd46Kp9sERcd9CSEmzXD6" crossorigin="anonymous"></script>
+    <script defer src="robo.d490d1f74ebb9d64.js" integrity="sha384-uSG5lbZr8BFS+ZVAXLKli8fNHWeSpRJq2RDpSSt3cC3dSxc+shA5pzb0fLO+zatW" crossorigin="anonymous"></script>
+    <script defer src="robo.6a4b2db4ab00565f.js" integrity="sha384-tdG8r2JsK1zFxJPNJrWAqoDfY31HrRfb1+bpHLih0kzhJYo4FRCW95fQ3WnMNOOo" crossorigin="anonymous"></script>
+    <script defer src="robo.a16462837f44d4cb.js" integrity="sha384-j4ASOQ9q+fB2YzqIB4lN5ZaTtnKN1imtoRduDRrJL9K8ufmxGg2gfYQLOX6lrKgh" crossorigin="anonymous"></script>
+    <script defer src="robo.e34f4531fe220818.js" integrity="sha384-LS6j0b7B41i4Ae/cxFBrC4oXIZfJydWNdiECgYq/otfOfhP87LgJDwyp51NsipA+" crossorigin="anonymous"></script>
+    <script defer src="robo.710225d0715ac5c9.js" integrity="sha384-MrQpmNMY4uIQiq60B5btAoiyGBYpywBCTpiwG0FGLceQhzyLXQ8jl7k7v9n2zzLL" crossorigin="anonymous"></script>
+    <script defer src="robo.9665d311ddf0ce94.js" integrity="sha384-ecQfoZ/SbZElkKvacyEG2ZtUnHpBgX4nbmZYbXyPfgmEu+Omy7NgzSbZGN5OfOBp" crossorigin="anonymous"></script>
+    <script defer src="robo.b502398ff9d3d912.js" integrity="sha384-/Kyd5Cz3x93IHtHOBswXF2AR4rMiol3KC5Bm9IMP0RjLwkj6BBgbmEsjBjT5sULC" crossorigin="anonymous"></script>
+    <script defer src="robo.2ee950bdb790d21a.js" integrity="sha384-MjrrfQntKQGHAhOX1jnN0HnlKXVDOPaJZjgbm9AtwQyJ7+OIxh8078fjel4LYbGX" crossorigin="anonymous"></script>
+    <script defer src="robo.4a13de3669492115.js" integrity="sha384-oE70+JYIiijIYx0eMFEsX4efNlHNBi0UWDq1dGjCQwlM+B/MYjRZbOrIr+d5D82r" crossorigin="anonymous"></script>
+    <script defer src="robo.1d41fc872c79d7f7.js" integrity="sha384-oLxzbef6Mpr4jmQPXudzinJvN7u7FkUdtww5gOV/pR60xbV962ws+zLlr6+PKb62" crossorigin="anonymous"></script>
+    <script defer src="robo.a9078814a9cc741e.js" integrity="sha384-g+8aOpHSOPJBRL5SFsGQuSLikXD9rcl8YBnaFAk/Cp0k0clh4LFBNERgZG9J/nxD" crossorigin="anonymous"></script>
+    <script defer src="robo.84076b97a04cd99b.js" integrity="sha384-8wNVh4nurjF+Jgb3K6kHfn01w8Pijwm+ac0YATOgiY+iQYofSUKh2jXqOeFpuogb" crossorigin="anonymous"></script>
+    <script defer src="robo.5fb128bbbbe72f15.js" integrity="sha384-0ES/BsqK1nTFtUWFh/4RkdpIXDai5EVRZowthzp2KgkEzygoJAM+98j0bgbPmJIr" crossorigin="anonymous"></script>
+    <script defer src="robo.80c3c33bc5f21745.js" integrity="sha384-vOj1iBvVaaZztR48wk1jyj8d0bBJzCtQvGEpYNXe6SOcuTLlmWxT1p3kfHprE8uc" crossorigin="anonymous"></script>
+    <script defer src="robo.1470fd0d5bbc47a2.js" integrity="sha384-Oab7kKU5GgFAG0cHE1tbk3JXslTh2Idcr8LlcdiEL1GisT3JhDSPh+nqlYmeG28+" crossorigin="anonymous"></script>
+    <script defer src="robo.1755671a2d6e8848.js" integrity="sha384-UU6IKod1yCKvA2XEbHyL2roWZJ8jfa57MSovEgHQCw9ytvoLjUPuJtNyOUw+Epfh" crossorigin="anonymous"></script>
+    <script defer src="robo.8ba70661c34bde13.js" integrity="sha384-efYkbk2OWtyfH3+SSI7GLtylJbymidus+/H6J9dM1/7juPDRB4316viACZz2m31D" crossorigin="anonymous"></script>
+    <script defer src="robo.c848631f969bf850.js" integrity="sha384-UkER7epPFZ7sQGMbzdxHSRbbC8fxbM6hF14W+pyEtzRumWVkVvRrAJ4dZNv5N1K/" crossorigin="anonymous"></script>
+    <script defer src="robo.a8340790cb334a03.js" integrity="sha384-7IL0HVTZTeQL2ZD+9+cMWXD2xHdI9crJsc024oG/mfZLXupAw7ttNBJCUaugf3tD" crossorigin="anonymous"></script>
+    <script defer src="robo.8a5f413ddb67c31d.js" integrity="sha384-YZNLJwrCTVoB3JLfpyXgQ0igFhwF3MqdNiFKun/V3KQ8QFC7rf8oq5jLEtanszji" crossorigin="anonymous"></script>
+    <script defer src="comm.c0a00bc9a5e31a3b.js" integrity="sha384-4XIFa0V9APYNxthnJ1+6POf6PFXEr9k4wcMb9rp0IDlmaT0u3hkHOy/GDAzuWgQh" crossorigin="anonymous"></script>
+    <script defer src="page.34ce035bfff78fcf.js" integrity="sha384-/hLTbJWkUZEOR7SfIOmqaZF7O0ne8Ve8Bx667n13MdrQ669dbW7JjlrRGEiSycHh" crossorigin="anonymous"></script>
+    <script defer src="page.0a6e9988cb3819a3.js" integrity="sha384-S0/ZSqTFEWYvQcmRVn94HNoNrcppKpJPmnRa+2hRX8/FddsXOThZ1DfbWDMlVG02" crossorigin="anonymous"></script>
+    <script defer src="modu.c64bea8ed5f2bf16.js" integrity="sha384-L75g6mOxnYvtEm6n3n0m9BlmjeJ6OSQoUGTeq5O0GtcCoGFAqsmljnzObSiAVUey" crossorigin="anonymous"></script>
+    <script defer src="modu.0eb79a1e379005d2.js" integrity="sha384-tg5rLsezAnZIysKCVOLlakQ6efnFucLYMM/O1/6JbxkOStvWnuOyrIOqC1uoxhWi" crossorigin="anonymous"></script>
+    <script defer src="modu.80964cdda093368b.js" integrity="sha384-ux+lLWGeiDAtgL+f91l+rvxMedztbKM6On6ATSZKQb0stPlPLDt6nb7kzjR12wBw" crossorigin="anonymous"></script>
+    <script defer src="modu.f48ce4827e5767b6.js" integrity="sha384-B4Xy+IUct7lmOW8HTFX4qFfRaCdlrn8AhRmig+0xE1z/Zus2fsU0pP1OOCNrUvp7" crossorigin="anonymous"></script>
+    <script defer src="modu.2f22ab59a83ee54c.js" integrity="sha384-Zry1tDt0fBLJcQa5ePvhXH+rvvS+VcaU6meEzJ57h18Ixdc5M91BAMlzQbGWeOa9" crossorigin="anonymous"></script>
+    <script defer src="modu.ccaef7ca56411443.js" integrity="sha384-ZbhHOucXgTynUjjjmsTdfxNu2cL5RRTXbVfFE0CDaK7JaEhZ4qWI4+A9D3necdjG" crossorigin="anonymous"></script>
+    <script defer src="modu.30fffda6801098d5.js" integrity="sha384-5qDsK2WEh+JtSuO8UAkGzANEE3/FRTiXdwJBHh2EMEtSr6M+gS24ObjkSWcf0Tke" crossorigin="anonymous"></script>
+    <script defer src="modu.7beef0a128b610b7.js" integrity="sha384-zO7W2NTd8mfqJbU4ppMdPlqyiuLeYv9y4kuhICt89pRSwj28n2Hv8PoBq2R0zKzH" crossorigin="anonymous"></script>
+    <script defer src="modu.b61d60eea6163cc4.js" integrity="sha384-TKI66QPh4S5b7k6PRGzcJVZZNx3WaPWx9gVMysUKckJuEMHxLCAbCEYw51rQZRy8" crossorigin="anonymous"></script>
+    <script defer src="modu.c9721d3f74a32bee.js" integrity="sha384-d9xxNptmJoPviMxTNF1AeKHBP6dUDoygX/zIFyauaQ7tSu8qRzHrSWVWfxNELwYK" crossorigin="anonymous"></script>
+    <script defer src="modu.d61a32d0d4461d62.js" integrity="sha384-7vo14Ht6AdzSiB8M6qPt/ycrmGFGV0DV7wulY1EwejLnhZroVQk1jRqdrQGGSmfZ" crossorigin="anonymous"></script>
+    <script defer src="modu.285b07ad2aa5f7ac.js" integrity="sha384-kSiP5asP2tuR0Y4D+mdRbMn++4iPNpYuOhSH6Hp7pfa3JZQU5BW2eqSvimLhw68z" crossorigin="anonymous"></script>
+    <script defer src="modu.f76d8a86c7fcdda9.js" integrity="sha384-TEX5xjMP723baNOleqKlKZJDGt6Xd5K4bqF/FaPMx6aOx3HmtAAtK4s8GlPdECKn" crossorigin="anonymous"></script>
+    <script defer src="modu.87800fe8a96797bc.js" integrity="sha384-tFV8H7W9L1PnfzColCjJDm6g9XQcy2DKVrDhlm9uRiVf92FN3Aqge1V3AWbgYN9J" crossorigin="anonymous"></script>
+    <script defer src="modu.b10ccc4fb1c0e3f9.js" integrity="sha384-9xCN95hW/sm/RVoNCI79jVBoBqKDarnO/Lel4/EKLmbYBaqf/JTCXf4Q2A1QuSYC" crossorigin="anonymous"></script>
+    <script defer src="modu.30d0f824e0a4dc91.js" integrity="sha384-HqSKRvCcLg+Rn1C3txIqYmy4GLDNwhfsb4nUPVU1ZuR5pIk46kZn3qOv1XmaKI92" crossorigin="anonymous"></script>
+    <script defer src="modu.bf34bc0cd79900e9.js" integrity="sha384-87LZjDJtFVljSSqO/JjN16CzRlzllMQ/R/8TCShxEW1oxeavL5eAKx2eT+4A5zdO" crossorigin="anonymous"></script>
+    <script defer src="modu.a11d9f760ba04005.js" integrity="sha384-Q6n2EnAC26EYkDo5ATF2riW2xEu/PV8v9xKT1n1GEizoWnr7lTWE9JsQNr69IIl9" crossorigin="anonymous"></script>
+    <script defer src="modu.6340aaa2f54b1f1c.js" integrity="sha384-ilNxqH81/ttICA6iKB3H6IpG9uMByF7ZaJa+fm8Yj5YUZ91AP1pPbMKp0zx6ePae" crossorigin="anonymous"></script>
+    <script defer src="modu.c38e5a5d6634d2b5.js" integrity="sha384-apt82NudH8whv9jk/FTvPaqrNKtVqCV9Dk8s9ZiIhsldLZkggja18qVwtN3DkIq8" crossorigin="anonymous"></script>
+    <script defer src="modu.b10bf0346c92ed8e.js" integrity="sha384-Tbt9P1C+iZt8g4kM/lJlyilj5x7gqYs791L0Frpz5iQTXD9GTF7ab8dOdyxrx9gV" crossorigin="anonymous"></script>
+    <script defer src="modu.ed3aafd36d2d573a.js" integrity="sha384-VVzUlxkucjVKsbljbYHtj69oKw9y0zyY+dshPi7W8TLq50RZJoxLY7rrsVWVw+WC" crossorigin="anonymous"></script>
+    <script defer src="modu.8ec0241730bd4703.js" integrity="sha384-mb1rsfkavE7W6cVLEZ5PrTSxM3RnxnW8ZCsiFkEhpYAYEt+aymon+ItOVKy3oWDv" crossorigin="anonymous"></script>
+    <script defer src="modu.194311cf083f6033.js" integrity="sha384-xxVfcefeGyU7XBwONnmjTgxyr2elkFYT+duDgrahkkXtp9naTUF4jgxVWOHgBF/l" crossorigin="anonymous"></script>
+    <script defer src="modu.6e596f5b8a690b85.js" integrity="sha384-iKxNXH+wDL3CQuyeJdEdATRR4I6YveoUO+2fcHY4mJH/ni7fVIuAK6qegtHRzkNB" crossorigin="anonymous"></script>
+    <script defer src="modu.4b2c3f2eab81009b.js" integrity="sha384-v+u2uopP25t2KehcVX2OIep/sV7yivGT7q1eQT80W4btUsq9gvzuMISPg442VTzd" crossorigin="anonymous"></script>
+    <script defer src="modu.97718c2323c53c08.js" integrity="sha384-zOLiVzvxIN7PSeuTdNbvThx/dtKIykDwJOPsTiG9ITgP92GYuUEb72ewLQoZH2qN" crossorigin="anonymous"></script>
+    <script defer src="modu.6db63f29099521f4.js" integrity="sha384-zbbzO1Nxnw9oKE7Q5zFI6ErSi/SS0MFlEQNNc22cKhTrRNTxQK5juRyfOqWSrXVR" crossorigin="anonymous"></script>
+    <script defer src="modu.2bb175f2716492ca.js" integrity="sha384-2LTTO9pMAkG2Ldyve0zrDszVN6EJfsVo4dA36aAWs+0xUCT7LGyOsacTh/R/YMns" crossorigin="anonymous"></script>
+    <script defer src="modu.8f63842111f71da7.js" integrity="sha384-BxgF6NLQLZNSxeCj84v6Q/Y+Rr8/1+dr7QJnaGhTXBkXJphjtyumVx1sLYGb7/8l" crossorigin="anonymous"></script>
+    <script defer src="modu.88ab155bf796756f.js" integrity="sha384-STdgmt5YBhCp1p8MIxoakYyqulvm6+RdSu+fAlNB0zLqPGg1a/Jv80DZK9nVByJE" crossorigin="anonymous"></script>
+    <script defer src="modu.05eeb17949500c02.js" integrity="sha384-Vk4kOK1PZXDfbp1BSG5fwsT6W12uSudTVNK1IqYO4D/7X+Qho+k9JdY7euPShVa7" crossorigin="anonymous"></script>
+    <script defer src="modu.2ca179e9fea61d65.js" integrity="sha384-PbmXuAEgu1ON9ZtfYbvRFc7nn+BF4hBm68RC6bcAplRnLUg7rJcaxECZdeQdEb0N" crossorigin="anonymous"></script>
+    <script defer src="modu.7d6432ef230e74f6.js" integrity="sha384-TCTMOFiW+yqrhi4UgG5NRMKL8ALFhuKkjyZYfdzKAtiVnNWWo1zuRtXm6KENOw0A" crossorigin="anonymous"></script>
+    <script defer src="modu.ecafcef9b98a1db9.js" integrity="sha384-GVtWi2Fn0glAZCQpxVkRpDFg7ubFLvzPJZO2wsslUC8NZ80NcAmzFPMeHK+PxExi" crossorigin="anonymous"></script>
+    <script defer src="modu.5b26e5824d629769.js" integrity="sha384-WK+Gb+LHwKOR0/sm41SSukURNxnCeZJ9vm2oX4/1xeh5JNbjBW4aQogx7C1dUQtd" crossorigin="anonymous"></script>
+    <script defer src="main.bbe38a9f1f2a916c.js" integrity="sha384-cDqfm5Sx9/eDyVzMfEGaOqjKOitP5+kn3uQaSyHER098blhR1nugWi+b6OcTgOdY" crossorigin="anonymous"></script>
+    <link href="extr.1beedbf44c61f3d6.css" rel="stylesheet" integrity="sha384-9GU94/gF9yHaxvCaP5AyCObAzJBSWTydJHfWNjU+cFxB49+JPED21ws9KxkOMDTd" crossorigin="anonymous">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="tooltips"></div>
+    <script>
+      if (window.self !== window.top) {
+        window.top.location.href = window.location.href;
+      }
+    </script>
+  </body>
+</html>

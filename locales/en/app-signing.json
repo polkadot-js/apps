@@ -1,0 +1,23 @@
+{
+  "Crypto not detected": "Crypto not detected",
+  "No": "No",
+  "Sign message": "Sign message",
+  "This account that will perform the message signing.": "This account that will perform the message signing.",
+  "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.": "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.",
+  "This injected account cannot be used to sign data since the extension does not support raw signing.": "This injected account cannot be used to sign data since the extension does not support raw signing.",
+  "Unlock": "Unlock",
+  "Unlock account": "Unlock account",
+  "Unlock the account for signing. Once active the signature will be generated based on the content provided.": "Unlock the account for signing. Once active the signature will be generated based on the content provided.",
+  "Verify signature": "Verify signature",
+  "Yes": "Yes",
+  "You need to unlock this account to be able to sign data.": "You need to unlock this account to be able to sign data.",
+  "account": "account",
+  "hex input data": "hex input data",
+  "password": "password",
+  "sign the following data": "sign the following data",
+  "signature crypto type": "signature crypto type",
+  "signature of supplied data": "signature of supplied data",
+  "the supplied signature": "the supplied signature",
+  "using the following data": "using the following data",
+  "verify using address": "verify using address"
+}

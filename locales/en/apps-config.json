@@ -1,0 +1,17 @@
+{
+  "lightclient.experimental": "light client (experimental)",
+  "lng.detect": "Default browser language (auto-detect)",
+  "rpc.dev.custom": "Custom environment",
+  "rpc.dev.custom.entry": "Custom {{WS_URL}}",
+  "rpc.dev.custom.own": "Custom",
+  "rpc.dev.local": "Local Node",
+  "rpc.header.dev": "Development",
+  "rpc.header.kusama.relay": "Kusama & parachains",
+  "rpc.header.live": "Live networks",
+  "rpc.header.polkadot.relay": "Polkadot & parachains",
+  "rpc.header.rococo.relay": "Test Rococo & parachains",
+  "rpc.header.test": "Test networks",
+  "rpc.header.westend.relay": "Test Westend & parachains",
+  "rpc.hosted.via": "via {{host}}",
+  "ss58.default": "Default for the connected node"
+}

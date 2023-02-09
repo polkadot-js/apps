@@ -1,0 +1,13 @@
+{
+  "0x...": "0x...",
+  "Constants": "Constants",
+  "Raw storage": "Raw storage",
+  "Storage": "Storage",
+  "blockhash to query at": "blockhash to query at",
+  "encoded key details": "encoded key details",
+  "encoded partial key": "encoded partial key",
+  "encoded storage key": "encoded storage key",
+  "hex-encoded storage key": "hex-encoded storage key",
+  "selected constant query": "selected constant query",
+  "selected state query": "selected state query"
+}
