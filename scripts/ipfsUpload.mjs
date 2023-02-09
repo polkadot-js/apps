@@ -167,11 +167,11 @@ async function dnslink (hash) {
       );
 
       console.log(`Updated dnslink ${record}`);
-
-      await wait();
     } catch (error) {
       console.error(`Failed updating dnslink ${record}`, error);
     }
+
+    await wait();
   }
 
   console.log(`Dnslink ${hash} for ${records.join(', ')}`);
