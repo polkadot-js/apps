@@ -2,21 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentProps as Props } from '../types';
-
 import React, { useEffect, useRef, useState } from 'react';
-import type { BN } from '@polkadot/util';
 import styled from 'styled-components';
-import type { Balance } from '@polkadot/types/interfaces';
-
-import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
-
 import CreateModal from '../modals/Create';
 import { useTranslation } from '../translate';
-import Address from './Address';
+import Address from './Table';
 import Summary from './Summary';
 import { largeNumSum } from '../../util';
-import { stringToHex } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 type SortedAddress = { address: string; isFavorite: boolean };
@@ -37,11 +31,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const supersig_nonce = useCall(api.query.supersig?.nonceSupersig);
 
   const headerRef = useRef([
-    [t('Supersigs'), 'start', 2],
-    [t('proposals'), 'number'],
-    [t('balance of members'), 'number'],
+    [t('Supersig collectives'), 'start', 2],
+    [t('live proposals'), 'number'],
+    [t('balance of (members)'), 'number'],
     [undefined, 'media--1500'],
-    [t('Supersiq balance'), 'balances'],
+    [t('Supersig balance'), 'balances'],
     [undefined, 'media--1400', 2],
     []
   ]);

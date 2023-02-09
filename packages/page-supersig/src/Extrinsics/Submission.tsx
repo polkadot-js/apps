@@ -4,28 +4,22 @@
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { DecodedExtrinsic } from './types';
-
-import React, { useCallback, useState, useEffect } from 'react';
-
+import type { ApiPromise } from '@polkadot/api';
+import type { Call } from '@polkadot/types/interfaces';
+import React, { useCallback, useState } from 'react';
 import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { useParams } from 'react-router-dom';
-import type { HexString } from '@polkadot/util/types';
-import type { ApiPromise } from '@polkadot/api';
-
-import Decoded from './Decoded';
 import { useTranslation } from './translate';
-import { Call as CallDisplay, Input, InputExtrinsic } from '@polkadot/react-components';
-import type { Call } from '@polkadot/types/interfaces';
-import { assert, isHex, stringToHex } from '@polkadot/util';
+import { assert, isHex } from '@polkadot/util';
+import Decoded from './Decoded';
 
 interface Props {
   className?: string;
   defaultValue?: DecodedExtrinsic | null;
   setLast?: (value: DecodedExtrinsic | null) => void;
 }
-
 interface DefaultExtrinsic {
   defaultArgs?: RawParam[];
   defaultFn: SubmittableExtrinsicFunction<'promise'>;
