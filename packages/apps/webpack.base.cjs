@@ -11,26 +11,9 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-const CHUNK_CONFIG = {
-  maxSize: 1000000,
-  minSize: 500000
-}
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
 
-function createChunks (tests) {
-  return tests.reduce((result, test, index) => {
-    const name = `zz${`00${index}`.slice(-2)}`;
-
-    result[`${name}Cache`] = {
-      chunks: 'initial',
-      enforce: true,
-      name,
-      test,
-      ...CHUNK_CONFIG
-    };
-
-    return result;
-  }, {});
-}
+const MB = 1024 * 1024;
 
 function createWebpack (context, mode = 'production') {
   const pkgJson = require(path.join(context, 'package.json'));
@@ -122,11 +105,23 @@ function createWebpack (context, mode = 'production') {
       minimize: mode === 'production',
       runtimeChunk: 'single',
       splitChunks: {
-        cacheGroups: createChunks([
+        cacheGroups: [
+          /apps-config[\\/]src[\\/]api[\\/]typesBundle/,
           /apps-config[\\/]src[\\/]ui[\\/]logos/,
           /react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/,
           /node_modules/
-        ])
+        ].reduce((result, test, index) => ({
+          ...result,
+          [`cacheGroup${ALPHABET[index]}`]: {
+            chunks: 'initial',
+            enforce: true,
+            maxSize: 1_300_000,
+            minSize: 0,
+            priority: -1 * index,
+            test
+          }
+        }), {}),
+        name: 'x'
       }
     },
     output: {
