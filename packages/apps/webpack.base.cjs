@@ -11,21 +11,6 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-function mapChunks (pre, regs) {
-  return regs.reduce((result, test, index) => {
-    const name = `${pre}.${`00${index}`.slice(-2)}`;
-
-    result[name] = {
-      chunks: 'initial',
-      enforce: true,
-      name,
-      test
-    };
-
-    return result;
-  }, {});
-}
-
 function createWebpack (context, mode = 'production') {
   const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
@@ -116,39 +101,23 @@ function createWebpack (context, mode = 'production') {
       minimize: mode === 'production',
       runtimeChunk: 'single',
       splitChunks: {
-        cacheGroups: {
-          // As far as possible, we try and keep this below 1M in size.
-          // This is trial-and-error and some will blow past, e.g. light client
-          ...mapChunks('mod.app', [
-            /* 00 */ /apps-config\/src\/api/,
-            /* 01 */ /apps-config\/src\/ui\/logos\/chains/,
-            /* 03 */ /apps-config\/src\/ui\/logos\/(extensions|external|nodes\/generated\/[0-9a-kA-K])/,
-            /* 04 */ /apps-config\/src\/ui\/logos\/nodes\/generated\/[l-zL-Z]/,
-            /* 05 */ /RoboHash\/(backgrounds|sets\/set2)/,
-            /* 06 */ /RoboHash\/sets\/set1-(blue|brown|green|grey|orange)/,
-            /* 07 */ /RoboHash\/sets\/set1-(pink|purple|red|white|yellow)/,
-            /* 08 */ /RoboHash\/sets\/set3/,
-            /* 09 */ /RoboHash\/sets\/set4/,
-            /* 10 */ /RoboHash\/sets\/set5\/(000|001|002|003|004|005|007)/,
-            /* 11 */ /RoboHash\/sets\/set5\/006/
-          ]),
-          ...mapChunks('mod.dot', [
-            // If we ever want to go deeper, this seemed like a good 50/50
-            // initial split ... could change over time
-            // /* 00 */ /node_modules\/@polkadot\/(api|metadata|types)/,
-            // /* 01 */ /node_modules\/@polkadot\/(?!api|metadata|types)/
-            /* 00 */ /node_modules\/@polkadot\//,
-          ]),
-          // We didn't pull these based on name, but rather based on the sizes
-          // (large => small) as available in yarn analyze. The names here are
-          // intentionally greedy (without having conflicts with previous)
-          ...mapChunks('mod.ext', [
-            /* 00 */ /node_modules\/@substrate\/smoldot/,
-            /* 01 */ /node_modules\/@fortawesome/,
-            /* 02 */ /node_modules\/(react|qrcode|lodash|inherits|attr|is|util|simple|unist|decode|hoist|html|owasp|@stardust|base|@multiformats|multiformats|sha|elliptic|hast|bn|webrtc|@ledgerhq|semver|zwitch|hash|color|sdp|@interlay|fflate|event|vfile|ethereum|detect|lru|ed2curve|iso|uint8arrays|hmac|process|cipher|borand|safe|minimalistic|value|comma|file)/,
-            /* 03 */ /node_modules\/(style|chart|pako|@noble|rxjs|tweetnacl|codeflask|@zondax|axios|resolve|classnames|exe|history|query|string|tslib|md5|punycode|buffer|semantic|@semantic|core|i18next|readable|rtc|@substrate\/(connect|ss58)|secp256k1|@emotion|store|web|@babel|jdenticon|yalist|scheduler|keyboard|ripemd160|@chainsafe|bip|copy|inline|stream|ieee|prop|toggle|err|create|regenerator|@scure)/
-          ])
-        }
+        cacheGroups: [
+          /apps-config[\\/]src[\\/]api[\\/]typesBundle/,
+          /apps-config[\\/]src[\\/]ui[\\/]logos/,
+          /react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/,
+          /node_modules/
+        ].reduce((result, test, index) => ({
+          ...result,
+          [`cacheGroup${index}`]: {
+            chunks: 'initial',
+            enforce: true,
+            maxSize: 1_300_000,
+            minSize: 0,
+            priority: -1 * index,
+            test
+          }
+        }), {}),
+        name: 'x'
       }
     },
     output: {
@@ -169,7 +138,7 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.IgnorePlugin({
         contextRegExp: /moment$/,
-        resourceRegExp: /^\.\/locale$/
+        resourceRegExp: /^\.[\\/]locale$/
       }),
       new webpack.DefinePlugin({
         'process.env': {
