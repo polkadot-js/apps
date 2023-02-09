@@ -120,6 +120,8 @@ async function unpin (exclude) {
 
   await wait();
 
+  console.log('Available Pinata pins', result.rows);
+
   if (result.count > 1) {
     const hashes = result.rows
       .map((r) => r.ipfs_pin_hash)
