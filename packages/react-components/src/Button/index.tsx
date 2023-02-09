@@ -13,22 +13,30 @@ import Group from './Group';
 function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (): void => {
-      !(isBusy || isDisabled) && onClick && Promise.resolve(onClick()).catch(console.error);
+      !(isBusy || isDisabled) && onClick && Promise
+        .resolve(onClick())
+        .catch(console.error);
     },
     [isBusy, isDisabled, onClick]
   );
 
   const _onMouseEnter = useCallback((): void => {
-    onMouseEnter && Promise.resolve(onMouseEnter()).catch(console.error);
+    onMouseEnter && Promise
+      .resolve(onMouseEnter())
+      .catch(console.error);
   }, [onMouseEnter]);
 
   const _onMouseLeave = useCallback((): void => {
-    onMouseLeave && Promise.resolve(onMouseLeave()).catch(console.error);
+    onMouseLeave && Promise
+      .resolve(onMouseLeave())
+      .catch(console.error);
   }, [onMouseLeave]);
 
   const listenKeyboard = useCallback((event: KeyboardEvent): void => {
     if (!isBusy && !isDisabled && event.key === 'Enter') {
-      onClick && Promise.resolve(onClick()).catch(console.error);
+      onClick && Promise
+        .resolve(onClick())
+        .catch(console.error);
     }
   }, [isBusy, isDisabled, onClick]);
 
