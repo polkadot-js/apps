@@ -28,7 +28,11 @@ module.exports = merge(
       }),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
-        inject: true,
+        // see index.html for the work needed to support this,
+        // aka manually injection without minification
+        // (also in apps/webpack.config.js)
+        inject: false,
+        minify: false,
         template: path.join(context, '../apps/public/index.html')
       })
     ],
