@@ -865,7 +865,7 @@ export const prodRelayKusama: EndpointOption = {
   teleport: getTeleports(prodParasKusamaCommon),
   text: 'Kusama',
   ui: {
-    color: '#000',
+    color: '#000000',
     logo: chainsKusamaSVG
   }
 };
