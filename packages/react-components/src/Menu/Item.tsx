@@ -11,7 +11,7 @@ import Icon from '../Icon';
 function Item ({ children, className = '', icon, isDisabled, label, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(
     (): void => {
-      !isDisabled && onClick && onClick();
+      !isDisabled && onClick && Promise.resolve(onClick()).catch(console.error);
     },
     [isDisabled, onClick]
   );
