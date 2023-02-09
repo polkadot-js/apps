@@ -1,4 +1,4 @@
-    4134	Jaco                          	Auto chunking (#8986)
+    4135	Jaco                          	Don't use webpack chunkhash / name (only contenthash) (#8988)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
