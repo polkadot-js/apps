@@ -48,12 +48,10 @@ function filter (isEthereum: boolean, items: string[], others: string[] = []): s
   return items.reduce<string[]>((result, a) => {
     if (!result.includes(a) && !others.includes(a)) {
       try {
-        const u8a = decodeAddress(a);
-
-        if (u8a.length === allowedLength) {
+        if (decodeAddress(a).length >= allowedLength) {
           result.push(a);
         } else {
-          console.warn(`Not adding address ${a}, not in correct format for chain (requires ${allowedLength}-byte publickey)`);
+          console.warn(`Not adding address ${a}, not in correct format for chain (requires publickey from address)`);
         }
       } catch {
         console.error(a, allowedLength);
