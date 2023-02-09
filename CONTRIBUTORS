@@ -12,7 +12,7 @@
       25	Luke Schoen                   	fix typo kusama (#3083)
       24	brenzi                        	Encointer rococo para setup as teleporter (#7160)
       24	sxlwar                        	crab config (#6995)
-      23	WoeOm                         	Bump darwinia.js version (#5930)
+      24	WoeOm                         	feat: subscan support fellowship, referenda v2 (#8987)
       22	Yiwei Li                      	remove OnFinality endpoint for Pichiu (#8983)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
       20	Yongfeng LI                   	Correct statescan external links (#8975)
