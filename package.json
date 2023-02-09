@@ -25,7 +25,7 @@
   ],
   "main": "packages/apps-electron/build/electron.js",
   "scripts": {
-    "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/main.*.js",
+    "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/app.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
     "build:code": "NODE_ENV=production yarn polkadot-dev-build-ts",
     "build:devElectronMain": "cd packages/apps-electron && yarn polkadot-exec-webpack --config webpack.main.cjs",

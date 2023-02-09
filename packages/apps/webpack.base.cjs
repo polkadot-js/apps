@@ -71,7 +71,7 @@ function createWebpack (context, mode = 'production') {
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'res.[contenthash].[ext]'
           }
         },
         {
@@ -79,7 +79,7 @@ function createWebpack (context, mode = 'production') {
           test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'res.[contenthash].[ext]'
           }
         },
         {
@@ -111,7 +111,7 @@ function createWebpack (context, mode = 'production') {
           [`cacheGroup${index}`]: {
             chunks: 'initial',
             enforce: true,
-            maxSize: 1_300_000,
+            maxSize: 1_500_000,
             minSize: 0,
             priority: -1 * index,
             test
@@ -121,8 +121,13 @@ function createWebpack (context, mode = 'production') {
       }
     },
     output: {
-      chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[contenthash:8].js',
+      // this is for dynamic imports
+      chunkFilename: 'dyn.[contenthash].js',
+      // this is via splitChunks
+      filename: ({ chunk: { name } }) =>
+        ['main', 'runtime'].includes(name)
+          ? `${name === 'main' ? 'app' : 'run'}.[contenthash].js`
+          : 'mod.[contenthash].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
@@ -149,7 +154,7 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css'
+        filename: 'res.[contenthash].css'
       })
     ].concat(plugins),
     resolve: {
