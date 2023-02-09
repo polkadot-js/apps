@@ -118,14 +118,6 @@
         opacity: 0.15;
       }
     </style>
-    <!--
-      Manually output the head tags individually to gain newlines to
-      helps us with git diffs not getting out of hand. This file is
-      therefore also not being minimized, but that _should_ be ok.
-
-      https://stackoverflow.com/a/62992909
-    --><% for (const tag of htmlWebpackPlugin.tags.headTags) { %>
-    <%= tag %><% } %>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
