@@ -95,6 +95,8 @@ export const Subscan: ExternalDef = {
     democracyProposal: 'democracy_proposal',
     democracyReferendum: 'referenda',
     extrinsic: 'extrinsic',
+    fellowshipReferenda: 'fellowship',
+    referenda: 'referenda_v2',
     techcomm: 'tech',
     tip: 'treasury_tip',
     treasury: 'treasury',
