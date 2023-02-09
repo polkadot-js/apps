@@ -24,7 +24,7 @@ function Item ({ className = '', classNameText, isLink, isToplevel, route: { Mod
   const count = useCounter();
 
   return (
-    <StyledLi className={`${className} ui--MenuItem ${count ? 'withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+    <StyledLi className={`${className} ui--MenuItem ${count ? 'withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel highlight--color-contrast' : ''}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -35,7 +35,7 @@ function Item ({ className = '', classNameText, isLink, isToplevel, route: { Mod
         <span className={classNameText}>{text}</span>
         {!!count && (
           <Badge
-            color={'white'}
+            color='white'
             info={count}
           />
         )}
