@@ -25,6 +25,7 @@ module.exports = merge(
         PAGE_TITLE: 'Polkadot/Substrate Portal',
         // see index.html for the work needed to support this,
         // aka manually injection without minification
+        // (also in apps-electron/webpack.renderer.js)
         inject: false,
         minify: false,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)

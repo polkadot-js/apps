@@ -98,7 +98,10 @@ function createWebpack (context, mode = 'production') {
       __filename: false
     },
     optimization: {
+      chunkIds: 'deterministic',
+      concatenateModules: true,
       minimize: mode === 'production',
+      moduleIds: 'deterministic',
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: [
