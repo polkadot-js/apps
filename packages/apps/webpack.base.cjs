@@ -126,7 +126,7 @@ function createWebpack (context, mode = 'production') {
       // this is via splitChunks
       filename: 'x.[contenthash].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
-      // hashFunction: 'xxhash64',
+      hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
       publicPath: ''
     },
