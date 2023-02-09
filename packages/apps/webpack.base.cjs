@@ -124,7 +124,10 @@ function createWebpack (context, mode = 'production') {
       // this is for dynamic imports
       chunkFilename: 'y.[contenthash].js',
       // this is via splitChunks
-      filename: 'x.[contenthash].js',
+      filename: ({ chunk: { name } }) =>
+        ['main', 'runtime'].includes(name)
+          ? `[name].[contenthash].js`
+          : 'x.[contenthash].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
