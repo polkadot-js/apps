@@ -13,7 +13,7 @@
       24	brenzi                        	Encointer rococo para setup as teleporter (#7160)
       24	sxlwar                        	crab config (#6995)
       23	WoeOm                         	Bump darwinia.js version (#5930)
-      21	Yiwei Li                      	add OnFinality endpoint for Collectives (#8884)
+      22	Yiwei Li                      	remove OnFinality endpoint for Pichiu (#8983)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
       20	Yongfeng LI                   	Correct statescan external links (#8975)
       18	fomod-in                      	Update translation.json (#5942)
