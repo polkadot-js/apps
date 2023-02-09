@@ -49,6 +49,10 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
+// true if we don't try to filter the list of proxies by type and
+// instead leave it up to the user
+const BYPASS_PROXY_CHECK = true;
+
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
@@ -86,6 +90,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
       // FIXME Change when we add support for delayed proxies
       if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
+      } else if (BYPASS_PROXY_CHECK) {
+        return true;
       }
 
       switch (proxy.toString()) {
