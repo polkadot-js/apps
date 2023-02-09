@@ -71,7 +71,7 @@ function createWebpack (context, mode = 'production') {
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'z.[contenthash].[ext]'
           }
         },
         {
@@ -79,7 +79,7 @@ function createWebpack (context, mode = 'production') {
           test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
           type: 'asset/resource',
           generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
+            filename: 'z.[contenthash].[ext]'
           }
         },
         {
@@ -121,10 +121,12 @@ function createWebpack (context, mode = 'production') {
       }
     },
     output: {
-      chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[contenthash:8].js',
+      // this is for dynamic imports
+      chunkFilename: 'y.[contenthash].js',
+      // this is via splitChunks
+      filename: 'x.[contenthash].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
-      hashFunction: 'xxhash64',
+      // hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
       publicPath: ''
     },
@@ -149,7 +151,7 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css'
+        filename: 'z.[contenthash].css'
       })
     ].concat(plugins),
     resolve: {
