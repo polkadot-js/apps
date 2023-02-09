@@ -80,6 +80,7 @@ function createWebpack (context, mode = 'production') {
         cacheGroups: [
           ['type', /[\\/]packages[\\/]apps-config[\\/]src[\\/]api[\\/]typesBundle/],
           ['logo', /[\\/]packages[\\/]apps-config[\\/]src[\\/]ui[\\/]logos/],
+          ['conf', /[\\/]packages[\\/]apps-config[\\/]src[\\/]/],
           ['robo', /[\\/]packages[\\/]react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/],
           ['comm', /[\\/]packages[\\/]react-.*[\\/]src[\\/]/],
           ['page', /[\\/]packages[\\/]page-.*[\\/]src[\\/]/],
