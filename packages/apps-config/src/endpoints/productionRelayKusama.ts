@@ -527,8 +527,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'pichiu',
     paraId: 2102,
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk',
-      OnFinality: 'wss://pichiu.api.onfinality.io/public-ws'
+      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
     },
     text: 'Pichiu',
     ui: {
