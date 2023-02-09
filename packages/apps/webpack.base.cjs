@@ -45,7 +45,12 @@ function createWebpack (context, mode = 'production') {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            require.resolve('css-loader')
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                url: false
+              }
+            }
           ]
         },
         {
@@ -56,38 +61,6 @@ function createWebpack (context, mode = 'production') {
             {
               loader: require.resolve('babel-loader'),
               options: require('@polkadot/dev/config/babel-config-webpack.cjs')
-            }
-          ]
-        },
-        {
-          test: /\.md$/,
-          use: [
-            require.resolve('html-loader'),
-            require.resolve('markdown-loader')
-          ]
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'res.[contenthash].[ext]'
-          }
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'res.[contenthash].[ext]'
-          }
-        },
-        {
-          include: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          use: [
-            {
-              loader: require.resolve('null-loader')
             }
           ]
         }
@@ -116,8 +89,7 @@ function createWebpack (context, mode = 'production') {
             priority: -1 * index,
             test
           }
-        }), {}),
-        name: 'x'
+        }), {})
       }
     },
     output: {
