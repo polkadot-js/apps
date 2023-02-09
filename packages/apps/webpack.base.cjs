@@ -45,7 +45,12 @@ function createWebpack (context, mode = 'production') {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            require.resolve('css-loader')
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                url: false
+              }
+            }
           ]
         },
         {
@@ -56,38 +61,6 @@ function createWebpack (context, mode = 'production') {
             {
               loader: require.resolve('babel-loader'),
               options: require('@polkadot/dev/config/babel-config-webpack.cjs')
-            }
-          ]
-        },
-        {
-          test: /\.md$/,
-          use: [
-            require.resolve('html-loader'),
-            require.resolve('markdown-loader')
-          ]
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'res.[contenthash].[ext]'
-          }
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'res.[contenthash].[ext]'
-          }
-        },
-        {
-          include: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          use: [
-            {
-              loader: require.resolve('null-loader')
             }
           ]
         }
@@ -105,32 +78,34 @@ function createWebpack (context, mode = 'production') {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: [
-          /apps-config[\\/]src[\\/]api[\\/]typesBundle/,
-          /apps-config[\\/]src[\\/]ui[\\/]logos/,
-          /react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/,
-          /node_modules/
-        ].reduce((result, test, index) => ({
+          ['type', /[\\/]packages[\\/]apps-config[\\/]src[\\/]api[\\/]typesBundle/],
+          ['logo', /[\\/]packages[\\/]apps-config[\\/]src[\\/]ui[\\/]logos/],
+          ['robo', /[\\/]packages[\\/]react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/],
+          ['comm', /[\\/]packages[\\/]react-.*[\\/]src[\\/]/],
+          ['page', /[\\/]packages[\\/]page-.*[\\/]src[\\/]/],
+          ['modu', /[\\/]node_modules[\\/]/]
+        ].reduce((result, [name, test], index) => ({
           ...result,
           [`cacheGroup${index}`]: {
             chunks: 'initial',
             enforce: true,
             maxSize: 1_500_000,
             minSize: 0,
+            name,
             priority: -1 * index,
             test
           }
-        }), {}),
-        name: 'x'
+        }), {})
       }
     },
     output: {
       // this is for dynamic imports
-      chunkFilename: 'dyn.[contenthash].js',
+      chunkFilename: 'dyna.[contenthash].js',
       // this is via splitChunks
       filename: ({ chunk: { name } }) =>
         ['main', 'runtime'].includes(name)
-          ? `${name === 'main' ? 'app' : 'run'}.[contenthash].js`
-          : 'mod.[contenthash].js',
+          ? `${name === 'main' ? 'main' : 'load'}.[contenthash].js`
+          : `${name.split('-')[0]}.[contenthash].js`,
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
@@ -157,7 +132,7 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: 'res.[contenthash].css'
+        filename: 'extr.[contenthash].css'
       })
     ].concat(plugins),
     resolve: {
