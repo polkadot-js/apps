@@ -11,10 +11,6 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
-
-const MB = 1024 * 1024;
-
 function createWebpack (context, mode = 'production') {
   const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
@@ -112,7 +108,7 @@ function createWebpack (context, mode = 'production') {
           /node_modules/
         ].reduce((result, test, index) => ({
           ...result,
-          [`cacheGroup${ALPHABET[index]}`]: {
+          [`cacheGroup${index}`]: {
             chunks: 'initial',
             enforce: true,
             maxSize: 1_300_000,
