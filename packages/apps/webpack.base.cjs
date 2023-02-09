@@ -111,7 +111,7 @@ function createWebpack (context, mode = 'production') {
           [`cacheGroup${index}`]: {
             chunks: 'initial',
             enforce: true,
-            maxSize: 1_300_000,
+            maxSize: 1_500_000,
             minSize: 0,
             priority: -1 * index,
             test
