@@ -26,6 +26,7 @@ export { chainsGeminisPNG } from './generated/geminisPNG';
 export { chainsGenshiroSVG } from './generated/genshiroSVG';
 export { chainsGmJPEG } from './generated/gmJPEG';
 export { chainsHydratePNG } from './generated/hydratePNG';
+export { chainsIdiyanaleLogoWhiteSVG } from './generated/idiyanale_logo_whiteSVG';
 export { chainsJurPNG } from './generated/jurPNG';
 export { chainsKaruraSVG } from './generated/karuraSVG';
 export { chainsKicoPNG } from './generated/kicoPNG';
