@@ -7,12 +7,14 @@ import equilibrium from './spec/equilibrium.js';
 import genshiro from './spec/genshiro.js';
 import interbtc from './spec/interbtc.js';
 import subspace from './spec/subspace.js';
+import mangata from './spec/mangata.js';
 
 const mapping: [OverrideBundleDefinition, string[]][] = [
   [equilibrium, ['Equilibrium']],
   [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
   [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain', 'testnet-kintsugi', 'testnet-interlay']],
-  [subspace, ['subspace']]
+  [subspace, ['subspace']],
+  [mangata, ['mangata', 'mangata-parachain']],
 ];
 
 export function applyDerives (typesBundle: OverrideBundleType): OverrideBundleType {
