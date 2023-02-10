@@ -21,7 +21,7 @@ function makeContents (k, contents) {
 }
 
 const all = {};
-const sizes = {};
+const oversized = {};
 
 for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
@@ -48,7 +48,8 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
         if (!mime) {
           throw new Error(`Unable to determine mime for ${file}`);
         } else {
-          const data = `data:${mime};base64,${fs.readFileSync(full).toString('base64')}`;
+          const buf = fs.readFileSync(full);
+          const data = `data:${mime};base64,${buf.toString('base64')}`;
           const k = `${stringCamelCase(`${dir}_${nameParts.join('_')}`)}${ext.toUpperCase()}`;
           const fileprefix = `generated/${nameParts.join('.')}${ext.toUpperCase()}`;
 
@@ -56,7 +57,10 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
 
           result[k] = fileprefix;
           all[k] = data;
-          sizes[k] = data.length;
+
+          if (buf.length > MAX_SIZE) {
+            oversized[k] = buf.length;
+          }
         }
       }
     });
@@ -113,22 +117,23 @@ if (Object.keys(dupes).length) {
     console.log('\t', k.padStart(30), ' >> ', d.join(', '));
   }
 
-  throw new Error(`FATAL: ${errMsg}`);
+  console.log();
+
+  throw new Error(`FATAL: ${errMsg}. Please remove the duplicates.`);
 }
 
-const large = Object
-  .entries(sizes)
-  .sort((a, b) => b[1] - a[1])
-  .filter(([, v]) => v > MAX_SIZE);
+const numOversized = Object.keys(oversized).length;
 
-if (Object.keys(large).length) {
-  const errMsg = `${Object.keys(large).length.toString().padStart(3)} large images found`;
+if (numOversized) {
+  const errMsg = `${numOversized.toString().padStart(3)} files with byte sizes > 48K`;
 
   console.log('\n', errMsg, '::\n');
 
-  large.forEach(([k, v]) =>
-    console.log('\t', k.padStart(30), formatNumber(v).padStart(15))
-  );
+  for (let [k, v] of Object.entries(oversized)) {
+    console.log('\t', k.padStart(30), formatNumber(v).padStart(15), `(+${formatNumber(v - MAX_SIZE)} bytes)`)
+  }
 
-  throw new Error(`FATAL: ${errMsg}`);
+  console.log();
+
+  throw new Error(`FATAL: ${errMsg}. Please resize the images.`);
 }
