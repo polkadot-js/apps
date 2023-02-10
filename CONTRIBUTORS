@@ -270,6 +270,7 @@
        1	crownsterlingllc              	Add Production Crown Sterling blockchain (#6097)
        1	cuardaigh                     	add virto-network parachain to rococo (#7582)
        1	Dan Forbes                    	Add block number to events on explorer page (#2759)
+       1	Daniel Maricic                	add idiyanale to testing relay rococo (#9000)
        1	ddorgan                       	Fix container build (#1456)
        1	ddorgan                       	Initial commit of kubernetes deployment (#616)
        1	Dean                          	mybank.network (#5024)
