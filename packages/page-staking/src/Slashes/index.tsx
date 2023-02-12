@@ -1,16 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import type { Slash, SlashEra } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
-import { BN, formatNumber } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Era from './Era';
@@ -98,11 +98,17 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   );
 
   const eraOpts = useMemo(
-    () => rows.map(({ era }) => ({
-      text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),
-      value: era.toString()
-    })),
-    [rows, t]
+    () => rows
+      .map(({ era }) =>
+        api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
+          ? era
+          : era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE)
+      )
+      .map((era) => ({
+        text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),
+        value: era.toString()
+      })),
+    [api, rows, t]
   );
 
   const councilId = useMemo(
@@ -110,11 +116,15 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     [allAccounts, members]
   );
 
+  const emptyHeader = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('unapplied'), 'start']
+  ]);
+
   if (!rows.length) {
     return (
       <Table
         empty={t<string>('There are no unapplied/pending slashes')}
-        header={[[t('unapplied'), 'start']]}
+        header={emptyHeader.current}
       />
     );
   }

@@ -1,70 +1,137 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import Columar from '../Columar';
 import Body from './Body';
+import Column from './Column';
 import Foot from './Foot';
 import Head from './Head';
+import Row from './Row';
 
-interface TableProps {
-  children: React.ReactNode;
+interface Props {
+  children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
-  header?: [React.ReactNode?, string?, number?, (() => void)?][];
+  header?: ([React.ReactNode?, string?, number?, (() => void)?] | false | null | undefined)[];
+  headerChildren?: React.ReactNode;
   isFixed?: boolean;
   isInline?: boolean;
+  isSplit?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
-  withCollapsibleRows: boolean;
 }
 
-function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode] {
+function extractBody (children: React.ReactNode, isSplit?: boolean): { body: React.ReactNode | React.ReactNode[], bodySplit: [React.ReactNode[], React.ReactNode[]] | null, isEmpty: boolean } {
   if (!Array.isArray(children)) {
-    return [!children, children];
+    return {
+      body: children,
+      bodySplit: null,
+      isEmpty: !children
+    };
   }
 
-  const kids = children.filter((child) => !!child);
-  const isEmpty = kids.length === 0;
+  const body = children.filter((child) => !!child);
+  const isEmpty = body.length === 0;
+  let bodySplit: [React.ReactNode[], React.ReactNode[]] | null = null;
 
-  return [isEmpty, isEmpty ? null : kids];
+  if (!isEmpty && isSplit) {
+    const half = Math.ceil(body.length / 2);
+
+    bodySplit = [
+      body.slice(0, half),
+      body.slice(half)
+    ];
+  }
+
+  return {
+    body: isEmpty || bodySplit
+      ? null
+      : body,
+    bodySplit,
+    isEmpty
+  };
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isInline, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
-  const [isEmpty, bodyChildren] = extractBodyChildren(children);
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, noBodyTag }: Props): React.ReactElement<Props> {
+  const { body, bodySplit, isEmpty } = useMemo(
+    () => extractBody(children, isSplit),
+    [children, isSplit]
+  );
+
+  const headerNode = (
+    <Head
+      filter={filter}
+      header={header}
+      isEmpty={isEmpty}
+    >
+      {headerChildren}
+    </Head>
+  );
+
+  const tableClassName = `${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} ${bodySplit ? 'noMargin' : ''}`;
 
   return (
-    <div className={`ui--Table ${className}`}>
+    <StyledDiv className={`${className} ui--Table ${bodySplit ? 'isSplit' : ''}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
-        <Head
-          filter={filter}
-          header={header}
-          isEmpty={isEmpty}
-        />
-        <Body
-          empty={empty}
-          emptySpinner={emptySpinner}
-          noBodyTag={noBodyTag}
-        >
-          {bodyChildren}
-        </Body>
-        <Foot
-          footer={footer}
-          isEmpty={isEmpty}
-        />
-      </table>
-    </div>
+      {bodySplit
+        ? (
+          <>
+            <table className={tableClassName}>
+              {headerNode}
+            </table>
+            <Columar isPadded={false}>
+              <Columar.Column>
+                <table className={tableClassName}>
+                  <Body>{bodySplit[0]}</Body>
+                </table>
+              </Columar.Column>
+              <Columar.Column>
+                <table className={tableClassName}>
+                  <Body>{bodySplit[1]}</Body>
+                </table>
+              </Columar.Column>
+            </Columar>
+          </>
+        )
+        : (
+          <table className={tableClassName}>
+            {headerNode}
+            <Body
+              empty={empty}
+              emptySpinner={emptySpinner}
+              noBodyTag={noBodyTag}
+            >
+              {body}
+            </Body>
+            <Foot
+              footer={footer}
+              isEmpty={isEmpty}
+            />
+          </table>
+        )
+      }
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Table)`
+const BORDER_RADIUS = '0.5rem';
+const BORDER_SOLID = '1px solid var(--bg-page)';
+
+const StyledDiv = styled.div`
   max-width: 100%;
   width: 100%;
+
+  &.isSplit {
+    > .ui--Columar {
+      margin-bottom: 1.5rem;
+    }
+  }
 
   table {
     border-spacing: 0;
@@ -78,23 +145,14 @@ export default React.memo(styled(Table)`
       table-layout: fixed;
     }
 
-    &:not(.isInline) {
+    &:not(.isInline):not(.noMargin) {
       margin-bottom: 1.5rem;
     }
 
     &.isInline {
-      &.highlight--bg-faint,
-      &.highlight--bg-faint::before {
-        background: transparent;
-      }
-
-      tbody tr {
-        background: transparent;
-
-        td {
-          border-top-width: 1px;
-          padding: 0.25rem 0.75rem;
-        }
+      tbody tr td {
+        border-top-width: 1px;
+        padding: 0.25rem 0.75rem;
       }
     }
 
@@ -125,21 +183,14 @@ export default React.memo(styled(Table)`
         }
       }
     }
+  }
 
-    &.withCollapsibleRows tbody tr {
-      background-color: unset;
+  tbody, thead {
+    position: relative;
+    width: 100%;
 
-      &:nth-child(4n - 2),
-      &:nth-child(4n - 3) {
-        background-color: var(--bg-table);
-      }
-    }
-
-    &:not(.withCollapsibleRows) tbody tr {
-      &.isOdd,
-      &:nth-child(odd):not(.isEven) {
-        background: var(--bg-table);
-      }
+    tr {
+      width: 100%;
     }
   }
 
@@ -147,17 +198,21 @@ export default React.memo(styled(Table)`
     position: relative;
 
     td {
-      border-bottom: 1px solid var(--border-table);
+      background: var(--bg-table);
       padding: 0.5rem 1rem;
       text-align: left;
       vertical-align: middle;
 
+      > article.mark {
+        margin-left: 0rem;
+      }
+
       &:first-child {
-        border-left: 1px solid var(--border-table);
+        border-left: ${BORDER_SOLID};
       }
 
       &:last-child {
-        border-right: 1px solid var(--border-table);
+        border-right: ${BORDER_SOLID};
       }
 
       label {
@@ -166,7 +221,7 @@ export default React.memo(styled(Table)`
       }
 
       div.empty {
-        opacity: 0.6;
+        opacity: var(--opacity-light);
         padding: 0.25rem;
       }
 
@@ -178,8 +233,33 @@ export default React.memo(styled(Table)`
         }
       }
 
+      &.actions {
+        padding-left: 0.35rem;
+        width: 1%;
+
+        > div {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          justify-content: flex-end;
+
+          & > * + * {
+            margin-left: 0.35rem;
+          }
+
+          .ui--Button {
+            white-space: nowrap;
+          }
+        }
+
+        &:not(:last-child) {
+          padding-right: 0;
+        }
+      }
+
       &.address {
-        min-width: 11rem;
+        max-width: 0;
+        min-width: 15rem;
         overflow-x: hidden;
       }
 
@@ -187,8 +267,13 @@ export default React.memo(styled(Table)`
         padding: 0.5rem;
       }
 
+      &.balance {
+        min-width: 20rem;
+        padding: 0.5rem 0 0.75rem;
+      }
+
       &.button {
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.35rem 0.5rem;
         text-align: right;
         white-space: nowrap;
 
@@ -206,8 +291,8 @@ export default React.memo(styled(Table)`
         }
       }
 
-      &.combined {
-        border-top-width: 0;
+      &.chart {
+        padding: 0;
       }
 
       &.expand {
@@ -221,7 +306,19 @@ export default React.memo(styled(Table)`
       }
 
       &.hash {
-        font: var(--font-mono);
+        // we actually want to use 10ch here, however in the
+        // block expand page gives different sizes to the hashes
+        min-width: 7.5rem;
+        white-space: nowrap;
+
+        > .shortHash {
+          max-width: var(--width-shorthash);
+          min-width: 3em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: var(--width-shorthash);
+        }
       }
 
       &.links {
@@ -243,11 +340,19 @@ export default React.memo(styled(Table)`
       }
 
       &.number {
+        font-variant-numeric: tabular-nums;
         text-align: right;
       }
 
       &.relative {
         position: relative;
+
+        .absolute {
+          position: absolute;
+          right: 0.5rem;
+          top: 0.75rem;
+          white-space: nowrap;
+        }
       }
 
       &.overflow {
@@ -267,6 +372,19 @@ export default React.memo(styled(Table)`
 
       &.top {
         vertical-align: top;
+      }
+
+      &.columar {
+        vertical-align: top;
+
+        .ui--Columar .ui--Column {
+          margin: 1rem 0 0.75rem 0;
+          padding: 0;
+
+          * + h5 {
+            margin-top: 1rem;
+          }
+        }
       }
 
       &.middle {
@@ -289,41 +407,75 @@ export default React.memo(styled(Table)`
         text-transform: uppercase;
       }
 
-      &.favorite .ui--Icon.isSelected {
-        color: darkorange;
-      }
-
       .ui--Button-Group .ui--Button:not(.isToplevel) {
         margin: 0;
       }
     }
 
     tr {
-      &:first-child {
+      &:not(.isExpanded) {
         td {
-          border-top: 0.25rem solid var(--bg-page);
-        }
+          border-top: ${BORDER_SOLID};
+          border-bottom: ${BORDER_SOLID};
 
-        td:first-child {
-          border-top-left-radius: 0.25rem;
-        }
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
 
-        td:last-child {
-          border-top-right-radius: 0.25rem;
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
         }
       }
 
-      &:last-child {
+      &.isExpanded {
+        &.isFirst {
+          td {
+            border-top: ${BORDER_SOLID};
+
+            &:first-child {
+              border-top-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-top-right-radius: ${BORDER_RADIUS};
+            }
+          }
+        }
+
+        &.isLast {
+          td {
+            border-bottom: ${BORDER_SOLID};
+
+            &:first-child {
+              border-bottom-left-radius: ${BORDER_RADIUS};
+            }
+
+            &:last-child {
+              border-bottom-right-radius: ${BORDER_RADIUS};
+            }
+          }
+        }
+      }
+
+      &.packedBottom {
         td {
-          border-bottom: 1px solid var(--border-table);
+          padding-bottom: 0;
+        }
+      }
 
-          &:first-child {
-            border-bottom-left-radius: 0.25rem;
-          }
+      &.packedTop {
+        td {
+          padding-top: 0;
+        }
+      }
 
-          :last-child {
-            border-bottom-right-radius: 0.25rem;
-          }
+      &.packedAll {
+        td {
+          padding-bottom: 0;
+          padding-top: 0;
         }
       }
 
@@ -331,17 +483,8 @@ export default React.memo(styled(Table)`
         background: transparent;
       }
 
-      &.noBorder td {
-        border-bottom: 1px solid transparent;
-        padding-bottom: 0 !important;
-      }
-
       &.isCollapsed {
-        visibility: collapse;
-      }
-
-      &.isExpanded {
-        visibility: visible;
+        display: none;
       }
 
       .ui--Button-Group {
@@ -359,4 +502,57 @@ export default React.memo(styled(Table)`
       }
     }
   }
-`);
+
+  thead {
+    tr {
+      &:first-child {
+        th {
+          border-top: ${BORDER_SOLID};
+
+          &:first-child {
+            border-top-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-top-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      &:last-child {
+        th {
+          border-bottom: ${BORDER_SOLID};
+          padding-top: 1rem;
+
+          &:first-child {
+            border-bottom-left-radius: ${BORDER_RADIUS};
+          }
+
+          &:last-child {
+            border-bottom-right-radius: ${BORDER_RADIUS};
+          }
+        }
+      }
+
+      th {
+        &:first-child {
+          border-left: ${BORDER_SOLID};
+        }
+
+        &:last-child {
+          border-right: ${BORDER_SOLID};
+        }
+      }
+    }
+  }
+`;
+
+const Table = React.memo(TableBase) as unknown as typeof TableBase & {
+  Column: typeof Column,
+  Row: typeof Row
+};
+
+Table.Column = Column;
+Table.Row = Row;
+
+export default Table;

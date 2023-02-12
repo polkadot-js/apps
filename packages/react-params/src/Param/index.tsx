@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -18,12 +18,11 @@ function formatJSON (input: string): string {
     .replace(/\\/g, '')
     .replace(/:Null/g, '')
     .replace(/:/g, ': ')
-    // .replace(/{/g, '{ ')
-    // .replace(/}/g, ' }')
-    .replace(/,/g, ', ');
+    .replace(/,/g, ', ')
+    .replace(/^{_alias: {.*}, /, '{');
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isError, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
     [registry, type, overrides]
@@ -38,11 +37,11 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
           ? getTypeDef(registry.createType(type.type).toRawType())
           : type
       );
-      const fmtType = formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${inner}${isDisabled && isInOption ? '>' : ''}`);
+      const fmtType = formatJSON(inner);
 
       return `${isUndefined(name) ? '' : `${name}: `}${fmtType}${type.typeName && !fmtType.includes(type.typeName) ? ` (${type.typeName})` : ''}`;
     },
-    [isDisabled, isInOption, name, registry, type]
+    [name, registry, type]
   );
 
   if (!Component) {
@@ -53,16 +52,16 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
     ? (
       <Static
         defaultValue={defaultValue}
-        label={label}
-        type={type}
+        isOptional
+        label='None'
       />
     )
     : (
       <Component
-        className={`ui--Param ${className}`}
+        className={`${className} ui--Param`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isInOption={isInOption}
+        isError={isError}
         key={`${name || 'unknown'}:${label}`}
         label={label}
         name={name}

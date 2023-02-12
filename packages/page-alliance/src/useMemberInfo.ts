@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { bool, Option, UInt } from '@polkadot/types';
@@ -11,15 +11,17 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
   const { api } = useApi();
   const upForKicking = useCall<bool>(api.query.alliance.upForKicking, [accountId]);
+  const retiringAt = useCall<Option<UInt>>(api.query.alliance.retiringMembers, [accountId]);
   const depositOf = useCall<Option<UInt>>(api.query.alliance.depositOf, [accountId]);
 
   return useMemo(
-    () => upForKicking && depositOf && {
+    () => depositOf && {
       accountId,
       deposit: depositOf.unwrapOr(null),
-      isUpForKicking: upForKicking.isTrue
+      isUpForKicking: upForKicking && upForKicking.isTrue,
+      retiringAt: retiringAt && retiringAt.unwrapOr(null)
     },
-    [accountId, upForKicking, depositOf]
+    [accountId, depositOf, retiringAt, upForKicking]
   );
 }
 

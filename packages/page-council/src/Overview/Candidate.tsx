@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -23,12 +23,11 @@ function Candidate ({ address, balance, className = '', isPrime, voters }: Props
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address all relative'>
         <AddressSmall value={address} />
-      </td>
-      <td>
         {isPrime && (
           <Tag
+            className='absolute'
             color='green'
             hover={t<string>('Current prime member, default voting')}
             label={t<string>('prime voter')}

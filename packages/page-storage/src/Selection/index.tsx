@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParitalQueryTypes, QueryTypes } from '../types';
@@ -40,7 +40,7 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
   ]);
 
   const _onAdd = useCallback(
-    (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id }),
+    (query: ParitalQueryTypes) => onAdd({ ...query, id: ++id }),
     [onAdd]
   );
 

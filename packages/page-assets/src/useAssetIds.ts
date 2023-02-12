@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -29,7 +29,7 @@ function filter (records: EventRecord[]): Changes<u32> {
 
 function useAssetIdsImpl (): u32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.assets.asset, OPT_KEY);
+  const startValue = useMapKeys(api.query.assets.asset, [], OPT_KEY);
 
   return useEventChanges([
     api.events.assets.Created,

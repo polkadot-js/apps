@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import strengthTester from 'owasp-password-strength-test';
@@ -35,7 +35,7 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   const style = { width: `${passwordStrength * 100 / MAX_STRENGTH}%` };
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={{ display: (value ? 'flex' : 'none') }}
     >
@@ -47,15 +47,15 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
         />
       </div>
       {t<string>('strong')}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(PasswordStrength)`
+const StyledDiv = styled.div`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
   color: var(--color-label);
 
@@ -77,4 +77,6 @@ export default React.memo(styled(PasswordStrength)`
     border-radius: 0.15rem;
     background: linear-gradient(90.43deg, #FF8B00 0%, #FFBB50 112.75%);
   }
-`);
+`;
+
+export default React.memo(PasswordStrength);

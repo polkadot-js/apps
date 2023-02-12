@@ -1,18 +1,20 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import Deposit from './Deposit';
+import Deposits from './Deposits';
+import RefEnd from './RefEnd';
+import { unwrapDeposit } from './util';
 
 interface Expanded {
-  decision: Option<PalletReferendaDeposit> | null;
+  decision: PalletReferendaDeposit | null;
   submit: PalletReferendaDeposit | null;
-  when: Date | null;
+  when: BN | null;
 }
 
 function expandTuple (info: Referendum['info']): Expanded {
@@ -26,22 +28,20 @@ function expandTuple (info: Referendum['info']): Expanded {
           ? info.asTimedOut
           : null;
 
-  if (!data) {
-    return {
+  return data
+    ? {
+      decision: unwrapDeposit(data[2]),
+      submit: unwrapDeposit(data[1]),
+      when: data[0]
+    }
+    : {
       decision: null,
       submit: null,
       when: null
     };
-  }
-
-  return {
-    decision: data[2],
-    submit: data[1],
-    when: new Date(data[0].toNumber())
-  };
 }
 
-function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
+function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.ReactElement<Props> {
   const { decision, submit, when } = useMemo(
     () => expandTuple(info),
     [info]
@@ -49,22 +49,23 @@ function Tuple ({ value: { info } }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='all' />
-      <Deposit
-        decision={decision}
-        submit={submit}
-      />
       <td
-        className='number'
-        colSpan={2}
-      >
-        {when && (
-          when.toUTCString()
-        )}
-      </td>
-      <td className='number'>
-        {info.type}
-      </td>
+        className='all'
+        colSpan={4}
+      />
+      <Deposits
+        canRefund
+        decision={decision}
+        id={id}
+        noMedia
+        palletReferenda={palletReferenda}
+        submit={submit}
+        track={track}
+      />
+      <RefEnd
+        label={info.type}
+        when={when}
+      />
     </>
   );
 }

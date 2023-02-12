@@ -1,40 +1,53 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, Referendum } from './types';
+import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import useReferendaIds from './useReferendaIds';
-
-const ORDER = <const> ['Ongoing', 'Approved', 'Rejected', 'Cancelled', 'Killed', 'TimedOut'];
-
-function isConvictionVote (info: Referendum['info']): info is PalletReferendaReferendumInfoConvictionVotingTally {
-  return info.isOngoing && !(info as PalletReferendaReferendumInfoRankedCollectiveTally).asOngoing.tally.bareAyes && !!(info as PalletReferendaReferendumInfoConvictionVotingTally).asOngoing.tally.support;
-}
+import useTracks from './useTracks';
+import { calcDecidingEnd, getTrackName, isConvictionVote } from './util';
 
 function sortOngoing (a: Referendum, b: Referendum): number {
-  return a.info.asOngoing.track.cmp(b.info.asOngoing.track) || a.id.cmp(b.id);
+  const ao = a.info.asOngoing;
+  const bo = b.info.asOngoing;
+
+  return ao.track.cmp(bo.track) || (
+    ao.deciding.isSome === bo.deciding.isSome
+      ? ao.deciding.isSome
+        ? a.info.asOngoing.deciding.unwrap().since.cmp(
+          b.info.asOngoing.deciding.unwrap().since
+        )
+        : 0
+      : ao.deciding.isSome
+        ? -1
+        : 1
+  );
 }
 
-function sortOther (a: Referendum, b: Referendum): number {
-  const idxa = ORDER.indexOf(a.info.type);
-  const idxb = ORDER.indexOf(b.info.type);
-
+function sortReferenda (a: Referendum, b: Referendum): number {
   return (
-    idxa === idxb
-      ? 0
-      : idxa === -1
-        ? 1
-        : idxb === -1
-          ? -1
-          : idxa - idxb
-  ) || a.id.cmp(b.id);
+    a.info.isOngoing === b.info.isOngoing
+      ? a.info.isOngoing
+        ? sortOngoing(a, b)
+        : 0
+      : a.info.isOngoing
+        ? -1
+        : 1
+  ) || b.id.cmp(a.id);
+}
+
+function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
+  return a.trackId && b.trackId
+    ? a.trackId.cmp(b.trackId)
+    : a.trackId
+      ? -1
+      : 1;
 }
 
 const OPT_MULTI = {
@@ -51,29 +64,97 @@ const OPT_MULTI = {
         info,
         isConvictionVote: isConvictionVote(info),
         key: id.toString()
-      }))
-      .sort((a, b) =>
-        a.info.isOngoing === b.info.isOngoing
-          ? a.info.isOngoing
-            ? sortOngoing(a, b)
-            : sortOther(a, b)
-          : a.info.isOngoing
-            ? -1
-            : 1
-      ),
+      })),
   withParamsTransform: true
 };
 
-function useReferendaImpl (palletReferenda: PalletReferenda): Referendum[] | undefined {
+function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Referendum[]): ReferendaGroup[] {
+  if (!referenda || !totalIssuance) {
+    // return an empty group when we have no referenda
+    return [{ key: 'empty' }];
+  } else if (!tracks) {
+    // if we have no tracks, we just return the referenda sorted
+    return [{ key: 'referenda', referenda: referenda.sort(sortReferenda) }];
+  }
+
+  const grouped: ReferendaGroupKnown[] = [];
+  const other: ReferendaGroupKnown = { key: 'referenda', referenda: [] };
+
+  // sort the referenda by track inside groups
+  for (let i = 0; i < referenda.length; i++) {
+    const ref = referenda[i];
+
+    // only ongoing have tracks
+    const trackInfo = ref.info.isOngoing
+      ? tracks.find(({ id }) => id.eq(ref.info.asOngoing.track))
+      : undefined;
+
+    if (trackInfo) {
+      ref.trackGraph = trackInfo.graph;
+      ref.trackId = trackInfo.id;
+      ref.track = trackInfo.info;
+
+      if (ref.isConvictionVote && ref.info.isOngoing) {
+        const { deciding, tally } = ref.info.asOngoing;
+
+        if (deciding.isSome) {
+          const { since } = deciding.unwrap();
+
+          ref.decidingEnd = calcDecidingEnd(totalIssuance, tally, trackInfo.info, since);
+        }
+      }
+
+      const group = grouped.find(({ track }) => ref.track === track);
+
+      if (!group) {
+        // we don't have a group as of yet, create one
+        grouped.push({
+          key: `track:${ref.trackId.toString()}`,
+          referenda: [ref],
+          track: ref.track,
+          trackGraph: ref.trackGraph,
+          trackId: ref.trackId,
+          trackName: getTrackName(ref.trackId, ref.track)
+        });
+      } else {
+        // existing group, just add the referendum
+        group.referenda.push(ref);
+      }
+    } else {
+      // if we have no track, we just add it to "other"
+      other.referenda.push(ref);
+    }
+  }
+
+  // if we do have items in "other", we add it (or if none, then empty other)
+  if ((other.referenda && other.referenda.length !== 0) || !grouped.length) {
+    grouped.push(other);
+  }
+
+  // sort referenda per group
+  for (let i = 0; i < grouped.length; i++) {
+    grouped[i].referenda.sort(sortReferenda);
+  }
+
+  // sort all groups
+  return grouped.sort(sortGroups);
+}
+
+function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], TrackDescription[]] {
   const { api, isApiReady } = useApi();
+  const totalIssuance = useCall<BN>(isApiReady && api.query.balances.totalIssuance);
   const ids = useReferendaIds(palletReferenda);
-  const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda].referendumInfoFor.multi, [ids], OPT_MULTI);
+  const tracks = useTracks(palletReferenda);
+  const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda as 'referenda'].referendumInfoFor.multi, [ids], OPT_MULTI);
 
   return useMemo(
-    () => ids && ids.length === 0
-      ? []
-      : referenda,
-    [ids, referenda]
+    () => [
+      (ids && ids.length === 0)
+        ? [{ key: 'referenda', referenda: [] }]
+        : group(tracks, totalIssuance, referenda),
+      tracks
+    ],
+    [ids, referenda, totalIssuance, tracks]
   );
 }
 

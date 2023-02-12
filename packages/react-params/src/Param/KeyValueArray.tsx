@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
@@ -50,7 +50,7 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
 
@@ -101,6 +101,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
                 name={keyHex}
                 onEnter={onEnter}
                 onEscape={onEscape}
+                registry={registry}
                 type={BYTES_TYPE}
               />
             );

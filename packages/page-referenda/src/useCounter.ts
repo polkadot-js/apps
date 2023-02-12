@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferenda } from './types';
@@ -10,11 +10,18 @@ import { createNamedHook } from '@polkadot/react-hooks';
 import useReferenda from './useReferenda';
 
 export function useCounterNamed (palletReferenda: PalletReferenda): number {
-  const refs = useReferenda(palletReferenda);
+  const [grouped] = useReferenda(palletReferenda);
 
   return useMemo(
-    () => (refs && refs.filter(({ info }) => info.isOngoing).length) || 0,
-    [refs]
+    () => grouped
+      ? grouped.reduce((total, { referenda }) =>
+        total + (
+          referenda
+            ? referenda.filter(({ info }) => info.isOngoing).length
+            : 0
+        ), 0)
+      : 0,
+    [grouped]
   );
 }
 

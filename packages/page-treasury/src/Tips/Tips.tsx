@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -61,7 +61,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
     [hashes, tipsWithHashes]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('tips'), 'start'],
     [t('finder'), 'address media--1400'],
     [t('reason'), 'start'],
@@ -73,7 +73,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   ]);
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={tips && t<string>('No open tips')}
       filter={isMember && (
@@ -100,11 +100,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
           tip={tip}
         />
       ))}
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Tips)`
+const StyledTable = styled(Table)`
   .tipsFilter {
     text-align: right;
 
@@ -113,4 +113,6 @@ export default React.memo(styled(Tips)`
       margin-top: 0.75rem;
     }
   }
-`);
+`;
+
+export default React.memo(Tips);

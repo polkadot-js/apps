@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-config authors & contributors
+// Copyright 2017-2023 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -17,7 +17,11 @@ interface InflationParams {
 const DEFAULT_PARAMS: InflationParams = {
   auctionAdjust: 0,
   auctionMax: 0,
+  // 5% for falloff, as per the defaults, see
+  // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L534
   falloff: 0.05,
+  // 10% max, 0.25% min, see
+  // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L523
   maxInflation: 0.1,
   minInflation: 0.025,
   stakeTarget: 0.5

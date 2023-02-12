@@ -1,12 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+
 import FileSaver from 'file-saver';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
-import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
+import { Badge, Button, CopyButton, Icon, Table } from '@polkadot/react-components';
+import { useQueue } from '@polkadot/react-hooks';
 
 import { useFiles } from './hooks';
 import { useTranslation } from './translate';
@@ -35,7 +37,7 @@ const ItemFile = styled.tr`
 
 const shortStr = (name: string, count = 6): string => {
   if (name.length > (count * 2)) {
-    return `${name.substr(0, count)}...${name.substr(name.length - count)}`;
+    return `${name.substring(0, count)}...${name.substring(name.length - count)}`;
   }
 
   return name;
@@ -62,7 +64,7 @@ export interface Props {
 
 function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { queueAction } = useContext<QueueProps>(StatusContext);
+  const { queueAction } = useQueue();
   const [showUpMode, setShowUpMode] = useState(false);
   const wFiles = useFiles();
   const [file, setFile] = useState<FileInfo | undefined>(undefined);
@@ -212,10 +214,11 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const _export = useCallback(() => {
     const blob = new Blob([JSON.stringify(wFiles.files)], { type: 'application/json; charset=utf-8' });
 
+    // eslint-disable-next-line deprecation/deprecation
     FileSaver.saveAs(blob, 'files.json');
   }, [wFiles]);
 
-  return <main className={className}>
+  return <StyledMain className={className}>
     <header></header>
     <input
       onChange={_onInputFile}
@@ -352,10 +355,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     <div>
       {t('Note: The file list is cached locally, switching browsers or devices will not keep displaying the original browser information.')}
     </div>
-  </main>;
+  </StyledMain>;
 }
 
-export default React.memo(styled(CrustFiles)`
+const StyledMain = styled.main`
   h1 {
     text-transform: unset !important;
   }
@@ -395,4 +398,6 @@ export default React.memo(styled(CrustFiles)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(CrustFiles);

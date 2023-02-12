@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer } from '@polkadot/api/types';
@@ -11,7 +11,7 @@ import { createAuthIpfsEndpoints } from '@polkadot/apps-config';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import Progress from './Progress';
 import { useTranslation } from './translate';
@@ -133,14 +133,14 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
   const unLock = useCallback(() => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      nextTick((): void => {
         try {
           currentPair.decodePkcs8(password);
           resolve(1);
         } catch (error) {
           reject(error);
         }
-      }, 0);
+      });
     });
   }, [currentPair, password]);
 
@@ -275,7 +275,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
   }, [pinEndpoints, setCurrentPinEndpoint]);
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Upload File')}
       onClose={_onClose}
@@ -296,7 +296,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         </Modal.Columns>
         <Modal.Columns>
           <Dropdown
-            help={t<string>('File streaming and wallet authentication will be processed by the chosen gateway.')}
             isDisabled={isBusy}
             label={t<string>('Select a Web3 IPFS Gateway')}
             onChange={_onChangeGateway}
@@ -306,7 +305,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         </Modal.Columns>
         <Modal.Columns>
           <Dropdown
-            help={t<string>('Your file will be pinned to IPFS for long-term storage.')}
             isDisabled={true}
             label={t<string>('Select a Web3 IPFS Pinner')}
             onChange={_onChangePinner}
@@ -331,7 +329,6 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
           {
             !upState.up && isLocked && !isInjected &&
             <Password
-              help={t<string>('The account\'s password specified at the creation of this account.')}
               isError={false}
               label={t<string>('password')}
               onChange={setPassword}
@@ -356,11 +353,11 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
           onClick={_onClickUp}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(UploadModal)`
+const StyledModal = styled(Modal)`
   .files {
     max-height: 300;
     overflow: auto;
@@ -380,4 +377,6 @@ export default React.memo(styled(UploadModal)`
     margin-top: 2rem;
     width: calc(100% - 2rem);
   }
-`);
+`;
+
+export default React.memo(UploadModal);

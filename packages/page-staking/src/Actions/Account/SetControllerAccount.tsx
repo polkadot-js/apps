@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -43,7 +43,6 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
         <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
           <InputAddress
             defaultValue={defaultControllerId}
-            help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
             label={t<string>('controller account')}
             onChange={setControllerId}
             type='account'

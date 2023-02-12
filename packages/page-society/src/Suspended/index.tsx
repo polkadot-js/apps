@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -52,12 +52,12 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
   const headerRef = useRef({
     candidates: [
       [t('candidates'), 'start'],
-      [t('bid kind'), 'start', 2],
+      [t('bid kind'), 'start'],
       [t('value')]
-    ],
+    ] as [React.ReactNode?, string?, number?][],
     members: [
-      [t('members'), 'start']
-    ]
+      [t('members'), 'start', 3]
+    ] as [React.ReactNode?, string?, number?][]
   });
 
   return (

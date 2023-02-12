@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
@@ -33,7 +33,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
   const { api } = useApi();
   const votes = useCall<VoteType[]>(api.derive.society.members, undefined, OPT_VOTES);
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('defender'), 'start'],
     [undefined, 'expand'],
     []

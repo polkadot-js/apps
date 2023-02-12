@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -173,6 +173,7 @@ function createWebpack (context, mode = 'production') {
       fallback: {
         assert: require.resolve('assert/'),
         crypto: require.resolve('crypto-browserify'),
+        fs: false,
         http: require.resolve('stream-http'),
         https: require.resolve('https-browserify'),
         os: require.resolve('os-browserify/browser'),

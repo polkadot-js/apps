@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfo } from './types';
@@ -37,17 +37,17 @@ function MonthDay ({ className = '', dateMonth, day, isCurrent, isDisabled, sche
   );
 
   return (
-    <div
-      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--color isSelected' : '')} ${className}`}
+    <StyledDiv
+      className={`${className} day ${isDisabled ? 'isDisabled' : (isCurrent ? 'highlight--bg-light highlight--color isSelected' : '')}`}
       onClick={_onClick}
     >
       {day}
       {hasEvents && <div className='eventIndicator highlight--border' />}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(MonthDay)`
+const StyledDiv = styled.div`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
@@ -90,4 +90,6 @@ export default React.memo(styled(MonthDay)`
       display: none;
     }
   }
-`);
+`;
+
+export default React.memo(MonthDay);

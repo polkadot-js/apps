@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyApi } from './hooks/useBounties';
@@ -27,7 +27,7 @@ function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, c
   );
 
   return (
-    <SummaryBox className={`ui--BountySummary ${className}`}>
+    <SummaryBox className={`${className} ui--BountySummary`}>
       <section>
         {bounties && (
           <CardSummary label={t<string>('active')}>

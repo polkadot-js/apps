@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -32,7 +32,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
 
 function useHashesImpl (): HexString[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.whitelist.whitelistedCall, OPT_HASH);
+  const startValue = useMapKeys(api.query.whitelist.whitelistedCall, [], OPT_HASH);
   const hashes = useEventChanges([
     api.events.whitelist.CallWhitelisted,
     api.events.whitelist.WhitelistedCallRemoved

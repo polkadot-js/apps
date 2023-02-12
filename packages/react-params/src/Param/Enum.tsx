@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -8,10 +8,10 @@ import React, { useCallback, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
+import { isObject } from '@polkadot/util';
 
 import Params from '../';
 import Bare from './Bare';
-import Static from './Static';
 
 interface Option {
   text?: string;
@@ -51,12 +51,16 @@ function getInitial (defaultValue: RawParam, options: Option[]): Initial {
     initialEnum: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
-        : Object.keys(defaultValue.value as Record<string, unknown>)[0]
+        : isObject(defaultValue.value)
+          ? Object.keys(defaultValue.value as Record<string, unknown>)[0]
+          : options[0] && options[0].value
       : options[0] && options[0].value,
     initialParams: defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? [{ isValid: true, value: defaultValue.value.inner }]
-        : undefined
+        : isObject(defaultValue.value)
+          ? [{ isValid: true, value: (defaultValue.value as Record<string, unknown>)[Object.keys(defaultValue.value as Record<string, unknown>)[0]] }]
+          : undefined
       : undefined
   };
 }
@@ -77,6 +81,10 @@ function EnumParam (props: Props): React.ReactElement<Props> {
 
   const _onChange = useCallback(
     (value: string): void => {
+      if (isDisabled) {
+        return;
+      }
+
       const newType = subTypes.find(({ name }) => name === value) || null;
 
       setCurrent(
@@ -95,22 +103,22 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         );
       }
     },
-    [subTypes]
+    [isDisabled, subTypes]
   );
 
   const _onChangeParam = useCallback(
     ([{ isValid, value }]: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       current && onChange && onChange({
         isValid,
         value: { [current[0].name as string]: value }
       });
     },
-    [current, onChange]
+    [current, isDisabled, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <Bare className={className}>
@@ -127,6 +135,8 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isDisabled={isDisabled}
+          isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}

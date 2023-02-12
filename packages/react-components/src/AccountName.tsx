@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -8,11 +8,10 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
+import { AccountSidebarCtx } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/util-crypto';
 
 import Badge from './Badge';
 import { getAddressName } from './util';
@@ -25,7 +24,7 @@ interface Props {
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
-  toggle?: boolean;
+  toggle?: unknown;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
   withSidebar?: boolean;
 }
@@ -55,7 +54,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
   return (addr: unknown): string | null => {
     const u8a = isCodec(addr)
       ? addr.toU8a()
-      : decodeAddress(addr as string);
+      : registry.createType('AccountId', addr as string).toU8a();
 
     return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
       ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${add ? ` (${add})` : ''}`
@@ -66,7 +65,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
 const MATCHERS: AddrMatcher[] = [
   createAllMatcher('modlpy/socie', 'Society'),
   createAllMatcher('modlpy/trsry', 'Treasury'),
-  createAllMatcher('modlpy/anchr', 'Anchor'),
+  createAllMatcher('modlpy/xcmch', 'XCM'),
   createNumMatcher('modlpy/cfund', 'Crowdloan'),
 
   // Substrate master
@@ -75,7 +74,8 @@ const MATCHERS: AddrMatcher[] = [
   // Westend
   createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
-  createNumMatcher('para', 'Parachain')
+  createNumMatcher('para', 'Parachain'),
+  createNumMatcher('sibl', 'Sibling')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
@@ -125,7 +125,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       {isSpecial && (
         <Badge
           color='green'
@@ -134,20 +134,20 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
         />
       )}
       <span className={`name${(isLocal || isSpecial) ? ' isLocal' : (isAddress ? ' isAddress' : '')}`}>{displayName}</span>
-    </div>
+    </span>
   );
 }
 
 function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray', icon: IconName): React.ReactNode {
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       <Badge
         color={color}
         icon={icon}
         isSmall
       />
       {nameElem}
-    </div>
+    </span>
   );
 }
 
@@ -181,7 +181,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   const api = useSystemApi();
   const info = useDeriveAccountInfo(value);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
-  const toggleSidebar = useContext(AccountSidebarToggle);
+  const toggleSidebar = useContext(AccountSidebarCtx);
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
@@ -216,8 +216,8 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 
   return (
-    <div
-      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
+    <StyledSpan
+      className={`${className}  ui--AccountName ${withSidebar ? 'withSidebar' : ''}`}
       data-testid='account-name'
       onClick={
         withSidebar
@@ -226,14 +226,13 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       }
     >
       {label || ''}{override || name}{children}
-    </div>
+    </StyledSpan>
   );
 }
 
-export default React.memo(styled(AccountName)`
-  align-items: center;
+const StyledSpan = styled.span`
   border: 1px dotted transparent;
-  display: inline-flex;
+  line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -243,17 +242,12 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: center;
-    display: inline-flex;
-    width: 100%;
+    word-break: break-all;
 
     .name {
-      align-items: center;
-      display: inline-flex;
       font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;
-      opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
 
@@ -262,13 +256,12 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font: var(--font-mono);
+        display: inline-block;
+        min-width: var(--width-shortaddr);
+        max-width: var(--width-shortaddr);
+        opacity: var(--opacity-light);
         text-transform: none;
-      }
-
-      &.isGood,
-      &.isLocal {
-        opacity: 1;
+        white-space: nowrap;
       }
 
       .sub,
@@ -277,9 +270,11 @@ export default React.memo(styled(AccountName)`
       }
 
       .sub {
-        font-size: 0.75rem;
-        opacity: 0.75;
+        font-size: var(--font-size-tiny);
+        opacity: var(--opacity-light);
       }
     }
   }
-`);
+`;
+
+export default React.memo(AccountName);
