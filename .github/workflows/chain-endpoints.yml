@@ -5,7 +5,7 @@ on:
 
 jobs:
   types:
-    if: (github.event_name == 'schedule' && github.repository == 'polkadot-js/apps') || (github.event_name != 'schedule')
+    if: github.repository == 'polkadot-js/apps'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
