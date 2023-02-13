@@ -6,9 +6,11 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';
+import { useTranslation } from './translate';
 
 export interface Props {
   bonded?: BN | BN[];
@@ -20,13 +22,15 @@ export interface Props {
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
   const { bonded, className = '', label, params } = props;
+  const { t } = useTranslation();
+  const isDarwiniaPower = rpcNetwork.isDarwinia();
 
   if (!params) {
     return null;
   }
 
   return bonded
-    ? <>{renderProvided({ className, label, value: bonded })}</>
+    ? <>{renderProvided({ className, isDarwiniaPower, label, powerUnit: t('power', 'power'), value: bonded })}</>
     : (
       <Bonded
         className={`${className} ui--Bonded`}

@@ -7,6 +7,7 @@ import type { AmountValidateState } from '../types';
 import React, { useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
@@ -22,11 +23,17 @@ interface Props {
   stashId: string;
 }
 
-function calcBalance (api: ApiPromise, stakingInfo?: DeriveStakingAccount, stashBalance?: DeriveBalancesAll): BN | null {
+function calcBalance (api: ApiPromise, stakingInfo?: DeriveStakingAccount, stashBalance?: DeriveBalancesAll, isDarwinia?: boolean): BN | null {
   if (stakingInfo && stakingInfo.stakingLedger && stashBalance) {
     const sumUnlocking = (stakingInfo.unlocking || []).reduce((acc, { value }) => acc.iadd(value), new BN(0));
     const redeemable = stakingInfo.redeemable || BN_ZERO;
-    const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active?.unwrap() || BN_ZERO).sub(sumUnlocking).sub(redeemable);
+    let available;
+
+    if (isDarwinia) {
+      available = stashBalance.freeBalance.sub(stashBalance.lockedBalance);
+    } else {
+      available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active?.unwrap() || BN_ZERO).sub(sumUnlocking).sub(redeemable);
+    }
 
     return available.gt(api.consts.balances.existentialDeposit)
       ? available.sub(api.consts.balances.existentialDeposit)
@@ -46,11 +53,24 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
     () => stakingInfo && stakingInfo.stakingLedger?.active?.unwrap(),
     [stakingInfo]
   );
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const startBalance = useMemo(
-    () => calcBalance(api, stakingInfo, stashBalance),
-    [api, stakingInfo, stashBalance]
+    () => calcBalance(api, stakingInfo, stashBalance, isDarwinia),
+    [api, isDarwinia, stakingInfo, stashBalance]
   );
+
+  const getDarwiniaQueryParams = () => {
+    /* Default promise months to zero since the user has no option to change the number of
+    * months that he wants to freeze his tokens like the way it is for the Darwinia Apps website */
+    const promiseMonths = 0;
+
+    if (!maxAdditional) {
+      return [{ ringbalance: '0' }, promiseMonths];
+    }
+
+    return [{ ringbalance: maxAdditional?.toString() }, promiseMonths];
+  };
 
   return (
     <Modal
@@ -98,7 +118,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           isDisabled={!maxAdditional?.gt(BN_ZERO) || !!amountError?.error}
           label={t<string>('Bond more')}
           onStart={onClose}
-          params={[maxAdditional]}
+          params={isDarwinia ? getDarwiniaQueryParams() : [maxAdditional]}
           tx={api.tx.staking.bondExtra}
         />
       </Modal.Actions>

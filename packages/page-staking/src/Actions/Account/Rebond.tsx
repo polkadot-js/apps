@@ -5,8 +5,10 @@ import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useMemo, useState } from 'react';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
+import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -24,13 +26,38 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
   const { t } = useTranslation();
   const { api } = useApi();
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
+  const currentBlock = useBestNumber();
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const startBalance = useMemo(
-    () => stakingInfo && stakingInfo.unlocking
-      ? stakingInfo.unlocking.reduce((total, { value }) => total.iadd(value), new BN(0))
-      : BN_ZERO,
-    [stakingInfo]
+    () => {
+      if (isDarwinia) {
+        if (!stakingInfo || !stakingInfo.stakingLedger || !currentBlock) {
+          return BN_ZERO;
+        }
+
+        const darwiniaStakingLedger = stakingInfo.stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+        const unbondings = darwiniaStakingLedger.ringStakingLock.unbondings.filter((item) => item.until.gt(currentBlock));
+
+        return unbondings.reduce((accumulator, item) => accumulator.add(item.amount), BN_ZERO);
+      }
+
+      return stakingInfo && stakingInfo.unlocking
+        ? stakingInfo.unlocking.reduce((total, { value }) => total.iadd(value), new BN(0))
+        : BN_ZERO;
+    },
+    [currentBlock, isDarwinia, stakingInfo]
   );
+
+  const getDarwiniaQueryParams = () => {
+    const ktonBalance = BN_ZERO;
+
+    if (!maxAdditional) {
+      return [BN_ZERO, ktonBalance];
+    }
+
+    return [maxAdditional, ktonBalance];
+  };
 
   return (
     <Modal
@@ -62,7 +89,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
           isDisabled={!maxAdditional || maxAdditional.isZero() || !startBalance || maxAdditional.gt(startBalance)}
           label={t<string>('Rebond')}
           onStart={onClose}
-          params={[maxAdditional]}
+          params={isDarwinia ? getDarwiniaQueryParams() : [maxAdditional]}
           tx={api.tx.staking.rebond}
         />
       </Modal.Actions>

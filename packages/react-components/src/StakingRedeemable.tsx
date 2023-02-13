@@ -3,13 +3,16 @@
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { SlashingSpans } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
+import type { BlockNumber, SlashingSpans } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
+import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
+import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import TxButton from './TxButton';
@@ -18,6 +21,7 @@ interface DeriveStakingAccountPartial {
   controllerId: DeriveStakingAccount['controllerId'] | string;
   stashId: DeriveStakingAccount['stashId'] | string;
   redeemable?: BN;
+  stakingLedger?: PalletStakingStakingLedger | DarwiniaStakingStructsStakingLedger;
 }
 
 interface Props {
@@ -33,11 +37,23 @@ const OPT_SPAN = {
       : optSpans.unwrap().prior.length + 1
 };
 
+const getDarwiniaRedeemableBalance = (stakingLedger: DarwiniaStakingStructsStakingLedger, bestNumber: BlockNumber): BN => {
+  const unbonded = stakingLedger.ringStakingLock.unbondings.filter((item) => bestNumber.gte(item.until));
+
+  return unbonded.reduce((accumulator, item) => accumulator.add(item.amount), new BN(0));
+};
+
 function StakingRedeemable ({ className = '', isPool, stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
   const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], OPT_SPAN);
+  const isDarwinia = rpcNetwork.isDarwinia();
+  const bestNumber = useBestNumber();
+
+  if (isDarwinia && stakingInfo && stakingInfo.stakingLedger && bestNumber) {
+    stakingInfo.redeemable = getDarwiniaRedeemableBalance(stakingInfo.stakingLedger as DarwiniaStakingStructsStakingLedger, bestNumber);
+  }
 
   if (!stakingInfo?.redeemable?.gtn(0)) {
     return null;

@@ -18,3 +18,18 @@ export function balanceToNumber (amount: BN | ToBN = BN_ZERO, divisor: BN): numb
 
   return value.mul(BN_THOUSAND).div(divisor).toNumber() / 1000;
 }
+
+export const formatDarwiniaPower = (power: BN| undefined, unit?: string): string => {
+  if (!power) {
+    return '';
+  }
+
+  console.log();
+
+  const powerUnit = unit || '';
+  const firstLetter = powerUnit.substring(0, 1).toUpperCase();
+  const capitalizedUnit = `${firstLetter}${powerUnit.substring(1, powerUnit.length)}`;
+  const formattedPower = power.toNumber().toLocaleString("en-US",{maximumFractionDigits: 0})
+
+  return `${formattedPower} ${capitalizedUnit}`;
+};

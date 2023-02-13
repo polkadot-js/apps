@@ -9,7 +9,9 @@ import type { SortedTargets } from '../types';
 
 import React, { useMemo, useRef, useState } from 'react';
 
+import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Button, ToggleGroup } from '@polkadot/react-components';
+import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
 import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
@@ -53,7 +55,7 @@ function sortStashes (a: StakerState, b: StakerState): number {
   return assignValue(a) - assignValue(b);
 }
 
-function extractState (ownStashes?: StakerState[]): State {
+function extractState (ownStashes?: StakerState[], isDarwinia?: boolean): State {
   if (!ownStashes) {
     return {};
   }
@@ -64,9 +66,23 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger && stakingLedger.total
-      ? stakingLedger.total.unwrap()
-      : BN_ZERO;
+    let value;
+
+    if (isDarwinia && stakingLedger) {
+      const darwiniaStakingLedger = stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
+      /* calculate total bonded RING */
+      const allStakingRing = (darwiniaStakingLedger.active || darwiniaStakingLedger.activeRing || BN_ZERO).toBn();
+      const lockedRing = (darwiniaStakingLedger.activeDepositRing?.unwrap() || BN_ZERO);
+      const bondedRing = allStakingRing.sub(lockedRing);
+
+      const unbondingAndUnbonded = darwiniaStakingLedger.ringStakingLock.unbondings.reduce((accumulator, item) => accumulator.add(item.amount), new BN(0));
+
+      value = unbondingAndUnbonded.add(bondedRing);
+    } else {
+      value = stakingLedger && stakingLedger.total
+        ? stakingLedger.total.unwrap()
+        : BN_ZERO;
+    }
 
     bondedTotal.iadd(value);
 
@@ -121,6 +137,7 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   const allSlashes = useAvailableSlashes();
   const [accTypeIndex, setAccTypeIndex] = useState(0);
   const [stashTypeIndex, setStashTypeIndex] = useState(0);
+  const isDarwinia = rpcNetwork.isDarwinia();
 
   const accTypes = useRef([
     { text: t<string>('Stashed'), value: 'stash' },
@@ -135,8 +152,8 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   ]);
 
   const state = useMemo(
-    () => extractState(ownStashes),
-    [ownStashes]
+    () => extractState(ownStashes, isDarwinia),
+    [isDarwinia, ownStashes]
   );
 
   const [filtered, footer] = useMemo(
@@ -170,16 +187,22 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
               options={stashTypes.current}
               value={stashTypeIndex}
             />
-            <NewNominator
-              isInElection={isInElection}
-              targets={targets}
-            />
-            <NewValidator
-              isInElection={isInElection}
-              minCommission={minCommission}
-              targets={targets}
-            />
-            <NewStash />
+            {
+              !isDarwinia && (
+                <>
+                  <NewNominator
+                    isInElection={isInElection}
+                    targets={targets}
+                  />
+                  <NewValidator
+                    isInElection={isInElection}
+                    minCommission={minCommission}
+                    targets={targets}
+                  />
+                  <NewStash />
+                </>
+              )
+            }
           </>
         )}
       </Button.Group>
