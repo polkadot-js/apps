@@ -73,7 +73,6 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/astar',
       RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/polkadot/astar'
     },
@@ -601,7 +600,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://statemint-rpc.polkadot.io',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemint',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
@@ -655,7 +653,6 @@ export const prodRelayPolkadot: EndpointOption = {
     'IBP Network': 'wss://rpc.ibp.network/polkadot',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Parity: 'wss://rpc.polkadot.io',
-    Pinknode: 'wss://public-rpc.pinknode.io/polkadot',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     'light client': 'light://substrate-connect/polkadot'
   },
