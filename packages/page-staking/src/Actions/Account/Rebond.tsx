@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -75,7 +75,6 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
             <InputBalance
               autoFocus
               defaultValue={startBalance}
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the funds currently unlocking.')}
               isError={!maxAdditional || maxAdditional.eqn(0) || maxAdditional.gt(startBalance)}
               label={t<string>('rebonded amount')}
               onChange={setMaxAdditional}

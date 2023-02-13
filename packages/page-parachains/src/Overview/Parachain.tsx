@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
@@ -8,7 +8,7 @@ import type { EventMapInfo, ValidatorInfo } from './types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
@@ -89,29 +89,39 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   }, [paraInfo, sessionValidators]);
 
   return (
-    <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'><ParaLink id={id} /></td>
-      <td className='number media--1400'>
-        {validators && validators[1].length !== 0 && (
-          <Expander
-            renderChildren={valRender}
-            summary={t<string>('Val. Group {{group}} ({{count}})', {
-              replace: {
-                count: formatNumber(validators[1].length),
-                group: validators[0]
-              }
-            })}
-          />
-        )}
-        {nonBacked && (
-          <Expander
-            renderChildren={bckRender}
-            summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
-          />
-        )}
+    <StyledTr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
+      <Table.Column.Id value={id} />
+      <td className='badge together'>
+        {paraInfo.paraInfo?.locked?.isFalse
+          ? (
+            <Badge
+              color='orange'
+              icon='unlock'
+            />
+          )
+          : <Badge color='transparent' />
+        }
+        <ParaLink id={id} />
       </td>
-      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='number media--1400'>
+        <Expander
+          className={validators ? '' : '--tmp'}
+          renderChildren={valRender}
+          summary={t<string>('Val. Group {{group}} ({{count}})', {
+            replace: {
+              count: formatNumber(validators?.[1]?.length || 0),
+              group: validators ? validators[0] : 0
+            }
+          })}
+        />
+        <Expander
+          renderChildren={bckRender}
+          summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
+        />
+      </td>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{paraInfo.headHex}</div>
+      </td>
       <td className='start'>
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (
@@ -137,12 +147,12 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number no-pad-left media--800'>
+      <td className='number no-pad-left media--900'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
-      <td className='number no-pad-left media--900'>
+      <td className='number no-pad-left media--1600'>
         {lastTimeout &&
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
@@ -150,26 +160,34 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
       <td className='number no-pad-left'>
         <ParachainInfo id={id} />
       </td>
-      <td className='number media--1200'>
+      <td className='number media--1700'>
         {formatNumber(paraInfo.qHrmpI)}
       </td>
-      <td className='number no-pad-left media--1200'>
+      <td className='number no-pad-left media--1700'>
         {formatNumber(paraInfo.qHrmpE)}
       </td>
-      <td className='number together media--1000'>
+      <td className='number together media--1100'>
         <Periods
           leasePeriod={leasePeriod}
           periods={paraInfo.leases}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Parachain)`
+const StyledTr = styled.tr`
   &.isDisabled {
     td {
       opacity: 0.5
     }
   }
-`);
+
+  td.badge.together > div {
+    display: inline-block;
+    margin: 0 0.25rem 0 0;
+    vertical-align: middle;
+  }
+`;
+
+export default React.memo(Parachain);

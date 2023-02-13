@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DigestItem } from '@polkadot/types/interfaces';
@@ -23,6 +23,7 @@ function formatU8a (value: Raw): React.ReactNode {
       isDisabled
       params={[{ type: getTypeDef('Bytes') }]}
       values={[{ isValid: true, value }]}
+      withExpander
     />
   );
 }
@@ -42,6 +43,7 @@ function formatStruct (struct: Struct): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -60,6 +62,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -80,6 +83,7 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -101,8 +105,8 @@ function formatItem (item: DigestItem): React.ReactNode {
 function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('logs'), 'start']
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('logs'), 'start']
   ]);
 
   return (
@@ -113,7 +117,10 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
       {value?.map((log, index) => (
         <tr key={`log:${index}`}>
           <td className='overflow'>
-            <Expander summary={log.type.toString()}>
+            <Expander
+              isLeft
+              summary={log.type.toString()}
+            >
               {formatItem(log)}
             </Expander>
           </td>

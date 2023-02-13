@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -7,15 +7,13 @@ import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 import type { SortedTargets } from '../../types';
 import type { Slash } from '../types';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
-import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
-import { useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
-import { BN, BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
+import { BN, formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useSlashingSpans from '../useSlashingSpans';
@@ -39,7 +37,6 @@ interface Props {
   info: StakerState;
   minCommission?: BN;
   next?: string[];
-  stashId: string;
   targets: SortedTargets;
   validators?: string[];
 }
@@ -67,7 +64,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
 function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, minCommission, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isKickOpen, toggleKick] = useToggle();
@@ -79,8 +76,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
-  const isDarwinia = rpcNetwork.isDarwinia();
-  const currentBlock = useBestNumber();
 
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
@@ -101,24 +96,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
 
   const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active?.isEmpty;
 
-  const isRebondButtonDisabled = () => {
-    if (isDarwinia) {
-      if (!stakingAccount || !stakingAccount.stakingLedger || !currentBlock) {
-        return true;
-      }
-
-      const darwiniaStakingLedger = stakingAccount.stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
-      const unbondings = darwiniaStakingLedger.ringStakingLock.unbondings.filter((item) => item.until.gt(currentBlock));
-      const amount = unbondings.reduce((accumulator, item) => accumulator.add(item.amount), BN_ZERO);
-
-      return amount.lten(0);
-    }
-
-    return !isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length;
-  };
-
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='badge together'>
         {slashes.length !== 0 && (
           <Badge
@@ -316,7 +295,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     onClick={toggleUnbond}
                   />
                   <Menu.Item
-                    isDisabled={isRebondButtonDisabled()}
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
                     label={t<string>('Rebond funds')}
                     onClick={toggleRebond}
                   />
@@ -379,14 +358,16 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </>
         )}
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Account)`
+const StyledTr = styled.tr`
   .ui--Button-Group {
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
   }
-`);
+`;
+
+export default React.memo(Account);

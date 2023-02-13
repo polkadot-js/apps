@@ -1,15 +1,16 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { AccountId, Balance, BlockNumber, Call, EraIndex, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { IExtrinsic } from '@polkadot/types/types';
+import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { IExtrinsic, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-
-import { Exposure as DarwiniaExposure } from '@darwinia/types';
+import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
 export type CallParam = any;
 
@@ -170,33 +171,28 @@ export interface BatchOptions {
   type?: BatchType;
 }
 
-export interface DarwiniaStakerReward {
-  era: EraIndex;
-  eraReward: Balance;
-  isStakerPayout?: boolean;
-  isEmpty: boolean;
-  isValidator: boolean;
-  nominating: DeriveEraExposureNominating[];
-  validators: Record<string, DeriveStakerRewardValidator>;
-  total: Balance;
+export interface PreimageDeposit {
+  amount: BN;
+  who: string;
 }
 
-interface DeriveEraExposureNominating {
-  validatorId: string;
-  validatorIndex: number;
+export interface PreimageStatus {
+  count: number;
+  deposit?: PreimageDeposit;
+  isCompleted: boolean;
+  isHashParam: boolean;
+  proposalHash: HexString;
+  proposalLength?: BN;
+  registry: Registry;
+  status: PalletPreimageRequestStatus | null;
 }
 
-export interface DeriveStakerRewardValidator {
-  total: Balance;
-  value?: Balance;
+export interface PreimageBytes {
+  proposal?: Call | null;
+  proposalError?: string | null;
+  proposalWarning?: string | null;
 }
 
-export interface DeriveStakerExposure {
-  era: EraIndex;
-  isEmpty: boolean;
-  isValidator: boolean;
-  nominating: DeriveEraExposureNominating[];
-  validators: DeriveEraValidatorExposure;
+export interface Preimage extends PreimageBytes, PreimageStatus {
+  // just the interfaces above
 }
-
-type DeriveEraValidatorExposure = Record<string, DarwiniaExposure>;

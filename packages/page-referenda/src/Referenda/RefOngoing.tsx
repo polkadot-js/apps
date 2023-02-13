@@ -1,36 +1,44 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { ApiPromise } from '@polkadot/api';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Referendum, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander, Progress } from '@polkadot/react-components';
+import { useApi, usePreimage } from '@polkadot/react-hooks';
+import { getPreimageHash } from '@polkadot/react-hooks/usePreimage';
 
 import { useTranslation } from '../translate';
 import Deposits from './Deposits';
 import RefEnd from './RefEnd';
+import { unwrapDeposit } from './util';
 import Vote from './Vote';
 import Votes from './Votes';
 
 interface Expanded {
-  ongoing: Referendum['info']['asOngoing'];
+  decisionDeposit: PalletReferendaDeposit | null;
   periods: {
     periodEnd: BN | null;
     prepareEnd: BN | null;
     decideEnd: BN | null;
     confirmEnd: BN | null;
   };
-  shortHash: string;
+  ongoing: PalletReferendaReferendumStatusConvictionVotingTally | PalletReferendaReferendumStatusRankedCollectiveTally;
+  proposalHash?: HexString;
+  submissionDeposit: PalletReferendaDeposit | null;
+  tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
   tallyTotal: BN;
 }
 
-function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
+function expandOngoing (api: ApiPromise, info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
   const ongoing = info.asOngoing;
-  const hexHash = ongoing.proposalHash.toHex();
+  const proposalHash = getPreimageHash(api, ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash).proposalHash;
   let prepareEnd: BN | null = null;
   let decideEnd: BN | null = null;
   let confirmEnd: BN | null = null;
@@ -39,22 +47,23 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
     const { deciding, submitted } = ongoing;
 
     if (deciding.isSome) {
-      const d = deciding.unwrap();
+      const { confirming, since } = deciding.unwrap();
 
-      if (d.confirming.isSome) {
-        // we are confirming
-        confirmEnd = d.confirming.unwrap().add(track.confirmPeriod);
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
       } else {
-        // we are still deciding
-        decideEnd = d.since.add(track.decisionPeriod);
+        // we are still deciding, start + length
+        decideEnd = since.add(track.decisionPeriod);
       }
     } else {
-      // we are still preparing
+      // we are still preparing, start + length
       prepareEnd = submitted.add(track.preparePeriod);
     }
   }
 
   return {
+    decisionDeposit: unwrapDeposit(ongoing.decisionDeposit),
     ongoing,
     periods: {
       confirmEnd,
@@ -62,20 +71,23 @@ function expandOngoing (info: Referendum['info'], track?: PalletReferendaTrackIn
       periodEnd: confirmEnd || decideEnd || prepareEnd,
       prepareEnd
     },
-    shortHash: `${hexHash.slice(0, 8)}…${hexHash.slice(-6)}`,
+    proposalHash,
+    submissionDeposit: unwrapDeposit(ongoing.submissionDeposit),
+    tally: ongoing.tally,
     tallyTotal: ongoing.tally.ayes.add(ongoing.tally.nays)
   };
 }
 
-function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
+function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, trackInfo, value: { id, info, isConvictionVote, track } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
-  const { ongoing: { decisionDeposit, proposalHash, submissionDeposit, tally }, periods: { confirmEnd, decideEnd, periodEnd }, shortHash, tallyTotal } = useMemo(
-    () => expandOngoing(info, track),
-    [info, track]
+  const { decisionDeposit, ongoing, periods: { confirmEnd, decideEnd, periodEnd }, submissionDeposit, tally, tallyTotal } = useMemo(
+    () => expandOngoing(api, info, track),
+    [api, info, track]
   );
 
-  const preimage = usePreimage(proposalHash);
+  const preimage = usePreimage(ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash);
 
   return (
     <>
@@ -88,9 +100,17 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
               withHash
             />
           )
-          : t('preimage {{shortHash}}', { replace: { shortHash } })
+          : <div className='shortHash'>{preimage?.proposalHash}</div>
         }
       </td>
+      <Deposits
+        canDeposit
+        decision={decisionDeposit}
+        id={id}
+        palletReferenda={palletReferenda}
+        submit={submissionDeposit}
+        track={track}
+      />
       <RefEnd
         label={
           confirmEnd
@@ -101,37 +121,30 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, value: { id,
         }
         when={periodEnd}
       />
-      <Deposits
-        canDeposit
-        decision={decisionDeposit}
-        id={id}
-        palletReferenda={palletReferenda}
-        submit={submissionDeposit}
-        track={track}
-      />
       <Votes
         id={id}
         isConvictionVote={isConvictionVote}
         palletVote={palletVote}
         tally={tally}
       />
-      <td className='middle chart'>
+      <td className='middle chart media--1300-noPad'>
         <Progress
+          className='media--1300'
           total={tallyTotal}
           value={tally.ayes}
         />
       </td>
-      <td className='button'>
-        {preimage && (
-          <Vote
-            id={id}
-            isConvictionVote={isConvictionVote}
-            isMember={isMember}
-            members={members}
-            palletVote={palletVote}
-            preimage={preimage}
-          />
-        )}
+      <td className='actions button'>
+        <Vote
+          id={id}
+          isConvictionVote={isConvictionVote}
+          isMember={isMember}
+          members={members}
+          palletVote={palletVote}
+          preimage={preimage}
+          ranks={ranks}
+          trackInfo={trackInfo}
+        />
       </td>
     </>
   );

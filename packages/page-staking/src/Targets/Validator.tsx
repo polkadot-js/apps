@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
@@ -7,9 +7,7 @@ import type { NominatedBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
-import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
-import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
+import { AddressSmall, Badge, Checkbox, Icon, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -17,7 +15,6 @@ import { formatNumber } from '@polkadot/util';
 
 import MaxBadge from '../MaxBadge';
 import { useTranslation } from '../translate';
-import Favorite from '../Validators/Address/Favorite';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
@@ -40,7 +37,6 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
   const { api } = useApi();
   const accountInfo = useDeriveAccountInfo(accountId);
   const [,, time] = useBlockTime(lastPayout);
-  const isDarwinia = rpcNetwork.isDarwinia();
 
   const isVisible = useMemo(
     () => accountInfo
@@ -72,12 +68,12 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
 
   return (
     <tr>
+      <Table.Column.Favorite
+        address={key}
+        isFavorite={isFavorite}
+        toggle={toggleFavorite}
+      />
       <td className='badge together'>
-        <Favorite
-          address={key}
-          isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
-        />
         {isNominated
           ? (
             <Badge
@@ -124,33 +120,18 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
           api.consts.babe
             ? time.days
               ? time.days === 1
-                ? t('yesterday')
-                : t('{{days}} days', { replace: { days: time.days } })
-              : t('recently')
+                ? t<string>('yesterday')
+                : t<string>('{{days}} days', { replace: { days: time.days } })
+              : t<string>('recently')
             : formatNumber(lastPayout)
         )}
       </td>
       <td className='number media--1200 no-pad-right'>{numNominators || ''}</td>
-      <td className='number media--1200 no-pad-left'>{isDarwinia ? '' : nominatedBy.length || ''}</td>
+      <td className='number media--1200 no-pad-left'>{nominatedBy.length || ''}</td>
       <td className='number media--1100'>{commissionPer.toFixed(2)}%</td>
-      <td className='number together'>{!bondTotal.isZero() &&
-        <FormatBalance
-          isDarwiniaPower = {isDarwinia}
-          value={isDarwinia ? undefined : bondTotal}
-          valueFormatted={isDarwinia ? formatDarwiniaPower(bondTotal, t('power', 'power')) : undefined}
-        />}</td>
-      <td className='number together media--900'>{!bondOwn.isZero() &&
-        <FormatBalance
-          isDarwiniaPower = {isDarwinia}
-          value={isDarwinia ? undefined : bondOwn}
-          valueFormatted={isDarwinia ? formatDarwiniaPower(bondOwn, t('power', 'power')) : undefined}
-        />}</td>
-      <td className='number together media--1600'>{!bondOther.isZero() &&
-        <FormatBalance
-          isDarwiniaPower = {isDarwinia}
-          value={isDarwinia ? undefined : bondOther}
-          valueFormatted={isDarwinia ? formatDarwiniaPower(bondOther, t('power', 'power')) : undefined}
-        />}</td>
+      <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
+      <td className='number together media--900'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
+      <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>
       <td className='number together'>{(stakedReturnCmp > 0) && <>{stakedReturnCmp.toFixed(2)}%</>}</td>
       <td>
         {!isBlocking && (canSelect || isSelected) && (

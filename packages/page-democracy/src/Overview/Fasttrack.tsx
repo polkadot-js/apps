@@ -1,20 +1,21 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { getFastTrackThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { BN, isString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  imageHash: Hash;
+  imageHash: Hash | HexString;
   members: string[];
   threshold: VoteThreshold;
 }
@@ -108,20 +109,18 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               <Input
                 isDisabled
                 label={t<string>('preimage hash')}
-                value={imageHash.toHex()}
+                value={isString(imageHash) ? imageHash : imageHash.toHex()}
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
               <InputNumber
                 autoFocus
-                help={t<string>('The voting period to apply in blocks')}
                 isZeroable={false}
                 label={t<string>('voting period')}
                 onChange={setVotingBlocks}
                 value={votingBlocks}
               />
               <InputNumber
-                help={t<string>('The delay period to apply in blocks')}
                 isZeroable={false}
                 label={t<string>('delay')}
                 onChange={setDelayBlocks}

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExposureT as DarwiniaStakingStructsExposure } from '@darwinia/types/interfaces/darwiniaInject';
@@ -8,10 +8,9 @@ import type { PalletStakingExposure } from '@polkadot/types/lookup';
 import type { Route } from './types';
 
 import Component from '@polkadot/app-staking';
+import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { assert, BN_ONE } from '@polkadot/util';
-
-const TEST_ADDR = '1ufRSF5gx9Q8hrYoj7KwpzQzDNqLJdbKrFwC6okxa5gtBRd';
 
 function needsApiCheck (api: ApiPromise): boolean {
   try {
@@ -33,10 +32,10 @@ function needsApiCheck (api: ApiPromise): boolean {
 
     const { others: [{ value, who }], own, total } = api.registry.createType<PalletStakingExposure>(
       unwrapStorageType(api.registry, api.query.staking.erasStakers.creator.meta.type),
-      { others: [{ value: BN_ONE, who: TEST_ADDR }], own: BN_ONE, total: BN_ONE }
+      { others: [{ value: BN_ONE, who: ZERO_ACCOUNT }], own: BN_ONE, total: BN_ONE }
     );
 
-    assert(total.eq(BN_ONE) && own.eq(BN_ONE) && who.eq(TEST_ADDR) && value.eq(BN_ONE), 'Needs a known Exposure type');
+    assert(total && own && value && who && total.eq(BN_ONE) && own.eq(BN_ONE) && value.eq(BN_ONE), 'Needs a known Exposure type');
   } catch {
     console.warn('Unable to create known-shape Exposure type, disabling staking route');
 
@@ -45,7 +44,7 @@ function needsApiCheck (api: ApiPromise): boolean {
 
   try {
     // we need to be able to bond
-    api.tx.staking.bond(TEST_ADDR, BN_ONE, { Account: TEST_ADDR });
+    api.tx.staking.bond(ZERO_ACCOUNT, BN_ONE, { Account: ZERO_ACCOUNT });
   } catch {
     console.warn('Unable to create staking bond transaction, disabling staking route');
 
@@ -68,6 +67,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'certificate',
     name: 'staking',
-    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
+    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
   };
 }

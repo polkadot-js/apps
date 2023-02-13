@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -17,7 +17,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'coins',
     name: 'bounties',
-    text: t('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
+    text: t<string>('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
     useCounter
   };
 }

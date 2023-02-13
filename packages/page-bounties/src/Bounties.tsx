@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
@@ -25,15 +27,15 @@ function Bounties ({ className }: Props): React.ReactElement {
     [info]
   );
 
-  const headerRef = useRef([
-    [t('bounties'), 'start', 3],
-    [t('value'), 'start'],
-    [t('curator'), 'start'],
-    [t('next action'), 'start', 3]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('bounties'), 'start', 3],
+    [t<string>('value')],
+    [t<string>('curator'), 'start'],
+    [t<string>('next action'), 'start', 3]
   ]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary info={info} />
       <Button.Group>
         <BountyCreate />
@@ -42,11 +44,10 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={sorted && t<string>('No open bounties')}
         header={headerRef.current}
-        withCollapsibleRows
       >
         {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty
-            bestNumber={info.bestNumber}
+            bestNumber={info.bestNumber as BN}
             bounty={bounty}
             description={description}
             index={index}
@@ -55,30 +56,32 @@ function Bounties ({ className }: Props): React.ReactElement {
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Bounties)`
+const StyledDiv = styled.div`
   .bounties-table-wrapper table {
     tr {
-      td,
-      &:not(.filter) th {
+      td, &:not(.filter) th {
         &:last-child {
           padding-right: 1.14rem;
         }
       }
     }
   }
-.ui--IdentityIcon {
+
+  .ui--IdentityIcon {
     margin-right: 0.42rem;
   }
 
   .via-identity .name {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: 1.7rem;
     text-transform: initial;
     filter: initial;
     opacity: 1;
   }
-`);
+`;
+
+export default React.memo(Bounties);

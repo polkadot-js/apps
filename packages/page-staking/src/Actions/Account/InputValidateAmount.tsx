@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -35,7 +35,7 @@ function formatExistential (value: BN): string {
   while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
     const isLast = fmt.endsWith('.');
 
-    fmt = fmt.substr(0, fmt.length - 1);
+    fmt = fmt.substring(0, fmt.length - 1);
 
     if (isLast) {
       break;
@@ -61,24 +61,24 @@ function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominat
       let newWarning: string | null = null;
 
       if (check.gte(maxBond)) {
-        newWarning = t('The specified value is large and may not allow enough funds to pay future transaction fees.');
+        newWarning = t<string>('The specified value is large and may not allow enough funds to pay future transaction fees.');
       } else if (check.lt(existentialDeposit)) {
-        newError = t('The bonded amount is less than the minimum bond amount of {{existentialDeposit}}', {
+        newError = t<string>('The bonded amount is less than the minimum bond amount of {{existentialDeposit}}', {
           replace: { existentialDeposit: formatExistential(existentialDeposit) }
         });
       } else if (isNominating) {
         if (minNominatorBond && check.lt(minNominatorBond)) {
-          newError = t('The bonded amount is less than the minimum threshold of {{minBond}} for nominators', {
+          newError = t<string>('The bonded amount is less than the minimum threshold of {{minBond}} for nominators', {
             replace: { minBond: formatBalance(minNominatorBond) }
           });
         } else if (minNominated && check.lt(minNominated)) {
-          newWarning = t('The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate', {
+          newWarning = t<string>('The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate', {
             replace: { minNomination: formatBalance(minNominated) }
           });
         }
       } else {
         if (minValidatorBond && check.lt(minValidatorBond)) {
-          newError = t('The bonded amount is less than the minimum threshold of {{minBond}} for validators', {
+          newError = t<string>('The bonded amount is less than the minimum threshold of {{minBond}} for validators', {
             replace: { minBond: formatBalance(minValidatorBond) }
           });
         }

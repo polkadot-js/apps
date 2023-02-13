@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -10,10 +10,9 @@ import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
-import { BN_HUNDRED, BN_ZERO } from '@polkadot/util';
+import { BN_HUNDRED } from '@polkadot/util';
 
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
@@ -140,49 +139,15 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
   });
 }
 
-function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[], isDarwiniaPower: boolean): ValidatorInfo[] {
+function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
   // Use slice to create new array, so that sorting triggers component render
   return validators
     .slice(0)
-    .sort((a, b) => {
-      if (isDarwiniaPower) {
-        let firstValue: BN;
-        let secondValue: BN;
-
-        switch (sortBy) {
-          case 'rankBondOther': {
-            firstValue = a.bondOther;
-            secondValue = b.bondOther;
-            break;
-          }
-
-          case 'rankBondOwn': {
-            firstValue = a.bondOwn;
-            secondValue = b.bondOwn;
-            break;
-          }
-
-          case 'rankBondTotal': {
-            firstValue = a.bondTotal;
-            secondValue = b.bondTotal;
-            break;
-          }
-
-          default: {
-            firstValue = BN_ZERO;
-            secondValue = BN_ZERO;
-          }
-        }
-
-        return sortFromMax
-          ? secondValue.sub(firstValue).toNumber()
-          : firstValue.sub(secondValue).toNumber();
-      }
-
-      return sortFromMax
+    .sort((a, b) =>
+      sortFromMax
         ? a[sortBy] - b[sortBy]
-        : b[sortBy] - a[sortBy];
-    })
+        : b[sortBy] - a[sortBy]
+    )
     .sort((a, b) =>
       a.isFavorite === b.isFavorite
         ? 0
@@ -241,7 +206,6 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const [toggles, setToggle] = useSavedFlags('staking:targets', DEFAULT_FLAGS);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>(DEFAULT_SORT);
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
-  const isDarwinia = rpcNetwork.isDarwinia();
 
   const labelsRef = useRef({
     rankBondOther: t<string>('other stake'),
@@ -272,9 +236,9 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   // (the same applies for changing the sort order, state here is more effective)
   useEffect((): void => {
     filtered && setSorted(
-      sort(sortBy, sortFromMax, filtered, isDarwinia)
+      sort(sortBy, sortFromMax, filtered)
     );
-  }, [filtered, isDarwinia, sortBy, sortFromMax]);
+  }, [filtered, sortBy, sortFromMax]);
 
   useEffect((): void => {
     toggleLedger();
@@ -324,30 +288,22 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
     []
   );
 
-  const header = useMemo(() => [
-    [t('validators'), 'start', 3],
-    [t('payout'), 'media--1400'],
-    [t('nominators'), 'media--1200', 2],
-    [t('comm.'), 'media--1100'],
-    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => {
-      if (header === 'rankOverall' && isDarwinia) {
-        return [
-          <><div /></>,
-          '',
-          1
-        ];
-      }
-
-      return [
-        <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-        `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
-        1,
-        () => _sort(header as 'rankOverall')
-      ];
-    }),
+  // False positive, this is part of the type...
+  // eslint-disable-next-line func-call-spacing
+  const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
+    [t<string>('validators'), 'start', 4],
+    [t<string>('payout'), 'media--1400'],
+    [t<string>('nominators'), 'media--1200', 2],
+    [t<string>('comm.'), 'media--1100'],
+    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
+      <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
+      `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
+      1,
+      () => _sort(header as 'rankOverall')
+    ]),
     [],
     []
-  ], [_sort, isDarwinia, labelsRef, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, labelsRef, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     <div>
@@ -408,7 +364,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const canSelect = selected.length < maxNominations;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         avgStaked={avgStaked}
         lastEra={lastEra}
@@ -422,16 +378,12 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         totalStaked={totalStaked}
       />
       <Button.Group>
-        {
-          !isDarwinia && (
-            <Button
-              icon='check'
-              isDisabled={!validators?.length || !ownNominators?.length}
-              label={t<string>('Most profitable')}
-              onClick={_selectProfitable}
-            />
-          )
-        }
+        <Button
+          icon='check'
+          isDisabled={!validators?.length || !ownNominators?.length}
+          label={t<string>('Most profitable')}
+          onClick={_selectProfitable}
+        />
         <Nominate
           isDisabled={isInElection || !validators?.length}
           ownNominators={ownNominators}
@@ -443,9 +395,9 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         empty={sorted && t<string>('No active validators to check')}
         emptySpinner={
           <>
-            {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
-            {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
-            {!displayList && <div>{t('Preparing target display')}</div>}
+            {!(validators && allIdentity) && <div>{t<string>('Retrieving validators')}</div>}
+            {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
+            {!displayList && <div>{t<string>('Preparing target display')}</div>}
           </>
         }
         filter={filter}
@@ -467,11 +419,11 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           />
         )}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Targets)`
+const StyledDiv = styled.div`
   text-align: center;
 
   th.isClickable {
@@ -483,4 +435,6 @@ export default React.memo(styled(Targets)`
   .ui--Table {
     overflow-x: auto;
   }
-`);
+`;
+
+export default React.memo(Targets);

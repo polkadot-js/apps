@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber, Votes } from '@polkadot/types/interfaces';
@@ -41,7 +41,9 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   }
 
   const isEnd = bestNumber.gte(votes.end);
+  // let approved = yes_votes >= voting.threshold;
   const hasPassed = votes.threshold.lten(votes.ayes.length);
+  // let disapproved = seats.saturating_sub(no_votes) < voting.threshold;
   const hasFailed = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
 
   return {

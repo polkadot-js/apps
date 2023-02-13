@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BitLength } from '@polkadot/react-components/types';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Props } from '../types';
@@ -12,9 +13,9 @@ import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
 
-function getBitLength (registry: Registry, { type }: TypeDef): number {
+function getBitLength (registry: Registry, { type }: TypeDef): BitLength {
   try {
-    return registry.createType(type as 'u32').bitLength();
+    return registry.createType(type as 'u32').bitLength() as BitLength;
   } catch (error) {
     return 32;
   }

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -19,16 +19,16 @@ function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
   const { bestNumber, runtimeVersion } = useChainDetails(id);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {bestNumber && <div>{formatNumber(bestNumber)}</div>}
       {runtimeVersion && <div className='version'><div className='media--1100'>{runtimeVersion.specName.toString()}</div><div className='media--1100'>/</div><div>{runtimeVersion.specVersion.toString()}</div></div>}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ParachainInfo)`
+const StyledDiv = styled.div`
   .version {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     white-space: nowrap;
 
     > div {
@@ -38,4 +38,6 @@ export default React.memo(styled(ParachainInfo)`
       text-overflow: ellipsis;
     }
   }
-`);
+`;
+
+export default React.memo(ParachainInfo);

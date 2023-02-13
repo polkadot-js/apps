@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetInfo, AssetInfoComplete } from '../types';
@@ -24,10 +24,10 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const [info, setInfo] = useState<AssetInfoComplete | null>(null);
   const balances = useBalances(info?.id);
 
-  const headerRef = useRef([
-    [t('accounts'), 'start'],
-    [t('frozen'), 'start'],
-    [t('sufficient'), 'start'],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('accounts'), 'start'],
+    [t<string>('frozen'), 'start'],
+    [t<string>('sufficient'), 'start'],
     [],
     []
   ]);
@@ -63,7 +63,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   }, [completeInfos, infoIndex]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Table
         empty={info && balances && t<string>('No accounts with balances found for the asset')}
         filter={assetOptions.length
@@ -91,12 +91,14 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Balances)`
+const StyledDiv = styled.div`
   table {
     overflow: auto;
   }
-`);
+`;
+
+export default React.memo(Balances);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -10,7 +10,7 @@ interface TabsSectionDelimiterProps {
 
 function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): React.ReactElement {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <svg
         fill='none'
         height='47'
@@ -24,11 +24,13 @@ function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): R
           stroke='#D1D1D1'
         />
       </svg>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(TabsSectionDelimiter)`
+const StyledDiv = styled.div`
   height: 100%;
   width: auto;
-`);
+`;
+
+export default React.memo(TabsSectionDelimiter);

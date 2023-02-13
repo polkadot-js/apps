@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetInfo } from '../types';
@@ -18,13 +18,13 @@ interface Props {
 function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('assets'), 'start', 2],
-    [t('owner'), 'address media--1000'],
-    [t('admin'), 'address media--1300'],
-    [t('issuer'), 'address media--1600'],
-    [t('freezer'), 'address media--1900'],
-    [t('supply')],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('assets'), 'start', 2],
+    [t<string>('owner'), 'address media--1000'],
+    [t<string>('admin'), 'address media--1300'],
+    [t<string>('issuer'), 'address media--1600'],
+    [t<string>('freezer'), 'address media--1900'],
+    [t<string>('supply')],
     []
   ]);
 

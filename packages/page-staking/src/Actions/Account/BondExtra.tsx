@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -91,7 +91,6 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
             <InputBalance
               autoFocus
               defaultValue={startBalance}
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={!!amountError?.error || !maxAdditional || maxAdditional.isZero()}
               label={t<string>('additional funds to bond')}
               labelExtra={

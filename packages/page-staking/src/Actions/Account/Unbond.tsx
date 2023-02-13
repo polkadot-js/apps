@@ -1,23 +1,22 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
-import { InputAddress, InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
-import { DarwiniaStakingStructsStakingLedger } from '@polkadot/react-components/types';
+import { InputAddress, InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
-  controllerId?: AccountId | null;
+  controllerId?: AccountId | string | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
@@ -27,38 +26,11 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
-  const isDarwinia = rpcNetwork.isDarwinia();
-  const [maxBalance] = useState<BN | null>(() => {
-    if (isDarwinia) {
-      if (stakingLedger) {
-        const darwiniaStakingLedger = stakingLedger as unknown as DarwiniaStakingStructsStakingLedger;
-        const allStakingRings = (darwiniaStakingLedger.active || darwiniaStakingLedger.activeRing).toBn();
-        const lockedRings = darwiniaStakingLedger.activeDepositRing?.unwrap() ?? BN_ZERO;
-
-        return allStakingRings.sub(lockedRings);
-      }
-
-      return null;
-    } else {
-      return stakingLedger?.active?.unwrap() || null;
-    }
-  });
-
-  const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
-  const [withMax, setWithMax] = useState(false);
-
-  const getDarwiniaQueryParams = () => {
-    const amount = withMax ? maxBalance : maxUnbond;
-
-    if (!amount) {
-      return { ringbalance: '0' };
-    }
-
-    return { ringbalance: amount.toString() };
-  };
+  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
+  const [maxUnbond, setMaxUnbond] = useState<BN | undefined>();
 
   return (
-    <Modal
+    <StyledModal
       header={t<string>('Unbond funds')}
       onClose={onClose}
       size='large'
@@ -80,24 +52,19 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           <InputBalance
             autoFocus
             defaultValue={maxBalance}
-            help={t<string>('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
-            isDisabled={withMax}
-            key={`unbondAmount-${withMax.toString()}`}
             label={t<string>('unbond amount')}
+            labelExtra={
+              <FormatBalance
+                label={<span className='label'>{t<string>('bonded')}</span>}
+                value={maxBalance}
+              />
+            }
             maxValue={maxBalance}
             onChange={setMaxUnbond}
             withMax
-          >
-            <Toggle
-              isOverlay
-              label={t<string>('all bonded')}
-              onChange={setWithMax}
-              value={withMax}
-            />
-          </InputBalance>
+          />
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
@@ -109,18 +76,18 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
         <TxButton
           accountId={controllerId}
           icon='unlock'
-          isDisabled={!((withMax ? maxBalance : maxUnbond)?.gtn(0))}
+          isDisabled={!maxUnbond?.gt(BN_ZERO)}
           label={t<string>('Unbond')}
           onStart={onClose}
-          params={[isDarwinia ? getDarwiniaQueryParams() : withMax ? maxBalance : maxUnbond]}
+          params={[maxUnbond]}
           tx={api.tx.staking.unbond}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Unbond)`
+const StyledModal = styled(Modal)`
   .staking--Unbond--max > div {
     justify-content: flex-end;
 
@@ -128,4 +95,6 @@ export default React.memo(styled(Unbond)`
       flex: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Unbond);

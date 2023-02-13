@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -18,10 +18,10 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('code hashes'), 'start'],
+    [t<string>('code hashes'), 'start'],
     [],
     [],
-    [t('status'), 'start'],
+    [t<string>('status'), 'start'],
     []
   ]);
 

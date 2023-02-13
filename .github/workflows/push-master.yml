@@ -14,18 +14,18 @@ jobs:
     name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
       with:
         fetch-depth: 0
-        token: ${{ secrets.GH_PAT }}
+        token: ${{ secrets.GH_PAT_BOT }}
     - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         CRUST_SEEDS: ${{ secrets.CRUST_SEEDS }}
         GH_PAGES_SRC: packages/apps/build
-        GH_PAT: ${{ secrets.GH_PAT }}
-        GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT }}
+        GH_PAT: ${{ secrets.GH_PAT_BOT }}
+        GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT_BOT }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
         PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
@@ -39,7 +39,7 @@ jobs:
     name: docker
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
     - name: docker
       env:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -55,9 +55,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT_BOT }}
       - name: Prepare for app notarization (macOS)
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS

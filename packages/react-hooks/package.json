@@ -11,11 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.121.2-107-x",
+  "version": "0.124.2-74-x",
   "dependencies": {
-    "@babel/runtime": "^7.19.4",
-    "@darwinia/types": "^2.8.9",
-    "@polkadot/hw-ledger": "^10.1.11",
-    "is-ipfs": "6.0.2"
+    "@babel/runtime": "^7.20.13",
+    "@polkadot/hw-ledger": "^10.3.1",
+    "is-ipfs": "^8.0.1"
   }
 }

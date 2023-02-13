@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -33,6 +33,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Referenda
+        isConvictionVote
         palletReferenda='referenda'
         palletVote='convictionVoting'
       />

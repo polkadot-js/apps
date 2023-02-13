@@ -7,7 +7,7 @@ jobs:
   types:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
     - name: check
       env:
         CI_LOG: 123
@@ -17,7 +17,7 @@ jobs:
 
     - name: issue
       if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2
+      uses: JasonEtco/create-an-issue@e27dddc79c92bc6e4562f268fffa5ed752639abd
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT_BOT }}
       with:

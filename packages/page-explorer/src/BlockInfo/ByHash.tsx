@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
@@ -33,7 +33,7 @@ interface State {
   runtimeVersion?: RuntimeVersionPartial;
 }
 
-const EMPTY_HEADER = [['...', 'start', 6]];
+const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
 function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
   return {
@@ -63,6 +63,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     ],
     [api, runtimeVersion]
   );
+
+  useEffect((): void => {
+    error && setBlkError(error);
+  }, [error]);
 
   const systemEvents = useMemo(
     () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
@@ -97,15 +101,15 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       });
   }, [api, mountedRef, value]);
 
-  const header = useMemo(
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => getHeader
       ? [
-        [formatNumber(getHeader.number.unwrap()), 'start', 1],
-        [t('hash'), 'start'],
-        [t('parent'), 'start'],
-        [t('extrinsics'), 'start media--1000'],
-        [t('state'), 'start media--1100'],
-        [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1200']
+        [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
+        [t<string>('hash'), 'start'],
+        [t<string>('parent'), 'start'],
+        [t<string>('extrinsics'), 'start media--1300'],
+        [t<string>('state'), 'start media--1200'],
+        [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
       ]
       : EMPTY_HEADER,
     [getHeader, runtimeVersion, t]
@@ -122,12 +126,15 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         maxBlockWeight={maxBlockWeight}
         signedBlock={getBlock}
       />
-      <Table
-        header={header}
-        isFixed
-      >
+      <Table header={header}>
         {blkError
-          ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } })}</td></tr>
+          ? (
+            <tr>
+              <td colSpan={6}>
+                <MarkError content={t<string>('Unable to retrieve the specified block details. {{error}}', { replace: { error: blkError.message } }) } />
+              </td>
+            </tr>
+          )
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
@@ -141,13 +148,15 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
                   ? <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
                   : parentHash
               }</td>
-              <td className='hash overflow media--1000'>{getHeader.extrinsicsRoot.toHex()}</td>
-              <td className='hash overflow media--1100'>{getHeader.stateRoot.toHex()}</td>
-              <td className='media--1200'>
-                <LinkExternal
-                  data={value}
-                  type='block'
-                />
+              <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
+              <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
+              <td className='media--1000'>
+                {value && (
+                  <LinkExternal
+                    data={value}
+                    type='block'
+                  />
+                )}
               </td>
             </tr>
           )

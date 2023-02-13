@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
@@ -20,16 +20,10 @@ interface Proxy {
 }
 
 interface State {
-  hasOwned: boolean;
+  isEmpty: boolean;
   owned: Proxy[];
   proxies: Proxy[];
 }
-
-const EMPTY_STATE: State = {
-  hasOwned: false,
-  owned: [],
-  proxies: []
-};
 
 function createProxy (allAccounts: string[], delegate: AccountId, type: KitchensinkRuntimeProxyType, delay = BN_ZERO): Proxy {
   const address = delegate.toString();
@@ -42,14 +36,14 @@ function createProxy (allAccounts: string[], delegate: AccountId, type: Kitchens
   };
 }
 
-function useProxiesImpl (address?: string | null): State {
+function useProxiesImpl (address?: string | null): State | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
-  const [known, setState] = useState<State>(EMPTY_STATE);
+  const [known, setState] = useState<State | null>(null);
 
   useEffect((): void => {
-    setState(EMPTY_STATE);
+    setState(null);
 
     address && api.query.proxy &&
       api.query.proxy
@@ -65,7 +59,7 @@ function useProxiesImpl (address?: string | null): State {
           const owned = proxies.filter(({ isOwned }) => isOwned);
 
           mountedRef.current && setState({
-            hasOwned: owned.length !== 0,
+            isEmpty: owned.length === 0,
             owned,
             proxies
           });

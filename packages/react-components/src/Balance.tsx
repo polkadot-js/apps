@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -6,18 +6,13 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { formatDarwiniaPower } from '@polkadot/app-staking/Query/util';
 import { BalanceFree, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
-
-import { useTranslation } from './translate';
 
 export interface RenderProps {
   className?: string;
   label?: React.ReactNode;
   value?: BN | BN[];
-  isDarwiniaPower?: boolean;
-  powerUnit?: string;
 }
 
 export interface Props {
@@ -28,7 +23,7 @@ export interface Props {
   withLabel?: boolean;
 }
 
-export function renderProvided ({ className = '', isDarwiniaPower, label, powerUnit, value }: RenderProps): React.ReactNode {
+export function renderProvided ({ className = '', label, value }: RenderProps): React.ReactNode {
   let others: undefined | React.ReactNode;
 
   if (Array.isArray(value)) {
@@ -47,11 +42,9 @@ export function renderProvided ({ className = '', isDarwiniaPower, label, powerU
 
   return (
     <FormatBalance
-      className={`ui--Balance ${className}`}
-      isDarwiniaPower = {isDarwiniaPower}
+      className={`${className} ui--Balance`}
       label={label}
-      value={isDarwiniaPower ? undefined : Array.isArray(value) ? value[0] : value}
-      valueFormatted={isDarwiniaPower ? formatDarwiniaPower(value as BN, powerUnit) : undefined}
+      value={Array.isArray(value) ? value[0] : value}
     >
       {others && (
         <span>&nbsp;(+{others})</span>
@@ -62,17 +55,16 @@ export function renderProvided ({ className = '', isDarwiniaPower, label, powerU
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
   const { balance, className = '', label, params } = props;
-  const { t } = useTranslation();
 
   if (!params) {
     return null;
   }
 
   return balance
-    ? <>{renderProvided({ className, label, powerUnit: t('power', 'power'), value: balance })}</>
+    ? <>{renderProvided({ className, label, value: balance })}</>
     : (
       <BalanceFree
-        className={`ui--Balance ${className}`}
+        className={`${className} ui--Balance`}
         label={label}
         params={params}
       />

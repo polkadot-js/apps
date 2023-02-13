@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -11,23 +11,21 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { rpcNetwork } from '@polkadot/react-api/util/getEnvironment';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import Pools from '@polkadot/app-staking2/Pools';
+import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
+import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
 import Actions from './Actions';
 import Bags from './Bags';
 import { STORE_FAVS_BASE } from './constants';
 import Payouts from './Payouts';
-import Pools from './Pools';
 import Query from './Query';
 import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 import useNominations from './useNominations';
-import useOwnPools from './useOwnPools';
 import useSortedTargets from './useSortedTargets';
 import Validators from './Validators';
 
@@ -78,9 +76,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ], OPT_MULTI);
   const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
-  const isDarwinia = rpcNetwork.isDarwinia();
-  // console.log(isDarwinia);
-
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
   const pathRef = useRef(createPathRef(basePath));
@@ -137,7 +132,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'bags',
       text: t<string>('Bags')
     },
-    !isDarwinia && {
+    {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
       text: t<string>('Slashes')
@@ -147,11 +142,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, isDarwinia, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
+    <StyledMain className={`${className} staking--App`}>
       <Tabs
         basePath={basePath}
         hidden={
@@ -220,11 +214,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         toggleFavorite={toggleFavorite}
         toggleNominatedBy={toggleNominatedBy}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+const StyledMain = styled.main`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -252,16 +246,8 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);
-
-    ${theme.theme === 'dark'
-    ? `font-weight: bold;
-      .ui--FormatBalance-value {
-
-        > .ui--FormatBalance-postfix {
-          opacity: 1;
-        }
-      }`
-    : ''};
     }
   }
-`));
+`;
+
+export default React.memo(StakingApp);

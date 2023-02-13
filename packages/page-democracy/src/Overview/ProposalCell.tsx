@@ -1,12 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
+import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import { CallExpander } from '@polkadot/react-components';
+import { useApi, usePreimage } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ExternalCell from './ExternalCell';
@@ -14,46 +17,64 @@ import TreasuryCell from './TreasuryCell';
 
 interface Props {
   className?: string;
-  imageHash: Hash | string;
+  imageHash: Hash | HexString;
+  isCollective?: boolean;
   proposal?: Proposal | null;
 }
 
 const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority', 'fastTrack'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
-function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className = '', imageHash, isCollective, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const preimage = usePreimage(imageHash);
 
-  if (!proposal) {
+  // while we still have this endpoint, democracy will use it
+  const displayProposal = isCollective
+    ? proposal
+    : api.query.democracy?.preimages
+      ? proposal
+      : preimage?.proposal;
+
+  if (!displayProposal) {
     const textHash = imageHash.toString();
 
     return (
-      <td className={`${className} all`}>
-        {t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })}
+      <td className={`${className} all hash`}>
+        <div className='shortHash'>{textHash}</div>
       </td>
     );
   }
 
-  const { method, section } = proposal.registry.findMetaCall(proposal.callIndex);
+  const { method, section } = displayProposal.registry.findMetaCall(displayProposal.callIndex);
   const isTreasury = section === 'treasury' && METHOD_TREA.includes(method);
   const isExternal = section === 'democracy' && METHOD_EXTE.includes(method);
 
   return (
-    <td className={`${className} all`}>
+    <StyledTd className={`${className} all`}>
       <CallExpander
         labelHash={t<string>('proposal hash')}
-        value={proposal}
+        value={displayProposal}
         withHash={!isTreasury && !isExternal}
       >
         {isExternal && (
-          <ExternalCell value={proposal.args[0] as Hash} />
+          <ExternalCell value={displayProposal.args[0] as Hash} />
         )}
         {isTreasury && (
-          <TreasuryCell value={proposal.args[0] as Compact<ProposalIndex>} />
+          <TreasuryCell value={displayProposal.args[0] as Compact<ProposalIndex>} />
         )}
       </CallExpander>
-    </td>
+    </StyledTd>
   );
 }
+
+const StyledTd = styled.td`
+  .shortHash {
+    + div {
+      margin-left: 0.5rem;
+    }
+  }
+`;
 
 export default React.memo(ProposalCell);

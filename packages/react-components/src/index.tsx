@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export * from '@polkadot/react-qr';
@@ -10,7 +10,6 @@ export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
 export { default as AddressToggle } from './AddressToggle';
-export { default as ApiStats, ApiStatsContext } from './ApiStats';
 export { default as Available } from './Available';
 export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
@@ -31,7 +30,6 @@ export { default as Columar } from './Columar';
 export { default as ConvictionDropdown } from './ConvictionDropdown';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
-export { default as Digits } from './Digits';
 export { default as Dropdown } from './Dropdown';
 export { default as EditButton } from './EditButton';
 export { default as Editor } from './Editor';
@@ -73,6 +71,7 @@ export { default as MarkError } from './MarkError';
 export { default as MarkWarning } from './MarkWarning';
 export { default as Menu } from './Menu';
 export { default as Modal } from './Modal';
+export { default as NextTick } from './NextTick';
 export { default as Nonce } from './Nonce';
 export { default as Output } from './Output';
 export { default as Password } from './Password';
@@ -88,10 +87,10 @@ export { default as StakingBonded } from './StakingBonded';
 export { default as StakingRedeemable } from './StakingRedeemable';
 export { default as StakingUnbonding } from './StakingUnbonding';
 export { default as Static } from './Static';
-export { default as Status, StatusContext } from './Status';
+export { default as Status } from './Status';
 export { default as SummaryBox } from './SummaryBox';
 export { default as Table } from './Table';
-export { default as Tabs, TabsContext } from './Tabs';
+export { default as Tabs, TabsCtx } from './Tabs';
 export { default as Tag } from './Tag';
 export { default as Tags } from './Tags';
 export { default as Toggle } from './Toggle';
@@ -104,5 +103,3 @@ export { default as TextArea } from './TextArea';
 export { default as ExpandButton } from './ExpandButton';
 export { default as SortDropdown } from './SortDropdown';
 export { default as FilterInput } from './FilterInput';
-
-export { default as media } from './media';
