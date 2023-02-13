@@ -40,7 +40,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
 }
 
 const StyledImg = styled.img`
-  background: white;
+  background: '#333333';
   border-radius: 50%;
   box-sizing: border-box;
 
