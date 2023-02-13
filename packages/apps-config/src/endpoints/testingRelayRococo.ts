@@ -348,9 +348,9 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoPangolin',
     paraId: 2105,
     providers: {
-      'Darwinia Network': 'wss://pangolin-parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
     },
-    text: 'Pangolin',
+    text: 'Pangolin 2',
     ui: {
       color: '#4B30DD',
       logo: nodesPangolinSVG
