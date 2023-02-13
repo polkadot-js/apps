@@ -19,12 +19,12 @@ interface Props {
   withSession?: boolean;
 }
 
-function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
+function SummarySession ({ className, withEra = false, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
   const forcing = useCall<Forcing>(api.query.staking?.forceEra);
-
+  
   const eraLabel = t<string>('era');
   const sessionLabel = api.query.babe
     ? t<string>('epoch')
