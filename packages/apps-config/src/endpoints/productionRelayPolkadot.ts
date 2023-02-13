@@ -503,10 +503,9 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     homepage: 'https://pendulumchain.org/',
     info: 'pendulum',
-    isUnreachable: true,
     paraId: 2094,
     providers: {
-      PendulumChain: 'wss://rpc.pendulumchain.tech'
+      PendulumChain: 'wss://rpc-pendulum.prd.pendulumchain.tech'
     },
     text: 'Pendulum',
     ui: {
