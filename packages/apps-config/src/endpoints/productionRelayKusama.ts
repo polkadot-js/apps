@@ -319,7 +319,6 @@ export const prodParasKusama: EndpointOption[] = [
       Dwellir: 'wss://khala-rpc.dwellir.com',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/khala'
     },
     text: 'Khala Network',
     ui: {
@@ -635,7 +634,6 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://public-rpc.pinknode.io/shiden',
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       'light client': 'light://substrate-connect/kusama/shiden'
     },
@@ -803,7 +801,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://statemine-rpc.polkadot.io',
-      Pinknode: 'wss://public-rpc.pinknode.io/statemine',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
@@ -858,7 +855,6 @@ export const prodRelayKusama: EndpointOption = {
     'IBP Network': 'wss://rpc.ibp.network/kusama',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Parity: 'wss://kusama-rpc.polkadot.io',
-    Pinknode: 'wss://public-rpc.pinknode.io/kusama',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     'light client': 'light://substrate-connect/kusama'
   },
