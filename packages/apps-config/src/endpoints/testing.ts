@@ -112,7 +112,6 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Crust Network': 'wss://api.crust.network/',
       'DCloud Foundation': 'wss://api.decloudf.com/'
-      // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
   {
@@ -303,7 +302,6 @@ export const testChains: EndpointOption[] = [
     text: 'Mandala',
     providers: {
       Acala: 'wss://mandala.polkawallet.io',
-      Pinknode: 'wss://rpc.pinknode.io/mandala/explorer',
       OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws'
     }
   },
@@ -336,7 +334,6 @@ export const testChains: EndpointOption[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
   {

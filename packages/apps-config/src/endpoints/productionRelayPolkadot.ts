@@ -317,7 +317,6 @@ export const prodRelayPolkadot: EndpointOption = {
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: [1000],

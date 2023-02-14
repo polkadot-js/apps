@@ -135,7 +135,6 @@ export const testRelayWestend: EndpointOption = {
   providers: {
     Parity: 'wss://westend-rpc.polkadot.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
-    Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     Dwellir: 'wss://westend-rpc.dwellir.com',
     // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
     'light client': 'light://substrate-connect/westend'

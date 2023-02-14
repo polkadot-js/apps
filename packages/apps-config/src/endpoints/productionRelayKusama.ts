@@ -262,7 +262,6 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
-      // Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer' // https://github.com/polkadot-js/apps/issues/7058
     }
   },
   {
@@ -345,7 +344,6 @@ export const prodParasKusama: EndpointOption[] = [
     providers: {
       StakeTechnologies: 'wss://rpc.shiden.astar.network',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      Pinknode: 'wss://rpc.pinknode.io/shiden/explorer',
       Dwellir: 'wss://shiden-rpc.dwellir.com'
     }
   },
@@ -472,7 +470,6 @@ export const prodRelayKusama: EndpointOption = {
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: [1000, 1001],
