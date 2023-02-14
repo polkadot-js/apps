@@ -594,17 +594,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'pangolin',
-    providers: {
-      'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
-    },
-    text: 'Pangolin',
-    ui: {
-      color: '#4B30DD',
-      logo: nodesPangolinSVG
-    }
-  },
-  {
     info: 'pangoro',
     providers: {
       'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
