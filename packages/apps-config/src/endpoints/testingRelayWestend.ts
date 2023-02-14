@@ -193,7 +193,6 @@ export const testRelayWestend: EndpointOption = {
     'IBP Network': 'wss://rpc.ibp.network/westend',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),
