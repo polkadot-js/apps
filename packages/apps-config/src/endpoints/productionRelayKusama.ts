@@ -476,7 +476,7 @@ export const prodParasKusama: EndpointOption[] = [
     },
     text: 'Moonriver',
     ui: {
-      color: '#0E132E',
+      color: '#171e43',
       logo: nodesMoonriverSVG
     }
   },
