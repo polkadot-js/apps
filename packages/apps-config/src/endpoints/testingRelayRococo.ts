@@ -273,7 +273,7 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    homepage:"https://polkadex.trade",
+    homepage: 'https://polkadex.trade',
     info: 'rococoKaizen',
     paraId: 2040,
     providers: {
