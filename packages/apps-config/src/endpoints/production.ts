@@ -457,7 +457,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'subgame',
     providers: {
-      SubGame: 'wss://mainnet.subgame.org/'
+      // SubGame: 'wss://mainnet.subgame.org/' // https://github.com/polkadot-js/apps/issues/9030
     },
     text: 'SubGame',
     ui: {
