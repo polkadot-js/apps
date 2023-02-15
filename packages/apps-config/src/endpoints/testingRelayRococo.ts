@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
 import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
+import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -270,6 +270,19 @@ export const testParasRococo: EndpointOption[] = [
     ui: {
       color: 'repeating-radial-gradient(black, black 4px, yellow 5px)',
       logo: nodesKabochaSVG
+    }
+  },
+  {
+    homepage: 'https://polkadex.trade',
+    info: 'rococoKaizen',
+    paraId: 2040,
+    providers: {
+      'Polkadex Team': 'wss://kaizen-parachain.polkadex.trade'
+    },
+    text: 'Kaizen',
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
     }
   },
   {
