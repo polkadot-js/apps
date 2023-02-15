@@ -281,6 +281,7 @@
        1	Dmytro Filippov               	Targets page: fix validators sorting (#6886)
        1	Eddie Machado                 	not truncating the address (#4311)
        1	Emilio Silva Schlenker        	[#943] Make hash/number query available globally to explorer (#1111)
+       1	Emmanuel Thomas               	add kaizen endpoint to apps-ui (#9022)
        1	equilibrium-de                	updates genshiro info (#6412)
        1	EugenWay                      	add Vara Network (#8285)
        1	fadomire                      	Fix translations loading for ever (#5282)
