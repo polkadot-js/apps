@@ -135,7 +135,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoCrust',
     paraId: 2012,
     providers: {
-      Crust: 'wss://rococo-csm.crustcode.com/'
+      // Crust: 'wss://rococo-csm.crustcode.com/' // https://github.com/polkadot-js/apps/issues/9025
     },
     text: 'Crust Testnet',
     ui: {
