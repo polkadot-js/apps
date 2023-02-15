@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 'lts/*'
       with:
         fetch-depth: 0
         token: ${{ secrets.GH_PAT_BOT }}
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
     - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
