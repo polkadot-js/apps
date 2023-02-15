@@ -8,9 +8,12 @@ import { externalStatescanSVG } from '../ui/logos/external';
 
 export const Statescan: ExternalDef = {
   chains: {
+    Collectives: 'Collectives',
     Litentry: 'litentry',
+    Litmus: 'litmus',
     Statemine: 'statemine',
     Statemint: 'statemint',
+    'Westend Collectives': 'westend-collectives',
     Westmint: 'westmint'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
