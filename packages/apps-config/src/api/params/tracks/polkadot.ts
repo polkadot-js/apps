@@ -9,16 +9,16 @@ import { compareFellowshipRank, formatSpendFactory } from './util';
 
 // hardcoded here since this is static (hopefully no re-denomination anytime...)
 const formatSpend = formatSpendFactory({
-  decimals: 12,
+  decimals: 10,
   forceUnit: '-',
   withSi: true,
-  withUnit: 'KSM'
+  withUnit: 'DOT'
 });
 
 // https://github.com/paritytech/polkadot/blob/6e3f2c5b4b6e6927915de2f784e1d831717760fa/runtime/kusama/constants/src/lib.rs#L28-L32
-const UNITS = new BN(1_000_000_000_000);
-const QUID = UNITS.divn(30);
-const GRAND = QUID.muln(1_000);
+const UNITS = new BN(10_000_000_000);
+const DOLLARS = UNITS;
+const GRAND = DOLLARS.muln(1_000);
 
 // https://github.com/paritytech/polkadot/blob/6e3f2c5b4b6e6927915de2f784e1d831717760fa/runtime/kusama/src/governance/origins.rs#L170-L179
 const SPEND_LIMITS = {
@@ -26,11 +26,11 @@ const SPEND_LIMITS = {
   BigTipper: formatSpend(1, GRAND),
   MediumSpender: formatSpend(100, GRAND),
   SmallSpender: formatSpend(10, GRAND),
-  SmallTipper: formatSpend(250, QUID),
+  SmallTipper: formatSpend(250, DOLLARS),
   Treasurer: formatSpend(10_000, GRAND)
 };
 
-export const kusama: Record<string, TrackInfo[]> = {
+export const polkadot: Record<string, TrackInfo[]> = {
   fellowshipReferenda: [
     {
       compare: compareFellowshipRank(0),
