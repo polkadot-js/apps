@@ -174,7 +174,6 @@ export const testChains: EndpointOption[] = [
     providers: {
       // 'Crust Network': 'wss://api.crust.network/', // https://github.com/polkadot-js/apps/issues/8060
       // 'DCloud Foundation': 'wss://api.decloudf.com/' // https://github.com/polkadot-js/apps/issues/8060
-      // Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer' // https://github.com/polkadot-js/apps/issues/7058
     },
     text: 'Crust Maxwell',
     ui: {
