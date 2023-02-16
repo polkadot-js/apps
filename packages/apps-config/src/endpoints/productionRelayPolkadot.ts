@@ -432,7 +432,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2026,
     providers: {
       Dwellir: 'wss://eden-rpc.dwellir.com',
-      OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws',
+      OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
     },
     text: 'Nodle',
     ui: {
