@@ -3,11 +3,11 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { unique, appPromotion } from '@unique-nft/quartz-mainnet-types/definitions';
+import { appPromotion, unique } from '@unique-nft/quartz-mainnet-types/definitions';
 
 export default {
-  rpc: { 
-    unique: unique.rpc, 
-    appPromotion: appPromotion.rpc
+  rpc: {
+    appPromotion: appPromotion.rpc,
+    unique: unique.rpc
   }
 } as OverrideBundleDefinition;
