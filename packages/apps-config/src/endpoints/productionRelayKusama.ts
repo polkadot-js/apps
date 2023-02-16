@@ -63,7 +63,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2119,
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.bajun.network',
-      OnFinality: 'wss://bajun.api.onfinality.io/public-ws'
+      OnFinality: 'wss://bajun.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://bajun.public.curie.radiumblock.co/ws'
     },
     text: 'Bajun Network',
     ui: {
