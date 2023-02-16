@@ -62,11 +62,9 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
           onClose={toggleOpen}
           size='large'
         >
-          <Modal.Description>
-            <Modal.Columns>
-              <MarkWarning content={t<string>('This will reset your current nominated validators.')} />
-            </Modal.Columns>
-          </Modal.Description>
+          <Modal.Columns>
+            <MarkWarning content={t<string>('This will reset your current nominated validators.')} />
+          </Modal.Columns>
           <Modal.Content>
             <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
               <InputAddress
