@@ -45,6 +45,7 @@
     "@subsocial/definitions": "0.7.12",
     "@unique-nft/opal-testnet-types": "937.52.0",
     "@unique-nft/quartz-mainnet-types": "936.50.4",
+    "@unique-nft/sapphire-mainnet-types": "937.52.0",
     "@unique-nft/unique-mainnet-types": "930.33.0",
     "@zeitgeistpm/type-defs": "1.0.0",
     "@zeroio/type-definitions": "0.0.14",

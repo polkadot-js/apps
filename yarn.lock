@@ -3277,6 +3277,7 @@ __metadata:
     "@subsocial/definitions": 0.7.12
     "@unique-nft/opal-testnet-types": 937.52.0
     "@unique-nft/quartz-mainnet-types": 936.50.4
+    "@unique-nft/sapphire-mainnet-types": 937.52.0
     "@unique-nft/unique-mainnet-types": 930.33.0
     "@zeitgeistpm/type-defs": 1.0.0
     "@zeroio/type-definitions": 0.0.14
@@ -5725,6 +5726,16 @@ __metadata:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
   checksum: 1aafa94c4267ac93a0d8f668932bf790a8d86dcec078df8d97b674008c18908886fbc4e921d549238ead440055150c826f6946e5785755297097075c98d888b4
+  languageName: node
+  linkType: hard
+
+"@unique-nft/sapphire-mainnet-types@npm:937.52.0":
+  version: 937.52.0
+  resolution: "@unique-nft/sapphire-mainnet-types@npm:937.52.0"
+  peerDependencies:
+    "@polkadot/api": ^9.10.2
+    "@polkadot/types": ^9.10.2
+  checksum: 36265430ff39d4ee9aa041b8abef167da1f9f601db8b56c9b087f0ac137e25db8608c4a4c276ee601c30b9d88e0ced106b9da69374b6c3a183fd7b8dcb081378
   languageName: node
   linkType: hard
 

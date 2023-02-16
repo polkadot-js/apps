@@ -3,11 +3,11 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { unique, appPromotion } from '@unique-nft/opal-testnet-types/definitions';
+import { unique, appPromotion } from '@unique-nft/sapphire-mainnet-types/definitions';
 
 export default {
   rpc: { 
-    unique: unique.rpc,
+    unique: unique.rpc, 
     appPromotion: appPromotion.rpc
   }
 } as OverrideBundleDefinition;
