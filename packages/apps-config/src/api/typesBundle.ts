@@ -67463,6 +67463,70 @@ export const typesBundle = {
     },
     "opal": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
@@ -70792,6 +70856,70 @@ export const typesBundle = {
     },
     "quartz": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
@@ -71521,6 +71649,585 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "sapphire": {
+      "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
+        "unique": {
+          "accountTokens": {
+            "description": "Get tokens owned by an account in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "collectionTokens": {
+            "description": "Get tokens contained within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "tokenExists": {
+            "description": "Check if the token exists",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "tokenOwner": {
+            "description": "Get the token owner",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "topmostTokenOwner": {
+            "description": "Get the topmost token owner in the hierarchy of a possibly nested token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenOwners": {
+            "description": "Returns 10 tokens owners in no particular order",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenChildren": {
+            "description": "Get tokens nested directly into the token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
+          },
+          "constMetadata": {
+            "description": "Get token constant metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "variableMetadata": {
+            "description": "Get token variable metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "tokenData": {
+            "description": "Get token data, including properties, optionally limited to the provided keys, and total pieces for an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsTokenData"
+          },
+          "totalSupply": {
+            "description": "Get the amount of distinctive tokens present in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get the amount of any user tokens owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get the amount of a specific token owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "allowance": {
+            "description": "Get the amount of currently possible sponsored transactions on a token for the fee to be taken off a sponsor",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "adminlist": {
+            "description": "Get the list of admin accounts of a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "allowlist": {
+            "description": "Get the list of accounts allowed to operate within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "allowed": {
+            "description": "Check if a user is allowed to operate within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "lastTokenId": {
+            "description": "Get the last token ID created in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "collectionById": {
+            "description": "Get a collection by the specified ID",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get chain stats about collections",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
+          "nextSponsored": {
+            "description": "Get the number of blocks until sponsoring a transaction is available",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u64>"
+          },
+          "effectiveCollectionLimits": {
+            "description": "Get effective collection limits",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsCollectionLimits>"
+          },
+          "totalPieces": {
+            "description": "Get the total amount of pieces of an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
+          }
+        }
+      }
     },
     "shibuya": {
       "types": [
