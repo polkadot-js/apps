@@ -5,30 +5,13 @@
 import './typesBundle.fixup.mjs';
 
 import fs from 'fs';
-import path from 'path';
-import process from 'process';
 
 import { objectSpread } from '@polkadot/util';
 
 import chain from './chain';
 import spec from './spec';
 
-// incorrect packages without type specifier
-const PKG_FIX = [
-  '@frequency-chain/api-augment'
-];
-
 it('generates the typesBundle', (): void => {
-  PKG_FIX.forEach((f) => {
-    const full = path.join(process.cwd(), `node_modules/${f}/package.json`);
-    const json = JSON.parse(fs.readFileSync(full, 'utf8')) as Record<string, string>;
-
-    if (!json.type) {
-      json.type = 'module';
-      fs.writeFileSync(full, JSON.stringify(json, null, 2));
-    }
-  });
-
   const specEntries = Object.entries(spec);
   const chainEntries = Object.entries(chain);
   const typesBundle: { chain: Record<string, unknown>, spec: Record<string, unknown> } = { chain: {}, spec: {} };
