@@ -3,7 +3,9 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { appPromotion, unique } from '@unique-nft/opal-testnet-types/definitions';
+import pkg from '@unique-nft/opal-testnet-types/definitions';
+
+const { appPromotion, unique } = pkg;
 
 export default {
   rpc: {

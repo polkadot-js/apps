@@ -8,7 +8,19 @@ import { objectSpread } from '@polkadot/util';
 import chain from './chain';
 import spec from './spec';
 
+// incorrect packages without type specifier
+const PKG_FIX = ['node_modules/@frequency/api-augment/package.json'];
+
 it('generates the typesBundle', (): void => {
+  PKG_FIX.forEach((f) => {
+    const json = JSON.parse(fs.readFileSync(f, 'utf8')) as Record<string, string>;
+
+    if (!json.type) {
+      json.type = 'module';
+      fs.writeFileSync(f, JSON.stringify(json, null, 2));
+    }
+  });
+
   const specEntries = Object.entries(spec);
   const chainEntries = Object.entries(chain);
   const typesBundle: { chain: Record<string, unknown>, spec: Record<string, unknown> } = { chain: {}, spec: {} };
