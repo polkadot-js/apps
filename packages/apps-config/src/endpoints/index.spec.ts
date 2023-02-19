@@ -26,9 +26,16 @@ describe('WS urls are all valid', (): void => {
       name: text as string,
       provider: textBy,
       value
-    }));
+    }))
+    .reduce((all, e): Record<string, Endpoint> => ({
+      ...all,
+      [`${e.name}:: ${e.provider}`]: e
+    }), {});
 
-  it.each(endpoints)('$name:: $provider', ({ name, provider, value }): void => {
+
+  it.each(Object.keys(endpoints))('%s', (key): void => {
+    const { name, provider, value } = endpoints[key];
+
     assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light://`);
     assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
   });
@@ -103,9 +110,15 @@ describe('endpopints naming', (): void => {
       name: text as string,
       provider: textBy,
       value
-    }));
+    }))
+    .reduce((all, e): Record<string, Endpoint> => ({
+      ...all,
+      [`${e.name}:: ${e.provider}`]: e
+    }), {});
 
-  describe.each(endpoints)('$name:: $provider', ({ name, provider }): void => {
+  describe.each(Object.keys(endpoints))('$s', (key): void => {
+    const { name, provider } = endpoints[key];
+
     it('name/provider has no emojis', (): void => {
       assert(!emoji.test(name), `${name} should not contain any emojis`);
       assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);

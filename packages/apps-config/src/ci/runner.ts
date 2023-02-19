@@ -95,23 +95,28 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
 
 export function checkEndpoints (issueFile: string, failures: string[]): void {
   const checker = createChecker(issueFile, failures);
+  const checks = createWsEndpoints()
+    .filter(({ isDisabled, isUnreachable, value }) =>
+      !isDisabled &&
+      !isUnreachable &&
+      value &&
+      isString(value) &&
+      !value.includes('127.0.0.1') &&
+      !value.startsWith('light://')
+    )
+    .map(({ text, value }): Partial<Endpoint> => ({
+      name: text as string,
+      ws: value
+    }))
+    .filter((v): v is Endpoint => !!v.ws)
+    .reduce((all, e): Record<string, Endpoint> => ({
+      ...all,
+      [`${e.name} @ ${e.ws}`]: e
+    }), {});
 
-  it.each(
-    createWsEndpoints()
-      .filter(({ isDisabled, isUnreachable, value }) =>
-        !isDisabled &&
-        !isUnreachable &&
-        value &&
-        isString(value) &&
-        !value.includes('127.0.0.1') &&
-        !value.startsWith('light://')
-      )
-      .map(({ text, value }): Partial<Endpoint> => ({
-        name: text as string,
-        ws: value
-      }))
-      .filter((v): v is Endpoint => !!v.ws)
-  )('$name @ $ws', async ({ name, ws }): Promise<void> => {
+  it.each(Object.keys(checks))('%s', async (key): Promise<void> => {
+    const { name, ws } = checks[key];
+
     expect(await checker(name, ws)).toBe(true);
   });
 }
