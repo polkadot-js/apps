@@ -9,15 +9,16 @@ import chain from './chain';
 import spec from './spec';
 
 // incorrect packages without type specifier
-const PKG_FIX = ['node_modules/@frequency/api-augment/package.json'];
+const PKG_FIX = ['@frequency/api-augment'];
 
 it('generates the typesBundle', (): void => {
   PKG_FIX.forEach((f) => {
-    const json = JSON.parse(fs.readFileSync(f, 'utf8')) as Record<string, string>;
+    const path = `../../../../node_modules/${f}/package.json`;
+    const json = JSON.parse(fs.readFileSync(path, 'utf8')) as Record<string, string>;
 
     if (!json.type) {
       json.type = 'module';
-      fs.writeFileSync(f, JSON.stringify(json, null, 2));
+      fs.writeFileSync(path, JSON.stringify(json, null, 2));
     }
   });
 
