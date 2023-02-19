@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import fs from 'fs';
+import path from 'path';
+import process from 'process';
 
 import { objectSpread } from '@polkadot/util';
 
@@ -13,12 +15,12 @@ const PKG_FIX = ['@frequency/api-augment'];
 
 it('generates the typesBundle', (): void => {
   PKG_FIX.forEach((f) => {
-    const path = `../../../../node_modules/${f}/package.json`;
-    const json = JSON.parse(fs.readFileSync(path, 'utf8')) as Record<string, string>;
+    const full = path.join(process.cwd(), `node_modules/${f}/package.json`);
+    const json = JSON.parse(fs.readFileSync(full, 'utf8')) as Record<string, string>;
 
     if (!json.type) {
       json.type = 'module';
-      fs.writeFileSync(path, JSON.stringify(json, null, 2));
+      fs.writeFileSync(full, JSON.stringify(json, null, 2));
     }
   });
 
