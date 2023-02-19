@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// fix incorrect package specifiers
+import './typesBundle.fixup.mjs';
+
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
