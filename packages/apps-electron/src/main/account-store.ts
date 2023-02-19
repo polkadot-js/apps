@@ -3,7 +3,7 @@
 
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
-import { app } from 'electron';
+import electron from 'electron';
 import path from 'path';
 
 import { FileStore } from '@polkadot/ui-keyring/stores';
@@ -49,7 +49,7 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
 });
 
 export const registerAccountStoreHandlers = (): void => {
-  const defaultStorePath = path.join(app.getPath('userData'), ACCOUNTS_SUBFOLDER);
+  const defaultStorePath = path.join(electron.app.getPath('userData'), ACCOUNTS_SUBFOLDER);
   const fileStore = new FileStore(defaultStorePath);
 
   registerIpcHandler(accountStoreIpcHandler(fileStore));

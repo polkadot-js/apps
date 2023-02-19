@@ -60,7 +60,7 @@
     "postinstall:electron": "electron-builder install-app-deps",
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
-    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs ^typesBundle ^chainEndpoints ^chainTypes || exit 0",
+    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes || exit 0",
     "test:all": "polkadot-dev-run-test --env jest -- --runInBand --config ./jest-slow.config.cjs",
     "test:one": "polkadot-dev-run-test --env jest",
     "test:skipped": "echo 'tests skipped'"
