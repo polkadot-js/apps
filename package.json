@@ -24,6 +24,7 @@
     "packages/*"
   ],
   "main": "packages/apps-electron/build/electron.js",
+  "type": "module",
   "scripts": {
     "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/app.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
@@ -41,10 +42,10 @@
     "build:release:ipfs": "node scripts/ipfsUpload.mjs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ghpages && yarn build:release:ipfs",
     "build:robohash": "node scripts/robohash.cjs",
-    "build:typesBundle": "polkadot-dev-run-test --env node --require ./packages/apps-config/src/api/typesBundle.fixup.cjs --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
+    "build:typesBundle": "polkadot-dev-run-test --env node --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn polkadot-exec-webpack --config webpack.config.cjs",
-    "ci:chainEndpoints": "polkadot-dev-run-test --env jest --require ./packages/apps-config/src/api/typesBundle.fixup.cjs packages/apps-config/src/ci/chainEndpoints -- --config ./jest-ci.config.cjs --runInBand --forceExit",
-    "ci:chainTypes": "polkadot-dev-run-test --env jest --require ./packages/apps-config/src/api/typesBundle.fixup.cjs packages/apps-config/src/ci/chainTypes -- --config ./jest-ci.config.cjs --runInBand --forceExit",
+    "ci:chainEndpoints": "polkadot-dev-run-test --env jest --require ./scripts/fixupModules.cjs packages/apps-config/src/ci/chainEndpoints -- --config ./jest-ci.config.cjs --runInBand --forceExit",
+    "ci:chainTypes": "polkadot-dev-run-test --env jest --require ./scripts/fixupModules.cjs packages/apps-config/src/ci/chainTypes -- --config ./jest-ci.config.cjs --runInBand --forceExit",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
@@ -60,7 +61,7 @@
     "postinstall:electron": "electron-builder install-app-deps",
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
-    "test": "polkadot-dev-run-test --env browser --require ./packages/apps-config/src/api/typesBundle.fixup.cjs ^typesBundle ^chainEndpoints ^chainTypes || exit 0",
+    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs ^typesBundle ^chainEndpoints ^chainTypes || exit 0",
     "test:all": "polkadot-dev-run-test --env jest -- --runInBand --config ./jest-slow.config.cjs",
     "test:one": "polkadot-dev-run-test --env jest",
     "test:skipped": "echo 'tests skipped'"
