@@ -24,7 +24,6 @@
     "packages/*"
   ],
   "main": "packages/apps-electron/build/electron.js",
-  "type": "module",
   "scripts": {
     "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/app.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
