@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
+const fs = require('fs');
+const path = require('path');
+const process = require('process');
 
 // incorrect packages without type specifier
 const PKG_FIX = [
@@ -17,7 +17,6 @@ PKG_FIX.forEach((f) => {
   if (!json.type) {
     json.type = 'module';
     fs.writeFileSync(full, JSON.stringify(json, null, 2));
-
-    console.log('Fixed package type', f);
+    console.log('Fixed package type::', f);
   }
 });

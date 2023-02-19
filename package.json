@@ -41,7 +41,7 @@
     "build:release:ipfs": "node scripts/ipfsUpload.mjs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ghpages && yarn build:release:ipfs",
     "build:robohash": "node scripts/robohash.cjs",
-    "build:typesBundle": "polkadot-dev-run-test --env node --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
+    "build:typesBundle": "polkadot-dev-run-test --env node --require ./packages/apps-config/src/api/typesBundle.fixup.cjs --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn polkadot-exec-webpack --config webpack.config.cjs",
     "ci:chainEndpoints": "polkadot-dev-run-test --env jest packages/apps-config/src/ci/chainEndpoints -- --config ./jest-ci.config.cjs --runInBand --forceExit",
     "ci:chainTypes": "polkadot-dev-run-test --env jest packages/apps-config/src/ci/chainTypes -- --config ./jest-ci.config.cjs --runInBand --forceExit",
