@@ -12,6 +12,6 @@ const { unique } = pkg;
 export default {
   rpc: {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    nique: unique.rpc
+    unique: unique.rpc
   }
 } as OverrideBundleDefinition;
