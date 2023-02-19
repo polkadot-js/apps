@@ -95,7 +95,7 @@ function createChecker (issueFile: string, failures: string[]): (name: string, w
 
 export function checkEndpoints (issueFile: string, failures: string[]): void {
   const checker = createChecker(issueFile, failures);
-  const checks = createWsEndpoints()
+  const checks: Record<string, Endpoint> = createWsEndpoints()
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&
@@ -109,7 +109,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
       ws: value
     }))
     .filter((v): v is Endpoint => !!v.ws)
-    .reduce((all, e): Record<string, Endpoint> => ({
+    .reduce((all, e) => ({
       ...all,
       [`${e.name} @ ${e.ws}`]: e
     }), {});

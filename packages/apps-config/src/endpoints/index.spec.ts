@@ -16,7 +16,7 @@ const allEndpoints = createWsEndpoints(undefined, false, false);
 const INVALID_CHARS = ['%'];
 
 describe('WS urls are all valid', (): void => {
-  const endpoints = allEndpoints
+  const endpoints: Record<string, Endpoint> = allEndpoints
     .filter(({ value }) =>
       value &&
       isString(value) &&
@@ -27,11 +27,10 @@ describe('WS urls are all valid', (): void => {
       provider: textBy,
       value
     }))
-    .reduce((all, e): Record<string, Endpoint> => ({
+    .reduce((all, e) => ({
       ...all,
       [`${e.name}:: ${e.provider}`]: e
     }), {});
-
 
   it.each(Object.keys(endpoints))('%s', (key): void => {
     const { name, provider, value } = endpoints[key];
@@ -100,7 +99,7 @@ describe('urls are not duplicated', (): void => {
 
 describe('endpopints naming', (): void => {
   const emoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
-  const endpoints = allEndpoints
+  const endpoints: Record<string, Endpoint> = allEndpoints
     .filter(({ value }) =>
       value &&
       isString(value) &&
@@ -111,7 +110,7 @@ describe('endpopints naming', (): void => {
       provider: textBy,
       value
     }))
-    .reduce((all, e): Record<string, Endpoint> => ({
+    .reduce((all, e) => ({
       ...all,
       [`${e.name}:: ${e.provider}`]: e
     }), {});
