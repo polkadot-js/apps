@@ -79939,7 +79939,7 @@ export const typesBundle = {
     },
     "unique": {
       "rpc": {
-        "unique": {
+        "nique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
             "params": [

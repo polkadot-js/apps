@@ -11,7 +11,9 @@ import chain from './chain';
 import spec from './spec';
 
 // incorrect packages without type specifier
-const PKG_FIX = ['@frequency-chain/api-augment'];
+const PKG_FIX = [
+  '@frequency-chain/api-augment'
+];
 
 it('generates the typesBundle', (): void => {
   PKG_FIX.forEach((f) => {
