@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u128 } from '@polkadot/types';
 import type { ComponentProps as Props } from './types';
 
 import React, { useState } from 'react';
@@ -33,17 +34,15 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> |
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to submit for candidacy.')}
                 label={t<string>('candidate account')}
                 onChange={setAccountId}
                 type='account'
               />
             </Modal.Columns>
             {api.consts[modLocation] && (
-              <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
+              <Modal.Columns hint={t<string>('The bond will be reserved for the duration of your candidacy and membership.')}>
                 <InputBalance
-                  defaultValue={api.consts[modLocation].candidacyBond}
-                  help={t<string>('The bond that is reserved')}
+                  defaultValue={api.consts[modLocation as 'council']?.candidacyBond as u128}
                   isDisabled
                   label={t<string>('candidacy bond')}
                 />

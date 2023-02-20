@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
@@ -35,12 +35,10 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
-              help={t<string>('The address to vote from (must be a member)')}
               label={t<string>('vote from account')}
               onChange={setAccountId}
             />
             <Dropdown
-              help={t<string>('Approve or reject this defender.')}
               label={t<string>('vote for defender')}
               onChange={setVote}
               options={voteOptsRef.current}

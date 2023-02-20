@@ -1,11 +1,14 @@
-// Copyright 2017-2022 @polkadot/react-components  authors & contributors
+// Copyright 2017-2023 @polkadot/react-components  authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import { Popup } from '@polkadot/react-components';
+import { lightTheme } from '@polkadot/apps/themes';
 import i18next from '@polkadot/react-components/i18n';
+
+import Popup from '.';
 
 function TestPopup () {
   return (
@@ -25,7 +28,9 @@ function TestPopup () {
 function renderPopup () {
   return render(
     <Suspense fallback='...'>
-      <TestPopup />
+      <ThemeProvider theme={lightTheme}>
+        <TestPopup />
+      </ThemeProvider>
     </Suspense>
   );
 }
@@ -72,7 +77,7 @@ async function expectPopupToBeOpen () {
 }
 
 async function togglePopup () {
-  fireEvent.click(await screen.findByRole('button'));
+  fireEvent.click(await screen.findByTestId('popup-open'));
 }
 
 async function clickOutside () {

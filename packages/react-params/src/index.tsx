@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -29,6 +29,7 @@ interface Props extends I18nProps {
   registry?: Registry;
   values?: RawParams | null;
   withBorder?: boolean;
+  withExpander?: boolean;
 }
 
 interface State {
@@ -81,7 +82,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -92,6 +93,7 @@ class Params extends React.PureComponent<Props, State> {
       <Holder
         className={className}
         withBorder={withBorder}
+        withExpander={withExpander}
       >
         <ErrorBoundary onError={this.onRenderError}>
           <div className='ui--Params-Content'>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -18,7 +18,6 @@ interface Props {
   className?: string;
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
   filter?: (section: string, method?: string) => boolean;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
@@ -27,7 +26,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, filter, help, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', defaultValue, filter, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section, filter));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api, filter));
@@ -60,7 +59,6 @@ function InputExtrinsic ({ className = '', defaultValue, filter, help, isDisable
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

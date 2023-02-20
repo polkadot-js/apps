@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -6,6 +6,7 @@ import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { AddressSmall, Tag } from '@polkadot/react-components';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Voters from './Voters';
@@ -14,32 +15,38 @@ interface Props {
   className?: string;
   address: AccountId;
   balance?: Balance;
+  hasElections: boolean;
   isPrime?: boolean;
   voters?: AccountId[];
 }
 
-function Candidate ({ address, balance, className = '', isPrime, voters }: Props): React.ReactElement<Props> {
+function Candidate ({ address, balance, className = '', hasElections, isPrime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <tr className={className}>
-      <td className='address'>
-        <AddressSmall value={address} />
-      </td>
-      <td>
-        {isPrime && (
-          <Tag
-            color='green'
-            hover={t<string>('Current prime member, default voting')}
-            label={t<string>('prime voter')}
-          />
-        )}
-      </td>
-      <Voters
-        balance={balance}
-        voters={voters}
-      />
-    </tr>
+    <>
+      <tr className={`${className} isExpanded isFirst ${hasElections ? '' : 'isLast'}`}>
+        <td className='address all relative'>
+          <AddressSmall value={address} />
+          {isPrime && (
+            <Tag
+              className='absolute'
+              color='green'
+              label={t<string>('prime')}
+            />
+          )}
+        </td>
+        <td className='number'>
+          {voters && formatNumber(voters.length)}
+        </td>
+      </tr>
+      {hasElections && (
+        <Voters
+          balance={balance}
+          voters={voters}
+        />
+      )}
+    </>
   );
 }
 

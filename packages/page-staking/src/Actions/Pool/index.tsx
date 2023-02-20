@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
@@ -8,7 +8,8 @@ import type { SortedTargets } from '../../types';
 
 import React from 'react';
 
-import usePoolInfo from '../../Pools/usePoolInfo';
+import usePoolInfo from '@polkadot/app-staking2/Pools/usePoolInfo';
+
 import Account from './Account';
 
 interface Props {

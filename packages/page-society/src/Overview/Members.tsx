@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { MapMember } from '../types';
@@ -20,10 +20,10 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
 
-  const headerRef = useRef([
-    [t('members'), 'start', 3],
-    [t('voted on'), 'start'],
-    [t('strikes')],
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('members'), 'start', 2],
+    [t<string>('voted on'), 'start'],
+    [t<string>('strikes')],
     []
   ]);
 

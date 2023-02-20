@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -19,7 +19,7 @@ function Chain ({ children, className = '', label }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      {label || ''}{systemChain || t('Unknown')}{children}
+      {label || ''}{systemChain || t<string>('Unknown')}{children}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -47,8 +47,8 @@ function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props>
     <InfoForInput type='error'>
       {
         isValidHex
-          ? t('Unable to find on-chain WASM code for the supplied codeHash')
-          : t('The codeHash is not a valid hex hash')
+          ? t<string>('Unable to find on-chain WASM code for the supplied codeHash')
+          : t<string>('The codeHash is not a valid hex hash')
       }
     </InfoForInput>
   );

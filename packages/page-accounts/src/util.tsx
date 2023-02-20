@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -12,24 +12,29 @@ import React from 'react';
 
 import { getEnvironment } from '@polkadot/react-api/util';
 import { InputAddress, Menu } from '@polkadot/react-components';
-import { getAccountCryptoType, getAddressMeta } from '@polkadot/react-components/util';
+import { getAddressMeta } from '@polkadot/react-components/util';
 import { BN_ZERO } from '@polkadot/util';
 
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[], header?: string): React.ReactNode | null {
-  const filtered = items.filter((item): item is React.ReactNode => !!item);
+  const filtered = items.filter((e): e is React.ReactNode => !!e);
 
   return filtered.length
-    ? <React.Fragment key={key}>
-      <Menu.Divider />
-      {header ? <Menu.Header>{header}</Menu.Header> : null}
-      {filtered}
-    </React.Fragment>
+    ? (
+      <React.Fragment key={key}>
+        <Menu.Divider />
+        {header && (
+          <Menu.Header>{header}</Menu.Header>
+        )}
+        {filtered}
+      </React.Fragment>
+    )
     : null;
 }
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
 export function downloadAccount ({ json, pair }: CreateResult): void {
+  // eslint-disable-next-line deprecation/deprecation
   FileSaver.saveAs(
     new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' }),
     `${pair.address}.json`
@@ -63,15 +68,16 @@ export function tryCreateAccount (commitAccount: () => CreateResult, success: st
   return status;
 }
 
-export const sortCategory = ['parent', 'name', 'date', 'balances', 'type'] as const;
-export type SortCategory = typeof sortCategory[number];
+export const SORT_CATEGORY = ['parent', 'name', 'date', 'balances'] as const;
 
-const comparator = (accounts: Record<string, SortedAccount | undefined>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean) => {
+export type SortCategory = typeof SORT_CATEGORY[number];
+
+function comparator (accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean): (a: SortedAccount, b: SortedAccount) => number {
   function accountQualifiedName (account: SortedAccount | undefined): string {
     if (account) {
       const parent = (account.account?.meta.parentAddress || '') as string;
 
-      return accountQualifiedName(accounts[parent]) + account.address;
+      return accountQualifiedName(accountsMap[parent]) + account.address;
     } else {
       return '';
     }
@@ -98,11 +104,8 @@ const comparator = (accounts: Record<string, SortedAccount | undefined>, balance
 
     case 'balances':
       return make((acc) => balances[acc.address]?.total ?? BN_ZERO, (a, b) => a.cmp(b));
-
-    case 'type':
-      return make((acc) => getAccountCryptoType(acc.address), (a, b) => a.localeCompare(b));
   }
-};
+}
 
 export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
   return [...accountsList]
@@ -115,6 +118,8 @@ export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record
           : -1);
 }
 
-export const getJudgementColor = (name: DisplayedJudgement): 'green' | 'red' => {
-  return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
-};
+export function getJudgementColor (name: DisplayedJudgement): 'green' | 'red' {
+  return (name === 'Erroneous' || name === 'Low quality')
+    ? 'red'
+    : 'green';
+}

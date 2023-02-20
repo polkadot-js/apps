@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Judgement } from '@polkadot/react-hooks/types';
@@ -19,7 +19,7 @@ function JudgementTag ({ judgement: { judgementName, registrars } }: Props): Rea
   return (
     <Popup
       closeOnScroll
-      position='center'
+      position='middle'
       value={
         <Menu>
           {registrars.map((registrar) => registrar && (
@@ -33,7 +33,6 @@ function JudgementTag ({ judgement: { judgementName, registrars } }: Props): Rea
     >
       <Tag
         color={judgementColor}
-        isTag={false}
         label={`${registrars.length} ${judgementName}`}
         size='tiny'
       />

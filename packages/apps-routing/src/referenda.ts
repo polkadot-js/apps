@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -12,13 +12,14 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         'tx.referenda.submit',
-        'tx.convictionVoting.vote'
+        'tx.convictionVoting.vote',
+        'consts.referenda.tracks'
       ]
     },
     group: 'governance',
     icon: 'person-booth',
     name: 'referenda',
-    text: t('nav.referenda', 'Referenda', { ns: 'apps-routing' }),
+    text: t<string>('nav.referenda', 'Referenda', { ns: 'apps-routing' }),
     useCounter
   };
 }

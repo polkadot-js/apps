@@ -1,11 +1,7 @@
 {
   "Convert address": "Convert address",
-  "Detection on the input string to determine if it is hex or non-hex.": "Detection on the input string to determine if it is hex or non-hex.",
   "Hash data": "Hash data",
   "No": "No",
-  "Override the default ss58 prefix for address generation": "Override the default ss58 prefix for address generation",
-  "The blake2b 256-bit hash of the actual input data.": "The blake2b 256-bit hash of the actual input data.",
-  "The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.": "The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.",
   "Yes": "Yes",
   "address prefix": "address prefix",
   "address to convert": "address to convert",

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -131,7 +131,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           : (
             <div>
               {!infos.length
-                ? <article>{t('No sub identities set.')}</article>
+                ? <article>{t<string>('No sub identities set.')}</article>
                 : infos.map(([address, name], index) =>
                   <IdentitySubMemo
                     address={address}

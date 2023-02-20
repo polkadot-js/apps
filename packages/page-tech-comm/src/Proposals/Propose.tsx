@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -73,7 +73,6 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
           <Modal.Content>
             <InputAddress
               filter={members}
-              help={t<string>('Select the account you wish to make the proposal with.')}
               label={t<string>('propose from account')}
               onChange={setAcountId}
               type='account'
@@ -81,7 +80,6 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
             />
             <InputNumber
               className='medium'
-              help={t<string>('The minimum number of committee votes required to approve this motion')}
               isError={!hasThreshold}
               label={t<string>('threshold')}
               onChange={_onChangeThreshold}

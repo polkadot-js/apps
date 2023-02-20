@@ -1,12 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Icon, Tooltip } from '@polkadot/react-components';
+import { Icon, styled, Tooltip } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { encodeTypeDef } from '@polkadot/types/create';
 
@@ -33,7 +32,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
   const { api } = useApi();
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
@@ -74,11 +73,11 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
           )}
         </>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(MessageSignature)`
+const StyledDiv = styled.div`
   font: var(--font-mono);
   font-weight: var(--font-weight-normal);
   flex-grow: 1;
@@ -86,7 +85,7 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-mutates {
     color: #ff8600;
     margin-left: 0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   .ui--MessageSignature-name {
@@ -101,4 +100,6 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`);
+`;
+
+export default React.memo(MessageSignature);

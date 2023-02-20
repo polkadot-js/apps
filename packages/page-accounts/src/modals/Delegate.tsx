@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Conviction } from '@polkadot/types/interfaces';
@@ -73,10 +73,9 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
             value={delegatedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
+        <Modal.Columns hint={t<string>('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
           <InputBalance
             autoFocus
-            help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
             isError={!!amountError?.error}
             isZeroable={false}
             label={t<string>('delegating amount')}
@@ -96,10 +95,13 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
             onError={setAmountError}
           />
           <ConvictionDropdown
-            help={t<string>('The conviction that will be used for each delegated vote.')}
             label={t<string>('conviction')}
             onChange={setConviction}
             value={conviction}
+            voteLockingPeriod={
+              api.consts.democracy.voteLockingPeriod ||
+              api.consts.democracy.enactmentPeriod
+            }
           />
         </Modal.Columns>
       </Modal.Content>

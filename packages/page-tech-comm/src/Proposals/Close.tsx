@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from '@polkadot/react-hooks/types';
@@ -24,7 +24,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [proposalWeight, proposalLength] = useWeight(proposal);
+  const { encodedCallLength, weight } = useWeight(proposal);
   const modLocation = useCollectiveInstance(type);
 
   if (!modLocation) {
@@ -48,7 +48,6 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The committee account that will apply the close for the current round.')}>
               <InputAddress
-                help={t<string>('Select the account you wish close the proposal with.')}
                 label={t<string>('close from account')}
                 onChange={setAccountId}
                 type='account'
@@ -58,13 +57,13 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
           <Modal.Actions>
             <TxButton
               accountId={accountId}
-              isDisabled={!hasFailed && !proposalLength}
+              isDisabled={!hasFailed && !encodedCallLength}
               onStart={toggleOpen}
               params={
                 api.tx[modLocation].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
-                    : [hash, idNumber, proposalWeight, proposalLength]
+                    : [hash, idNumber, weight, encodedCallLength]
                   : [hash, idNumber]
               }
               tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}

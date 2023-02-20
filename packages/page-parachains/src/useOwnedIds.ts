@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -61,7 +61,7 @@ function useOwnedIdsImpl (): OwnedId[] {
     api.events.registrar.Registered,
     api.events.registrar.Reserved
   ]);
-  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, OPT_ENTRIES, trigger.blockHash);
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, [], OPT_ENTRIES, trigger.blockHash);
   const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], OPT_HASHES);
 
   return useMemo(

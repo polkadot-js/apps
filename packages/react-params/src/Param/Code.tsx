@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -10,7 +10,7 @@ import { isWasm } from '@polkadot/util';
 import Bytes from './Bytes';
 import BytesFile from './File';
 
-function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
+function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   const _onChange = useCallback(
@@ -32,6 +32,7 @@ function Code ({ className = '', defaultValue, isDisabled, isError, label, onCha
         label={label}
         onEnter={onEnter}
         onEscape={onEscape}
+        registry={registry}
         type={type}
         withLabel={withLabel}
       />

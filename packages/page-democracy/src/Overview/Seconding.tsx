@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
@@ -48,7 +48,6 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
             </Modal.Columns>
             <Modal.Columns hint={t<string>('Endorsing a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to endorse with. This will lock your funds until the proposal is either approved or rejected')}
                 label={t<string>('endorse with account')}
                 onChange={setAccountId}
                 type='account'

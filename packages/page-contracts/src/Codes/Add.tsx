@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -40,15 +40,14 @@ function Add ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t('Add an existing code hash')}
+      header={t<string>('Add an existing code hash')}
       onClose={onClose}
     >
       <Modal.Content>
         <Input
           autoFocus
-          help={t('The code hash for the on-chain deployed code.')}
           isError={codeHash.length > 0 && !isCodeHashValid}
-          label={t('code hash')}
+          label={t<string>('code hash')}
           onChange={setCodeHash}
           value={codeHash}
         />
@@ -75,7 +74,7 @@ function Add ({ onClose }: Props): React.ReactElement {
         <Button
           icon='save'
           isDisabled={!isValid}
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
@@ -45,6 +45,7 @@ export interface Campaigns {
   activeCap: BN;
   activeRaised: BN;
   funds: Campaign[] | null;
+  isLoading?: boolean;
   totalCap: BN;
   totalRaised: BN;
 }

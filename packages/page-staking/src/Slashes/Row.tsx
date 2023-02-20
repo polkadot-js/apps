@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Slash } from './types';
@@ -6,6 +6,7 @@ import type { Slash } from './types';
 import React, { useCallback } from 'react';
 
 import { AddressMini, AddressSmall, Badge, Checkbox, ExpanderScroll } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -18,8 +19,9 @@ interface Props {
   slash: Slash;
 }
 
-function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
+function Row ({ index, isSelected, onSelect, slash: { era, isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   const _onSelect = useCallback(
     () => onSelect && onSelect(index),
@@ -79,6 +81,11 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
       <td className='number together'>
         <FormatBalance value={payout} />
       </td>
+      {!api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration && (
+        <td className='number together'>
+          {formatNumber(era)}
+        </td>
+      )}
       <td>
         <Checkbox
           isDisabled={!onSelect}

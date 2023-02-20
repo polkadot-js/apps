@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
@@ -18,16 +18,15 @@ interface Props {
 function Referendums ({ className = '', referendums }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('referenda'), 'start', 2],
-    [t('remaining'), 'media--1200'],
-    [t('activate'), 'media--1400'],
-    [t('turnout'), 'media--1400'],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('referenda'), 'start', 2],
+    [t<string>('remaining'), 'media--1200'],
+    [t<string>('activate'), 'media--1400'],
+    [t<string>('turnout'), 'media--1400'],
     [undefined, 'badge'],
-    [t('votes'), 'expand'],
-    [t<string>('support'), 'media--1000'],
-    [undefined, undefined, 2],
-    [undefined, 'media--1000']
+    [t<string>('votes'), 'expand'],
+    [undefined, 'media--1000'],
+    [undefined, undefined, 2]
   ]);
 
   return (
