@@ -2905,7 +2905,7 @@ __metadata:
     "@polkadot/react-components": ^0.124.2-85-x
     "@testing-library/react": ^13.4.0
     file-saver: ^2.0.5
-    testcontainers: ^9.1.2
+    testcontainers: ^9.1.3
   languageName: unknown
   linkType: soft
 
@@ -3293,7 +3293,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.68.38
+    "@polkadot/dev": ^0.68.39
     "@polkadot/react-components": ^0.124.2-85-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -3326,7 +3326,7 @@ __metadata:
     "@babel/runtime": ^7.20.13
     "@polkadot/apps-config": ^0.124.2-85-x
     "@polkadot/apps-routing": ^0.124.2-85-x
-    "@polkadot/dev": ^0.68.38
+    "@polkadot/dev": ^0.68.39
     "@polkadot/react-api": ^0.124.2-85-x
     "@polkadot/react-components": ^0.124.2-85-x
     "@polkadot/react-hooks": ^0.124.2-85-x
@@ -3354,9 +3354,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.68.38":
-  version: 0.68.38
-  resolution: "@polkadot/dev@npm:0.68.38"
+"@polkadot/dev@npm:^0.68.39":
+  version: 0.68.39
+  resolution: "@polkadot/dev@npm:0.68.39"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -3458,7 +3458,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 7fa2e683784b02b97fb08c34f1f84d6504e28d2a3d1ae0513b392390a800f4801f281bf789b0c7f0a19e221bfc6de5a2c89a237eb3674ce9ad131188392d7e08
+  checksum: 1e99081b76a5ff2a21d0897fd55f880e6e8bd9c3af1bd4e6a7237f89c392b69d237ac1d611df6b95452a85ea6fa9861589b593daefc136e4378307d7101d360c
   languageName: node
   linkType: hard
 
@@ -3615,7 +3615,7 @@ __metadata:
     chartjs-plugin-annotation: ^2.1.2
     chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
-    i18next: ^22.4.9
+    i18next: ^22.4.10
     i18next-browser-languagedetector: ^7.0.1
     owasp-password-strength-test: ^1.3.0
     react: ^18.2.0
@@ -3782,7 +3782,7 @@ __metadata:
     "@polkadot/types-support": ^9.14.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
-    testcontainers: ^9.1.2
+    testcontainers: ^9.1.3
     tsconfig-paths: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4834,7 +4834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dockerode@npm:^3.3.12":
+"@types/dockerode@npm:^3.3.14":
   version: 3.3.14
   resolution: "@types/dockerode@npm:3.3.14"
   dependencies:
@@ -6739,6 +6739,13 @@ __metadata:
   version: 1.0.1
   resolution: "async-limiter@npm:1.0.1"
   checksum: 2b849695b465d93ad44c116220dee29a5aeb63adac16c1088983c339b0de57d76e82533e8e364a93a9f997f28bbfc6a92948cefc120652bd07f3b59f8d75cf2b
+  languageName: node
+  linkType: hard
+
+"async-lock@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "async-lock@npm:1.4.0"
+  checksum: a71ef9e50dc448a8e8dd6482494210d7b6f556d4815612b1fed5662216cd756c2c8fb9c2153a9a66ea90b36ba7fb18aa568d11813aadc23feb4c5b0b188df614
   languageName: node
   linkType: hard
 
@@ -9444,12 +9451,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docker-compose@npm:^0.23.17":
-  version: 0.23.17
-  resolution: "docker-compose@npm:0.23.17"
+"docker-compose@npm:^0.23.19":
+  version: 0.23.19
+  resolution: "docker-compose@npm:0.23.19"
   dependencies:
     yaml: ^1.10.2
-  checksum: c308bf067cabe178d245b3e499119937b1d2a5effdc9fac6227e04be4308a0250ca7bb1471789b3d0492ea2ce83f74e40b7517a9a5cb540a21355a64e4ad5d3c
+  checksum: 1704825954ec8645e4b099cc2641531955eef5a8a9729c885fab7067ae4d7935c663252e51b49878397e51cd5a3efcf2f13c8460e252aa39d14a0722c0bacfe5
   languageName: node
   linkType: hard
 
@@ -12682,12 +12689,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:*, i18next@npm:^22.4.9":
-  version: 22.4.9
-  resolution: "i18next@npm:22.4.9"
+"i18next@npm:*, i18next@npm:^22.4.10":
+  version: 22.4.10
+  resolution: "i18next@npm:22.4.10"
   dependencies:
     "@babel/runtime": ^7.20.6
-  checksum: 8cce4aaced4857e006fab2c9d4adb0eb1375829e459076be79d4d3532b1be6342b7003a720e187098f17bb276bea46df8b3fc2cf21f0f3a230bd519243048d1a
+  checksum: 731423e3fafe4ecaf0fc3c5867b69ae5c35c9021f7b5aad8392a9bf5cf56fbf1503376ba5aa935f2b21e12a97862fa31be0e4b35e98eefb747e2008b5808e35c
   languageName: node
   linkType: hard
 
@@ -15917,7 +15924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.7":
+"node-fetch@npm:2.6.7":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
@@ -15928,6 +15935,20 @@ __metadata:
     encoding:
       optional: true
   checksum: 8d816ffd1ee22cab8301c7756ef04f3437f18dace86a1dae22cf81db8ef29c0bf6655f3215cb0cdb22b420b6fe141e64b26905e7f33f9377a7fa59135ea3e10b
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.7, node-fetch@npm:^2.6.9":
+  version: 2.6.9
+  resolution: "node-fetch@npm:2.6.9"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
   languageName: node
   linkType: hard
 
@@ -16886,7 +16907,7 @@ __metadata:
     "@babel/runtime": ^7.20.13
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.68.38
+    "@polkadot/dev": ^0.68.39
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.4.0
@@ -19989,24 +20010,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "testcontainers@npm:9.1.2"
+"testcontainers@npm:^9.1.3":
+  version: 9.1.3
+  resolution: "testcontainers@npm:9.1.3"
   dependencies:
     "@balena/dockerignore": ^1.0.2
     "@types/archiver": ^5.3.1
-    "@types/dockerode": ^3.3.12
+    "@types/dockerode": ^3.3.14
     archiver: ^5.3.1
+    async-lock: ^1.4.0
     byline: ^5.0.0
     debug: ^4.3.4
-    docker-compose: ^0.23.17
+    docker-compose: ^0.23.19
     dockerode: ^3.3.4
     get-port: ^5.1.1
-    node-fetch: ^2.6.7
+    node-fetch: ^2.6.9
     properties-reader: ^2.2.0
     ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: dbd52133fcfde3f60486af2fe1a99f82735d12dda6b222081c78cfb41766ed0283c844fb4383c0090a55ab39a1b1ec05caf9a2f338d87efe6be488486f72a069
+  checksum: e2834f9990190cd96c059a98b623a807066ac98781ffd1b78670e82b3a89b7cfd78728caa82091fba01c4083d5495e43309ff58b24668cde8a3ff447af87b8ad
   languageName: node
   linkType: hard
 
