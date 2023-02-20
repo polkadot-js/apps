@@ -60684,7 +60684,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -62399,7 +62400,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -64114,7 +64116,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -65829,7 +65832,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -67767,7 +67771,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [

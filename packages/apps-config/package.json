@@ -49,7 +49,7 @@
     "@unique-nft/unique-mainnet-types": "930.33.0",
     "@zeitgeistpm/type-defs": "1.0.0",
     "@zeroio/type-definitions": "0.0.14",
-    "moonbeam-types-bundle": "2.0.9",
+    "moonbeam-types-bundle": "2.0.10",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.8.0"
   }
