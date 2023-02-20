@@ -5,7 +5,8 @@ import type { ComponentProps as Props } from '../types';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { useLoadingDelay } from '../../../../react-hooks/src/index'
 import CreateModal from '../modals/Create';
 import { useTranslation } from '../translate';
 import Address from './Table';

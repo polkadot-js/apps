@@ -41,6 +41,7 @@ export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIpfsFetch } from './useIpfsFetch';
 export { useIpfsLink } from './useIpfsLink';
+export { useLoadingDelay } from './useLoadingDelay';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useJudgements } from './useJudgements';
 export { useKeyring } from './useKeyring';
