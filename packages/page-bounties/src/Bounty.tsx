@@ -6,9 +6,8 @@ import type { Bounty as BountyType, BountyIndex } from '@polkadot/types/interfac
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, ExpandButton, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 

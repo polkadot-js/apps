@@ -6,13 +6,13 @@ import type { KeyringItemType } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import LockedVote from './LockedVote';
+import { styled } from './styled';
 
 interface Props {
   balance?: BN | BN[];

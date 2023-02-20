@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Dropdown, Icon } from './';
+import Dropdown from './Dropdown';
+import Icon from './Icon';
+import { styled } from './styled';
 
 interface Props {
   className?: string;

@@ -4,7 +4,8 @@
 import type { EntryInfo } from './types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

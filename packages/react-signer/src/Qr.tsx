@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Columar, MarkError, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
+import { Columar, MarkError, QrDisplayPayload, QrScanSignature, Spinner, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';

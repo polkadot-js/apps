@@ -9,9 +9,9 @@ import type { Group, Groups, ItemRoute } from './types';
 
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
+import { styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';

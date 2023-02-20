@@ -5,11 +5,11 @@ import type { DropdownItemProps, DropdownProps } from 'semantic-ui-react';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button as SUIButton, Dropdown as SUIDropdown } from 'semantic-ui-react';
-import styled from 'styled-components';
 
 import { isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
+import { styled } from './styled';
 
 interface Props<Option extends DropdownItemProps> {
   allowAdd?: boolean;

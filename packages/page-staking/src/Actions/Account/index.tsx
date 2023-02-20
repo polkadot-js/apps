@@ -8,10 +8,9 @@ import type { SortedTargets } from '../../types';
 import type { Slash } from '../types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
 

@@ -4,9 +4,8 @@
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Badge, Tag } from '@polkadot/react-components';
+import { Badge, styled, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 

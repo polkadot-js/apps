@@ -5,9 +5,10 @@ import type { UInt } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { bnToBn } from '@polkadot/util';
+
+import { styled } from './styled';
 
 interface Props {
   className?: string;

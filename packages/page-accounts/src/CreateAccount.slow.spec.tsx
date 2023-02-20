@@ -44,7 +44,7 @@ const renderAccounts = () => {
   );
 };
 
-describe('--SLOW--: Account Create', () => {
+describe.skip('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 

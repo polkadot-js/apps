@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useDebounce, useNextTick } from '@polkadot/react-hooks';
 
 import Input from '../Input';
 import Spinner from '../Spinner';
+import { styled } from '../styled';
 import { useTranslation } from '../translate';
 import Available from './Available';
 import Selected from './Selected';

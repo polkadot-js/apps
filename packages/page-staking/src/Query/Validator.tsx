@@ -4,9 +4,8 @@
 import type { Props } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Columar } from '@polkadot/react-components';
+import { Columar, styled } from '@polkadot/react-components';
 
 import ChartPoints from './ChartPoints';
 import ChartPrefs from './ChartPrefs';

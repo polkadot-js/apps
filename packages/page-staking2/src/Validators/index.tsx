@@ -4,10 +4,9 @@
 import type { SessionInfo } from '../types';
 
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import Legend from '@polkadot/app-staking/Legend';
-import { Button, ToggleGroup } from '@polkadot/react-components';
+import { Button, styled, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import useValidatorsActive from '../useValidatorsActive';

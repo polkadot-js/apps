@@ -8,9 +8,8 @@ import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/t
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Trans } from 'react-i18next';
-import styled from 'styled-components';
 
-import { Button, Card, Columar, Input, InputAddress, Tabs, Tooltip } from '@polkadot/react-components';
+import { Button, Card, Columar, Input, InputAddress, styled, Tabs, Tooltip } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { u8aToHex, u8aToString } from '@polkadot/util';

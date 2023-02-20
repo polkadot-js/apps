@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled';
 
 interface Props {
   className?: string;
@@ -19,7 +20,7 @@ interface Props {
 
 const defaultLabel: React.ReactNode = <div>&nbsp;</div>;
 
-function Labelled ({ className = '', children, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {

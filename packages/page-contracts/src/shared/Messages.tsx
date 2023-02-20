@@ -7,10 +7,9 @@ import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { Abi } from '@polkadot/api-contract';
-import { Expander } from '@polkadot/react-components';
+import { Expander, styled } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 

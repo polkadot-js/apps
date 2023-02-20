@@ -8,10 +8,9 @@ import type { Group } from './types';
 import punycode from 'punycode/';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
-import { Button, Input, Sidebar } from '@polkadot/react-components';
+import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 

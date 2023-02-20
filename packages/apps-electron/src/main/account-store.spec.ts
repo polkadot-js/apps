@@ -49,13 +49,13 @@ describe('Account store', () => {
   });
 
   it('get returns null if account does not exist', async () => {
-    jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
+    // jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
 
     expect(await accountStore['account-store-get']('1')).toEqual(null);
   });
 
   it('account disappears from list after it is removed', async () => {
-    jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
+    // jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
 
     await accountStore['account-store-set']('1', exampleAccount('a'));
     await accountStore['account-store-remove']('1');

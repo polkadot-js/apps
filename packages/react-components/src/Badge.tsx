@@ -4,11 +4,11 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import { useTheme } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
+import { styled } from './styled';
 import Tooltip from './Tooltip';
 
 interface Props {

@@ -8,9 +8,8 @@ import type { BN } from '@polkadot/util';
 import type { PalletVote, TrackInfo } from '../../types';
 
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Modal, ProposedAction, ToggleGroup, TxButton, VoteAccount } from '@polkadot/react-components';
+import { Button, Modal, ProposedAction, styled, ToggleGroup, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';

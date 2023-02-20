@@ -4,12 +4,12 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
+import { styled } from './styled';
 
 interface Props {
   className?: string;

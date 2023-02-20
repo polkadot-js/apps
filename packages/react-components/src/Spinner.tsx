@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import spinnerSrc from './Spinner.png';
+import { styled } from './styled';
 import { useTranslation } from './translate';
 
 interface Props {

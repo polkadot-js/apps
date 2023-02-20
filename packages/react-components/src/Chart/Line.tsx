@@ -6,11 +6,11 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
-import styled from 'styled-components';
 
 import { isBn, objectSpread } from '@polkadot/util';
 
 import ErrorBoundary from '../ErrorBoundary';
+import { styled } from '../styled';
 import { alphaColor } from './utils';
 
 export interface Props {

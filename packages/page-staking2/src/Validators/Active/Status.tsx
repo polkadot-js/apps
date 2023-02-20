@@ -5,9 +5,8 @@ import type { Validator } from '../../types';
 import type { UseHeartbeat } from '../types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Badge } from '@polkadot/react-components';
+import { Badge, styled } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {

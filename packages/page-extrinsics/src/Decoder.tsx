@@ -8,9 +8,8 @@ import type { DecodedExtrinsic } from './types';
 
 import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { Call as CallDisplay, Input, InputExtrinsic, MarkError } from '@polkadot/react-components';
+import { Call as CallDisplay, Input, InputExtrinsic, MarkError, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { assert, compactToU8a, isHex, u8aConcat, u8aEq } from '@polkadot/util';
 

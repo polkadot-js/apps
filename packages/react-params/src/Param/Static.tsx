@@ -5,9 +5,8 @@ import type { Codec } from '@polkadot/types/types';
 import type { RawParam } from '../types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Static } from '@polkadot/react-components';
+import { Static, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import { toHumanJson } from '../valueToText';

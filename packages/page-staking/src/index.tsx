@@ -9,11 +9,10 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import Pools from '@polkadot/app-staking2/Pools';
 import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
-import { Tabs } from '@polkadot/react-components';
+import { styled, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 

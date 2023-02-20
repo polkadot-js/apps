@@ -4,9 +4,9 @@
 import type { ItemProps } from './types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
 import Icon from '../Icon';
+import { styled } from '../styled';
 
 function Item ({ children, className = '', icon, isDisabled, label, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(

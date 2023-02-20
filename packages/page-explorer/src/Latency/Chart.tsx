@@ -5,9 +5,8 @@ import type { ChartOptions } from 'chart.js';
 import type { ChartContents } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Chart } from '@polkadot/react-components';
+import { Chart, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

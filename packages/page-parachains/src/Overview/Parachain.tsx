@@ -6,9 +6,8 @@ import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Badge, Expander, ParaLink, Table } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink, styled, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 

@@ -7,9 +7,8 @@ import type { HexString } from '@polkadot/util/types';
 import type { PalletReferenda, TrackDescription } from '../../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, styled, ToggleGroup, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';

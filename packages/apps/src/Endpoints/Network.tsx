@@ -4,9 +4,8 @@
 import type { Network } from './types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { ChainImg } from '@polkadot/react-components';
+import { ChainImg, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Url from './Url';

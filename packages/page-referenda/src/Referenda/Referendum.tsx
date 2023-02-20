@@ -8,9 +8,8 @@ import type { BN } from '@polkadot/util';
 import type { CurveGraph, ReferendumProps as Props } from '../types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';

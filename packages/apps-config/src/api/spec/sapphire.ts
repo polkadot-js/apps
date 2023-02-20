@@ -3,11 +3,17 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { appPromotion, unique } from '@unique-nft/sapphire-mainnet-types/definitions';
+import pkg from '@unique-nft/sapphire-mainnet-types/definitions.js';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const { appPromotion, unique } = pkg;
 
 export default {
   rpc: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     appPromotion: appPromotion.rpc,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     unique: unique.rpc
   }
 } as OverrideBundleDefinition;

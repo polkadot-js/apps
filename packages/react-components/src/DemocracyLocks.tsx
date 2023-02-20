@@ -7,13 +7,13 @@ import type { Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
+import { styled } from './styled';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 

@@ -4,11 +4,11 @@
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 import ParentAccount from './ParentAccount';
+import { styled } from './styled';
 
 interface Props {
   children?: React.ReactNode;

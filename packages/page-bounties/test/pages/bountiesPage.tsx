@@ -42,7 +42,7 @@ class NotYetRendered extends Error {
 }
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
-const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+const propose = jest.fn(() => 'mockProposeExtrinsic');
 
 interface RenderedBountiesPage {
   findAllByTestId: FindManyWithMatcher;

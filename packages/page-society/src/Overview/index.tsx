@@ -6,7 +6,8 @@ import type { BN } from '@polkadot/util';
 import type { MapMember } from '../types';
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 import Defender from './Defender';
 import Members from './Members';

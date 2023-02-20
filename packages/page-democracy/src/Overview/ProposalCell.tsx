@@ -6,9 +6,8 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { CallExpander } from '@polkadot/react-components';
+import { CallExpander, styled } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';

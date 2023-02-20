@@ -5,7 +5,8 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { QueryTypes } from './types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 import Queries from './Queries';
 import Selection from './Selection';

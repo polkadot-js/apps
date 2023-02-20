@@ -8,9 +8,8 @@ import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PayoutStash, PayoutValidator } from './types';
 
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
+import { Button, MarkWarning, styled, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { BN, BN_THREE } from '@polkadot/util';
 

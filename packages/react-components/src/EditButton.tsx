@@ -4,10 +4,10 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { colorLink } from './styles/theme';
 import Icon from './Icon';
+import { styled } from './styled';
 
 interface Props {
   children?: React.ReactNode;

@@ -9,10 +9,9 @@ import type { Registry } from '@polkadot/types/types';
 import type { QueryTypes, StorageModuleQuery } from './types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import { withCallDiv } from '@polkadot/react-api/hoc';
-import { Button, Labelled } from '@polkadot/react-components';
+import { Button, Labelled, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import valueToText from '@polkadot/react-params/valueToText';
 import { getSiName } from '@polkadot/types/metadata/util';

@@ -4,8 +4,8 @@
 import type { BaseProps, MenuType } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from '../styled';
 import Divider from './Divider';
 import Header from './Header';
 import Item from './Item';

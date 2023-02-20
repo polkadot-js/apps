@@ -4,11 +4,10 @@
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { knownExtensions } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
-import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
+import { Button, Dropdown, Spinner, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
