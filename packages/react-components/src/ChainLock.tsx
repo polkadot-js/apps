@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
 import { chains } from '@polkadot/ui-settings/defaults/chains';
 
+import { styled } from './styled';
 import Toggle from './Toggle';
 import { useTranslation } from './translate';
 

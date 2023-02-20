@@ -4,8 +4,8 @@
 import type { Log } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
 interface Props {

@@ -6,8 +6,8 @@ import type { SectionType, TabItem } from './types';
 
 import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
+import { styled } from '../styled';
 import CurrentSection from './CurrentSection';
 import Tab from './Tab';
 import Delimiter from './TabsSectionDelimiter';

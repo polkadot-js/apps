@@ -5,11 +5,11 @@ import type { LinkTypes } from '@polkadot/apps-config/links/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
+import { styled } from './styled';
 import { useTranslation } from './translate';
 
 interface Props {

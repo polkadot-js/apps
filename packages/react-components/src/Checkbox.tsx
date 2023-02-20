@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
 import Icon from './Icon';
+import { styled } from './styled';
 
 interface Props {
   className?: string;

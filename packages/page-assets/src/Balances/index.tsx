@@ -4,9 +4,8 @@
 import type { AssetInfo, AssetInfoComplete } from '../types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Dropdown, Table } from '@polkadot/react-components';
+import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

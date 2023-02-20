@@ -5,10 +5,9 @@ import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { SortedTargets } from '../types';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

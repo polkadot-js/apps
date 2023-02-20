@@ -4,9 +4,8 @@
 import type { ItemRoute } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Badge, Icon } from '@polkadot/react-components';
+import { Badge, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {

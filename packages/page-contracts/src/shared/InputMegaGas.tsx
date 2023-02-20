@@ -5,9 +5,8 @@ import type { BN } from '@polkadot/util';
 import type { UseWeight } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { InputNumber, Toggle } from '@polkadot/react-components';
+import { InputNumber, styled, Toggle } from '@polkadot/react-components';
 import { BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

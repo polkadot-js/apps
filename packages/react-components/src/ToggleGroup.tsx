@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import Button from './Button';
+import { styled } from './styled';
 
 interface Option {
   isDisabled?: boolean;

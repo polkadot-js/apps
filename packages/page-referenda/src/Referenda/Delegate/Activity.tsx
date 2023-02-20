@@ -5,9 +5,8 @@ import type { PalletReferenda, TrackDescription, TrackInfoExt } from '../../type
 import type { VoteResultItem } from './types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { MarkWarning, Table } from '@polkadot/react-components';
+import { MarkWarning, styled, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';

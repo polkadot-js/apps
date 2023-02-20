@@ -6,9 +6,8 @@ import type { BlockNumber, DispatchInfo, Extrinsic } from '@polkadot/types/inter
 import type { ICompact, INumber } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, CallExpander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, CallExpander, LinkExternal, styled } from '@polkadot/react-components';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 

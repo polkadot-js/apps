@@ -7,9 +7,8 @@ import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { CallResult } from './types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { Available } from '@polkadot/react-query';

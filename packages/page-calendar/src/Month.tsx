@@ -4,9 +4,8 @@
 import type { DateState, EntryInfo } from './types';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 
 import { DAYS, MONTHS } from './constants';
 import MonthDay from './MonthDay';

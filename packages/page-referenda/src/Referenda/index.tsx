@@ -5,10 +5,9 @@ import type { BN } from '@polkadot/util';
 import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types';
 
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
-import { Button, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown, styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 

@@ -7,7 +7,6 @@ import type { Option } from './types';
 
 import React from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { keyring } from '@polkadot/ui-keyring';
@@ -17,6 +16,7 @@ import { isAddress } from '@polkadot/util-crypto';
 
 import Dropdown from '../Dropdown';
 import Static from '../Static';
+import { styled } from '../styled';
 import { getAddressName, toAddress } from '../util';
 import createHeader from './createHeader';
 import createItem from './createItem';

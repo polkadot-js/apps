@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';
+import { styled } from '../styled';
 
 interface Props {
   address: string;

@@ -4,9 +4,8 @@
 import type { ChartContents, Detail } from './types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, NextTick, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-components';
 import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

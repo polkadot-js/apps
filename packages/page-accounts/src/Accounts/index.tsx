@@ -8,9 +8,8 @@ import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import type { SortCategory } from '../util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, FilterInput, SortDropdown, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { getAccountCryptoType } from '@polkadot/react-components/util';
 import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';

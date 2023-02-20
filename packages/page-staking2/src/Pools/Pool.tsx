@@ -5,9 +5,8 @@ import type { BN } from '@polkadot/util';
 import type { MembersMapEntry, Params } from './types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, ExpandButton, ExpanderScroll, Spinner, Table } from '@polkadot/react-components';
+import { AddressMini, ExpandButton, ExpanderScroll, Spinner, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 

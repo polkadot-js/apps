@@ -4,9 +4,10 @@
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { formatNumber } from '@polkadot/util';
+
+import { styled } from '../../styled';
 
 export interface Props {
   children?: React.ReactNode;

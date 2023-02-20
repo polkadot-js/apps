@@ -5,13 +5,13 @@ import type { UInt } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_HUNDRED, formatNumber, isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 import Progress from './Progress';
+import { styled } from './styled';
 
 interface ProgressProps {
   hideGraph?: boolean;

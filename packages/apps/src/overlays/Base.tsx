@@ -4,9 +4,8 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon } from '@polkadot/react-components';
+import { Button, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {

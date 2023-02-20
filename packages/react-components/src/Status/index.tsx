@@ -5,13 +5,13 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useQueue } from '@polkadot/react-hooks';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
+import { styled } from '../styled';
 import { STATUS_COMPLETE } from './constants';
 
 interface Props {

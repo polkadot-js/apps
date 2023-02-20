@@ -9,7 +9,8 @@
 
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled';
 
 interface Props {
   className?: string;

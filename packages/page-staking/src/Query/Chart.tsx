@@ -4,9 +4,8 @@
 import type { LineData } from './types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Chart, Spinner } from '@polkadot/react-components';
+import { Chart, Spinner, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

@@ -9,7 +9,6 @@ import type { PalletBalancesReserveData } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useBestNumber } from '@polkadot/react-hooks';
@@ -23,6 +22,7 @@ import Icon from './Icon';
 import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
+import { styled } from './styled';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 

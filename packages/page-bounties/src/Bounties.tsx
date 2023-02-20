@@ -4,10 +4,9 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, styled, Table } from '@polkadot/react-components';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';

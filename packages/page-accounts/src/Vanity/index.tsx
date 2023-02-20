@@ -6,9 +6,8 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { GeneratorMatch, GeneratorMatches, GeneratorResult } from '@polkadot/vanitygen/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
+import { Button, Dropdown, Input, styled, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { nextTick } from '@polkadot/util';

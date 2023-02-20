@@ -4,9 +4,8 @@
 import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Icon } from '@polkadot/react-components';
+import { Icon, styled } from '@polkadot/react-components';
 
 import { bountySvgColor } from '../theme';
 

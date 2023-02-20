@@ -5,9 +5,8 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Extrinsic, Icon, InputNumber, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 

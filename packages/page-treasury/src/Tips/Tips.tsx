@@ -7,9 +7,8 @@ import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Table, Toggle } from '@polkadot/react-components';
+import { styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { useWindowColumns } from '@polkadot/react-hooks';
 
+import { styled } from '../styled';
 import Body from './Body';
 import Column from './Column';
 import Foot from './Foot';

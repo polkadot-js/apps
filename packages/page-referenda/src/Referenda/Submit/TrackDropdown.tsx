@@ -5,9 +5,8 @@ import type { BN } from '@polkadot/util';
 import type { PalletReferenda, TrackDescription } from '../../types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Dropdown } from '@polkadot/react-components';
+import { Dropdown, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
 import useTrackOptions from './useTrackOptions';

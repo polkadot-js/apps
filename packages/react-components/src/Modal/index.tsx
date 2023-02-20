@@ -3,11 +3,12 @@
 
 import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 import { useTheme } from '@polkadot/react-hooks';
 
 import ErrorBoundary from '../ErrorBoundary';
+import { styled } from '../styled';
 import Actions from './Actions';
 import Columns from './Columns';
 import Content from './Content';

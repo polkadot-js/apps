@@ -4,9 +4,8 @@
 import type { StakerState } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';

@@ -6,9 +6,8 @@ import type { SortedTargets } from '../../types';
 import type { NominateInfo } from '../partials/types';
 
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
-import { Modal, TxButton } from '@polkadot/react-components';
+import { Modal, styled, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
 import NominatePartial from '../partials/Nominate';

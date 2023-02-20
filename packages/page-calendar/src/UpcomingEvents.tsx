@@ -4,9 +4,8 @@
 import type { EntryInfoTyped } from './types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 
 import DayItem from './DayItem';
 import { useTranslation } from './translate';

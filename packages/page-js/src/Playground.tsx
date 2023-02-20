@@ -8,9 +8,8 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { Log, LogType, Snippet } from './types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Editor, Tabs } from '@polkadot/react-components';
+import { Button, Dropdown, Editor, styled, Tabs } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import * as types from '@polkadot/types';
 import uiKeyring from '@polkadot/ui-keyring';

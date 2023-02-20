@@ -4,9 +4,8 @@
 import type { Group } from './types';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Icon } from '@polkadot/react-components';
+import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network';
 

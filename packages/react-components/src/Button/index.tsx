@@ -4,10 +4,10 @@
 import type { ButtonProps as Props } from './types';
 
 import React, { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
 
 import Icon from '../Icon';
 import Spinner from '../Spinner';
+import { styled } from '../styled';
 import Group from './Group';
 
 function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: Props): React.ReactElement<Props> {
