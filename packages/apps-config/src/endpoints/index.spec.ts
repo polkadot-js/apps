@@ -115,23 +115,23 @@ describe('endpopints naming', (): void => {
       [`${e.name}:: ${e.provider}`]: e
     }), {});
 
-  describe.each(Object.keys(endpoints))('$s', (key): void => {
+  describe.each(Object.keys(endpoints))('%s', (key): void => {
     const { name, provider } = endpoints[key];
 
-    it('name/provider has no emojis', (): void => {
+    it(`[${key}] has no emojis`, (): void => {
       assert(!emoji.test(name), `${name} should not contain any emojis`);
       assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);
     });
 
-    it('provider not all uppercase', (): void => {
+    it(`[${key}] not all uppercase`, (): void => {
       assert(!provider.includes(' ') || (provider.toLocaleUpperCase() !== provider), `${name}:: ${provider} should not be all uppercase`);
     });
 
-    it('does not contain "Parachain', (): void => {
+    it(`[${key}] does not contain "Parachain`, (): void => {
       assert(!name.includes('Parachain'), `${name} should not contain "Parachain" (redundant)`);
     });
 
-    it('does not contain a relay name', (): void => {
+    it(`[${key}] does not contain a relay name`, (): void => {
       assert(!name.includes(' ') || !name.includes('Kusama'), `${name} should not contain "Kusama" (redundant)`);
       assert(!name.includes(' ') || !name.includes('Polkadot'), `${name} should not contain "Polkadot" (redundant)`);
       assert(!name.includes(' ') || !name.includes('Rococo'), `${name} should not contain "Rococo" (redundant)`);
