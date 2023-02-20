@@ -202,6 +202,19 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'giantTestnet',
+    paraId: 4227,
+    providers: {
+      GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org'
+    },
+    teleport: [-1],
+    text: 'GIANT Protocol',
+    ui: {
+      color: '#45B549',
+      logo: nodesGiantPNG
+    }
+  },
+  {
     info: 'helixstreet',
     paraId: 3025,
     providers: {
@@ -583,19 +596,6 @@ export const testParasRococo: EndpointOption[] = [
     ui: {
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
-    }
-  },
-  {
-    info: 'giantTestnet',
-    paraId: 4227,
-    providers: {
-      GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org'
-    },
-    teleport: [-1],
-    text: 'GIANT Protocol',
-    ui: {
-      color: '#45B549',
-      logo: nodesGiantPNG
     }
   }
 ];
