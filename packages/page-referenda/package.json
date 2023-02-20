@@ -16,6 +16,6 @@
     "@babel/runtime": "^7.20.13"
   },
   "devDependencies": {
-    "chart.js": "^3.9.1"
+    "chart.js": "^4.2.1"
   }
 }

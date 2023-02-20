@@ -27,7 +27,7 @@
     "@polkadot/util": "^10.4.2",
     "@polkadot/util-crypto": "^10.4.2",
     "@types/chartjs-plugin-crosshair": "^1.1.1",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.2.1",
     "chartjs-plugin-annotation": "^2.1.2",
     "chartjs-plugin-crosshair": "^1.2.0",
     "codeflask": "^1.4.1",

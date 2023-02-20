@@ -60,7 +60,7 @@
     "postinstall:electron": "electron-builder install-app-deps",
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
-    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^page- ^react- ^apps-electron",
+    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^apps-electron ^page-accounts ^page-addresses ^page-bounties ^react-components/src/Modal ^react-components/src/Popup",
     "test:all": "polkadot-dev-run-test --env browser -- --runInBand --config ./jest-slow.config.cjs",
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
@@ -72,7 +72,6 @@
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
     "@polkadot/dev": "^0.68.41",
-    "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.0",
     "@types/react-beautiful-dnd": "^13.1.3",
