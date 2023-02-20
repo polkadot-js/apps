@@ -1,6 +1,3 @@
-// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
-// SPDX-License-Identifier: Apache-2.0
-
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
@@ -8,7 +5,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import type { Call } from '@polkadot/types/interfaces';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { IconLink, Input, Expander, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags, InputAddress } from '@polkadot/react-components';
+import { IconLink, Input, InputExtrinsic,  Call as CallDisplay, Expander, ExpanderScroll, AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags, InputAddress, InputBalance } from '@polkadot/react-components';
 import { useApi, useCall, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction, u8aToHex } from '@polkadot/util';
@@ -20,6 +17,7 @@ import IdentityIcon from '@polkadot/react-components/IdentityIcon';
 import { FormatBalance } from '@polkadot/react-query';
 import { decodeAddress } from '@polkadot/util-crypto';
 import { largeNumSum } from '../../util';
+import DecoderDetails from './DecoderDetails';
 
 
 interface Props {
@@ -200,19 +198,24 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       },[]);
 
       return (
-        <div style={{display: "-webkit-box", border: '1px dashed lightgrey', margin: '5px', padding: '3px 3px 3px 20px', }}>
-          <IdentityIcon value={voter as Uint8Array} />
-          <div>
-            <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{voter.toString()}</p>
-            <p>{voterRole}</p>
-            {
-              <FormatBalance
-                className='result'
-                value={voterbalance}
-              />
-            }
-          </div>
-        </div>
+        <>
+        <InputAddress 
+          defaultValue={voter}
+          isDisabled
+          label={t<string>('Voter')}
+        />
+        <InputBalance
+             defaultValue={voterbalance}
+             isDisabled
+             label={t<string>('Balance')}
+         />
+        <Input 
+             defaultValue={voterRole.toString()}
+             isDisabled
+             label={t<string>('Role')}
+             value={voterRole}
+          />
+        </>
       )
     }
 
@@ -222,10 +225,13 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         extrinsicCall = api.api.createType('Call', item.encoded_call.toString());
         const { method, section } = api.api.registry.findMetaCall(extrinsicCall.callIndex);
         let call_id = u8aToHex(item.id.toU8a(), -1, false).toString();
+        let call_data = u8aToHex(item.encoded_call.toU8a(), -1, false).toString();
         for(let k = 0; k < ( 32 - call_id.length ); k++){
           call_id += '0';
         }
-        let approvelink = '#/supersig/create/0x08026d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + call_id;
+        let approvelink = '#/supersig/create/0x08016d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + call_id;
+        let detailslink = '#/supersig/decode/0x08016d6f646c69642f7375736967' + '00000000000000000000000000000000000000' + call_data;
+
         
         return(
           <div style={{minHeight: '35px', alignItems: 'center', display: 'flex'}}>
@@ -234,16 +240,9 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
               className="w-full"
               summary={`${section}.${method}`}
             >
-              <InputAddress
-                defaultValue={item.provider}
-                isDisabled
-                label={t<string>('Provider')}
-              />
-              <Input
-                defaultValue={item.id.toString()}
-                isDisabled
-                label={t<string>('CallId')}
-              />
+              
+          
+              
               <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
                 <Expander
                   summary={t<string>('Voters(' + item.voters.length.toString() + '/' + proposals.no_of_members.toString() + ')')}
@@ -263,6 +262,33 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                   label={t<string>('Vote')}
                   href={approvelink}
                 />
+              </div>
+              <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
+
+            <Expander summary={t<string>('proposal info ')}>
+             
+                <InputAddress
+                  defaultValue={item.provider}
+                  isDisabled
+                  label={t<string>('Proposer')}
+                />
+                <CallDisplay
+                  className='proposal info'
+                  value={extrinsicCall}
+                />
+                <div style={{margin: '5px'}}>
+                <IconLink
+                    icon='fa-magnifying-glass'
+                    label={t<string>('extrinsic')}
+                    href={detailslink}
+                  />
+                </div>
+                <Input
+                  defaultValue={item.id.toString()}
+                  isDisabled
+                  label={t<string>('CallId')}
+                />
+              </Expander>
               </div>
             </Expander>
           </div>
@@ -290,7 +316,9 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     const renderMembers = useCallback(
       () => memberAccounts && memberAccounts.map((item: IMemberItem, index: number): React.ReactNode =>
         <div key={index} style={{display: "-webkit-box"}}>
+          <div style={{margin: '5px'}}>
           <IdentityIcon value={item.id as Uint8Array} />
+          </div>
           <div>
             <p style={{textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden', width: "190px"}}>{item.id}</p>
             <FormatBalance
