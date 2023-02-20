@@ -3293,7 +3293,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.68.39
+    "@polkadot/dev": ^0.68.40
     "@polkadot/react-components": ^0.124.2-85-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -3326,7 +3326,7 @@ __metadata:
     "@babel/runtime": ^7.20.13
     "@polkadot/apps-config": ^0.124.2-85-x
     "@polkadot/apps-routing": ^0.124.2-85-x
-    "@polkadot/dev": ^0.68.39
+    "@polkadot/dev": ^0.68.40
     "@polkadot/react-api": ^0.124.2-85-x
     "@polkadot/react-components": ^0.124.2-85-x
     "@polkadot/react-hooks": ^0.124.2-85-x
@@ -3354,9 +3354,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.68.39":
-  version: 0.68.39
-  resolution: "@polkadot/dev@npm:0.68.39"
+"@polkadot/dev@npm:^0.68.40":
+  version: 0.68.40
+  resolution: "@polkadot/dev@npm:0.68.40"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -3420,7 +3420,7 @@ __metadata:
     jsdom: ^21.1.0
     madge: ^6.0.0
     prettier: ^2.8.4
-    rollup: ^3.17.1
+    rollup: ^3.17.2
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.9.5
     webpack: ^5.75.0
@@ -3458,7 +3458,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 1e99081b76a5ff2a21d0897fd55f880e6e8bd9c3af1bd4e6a7237f89c392b69d237ac1d611df6b95452a85ea6fa9861589b593daefc136e4378307d7101d360c
+  checksum: efa0673933e2fec834b2d0a29c454c3d95e54c4608ea6eea8b4dc3730344234219afb61840d475771b873d6d34a67ae537e8451f73b0dd43eb82e440a1733966
   languageName: node
   linkType: hard
 
@@ -16907,7 +16907,7 @@ __metadata:
     "@babel/runtime": ^7.20.13
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.68.39
+    "@polkadot/dev": ^0.68.40
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.4.0
@@ -18465,9 +18465,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.17.1":
-  version: 3.17.1
-  resolution: "rollup@npm:3.17.1"
+"rollup@npm:^3.17.2":
+  version: 3.17.2
+  resolution: "rollup@npm:3.17.2"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -18475,7 +18475,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 3c6076eba228a6623b886929154ebbb9ddfb6a044e567456eeb6257b5235f4fd740655836b539155b1b25697f38f5d189bf81b9ce0624ce5aafc6c8620bd80c0
+  checksum: 9473eb7e7ffdb74c8e01e813eccb2e81e86cd429aea4705c424a5369845bedd871e715347a53be04a157f8febb99a8e502c124b896141e06d94fb86d6e121721
   languageName: node
   linkType: hard
 
