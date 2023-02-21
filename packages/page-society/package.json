@@ -11,9 +11,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-88-x",
+  "version": "0.124.2-89-x",
   "dependencies": {
     "@babel/runtime": "^7.21.0",
-    "@polkadot/react-components": "^0.124.2-88-x"
+    "@polkadot/react-components": "^0.124.2-89-x"
   }
 }
