@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/core": "^7.21.0",
     "@babel/polyfill": "^7.12.1",
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "^7.21.0",
     "@polkadot/apps-config": "^0.124.2-87-x",
     "@polkadot/apps-routing": "^0.124.2-87-x",
     "@polkadot/dev": "^0.68.41",
