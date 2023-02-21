@@ -16,7 +16,7 @@ const allEndpoints = createWsEndpoints(undefined, false, false);
 const INVALID_CHARS = ['%'];
 
 describe('WS urls are all valid', (): void => {
-  const endpoints: Record<string, Endpoint> = allEndpoints
+  const endpoints = allEndpoints
     .filter(({ value }) =>
       value &&
       isString(value) &&
@@ -26,18 +26,14 @@ describe('WS urls are all valid', (): void => {
       name: text as string,
       provider: textBy,
       value
-    }))
-    .reduce((all, e) => ({
-      ...all,
-      [`${e.name}:: ${e.provider}`]: e
-    }), {});
+    }));
 
-  it.each(Object.keys(endpoints))('%s', (key): void => {
-    const { name, provider, value } = endpoints[key];
-
-    assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light://`);
-    assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
-  });
+  for (const { name, provider, value } of endpoints) {
+    it(`${name}:: ${provider}`, (): void => {
+      assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name}:: ${provider} -> ${value} should start with wss:// or light://`);
+      assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
+    });
+  }
 });
 
 describe('urls are sorted', (): void => {

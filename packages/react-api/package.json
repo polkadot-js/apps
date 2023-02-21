@@ -17,7 +17,7 @@
     "path": false
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "^7.21.0",
     "@polkadot/api": "^9.14.2",
     "@polkadot/extension-compat-metamask": "^0.44.9",
     "@polkadot/extension-dapp": "^0.44.9",
