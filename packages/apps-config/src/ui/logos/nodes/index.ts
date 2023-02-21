@@ -48,6 +48,7 @@ export { nodesFantourPNG } from './generated/fantourPNG';
 export { nodesGalitalLogoPNG } from './generated/galital-logoPNG';
 export { nodesGamepowerSVG } from './generated/gamepowerSVG';
 export { nodesGeekSVG } from './generated/geekSVG';
+export { nodesGiantPNG } from './generated/giantPNG';
 export { nodesHanyonycashPNG } from './generated/hanyonycashPNG';
 export { nodesHashedPNG } from './generated/hashedPNG';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG';

@@ -15,9 +15,9 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.124.2-86-x",
+  "version": "0.124.2-87-x",
   "versions": {
-    "git": "0.124.2-86-x",
+    "git": "0.124.2-87-x",
     "npm": "0.124.1"
   },
   "workspaces": [
@@ -71,7 +71,7 @@
     "@babel/runtime": "^7.21.0",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.69.1",
+    "@polkadot/dev": "^0.69.3",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.0",
