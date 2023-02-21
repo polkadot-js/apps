@@ -36,8 +36,24 @@ describe('check endpoints', (): void => {
     .filter((v): v is Endpoint => !!v.ws);
   let completed = 0;
   let errored = 0;
+  let websocket: WebSocket | null = null;
 
   afterEach((): void => {
+    if (websocket) {
+      websocket.onclose = null;
+      websocket.onerror = null;
+      websocket.onopen = null;
+      websocket.onmessage = null;
+
+      try {
+        websocket.close();
+      } catch {
+        // ignore
+      }
+
+      websocket = null;
+    }
+
     completed++;
 
     if (completed === checks.length) {
@@ -45,11 +61,8 @@ describe('check endpoints', (): void => {
     }
   });
 
-  for (const c of checks) {
-    const { name, ws: endpoint } = c;
-
+  for (const { name, ws: endpoint } of checks) {
     it(`${name} @ ${endpoint}`, async (): Promise<unknown> => {
-      let websocket: WebSocket | null = null;
       const [,, hostWithPort] = endpoint.split('/');
       const [host] = hostWithPort.split(':');
 
@@ -91,22 +104,6 @@ describe('check endpoints', (): void => {
           errored++;
 
           throw e;
-        })
-        .finally(() => {
-          if (websocket) {
-            websocket.onclose = null;
-            websocket.onerror = null;
-            websocket.onopen = null;
-            websocket.onmessage = null;
-
-            try {
-              websocket.close();
-            } catch {
-              // ignore
-            }
-
-            websocket = null;
-          }
         });
     }, TIMEOUT);
   }
