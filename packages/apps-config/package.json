@@ -39,6 +39,7 @@
     "@polkadot/util": "^10.4.2",
     "@polkadot/wasm-util": "^6.4.1",
     "@polkadot/x-fetch": "^10.4.2",
+    "@polkadot/x-ws": "^10.4.2",
     "@polymathnetwork/polymesh-types": "0.0.2",
     "@snowfork/snowbridge-types": "0.2.7",
     "@sora-substrate/type-definitions": "1.15.2",
