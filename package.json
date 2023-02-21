@@ -43,7 +43,7 @@
     "build:robohash": "node scripts/robohash.cjs",
     "build:typesBundle": "polkadot-dev-run-test --env node --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn polkadot-exec-webpack --config webpack.config.cjs",
-    "ci:chainEndpoints": "polkadot-dev-run-test --env node packages/apps-config/src/ci/chainEndpoints --log ./github/chain-endpoints.md",
+    "ci:chainEndpoints": "polkadot-dev-run-test --env node packages/apps-config/src/ci/chainEndpoints --log .github/chain-endpoints.md",
     "ci:chainTypes": "echo ok",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",

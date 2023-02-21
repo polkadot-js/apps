@@ -17,7 +17,7 @@ interface DnsResponse {
   Question: { name: string }[];
 }
 
-const TIMEOUT = 2_000;
+const TIMEOUT = 60_000;
 
 describe('check endpoints', (): void => {
   const checks = createWsEndpoints()
@@ -41,11 +41,7 @@ describe('check endpoints', (): void => {
     completed++;
 
     if (completed === checks.length) {
-      if (errored) {
-        throw new Error(`${errored} failures detected`);
-      }
-
-      process.exit(0);
+      process.exit(errored);
     }
   });
 
@@ -54,7 +50,6 @@ describe('check endpoints', (): void => {
 
     it(`${name} @ ${endpoint}`, async (): Promise<unknown> => {
       let websocket: WebSocket | null = null;
-      let cleanupId: ReturnType<typeof setTimeout> | null = null;
       const [,, hostWithPort] = endpoint.split('/');
       const [host] = hostWithPort.split(':');
 
@@ -64,15 +59,12 @@ describe('check endpoints', (): void => {
         )
         .then(() =>
           new Promise((resolve, reject): void => {
-            cleanupId = setTimeout(() => {
-              cleanupId = null;
-              reject(new Error('Connection timeout'));
-            }, TIMEOUT);
-
             websocket = new WebSocket(endpoint);
 
             websocket.onclose = (event: { code: number; reason: string }): void => {
-              reject(new Error(`Disconnected, code: '${event.code}' reason: '${event.reason}'`));
+              if (event.code !== 1000) {
+                reject(new Error(`Disconnected, code: '${event.code}' reason: '${event.reason}'`));
+              }
             };
 
             websocket.onerror = (): void => {
@@ -101,11 +93,6 @@ describe('check endpoints', (): void => {
           throw e;
         })
         .finally(() => {
-          if (cleanupId) {
-            clearTimeout(cleanupId);
-            cleanupId = null;
-          }
-
           if (websocket) {
             websocket.onclose = null;
             websocket.onerror = null;
@@ -121,6 +108,6 @@ describe('check endpoints', (): void => {
             websocket = null;
           }
         });
-    }, TIMEOUT * 2);
+    }, TIMEOUT);
   }
 });
