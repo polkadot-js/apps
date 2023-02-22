@@ -67,6 +67,7 @@ function SupersigApp ({ basePath }: Props): React.ReactElement<Props> {
   const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
   const itemsRef = useRef(createItemsRef(t));
   const pathRef = useRef(createPathRef(basePath));
+  // const createPath = pathRef + "/create";
 
   return (
     <main className='supersig--App'>
