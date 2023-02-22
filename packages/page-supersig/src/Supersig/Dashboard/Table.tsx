@@ -227,7 +227,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         for(let k = 0; k < ( 32 - call_id.length ); k++){
           call_id += '0';
         }
-        let approvelink = '#/supersig/create/0x08016d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + call_id;
+        let approvelink = '#/supersig/create/0x08026d6f646c69642f7375736967' + nonce.slice(26, 28) + '00000000000000000000000000000000000000' + call_id;
         let detailslink = '#/supersig/decode/0x08016d6f646c69642f7375736967' + '00000000000000000000000000000000000000' + call_data;
 
         
@@ -263,7 +263,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
               </div>
               <div style={{border: "1px dashed lightgrey", borderRadius: '3px', alignItems: 'center', display: 'flex', minHeight: '50px', marginTop: '5px', marginLeft: '28px', padding: '1px 20px'}}>
 
-            <Expander summary={t<string>('proposal info ')}>
+            <Expander summary={t<string>('Proposal Info ')}>
              
                 <InputAddress
                   defaultValue={item.provider}
@@ -271,7 +271,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                   label={t<string>('Proposer')}
                 />
                 <CallDisplay
-                  className='proposal info'
+                  className='Proposal Info'
                   value={extrinsicCall}
                 />
                 <div style={{margin: '5px'}}>
