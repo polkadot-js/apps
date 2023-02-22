@@ -524,8 +524,8 @@ export const testChains: EndpointOption[] = [
     providers: {
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      UnitedBloc: 'wss://moonbase.unitedbloc.com:1001'
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+      // UnitedBloc: 'wss://moonbase.unitedbloc.com:1001' // https://github.com/polkadot-js/apps/issues/9049
     },
     text: 'Moonbase Alpha',
     ui: {
