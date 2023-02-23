@@ -428,7 +428,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'luhn',
     paraId: 2232,
     providers: {
-      'Hashed Systems': 'wss://c1.luhn.network'
+      // 'Hashed Systems': 'wss://c1.luhn.network' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Luhn Network',
     ui: {

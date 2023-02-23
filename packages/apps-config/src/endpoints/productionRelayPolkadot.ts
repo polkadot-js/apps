@@ -55,7 +55,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'odyssey',
     paraId: 2028,
     providers: {
-      AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
+      // AresProtocol: 'wss://wss.odyssey.aresprotocol.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Ares Odyssey',
     ui: {

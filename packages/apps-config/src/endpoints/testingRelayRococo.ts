@@ -193,7 +193,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoGenshiro',
     paraId: 2024,
     providers: {
-      Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
+      // Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Genshiro Testnet',
     ui: {
@@ -277,7 +277,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoKabocha',
     paraId: 2113,
     providers: {
-      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
+      // JelliedOwl: 'wss://kabsoup1.jelliedowl.com' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Kabocha (kabsoup)',
     ui: {
@@ -290,7 +290,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoKaizen',
     paraId: 2040,
     providers: {
-      'Polkadex Team': 'wss://kaizen-parachain.polkadex.trade'
+      // 'Polkadex Team': 'wss://kaizen-parachain.polkadex.trade' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Kaizen',
     ui: {
@@ -326,7 +326,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoMd5',
     paraId: 2089,
     providers: {
-      'Hashed Systems': 'wss://c1.md5.network'
+      // 'Hashed Systems': 'wss://c1.md5.network' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'MD5 Network',
     ui: {
@@ -423,7 +423,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rocfinity',
     paraId: 2021,
     providers: {
-      Efinity: 'wss://rpc.rococo.efinity.io'
+      // Efinity: 'wss://rpc.rococo.efinity.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Rocfinity',
     ui: {

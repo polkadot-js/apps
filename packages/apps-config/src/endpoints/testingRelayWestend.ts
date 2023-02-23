@@ -126,7 +126,7 @@ export const testParasWestend: EndpointOption[] = [
     info: 'kilt',
     paraId: 2085,
     providers: {
-      'KILT Protocol': 'wss://westend.kilt.io:9977'
+      // 'KILT Protocol': 'wss://westend.kilt.io:9977' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'WILT',
     ui: {
