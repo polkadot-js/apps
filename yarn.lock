@@ -3061,7 +3061,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.21.0
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.69.5
+    "@polkadot/dev": ^0.69.6
     "@polkadot/react-components": ^0.124.2-95-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -3094,7 +3094,7 @@ __metadata:
     "@babel/runtime": ^7.21.0
     "@polkadot/apps-config": ^0.124.2-95-x
     "@polkadot/apps-routing": ^0.124.2-95-x
-    "@polkadot/dev": ^0.69.5
+    "@polkadot/dev": ^0.69.6
     "@polkadot/react-api": ^0.124.2-95-x
     "@polkadot/react-components": ^0.124.2-95-x
     "@polkadot/react-hooks": ^0.124.2-95-x
@@ -3122,9 +3122,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.69.5":
-  version: 0.69.5
-  resolution: "@polkadot/dev@npm:0.69.5"
+"@polkadot/dev@npm:^0.69.6":
+  version: 0.69.6
+  resolution: "@polkadot/dev@npm:0.69.6"
   dependencies:
     "@babel/cli": ^7.21.0
     "@babel/core": ^7.21.0
@@ -3153,8 +3153,6 @@ __metadata:
     "@swc/cli": ^0.1.62
     "@swc/core": ^1.3.36
     "@swc/helpers": ^0.4.14
-    "@testing-library/jest-dom": ^5.16.5
-    "@testing-library/react": ^14.0.0
     "@typescript-eslint/eslint-plugin": ^5.53.0
     "@typescript-eslint/parser": ^5.53.0
     "@vue/component-compiler-utils": ^3.3.0
@@ -3221,7 +3219,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 5af46b8269d3cd2e2b2edc52fbb45808d210d01d501f5a279f5870cfc0f85627906604155cf00142571b47136945572c5d4047cc8e0fadc4c57f3fb2ea67ace6
+  checksum: e7dff071c264c01a9f26913c02d955f7930d28489730620cc406e123d939fceca33e7c37358fba14e8356b388cde7f78c8fec118960e09a8fee4bf2e81811db8
   languageName: node
   linkType: hard
 
@@ -4323,22 +4321,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@testing-library/dom@npm:9.0.0"
-  dependencies:
-    "@babel/code-frame": ^7.10.4
-    "@babel/runtime": ^7.12.5
-    "@types/aria-query": ^5.0.1
-    aria-query: ^5.0.0
-    chalk: ^4.1.0
-    dom-accessibility-api: ^0.5.9
-    lz-string: ^1.4.4
-    pretty-format: ^27.0.2
-  checksum: 5381bf9438f0ee35f795e7f9b203564aa455e7cd838b6677084c82dd56396779c38cc49ddffed4e57a8bcc3c62b4bc96ea684bb4b24d13655152db745327b2cd
-  languageName: node
-  linkType: hard
-
 "@testing-library/jest-dom@npm:^5.16.5":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
@@ -4370,20 +4352,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "@testing-library/react@npm:14.0.0"
-  dependencies:
-    "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^9.0.0
-    "@types/react-dom": ^18.0.0
-  peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 4a54c8f56cc4a39b50803205f84f06280bb76521d6d5d4b3b36651d760c7c7752ef142d857d52aaf4fad4848ed7a8be49afc793a5dda105955d2f8bef24901ac
-  languageName: node
-  linkType: hard
-
 "@tokenizer/token@npm:^0.3.0":
   version: 0.3.0
   resolution: "@tokenizer/token@npm:0.3.0"
@@ -4411,13 +4379,6 @@ __metadata:
   version: 4.2.0
   resolution: "@types/aria-query@npm:4.2.0"
   checksum: e4a3748c5511deb88e93c6faf2acb0730233ff75018e9aaed95e3d2833880e9d0eda7e08e4315a827872471779471585671d08bae00ac8b9813fc140194b52e5
-  languageName: node
-  linkType: hard
-
-"@types/aria-query@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@types/aria-query@npm:5.0.1"
-  checksum: 69fd7cceb6113ed370591aef04b3fd0742e9a1b06dd045c43531448847b85de181495e4566f98e776b37c422a12fd71866e0a1dfd904c5ec3f84d271682901de
   languageName: node
   linkType: hard
 
@@ -15822,7 +15783,7 @@ fsevents@~2.3.2:
     "@babel/runtime": ^7.21.0
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.69.5
+    "@polkadot/dev": ^0.69.6
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/jest": ^29.4.0
