@@ -1,12 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Output } from '@polkadot/react-components';
+import { Button, Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
 import { useTranslation } from '../translate';
@@ -48,7 +47,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
   );
 
   return (
-    <div
+    <StyledDiv
       className={`${className} ${!onSelect ? 'exempt-hover' : ''} ${message.isConstructor ? 'constructor' : ''}`}
       key={`${message.identifier}-${index}`}
     >
@@ -96,11 +95,11 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
           {valueToText('Text', lastResult.output)}
         </Output>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Message)`
+const StyledDiv = styled.div`
   align-items: center;
   border-radius: 0.25rem;
   display: flex;
@@ -117,7 +116,7 @@ export default React.memo(styled(Message)`
     margin-left: 1.5rem;
 
     .docs {
-      font-size: 0.9rem;
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
     }
   }
@@ -129,4 +128,6 @@ export default React.memo(styled(Message)`
   &+& {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Message);

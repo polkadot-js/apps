@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -43,7 +43,7 @@ function usePolkadotPreclaimsImpl (): string[] {
             .map(([address]) => address)
         );
       }
-    );
+    ).catch(console.error);
   }, [api, allAccounts, mountedRef, preclaims]);
 
   return needsAttest;

@@ -1,22 +1,25 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DividerProps } from '@polkadot/react-components/Menu/types';
+import type { DividerProps } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled';
 
 function Divider ({ className = '' }: DividerProps): React.ReactElement {
   return (
-    <div className={`ui--Menu__Divider ${className}`} />
+    <StyledDiv className={`${className} ui--Menu__Divider`} />
   );
 }
 
-export default React.memo(styled(Divider)`
+const StyledDiv = styled.div`
   margin: 0.25rem 0 1rem;
   border-top: 1px solid var(--border-table);
 
   &:first-child, &:last-child {
     display: none
   }
-`);
+`;
+
+export default React.memo(Divider);

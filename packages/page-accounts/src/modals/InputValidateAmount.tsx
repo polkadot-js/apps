@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -30,7 +30,7 @@ function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.R
       let newError: string | null = null;
 
       if (amount.gte(delegatingAccountBalance.freeBalance)) {
-        newError = t('The maximum amount you can delegate is the amount of funds available on the delegating account.');
+        newError = t<string>('The maximum amount you can delegate is the amount of funds available on the delegating account.');
       }
 
       setResult((state): AmountValidateState => {

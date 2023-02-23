@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
@@ -10,3 +10,5 @@ export interface Info {
   health?: Health | null;
   peers?: PeerInfo[] | null;
 }
+
+

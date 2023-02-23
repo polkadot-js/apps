@@ -9,15 +9,39 @@
     <script type="text/javascript" src="env-config.js"></script>
     <style>
       :root {
-        --font-mono: 0.9em Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier, monospace;
+        --font-mono: 0.889em Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier, monospace;
         --font-sans: 1em "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        --font-weight-bold: 700;
+
+        /*
+          From https://www.modularscale.com/?1&rem&1.125 and https://type-scale.com/ -
+          1.125 (8:9) factor: 1.424rem, 1.266rem, 1.125rem, 1rem, 0.889rem, 0.79rem
+        */
+        --font-percent-small: 88.9%;
+        --font-percent-tiny: 79.0%;
+        --font-size-base: 1rem;
+        --font-size-h1: 1.424rem;
+        --font-size-h2: 1.266rem;
+        --font-size-h3: 1.125rem;
+        --font-size-small: 0.889rem;
+        --font-size-tiny: 0.79rem;
+
+        --font-weight-bold: 600; /* semi */
         --font-weight-light: 200;
         --font-weight-normal: 400;
+
+        --opacity-light: 0.6;
+
         --width-full: 1750px;
         --width-half: 875px;
+        --width-shortaddr: 6.5em;
+        --width-shorthash: 9em;
+
+        --font-weight-header: var(--font-weight-normal);
+        --font-size-label: var(--font-size-small);
+        --font-weight-label: var(--font-weight-bold);
+        --text-transform-label: lowercase;
+
         --bg-menu-hover: rgba(255, 255, 255, 0.2);
-        --border-input: rgba(34, 36, 38, .15);
       }
 
       [data-theme="dark"] {
@@ -30,15 +54,19 @@
         --bg-tabs: #38393f;
         --bg-toggle: #58595f;
         --bg-sidebar: #1a1b20;
+        --bg-static-extra: rgba(200, 200, 200, 0.1);
+        --border-input: rgba(234, 236, 238, .15);
         --border-table: #343536;
         --border-tabs: #343536;
         --color-checkbox: rgba(78, 78, 78, 0.66);
         --color-error: rgba(255, 83, 83, 0.8);
-        --color-label: rgba(244, 242, 240, 0.45);
-        --color-summary: rgba(244, 242, 240, 0.75);
-        --color-table-foot: rgba(254, 240, 240, 0.66);
-        --color-table-head: rgba(254, 240, 240, 0.66);
-        --color-text: rgba(244, 242, 240, 0.9);
+        /* --color-header: rgba(244, 242, 240, 0.8); */
+        /* --color-label: rgba(244, 242, 240, 0.45); */
+        /* --color-summary: rgba(244, 242, 240, 0.75); */
+        /* --color-table-foot: rgba(254, 240, 240, 0.66); */
+        /* --color-table-head: rgba(254, 240, 240, 0.8); */
+        --color-text: rgba(244, 242, 240, 0.8);
+        --opacity-gray: 0.1;
       }
 
       [data-theme="light"] {
@@ -51,15 +79,43 @@
         --bg-tabs: #ffffff;
         --bg-toggle: #e4e5e6;
         --bg-sidebar: #fafafa;
-        --border-table: #f1efed;
+        --bg-static-extra: rgba(200, 200, 200, 0.1);
+        --border-input: rgba(34, 36, 38, .15);
+        --border-table: #efedeb;
         --border-tabs: #f1efed;
         --color-checkbox: rgba(34, 36, 38, 0.15);
         --color-error: rgba(139, 0, 0);
-        --color-label: rgba(78, 78, 78, 0.66);
-        --color-summary: rgba(0, 0, 0, 0.6);
-        --color-table-foot: rgba(78, 78, 78, 0.66);
-        --color-table-head: rgba(78, 78, 78, 0.66);
-        --color-text: #4e4e4e;
+        /* --color-header: rgba(78, 78, 78, 0.8); */
+        /* --color-label: rgba(78, 78, 78, 0.66); */
+        /* --color-summary: rgba(78, 78, 78, 0.66); */
+        /* --color-table-foot: rgba(78, 78, 78, 0.66); */
+        /* --color-table-head: rgba(78, 78, 78, 0.8); */
+        --color-text: rgba(78, 78, 78, 0.8); /* 1 */
+        --opacity-gray: 0.75;
+      }
+
+      .--absolute {
+        position: absolute;
+      }
+
+      .--digits {
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .--hidden {
+        display: none;
+      }
+
+      .--relative {
+        position: relative;
+      }
+
+      .--tmp {
+        background: grey;
+        filter: blur(2px);
+        opacity: 0.15;
       }
     </style>
   </head>

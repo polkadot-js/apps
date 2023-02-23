@@ -1,26 +1,24 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 import type { UseWeight } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { InputNumber, Toggle } from '@polkadot/react-components';
+import { InputNumber, styled, Toggle } from '@polkadot/react-components';
 import { BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  estimatedWeight?: BN;
-  help: React.ReactNode;
+  estimatedWeight?: BN | null;
   isCall?: boolean;
   weight: UseWeight;
 }
 
-function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
+function InputMegaGas ({ className, estimatedWeight, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [withEstimate, setWithEstimate] = useState(true);
 
@@ -42,10 +40,9 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
   const isDisabled = !!estimatedMg && withEstimate;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <InputNumber
         defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
-        help={help}
         isDisabled={isDisabled}
         isError={!isValid}
         isZeroable={isCall}
@@ -54,12 +51,8 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
             ? t<string>('max gas allowed (M, {{estimatedMg}} estimated)', { replace: { estimatedMg: estimatedMg.toString() } })
             : t<string>('max gas allowed (M)')
         }
-        onChange={isDisabled ? undefined : setMegaGas}
-        value={isDisabled ? undefined : ((isCall && withEstimate) ? BN_ZERO : megaGas)}
-      >
-        {(estimatedWeight || isCall) && (
+        labelExtra={(estimatedWeight || isCall) && (
           <Toggle
-            isOverlay
             label={
               isCall
                 ? t<string>('max read gas')
@@ -69,17 +62,21 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
             value={withEstimate}
           />
         )}
-      </InputNumber>
+        onChange={isDisabled ? undefined : setMegaGas}
+        value={isDisabled ? undefined : ((isCall && withEstimate) ? BN_ZERO : megaGas)}
+      />
       <div className='contracts--InputMegaGas-meter'>
         {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{', '}
         {t<string>('{{percentage}}% of block weight', { replace: { percentage: percentage.toFixed(2) } })}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputMegaGas)`
+const StyledDiv = styled.div`
   .contracts--InputMegaGas-meter {
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(InputMegaGas);

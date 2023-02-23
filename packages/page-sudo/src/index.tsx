@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -47,7 +47,6 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
             </Route>
             <Route>
               <Sudo
-                allAccounts={allAccounts}
                 isMine={hasSudoKey}
                 sudoKey={sudoKey}
               />

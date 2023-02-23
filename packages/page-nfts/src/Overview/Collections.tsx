@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectionInfo } from '../types';
@@ -18,11 +18,11 @@ interface Props {
 function Collections ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('collections'), 'start', 2],
-    [t('owner'), 'address media--1000'],
-    [t('status')],
-    [t('items')]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('collections'), 'start', 2],
+    [t<string>('owner'), 'address media--1000'],
+    [t<string>('status')],
+    [t<string>('items')]
   ]);
 
   return (

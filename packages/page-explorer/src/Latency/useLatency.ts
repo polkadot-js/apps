@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -15,6 +15,8 @@ const INITIAL_ITEMS = 50;
 const MAX_ITEMS = INITIAL_ITEMS;
 const EMPTY: Result = {
   details: [],
+  isLoaded: false,
+  maxItems: MAX_ITEMS,
   stdDev: 0,
   timeAvg: 0,
   timeMax: 0,
@@ -117,7 +119,7 @@ async function getNext (api: ApiPromise, { block: { number: start } }: Detail, {
 function useLatencyImpl (): Result {
   const { api } = useApi();
   const [details, setDetails] = useState<Detail[]>([]);
-  const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks, []);
+  const signedBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const hasHistoric = useRef(false);
 
   useEffect((): void => {
@@ -171,6 +173,8 @@ function useLatencyImpl (): Result {
 
     return {
       details,
+      isLoaded: details.length === MAX_ITEMS,
+      maxItems: MAX_ITEMS,
       stdDev,
       timeAvg,
       timeMax: Math.max(...delays),

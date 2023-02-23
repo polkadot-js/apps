@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { AccountName, Button, IdentityIcon, Input } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';

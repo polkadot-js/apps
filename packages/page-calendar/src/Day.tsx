@@ -1,12 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types';
 
 import React, { useCallback, useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 
 import { MONTHS } from './constants';
 import DayHour from './DayHour';
@@ -18,7 +17,7 @@ interface Props {
   date: Date;
   hasNextDay: boolean;
   now: Date;
-  scheduled: EntryInfo[];
+  scheduled: EntryInfoTyped[];
   setNextDay: () => void;
   setPrevDay: () => void;
   setView: (v: boolean) => void;
@@ -54,7 +53,7 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <h1>
         <div>
           <Button
@@ -89,11 +88,11 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Day)`
+const StyledDiv = styled.div`
   flex: 1;
 
   .dayHeader {
@@ -107,4 +106,6 @@ export default React.memo(styled(Day)`
   .hoursContainer {
     z-index: 1;
   }
-`);
+`;
+
+export default React.memo(Day);

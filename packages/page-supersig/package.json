@@ -1,0 +1,20 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/decentration/apps/tree/master/packages/page-supersig#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-supersig",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-supersig",
+    "type": "git",
+    "url": "https://github.com/decentration/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.124.2-86-x",
+  "dependencies": {
+    "@babel/runtime": "^7.20.13",
+    "@polkadot/react-components": "^0.124.2-86-x",
+    "@polkadot/react-query": "^0.124.2-86-x"
+  }
+}

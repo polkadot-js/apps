@@ -1,24 +1,26 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ItemProps } from './types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
 import Icon from '../Icon';
+import { styled } from '../styled';
 
 function Item ({ children, className = '', icon, isDisabled, label, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(
     (): void => {
-      !isDisabled && onClick && onClick();
+      !isDisabled && onClick && Promise
+        .resolve(onClick())
+        .catch(console.error);
     },
     [isDisabled, onClick]
   );
 
   return (
-    <div
-      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}${isDisabled ? ' isDisabled' : ''}`}
+    <StyledDiv
+      className={`${className} ui--Menu__Item ${icon ? 'hasIcon' : ''} ${isDisabled ? 'isDisabled' : ''}`}
       onClick={_onClick}
     >
       {icon && (
@@ -28,22 +30,19 @@ function Item ({ children, className = '', icon, isDisabled, label, onClick }: I
         />
       )}
       {label}{children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Item)`
+const StyledDiv = styled.div`
+  align-items: center;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  align-items: center;
-
-  position: relative;
-
-  font-size: 0.93rem;
+  font-size: var(--font-size-small);
   line-height: 0.93rem;
-
   padding: 0.5rem 1rem;
+  position: relative;
 
   &:last-child {
     margin-bottom: 0;
@@ -62,4 +61,6 @@ export default React.memo(styled(Item)`
     cursor: default;
     opacity: 0.5;
   }
-`);
+`;
+
+export default React.memo(Item);

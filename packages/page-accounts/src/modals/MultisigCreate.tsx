@@ -1,13 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal, Toggle } from '@polkadot/react-components';
+import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal, styled, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';
@@ -153,7 +152,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const isValid = isNameValid && isThresholdValid;
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add multisig')}
       onClose={onClose}
@@ -180,10 +179,8 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
             <InputAddressMulti
               available={availableSignatories}
               availableLabel={t<string>('available signatories')}
-              help={t<string>('The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.', { replace: { maxHelpers: MAX_SIGNATORIES } })}
               maxCount={MAX_SIGNATORIES}
               onChange={_onChangeAddressMulti}
-              value={signatories}
               valueLabel={t<string>('selected signatories')}
             />
           </Modal.Columns>
@@ -194,7 +191,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
               accept={acceptedFormats}
               className='full'
               clearContent={!uploadedSignatories.length && isUploadedFileValid}
-              help={t<string>('Select a JSON key file with the list of signatories.')}
               isError={!isUploadedFileValid}
               label={t<string>('upload signatories list')}
               onChange={_onChangeFile}
@@ -230,7 +226,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
         )}
         <Modal.Columns hint={t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
           <InputNumber
-            help={t<string>('The threshold for this multisig')}
             isError={!isThresholdValid}
             label={t<string>('threshold')}
             onChange={_onChangeThreshold}
@@ -241,7 +236,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           <Input
             autoFocus
             className='full'
-            help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}
@@ -257,13 +251,15 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           onClick={_createMultisig}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Multisig)`
+const StyledModal = styled(Modal)`
   .signaturesFileToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(Multisig);

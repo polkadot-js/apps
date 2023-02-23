@@ -1,10 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Tag } from '@polkadot/react-components';
+import { styled, Tag } from '@polkadot/react-components';
 import { useJudgements } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -28,7 +27,6 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
       >
         <Tag
           color='yellow'
-          isTag={false}
           key='NoJudgements'
           label={t<string>('No judgements')}
           size='tiny'
@@ -38,7 +36,7 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
   }
 
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid='judgements'
     >
@@ -48,11 +46,11 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
           key={`${address}${judgement.judgementName}`}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Judgements)`
+const StyledDiv = styled.div`
   margin-top: 0.714rem;
 
   &:not(.no-judgements) {
@@ -60,4 +58,6 @@ export default React.memo(styled(Judgements)`
       cursor: pointer;
     }
   }
-`);
+`;
+
+export default React.memo(Judgements);

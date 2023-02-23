@@ -1,13 +1,13 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from './types';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
 import Badge from '../Badge';
+import { styled } from '../styled';
 
 interface Props extends TabItem {
   basePath: string;
@@ -26,9 +26,9 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   const tabIsExact = isExact || !hasParams || index === 0;
 
   return (
-    <NavLink
+    <StyledNavLink
       activeClassName='tabLinkActive'
-      className={`ui--Tab ${className}`}
+      className={`${className} ui--Tab`}
       exact={tabIsExact}
       strict={tabIsExact}
       to={to}
@@ -43,43 +43,40 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
           info={count}
         />
       )}
-    </NavLink>
+    </StyledNavLink>
   );
 }
 
-export default React.memo(styled(Tab)`
-  position: relative;
-  display: flex;
+const StyledNavLink = styled(NavLink)`
   align-items: center;
+  display: flex;
   color: #8B8B8B;
-  padding: 0 1.5rem;
   height: 100%;
-  font-size: 1rem;
-  font-weight: 400;
+  padding: 0 1.5rem;
+  position: relative;
 
+  &:hover {
+    color: #8B8B8B;
 
-    &:hover {
-      color: #8B8B8B;
-
-      .tabLinkText::after{
-        background-color: #8B8B8B;
-      }
+    .tabLinkText::after {
+      background-color: #8B8B8B;
     }
+  }
 
-    &:hover .tabLinkText::after,
-    &.tabLinkActive .tabLinkText::after {
-      content: '';
-      position: absolute;
-      width: 3.14rem;
-      height: 2px;
-      bottom: -2px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  &:hover .tabLinkText::after,
+  &.tabLinkActive .tabLinkText::after {
+    content: '';
+    position: absolute;
+    width: 3.14rem;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   &.tabLinkActive {
     color: var(--color-text) !important;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
 
     &:hover {
       cursor: default;
@@ -100,4 +97,6 @@ export default React.memo(styled(Tab)`
   .tabIcon {
     margin-left: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Tab);

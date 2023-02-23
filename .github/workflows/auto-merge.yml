@@ -8,7 +8,7 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: jacogr/action-merge@3b4b49af8a8644bf5cbb5409ee236abe04eeb1b0
+      - uses: jacogr/action-merge@d2d64b4545acd93b0a9575177d3d215ae3f92029
         with:
           checks: build:code,build:i18n,build:electron,lint,test
           labels: -auto

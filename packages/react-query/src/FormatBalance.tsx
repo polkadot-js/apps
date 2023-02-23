@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -6,8 +6,8 @@ import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components/styled';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, isString } from '@polkadot/util';
 
@@ -16,12 +16,12 @@ import { useTranslation } from './translate';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  format?: [number, string];
+  format?: [decimals: number, unit: string];
   formatIndex?: number;
   isShort?: boolean;
   label?: React.ReactNode;
   labelPost?: LabelPost;
-  value?: Compact<any> | BN | string | null | 'all';
+  value?: Compact<any> | BN | string | number | null | 'all';
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
@@ -58,19 +58,18 @@ function splitFormat (value: string, label?: LabelPost, isShort?: boolean): Reac
   return createElement(prefix, postfix, unit, label, isShort);
 }
 
-function applyFormat (value: Compact<any> | BN | string, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
+function applyFormat (value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? token : '';
 
   if (prefix.length > M_LENGTH) {
     const [major, rest] = formatBalance(value, { decimals, withUnit: false }).split('.');
-    const minor = rest.substr(0, 4);
-    const unit = rest.substr(4);
+    const minor = rest.substring(0, 4);
+    const unit = rest.substring(4);
 
     return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unit ? unitPost : ` ${unitPost}`}</span>{labelPost || ''}</>;
   }
-
   return createElement(prefix, postfix, unitPost, labelPost, isShort);
 }
 
@@ -85,10 +84,10 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
-    <div className={`ui--FormatBalance ${className}`}>
+    <StyledSpan className={`${className} ui--FormatBalance`}>
       {label ? <>{label}&nbsp;</> : ''}
       <span
-        className='ui--FormatBalance-value'
+        className='ui--FormatBalance-value --digits'
         data-testid='balance-summary'
       >{
           valueFormatted
@@ -101,12 +100,11 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
                 ? `-${labelPost.toString()}`
                 : labelPost
         }</span>{children}
-    </div>
+    </StyledSpan>
   );
 }
 
-export default React.memo(styled(FormatBalance)`
-  display: inline-block;
+const StyledSpan = styled.span`
   vertical-align: baseline;
   white-space: nowrap;
 
@@ -122,7 +120,7 @@ export default React.memo(styled(FormatBalance)`
   }
 
   .ui--FormatBalance-unit {
-    font-size: 0.825em;
+    font-size: var(--font-percent-tiny);
     text-transform: uppercase;
   }
 
@@ -130,8 +128,7 @@ export default React.memo(styled(FormatBalance)`
     text-align: right;
 
     > .ui--FormatBalance-postfix {
-      font-weight: var(--font-weight-light);
-      opacity: 0.7;
+      font-weight: lighter;
       vertical-align: baseline;
     }
   }
@@ -148,4 +145,6 @@ export default React.memo(styled(FormatBalance)`
   .ui--Icon+.ui--FormatBalance-value {
     margin-left: 0.375rem;
   }
-`);
+`;
+
+export default React.memo(FormatBalance);

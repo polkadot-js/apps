@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
+import type { PromiseRpcResult, PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
 import type { CallOptions, CallParam, CallParams } from './types';
@@ -44,7 +44,7 @@ type QueryFn =
 
 type CallFn = (...params: unknown[]) => Promise<VoidFn>;
 
-export type TrackFn = PromiseResult<AnyFunction> | QueryFn;
+export type TrackFn = PromiseRpcResult<AnyFunction> | PromiseResult<AnyFunction> | QueryFn;
 
 export interface Tracker {
   error: Error | null;

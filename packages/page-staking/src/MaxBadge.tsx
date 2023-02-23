@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -21,6 +21,7 @@ function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
 
   return (
     <Badge
+      className='media--1200'
       color='red'
       icon='balance-scale-right'
     />

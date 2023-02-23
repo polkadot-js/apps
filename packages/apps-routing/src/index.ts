@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -30,12 +30,15 @@ import ranked from './ranked';
 import referenda from './referenda';
 import rpc from './rpc';
 import runtime from './runtime';
+import scheduler from './scheduler';
 import settings from './settings';
 import signing from './signing';
 import society from './society';
 import staking from './staking';
+import staking2 from './staking2';
 import storage from './storage';
 import sudo from './sudo';
+import supersig from './supersig';
 import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
@@ -53,24 +56,30 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    staking2(t),
     collator(t),
-    democracy(t),
+    // governance v2
     referenda(t),
-    council(t),
-    treasury(t),
-    bounties(t),
-    techcomm(t),
     membership(t),
     alliance(t),
     fellowship(t),
     ranked(t),
     preimages(t),
     whitelist(t),
+    // old v1 governance
+    democracy(t),
+    council(t),
+    techcomm(t),
+    // other governance-related
+    treasury(t),
+    bounties(t),
+    // others
     parachains(t),
     gilt(t),
     assets(t),
     nfts(t),
     society(t),
+    scheduler(t),
     calendar(t),
     contracts(t),
     storage(t),
@@ -79,6 +88,7 @@ export default function create (t: TFunction): Routes {
     runtime(t),
     signing(t),
     sudo(t),
+    supersig(t),
     files(t),
     js(t),
     utilities(t),

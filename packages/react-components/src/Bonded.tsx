@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -29,7 +29,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
     ? <>{renderProvided({ className, label, value: bonded })}</>
     : (
       <Bonded
-        className={`ui--Bonded ${className}`}
+        className={`${className} ui--Bonded`}
         label={label}
         params={params}
       />

@@ -1,8 +1,9 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled';
 
 interface Props {
   children: React.ReactNode;
@@ -14,13 +15,13 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <article className={`ui--Card ${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
+    <StyledArticle className={`${className} ui--Card ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'withBottomMargin' : ''}`}>
       {children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(Card)`
+const StyledArticle = styled.article`
   position: relative;
   flex: 1 1;
   min-width: 24%;
@@ -79,4 +80,6 @@ export default React.memo(styled(Card)`
   &.withBottomMargin {
     margin-bottom: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Card);

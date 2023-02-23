@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { LinkExternal, Sidebar } from '@polkadot/react-components';
+import { LinkExternal, styled } from '@polkadot/react-components';
+import Sidebar from '@polkadot/react-components/Sidebar';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
@@ -17,23 +17,22 @@ interface Props {
   address: string;
   className?: string;
   dataTestId?: string;
-  onClose: () => void;
-  onUpdateName: () => void;
+  onClose?: () => void;
+  onUpdateName?: (() => void) | null;
 }
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta } = useAccountInfo(address);
-
-  const ref = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Sidebar
+    <StyledSidebar
       className={`${className}${inEditMode ? ' inEditMode' : ''}`}
       dataTestId={dataTestId}
       onClose={onClose}
       position='right'
-      sidebarRef={ref}
+      sidebarRef={sidebarRef}
     >
       <div
         className='ui--AddressMenu-header'
@@ -44,7 +43,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           address={address}
           isBeingEdited={setInEditMode}
           onUpdateName={onUpdateName}
-          sidebarRef={ref}
+          sidebarRef={sidebarRef}
         />
       </div>
       <div className='ui--ScrollSection'>
@@ -65,11 +64,11 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           type='address'
         />
       </section>
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(FullSidebar)`
+const StyledSidebar = styled(Sidebar)`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-sidebar);
@@ -97,16 +96,16 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-
-
     width: 100%;
 
     .ui--AddressSection__AddressColumn {
+      flex: 1;
       margin-left: 1rem;
 
       .ui--AccountName {
         max-width: 21.5rem;
         overflow: hidden;
+        white-space: normal;
       }
     }
 
@@ -122,9 +121,8 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-addr,
   .ui--AddressMenu-index {
-    font: var(--font-mono);
     text-align: left;
-    font-size: 0.857rem;
+    font-size: var(--font-size-small);
   }
 
   .ui--AddressMenu-addr {
@@ -136,9 +134,8 @@ export default React.memo(styled(FullSidebar)`
 
   .ui--AddressMenu-copyaddr,
   .ui--AddressMenu-index {
-    font: var(--font-mono);
     text-align: left;
-    font-size: 0.857rem;
+    font-size: var(--font-size-small);
   }
 
   .ui--AddressMenu-copyaaddr {
@@ -154,7 +151,7 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: row;
 
     label {
-      font-size: 0.857rem;
+      font-size: var(--font-size-small);
       margin-right: 0.4rem;
       text-transform: capitalize;
     }
@@ -200,7 +197,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-multisig {
     .ui--AddressMenu-identityTable,
     .ui--AddressMenu-multisigTable {
-      font-size: 0.93rem;
+      font-size: var(--font-size-small);
       margin-top: 0.6rem;
 
       .tr {
@@ -215,7 +212,7 @@ export default React.memo(styled(FullSidebar)`
           font-weight: var(--font-weight-normal);
           text-align: left;
           flex-basis: 25%;
-          font-size: 0.714rem;
+          font-size: var(--font-size-tiny);
 
           &.top {
             align-self: flex-start;
@@ -236,7 +233,7 @@ export default React.memo(styled(FullSidebar)`
       }
 
       .subs-number {
-        font-size: 1rem;
+        font-size: var(--font-size-base);
         margin-bottom: 0.714rem;
       }
     }
@@ -253,18 +250,7 @@ export default React.memo(styled(FullSidebar)`
       margin-bottom: 0.4rem;
     }
 
-    label:first-of-type {
-      margin-bottom: 0.4rem;
-      color: var(--color-text);
-    }
-
-    label {
-      color: var(--color-label);
-      text-transform: uppercase;
-      font-size: 0.714rem;
-    }
-
-    .ui--FormatBalance, label {
+    .ui--FormatBalance {
       line-height: 1rem;
     }
   }
@@ -339,4 +325,6 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(FullSidebar);

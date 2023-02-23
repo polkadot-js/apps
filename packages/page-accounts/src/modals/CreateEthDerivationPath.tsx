@@ -1,11 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { BN } from '@polkadot/util';
 
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { DeriveValidationOutput } from '../types';
@@ -21,21 +23,21 @@ interface Props {
 
 export const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
 
-function CreateEthDerivationPath ({ className,
-  derivePath,
-  deriveValidation,
-  onChange,
-  seedType }: Props): React.ReactElement<Props> {
+function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onChange, seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [addIndex, setAddIndex] = useState(0);
-  const [customIndex, setCustomIndex] = useState(new BN(0));
-  const [addressList] = useState<{ key: number; text: ReactNode; value: number; }[]>(new Array(10).fill(0).map((_, i) => ({
-    key: i,
-    text: t('Address index {{index}}', {
-      replace: { index: i }
-    }),
-    value: i
-  })));
+  const [customIndex, setCustomIndex] = useState<BN | undefined>(BN_ZERO);
+  const [addressList] = useState<{ key: number; text: ReactNode; value: number; }[]>(
+    () => new Array(10)
+      .fill(0)
+      .map((_, i) => ({
+        key: i,
+        text: t<string>('Address index {{index}}', {
+          replace: { index: i }
+        }),
+        value: i
+      }))
+  );
   const [useCustomPath, toggleCustomPath] = useToggle();
   const [useCustomIndex, toggleCustomIndex] = useToggle();
 
@@ -72,7 +74,6 @@ function CreateEthDerivationPath ({ className,
             {useCustomIndex
               ? (
                 <InputNumber
-                  help={t<string>('You can set a custom derivation index for this account')}
                   isDecimal={false}
                   label={t<string>('Custom index')}
                   onChange={setCustomIndex}
@@ -81,8 +82,7 @@ function CreateEthDerivationPath ({ className,
               )
               : (
                 <Dropdown
-                  help={t('The address index (derivation on account) to use')}
-                  label={t('address index')}
+                  label={t<string>('address index')}
                   onChange={setAddIndex}
                   options={addressList}
                   value={addIndex}
@@ -98,9 +98,6 @@ function CreateEthDerivationPath ({ className,
             {useCustomPath
               ? (
                 <Input
-                  help={t<string>(
-                    'You can set a custom derivation path for this account using the following syntax "m/<purpose>/<coin_type>/<account>/<change>/<address_index>'
-                  )}
                   isError={!!deriveValidation?.error}
                   label={t<string>('secret derivation path')}
                   onChange={onChange}

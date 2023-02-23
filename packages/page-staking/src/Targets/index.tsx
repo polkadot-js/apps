@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -8,9 +8,8 @@ import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
+import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
 
@@ -288,12 +287,14 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
     []
   );
 
-  const header = useMemo(() => [
-    [t('validators'), 'start', 3],
-    [t('payout'), 'media--1400'],
-    [t('nominators'), 'media--1200', 2],
-    [t('comm.'), 'media--1100'],
-    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
+  // False positive, this is part of the type...
+  // eslint-disable-next-line func-call-spacing
+  const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
+    [t<string>('validators'), 'start', 4],
+    [t<string>('payout'), 'media--1400'],
+    [t<string>('nominators'), 'media--1200', 2],
+    [t<string>('comm.'), 'media--1100'],
+    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
@@ -362,7 +363,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const canSelect = selected.length < maxNominations;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         avgStaked={avgStaked}
         lastEra={lastEra}
@@ -393,9 +394,9 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         empty={sorted && t<string>('No active validators to check')}
         emptySpinner={
           <>
-            {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
-            {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
-            {!displayList && <div>{t('Preparing target display')}</div>}
+            {!(validators && allIdentity) && <div>{t<string>('Retrieving validators')}</div>}
+            {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
+            {!displayList && <div>{t<string>('Preparing target display')}</div>}
           </>
         }
         filter={filter}
@@ -417,11 +418,11 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           />
         )}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Targets)`
+const StyledDiv = styled.div`
   text-align: center;
 
   th.isClickable {
@@ -433,4 +434,6 @@ export default React.memo(styled(Targets)`
   .ui--Table {
     overflow-x: auto;
   }
-`);
+`;
+
+export default React.memo(Targets);

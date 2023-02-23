@@ -11,18 +11,18 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.121.2-73-x",
+  "version": "0.124.2-86-x",
   "browser": {
     "fs": false,
     "path": false
   },
   "dependencies": {
-    "@babel/runtime": "^7.19.0",
-    "@polkadot/api": "^9.4.2",
-    "@polkadot/extension-compat-metamask": "^0.44.6",
-    "@polkadot/extension-dapp": "^0.44.6",
-    "@polkadot/rpc-provider": "^9.4.2",
-    "fflate": "^0.7.3",
-    "rxjs": "^7.5.6"
+    "@babel/runtime": "^7.20.13",
+    "@polkadot/api": "^9.14.2",
+    "@polkadot/extension-compat-metamask": "^0.44.9",
+    "@polkadot/extension-dapp": "^0.44.9",
+    "@polkadot/rpc-provider": "^9.14.2",
+    "fflate": "^0.7.4",
+    "rxjs": "^7.8.0"
   }
 }

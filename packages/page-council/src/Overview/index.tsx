@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -69,6 +69,7 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
         <Candidates
           allVotes={allVotes}
           electionsInfo={electionsInfo}
+          hasElections={hasElections}
         />
       )}
     </div>

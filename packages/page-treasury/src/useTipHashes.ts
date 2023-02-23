@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageKey } from '@polkadot/types';
@@ -19,7 +19,7 @@ function useTipHashesImpl (): string[] | undefined {
     api.events.tips?.TipRetracted
   ]);
 
-  return useMapKeys((api.query.tips || api.query.treasury)?.tips, OPT, trigger.blockHash);
+  return useMapKeys((api.query.tips || api.query.treasury)?.tips, [], OPT, trigger.blockHash);
 }
 
 export default createNamedHook('useTipHashes', useTipHashesImpl);

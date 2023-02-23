@@ -1,48 +1,48 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ChartOptions } from 'chart.js';
 import type { ChartContents } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Chart } from '@polkadot/react-components';
+import { Chart, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
   colors: string[];
   legends: string[];
+  options?: ChartOptions;
   title: string;
   value: ChartContents;
 }
 
-const OPTIONS = {
-  animation: {
-    duration: 0
-  },
+const OPTIONS: ChartOptions = {
   aspectRatio: 6,
   maintainAspectRatio: true
 };
 
-function ChartDisplay ({ className, colors, legends, title, value: { labels, values } }: Props): React.ReactElement<Props> {
+function ChartDisplay ({ className, colors, legends, options, title, value: { labels, values } }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
-      <h1>{title}</h1>
+    <StyledDiv className={className}>
       <Chart.Line
         colors={colors}
         labels={labels}
         legends={legends}
-        options={OPTIONS}
+        options={options || OPTIONS}
+        title={title}
         values={values}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ChartDisplay)`
+const StyledDiv = styled.div`
   background: var(--bg-table);
   border: 1px solid var(--border-table);
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 1rem 1.5rem;
-`);
+`;
+
+export default React.memo(ChartDisplay);

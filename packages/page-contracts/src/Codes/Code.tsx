@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -6,9 +6,8 @@ import type { Codec } from '@polkadot/types/types';
 import type { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, CopyButton, Forget } from '@polkadot/react-components';
+import { Button, Card, CopyButton, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { CodeRow, Messages } from '../shared';
@@ -55,7 +54,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address top'>
         <Card>
           <CodeRow
@@ -81,14 +80,16 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         </Card>
       </td>
       <td className='all top'>
-        <Messages
-          contractAbi={contractAbi}
-          onSelectConstructor={_onDeployConstructor}
-          withConstructors
-        />
+        {contractAbi && (
+          <Messages
+            contractAbi={contractAbi}
+            onSelectConstructor={_onDeployConstructor}
+            withConstructors
+          />
+        )}
       </td>
       <td className='together codeHash'>
-        <div>{`${code.json.codeHash.substr(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>
+        <div>{`${code.json.codeHash.slice(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>
         <CopyButton value={code.json.codeHash} />
       </td>
       <td className='start together'>
@@ -104,16 +105,16 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         {!contractAbi && (
           <Button
             icon='upload'
-            label={t('deploy')}
+            label={t<string>('deploy')}
             onClick={_onShowDeploy}
           />
         )}
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Code)`
+const StyledTr = styled.tr`
   .codeHash {
     div {
       display: inline;
@@ -124,4 +125,6 @@ export default React.memo(styled(Code)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Code);
