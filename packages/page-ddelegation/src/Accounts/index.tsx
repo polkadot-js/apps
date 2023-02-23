@@ -156,7 +156,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         setdelegation(delegation);
       }
 
-      console.log(delegation, 'delegation!!!!!!!!!!!!!');
+      console.log(delegation, 'delegation!');
       ret[address] =
         <Account
           account={account}

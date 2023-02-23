@@ -35,8 +35,8 @@ import Transfer from '../modals/Transfer';
 import UndelegateModal from '../modals/Undelegate';
 import { useTranslation } from '../translate';
 // import { createMenuGroup } from '../util';
-import useMultisigApprovals from './useMultisigApprovals';
-import useProxies from './useProxies';
+// import useMultisigApprovals from './useMultisigApprovals';
+// import useProxies from './useProxies';
 
 interface Props {
   account: KeyringAddress;
@@ -138,8 +138,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   // const stakingInfo = useStakingInfo(address);
   // const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
-  const multiInfos = useMultisigApprovals(address);
-  const proxyInfo = useProxies(address);
+  // const multiInfos = useMultisigApprovals(address);
+  // const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   // const convictionLocks = useAccountLocks('referenda', 'convictionVoting', address);
   // const [{ democracyUnlockTx }, setDemocracyUnlock] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
@@ -520,17 +520,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                       icon='redo'
                     />
                   )}
-                  {isProxied && !proxyInfo.hasOwned && (
+                  {/* {isProxied && !proxyInfo.hasOwned && (
                     <Badge
                       className='important'
                       hover={t<string>('Proxied account has no owned proxies')}
                       icon='sitemap'
                       info='0'
                     />
-                  )}
+                  )} */}
                 </div>
                 <div className='action'>
-                  {multiInfos && multiInfos.length !== 0 && (
+                  {/* {multiInfos && multiInfos.length !== 0 && (
                     <Badge
                       className='important'
                       color='purple'
@@ -540,7 +540,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                       info={multiInfos.length}
                       onClick={toggleMultisig}
                     />
-                  )}
+                  )} */}
                   {delegation?.accountDelegated && (
                     <Badge
                       className='information'
@@ -640,7 +640,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   proxiedAccount={address}
                 />
               )}
-              {isMultisigOpen && multiInfos && (
+              {/* {isMultisigOpen && multiInfos && (
                 <MultisigApprove
                   address={address}
                   key='multisig-approve'
@@ -649,8 +649,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   threshold={meta.threshold as number}
                   who={meta.who as string[]}
                 />
-              )}
-              {isRecoverAccountOpen && (
+              )} */}
+              {/* {isRecoverAccountOpen && (
                 <RecoverAccount
                   address={address}
                   key='recover-account'
@@ -663,7 +663,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   key='recover-setup'
                   onClose={toggleRecoverSetup}
                 />
-              )}
+              )} */}
               {isUndelegateOpen && (
                 <UndelegateModal
                   accountDelegating={address}
