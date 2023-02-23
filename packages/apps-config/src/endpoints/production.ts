@@ -513,7 +513,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'uniarts',
     providers: {
-      UniArts: 'wss://mainnet.uniarts.vip:9443'
+      // UniArts: 'wss://mainnet.uniarts.vip:9443' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'UniArts',
     ui: {

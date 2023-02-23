@@ -86,7 +86,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'jaz',
     providers: {
-      Jaz: 'wss://ws0.jaz.network'
+      // Jaz: 'wss://ws0.jaz.network' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Artio Testnet',
     ui: {
@@ -129,7 +129,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'bitcountry',
     providers: {
-      'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
+      // 'Metaverse Foundation': 'wss://tewai-rpc.bit.country' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Bit.Country - Metaverse Network',
     ui: {
@@ -301,7 +301,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'galois',
     providers: {
-      MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
+      // MathWallet: 'wss://galois-hk.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/9059
       'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
     },
     text: 'Galois',
@@ -456,7 +456,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'litentry',
     providers: {
-      Litentry: 'wss://testnet.litentry.io'
+      // Litentry: 'wss://testnet.litentry.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Litentry Testnet',
     ui: {
@@ -558,8 +558,8 @@ export const testChains: EndpointOption[] = [
   {
     info: 'nftmart',
     providers: {
-      NFTMartDev: 'wss://dev-ws.nftmart.io',
-      NFTMartStaging: 'wss://staging-ws.nftmart.io'
+      // NFTMartDev: 'wss://dev-ws.nftmart.io', // https://github.com/polkadot-js/apps/issues/9059
+      // NFTMartStaging: 'wss://staging-ws.nftmart.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'NFTMart',
     ui: {
