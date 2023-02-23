@@ -13,7 +13,6 @@
   "version": "0.124.2-90-x",
   "dependencies": {
     "@babel/core": "^7.21.0",
-    "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.69.3",
     "@polkadot/react-components": "^0.124.2-90-x",
     "electron-log": "^5.0.0-beta.16",
@@ -22,12 +21,10 @@
   "devDependencies": {
     "@types/react-dom": "^18.0.11",
     "@types/tmp": "^0.2.3",
-    "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "thread-loader": "^3.0.4",
     "tmp": "^0.2.1"
   }
 }

@@ -24,13 +24,9 @@ function createWebpack () {
           {
             exclude: /(node_modules)/,
             test: /\.(js|mjs|ts|tsx)$/,
-            use: [
-              require.resolve('thread-loader'),
-              {
-                loader: require.resolve('babel-loader'),
-                options: require('@polkadot/dev/config/babel-config-webpack.cjs')
-              }
-            ]
+            use: {
+              loader: require.resolve('swc-loader'),
+            }
           }
         ]
       },
