@@ -593,7 +593,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      Watr: 'wss://rpc.watr.org',
+      Watr: 'wss://rpc.watr.org'
     },
     text: 'Watr Network',
     ui: {
