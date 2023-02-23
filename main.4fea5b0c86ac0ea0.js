@@ -377,7 +377,7 @@
       }
     }
   }
-`,Wt=d.memo(Rt);var Et=t(88795),qt=t(44364);const Ot=`apps v${"0.124.2-91-x".replace("-x","")}`;function Mt({className:e=""}){const{api:n,isApiReady:t}=(0,N.h)();return(0,z.jsxs)(Pt,{className:`${e} media--1400 highlight--color-contrast ui--NodeInfo`,children:[t&&(0,z.jsxs)("div",{className:"node",children:[(0,z.jsx)(Et.Z,{})," ",(0,z.jsx)(qt.Z,{label:"v"})]}),(0,z.jsx)("div",{children:n.libraryInfo.replace("@polkadot/","")}),(0,z.jsx)("div",{children:Ot})]})}const Pt=$.zo.div`
+`,Wt=d.memo(Rt);var Et=t(88795),qt=t(44364);const Ot=`apps v${"0.124.2-92-x".replace("-x","")}`;function Mt({className:e=""}){const{api:n,isApiReady:t}=(0,N.h)();return(0,z.jsxs)(Pt,{className:`${e} media--1400 highlight--color-contrast ui--NodeInfo`,children:[t&&(0,z.jsxs)("div",{className:"node",children:[(0,z.jsx)(Et.Z,{})," ",(0,z.jsx)(qt.Z,{label:"v"})]}),(0,z.jsx)("div",{children:n.libraryInfo.replace("@polkadot/","")}),(0,z.jsx)("div",{children:Ot})]})}const Pt=$.zo.div`
   background: transparent;
   font-size: var(--font-size-tiny);
   line-height: 1.2;
