@@ -110,28 +110,22 @@ const StyledDiv = styled.div`
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
-
   &.padded {
     padding: 0 1rem 0 0;
   }
-
   &.summary {
     position: relative;
     top: -0.2rem;
   }
-
   .ui--AddressMini-info {
   }
-
   .ui--AddressMini-address {
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
-
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
-
       &.shortAddress {
         min-width: var(--width-shortaddr);
         max-width: var(--width-shortaddr);
@@ -139,20 +133,16 @@ const StyledDiv = styled.div`
       }
     }
   }
-
   &.withShrink {
     .ui--AddressMini-address {
       min-width: 3rem;
     }
   }
-
   .ui--AddressMini-label {
     margin: 0 0 -0.5rem 2.25rem;
   }
-
   .ui--AddressMini-balances {
     display: grid;
-
     .ui--Balance,
     .ui--Bonded,
     .ui--LockedVote {
@@ -162,7 +152,6 @@ const StyledDiv = styled.div`
       text-align: left;
     }
   }
-
   .ui--AddressMini-icon {
     .ui--AddressMini-icon-info {
       position: absolute;
@@ -170,19 +159,16 @@ const StyledDiv = styled.div`
       top: -0.5rem;
       z-index: 1;
     }
-
     .ui--IdentityIcon {
       margin-right: 0.5rem;
       vertical-align: middle;
     }
   }
-
   .ui--AddressMini-icon,
   .ui--AddressMini-info {
     position: relative;
     vertical-align: middle;
   }
-
   .ui--AddressMini-summary {
     font-size: var(--font-size-small);
     line-height: 1.2;
