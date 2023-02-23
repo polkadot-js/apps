@@ -35,7 +35,7 @@ To get started -
 You can run a docker container via -
 
 ```
-docker run --rm -it --name supersig-ui -e WS_URL=ws://127.0.0.1:9944 -p 80:80 decentration/apps:latest
+docker run --rm -it --name polkadot-ui -e WS_URL=ws://someip:9944 -p 80:80 jacogr/polkadot-js-apps:latest
 
 ```
 
