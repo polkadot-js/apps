@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG } from '../ui/logos/chains';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
@@ -55,7 +55,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'odyssey',
     paraId: 2028,
     providers: {
-      AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
+      // AresProtocol: 'wss://wss.odyssey.aresprotocol.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Ares Odyssey',
     ui: {
@@ -299,7 +299,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2034,
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
-      'Galactic Council': 'wss://rpc.hydradx.cloud'
+      'Galactic Council': 'wss://rpc.hydradx.cloud',
+      ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi'
       // This is a possible false positive since OnFinality does not allow connections
       // from non polkadot.js.org urls - however until resolved, this needs to be disabled
       // since we cannot manually check the urls twice daily when they are reported
@@ -585,6 +586,19 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#40BCFF',
       logo: nodesUniqueSVG
+    }
+  },
+  {
+    homepage: 'https://www.watr.org/',
+    info: 'watr',
+    paraId: 2058,
+    providers: {
+      Watr: 'wss://rpc.watr.org'
+    },
+    text: 'Watr Network',
+    ui: {
+      color: '#373b39',
+      logo: chainsWatrPNG
     }
   }
 ];

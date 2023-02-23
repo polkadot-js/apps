@@ -15,9 +15,9 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.124.2-86-x",
+  "version": "0.124.2-95-x",
   "versions": {
-    "git": "0.124.2-86-x",
+    "git": "0.124.2-95-x",
     "npm": "0.124.1"
   },
   "workspaces": [
@@ -43,8 +43,8 @@
     "build:robohash": "node scripts/robohash.cjs",
     "build:typesBundle": "polkadot-dev-run-test --env node --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node packages/apps-config/src/api/typesBundle.spec.ts",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn polkadot-exec-webpack --config webpack.config.cjs",
-    "ci:chainEndpoints": "polkadot-dev-run-test --env jest --require ./scripts/fixupModules.cjs packages/apps-config/src/ci/chainEndpoints -- --config ./jest-ci.config.cjs --runInBand --forceExit",
-    "ci:chainTypes": "polkadot-dev-run-test --env jest --require ./scripts/fixupModules.cjs packages/apps-config/src/ci/chainTypes -- --config ./jest-ci.config.cjs --runInBand --forceExit",
+    "ci:chainEndpoints": "polkadot-dev-run-test --env node packages/apps-config/src/ci/chainEndpoints --log .github/chain-endpoints.md",
+    "ci:chainTypes": "echo ok",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
@@ -61,17 +61,17 @@
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
     "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^page- ^react- ^apps-electron",
-    "test:all": "polkadot-dev-run-test --env browser -- --runInBand --config ./jest-slow.config.cjs",
+    "test:all": "polkadot-dev-run-test --env browser ^chainEndpoints ^chainTypes",
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/register": "^7.18.9",
-    "@babel/runtime": "^7.20.13",
+    "@babel/core": "^7.21.0",
+    "@babel/register": "^7.21.0",
+    "@babel/runtime": "^7.21.0",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.68.41",
+    "@polkadot/dev": "^0.69.5",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.0",

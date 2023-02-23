@@ -20,6 +20,7 @@ export const Subsquare: ExternalDef = {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Litentry: 'litentry',
     Litmus: 'litmus',
     Phala: 'phala',
     Polkadot: 'polkadot',
