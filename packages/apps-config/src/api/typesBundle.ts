@@ -56997,6 +56997,91 @@ export const typesBundle = {
         }
       ]
     },
+    "kabocha-parachain": {
+      "types": [
+          {
+              "minmax": [
+                  0,
+                  null
+              ],
+              "types": {
+                "Role": { 
+                  "_enum": {
+                    "Standard": "Vec<u8>",
+                    "Master": "Vec<u8>",
+                    "NotMember": "Vec<u8>"
+                  } 
+                },
+                "SupersigId": "u32",
+                "CallId": "u32",
+                "ProposalStates": "Vec<ProposalState<AccountId>>",
+                "FetchListProposals": {
+                  "proposals_info": "ProposalStates",
+                  "no_of_members": "u32"
+                },
+                "ProposalState": {
+                  "id": "CallId",
+                  "encoded_call": "Vec<u8>",
+                  "provider": "AccountId",
+                  "voters": "Vec<AccountId>",
+                },
+                "FetchProposalState": {
+                  "proposal_info": "ProposalState<AccountId>",
+                  "no_of_members": "u32"
+                },
+              },
+            },
+        ],
+      "rpc": {
+          "superSig": {
+            "getProposalState": {
+              "description": "Get the proposal state",
+              "params": [
+                {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "call_id",
+                  "type": "CallId"
+                }
+              ],
+             "type": "FetchProposalState"
+            },
+            "getUserSupersigs": {
+              "description": "Get supersigs associated to the user.",
+              "params": [
+                  {
+                  "name": "user_account",
+                  "type": "AccountId"
+                  }
+              ],
+              "type": "Vec<SupersigId>"
+            },
+            "listMembers": {
+              "description": "List members of the supersig",
+              "params": [
+                  {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                  }
+              ],
+              "type": "Vec<(AccountId, Role)>"
+            },
+            "listProposals": {
+              "description": "List proposals associated to a supersig",
+              "params": [
+                  {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                  }
+              ],
+              
+              "type": "FetchListProposals",
+            },
+          },
+        },
+    },
     "kerria": {
       "rpc": {
         "oracle": {
@@ -60055,262 +60140,6 @@ export const typesBundle = {
         }
       ]
     },
-    "node-template": {
-      "types": [
-          {
-              "minmax": [
-                  0,
-                  null
-              ],
-              "types": {
-                "Role": { 
-                  "_enum": {
-                    "Standard": "Vec<u8>",
-                    "Master": "Vec<u8>",
-                    "NotMember": "Vec<u8>"
-                  } 
-                },
-                "SupersigId": "u32",
-                "CallId": "u32",
-                "ProposalStates": "Vec<ProposalState<AccountId>>",
-                "FetchListProposals": {
-                  "proposals_info": "ProposalStates",
-                  "no_of_members": "u32"
-                },
-                "ProposalState": {
-                  "id": "CallId",
-                  "encoded_call": "Vec<u8>",
-                  "provider": "AccountId",
-                  "voters": "Vec<AccountId>",
-                },
-                "FetchProposalState": {
-                  "proposal_info": "ProposalState<AccountId>",
-                  "no_of_members": "u32"
-                },
-              },
-            },
-        ],
-      "rpc": {
-          "superSig": {
-            "getProposalState": {
-              "description": "Get the proposal state",
-              "params": [
-                {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "call_id",
-                  "type": "CallId"
-                }
-              ],
-             "type": "FetchProposalState"
-            },
-            "getUserSupersigs": {
-              "description": "Get supersigs associated to the user.",
-              "params": [
-                  {
-                  "name": "user_account",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<SupersigId>"
-            },
-            "listMembers": {
-              "description": "List members of the supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<(AccountId, Role)>"
-            },
-            "listProposals": {
-              "description": "List proposals associated to a supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              
-              "type": "FetchListProposals",
-            },
-          },
-        },
-    },
-    "parachain-collator": {
-      "types": [
-          {
-              "minmax": [
-                  0,
-                  null
-              ],
-              "types": {
-                "Role": { 
-                  "_enum": {
-                    "Standard": "Vec<u8>",
-                    "Master": "Vec<u8>",
-                    "NotMember": "Vec<u8>"
-                  } 
-                },
-                "SupersigId": "u32",
-                "CallId": "u32",
-                "ProposalStates": "Vec<ProposalState<AccountId>>",
-                "FetchListProposals": {
-                  "proposals_info": "ProposalStates",
-                  "no_of_members": "u32"
-                },
-                "ProposalState": {
-                  "id": "CallId",
-                  "encoded_call": "Vec<u8>",
-                  "provider": "AccountId",
-                  "voters": "Vec<AccountId>",
-                },
-                "FetchProposalState": {
-                  "proposal_info": "ProposalState<AccountId>",
-                  "no_of_members": "u32"
-                },
-              },
-            },
-        ],
-      "rpc": {
-          "superSig": {
-            "getProposalState": {
-              "description": "Get the proposal state",
-              "params": [
-                {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "call_id",
-                  "type": "CallId"
-                }
-              ],
-             "type": "FetchProposalState"
-            },
-            "getUserSupersigs": {
-              "description": "Get supersigs associated to the user.",
-              "params": [
-                  {
-                  "name": "user_account",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<SupersigId>"
-            },
-            "listMembers": {
-              "description": "List members of the supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<(AccountId, Role)>"
-            },
-            "listProposals": {
-              "description": "List proposals associated to a supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              
-              "type": "FetchListProposals",
-            },
-          },
-        },
-    },
-    "kabocha-parachain": {
-      "types": [
-          {
-              "minmax": [
-                  0,
-                  null
-              ],
-              "types": {
-                "Role": { 
-                  "_enum": {
-                    "Standard": "Vec<u8>",
-                    "Master": "Vec<u8>",
-                    "NotMember": "Vec<u8>"
-                  } 
-                },
-                "SupersigId": "u32",
-                "CallId": "u32",
-                "ProposalStates": "Vec<ProposalState<AccountId>>",
-                "FetchListProposals": {
-                  "proposals_info": "ProposalStates",
-                  "no_of_members": "u32"
-                },
-                "ProposalState": {
-                  "id": "CallId",
-                  "encoded_call": "Vec<u8>",
-                  "provider": "AccountId",
-                  "voters": "Vec<AccountId>",
-                },
-                "FetchProposalState": {
-                  "proposal_info": "ProposalState<AccountId>",
-                  "no_of_members": "u32"
-                },
-              },
-            },
-        ],
-      "rpc": {
-          "superSig": {
-            "getProposalState": {
-              "description": "Get the proposal state",
-              "params": [
-                {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "call_id",
-                  "type": "CallId"
-                }
-              ],
-             "type": "FetchProposalState"
-            },
-            "getUserSupersigs": {
-              "description": "Get supersigs associated to the user.",
-              "params": [
-                  {
-                  "name": "user_account",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<SupersigId>"
-            },
-            "listMembers": {
-              "description": "List members of the supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              "type": "Vec<(AccountId, Role)>"
-            },
-            "listProposals": {
-              "description": "List proposals associated to a supersig",
-              "params": [
-                  {
-                  "name": "supersig_id",
-                  "type": "AccountId"
-                  }
-              ],
-              
-              "type": "FetchListProposals",
-            },
-          },
-        },
-    },
-  
     "mangata": {
       "types": [
         {
@@ -78415,6 +78244,91 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "supersig-template": {
+      "types": [
+          {
+              "minmax": [
+                  0,
+                  null
+              ],
+              "types": {
+                "Role": { 
+                  "_enum": {
+                    "Standard": "Vec<u8>",
+                    "Master": "Vec<u8>",
+                    "NotMember": "Vec<u8>"
+                  } 
+                },
+                "SupersigId": "u32",
+                "CallId": "u32",
+                "ProposalStates": "Vec<ProposalState<AccountId>>",
+                "FetchListProposals": {
+                  "proposals_info": "ProposalStates",
+                  "no_of_members": "u32"
+                },
+                "ProposalState": {
+                  "id": "CallId",
+                  "encoded_call": "Vec<u8>",
+                  "provider": "AccountId",
+                  "voters": "Vec<AccountId>",
+                },
+                "FetchProposalState": {
+                  "proposal_info": "ProposalState<AccountId>",
+                  "no_of_members": "u32"
+                },
+              },
+            },
+        ],
+      "rpc": {
+          "superSig": {
+            "getProposalState": {
+              "description": "Get the proposal state",
+              "params": [
+                {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "call_id",
+                  "type": "CallId"
+                }
+              ],
+             "type": "FetchProposalState"
+            },
+            "getUserSupersigs": {
+              "description": "Get supersigs associated to the user.",
+              "params": [
+                  {
+                  "name": "user_account",
+                  "type": "AccountId"
+                  }
+              ],
+              "type": "Vec<SupersigId>"
+            },
+            "listMembers": {
+              "description": "List members of the supersig",
+              "params": [
+                  {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                  }
+              ],
+              "type": "Vec<(AccountId, Role)>"
+            },
+            "listProposals": {
+              "description": "List proposals associated to a supersig",
+              "params": [
+                  {
+                  "name": "supersig_id",
+                  "type": "AccountId"
+                  }
+              ],
+              
+              "type": "FetchListProposals",
+            },
+          },
+        },
     },
     "swapdex": {
       "types": [
