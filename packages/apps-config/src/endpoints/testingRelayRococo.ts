@@ -158,7 +158,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoDolphin',
     paraId: 2084,
     providers: {
-      'Manta Network': 'wss://ws.rococo.dolphin.engineering'
+      // 'Manta Network': 'wss://ws.rococo.dolphin.engineering' // https://github.com/polkadot-js/apps/issues/9071
     },
     text: 'Dolphin',
     ui: {
