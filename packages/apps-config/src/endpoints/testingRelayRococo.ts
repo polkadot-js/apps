@@ -518,7 +518,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'tangle',
     paraId: 4006,
     providers: {
-      Webb: 'wss://tangle-rococo-archive.webb.tools'
+      // Webb: 'wss://tangle-rococo-archive.webb.tools' // https://github.com/polkadot-js/apps/issues/9069
     },
     text: 'Tangle',
     ui: {

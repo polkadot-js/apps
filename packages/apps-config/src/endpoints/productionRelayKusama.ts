@@ -386,7 +386,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'listen',
     paraId: 2118,
     providers: {
-      'Listen Foundation 1': 'wss://rpc.mainnet.listen.io',
+      // 'Listen Foundation 1': 'wss://rpc.mainnet.listen.io', // https://github.com/polkadot-js/apps/issues/9069
       'Listen Foundation 2': 'wss://wss.mainnet.listen.io'
     },
     text: 'Listen Network',
