@@ -253,7 +253,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoImbue',
     paraId: 2121,
     providers: {
-      'Imbue Network': 'wss://rococo.imbue.network'
+      // 'Imbue Network': 'wss://rococo.imbue.network' // https://github.com/polkadot-js/apps/issues/9075
     },
     text: 'Imbue Network',
     ui: {
