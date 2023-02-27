@@ -382,6 +382,16 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
+    homepage: 'https://krest.peaq.network/',
+    info: 'krest',
+    paraId: 2241,
+    text: 'Krest',
+    providers: {},
+    ui: {
+      logo: nodesKrestPNG
+    }
+  },
+  {
     homepage: 'https://listen.io/',
     info: 'listen',
     paraId: 2118,
@@ -834,16 +844,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubBlackSVG
-    }
-  },
-  {
-    homepage: 'https://krest.peaq.network/',
-    info: 'krest',
-    paraId: 2241,
-    text: 'Krest',
-    providers: {},
-    ui: {
-      logo: nodesKrestPNG
     }
   }
 ];
