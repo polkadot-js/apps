@@ -845,7 +845,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     ui: {
       logo: nodesKrestPNG
     }
-  },
+  }
 ];
 
 export const prodRelayKusama: EndpointOption = {
