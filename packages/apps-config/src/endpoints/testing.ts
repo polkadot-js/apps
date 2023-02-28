@@ -490,7 +490,7 @@ export const testChains: EndpointOption[] = [
     info: 'acala',
     providers: {
       // Acala: 'wss://mandala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9005
-      // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
+      OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
     },
     text: 'Mandala',
     ui: {

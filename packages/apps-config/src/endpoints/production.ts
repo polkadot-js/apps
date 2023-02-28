@@ -190,8 +190,8 @@ export const prodChains: EndpointOption[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net'
-      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
+      JelliedOwl: 'wss://edgeware.jelliedowl.net',
+      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
     },
     text: 'Edgeware',
     ui: {
@@ -353,7 +353,7 @@ export const prodChains: EndpointOption[] = [
     info: 'nodle',
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
-      // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
+      OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
     },
     text: 'Nodle',
     ui: {
