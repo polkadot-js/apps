@@ -503,8 +503,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'https://peaq.network/',
     info: 'peaq',
     paraId: 3338,
-    text: 'Peaq',
     providers: {},
+    text: 'Peaq',
     ui: {
       logo: chainsPeaqPNG
     }
