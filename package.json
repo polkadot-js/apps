@@ -71,7 +71,7 @@
     "@babel/runtime": "^7.21.0",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.69.6",
+    "@polkadot/dev": "^0.69.22",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.4.0",
