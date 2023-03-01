@@ -385,8 +385,8 @@ export const prodParasKusama: EndpointOption[] = [
     homepage: 'https://krest.peaq.network/',
     info: 'krest',
     paraId: 2241,
-    text: 'Krest',
     providers: {},
+    text: 'Krest',
     ui: {
       logo: nodesKrestPNG
     }
