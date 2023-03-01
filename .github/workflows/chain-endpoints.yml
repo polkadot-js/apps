@@ -1,7 +1,5 @@
 name: Chain endpoints
-on:
-  schedule:
-    - cron:  '50 0/12 * * *'
+on: workflow_dispatch
 
 jobs:
   types:
