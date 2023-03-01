@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
 import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -596,6 +596,21 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#373b39',
       logo: chainsWatrPNG
+    }
+  },
+  {
+    homepage: 'https://zeitgeist.pm',
+    info: 'zeitgeist',
+    paraId: 2101,
+    providers: {
+      // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
+      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+    },
+    text: 'Zeitgeist',
+    ui: {
+      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+      logo: nodesZeitgeistPNG
     }
   }
 ];
