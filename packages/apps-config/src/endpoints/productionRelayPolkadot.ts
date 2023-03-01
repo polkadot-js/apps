@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
@@ -98,10 +98,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2030,
     providers: {
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
-      // This is a possible false positive since OnFinality does not allow connections
-      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
-      // since we cannot manually check the urls twice daily when they are reported
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8973
+      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
     ui: {
@@ -500,6 +497,16 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
+    homepage: 'https://peaq.network/',
+    info: 'peaq',
+    paraId: 3338,
+    providers: {},
+    text: 'Peaq',
+    ui: {
+      logo: chainsPeaqPNG
+    }
+  },
+  {
     homepage: 'https://pendulumchain.org/',
     info: 'pendulum',
     paraId: 2094,
@@ -611,8 +618,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://statemint-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://statemint-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      Parity: 'wss://statemint-rpc.polkadot.io'
+      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9089
     },
     teleport: [-1],
     text: 'Statemint',
