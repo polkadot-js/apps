@@ -1991,10 +1991,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.11.1":
-  version: 1.11.1
-  resolution: "@interlay/interbtc-types@npm:1.11.1"
-  checksum: 4f12a4557d44fc3d3ffd277d442b21164a566100074ca6c749e0e5a7023840dcbed55488e32125147e7cc1ecc41bfc409b0fe9cc80e813fa0fa1955a670df610
+"@interlay/interbtc-types@npm:1.11.2":
+  version: 1.11.2
+  resolution: "@interlay/interbtc-types@npm:1.11.2"
+  checksum: 08ab1fe515d8857dc28c941c2e0f87e90bcbd5476fc1f48ce5cb3f6bc74f30c068a9d14bc31cd1d4149e6170626c643233504be43d4882aedfc3a09cdb47cdc0
   languageName: node
   linkType: hard
 
@@ -2092,10 +2092,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kiltprotocol/type-definitions@npm:0.31.0":
-  version: 0.31.0
-  resolution: "@kiltprotocol/type-definitions@npm:0.31.0"
-  checksum: c8f211e28644147c742a7f21bba921baf953d24a876736867ac942fa02281fd06568c3e624966509e1d0ccdd216ee9e99eda271b5e01206421f8253821229256
+"@kiltprotocol/type-definitions@npm:0.31.1":
+  version: 0.31.1
+  resolution: "@kiltprotocol/type-definitions@npm:0.31.1"
+  checksum: 8f81a95ed9abf7c5c567be8b9373c3486c93e187a5985a21bb79b3bbbaab59126ed4630d822843be6e23338ad55fe9029be86906866f840cc96698e2467c5863
   languageName: node
   linkType: hard
 
@@ -2538,12 +2538,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parallel-finance/type-definitions@npm:1.7.14":
-  version: 1.7.14
-  resolution: "@parallel-finance/type-definitions@npm:1.7.14"
+"@parallel-finance/type-definitions@npm:1.7.15":
+  version: 1.7.15
+  resolution: "@parallel-finance/type-definitions@npm:1.7.15"
   dependencies:
     "@open-web3/orml-type-definitions": ^1.1.4
-  checksum: 4ce22c722806f1f6ab693fcaed8b56cf880f37e467559070bfadd41dec19bd69c4e825699bfa4224c86baa4e0d957d9a9550f0542ed36a733ff1fdd9893a5b4f
+  checksum: 8d59b4018d3bf1ea0606b68a81f48d3947d659b884ef41b392919a8e27fc10d49b2a5dbdeeb00880af12a24e5629e18121f5f46b0db0abb6bf8072480ddebd62
   languageName: node
   linkType: hard
 
@@ -2677,7 +2677,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.21.0
     "@polkadot/react-components": ^0.124.2-103-x
-    "@testing-library/react": ^13.4.0
+    "@testing-library/react": ^14.0.0
     file-saver: ^2.0.5
     testcontainers: ^9.1.3
   languageName: unknown
@@ -3030,13 +3030,13 @@ __metadata:
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.18
     "@frequency-chain/api-augment": 1.2.1
-    "@interlay/interbtc-types": 1.11.1
-    "@kiltprotocol/type-definitions": 0.31.0
+    "@interlay/interbtc-types": 1.11.2
+    "@kiltprotocol/type-definitions": 0.31.1
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.9.0-3
     "@mangata-finance/types": 0.18.0
     "@metaverse-network-sdk/type-definitions": 0.0.1-13
-    "@parallel-finance/type-definitions": 1.7.14
+    "@parallel-finance/type-definitions": 1.7.15
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^9.14.2
     "@polkadot/api-derive": ^9.14.2
@@ -3048,12 +3048,12 @@ __metadata:
     "@polkadot/x-ws": ^10.4.2
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
-    "@sora-substrate/type-definitions": 1.15.2
-    "@subsocial/definitions": 0.7.13
+    "@sora-substrate/type-definitions": 1.15.4-beta.0
+    "@subsocial/definitions": 0.8.1
     "@unique-nft/opal-testnet-types": 937.52.0
-    "@unique-nft/quartz-mainnet-types": 936.50.4
+    "@unique-nft/quartz-mainnet-types": 937.52.0
     "@unique-nft/sapphire-mainnet-types": 937.52.0
-    "@unique-nft/unique-mainnet-types": 930.33.0
+    "@unique-nft/unique-mainnet-types": 937.52.0
     "@zeitgeistpm/type-defs": 1.0.0
     "@zeroio/type-definitions": 0.0.14
     moonbeam-types-bundle: 2.0.10
@@ -3393,7 +3393,7 @@ __metadata:
     react-copy-to-clipboard: ^5.1.0
     react-dom: ^18.2.0
     react-dropzone: ^11.7.1
-    react-i18next: ^12.1.5
+    react-i18next: ^12.2.0
     react-is: ^18.2.0
     react-markdown: ^8.0.5
     react-router: ^5.3.4
@@ -3550,7 +3550,7 @@ __metadata:
   dependencies:
     "@polkadot/types-support": ^9.14.2
     "@testing-library/jest-dom": ^5.16.5
-    "@testing-library/react": ^13.4.0
+    "@testing-library/react": ^14.0.0
     testcontainers: ^9.1.3
     tsconfig-paths: ^4.1.2
   languageName: unknown
@@ -4063,12 +4063,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.15.2":
-  version: 1.15.2
-  resolution: "@sora-substrate/type-definitions@npm:1.15.2"
+"@sora-substrate/type-definitions@npm:1.15.4-beta.0":
+  version: 1.15.4-beta.0
+  resolution: "@sora-substrate/type-definitions@npm:1.15.4-beta.0"
   dependencies:
     "@open-web3/orml-type-definitions": 0.9.4-26
-  checksum: cbab7a0b0c6d0029077a23d8579bf31a06183724609ec3a1b879701dea01dda61c4db1ae514392934fdfdaa8d74e9603dd0bd3d2d5f4ef56e5c2558d88494c32
+  checksum: 1dada036d93e61380cc9e7404d5fc8638035f01e0ee00f99a34909c708068b451eb8d0bee4a5648f2faf7207abece2c003e6e71a285cb4244d1b4047f671981e
   languageName: node
   linkType: hard
 
@@ -4099,13 +4099,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/definitions@npm:0.7.13":
-  version: 0.7.13
-  resolution: "@subsocial/definitions@npm:0.7.13"
+"@subsocial/definitions@npm:0.8.1":
+  version: 0.8.1
+  resolution: "@subsocial/definitions@npm:0.8.1"
   dependencies:
     "@polkadot/api": latest
     lodash.camelcase: ^4.3.0
-  checksum: d1e1e37f4ae9908e5e569e19c356ad993a1672c1971663a5e3bf6898ba5ecdf1be3439d28849d6be643a92fc77447ec0be4755acd8e95ef60e5813a5396e2fee
+  checksum: 2265ae644504992ad0f535068027892ad049de228655ccb7865f1a30f2653eff5d47cc871f394655b93369e99055d3071b1808b53ad4a3f6808b1f6a210aaa7e
   languageName: node
   linkType: hard
 
@@ -4313,19 +4313,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.5.0":
-  version: 8.13.0
-  resolution: "@testing-library/dom@npm:8.13.0"
+"@testing-library/dom@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@testing-library/dom@npm:9.0.0"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
-    "@types/aria-query": ^4.2.0
+    "@types/aria-query": ^5.0.1
     aria-query: ^5.0.0
     chalk: ^4.1.0
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: 880f1872b9949800d4444e3bdbd03df86d6f41ec7c27136dff1da29e87d2df2d7ee904afcdf895ffce351c25bd12119117eae023354d50e707ad56d43b2ed3ed
+  checksum: 5381bf9438f0ee35f795e7f9b203564aa455e7cd838b6677084c82dd56396779c38cc49ddffed4e57a8bcc3c62b4bc96ea684bb4b24d13655152db745327b2cd
   languageName: node
   linkType: hard
 
@@ -4346,17 +4346,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.4.0":
-  version: 13.4.0
-  resolution: "@testing-library/react@npm:13.4.0"
+"@testing-library/react@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@testing-library/react@npm:14.0.0"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^8.5.0
+    "@testing-library/dom": ^9.0.0
     "@types/react-dom": ^18.0.0
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
-  checksum: 51ec548c1fdb1271089a5c63e0908f0166f2c7fcd9cacd3108ebbe0ce64cb4351812d885892020dc37608418cfb15698514856502b3cab0e5cc58d6cc1bd4a3e
+  checksum: 4a54c8f56cc4a39b50803205f84f06280bb76521d6d5d4b3b36651d760c7c7752ef142d857d52aaf4fad4848ed7a8be49afc793a5dda105955d2f8bef24901ac
   languageName: node
   linkType: hard
 
@@ -4383,10 +4383,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/aria-query@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "@types/aria-query@npm:4.2.0"
-  checksum: e4a3748c5511deb88e93c6faf2acb0730233ff75018e9aaed95e3d2833880e9d0eda7e08e4315a827872471779471585671d08bae00ac8b9813fc140194b52e5
+"@types/aria-query@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@types/aria-query@npm:5.0.1"
+  checksum: 69fd7cceb6113ed370591aef04b3fd0742e9a1b06dd045c43531448847b85de181495e4566f98e776b37c422a12fd71866e0a1dfd904c5ec3f84d271682901de
   languageName: node
   linkType: hard
 
@@ -5378,13 +5378,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/quartz-mainnet-types@npm:936.50.4":
-  version: 936.50.4
-  resolution: "@unique-nft/quartz-mainnet-types@npm:936.50.4"
+"@unique-nft/quartz-mainnet-types@npm:937.52.0":
+  version: 937.52.0
+  resolution: "@unique-nft/quartz-mainnet-types@npm:937.52.0"
   peerDependencies:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
-  checksum: 1aafa94c4267ac93a0d8f668932bf790a8d86dcec078df8d97b674008c18908886fbc4e921d549238ead440055150c826f6946e5785755297097075c98d888b4
+  checksum: 8eaeb70af37dc40d95be02865a04c28e98e49a049d2c55b14aec1f43757c8778b9d52a0262aee3c66aef1175c612974d0fec9244e60c459fab1f4beeae39b624
   languageName: node
   linkType: hard
 
@@ -5398,13 +5398,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/unique-mainnet-types@npm:930.33.0":
-  version: 930.33.0
-  resolution: "@unique-nft/unique-mainnet-types@npm:930.33.0"
+"@unique-nft/unique-mainnet-types@npm:937.52.0":
+  version: 937.52.0
+  resolution: "@unique-nft/unique-mainnet-types@npm:937.52.0"
   peerDependencies:
-    "@polkadot/api": ^9.5.2
-    "@polkadot/types": ^9.5.2
-  checksum: 1624441b1357d3820958455db6be938bc17bf39c8a1f557c87309dd4dec3a50cf69eca27cc320997131d35981e26b3d46a3c17001cfe19c2c06ce89798e46790
+    "@polkadot/api": ^9.10.2
+    "@polkadot/types": ^9.10.2
+  checksum: 2c7be3958d3d2806b629e2dd4150a7f5fb741c6edf8f1e8ecdcaea0ba52b2e034829528af294328d97701b8b147ee6605ac39a0ab8d64db2bc83bcc0fea6bce3
   languageName: node
   linkType: hard
 
@@ -9258,16 +9258,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^21.4.1":
-  version: 21.4.1
-  resolution: "electron@npm:21.4.1"
+"electron@npm:^21.4.2":
+  version: 21.4.2
+  resolution: "electron@npm:21.4.2"
   dependencies:
     "@electron/get": ^1.14.1
     "@types/node": ^16.11.26
     extract-zip: ^2.0.1
   bin:
     electron: cli.js
-  checksum: 61c91bcdba41f90acd486d7c413c25a495994b4f46033fd7ea74886a26fe237967c241141d293e77e9d2d7ab671727860c8e7b8a6b198f5f9ec7395b412da4ce
+  checksum: d073781ecfbb07f0850e7d3c9e7640a369e87e9cfbb01ec2e1b87bbc37e0210a2114491c081963533395cd8a9a5737cad124c2e1759122a363a4c494fc472433
   languageName: node
   linkType: hard
 
@@ -15806,7 +15806,7 @@ fsevents@~2.3.2:
     concurrently: ^7.6.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
-    electron: ^21.4.1
+    electron: ^21.4.2
     electron-builder: 23.6.0
     electron-builder-notarize: ^1.5.1
     i18next-scanner: ^4.1.1
@@ -16493,9 +16493,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^12.1.5":
-  version: 12.1.5
-  resolution: "react-i18next@npm:12.1.5"
+"react-i18next@npm:^12.2.0":
+  version: 12.2.0
+  resolution: "react-i18next@npm:12.2.0"
   dependencies:
     "@babel/runtime": ^7.20.6
     html-parse-stringify: ^3.0.1
@@ -16507,7 +16507,7 @@ fsevents@~2.3.2:
       optional: true
     react-native:
       optional: true
-  checksum: 90f151dfef237eee4e24d5ca6ddac45869b5025b9173b3cf0403afbc794a448d5ba429105c88e6a539cea1e8ec3f6e18df46d8bee78e7918d79305aa9ec585cb
+  checksum: ed2d6a5bb6746c2ea25cca9531b400d62edef6479631c1113eb7a3c3f6b28d493492171d7dc6d87f61a7d7e9b21d4be3bd7eaf0f7af00392fb546d8c50267345
   languageName: node
   linkType: hard
 
