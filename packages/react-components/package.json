@@ -40,7 +40,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.7.1",
-    "react-i18next": "^12.1.5",
+    "react-i18next": "^12.2.0",
     "react-is": "^18.2.0",
     "react-markdown": "^8.0.5",
     "react-router": "^5.3.4",
