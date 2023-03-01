@@ -41,6 +41,7 @@ export { chainsMyriadPNG } from './generated/myriadPNG';
 export { chainsOakPNG } from './generated/oakPNG';
 export { chainsOrigintrailPNG } from './generated/origintrailPNG';
 export { chainsOrigintrailTestnetPNG } from './generated/origintrail-testnetPNG';
+export { chainsPeaqPNG } from './generated/peaqPNG';
 export { chainsPendulumSVG } from './generated/pendulumSVG';
 export { chainsPicassoSVG } from './generated/picassoSVG';
 export { chainsPolkadotCircleSVG } from './generated/polkadot-circleSVG';
