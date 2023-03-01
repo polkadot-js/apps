@@ -1,8 +1,11 @@
 name: Chain endpoints
-on: workflow_dispatch
+on:
+  schedule:
+    - cron:  '50 0/12 * * *'
 
 jobs:
   types:
+    if: github.repository == 'polkadot-js/apps'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
